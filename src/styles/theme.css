@@ -1,64 +1,75 @@
-/* Colour theme: dark by default, high contrast, one restrained gold accent. */
+/* Colour theme: dark by default and high contrast.
+   Accents: Tau Ceti gold (primary), Eridian teal (secondary), Astrophage infrared (tertiary). */
 
 :root {
-	--sl-color-white: hsl(214, 30%, 96%);
-	--sl-color-gray-1: hsl(214, 24%, 91%);
-	--sl-color-gray-2: hsl(214, 18%, 82%);
-	--sl-color-gray-3: hsl(214, 12%, 64%);
-	--sl-color-gray-4: hsl(214, 10%, 44%);
-	--sl-color-gray-5: hsl(218, 18%, 21%);
-	--sl-color-gray-6: hsl(222, 26%, 9%);
-	--sl-color-black: hsl(224, 32%, 4.5%);
+	--sl-color-white: hsl(220, 40%, 97%);
+	--sl-color-gray-1: hsl(222, 30%, 92%);
+	--sl-color-gray-2: hsl(222, 24%, 84%);
+	--sl-color-gray-3: hsl(224, 16%, 66%);
+	--sl-color-gray-4: hsl(226, 12%, 46%);
+	--sl-color-gray-5: hsl(232, 26%, 22%);
+	--sl-color-gray-6: hsl(236, 38%, 10%);
+	--sl-color-black: hsl(238, 45%, 5%);
 
-	--sl-color-accent-low: hsl(38, 38%, 14%);
-	--sl-color-accent: hsl(38, 68%, 60%);
-	--sl-color-accent-high: hsl(40, 78%, 76%);
+	--sl-color-accent-low: hsl(38, 55%, 15%);
+	--sl-color-accent: hsl(40, 92%, 62%);
+	--sl-color-accent-high: hsl(42, 96%, 76%);
 
 	--sl-color-text: var(--sl-color-gray-2);
 	--sl-line-height: 1.72;
-	--sl-content-width: 46rem;
+	--sl-content-width: 47rem;
+
+	--gold: hsl(40, 92%, 62%);
+	--teal: hsl(174, 70%, 58%);
+	--infra: hsl(10, 95%, 64%);
+	--violet: hsl(268, 80%, 76%);
 
 	/* Diagram + simulation palette. Panels are always dark, so all ink is light. */
-	--dg-bg: #0a0f19;
-	--dg-border: #263247;
-	--dg-fg: #e9eef5;
-	--dg-muted: #9fadc0;
-	--dg-grid: #212c3e;
-	--dg-amber: #e8b867;
-	--dg-sky: #82bde6;
-	--dg-green: #8fd0a1;
-	--dg-rose: #e897a6;
-	--dg-violet: #bcaaea;
-	--dg-amber-fill: rgba(232, 184, 103, 0.16);
-	--dg-sky-fill: rgba(130, 189, 230, 0.16);
-	--dg-green-fill: rgba(143, 208, 161, 0.16);
-	--dg-rose-fill: rgba(232, 151, 166, 0.16);
+	--dg-bg: #090c1c;
+	--dg-border: #2a3560;
+	--dg-fg: #eef2fb;
+	--dg-muted: #a7b3cf;
+	--dg-grid: #1f2850;
+	--dg-amber: #ffc066;
+	--dg-sky: #7ccaff;
+	--dg-green: #7fe3b0;
+	--dg-rose: #ff8f9f;
+	--dg-violet: #c7a8ff;
+	--dg-amber-fill: rgba(255, 192, 102, 0.17);
+	--dg-sky-fill: rgba(124, 202, 255, 0.17);
+	--dg-green-fill: rgba(127, 227, 176, 0.17);
+	--dg-rose-fill: rgba(255, 143, 159, 0.17);
 
 	/* Course boxes */
-	--box-example: hsl(206, 48%, 62%);
-	--box-problem: hsl(38, 68%, 60%);
-	--box-rvb: hsl(258, 32%, 70%);
-	--box-bg: hsl(222, 26%, 8%);
+	--box-example: hsl(174, 70%, 58%);
+	--box-problem: hsl(40, 92%, 62%);
+	--box-rvb: hsl(268, 80%, 76%);
+	--box-bg: hsl(236, 38%, 9%);
 }
 
 :root[data-theme='light'] {
-	--sl-color-white: hsl(222, 30%, 8%);
-	--sl-color-gray-1: hsl(222, 22%, 14%);
-	--sl-color-gray-2: hsl(222, 16%, 20%);
-	--sl-color-gray-3: hsl(222, 10%, 34%);
-	--sl-color-gray-4: hsl(222, 8%, 50%);
-	--sl-color-gray-5: hsl(222, 12%, 82%);
-	--sl-color-gray-6: hsl(222, 25%, 95%);
-	--sl-color-gray-7: hsl(222, 25%, 97.5%);
+	--sl-color-white: hsl(232, 35%, 9%);
+	--sl-color-gray-1: hsl(232, 25%, 15%);
+	--sl-color-gray-2: hsl(232, 18%, 21%);
+	--sl-color-gray-3: hsl(232, 10%, 34%);
+	--sl-color-gray-4: hsl(232, 8%, 50%);
+	--sl-color-gray-5: hsl(232, 14%, 82%);
+	--sl-color-gray-6: hsl(232, 30%, 95%);
+	--sl-color-gray-7: hsl(232, 30%, 97.5%);
 	--sl-color-black: hsl(0, 0%, 100%);
 
-	--sl-color-accent-low: hsl(40, 70%, 92%);
-	--sl-color-accent: hsl(34, 75%, 40%);
-	--sl-color-accent-high: hsl(30, 80%, 25%);
+	--sl-color-accent-low: hsl(40, 85%, 92%);
+	--sl-color-accent: hsl(34, 85%, 40%);
+	--sl-color-accent-high: hsl(28, 85%, 26%);
 	--sl-color-text-accent: var(--sl-color-accent-high);
 
-	--box-example: hsl(206, 60%, 36%);
-	--box-problem: hsl(32, 80%, 36%);
-	--box-rvb: hsl(262, 35%, 42%);
-	--box-bg: hsl(222, 25%, 98%);
+	--gold: hsl(34, 85%, 40%);
+	--teal: hsl(176, 70%, 28%);
+	--infra: hsl(8, 75%, 45%);
+	--violet: hsl(268, 45%, 45%);
+
+	--box-example: hsl(176, 70%, 30%);
+	--box-problem: hsl(32, 85%, 38%);
+	--box-rvb: hsl(268, 45%, 45%);
+	--box-bg: hsl(232, 30%, 98%);
 }

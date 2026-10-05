@@ -12,7 +12,7 @@
 
 export const parts = [
 	{
-		id: 'part-0',
+		id: 'part-0', icon: 'Σ',
 		dir: 'part-0',
 		code: '0',
 		label: 'Part 0 · Maths toolkit',
@@ -31,7 +31,7 @@ export const parts = [
 		],
 	},
 	{
-		id: 'part-0-5',
+		id: 'part-0-5', icon: '∫',
 		dir: 'calculus',
 		code: 'C',
 		label: 'Part 0.5 · Calculus from scratch',
@@ -46,7 +46,7 @@ export const parts = [
 		],
 	},
 	{
-		id: 'part-1', dir: 'part-1', code: '1', label: 'Part 1 · Motion',
+		id: 'part-1', icon: 'v', dir: 'part-1', code: '1', label: 'Part 1 · Motion',
 		blurb: 'Describing motion precisely, and Grace’s first experiment: measuring g.',
 		chapters: [
 			{ slug: 'kinematics', title: 'Position, velocity and acceleration', prereqs: [], status: 'planned' },
@@ -56,7 +56,7 @@ export const parts = [
 		],
 	},
 	{
-		id: 'part-2', dir: 'part-2', code: '2', label: 'Part 2 · Forces',
+		id: 'part-2', icon: 'F', dir: 'part-2', code: '2', label: 'Part 2 · Forces',
 		blurb: 'Newton’s laws, weight, and what you feel inside an accelerating ship.',
 		chapters: [
 			{ slug: 'newtons-laws', title: 'Newton’s laws', prereqs: [], status: 'planned' },
@@ -66,7 +66,7 @@ export const parts = [
 		],
 	},
 	{
-		id: 'part-3', dir: 'part-3', code: '3', label: 'Part 3 · Circular motion and artificial gravity',
+		id: 'part-3', icon: 'ω', dir: 'part-3', code: '3', label: 'Part 3 · Circular motion and artificial gravity',
 		blurb: 'Spinning a ship to make gravity, and the strange sideways pushes that come with it.',
 		chapters: [
 			{ slug: 'angular-speed', title: 'Angular speed', prereqs: [], status: 'planned' },
@@ -76,7 +76,7 @@ export const parts = [
 		],
 	},
 	{
-		id: 'part-4', dir: 'part-4', code: '4', label: 'Part 4 · Gravitation and orbits',
+		id: 'part-4', icon: 'G', dir: 'part-4', code: '4', label: 'Part 4 · Gravitation and orbits',
 		blurb: 'Gravity between bodies, orbits, and weighing a planet from orbit.',
 		chapters: [
 			{ slug: 'gravitation', title: 'Newton’s law of gravitation', prereqs: [], status: 'planned' },
@@ -88,7 +88,7 @@ export const parts = [
 		],
 	},
 	{
-		id: 'part-5', dir: 'part-5', code: '5', label: 'Part 5 · Energy and momentum',
+		id: 'part-5', icon: 'E', dir: 'part-5', code: '5', label: 'Part 5 · Energy and momentum',
 		blurb: 'Work, energy, momentum and the rocket equation that rules every spaceship.',
 		chapters: [
 			{ slug: 'work', title: 'Work as an integral', prereqs: [], status: 'planned' },
@@ -101,7 +101,7 @@ export const parts = [
 		],
 	},
 	{
-		id: 'part-6', dir: 'part-6', code: '6', label: 'Part 6 · Thermal physics and climate',
+		id: 'part-6', icon: 'Q', dir: 'part-6', code: '6', label: 'Part 6 · Thermal physics and climate',
 		blurb: 'Heat, temperature and why a dimmer Sun means an ice age.',
 		chapters: [
 			{ slug: 'temperature-heat', title: 'Temperature and heat', prereqs: [], status: 'planned' },
@@ -113,7 +113,7 @@ export const parts = [
 		],
 	},
 	{
-		id: 'part-7', dir: 'part-7', code: '7', label: 'Part 7 · Waves and light',
+		id: 'part-7', icon: 'λ', dir: 'part-7', code: '7', label: 'Part 7 · Waves and light',
 		blurb: 'Waves, the electromagnetic spectrum, photons and pushing a ship with light.',
 		chapters: [
 			{ slug: 'wave-properties', title: 'Wave properties', prereqs: [], status: 'planned' },
@@ -124,7 +124,7 @@ export const parts = [
 		],
 	},
 	{
-		id: 'part-8', dir: 'part-8', code: '8', label: 'Part 8 · Thermal radiation and stars',
+		id: 'part-8', icon: '★', dir: 'part-8', code: '8', label: 'Part 8 · Thermal radiation and stars',
 		blurb: 'Why hot things glow, how bright stars are, and the Sun compared with Tau Ceti.',
 		chapters: [
 			{ slug: 'blackbody-wien', title: 'Blackbody radiation and Wien’s law', prereqs: [], status: 'planned' },
@@ -134,7 +134,7 @@ export const parts = [
 		],
 	},
 	{
-		id: 'part-9', dir: 'part-9', code: '9', label: 'Part 9 · Mass–energy',
+		id: 'part-9', icon: 'mc²', dir: 'part-9', code: '9', label: 'Part 9 · Mass–energy',
 		blurb: 'E = mc² and why Astrophage is the ultimate fuel tank.',
 		chapters: [
 			{ slug: 'mass-energy', title: 'E = mc²', prereqs: [], status: 'planned' },
@@ -142,7 +142,7 @@ export const parts = [
 		],
 	},
 	{
-		id: 'part-10', dir: 'part-10', code: '10', label: 'Part 10 · Special relativity',
+		id: 'part-10', icon: 'γ', dir: 'part-10', code: '10', label: 'Part 10 · Special relativity',
 		blurb: 'Light clocks, time dilation and how long the trip really took.',
 		chapters: [
 			{ slug: 'postulates', title: 'The postulates of relativity', prereqs: [], status: 'planned' },
@@ -154,7 +154,7 @@ export const parts = [
 		],
 	},
 	{
-		id: 'part-11', dir: 'part-11', code: '11', label: 'Part 11 · Sound',
+		id: 'part-11', icon: '♪', dir: 'part-11', code: '11', label: 'Part 11 · Sound',
 		blurb: 'Pressure waves, pitch and chords: the physics of talking to Rocky.',
 		chapters: [
 			{ slug: 'pressure-waves', title: 'Sound as pressure waves', prereqs: [], status: 'planned' },
@@ -165,7 +165,7 @@ export const parts = [
 		],
 	},
 	{
-		id: 'part-12', dir: 'part-12', code: '12', label: 'Part 12 · Pressure, gases and materials',
+		id: 'part-12', icon: 'P', dir: 'part-12', code: '12', label: 'Part 12 · Pressure, gases and materials',
 		blurb: 'Gas laws, alien atmospheres and the wall between two worlds.',
 		chapters: [
 			{ slug: 'pressure', title: 'Pressure: F = PA', prereqs: [], status: 'planned' },
@@ -176,7 +176,7 @@ export const parts = [
 		],
 	},
 	{
-		id: 'part-13', dir: 'part-13', code: '13', label: 'Part 13 · Atoms, radiation and particles',
+		id: 'part-13', icon: 'ν', dir: 'part-13', code: '13', label: 'Part 13 · Atoms, radiation and particles',
 		blurb: 'Atoms, radiation in deep space and the ghostly neutrinos.',
 		chapters: [
 			{ slug: 'atomic-structure', title: 'Atomic structure', prereqs: [], status: 'planned' },
@@ -187,7 +187,7 @@ export const parts = [
 		],
 	},
 	{
-		id: 'part-14', dir: 'part-14', code: '14', label: 'Part 14 · Astronomy and scale',
+		id: 'part-14', icon: 'ly', dir: 'part-14', code: '14', label: 'Part 14 · Astronomy and scale',
 		blurb: 'Light-years, other worlds, magnetic fields, and counting in base 6.',
 		chapters: [
 			{ slug: 'light-years', title: 'Light-years and stellar distances', prereqs: [], status: 'planned' },

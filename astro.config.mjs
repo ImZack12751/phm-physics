@@ -47,7 +47,8 @@ export default defineConfig({
 			logo: { src: './src/assets/logo.svg', alt: '' },
 			customCss: [
 				'@fontsource-variable/inter',
-				'@fontsource-variable/source-serif-4',
+				'@fontsource-variable/exo-2',
+				'@fontsource/michroma',
 				'@fontsource/ibm-plex-mono/400.css',
 				'@fontsource/ibm-plex-mono/500.css',
 				'katex/dist/katex.min.css',

@@ -55,6 +55,7 @@ const rows = publishedChapters.map((c) => ({ ...c, href: chapterUrl(c), problems
 			const live = p.chapters.some((c: any) => c.status !== 'planned');
 			return (
 				<section class:list={['roadmap-part', { planned: !live }]}>
+					<span class="roadmap-icon" aria-hidden="true">{p.icon}</span>
 					<h3 id={`roadmap-${p.id}`}>{p.label}</h3>
 					{!live && <span class="chip roadmap-soon">coming later</span>}
 					<p class="roadmap-blurb">{p.blurb}</p>
