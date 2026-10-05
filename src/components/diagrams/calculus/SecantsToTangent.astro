@@ -1,0 +1,46 @@
+---
+// Secants from P (t = 2) to points closer and closer swing round towards the tangent at P.
+const O = { x: 70, y: 280 }, SX = 70, SY = 9;
+const f = (t: number) => t * t; // shape only; the axes are unlabelled numbers
+const px = (t: number) => O.x + t * SX, py = (v: number) => O.y - v * SY;
+const curve = Array.from({ length: 61 }, (_, i) => {
+	const t = (i / 60) * 5.5;
+	return `${i ? 'L' : 'M'}${px(t).toFixed(1)},${py(f(t)).toFixed(1)}`;
+}).join(' ');
+const a = 2;
+const P = { x: px(a), y: py(f(a)) };
+const others = [
+	{ b: 5, op: 0.35 },
+	{ b: 4, op: 0.55 },
+	{ b: 3, op: 0.8 },
+];
+// draw each line across x from 0.6 to 5.5 (in t units)
+const line = (m: number) => {
+	const t0 = 0.9, t1 = 5.4;
+	return { x1: px(t0), y1: py(f(a) + m * (t0 - a)), x2: px(t1), y2: py(f(a) + m * (t1 - a)) };
+};
+const tangent = line(2 * a);
+---
+
+<svg class="dg" viewBox="0 0 520 320" xmlns="http://www.w3.org/2000/svg">
+	<defs>
+		<clipPath id="stt-clip"><rect x={O.x} y="10" width="440" height={O.y - 10} /></clipPath>
+	</defs>
+	<line x1={O.x} y1={O.y} x2={px(5.7)} y2={O.y} class="s-fg w2" />
+	<line x1={O.x} y1={O.y} x2={O.x} y2="12" class="s-fg w2" />
+	<g clip-path="url(#stt-clip)">
+		{others.map((o) => {
+			const L = line((f(o.b) - f(a)) / (o.b - a));
+			return <line {...L} class="s-sky w2" opacity={o.op} />;
+		})}
+		<line {...tangent} class="s-amber w3" />
+		<path d={curve} class="s-fg w3" />
+	</g>
+	{others.map((o) => <circle cx={px(o.b)} cy={py(f(o.b))} r="4.5" class="f-sky" opacity={o.op + 0.2} />)}
+	<circle cx={P.x} cy={P.y} r="6" class="f-amber" />
+	<text x={P.x + 10} y={P.y + 22} class="t-b f-amber">P</text>
+	<text x={px(5)} y={py(f(5)) + 4} class="t-sm f-sky halo" dx="10">Q far away</text>
+	<text x={px(3)} y={py(f(3)) + 4} class="t-sm f-sky halo" dx="12">Q closer</text>
+	<text x={px(5.4)} y={py(6)} class="t-end t-sm t-b f-amber halo">tangent at P: the limit</text>
+	<text x={O.x + 8} y="26" class="t-sm f-muted halo">As Q slides towards P, secant PQ swings onto the tangent.</text>
+</svg>

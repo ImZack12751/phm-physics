@@ -1,0 +1,410 @@
+---
+title: Derivatives and simple rules
+description: The derivative as a slope function, and the handful of rules (powers, sums, exponentials, sine and cosine) that turn limits into one-line calculations, with velocity and acceleration as the payoff.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import FunctionAndSlope from '../../../components/diagrams/calculus/FunctionAndSlope.astro';
+import CircleVelocity from '../../../components/diagrams/calculus/CircleVelocity.astro';
+import DerivativeTracer from '../../../components/sims/DerivativeTracer.astro';
+
+## The scene
+
+Grace's ship gains speed every second. The Sun's dimming grows every year. A nuclear battery on a probe slowly runs down. In each case the most useful question isn't "how much?" but "how fast is it changing *right now*?", and the answer is a different number at every moment.
+
+The last chapter showed how to find such a rate at one point, by shrinking a difference quotient to its limit. Doing that from scratch every time would be exhausting. This chapter turns the idea into a machine. For each function there is a matching **slope function**, the derivative, and a few simple rules produce it in one line. With them, the step from "where the ship is" to "how fast it's going" to "how hard it's accelerating" becomes routine.
+
+## Prerequisites
+
+<Prereqs notes={{ 'slopes-and-limits': 'the slope at a point as the limit of a difference quotient', 'exponentials-logarithms': 'the number e, eˣ and ln', trigonometry: 'radians and the unit circle, needed for sine and cosine' }} />
+
+## The concept
+
+### The slope at every point is itself a function
+
+The slope of $y = x^{2}$ is $-3$ at $x = -1.5$, $0$ at $x = 0$ and $2$ at $x = 1$. In fact, at any $x$ it is $2x$. So the slopes form a function of their own. That slope function is called the <Term id="derivative">derivative</Term>, and finding it is called <Term id="differentiation">differentiation</Term>.
+
+<Figure caption="Top: y = x², with tangents drawn at three points. Bottom: the slope at every x, which is the straight line 2x. Each tangent's slope becomes one point on the lower graph." alt="Two graphs stacked with the same x axis from −2 to 2. Top: the parabola y equals x squared, with short blue tangent lines at x equals −1.5 (labelled slope −3), x equals 0 (slope 0) and x equals 1 (slope 2). Dashed vertical lines connect each to the lower graph, which shows a green straight line y′ equals 2x passing through the points −3, 0 and 2 at those x values.">
+	<FunctionAndSlope />
+</Figure>
+
+Read the lower graph as a commentary on the upper one. Where it is negative, the curve is going down. Where it crosses zero, the curve is momentarily flat, at the bottom of its valley. Where it is large, the curve is steep.
+
+### Notation
+
+If $y = f(x)$, its derivative is written in several equivalent ways:
+
+$$
+f'(x), \qquad \frac{dy}{dx}, \qquad \frac{d}{dx}f(x).
+$$
+
+The last one treats $\dfrac{d}{dx}$ as an instruction, "take the slope with respect to $x$". In physics the variable is often time, so you'll see $\dfrac{dx}{dt}$, the rate of change of position.
+
+### Velocity and acceleration
+
+This is where calculus meets motion. If $x(t)$ is position along a line, then
+
+$$
+v = \frac{dx}{dt}, \qquad a = \frac{dv}{dt}.
+$$
+
+Velocity is the derivative of position, and acceleration is the derivative of velocity. Acceleration is the derivative of the derivative, called the <Term id="second-derivative">second derivative</Term> and written $\dfrac{d^{2}x}{dt^{2}}$. Part 1 is built on these two lines.
+
+### The rules
+
+You could find every derivative from the limit definition, but a handful of rules covers almost everything in this course. Each is derived in the Formulas section. In summary:
+
+| Function | Derivative |
+|---|---|
+| a constant $c$ | $0$ |
+| $x^{n}$ | $nx^{n-1}$ (the power rule) |
+| $c\,f(x)$ | $c\,f'(x)$ |
+| $f(x) + g(x)$ | $f'(x) + g'(x)$ |
+| $e^{x}$ | $e^{x}$ |
+| $\sin x$ | $\cos x$ (x in radians) |
+| $\cos x$ | $-\sin x$ (x in radians) |
+| $f(kx)$ | $k\,f'(kx)$ (the scaling rule) |
+
+The last rule handles rates: $e^{kt}$, $\sin(\omega t)$ and their relatives.
+
+## Formulas
+
+All the derivations use the definition from the last chapter:
+
+$$
+f'(x) = \lim_{h \to 0} \frac{f(x + h) - f(x)}{h}.
+$$
+
+### Constants
+
+If $f(x) = c$, then $f(x + h) - f(x) = c - c = 0$ for every $h$, so the derivative is $0$. A flat line has zero slope.
+
+### Constant multiples and sums
+
+Factors and sums pass straight through the difference quotient:
+
+$$
+\frac{c\,f(x + h) - c\,f(x)}{h} = c\,\frac{f(x + h) - f(x)}{h} \;\to\; c\,f'(x)
+$$
+
+$$
+\frac{[f(x + h) + g(x + h)] - [f(x) + g(x)]}{h} = \frac{f(x + h) - f(x)}{h} + \frac{g(x + h) - g(x)}{h} \;\to\; f'(x) + g'(x)
+$$
+
+So you can differentiate a sum term by term, keeping any constant factors.
+
+### The power rule for whole-number powers
+
+Expand $(x + h)^{n}$ as $n$ brackets multiplied together: $(x + h)(x + h)\cdots(x + h)$. Every term of the product picks either $x$ or $h$ from each bracket.
+
+- Picking $x$ every time gives $x^{n}$.
+- Picking $h$ from exactly one bracket and $x$ from the rest gives $x^{n-1}h$. There are $n$ such choices (one per bracket), so together they make $nx^{n-1}h$.
+- Every other term contains $h^{2}$ or a higher power of $h$.
+
+So $(x + h)^{n} = x^{n} + nx^{n-1}h + (\text{terms with } h^{2}, h^{3}, \ldots)$. Then
+
+$$
+\frac{(x + h)^{n} - x^{n}}{h} = nx^{n-1} + (\text{terms with } h, h^{2}, \ldots) \;\to\; nx^{n-1}.
+$$
+
+$$
+\boxed{\frac{d}{dx}x^{n} = nx^{n-1}}
+$$
+
+Check against the last chapter: $n = 2$ gives $2x$ ✓, and $n = 3$ gives $3x^{2}$ ✓.
+
+### The power rule for other powers
+
+The same rule works for negative and fractional powers. We show the two most useful cases directly.
+
+**$n = -1$** (that is, $1/x$). From the last chapter's Problem 6, the slope of $1/x$ is $-1/x^{2}$. The rule predicts $(-1)x^{-2} = -1/x^{2}$ ✓. Likewise the inverse-square slope, $-2C/r^{3}$, matches $C \times (-2)r^{-3}$ ✓.
+
+**$n = \tfrac{1}{2}$** (that is, $\sqrt{x}$). Multiply the top and bottom of the difference quotient by $(\sqrt{x + h} + \sqrt{x})$, which uses $(p - q)(p + q) = p^{2} - q^{2}$:
+
+$$
+\frac{\sqrt{x + h} - \sqrt{x}}{h} = \frac{(x + h) - x}{h(\sqrt{x + h} + \sqrt{x})} = \frac{1}{\sqrt{x + h} + \sqrt{x}} \;\to\; \frac{1}{2\sqrt{x}}.
+$$
+
+The rule predicts $\tfrac{1}{2}x^{-1/2} = \dfrac{1}{2\sqrt{x}}$ ✓. The power rule in fact holds for every real power $n$ (for $x > 0$). We will use it in that form, and the simulation lets you check any case numerically.
+
+### The exponential: the function that is its own slope
+
+$$
+\frac{e^{x + h} - e^{x}}{h} = e^{x}\,\frac{e^{h} - 1}{h}
+$$
+
+So everything rests on the limit of $\dfrac{e^{h} - 1}{h}$. Recall $e = \lim(1 + \tfrac{1}{n})^{n}$, so for large $n$, $e \approx (1 + \tfrac{1}{n})^{n}$. Taking $n$th roots of both sides gives $e^{1/n} \approx 1 + \tfrac{1}{n}$. Writing $h = 1/n$, this says $e^{h} \approx 1 + h$ for small $h$, which gets more exact as $h$ shrinks. So $\dfrac{e^{h} - 1}{h} \to 1$, as the last chapter's Problem 8 found numerically ($1.0517$, $1.0050$, $1.0005$, …). Therefore
+
+$$
+\boxed{\frac{d}{dx}e^{x} = e^{x}}
+$$
+
+This is *why* $e$ is the natural base: it is the one number whose exponential grows at exactly its own size.
+
+### The scaling rule
+
+Let $g(x) = f(kx)$ for a constant $k \neq 0$. Write the difference quotient and multiply top and bottom by $k$:
+
+$$
+\frac{f(kx + kh) - f(kx)}{h} = k\,\frac{f(kx + kh) - f(kx)}{kh}.
+$$
+
+As $h \to 0$, so does $kh$, and the fraction becomes the slope of $f$ at $kx$:
+
+$$
+\frac{d}{dx}f(kx) = k\,f'(kx).
+$$
+
+So $\dfrac{d}{dt}e^{kt} = k\,e^{kt}$. The growth rate *is* $k$ times the current amount, which is what continuous growth meant in [Exponentials](/part-0/exponentials-logarithms/). And since $2^{t/T} = e^{(\ln 2/T)t}$,
+
+$$
+\frac{d}{dt}2^{t/T} = \frac{\ln 2}{T}\,2^{t/T}.
+$$
+
+### Sine and cosine, from the unit circle
+
+Think of the point $P = (\cos\theta, \sin\theta)$ on the unit circle. Turn by a tiny extra angle $d\theta$ (in radians). By $s = r\theta$ with $r = 1$, $P$ moves a distance $d\theta$ along the circle. Over such a tiny step the arc is practically straight, and it points at right angles to the radius.
+
+<Figure caption="As the angle grows by a tiny dθ, the point on the unit circle steps a distance dθ at right angles to the radius. Its vertical part is cos θ · dθ, so the slope of sin θ is cos θ." alt="A unit circle with radius 1 drawn to a point P at angle theta of about 50 degrees. From P, a white arrow labelled 'step d theta, magnified' points up and to the left, at right angles to the radius. It is split into a blue horizontal arrow labelled minus sin theta times d theta and an amber vertical arrow labelled cos theta times d theta. Text at the right: P is at (cos theta, sin theta); the height sin theta grows by cos theta d theta; the across-position cos theta changes by minus sin theta d theta; so d(sin theta)/d theta equals cos theta and d(cos theta)/d theta equals minus sin theta.">
+	<CircleVelocity />
+</Figure>
+
+The step is at right angles to the radius, which points at angle $\theta$. So the step points at angle $\theta + 90°$, and its components are $d\theta\,(\cos(\theta + 90°), \sin(\theta + 90°)) = d\theta\,(-\sin\theta, \cos\theta)$. So the height $\sin\theta$ changes by $\cos\theta\,d\theta$, and $\cos\theta$ changes by $-\sin\theta\,d\theta$. Dividing by $d\theta$:
+
+$$
+\boxed{\frac{d}{d\theta}\sin\theta = \cos\theta, \qquad \frac{d}{d\theta}\cos\theta = -\sin\theta}
+$$
+
+This argument needed arc $= r\theta$, which is true only in radians. In degrees the slopes would carry an awkward factor of $\pi/180$. (A check at $\theta = 0$: the slope of $\sin$ there is $\lim \sin h/h = 1 = \cos 0$ ✓, the limit from the last chapter.)
+
+## Worked examples
+
+<Example n={1} title="From position to velocity to acceleration" book>
+Starting from rest at 1.5 g, the ship's distance is $d = 7.35t^{2}$ (metres, seconds). Find its velocity and acceleration as functions of time, and the speed after 10 s.
+
+Power rule with the constant factor:
+
+$$
+v = \frac{dd}{dt} = 7.35 \times 2t = 14.7t\ \text{m/s}
+$$
+
+$$
+a = \frac{dv}{dt} = 14.7\ \text{m/s}^{2}
+$$
+
+At $t = 10$ s, $v = 147$ m/s. The acceleration is constant, $14.7\ \text{m/s}^{2} = 1.5 \times 9.81\ \text{m/s}^{2}$, as a steady 1.5 g should be. Part 1 runs this logic in reverse: from a constant acceleration it rebuilds $v$ and $d$.
+</Example>
+
+<Example n={2} title="Differentiating a polynomial term by term">
+Find $\dfrac{dy}{dx}$ for $y = 3x^{4} - 5x^{2} + 7x - 2$, and the slope at $x = 1$.
+
+Term by term, using the power rule, constant multiples and sums ($7x = 7x^{1}$ has slope $7$, and the constant $-2$ has slope $0$):
+
+$$
+\frac{dy}{dx} = 3 \times 4x^{3} - 5 \times 2x + 7 = 12x^{3} - 10x + 7.
+$$
+
+At $x = 1$: $12 - 10 + 7 = 9$.
+</Example>
+
+<Example n={3} title="The exact rate of dimming" book>
+In the dimming model, $D = 2^{(t - 9)/T}$ percent with $T = 4.737$ yr. Find $\dfrac{dD}{dt}$ and its value at $t = 20$ years.
+
+$D$ is $2^{u/T}$ with $u = t - 9$, and shifting $t$ by a constant doesn't change slopes. By the scaling rule:
+
+$$
+\frac{dD}{dt} = \frac{\ln 2}{T}\,D = \frac{0.6931}{4.737\ \text{yr}}\,D = (0.1463\ \text{per yr})\,D.
+$$
+
+At $t = 20$, $D = 5.000\%$, so
+
+$$
+\frac{dD}{dt} = 0.1463 \times 5.000\ \%/\text{yr} = 0.732\ \%/\text{yr},
+$$
+
+exactly what the last chapter's shrinking-$h$ table approached. The rate is always 14.6% of the current dimming, the hallmark of exponential growth.
+</Example>
+
+<Example n={4} title="An oscillation: velocity from a sine" book>
+A sample on a spring vibrates with position $x = 0.20\sin(2.0t)$ metres ($t$ in seconds, angle in radians). Find its velocity and acceleration, its greatest speed, and its velocity at $t = 1.0$ s.
+
+Scaling rule with $k = 2.0$:
+
+$$
+v = \frac{dx}{dt} = 0.20 \times 2.0\cos(2.0t) = 0.40\cos(2.0t)\ \text{m/s}
+$$
+
+$$
+a = \frac{dv}{dt} = 0.40 \times 2.0 \times (-\sin(2.0t)) = -0.80\sin(2.0t)\ \text{m/s}^{2}
+$$
+
+The greatest speed is $0.40$ m/s, because cosine never exceeds 1. At $t = 1.0$ s: $v = 0.40\cos(2.0) = 0.40 \times (-0.416) = -0.166$ m/s, moving back towards the middle.
+
+Notice that $a = -0.80\sin(2.0t) = -4.0 \times x$: the acceleration always points back to the centre and grows with the distance from it. Part 2 shows this is the signature of all simple oscillations, pendulums included.
+</Example>
+
+<Example n={5} title="Sunlight at the nearest and farthest points of Earth's orbit">
+Earth's distance from the Sun varies between $0.9833$ au (in early January) and $1.0167$ au (in early July). Use the derivative of $I = 1361/r^{2}$ to estimate the intensity at each, then compare with the exact values.
+
+$\dfrac{dI}{dr} = 1361 \times (-2)r^{-3}$, which at $r = 1$ is $-2722$ W/m² per au. Using $\Delta I \approx \dfrac{dI}{dr}\,\Delta r$:
+
+$$
+\text{nearest: } 1361 + (-2722)(-0.0167) = 1361 + 45.5 = 1406.5\ \text{W/m}^{2}
+$$
+
+$$
+\text{farthest: } 1361 + (-2722)(+0.0167) = 1361 - 45.5 = 1315.5\ \text{W/m}^{2}
+$$
+
+Exact: $1361/0.9833^{2} = 1407.6$ and $1361/1.0167^{2} = 1316.6$ W/m². The tangent-line estimate is within 0.1%. Our sunlight varies by about 7% over the year because of the orbit's shape, while the novel's 1% dimming is a change to the Sun itself.
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** The differentiation rules here are standard and exact. Velocity and acceleration as first and second derivatives of position are the foundation of mechanics, and the derivatives of $e^{x}$, $\sin$ and $\cos$ underlie the physics of growth, decay and oscillation. Earth's orbital distances (147.1 and 152.1 million km) are measured.
+
+**Weir's inventions.** The dimming curve is fitted to the novel's figures. The vibrating sample in Worked example 4 is our own illustration.
+
+**How realistic are the numbers?** A steady 1.5 g gives a speed growing in a straight line, $v = 14.7t$, only while speeds stay well below light speed. Part 10 shows how relativity bends that line over, which matters a great deal for the *Hail Mary*.
+</RealVsBook>
+
+## Interactive simulation
+
+<DerivativeTracer />
+
+Try $e^{x}$: the two graphs are identical. Try $\sin x$: the slope graph is $\cos x$, and the slope is zero exactly at the peaks and troughs. Try $1/x$: the slope is always negative, and steepest near $x = 0$.
+
+## Practice set
+
+<Problem n={1} level="easy">
+Differentiate: (a) $x^{5}$ (b) $4x^{3}$ (c) $7$ (d) $3x - 2$ (e) $x^{2} + x$
+
+<Solution>
+(a) $5x^{4}$. (b) $12x^{2}$. (c) $0$. (d) $3$. (e) $2x + 1$.
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy">
+For $y = 2x^{2} - 3x + 1$, find $\dfrac{dy}{dx}$, the slope at $x = 2$, and where the slope is zero.
+
+<Solution>
+$\dfrac{dy}{dx} = 4x - 3$. At $x = 2$: $5$. The slope is zero where $4x - 3 = 0$, so $x = 0.75$, the bottom of the curve.
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy">
+A probe's position is $x = 5t^{2} - 2t + 3$ (m, s). Find its velocity and acceleration, and its velocity at $t = 2$ s.
+
+<Solution>
+$v = 10t - 2$ m/s and $a = 10\ \text{m/s}^{2}$. At $t = 2$ s, $v = 18$ m/s.
+</Solution>
+</Problem>
+
+<Problem n={4} level="medium">
+Using the power rule, find the slope of (a) $\sqrt{x}$ at $x = 9$ (b) $\dfrac{1}{x}$ at $x = 2$ (c) $\dfrac{1}{x^{2}}$ at $x = 1$.
+
+<Solution>
+(a) $\tfrac{1}{2}x^{-1/2} = \dfrac{1}{2\sqrt{9}} = \dfrac{1}{6} \approx 0.167$.
+
+(b) $-x^{-2} = -\dfrac{1}{4} = -0.25$.
+
+(c) $-2x^{-3} = -2$.
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium" book>
+Suppose the ship already moves at $u$ m/s when it starts accelerating at 1.5 g, so its distance is $d = ut + 7.35t^{2}$. Find $v(t)$ and $a(t)$. What is $v$ after 60 s if $u = 1000$ m/s?
+
+<Solution>
+$v = u + 14.7t$ and $a = 14.7\ \text{m/s}^{2}$. After 60 s: $v = 1000 + 14.7 \times 60 = 1882$ m/s.
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium">
+Differentiate (a) $e^{3x}$ (b) $5e^{-0.2t}$ (c) $\sin(5t)$ (d) $\cos(\pi t)$.
+
+<Solution>
+Using the scaling rule: (a) $3e^{3x}$. (b) $5 \times (-0.2)e^{-0.2t} = -e^{-0.2t}$. (c) $5\cos(5t)$. (d) $-\pi\sin(\pi t)$.
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium">
+A plutonium-238 heat source's power falls as $P = P_{0}e^{-kt}$ with $k = \ln 2 / 87.7$ per year. Find $\dfrac{dP}{dt}$, and its value when $P = 100$ W.
+
+<Solution>
+$\dfrac{dP}{dt} = -kP_{0}e^{-kt} = -kP$, with $k = 0.6931/87.7 = 7.90 \times 10^{-3}$ per year. At $P = 100$ W: $\dfrac{dP}{dt} = -0.79$ W per year.
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium" book>
+Using $\dfrac{dD}{dt} = 0.1463\,D$ per year, find the dimming rate at $t = 30$ years, where the model gives $D = 21.6\%$. Compare with the rate at 20 years.
+
+<Solution>
+$0.1463 \times 21.6 = 3.16\ \%$ per year, more than four times the 0.73%/yr at 20 years, because the rate is proportional to $D$ itself.
+</Solution>
+</Problem>
+
+<Problem n={9} level="medium">
+For $x = t^{3} - 6t^{2} + 9t$ (m, s), find $v$ and $a$. When is the object momentarily at rest? What is its acceleration at those moments?
+
+<Solution>
+$v = 3t^{2} - 12t + 9 = 3(t - 1)(t - 3)$, so it is at rest at $t = 1$ s and $t = 3$ s. $a = 6t - 12$: $-6\ \text{m/s}^{2}$ at $t = 1$ s and $+6\ \text{m/s}^{2}$ at $t = 3$ s.
+</Solution>
+</Problem>
+
+<Problem n={10} level="challenging">
+For $x = A\sin(\omega t)$, show that $\dfrac{d^{2}x}{dt^{2}} = -\omega^{2}x$. For $A = 0.20$ m and $\omega = 2.0$ per second, what is the largest acceleration?
+
+<Solution>
+$v = A\omega\cos(\omega t)$ and $a = -A\omega^{2}\sin(\omega t) = -\omega^{2}x$.
+
+The largest size of $a$ is $A\omega^{2} = 0.20 \times 4.0 = 0.80\ \text{m/s}^{2}$, at the ends of the swing.
+</Solution>
+</Problem>
+
+<Problem n={11} level="challenging" book>
+Show that $\dfrac{1}{I}\dfrac{dI}{dr} = -\dfrac{2}{r}$ for $I = C/r^{2}$. Use it to estimate the percentage change in sunlight if a spacecraft moves from $1.000$ au to $1.050$ au.
+
+<Solution>
+$\dfrac{dI}{dr} = -2Cr^{-3}$, so $\dfrac{1}{I}\dfrac{dI}{dr} = \dfrac{-2Cr^{-3}}{Cr^{-2}} = -\dfrac{2}{r}$.
+
+For a small change, $\dfrac{\Delta I}{I} \approx -\dfrac{2}{r}\Delta r = -2 \times 0.050 = -0.10$, a 10% drop. Exactly: $1/1.05^{2} = 0.907$, a 9.3% drop. The estimate is good for small changes and less so as they grow.
+</Solution>
+</Problem>
+
+<Problem n={12} level="challenging">
+Use the slope of $e^{x}$ and the scaling rule to find $\dfrac{d}{dx}2^{x}$. Check numerically at $x = 0$ with $h = 0.001$.
+
+<Solution>
+$2^{x} = e^{(\ln 2)x}$, so $\dfrac{d}{dx}2^{x} = (\ln 2)\,2^{x}$. At $x = 0$ this gives $\ln 2 = 0.6931$.
+
+Numerically: $\dfrac{2^{0.001} - 1}{0.001} = \dfrac{1.000\,693\,4 - 1}{0.001} = 0.6934$ ✓.
+</Solution>
+</Problem>
+
+## Summary
+
+- The derivative $f'(x) = \dfrac{dy}{dx}$ is the slope of $f$ at every $x$, a new function. Finding it is differentiation.
+- Velocity is $\dfrac{dx}{dt}$, and acceleration is $\dfrac{dv}{dt} = \dfrac{d^{2}x}{dt^{2}}$.
+- Rules: constants give 0; $x^{n} \to nx^{n-1}$; constants multiply through; sums go term by term; $e^{x} \to e^{x}$; $\sin \to \cos$ and $\cos \to -\sin$ (radians); $f(kx) \to k\,f'(kx)$.
+- Exponentials grow at a rate proportional to their size: $\dfrac{d}{dt}e^{kt} = ke^{kt}$. For $x = A\sin\omega t$, $a = -\omega^{2}x$.
+- Near a point, $\Delta y \approx \dfrac{dy}{dx}\,\Delta x$.
+
+**Formulas from this chapter**
+
+$$
+\frac{d}{dx}x^{n} = nx^{n-1} \qquad \frac{d}{dx}[c\,f + g] = c\,f' + g' \qquad \frac{d}{dx}e^{x} = e^{x} \qquad \frac{d}{dx}\sin x = \cos x \qquad \frac{d}{dx}\cos x = -\sin x
+$$
+
+$$
+\frac{d}{dx}f(kx) = k\,f'(kx) \qquad v = \frac{dx}{dt} \qquad a = \frac{dv}{dt} = \frac{d^{2}x}{dt^{2}} \qquad \Delta y \approx \frac{dy}{dx}\,\Delta x
+$$
+
+## Sources
+
+- OpenStax, *Calculus Volume 1*: §3.2 "The Derivative as a Function", §3.3 "Differentiation Rules", §3.5 "Derivatives of Trigonometric Functions" and §3.9 "Derivatives of Exponential and Logarithmic Functions". [§3.2](https://openstax.org/books/calculus-volume-1/pages/3-2-the-derivative-as-a-function), [§3.3](https://openstax.org/books/calculus-volume-1/pages/3-3-differentiation-rules), [§3.5](https://openstax.org/books/calculus-volume-1/pages/3-5-derivatives-of-trigonometric-functions), [§3.9](https://openstax.org/books/calculus-volume-1/pages/3-9-derivatives-of-exponential-and-logarithmic-functions)
+- OpenStax, *University Physics Volume 1*, §3.2 and §3.3 (velocity and acceleration as derivatives). [§3.3](https://openstax.org/books/university-physics-volume-1/pages/3-3-average-and-instantaneous-acceleration)
+- Earth's perihelion and aphelion (147.095 and 152.100 million km): NASA NSSDCA [Earth fact sheet](https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html).
+- Plutonium-238 half-life (87.7 years): US Department of Energy. [energy.gov (PDF)](https://www.energy.gov/sites/default/files/NEGTN0NEAC_PU-238_042108.pdf)
+- The dimming forecast that the model is fitted to and the 1.5 g are the novel's figures (Andy Weir, *Project Hail Mary*, 2021), as summarised by readers. Approximate.

@@ -1,0 +1,95 @@
+---
+// Simulation: move along a curve; the tangent's slope is plotted underneath, tracing out the derivative.
+---
+
+<div
+	class="sim dt"
+	data-title="Derivative tracer"
+	data-description="Choose a function (x², x³, √x, 1/x, eˣ, sin x, cos x). A slider moves a point along the curve in the top graph and draws its tangent. The bottom graph plots the tangent's slope at each point, tracing out the derivative. The readout compares a numerical slope with the value given by the differentiation rule."
+>
+	<p class="sim-title">Simulation: derivative tracer</p>
+	<p class="sim-help">Slide the point along the top curve. Its tangent's slope is plotted below. Sweep from left to right and the bottom graph traces out the derivative, the "slope function".</p>
+	<div class="sim-controls">
+		<label>Function
+			<select class="dt-f">
+				<option value="sq">y = x²</option>
+				<option value="cube">y = x³</option>
+				<option value="sqrt">y = √x</option>
+				<option value="inv">y = 1/x</option>
+				<option value="exp">y = eˣ</option>
+				<option value="sin">y = sin x</option>
+				<option value="cos">y = cos x</option>
+			</select>
+		</label>
+		<label>x <input type="range" class="dt-x" min="0" max="1" step="0.002" value="0.7" /> <output class="dt-xv"></output></label>
+	</div>
+	<svg class="dg dt-svg" viewBox="0 0 600 420" role="img" aria-label="A function with its tangent (top) and its derivative (bottom)"></svg>
+	<div class="readout dt-out" aria-live="polite"></div>
+</div>
+
+<script>
+	type F = { f: (x: number) => number; d: (x: number) => number; x0: number; x1: number; y: [number, number]; dy: [number, number]; rule: string; dname: (x: number) => string };
+	const FS: Record<string, F> = {
+		sq: { f: (x) => x * x, d: (x) => 2 * x, x0: -2, x1: 2, y: [-0.5, 4.5], dy: [-4.5, 4.5], rule: 'd/dx (x²) = 2x', dname: (x) => `2 × ${x.toFixed(3)}` },
+		cube: { f: (x) => x ** 3, d: (x) => 3 * x * x, x0: -1.6, x1: 1.6, y: [-4.5, 4.5], dy: [-1, 8], rule: 'd/dx (x³) = 3x²', dname: (x) => `3 × ${x.toFixed(3)}²` },
+		sqrt: { f: Math.sqrt, d: (x) => 0.5 / Math.sqrt(x), x0: 0.05, x1: 4, y: [0, 2.2], dy: [0, 2.4], rule: 'd/dx (√x) = 1/(2√x)', dname: (x) => `1 / (2√${x.toFixed(3)})` },
+		inv: { f: (x) => 1 / x, d: (x) => -1 / (x * x), x0: 0.25, x1: 4, y: [0, 4.2], dy: [-16.5, 0.5], rule: 'd/dx (1/x) = −1/x²', dname: (x) => `−1 / ${x.toFixed(3)}²` },
+		exp: { f: Math.exp, d: Math.exp, x0: -2, x1: 2, y: [0, 7.6], dy: [0, 7.6], rule: 'd/dx (eˣ) = eˣ', dname: (x) => `e<sup>${x.toFixed(3)}</sup>` },
+		sin: { f: Math.sin, d: Math.cos, x0: 0, x1: 2 * Math.PI, y: [-1.2, 1.2], dy: [-1.2, 1.2], rule: 'd/dx (sin x) = cos x', dname: (x) => `cos ${x.toFixed(3)}` },
+		cos: { f: Math.cos, d: (x) => -Math.sin(x), x0: 0, x1: 2 * Math.PI, y: [-1.2, 1.2], dy: [-1.2, 1.2], rule: 'd/dx (cos x) = −sin x', dname: (x) => `−sin ${x.toFixed(3)}` },
+	};
+	document.querySelectorAll<HTMLElement>('.sim.dt').forEach((root) => {
+		const q = <E extends Element>(s: string) => root.querySelector<E>(s)!;
+		const svg = q<SVGSVGElement>('.dt-svg'), selF = q<HTMLSelectElement>('.dt-f'), selX = q<HTMLInputElement>('.dt-x');
+		const NS = 'http://www.w3.org/2000/svg';
+		const L = 60, R = 585;
+		const PANES = [{ t: 15, b: 190 }, { t: 230, b: 400 }];
+		function el(tag: string, a: Record<string, string | number>, text?: string, parent: Element = svg) {
+			const e = document.createElementNS(NS, tag);
+			Object.entries(a).forEach(([k, v]) => e.setAttribute(k, String(v)));
+			if (text !== undefined) e.textContent = text;
+			parent.append(e);
+			return e;
+		}
+		function draw() {
+			const F = FS[selF.value];
+			const x = F.x0 + Number(selX.value) * (F.x1 - F.x0);
+			const px = (v: number) => L + ((v - F.x0) / (F.x1 - F.x0)) * (R - L);
+			const pane = (i: number, range: [number, number]) => (v: number) => PANES[i].b - ((v - range[0]) / (range[1] - range[0])) * (PANES[i].b - PANES[i].t);
+			const py = pane(0, F.y), pd = pane(1, F.dy);
+			svg.replaceChildren();
+			el('defs', {}).innerHTML = PANES.map((p, i) => `<clipPath id="dt-c${i}"><rect x="${L}" y="${p.t}" width="${R - L}" height="${p.b - p.t}"/></clipPath>`).join('');
+			PANES.forEach((p, i) => {
+				el('rect', { x: L, y: p.t, width: R - L, height: p.b - p.t, fill: 'none', class: 's-grid w1' });
+				const zero = i === 0 ? py(0) : pd(0);
+				if (zero > p.t && zero < p.b) el('line', { x1: L, y1: zero, x2: R, y2: zero, class: 's-muted w1' });
+				if (F.x0 < 0 && F.x1 > 0) el('line', { x1: px(0), y1: p.t, x2: px(0), y2: p.b, class: 's-muted w1' });
+			});
+			el('text', { x: L + 6, y: PANES[0].t + 16, class: 't-sm t-b f-amber' }, 'function');
+			el('text', { x: L + 6, y: PANES[1].t + 16, class: 't-sm t-b f-green' }, 'slope (derivative)');
+			const g0 = el('g', { 'clip-path': 'url(#dt-c0)' }), g1 = el('g', { 'clip-path': 'url(#dt-c1)' });
+			const N = 240;
+			const pathOf = (fn: (v: number) => number, Y: (v: number) => number, to = F.x1) =>
+				Array.from({ length: N + 1 }, (_, i) => {
+					const v = F.x0 + ((to - F.x0) * i) / N;
+					return `${i ? 'L' : 'M'}${px(v).toFixed(1)},${Y(fn(v)).toFixed(1)}`;
+				}).join(' ');
+			el('path', { d: pathOf(F.f, py), class: 's-amber w3' }, undefined, g0);
+			el('path', { d: pathOf(F.d, pd), class: 's-green w1 dash', opacity: 0.5 }, undefined, g1);
+			el('path', { d: pathOf(F.d, pd, x), class: 's-green w3' }, undefined, g1);
+			const m = F.d(x), y = F.f(x), span = (F.x1 - F.x0) * 0.18;
+			el('line', { x1: px(x - span), y1: py(y - m * span), x2: px(x + span), y2: py(y + m * span), class: 's-sky w2' }, undefined, g0);
+			el('circle', { cx: px(x), cy: py(y), r: 5.5, class: 'f-sky' }, undefined, g0);
+			el('line', { x1: px(x), y1: py(y), x2: px(x), y2: pd(m), class: 's-grid w1 dash' });
+			el('circle', { cx: px(x), cy: pd(m), r: 5.5, class: 'f-green' }, undefined, g1);
+			q('.dt-xv').textContent = x.toFixed(3);
+			const h = 1e-5, num = (F.f(x + h) - F.f(x - h)) / (2 * h);
+			q('.dt-out').innerHTML =
+				`<span class="k">at x =</span> ${x.toFixed(3)}: <span class="k">y =</span> ${y.toFixed(4)}<br>` +
+				`<span class="k">numerical slope [f(x+h) − f(x−h)]/(2h), h = 10⁻⁵:</span> <b>${num.toFixed(5)}</b><br>` +
+				`<span class="k">rule ${F.rule}:</span> ${F.dname(x)} = <b style="color:var(--dg-green)">${m.toFixed(5)}</b>`;
+		}
+		[selF, selX].forEach((s) => s.addEventListener('input', draw));
+		draw();
+	});
+</script>

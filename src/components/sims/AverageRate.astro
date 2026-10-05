@@ -1,0 +1,75 @@
+---
+// Simulation: average rate of change between two moments on a ship's distance–time curve.
+---
+
+<div
+	class="sim avr"
+	data-title="Average speed between two moments"
+	data-description="A distance–time curve for a ship starting from rest at 1.5 g (d = 7.35 t² metres, t from 0 to 10 s). Two sliders choose two moments; the simulation draws the secant line between them and computes the average speed Δd/Δt. Narrowing the interval shows the average approaching a single value."
+>
+	<p class="sim-title">Simulation: average speed between two moments</p>
+	<p class="sim-help">The ship starts from rest and speeds up at 1.5 g. Pick two moments. The blue line's slope is the average speed between them. Try making the interval narrower and narrower around the same moment.</p>
+	<svg class="dg avr-svg" viewBox="0 0 600 330" role="img" aria-label="Distance–time curve with an adjustable secant"></svg>
+	<div class="sim-controls">
+		<label>First moment t₁ <input type="range" class="avr-a" min="0" max="10" step="0.05" value="2" /> <output class="avr-av"></output></label>
+		<label>Second moment t₂ <input type="range" class="avr-b" min="0" max="10" step="0.05" value="8" /> <output class="avr-bv"></output></label>
+	</div>
+	<div class="readout avr-out" aria-live="polite"></div>
+</div>
+
+<script>
+	document.querySelectorAll<HTMLElement>('.sim.avr').forEach((root) => {
+		const svg = root.querySelector<SVGSVGElement>('.avr-svg')!;
+		const A = root.querySelector<HTMLInputElement>('.avr-a')!, B = root.querySelector<HTMLInputElement>('.avr-b')!;
+		const out = root.querySelector<HTMLElement>('.avr-out')!;
+		const d = (t: number) => 7.35 * t * t;
+		const L = 70, R = 580, T = 20, Bm = 280, TMAX = 10, DMAX = 750;
+		const px = (t: number) => L + (t / TMAX) * (R - L), py = (v: number) => Bm - (v / DMAX) * (Bm - T);
+		const NS = 'http://www.w3.org/2000/svg';
+		const el = (tag: string, a: Record<string, string | number>, text?: string) => {
+			const e = document.createElementNS(NS, tag);
+			Object.entries(a).forEach(([k, v]) => e.setAttribute(k, String(v)));
+			if (text !== undefined) e.textContent = text;
+			svg.append(e);
+			return e;
+		};
+		function draw() {
+			let t1 = Number(A.value), t2 = Number(B.value);
+			root.querySelector('.avr-av')!.textContent = `${t1.toFixed(2)} s`;
+			root.querySelector('.avr-bv')!.textContent = `${t2.toFixed(2)} s`;
+			svg.replaceChildren();
+			for (let v = 0; v <= DMAX; v += 150) {
+				el('line', { x1: L, y1: py(v), x2: R, y2: py(v), class: 's-grid w1' });
+				el('text', { x: L - 8, y: py(v) + 4, class: 't-end t-sm f-muted' }, String(v));
+			}
+			for (let t = 0; t <= TMAX; t += 2) el('text', { x: px(t), y: Bm + 18, class: 't-mid t-sm f-muted' }, String(t));
+			el('text', { x: (L + R) / 2, y: Bm + 40, class: 't-mid t-sm' }, 'time, t (s)');
+			el('text', { x: 16, y: (T + Bm) / 2, class: 't-mid t-sm', transform: `rotate(-90 16 ${(T + Bm) / 2})` }, 'distance, d (m)');
+			el('path', {
+				d: Array.from({ length: 101 }, (_, i) => `${i ? 'L' : 'M'}${px(i / 10)},${py(d(i / 10))}`).join(' '),
+				class: 's-amber w3',
+			});
+			if (t1 === t2) {
+				el('circle', { cx: px(t1), cy: py(d(t1)), r: 5, class: 'f-sky' });
+				out.innerHTML = 'The two moments are the same: Δt = 0, and Δd ÷ Δt would be 0 ÷ 0, which has no value. Move them apart. (Chapter C.2 is about exactly this problem.)';
+				return;
+			}
+			if (t1 > t2) [t1, t2] = [t2, t1];
+			const m = (d(t2) - d(t1)) / (t2 - t1);
+			const x1 = px(0), x2 = px(TMAX);
+			const yAt = (t: number) => d(t1) + m * (t - t1);
+			el('line', { x1, y1: py(yAt(0)), x2, y2: py(yAt(TMAX)), class: 's-sky w2' });
+			el('path', { d: `M${px(t1)},${py(d(t1))} L${px(t2)},${py(d(t1))} L${px(t2)},${py(d(t2))}`, class: 's-fg w1 dash' });
+			el('circle', { cx: px(t1), cy: py(d(t1)), r: 5, class: 'f-sky' });
+			el('circle', { cx: px(t2), cy: py(d(t2)), r: 5, class: 'f-sky' });
+			const mid = (t1 + t2) / 2;
+			out.innerHTML =
+				`<span class="k">Δd</span> = d(${t2.toFixed(2)}) − d(${t1.toFixed(2)}) = ${d(t2).toFixed(1)} m − ${d(t1).toFixed(1)} m = <b>${(d(t2) - d(t1)).toFixed(1)} m</b><br>` +
+				`<span class="k">Δt</span> = ${(t2 - t1).toFixed(2)} s<br>` +
+				`<span class="k">average speed</span> = Δd ÷ Δt = <b>${m.toFixed(2)} m/s</b><br>` +
+				`<span class="k">For comparison, 14.7 × (midpoint time ${mid.toFixed(2)} s) =</span> ${(14.7 * mid).toFixed(2)} m/s`;
+		}
+		[A, B].forEach((x) => x.addEventListener('input', draw));
+		draw();
+	});
+</script>

@@ -1,0 +1,87 @@
+---
+// Simulation: shrink h and watch the secant through (a, f(a)) and (a+h, f(a+h)) become the tangent.
+---
+
+<div
+	class="sim tz"
+	data-title="Secant to tangent"
+	data-description="Choose a curve (the ship's distance d = 7.35t², the dimming model from Chapter 0.8, or sin x) and a point a. A slider shrinks the gap h from 1 to 0.0001; the secant through (a, f(a)) and (a+h, f(a+h)) is drawn and its slope [f(a+h) − f(a)]/h is listed for h = 1, 0.1, 0.01, 0.001 and the current h, showing the values settling on the slope of the tangent."
+>
+	<p class="sim-title">Simulation: secant to tangent</p>
+	<p class="sim-help">Drag the gap h towards zero. The blue secant swings onto the amber tangent, and the difference quotient settles on one number: the slope at the point.</p>
+	<div class="sim-controls">
+		<label>Curve
+			<select class="tz-f">
+				<option value="ship">ship distance d = 7.35t² (m)</option>
+				<option value="dim">dimming model D(t) (%)</option>
+				<option value="sin">y = sin x (x in radians)</option>
+			</select>
+		</label>
+	</div>
+	<svg class="dg tz-svg" viewBox="0 0 600 320" role="img" aria-label="Curve with a secant and tangent"></svg>
+	<div class="sim-controls">
+		<label>Point a <input type="range" class="tz-a" min="0" max="1" step="0.001" value="0.4" /> <output class="tz-av"></output></label>
+		<label>Gap h <input type="range" class="tz-h" min="-4" max="0" step="0.01" value="0" /> <output class="tz-hv"></output></label>
+	</div>
+	<div class="readout tz-out" aria-live="polite"></div>
+</div>
+
+<script>
+	type Fn = { f: (x: number) => number; d: (x: number) => number; x0: number; x1: number; y0: number; y1: number; xn: string; yn: string; unit: string };
+	const T = 4.737;
+	const FN: Record<string, Fn> = {
+		ship: { f: (t) => 7.35 * t * t, d: (t) => 14.7 * t, x0: 0, x1: 10, y0: 0, y1: 750, xn: 't (s)', yn: 'd (m)', unit: 'm/s' },
+		dim: { f: (t) => 2 ** ((t - 9) / T), d: (t) => (Math.LN2 / T) * 2 ** ((t - 9) / T), x0: 0, x1: 30, y0: 0, y1: 25, xn: 't (years)', yn: 'D (%)', unit: '% per year' },
+		sin: { f: Math.sin, d: Math.cos, x0: 0, x1: 2 * Math.PI, y0: -1.2, y1: 1.2, xn: 'x (rad)', yn: 'y', unit: 'per radian' },
+	};
+	document.querySelectorAll<HTMLElement>('.sim.tz').forEach((root) => {
+		const q = <E extends Element>(s: string) => root.querySelector<E>(s)!;
+		const svg = q<SVGSVGElement>('.tz-svg');
+		const selF = q<HTMLSelectElement>('.tz-f'), selA = q<HTMLInputElement>('.tz-a'), selH = q<HTMLInputElement>('.tz-h');
+		const NS = 'http://www.w3.org/2000/svg';
+		const el = (tag: string, a: Record<string, string | number>, text?: string) => {
+			const e = document.createElementNS(NS, tag);
+			Object.entries(a).forEach(([k, v]) => e.setAttribute(k, String(v)));
+			if (text !== undefined) e.textContent = text;
+			svg.append(e);
+			return e;
+		};
+		const L = 60, R = 585, Tp = 15, B = 275;
+		function draw() {
+			const F = FN[selF.value];
+			const span = F.x1 - F.x0;
+			const a = F.x0 + 0.05 * span + Number(selA.value) * 0.75 * span;
+			const h = (10 ** Number(selH.value)) * (selF.value === 'dim' ? 5 : 1);
+			const px = (x: number) => L + ((x - F.x0) / span) * (R - L);
+			const py = (y: number) => B - ((y - F.y0) / (F.y1 - F.y0)) * (B - Tp);
+			svg.replaceChildren();
+			el('defs', {}).innerHTML = `<clipPath id="tz-clip"><rect x="${L}" y="${Tp}" width="${R - L}" height="${B - Tp}"/></clipPath>`;
+			el('rect', { x: L, y: Tp, width: R - L, height: B - Tp, fill: 'none', class: 's-grid w1' });
+			if (F.y0 < 0) el('line', { x1: L, y1: py(0), x2: R, y2: py(0), class: 's-muted w1' });
+			el('text', { x: (L + R) / 2, y: B + 22, class: 't-mid t-sm' }, F.xn);
+			el('text', { x: 16, y: (Tp + B) / 2, class: 't-mid t-sm', transform: `rotate(-90 16 ${(Tp + B) / 2})` }, F.yn);
+			const g = el('g', { 'clip-path': 'url(#tz-clip)' });
+			const add = (tag: string, at: Record<string, string | number>) => {
+				const e = document.createElementNS(NS, tag);
+				Object.entries(at).forEach(([k, v]) => e.setAttribute(k, String(v)));
+				g.append(e);
+			};
+			add('path', { d: Array.from({ length: 201 }, (_, i) => { const x = F.x0 + (span * i) / 200; return `${i ? 'L' : 'M'}${px(x)},${py(F.f(x))}`; }).join(' '), class: 's-fg w3' });
+			const fa = F.f(a), slope = F.d(a);
+			add('line', { x1: px(F.x0), y1: py(fa + slope * (F.x0 - a)), x2: px(F.x1), y2: py(fa + slope * (F.x1 - a)), class: 's-amber w2 dash' });
+			const sec = (F.f(a + h) - fa) / h;
+			add('line', { x1: px(F.x0), y1: py(fa + sec * (F.x0 - a)), x2: px(F.x1), y2: py(fa + sec * (F.x1 - a)), class: 's-sky w2' });
+			add('circle', { cx: px(a + h), cy: py(F.f(a + h)), r: 5, class: 'f-sky' });
+			add('circle', { cx: px(a), cy: py(fa), r: 6, class: 'f-amber' });
+			q('.tz-av').textContent = a.toFixed(3);
+			q('.tz-hv').textContent = h < 0.01 ? h.toExponential(1) : h.toFixed(3);
+			const rows = [1, 0.1, 0.01, 0.001].map((hh) => `h = ${String(hh).padEnd(6)} → ${((F.f(a + hh) - fa) / hh).toFixed(6)}`);
+			q('.tz-out').innerHTML =
+				`<span class="k">difference quotient [f(a+h) − f(a)] / h at a = ${a.toFixed(3)}:</span><br>${rows.join('<br>')}<br>` +
+				`<span class="k">current h = ${h < 0.01 ? h.toExponential(2) : h.toFixed(4)}</span> → <b>${sec.toFixed(6)}</b><br>` +
+				`<span class="k">slope of the tangent (the limit)</span> = <b style="color:var(--dg-amber)">${slope.toFixed(6)} ${F.unit}</b>`;
+		}
+		[selF, selA, selH].forEach((x) => x.addEventListener('input', draw));
+		draw();
+	});
+</script>

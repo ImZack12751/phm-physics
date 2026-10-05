@@ -1,0 +1,35 @@
+import { check, report } from './lib.mjs';
+const num = (f, x, h = 1e-6) => (f(x + h) - f(x - h)) / (2 * h);
+export default function () {
+	check('fig slopes', num((x) => x * x, -1.5), -3, 1e-6);
+	check('WE1 v10', 14.7 * 10, 147);
+	check('WE1 1.5g', 14.7 / 9.81, 1.5, 0.002);
+	const y = (x) => 3 * x ** 4 - 5 * x ** 2 + 7 * x - 2;
+	check('WE2', num(y, 1), 9, 1e-6);
+	const T = 4.737, D = (t) => 2 ** ((t - 9) / T);
+	check('WE3 k', Math.LN2 / T, 0.1463, 1e-3);
+	check('WE3', num(D, 20), 0.732, 0.002);
+	const x = (t) => 0.2 * Math.sin(2 * t);
+	check('WE4 v(1)', num(x, 1), -0.166, 0.003);
+	check('WE4 cos2', Math.cos(2), -0.416, 0.002);
+	check('WE4 a=-4x', num((t) => num(x, t, 1e-4), 0.7, 1e-4), -4 * x(0.7), 1e-4);
+	const peri = 147.095 / 149.598, aph = 152.1 / 149.598;
+	check('WE5 r near', peri, 0.9833, 1e-4); check('WE5 r far', aph, 1.0167, 1e-4);
+	check('WE5 est near', 1361 + 2722 * 0.0167, 1406.5, 1e-4);
+	check('WE5 exact near', 1361 / 0.9833 ** 2, 1407.6, 1e-4);
+	check('WE5 exact far', 1361 / 1.0167 ** 2, 1316.6, 1e-4);
+	check('P2', num((x) => 2 * x * x - 3 * x + 1, 2), 5, 1e-6);
+	check('P4a', num(Math.sqrt, 9), 1 / 6, 1e-6);
+	check('P5', 1000 + 14.7 * 60, 1882);
+	check('P7 k', Math.LN2 / 87.7, 7.9e-3, 0.002);
+	check('P7', -(Math.LN2 / 87.7) * 100, -0.79, 0.002);
+	check('P8', 0.1463 * 21.6, 3.16, 0.002);
+	check('P9 v(1)', 3 * 1 - 12 * 1 + 9, 0);
+	check('P9 v(3)', 3 * 9 - 12 * 3 + 9, 0);
+	check('P9 numeric', Math.abs(num((t) => t ** 3 - 6 * t * t + 9 * t, 3)) < 1e-6 ? 1 : 0, 1);
+	check('P10', 0.2 * 4, 0.8);
+	check('P11 exact', 1 - 1 / 1.05 ** 2, 0.093, 0.01);
+	check('P12', (2 ** 0.001 - 1) / 0.001, 0.6934, 1e-4);
+	check('P12 ln2', Math.LN2, 0.6931, 1e-4);
+	return report('C.3 Derivatives');
+}

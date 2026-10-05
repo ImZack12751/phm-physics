@@ -1,0 +1,30 @@
+---
+// Three rates of change from the novel, each the slope of a graph.
+const W = 170, H = 120, Y0 = 40;
+const panels = [
+	{ x: 20, title: 'distance vs time', rate: 'slope = speed (m/s)', f: (u: number) => u * u, cls: 's-amber' },
+	{ x: 215, title: 'fuel left vs time', rate: 'slope = −fuel use (kg/s)', f: (u: number) => 1 - 0.8 * u, cls: 's-sky' },
+	{ x: 410, title: 'dimming vs years', rate: 'slope = dimming rate (%/yr)', f: (u: number) => (Math.pow(2, 4 * u) - 1) / 15, cls: 's-rose' },
+];
+---
+
+<svg class="dg" viewBox="0 0 600 220" xmlns="http://www.w3.org/2000/svg">
+	{
+		panels.map((p) => {
+			const path = Array.from({ length: 41 }, (_, i) => {
+				const u = i / 40;
+				return `${i ? 'L' : 'M'}${(p.x + u * W).toFixed(1)},${(Y0 + H - p.f(u) * H * 0.9).toFixed(1)}`;
+			}).join(' ');
+			return (
+				<>
+					<text x={p.x} y="24" class="t-sm t-b">{p.title}</text>
+					<line x1={p.x} y1={Y0 + H} x2={p.x + W} y2={Y0 + H} class="s-fg w1" />
+					<line x1={p.x} y1={Y0 + H} x2={p.x} y2={Y0} class="s-fg w1" />
+					<path d={path} class={`${p.cls} w3`} />
+					<text x={p.x} y={Y0 + H + 24} class="t-sm f-muted">{p.rate}</text>
+				</>
+			);
+		})
+	}
+	<text x="20" y="210" class="t-sm f-muted">A rate of change is always "change in the thing up the side ÷ change in the thing along the bottom".</text>
+</svg>

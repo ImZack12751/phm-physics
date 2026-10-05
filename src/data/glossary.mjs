@@ -403,4 +403,65 @@ export const glossary = {
 		def: 'For two positive numbers a and b, √(ab): the value halfway between them on a logarithmic scale. The best single guess when you only know bounds.',
 		chapter: 'estimation',
 	},
+
+	// ---- C.1 Rates of change ----
+	'rate-of-change': {
+		term: 'Rate of change',
+		def: 'How much one quantity changes per unit change in another, such as metres per second or % per year. Its unit is (unit of y) per (unit of x).',
+		chapter: 'rates-of-change',
+	},
+	'average-rate': {
+		term: 'Average rate of change',
+		def: 'The change in a quantity divided by the change in what it depends on over an interval: Δy/Δx. Geometrically, the slope of the secant line.',
+		chapter: 'rates-of-change',
+	},
+	'secant-line': {
+		term: 'Secant line',
+		def: 'A straight line through two points on a curve. Its slope is the average rate of change between them.',
+		chapter: 'rates-of-change',
+	},
+	acceleration: {
+		term: 'Acceleration',
+		def: 'The rate of change of velocity, in m/s². 1.5 g means speed grows by about 14.7 m/s every second.',
+		chapter: 'rates-of-change',
+	},
+
+	// ---- C.2 Slopes of curves and limits ----
+	'tangent-line': {
+		term: 'Tangent line',
+		def: 'The straight line that just grazes a curve at a point, matching its direction there. Its slope is the instantaneous rate of change.',
+		chapter: 'slopes-and-limits',
+	},
+	'local-linearity': {
+		term: 'Local linearity',
+		def: 'The fact that a smooth curve, magnified enough around a point, looks like a straight line: its tangent.',
+		chapter: 'slopes-and-limits',
+	},
+	'difference-quotient': {
+		term: 'Difference quotient',
+		def: '[f(a + h) − f(a)] / h: the slope of the secant from a to a + h. Its limit as h → 0 is the slope at a.',
+		chapter: 'slopes-and-limits',
+	},
+	limit: {
+		term: 'Limit',
+		def: 'The value an expression gets as close as we like to as a variable approaches some value (without reaching it). Written lim as h → 0.',
+		chapter: 'slopes-and-limits',
+	},
+
+	// ---- C.3 Derivatives ----
+	derivative: {
+		term: 'Derivative',
+		def: 'The slope of a function at every point, itself a function: f′(x) or dy/dx. The derivative of position is velocity.',
+		chapter: 'derivatives',
+	},
+	differentiation: {
+		term: 'Differentiation',
+		def: 'Finding a derivative, usually with rules such as d/dx(xⁿ) = n xⁿ⁻¹.',
+		chapter: 'derivatives',
+	},
+	'second-derivative': {
+		term: 'Second derivative',
+		def: 'The derivative of the derivative, d²y/dx². The second derivative of position is acceleration.',
+		chapter: 'derivatives',
+	},
 };

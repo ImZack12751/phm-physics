@@ -4,7 +4,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import path from 'node:path';
 const dir = path.dirname(fileURLToPath(import.meta.url));
 let failed = 0;
-for (const f of readdirSync(dir).filter((f) => /^\d/.test(f) && f.endsWith('.mjs')).sort((a, b) => a.localeCompare(b, 'en', { numeric: true }))) {
+for (const f of readdirSync(dir).filter((f) => /^(\d|c\.)/i.test(f) && f.endsWith('.mjs')).sort((a, b) => a.localeCompare(b, 'en', { numeric: true }))) {
 	const mod = await import(pathToFileURL(path.join(dir, f)).href);
 	failed += mod.default();
 }

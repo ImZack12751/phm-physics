@@ -1,0 +1,353 @@
+---
+title: Rates of change
+description: How fast one quantity changes compared with another, average rates as slopes of secant lines, and the puzzle of the rate at a single instant that calculus will solve.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import ThreeRates from '../../../components/diagrams/calculus/ThreeRates.astro';
+import SecantRate from '../../../components/diagrams/calculus/SecantRate.astro';
+import AverageRate from '../../../components/sims/AverageRate.astro';
+
+## The scene
+
+Almost every question that keeps the people in the novel awake is a question about *how fast*. How fast is the Sun dimming, and is that speeding up? How fast do the *Hail Mary*'s engines use Astrophage, and will the fuel last? Once the ship is under way, how fast is it going, and how quickly is that speed growing?
+
+None of these is a single measurement. Each compares two changes: how much something changed, and over how long. That comparison is a **rate of change**. Rates are the raw material of calculus, which is the mathematics of change. This chapter starts gently, with average rates over an interval. It ends with a puzzle about the rate at a single instant, which the next two chapters solve.
+
+## Prerequisites
+
+<Prereqs notes={{ graphs: 'gradients as rates, with units of "y per unit of x"', vectors: 'the difference between speed (a scalar) and velocity (a vector)' }} />
+
+## The concept
+
+### What a rate is
+
+A <Term id="rate-of-change">rate of change</Term> tells you how much one quantity changes for each unit of change in another. Everyday rates are everywhere: kilometres per hour, litres per minute, pounds per hour of work. Each says "this much of the first thing, per one of the second thing".
+
+Physics rates almost always have *time* underneath, but they don't have to. Sunlight's intensity changes with *distance* from the Sun, for example. The rule for any rate is the same as for the gradient of a graph:
+
+<Figure caption="Three rates from the novel, each the slope of a graph. A rate's unit is always (unit up the side) per (unit along the bottom)." alt="Three small graphs side by side. Distance against time, a curve rising more and more steeply, labelled slope equals speed in metres per second. Fuel left against time, a straight line falling, labelled slope equals minus the fuel use in kilograms per second. Dimming against years, a curve that starts flat and then rises steeply, labelled slope equals dimming rate in percent per year.">
+	<ThreeRates />
+</Figure>
+
+A rate can be **negative**. If the fuel left goes *down* as time goes up, the rate of change of fuel mass is negative. We often quote the size of it ("6 grams per second of fuel use") and let the words say which way it goes.
+
+### Average rate over an interval
+
+The simplest kind of rate compares two moments. If a quantity $y$ is $y_{1}$ at time $t_{1}$ and $y_{2}$ at time $t_{2}$, then over that interval it changed by $\Delta y = y_{2} - y_{1}$ in a time $\Delta t = t_{2} - t_{1}$. Its <Term id="average-rate">average rate of change</Term> is
+
+$$
+\text{average rate} = \frac{\Delta y}{\Delta t}.
+$$
+
+On a graph, this is the slope of the straight line joining the two points. That line has a name, the <Term id="secant-line">secant line</Term>.
+
+<Figure caption="The average rate between two moments is the slope of the secant joining the two points. For this accelerating ship, the average speed between 2 s and 6 s is about 59 m/s." alt="A distance–time graph of a curve d equals 7.35 t squared rising from the origin and getting steeper. Two blue points at (2 s, 29 m) and (6 s, 265 m) are joined by a blue straight line, the secant, extended a little beyond each point. A dashed right-angled triangle below it has sides labelled delta t equals 4 s and delta d equals 235 m. Text: the secant's slope is the average speed, 235 m divided by 4 s, about 59 m/s.">
+	<SecantRate />
+</Figure>
+
+### Average speed hides what happens in between
+
+Drive 120 km in 2 hours and your average speed is 60 km/h. But during the trip you may have stopped at traffic lights and sped up on the motorway. The average squeezes the whole journey into one number and throws away the detail. A curved distance–time graph like the ship's above has a different average for every interval you pick.
+
+### Speed, velocity and average velocity
+
+In [Vectors](/part-0/vectors/) we separated *distance* (how far along your path) from *displacement* (where you ended up, with direction). Rates inherit that difference:
+
+- **Average speed** = distance travelled ÷ time taken (a scalar).
+- **Average velocity** = displacement ÷ time taken (a vector).
+
+They agree for straight-line motion in one direction, and can be wildly different otherwise. Go once round a circle and your average velocity is zero, because you ended where you began, even though your average speed was not.
+
+### A rate of a rate: acceleration
+
+The *Hail Mary* doesn't move at a steady speed: its speed keeps growing. How fast speed changes is itself a rate. The rate of change of velocity is called <Term id="acceleration">acceleration</Term>:
+
+$$
+\text{average acceleration} = \frac{\Delta v}{\Delta t},
+$$
+
+with units of (m/s) per s, written $\text{m/s}^{2}$. Now you can see what "1.5 g" means: the ship's speed grows by about $14.7$ m/s every second. Part 1 builds the whole of motion on this idea.
+
+### The puzzle: a rate at one instant
+
+A ship's speedometer shows a speed *right now*, not an average over some interval. But our formula needs two moments: $\Delta t$ can't be zero, because $\Delta y / 0$ means nothing. So what could "the speed at exactly $t = 4$ s" even mean?
+
+The natural idea is to take average speeds over shorter and shorter intervals around $t = 4$ s and see whether they settle down. Try it in the simulation below. That idea, made precise, is the subject of the next chapter.
+
+## Formulas
+
+### Average rate of change
+
+For any quantity $y$ that depends on $x$, between $x = a$ and $x = b$:
+
+$$
+\text{average rate of change} = \frac{\Delta y}{\Delta x} = \frac{y(b) - y(a)}{b - a}
+$$
+
+Here $y(b)$ means "the value of $y$ when $x = b$". This is exactly the gradient formula from [graphs](/part-0/graphs/), applied to two points of a curve.
+
+### Average velocity and average acceleration
+
+Writing $x$ for position along a line, $v$ for velocity and $t$ for time:
+
+$$
+v_{\text{avg}} = \frac{\Delta x}{\Delta t} = \frac{x_{2} - x_{1}}{t_{2} - t_{1}}, \qquad a_{\text{avg}} = \frac{\Delta v}{\Delta t} = \frac{v_{2} - v_{1}}{t_{2} - t_{1}}
+$$
+
+### Average rate for a squared quantity
+
+Many quantities in physics grow like the square of time, such as the ship's distance $d = kt^{2}$ (with $k = 7.35\ \text{m/s}^{2}$ for 1.5 g). Their average rate has a neat form. Between $t_{1}$ and $t_{2}$:
+
+$$
+\frac{\Delta d}{\Delta t} = \frac{kt_{2}^{2} - kt_{1}^{2}}{t_{2} - t_{1}} = \frac{k(t_{2}^{2} - t_{1}^{2})}{t_{2} - t_{1}}
+$$
+
+The top factorises as a difference of two squares, $t_{2}^{2} - t_{1}^{2} = (t_{2} - t_{1})(t_{2} + t_{1})$ (expand the right side to check). Cancelling the common factor $(t_{2} - t_{1})$, which isn't zero:
+
+$$
+\frac{\Delta d}{\Delta t} = k(t_{1} + t_{2})
+$$
+
+So for $d = 7.35t^{2}$, the average speed over any interval is $7.35 \times (t_{1} + t_{2})$. That equals $14.7 \times$ (the midpoint time), as the simulation's readout shows.
+
+### Relative rate
+
+Sometimes "how fast, *compared with how much there is*" matters more. The relative rate of change is
+
+$$
+\text{relative rate} = \frac{\Delta y / y}{\Delta t},
+$$
+
+usually quoted as a percentage per unit time. Exponential growth is exactly the case where the relative rate stays constant, as in [Exponentials and logarithms](/part-0/exponentials-logarithms/).
+
+## Worked examples
+
+<Example n={1} title="How fast is the fuel going?" book>
+Over one hour of thrust, the *Hail Mary*'s fuel reading drops by $21.6$ kg. What is the average rate of fuel use in grams per second?
+
+$$
+\begin{aligned}
+\text{rate} &= \frac{\Delta m}{\Delta t} = \frac{-21.6\ \text{kg}}{3600\ \text{s}} \\
+&= -6.0 \times 10^{-3}\ \text{kg/s} \\
+&= -6.0\ \text{g/s}
+\end{aligned}
+$$
+
+The minus sign says the mass is decreasing. The engines use about 6 grams of Astrophage per second, the figure quoted for the novel. (The one-hour drop is our own illustration, chosen to match.)
+</Example>
+
+<Example n={2} title="Average speed of an accelerating ship" book>
+Starting from rest at 1.5 g, the ship's distance is $d = 7.35t^{2}$ (in metres, with $t$ in seconds). Find its average speed between $t = 2.0$ s and $t = 6.0$ s.
+
+$$
+d(2.0) = 7.35 \times 2.0^{2} = 29.4\ \text{m}, \qquad d(6.0) = 7.35 \times 6.0^{2} = 264.6\ \text{m}
+$$
+
+$$
+v_{\text{avg}} = \frac{264.6\ \text{m} - 29.4\ \text{m}}{6.0\ \text{s} - 2.0\ \text{s}} = \frac{235.2\ \text{m}}{4.0\ \text{s}} = 58.8\ \text{m/s}
+$$
+
+**Check with the shortcut:** $k(t_{1} + t_{2}) = 7.35 \times (2.0 + 6.0) = 58.8$ m/s ✓.
+</Example>
+
+<Example n={3} title="Is the dimming speeding up?" book>
+The dimming model from [Exponentials and logarithms](/part-0/exponentials-logarithms/) gives 1.0% at 9 years, 5.0% at 20 years and 21.6% at 30 years. Find the average rate of dimming over each interval.
+
+$$
+\frac{5.0\% - 1.0\%}{20\ \text{yr} - 9\ \text{yr}} = \frac{4.0\%}{11\ \text{yr}} = 0.36\ \%/\text{yr}
+$$
+
+$$
+\frac{21.6\% - 5.0\%}{30\ \text{yr} - 20\ \text{yr}} = \frac{16.6\%}{10\ \text{yr}} = 1.66\ \%/\text{yr}
+$$
+
+The rate itself has grown more than fourfold. A quantity whose rate keeps increasing curves upwards on a graph, which is exactly why the forecast alarms everyone.
+</Example>
+
+<Example n={4} title="Speeds from a table">
+A probe's distance from a ship is logged every second:
+
+| $t$ (s) | 0 | 1 | 2 | 3 | 4 |
+|---|---|---|---|---|---|
+| $d$ (m) | 0 | 2.5 | 10.0 | 22.5 | 40.0 |
+
+Estimate its average speed in each one-second interval, then estimate its acceleration.
+
+Average speeds: $2.5$, $7.5$, $12.5$ and $17.5$ m/s for the four one-second intervals. (For example, $(22.5 - 10.0)\ \text{m} / 1\ \text{s} = 12.5$ m/s.)
+
+Each one-second average is $5.0$ m/s more than the one before, so the speed grows by about $5.0$ m/s every second:
+
+$$
+a \approx \frac{5.0\ \text{m/s}}{1\ \text{s}} = 5.0\ \text{m/s}^{2}.
+$$
+
+Taking differences of a table, and then differences of the differences, is how rates and rates of rates are found from real measurements.
+</Example>
+
+<Example n={5} title="Earth's average speed and average velocity">
+Earth goes half way round its orbit (radius $1.496 \times 10^{11}$ m) in half a year ($1.578 \times 10^{7}$ s). Find its average speed and the magnitude of its average velocity over that time.
+
+**Average speed.** It travels half the circumference, $\pi r$:
+
+$$
+\frac{\pi \times 1.496 \times 10^{11}\ \text{m}}{1.578 \times 10^{7}\ \text{s}} = 2.978 \times 10^{4}\ \text{m/s} \approx 29.8\ \text{km/s}
+$$
+
+**Average velocity.** Its displacement is straight across the orbit, a diameter, $2r$:
+
+$$
+\frac{2 \times 1.496 \times 10^{11}\ \text{m}}{1.578 \times 10^{7}\ \text{s}} = 1.896 \times 10^{4}\ \text{m/s} \approx 19.0\ \text{km/s}
+$$
+
+The same motion gives two different "averages": the path is curved, but the displacement is a straight line. Over a whole year the average velocity would be zero.
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** Rates of change and their averages are the starting point of calculus, developed independently by Isaac Newton and Gottfried Leibniz in the late 1600s, precisely to describe motion. Average speed, average velocity and acceleration are standard physics. Earth's orbital speed of 29.78 km/s is measured.
+
+**Weir's inventions.** The fuel and its rate of use are fictional. The "6 grams per second" figure is the novel's, as summarised by readers. The one-hour fuel drop in Worked example 1 is our own illustration.
+
+**How realistic are the numbers?** A steady 1.5 g really does add about 14.7 m/s of speed every second. Kept up for a day, that would be over 1270 km/s. Whether a fuel burn of grams per second could sustain that is a question about energy and momentum, which Parts 5 and 9 answer.
+</RealVsBook>
+
+## Interactive simulation
+
+<AverageRate />
+
+Set $t_{1} = 3.9$ s and $t_{2} = 4.1$ s, then $t_{1} = 3.99$ s and $t_{2} = 4.01$ s (as close as the slider allows). The average speed settles on one value. That value is what a speedometer would read at $t = 4$ s.
+
+## Practice set
+
+<Problem n={1} level="easy">
+A runner covers $5.0$ km in $25$ minutes. Find the average speed in km/h and in m/s.
+
+<Solution>
+$25$ min $= 25/60$ h $= 0.4167$ h. Average speed $= 5.0\ \text{km} / 0.4167\ \text{h} = 12$ km/h.
+
+In m/s: $5000\ \text{m} / 1500\ \text{s} = 3.3$ m/s (and $12 / 3.6 = 3.3$ ✓).
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy">
+A water tank holds $800$ L at 09:00 and $560$ L at 09:30. What is the average rate of change of the volume, in L/min? What does the sign mean?
+
+<Solution>
+$\dfrac{560\ \text{L} - 800\ \text{L}}{30\ \text{min}} = \dfrac{-240\ \text{L}}{30\ \text{min}} = -8.0$ L/min. The negative sign means the tank is emptying, at 8 litres per minute on average.
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy">
+What are the units of each rate? (a) the rate of change of temperature with time (b) the rate of change of sunlight intensity with distance (c) the rate of change of velocity with time.
+
+<Solution>
+(a) K/s (or °C/s, or K per hour). (b) $(\text{W/m}^{2})$ per m $= \text{W/m}^{3}$. (c) $(\text{m/s})/\text{s} = \text{m/s}^{2}$, which is acceleration.
+</Solution>
+</Problem>
+
+<Problem n={4} level="medium" book>
+Use $d = 7.35t^{2}$ (metres, seconds) to find the ship's average speed (a) from 0 to 10 s (b) from 9 to 10 s (c) from 9.9 to 10 s. What value do the answers seem to approach?
+
+<Solution>
+Using the shortcut $k(t_{1} + t_{2})$ with $k = 7.35$:
+
+(a) $7.35 \times (0 + 10) = 73.5$ m/s.
+
+(b) $7.35 \times (9 + 10) = 139.65$ m/s.
+
+(c) $7.35 \times (9.9 + 10) = 146.27$ m/s.
+
+As the interval shrinks towards $t = 10$ s, the averages approach $7.35 \times (10 + 10) = 147$ m/s. That is $14.7 \times 10$: ten seconds of adding 14.7 m/s every second.
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium">
+A car's speed rises steadily from $0$ to $27$ m/s in $9.0$ s. Find its average acceleration, and express it as a fraction of Earth's $g = 9.81\ \text{m/s}^{2}$.
+
+<Solution>
+$a_{\text{avg}} = \dfrac{27\ \text{m/s} - 0}{9.0\ \text{s}} = 3.0\ \text{m/s}^{2}$, which is $3.0/9.81 = 0.31$ g.
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium" book>
+In the dimming model, $D$ is 1.0% at $t = 9$ yr and doubles every 4.74 yr. (a) Find $D$ at $t = 13.74$ yr. (b) Find the average dimming rate from 9 to 13.74 yr. (c) Find the relative rate over that interval, in % per year of the starting dimming.
+
+<Solution>
+(a) One doubling time later: $D = 2.0\%$.
+
+(b) $\dfrac{2.0\% - 1.0\%}{4.74\ \text{yr}} = 0.21\ \%/\text{yr}$.
+
+(c) Relative change $\Delta D / D = 1.0/1.0 = 100\%$ over 4.74 yr, so the relative rate is $100\% / 4.74\ \text{yr} = 21\%$ per year. (Over a full doubling time this average overstates the continuous rate of 14.6% per year from the exponentials chapter, because the base keeps growing during the interval.)
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium">
+A probe's distances (m) at $t = 0, 2, 4, 6$ s are $0$, $12$, $48$, $108$. Estimate its average speed in each 2-second interval and its acceleration.
+
+<Solution>
+Average speeds: $12/2 = 6$, $36/2 = 18$, $60/2 = 30$ m/s. Each is 12 m/s more than the last, over 2 s, so $a \approx 12/2 = 6.0\ \text{m/s}^{2}$. (These data fit $d = 3t^{2}$.)
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium">
+Sunlight intensity is $2601$ W/m² at Venus ($0.723$ au) and $1361$ W/m² at Earth ($1.000$ au). Find the average rate of change of intensity with distance, in W/m² per au. Why is it negative?
+
+<Solution>
+$\dfrac{1361 - 2601}{1.000 - 0.723}\ \dfrac{\text{W/m}^{2}}{\text{au}} = \dfrac{-1240}{0.277} = -4.48 \times 10^{3}\ \text{W/m}^{2}$ per au.
+
+It is negative because intensity falls as distance increases.
+</Solution>
+</Problem>
+
+<Problem n={9} level="challenging">
+Show that for $y = kt^{3}$ the average rate between $t_{1}$ and $t_{2}$ is $k(t_{1}^{2} + t_{1}t_{2} + t_{2}^{2})$. (Hint: expand $(t_{2} - t_{1})(t_{2}^{2} + t_{1}t_{2} + t_{1}^{2})$.) Check it with $k = 1$, $t_{1} = 1$, $t_{2} = 2$.
+
+<Solution>
+Expanding the hint: $t_{2}^{3} + t_{1}t_{2}^{2} + t_{1}^{2}t_{2} - t_{1}t_{2}^{2} - t_{1}^{2}t_{2} - t_{1}^{3} = t_{2}^{3} - t_{1}^{3}$. So
+
+$$
+\frac{kt_{2}^{3} - kt_{1}^{3}}{t_{2} - t_{1}} = \frac{k(t_{2} - t_{1})(t_{2}^{2} + t_{1}t_{2} + t_{1}^{2})}{t_{2} - t_{1}} = k(t_{1}^{2} + t_{1}t_{2} + t_{2}^{2}).
+$$
+
+Check: directly, $(8 - 1)/(2 - 1) = 7$. The formula gives $1 + 2 + 4 = 7$ ✓.
+</Solution>
+</Problem>
+
+<Problem n={10} level="challenging" book>
+Starting from rest, how long would the *Hail Mary* need at a steady 1.5 g ($14.7$ m/s every second) to reach 1% of the speed of light? Give the answer in hours. (Part 10 shows why this simple calculation breaks down at much higher speeds.)
+
+<Solution>
+1% of $c$ is $0.01 \times 3.00 \times 10^{8} = 3.00 \times 10^{6}$ m/s. At constant acceleration, $\Delta v = a\,\Delta t$, so
+
+$$
+\Delta t = \frac{3.00 \times 10^{6}\ \text{m/s}}{14.7\ \text{m/s}^{2}} = 2.04 \times 10^{5}\ \text{s} = \frac{2.04 \times 10^{5}}{3600}\ \text{h} = 56.7\ \text{h}.
+$$
+
+About two and a third days.
+</Solution>
+</Problem>
+
+## Summary
+
+- A rate of change says how much one quantity changes per unit change in another. Its unit is (unit of $y$) per (unit of $x$), and it is negative when $y$ decreases.
+- Average rate over an interval $= \Delta y/\Delta x$, the slope of the secant line through the two points.
+- Average speed uses distance; average velocity uses displacement. Acceleration is the rate of change of velocity, in m/s².
+- For $d = kt^{2}$ the average rate over $[t_{1}, t_{2}]$ is $k(t_{1} + t_{2})$.
+- A speedometer reads a rate at one instant. Averages over shrinking intervals seem to settle on it. Making that precise is the next chapter.
+
+**Formulas from this chapter**
+
+$$
+\frac{\Delta y}{\Delta x} = \frac{y(b) - y(a)}{b - a} \qquad v_{\text{avg}} = \frac{\Delta x}{\Delta t} \qquad a_{\text{avg}} = \frac{\Delta v}{\Delta t} \qquad d = kt^{2} \Rightarrow \frac{\Delta d}{\Delta t} = k(t_{1} + t_{2})
+$$
+
+## Sources
+
+- OpenStax, *Calculus Volume 1*, §2.1 "A Preview of Calculus" (average rates and secant lines). [openstax.org](https://openstax.org/books/calculus-volume-1/pages/2-1-a-preview-of-calculus)
+- OpenStax, *University Physics Volume 1*, §3.1 "Position, Displacement, and Average Velocity" and §3.3 "Average and Instantaneous Acceleration". [§3.1](https://openstax.org/books/university-physics-volume-1/pages/3-1-position-displacement-and-average-velocity), [§3.3](https://openstax.org/books/university-physics-volume-1/pages/3-3-average-and-instantaneous-acceleration)
+- Standard gravity $9.806\,65\ \text{m/s}^{2}$ (so 1.5 g ≈ 14.7 m/s²): NIST CODATA. [physics.nist.gov](https://physics.nist.gov/cgi-bin/cuu/Value?gn)
+- Earth's orbit (1 au, 29.78 km/s): NASA NSSDCA [Earth fact sheet](https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html). Venus irradiance: [Venus fact sheet](https://nssdc.gsfc.nasa.gov/planetary/factsheet/venusfact.html).
+- History of calculus (Newton and Leibniz): *The Feynman Lectures on Physics*, Vol. I, Ch. 8 "Motion". [feynmanlectures.caltech.edu](https://www.feynmanlectures.caltech.edu/I_08.html)
+- The *Hail Mary*'s 1.5 g and the fuel-use rate (about 6 g/s) are the novel's figures, as summarised by readers. Approximate. Andy Weir, *Project Hail Mary* (2021).

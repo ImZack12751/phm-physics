@@ -1,0 +1,42 @@
+---
+// Average rate of change as the slope of the straight line (secant) joining two points on a curve.
+// Curve: a ship starting from rest at 1.5 g, d = 7.35 t² metres.
+const O = { x: 70, y: 285 }, SX = 55, SY = 0.5;
+const px = (t: number) => O.x + t * SX, py = (d: number) => O.y - d * SY;
+const d = (t: number) => 7.35 * t * t;
+const curve = Array.from({ length: 81 }, (_, i) => {
+	const t = (i / 80) * 8;
+	return `${i ? 'L' : 'M'}${px(t).toFixed(1)},${py(d(t)).toFixed(1)}`;
+}).join(' ');
+const t1 = 2, t2 = 6;
+const P1 = { x: px(t1), y: py(d(t1)) }, P2 = { x: px(t2), y: py(d(t2)) };
+const m = (P2.y - P1.y) / (P2.x - P1.x);
+const ext = 30;
+---
+
+<svg class="dg" viewBox="0 0 560 340" xmlns="http://www.w3.org/2000/svg">
+	{[0, 100, 200, 300, 400].map((v) => (
+		<>
+			<line x1={px(0)} y1={py(v)} x2={px(8)} y2={py(v)} class="s-grid w1" />
+			<text x={px(0) - 8} y={py(v) + 4} class="t-end t-sm f-muted">{v}</text>
+		</>
+	))}
+	{[0, 2, 4, 6, 8].map((t) => <text x={px(t)} y={O.y + 20} class="t-mid t-sm f-muted">{t}</text>)}
+	<line x1={px(0)} y1={O.y} x2={px(8.3)} y2={O.y} class="s-fg w2" />
+	<line x1={px(0)} y1={O.y} x2={px(0)} y2={py(490)} class="s-fg w2" />
+	<text x={px(4)} y={O.y + 42} class="t-mid t-sm">time, t (s)</text>
+	<text x="22" y={py(220)} class="t-mid t-sm" transform={`rotate(-90 22 ${py(220)})`}>distance, d (m)</text>
+
+	<path d={curve} class="s-amber w3" />
+	<line x1={P1.x - ext} y1={P1.y - m * ext} x2={P2.x + ext} y2={P2.y + m * ext} class="s-sky w2" />
+	<path d={`M${P1.x},${P1.y} L${P2.x},${P1.y} L${P2.x},${P2.y}`} class="s-fg w1 dash" />
+	<circle cx={P1.x} cy={P1.y} r="5" class="f-sky" />
+	<circle cx={P2.x} cy={P2.y} r="5" class="f-sky" />
+	<text x={(P1.x + P2.x) / 2} y={P1.y - 8} class="t-mid t-sm halo">Δt = 4 s</text>
+	<text x={P2.x + 10} y={(P1.y + P2.y) / 2 + 4} class="t-sm">Δd = 235 m</text>
+	<text x={P1.x - 10} y={P1.y - 10} class="t-end t-sm f-muted">(2 s, 29 m)</text>
+	<text x={P2.x - 10} y={P2.y - 10} class="t-end t-sm f-muted">(6 s, 265 m)</text>
+	<text x="90" y="48" class="t-sm t-b f-sky">secant: the straight line through both points</text>
+	<text x="90" y="68" class="t-sm f-sky">its slope = average speed = 235 m ÷ 4 s ≈ 59 m/s</text>
+	<text x={px(7.6)} y={py(d(7.6)) + 4} class="t-end t-sm f-amber" dx="-14">d = 7.35t²</text>
+</svg>

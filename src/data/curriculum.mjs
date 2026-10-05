@@ -37,9 +37,9 @@ export const parts = [
 		label: 'Part 0.5 · Calculus from scratch',
 		blurb: 'Rates of change and areas under curves, taught gently with physics examples only.',
 		chapters: [
-			{ slug: 'rates-of-change', title: 'Rates of change', prereqs: [], status: 'planned' },
-			{ slug: 'slopes-and-limits', title: 'Slopes of curves and limits', prereqs: [], status: 'planned' },
-			{ slug: 'derivatives', title: 'Derivatives and simple rules', prereqs: [], status: 'planned' },
+			{ slug: 'rates-of-change', title: 'Rates of change', prereqs: ['graphs', 'vectors'], status: 'review' },
+			{ slug: 'slopes-and-limits', title: 'Slopes of curves and limits', prereqs: ['rates-of-change'], status: 'review' },
+			{ slug: 'derivatives', title: 'Derivatives and simple rules', prereqs: ['slopes-and-limits', 'exponentials-logarithms', 'trigonometry'], status: 'review' },
 			{ slug: 'area-under-curves', title: 'Area under curves', prereqs: [], status: 'planned' },
 			{ slug: 'integrals', title: 'Integrals', prereqs: [], status: 'planned' },
 			{ slug: 'fundamental-theorem', title: 'The fundamental theorem of calculus', prereqs: [], status: 'planned' },

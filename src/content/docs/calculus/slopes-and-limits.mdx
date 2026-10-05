@@ -1,0 +1,358 @@
+---
+title: Slopes of curves and limits
+description: The rate at a single instant as the slope of a tangent line, found by shrinking an interval towards zero, and the idea of a limit that makes it precise.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import SecantsToTangent from '../../../components/diagrams/calculus/SecantsToTangent.astro';
+import ZoomStraight from '../../../components/diagrams/calculus/ZoomStraight.astro';
+import TangentZoom from '../../../components/sims/TangentZoom.astro';
+
+## The scene
+
+Imagine Grace in the cockpit of a ship that is speeding up every second. The display shows a speed, one number, *now*. A moment later it shows a bigger one. But the last chapter only knew how to find average speeds, which need two moments separated by some gap. So what does that display actually measure? What is the speed at a single instant, when no time passes and no distance is covered?
+
+This puzzle stumped thinkers for two thousand years. The answer, which Newton and Leibniz worked out independently, is to look at averages over shorter and shorter gaps and ask what single number they are closing in on. That idea, the *limit*, is the key that unlocks the rest of calculus and most of physics.
+
+## Prerequisites
+
+<Prereqs notes={{ 'rates-of-change': 'average rates as slopes of secant lines, and the puzzle of the instantaneous rate' }} />
+
+## The concept
+
+### From a secant to a tangent
+
+Pick a point P on a curve, and a second point Q further along. The secant PQ has a slope: the average rate between them. Now slide Q towards P. The secant swings round. As Q gets very close to P, the secant settles into one particular line through P, the one that just grazes the curve there. This line is the <Term id="tangent-line">tangent line</Term> at P.
+
+<Figure caption="As the second point Q moves towards P, the secant lines (blue) close in on the tangent at P (amber). The tangent's slope is the rate of change at P." alt="A rising curve with a point P marked in amber. Three blue secant lines go from P to points Q further along the curve, faint for the farthest Q and brighter for nearer ones, labelled 'Q far away' and 'Q closer'. They fan in towards a thick amber line through P that just touches the curve, labelled 'tangent at P: the limit'.">
+	<SecantsToTangent />
+</Figure>
+
+The slope of the tangent is the **instantaneous rate of change** at P. For a distance–time graph, it is the speed at that instant: exactly what the speedometer shows.
+
+### Up close, smooth curves look straight
+
+Why should the secants settle down at all? Zoom in on a smooth curve around a point and something remarkable happens: the curve straightens out. Under enough magnification it is indistinguishable from its tangent line. This is called <Term id="local-linearity">local linearity</Term>. The tangent is simply the straight line the curve "becomes" when you look closely enough.
+
+<Figure caption="Zooming in on the same smooth curve at the same point. The more you magnify, the more the curve looks like its tangent (dashed)." alt="Three square panels showing the same curve near the same amber point, with the tangent drawn as a dashed diagonal. In the normal view the curve clearly bends away from the tangent. Zoomed four times it bends only slightly. Zoomed fifty times the curve and the dashed tangent lie on top of each other.">
+	<ZoomStraight />
+</Figure>
+
+This is also why the Earth looks flat from where you stand. Locally, the curved surface is very nearly a plane.
+
+### The difference quotient
+
+To compute the tangent's slope at $x = a$, put the second point a small step $h$ further along, at $x = a + h$. The secant's slope is
+
+$$
+\frac{f(a + h) - f(a)}{h}.
+$$
+
+This expression is called the <Term id="difference-quotient">difference quotient</Term>. It is just "change in $y$ over change in $x$" with $\Delta x = h$. We can't simply put $h = 0$, because that gives $\tfrac{0}{0}$. But we can ask what happens to its value as $h$ gets smaller and smaller.
+
+### Limits
+
+Suppose that as $h$ gets closer and closer to 0 (but never equal to it), some expression gets as close as we like to a single number $L$. Then $L$ is called the <Term id="limit">limit</Term> of the expression as $h$ tends to 0, written
+
+$$
+\lim_{h \to 0} (\text{expression}) = L.
+$$
+
+Two features matter. First, $h$ never actually reaches 0. The limit is about the *trend*, not the value at 0, which may not exist. Second, "as close as we like" means: name any tiny tolerance and we can find values of $h$ small enough that the expression stays within it.
+
+You have met limits already without the name:
+
+- The number $e$ is the limit of $(1 + \tfrac{1}{n})^{n}$ as $n$ grows without bound ([Exponentials](/part-0/exponentials-logarithms/)).
+- The small-angle approximation says that $\dfrac{\sin\theta}{\theta}$ gets closer and closer to 1 as $\theta \to 0$ ([Trigonometry](/part-0/trigonometry/)): $\lim_{\theta \to 0} \dfrac{\sin\theta}{\theta} = 1$.
+
+### The slope at a point
+
+Putting this together, the slope of a curve $y = f(x)$ at $x = a$, also called its rate of change at $a$, is
+
+$$
+f'(a) = \lim_{h \to 0} \frac{f(a + h) - f(a)}{h}.
+$$
+
+The notation $f'(a)$ (read "$f$ prime of $a$") is one way to write it. Another, due to Leibniz, is $\dfrac{dy}{dx}$, which you can read as "a tiny change in $y$ divided by the tiny change in $x$ that caused it". The next chapter calls this quantity the **derivative** and builds rules for finding it quickly.
+
+### When there is no slope
+
+The limit doesn't always exist. A graph with a sharp corner, like the path of a ball that bounces off a wall, has no single tangent at the corner. Secants from the left settle on one slope and secants from the right settle on another. Smooth motion has no corners, which is why physics can use slopes everywhere.
+
+## Formulas
+
+### The slope of a squared quantity
+
+Take $f(t) = kt^{2}$ (the ship's distance has this form, with $k = 7.35\ \text{m/s}^{2}$). At $t = a$:
+
+$$
+\begin{aligned}
+\frac{f(a + h) - f(a)}{h} &= \frac{k(a + h)^{2} - ka^{2}}{h} \\
+&= \frac{k(a^{2} + 2ah + h^{2}) - ka^{2}}{h} \\
+&= \frac{k(2ah + h^{2})}{h} \\
+&= k(2a + h) \qquad (h \neq 0,\ \text{so we may cancel it})
+\end{aligned}
+$$
+
+As $h \to 0$, the term $kh$ shrinks to nothing, leaving
+
+$$
+f'(a) = 2ka.
+$$
+
+The trick, which works again and again, is to simplify the difference quotient *before* letting $h$ shrink. Once the troublesome $h$ in the denominator has cancelled, nothing blows up.
+
+### The slope of an inverse-square quantity
+
+Inverse-square laws give quantities like $f(r) = \dfrac{C}{r^{2}}$. At $r = a$, put both fractions over a common denominator:
+
+$$
+\begin{aligned}
+\frac{f(a + h) - f(a)}{h} &= \frac{1}{h}\left(\frac{C}{(a + h)^{2}} - \frac{C}{a^{2}}\right) \\
+&= \frac{C}{h} \cdot \frac{a^{2} - (a + h)^{2}}{a^{2}(a + h)^{2}} \\
+&= \frac{C}{h} \cdot \frac{-2ah - h^{2}}{a^{2}(a + h)^{2}} \\
+&= \frac{C(-2a - h)}{a^{2}(a + h)^{2}}
+\end{aligned}
+$$
+
+Now let $h \to 0$:
+
+$$
+f'(a) = \frac{-2aC}{a^{4}} = -\frac{2C}{a^{3}}.
+$$
+
+The minus sign says the quantity falls as $r$ grows, as it should.
+
+### The tangent line itself
+
+The tangent at $x = a$ passes through $(a, f(a))$ with slope $f'(a)$. Using $y = mx + c$ through that point gives
+
+$$
+y = f(a) + f'(a)\,(x - a).
+$$
+
+Because of local linearity, this line is an excellent approximation to the curve near $a$:
+
+$$
+f(a + h) \approx f(a) + f'(a)\,h \qquad (h\ \text{small}).
+$$
+
+## Worked examples
+
+<Example n={1} title="The ship's speed at exactly 4 seconds" book>
+The ship's distance is $d = 7.35t^{2}$ (metres, seconds). Find its speed at $t = 4.0$ s, first numerically and then exactly.
+
+**Numerically**, the difference quotient $\dfrac{d(4 + h) - d(4)}{h}$ gives:
+
+| $h$ (s) | 1 | 0.1 | 0.01 | 0.001 |
+|---|---|---|---|---|
+| quotient (m/s) | 66.15 | 59.535 | 58.8735 | 58.80735 |
+
+The values close in on 58.8 m/s.
+
+**Exactly**, using $f'(a) = 2ka$ from the Formulas section:
+
+$$
+v(4.0\ \text{s}) = 2 \times 7.35\ \text{m/s}^{2} \times 4.0\ \text{s} = 58.8\ \text{m/s}.
+$$
+
+The quotient is $7.35(8 + h)$, so the extra bit, $7.35h$, is exactly what shrinks away. (Compare the last chapter's average over 2 to 6 s, also 58.8 m/s. For this curve, the average over an interval equals the instantaneous speed at its midpoint.)
+</Example>
+
+<Example n={2} title="How fast is the Sun dimming at year 20?" book>
+In the dimming model, $D(t) = 2^{(t - 9)/4.737}$ percent. Estimate the rate of dimming at $t = 20$ years using the difference quotient.
+
+$D(20) = 2^{11/4.737} = 5.000\%$. With $h$ in years:
+
+| $h$ | 1 | 0.1 | 0.01 | 0.001 |
+|---|---|---|---|---|
+| $\dfrac{D(20 + h) - D(20)}{h}$ (%/yr) | 0.788 | 0.737 | 0.732 | 0.732 |
+
+The rate at year 20 is about **0.73% per year**, twice the average of 0.36%/yr between years 9 and 20 found last chapter. The next chapter finds the exact value with a rule.
+</Example>
+
+<Example n={3} title="Checking the small-angle limit">
+Show numerically that $\dfrac{\sin x}{x} \to 1$ as $x \to 0$ ($x$ in radians).
+
+| $x$ | 0.5 | 0.1 | 0.01 | 0.001 |
+|---|---|---|---|---|
+| $\sin x / x$ | 0.958851 | 0.998334 | 0.999983 | 0.99999983 |
+
+The values approach 1. At $x = 0$ the expression is $0/0$ and has no value, but the limit is perfectly definite. This limit is what makes the slope of $\sin x$ come out neatly in the next chapter. It only works in radians.
+</Example>
+
+<Example n={4} title="How quickly does sunlight fade with distance?" book>
+At $r$ au from the Sun, the intensity is $I(r) = \dfrac{1361}{r^{2}}$ W/m². Find the rate of change of intensity with distance at Earth's orbit ($r = 1$ au), and use it to estimate the intensity at $1.01$ au.
+
+Using $f'(a) = -\dfrac{2C}{a^{3}}$ with $C = 1361$ and $a = 1$:
+
+$$
+I'(1) = -\frac{2 \times 1361}{1^{3}} = -2722\ \frac{\text{W/m}^{2}}{\text{au}}.
+$$
+
+Tangent-line estimate, with $h = 0.01$ au:
+
+$$
+I(1.01) \approx 1361 + (-2722)(0.01) = 1361 - 27.2 = 1333.8\ \text{W/m}^{2}.
+$$
+
+The exact value is $1361/1.01^{2} = 1334.2$ W/m², so the estimate is within 0.03%. A 1% increase in distance gives about a 2% drop in sunlight. That rule of thumb comes straight from the slope.
+</Example>
+
+<Example n={5} title="A curve with a corner">
+A probe flies at a steady $3.0$ m/s towards a wall, bounces, and comes straight back at $3.0$ m/s. Its distance from the wall is $x = 3.0\,|t|$ metres, with $t = 0$ at the bounce. Does it have a velocity at $t = 0$?
+
+From the right ($h > 0$): $\dfrac{3.0|h| - 0}{h} = +3.0$ m/s. From the left ($h < 0$): $\dfrac{3.0|h|}{h} = -3.0$ m/s.
+
+The two one-sided limits disagree, so there is no single limit and no velocity at the instant of the bounce. In reality, a bounce takes a short time, during which the velocity changes smoothly from $-3.0$ to $+3.0$ m/s. The corner is an idealisation.
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** Limits and tangent slopes are the foundation of differential calculus, invented independently by Newton (who called them "fluxions") and Leibniz in the late 1600s and put on a rigorous footing in the 1800s. Instantaneous velocity is defined exactly this way. The 1%-farther, 2%-less-light rule is a correct consequence of the inverse-square law.
+
+**Weir's inventions.** The dimming curve is the novel's (our exponential model is fitted to its two quoted figures).
+
+**How realistic is it?** A spacecraft's instruments measure velocity from radar or radio Doppler shifts, not by literally dividing tiny distances by tiny times. But what they report *is* the instantaneous velocity, the limit of average velocities, and calculus is how mission controllers turn those readings into positions and predictions.
+</RealVsBook>
+
+## Interactive simulation
+
+<TangentZoom />
+
+Things to try: on the ship curve, put the point near $t = 4$ s and shrink $h$, watching the quotient approach 58.8. On the sine curve, put the point at the top of a hump. What is the slope there? Then put it where the curve crosses zero.
+
+## Practice set
+
+<Problem n={1} level="easy">
+For $f(x) = x^{2}$, compute the difference quotient $\dfrac{f(3 + h) - f(3)}{h}$ for $h = 1$, $0.1$ and $0.01$. What does it approach?
+
+<Solution>
+The quotient simplifies to $6 + h$ (using the result with $k = 1$, $a = 3$). So: $h = 1$ gives $7$, $h = 0.1$ gives $6.1$, and $h = 0.01$ gives $6.01$. It approaches $6$, which is $f'(3) = 2 \times 3$.
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy">
+Evaluate the limits: (a) $\displaystyle\lim_{h \to 0}(5 + 2h)$ (b) $\displaystyle\lim_{h \to 0}\frac{h^{2} + 4h}{h}$ (c) $\displaystyle\lim_{h \to 0}(3 - h)^{2}$.
+
+<Solution>
+(a) $5$.
+
+(b) Simplify first: $\dfrac{h(h + 4)}{h} = h + 4 \to 4$.
+
+(c) $(3 - 0)^{2} = 9$. (When nothing goes wrong at $h = 0$, the limit is just the value.)
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy" book>
+Using $f'(a) = 2ka$, find the speed of the ship ($d = 7.35t^{2}$) at $t = 1.0$, $5.0$ and $10$ s. By how much does the speed grow each second?
+
+<Solution>
+$v = 2 \times 7.35 \times t = 14.7t$, giving $14.7$, $73.5$ and $147$ m/s. It grows by $14.7$ m/s every second, which is the acceleration, 1.5 g.
+</Solution>
+</Problem>
+
+<Problem n={4} level="medium">
+Find the tangent line to $y = x^{2}$ at $x = 2$, and use it to estimate $2.1^{2}$. Compare with the exact value.
+
+<Solution>
+$f(2) = 4$ and $f'(2) = 4$, so the tangent is $y = 4 + 4(x - 2)$. At $x = 2.1$: $4 + 4 \times 0.1 = 4.4$. Exactly, $2.1^{2} = 4.41$. The error is $0.01$, which is $h^{2}$, tiny when $h$ is small.
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium">
+Find, from the definition, the slope of $f(x) = x^{3}$ at $x = a$. (Hint: $(a + h)^{3} = a^{3} + 3a^{2}h + 3ah^{2} + h^{3}$.)
+
+<Solution>
+$$
+\frac{(a + h)^{3} - a^{3}}{h} = \frac{3a^{2}h + 3ah^{2} + h^{3}}{h} = 3a^{2} + 3ah + h^{2} \to 3a^{2}.
+$$
+
+So $f'(a) = 3a^{2}$.
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium">
+Find, from the definition, the slope of $f(x) = \dfrac{1}{x}$ at $x = a$ (with $a \neq 0$).
+
+<Solution>
+$$
+\frac{1}{h}\left(\frac{1}{a + h} - \frac{1}{a}\right) = \frac{1}{h} \cdot \frac{a - (a + h)}{a(a + h)} = \frac{-1}{a(a + h)} \to -\frac{1}{a^{2}}.
+$$
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium" book>
+Using $I(r) = 1361/r^{2}$ W/m² ($r$ in au), find the rate of change of intensity at Mars's orbit, $r = 1.524$ au. Why is it smaller in size than at Earth?
+
+<Solution>
+$I'(r) = -\dfrac{2 \times 1361}{r^{3}} = -\dfrac{2722}{1.524^{3}} = -\dfrac{2722}{3.540} = -769$ W/m² per au.
+
+It is smaller in size because the light is already weaker and the curve is flatter there. In relative terms it is the same: $I'/I = -2/r$, so a 1% change in distance still gives about a 2% change in light.
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium">
+Compute $\dfrac{e^{h} - 1}{h}$ for $h = 0.1$, $0.01$ and $0.001$. What limit does it seem to have? (This turns out to be the key to the slope of $e^{x}$ in the next chapter.)
+
+<Solution>
+$h = 0.1$: $(1.105171 - 1)/0.1 = 1.05171$. $h = 0.01$: $1.005017$. $h = 0.001$: $1.000500$. It tends to $1$.
+</Solution>
+</Problem>
+
+<Problem n={9} level="challenging">
+Use the tangent-line approximation $f(a + h) \approx f(a) + f'(a)h$ to estimate $\sqrt{4.1}$, given that the slope of $\sqrt{x}$ at $x = 4$ is $0.25$. Compare with a calculator.
+
+<Solution>
+$\sqrt{4.1} \approx \sqrt{4} + 0.25 \times 0.1 = 2 + 0.025 = 2.025$. A calculator gives $2.024846$, so the error is about $0.00015$.
+</Solution>
+</Problem>
+
+<Problem n={10} level="challenging" book>
+Show that for $d = kt^{2}$, the average speed over $[a - h,\ a + h]$ (an interval centred on $a$) equals the instantaneous speed at $a$ exactly, for any $h$. Use it to explain the remark at the end of Worked example 1.
+
+<Solution>
+$$
+\frac{k(a + h)^{2} - k(a - h)^{2}}{2h} = \frac{k[(a^{2} + 2ah + h^{2}) - (a^{2} - 2ah + h^{2})]}{2h} = \frac{4kah}{2h} = 2ka.
+$$
+
+That is exactly $f'(a)$, with no $h$ left over. The interval from 2 to 6 s is centred on 4 s, so its average speed equals the speed at 4 s: 58.8 m/s. (This symmetric quotient is also why calculators and computers often use centred differences: they are more accurate.)
+</Solution>
+</Problem>
+
+<Problem n={11} level="challenging">
+For $f(x) = |x|$, compute the difference quotient at $x = 0$ for $h = 0.1$ and $h = -0.1$. Does $f$ have a slope at 0? Does $g(x) = x^{2}$?
+
+<Solution>
+$f$: for $h = 0.1$, $0.1/0.1 = 1$. For $h = -0.1$, $0.1/(-0.1) = -1$. The one-sided values disagree for every $h$, so there is no limit and no slope at 0 (a corner).
+
+$g$: the quotient is $(h^{2} - 0)/h = h \to 0$ from both sides. So $g$ has slope 0 at the bottom of its smooth valley.
+</Solution>
+</Problem>
+
+## Summary
+
+- The instantaneous rate of change at a point is the slope of the tangent line there, the line the secants close in on as the second point approaches.
+- Smooth curves are locally linear: zoomed in, they look like their tangent.
+- The difference quotient $\dfrac{f(a + h) - f(a)}{h}$ is a secant slope. Its limit as $h \to 0$ is the slope at $a$, written $f'(a)$ or $\dfrac{dy}{dx}$.
+- A limit is the value an expression approaches as $h$ gets close to (but never equals) 0. Simplify first, then let $h$ shrink.
+- Corners have no slope. Smooth physical motion has a velocity at every instant.
+
+**Formulas from this chapter**
+
+$$
+f'(a) = \lim_{h \to 0} \frac{f(a + h) - f(a)}{h} \qquad f(t) = kt^{2} \Rightarrow f'(a) = 2ka \qquad f(r) = \frac{C}{r^{2}} \Rightarrow f'(a) = -\frac{2C}{a^{3}}
+$$
+
+$$
+y = f(a) + f'(a)(x - a) \qquad f(a + h) \approx f(a) + f'(a)\,h \qquad \lim_{x \to 0}\frac{\sin x}{x} = 1
+$$
+
+## Sources
+
+- OpenStax, *Calculus Volume 1*: §2.2 "The Limit of a Function" and §3.1 "Defining the Derivative". [§2.2](https://openstax.org/books/calculus-volume-1/pages/2-2-the-limit-of-a-function), [§3.1](https://openstax.org/books/calculus-volume-1/pages/3-1-defining-the-derivative)
+- OpenStax, *University Physics Volume 1*, §3.2 "Instantaneous Velocity and Speed". [openstax.org](https://openstax.org/books/university-physics-volume-1/pages/3-2-instantaneous-velocity-and-speed)
+- *The Feynman Lectures on Physics*, Vol. I, Ch. 8 "Motion" (speed as a limit; Zeno-style paradoxes). [feynmanlectures.caltech.edu](https://www.feynmanlectures.caltech.edu/I_08.html)
+- Solar irradiance at 1 au (1361 W/m²) and Mars's orbit (1.524 au): NASA NSSDCA [Earth](https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html) and [Mars](https://nssdc.gsfc.nasa.gov/planetary/factsheet/marsfact.html) fact sheets.
+- The dimming forecast that the model is fitted to is the novel's (Andy Weir, *Project Hail Mary*, 2021), as summarised by readers. Approximate.

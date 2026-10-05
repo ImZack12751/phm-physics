@@ -1,0 +1,46 @@
+---
+// Top: y = x² with tangents at three points. Bottom: the slope at every x, which is the line 2x.
+const X0 = 80, SX = 100; // x from -2 to 2 → 80..480
+const px = (x: number) => X0 + (x + 2) * SX;
+const TOP = { y0: 190, s: 38 }; // y = x², 0..4 → 190..38
+const BOT = { y0: 330, s: 25 }; // slope −4..4 → 430..230 around 330
+const ty = (y: number) => TOP.y0 - y * TOP.s;
+const by = (m: number) => BOT.y0 - m * BOT.s;
+const pts = [-1.5, 0, 1];
+const curve = (f: (x: number) => number, Y: (v: number) => number) =>
+	Array.from({ length: 81 }, (_, i) => {
+		const x = -2 + (4 * i) / 80;
+		return `${i ? 'L' : 'M'}${px(x).toFixed(1)},${Y(f(x)).toFixed(1)}`;
+	}).join(' ');
+---
+
+<svg class="dg" viewBox="0 0 560 450" xmlns="http://www.w3.org/2000/svg">
+	<text x="20" y="24" class="t-sm t-b">the function  y = x²</text>
+	<line x1={px(-2)} y1={TOP.y0} x2={px(2)} y2={TOP.y0} class="s-muted w1" />
+	<line x1={px(0)} y1={TOP.y0} x2={px(0)} y2="34" class="s-muted w1" />
+	<path d={curve((x) => x * x, ty)} class="s-amber w3" />
+	{pts.map((a) => {
+		const m = 2 * a, dx = 0.55;
+		return (
+			<>
+				<line x1={px(a - dx)} y1={ty(a * a - m * dx)} x2={px(a + dx)} y2={ty(a * a + m * dx)} class="s-sky w2" />
+				<circle cx={px(a)} cy={ty(a * a)} r="4.5" class="f-sky" />
+				<line x1={px(a)} y1={ty(a * a) + 6} x2={px(a)} y2={by(m) - 6} class="s-grid w1 dash" />
+			</>
+		);
+	})}
+	<text x={px(-1.5) - 8} y={ty(2.25) + 26} class="t-end t-sm f-sky halo">slope −3</text>
+	<text x={px(0)} y={ty(0) + 20} class="t-mid t-sm f-sky halo">slope 0</text>
+	<text x={px(1) + 22} y={ty(1) + 18} class="t-sm f-sky halo">slope 2</text>
+
+	<text x="20" y="226" class="t-sm t-b">its derivative: the slope at each x,  y′ = 2x</text>
+	<line x1={px(-2)} y1={BOT.y0} x2={px(2)} y2={BOT.y0} class="s-muted w1" />
+	<line x1={px(0)} y1={by(4.2)} x2={px(0)} y2={by(-4.2)} class="s-muted w1" />
+	<path d={curve((x) => 2 * x, by)} class="s-green w3" />
+	{pts.map((a) => <circle cx={px(a)} cy={by(2 * a)} r="4.5" class="f-green" />)}
+	<text x={px(-1.5) + 10} y={by(-3) + 5} class="t-sm f-green">−3</text>
+	<text x={px(0) + 10} y={by(0) + 16} class="t-sm f-green">0</text>
+	<text x={px(1) + 10} y={by(2) + 5} class="t-sm f-green">2</text>
+	{[-2, -1, 1, 2].map((x) => <text x={px(x)} y="446" class="t-mid t-sm f-muted">{x}</text>)}
+	<text x={px(2) + 8} y={BOT.y0 + 4} class="t-sm f-muted t-it">x</text>
+</svg>

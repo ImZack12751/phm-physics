@@ -713,3 +713,11 @@ nav.sidebar a[aria-current='page'].chapter-done::after {
 .roadmap-part.planned {
 	opacity: 0.85;
 }
+
+/* A dark outline behind diagram text that has to sit over lines. */
+.dg .halo {
+	paint-order: stroke;
+	stroke: var(--dg-bg);
+	stroke-width: 5px;
+	stroke-linejoin: round;
+}

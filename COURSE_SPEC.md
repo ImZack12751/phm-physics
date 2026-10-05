@@ -126,9 +126,9 @@ Teaching order follows logical dependency, not plot order. Planned chapters have
 
 | # | Chapter | Path | Prerequisites | Status |
 |---|---|---|---|---|
-| C.1 | Rates of change | `calculus/rates-of-change` | – | planned |
-| C.2 | Slopes of curves and limits | `calculus/slopes-and-limits` | – | planned |
-| C.3 | Derivatives and simple rules | `calculus/derivatives` | – | planned |
+| C.1 | Rates of change | `calculus/rates-of-change` | 0.9, 0.7 | written, awaiting review |
+| C.2 | Slopes of curves and limits | `calculus/slopes-and-limits` | C.1 | written, awaiting review |
+| C.3 | Derivatives and simple rules | `calculus/derivatives` | C.2, 0.8, 0.6 | written, awaiting review |
 | C.4 | Area under curves | `calculus/area-under-curves` | – | planned |
 | C.5 | Integrals | `calculus/integrals` | – | planned |
 | C.6 | The fundamental theorem of calculus | `calculus/fundamental-theorem` | – | planned |
@@ -280,7 +280,7 @@ Brief biology and chemistry sidebars are added only where the plot's physics dep
 Source of truth: `src/data/glossary.mjs`.
 
 <!-- AUTO:glossary -->
-76 terms.
+87 terms.
 
 | Term | id | First chapter |
 |---|---|---|
@@ -360,6 +360,17 @@ Source of truth: `src/data/glossary.mjs`.
 | Order of magnitude | `order-of-magnitude` | 0.10 |
 | Fermi problem | `fermi-problem` | 0.10 |
 | Geometric mean | `geometric-mean` | 0.10 |
+| Rate of change | `rate-of-change` | C.1 |
+| Average rate of change | `average-rate` | C.1 |
+| Secant line | `secant-line` | C.1 |
+| Acceleration | `acceleration` | C.1 |
+| Tangent line | `tangent-line` | C.2 |
+| Local linearity | `local-linearity` | C.2 |
+| Difference quotient | `difference-quotient` | C.2 |
+| Limit | `limit` | C.2 |
+| Derivative | `derivative` | C.3 |
+| Differentiation | `differentiation` | C.3 |
+| Second derivative | `second-derivative` | C.3 |
 <!-- /AUTO:glossary -->
 
 ---
@@ -369,7 +380,7 @@ Source of truth: `src/data/glossary.mjs`.
 Source of truth: `src/data/formulas.mjs`.
 
 <!-- AUTO:formulas -->
-44 formulas.
+54 formulas.
 
 | Formula | id | First chapter | LaTeX |
 |---|---|---|---|
@@ -417,6 +428,16 @@ Source of truth: `src/data/formulas.mjs`.
 | Order of magnitude | `order-of-magnitude` | 0.10 | `10^{\,\text{round}(\log_{10}x)} \qquad \text{boundary: } \sqrt{10} \approx 3.16` |
 | Geometric mean of bounds | `geometric-mean` | 0.10 | `g = \sqrt{ab}` |
 | Combining error factors in a product | `error-factors` | 0.10 | `\text{worst case } f^{\,n} \qquad \text{typical} \approx f^{\sqrt{n}}` |
+| Average rate of change | `average-rate` | C.1 | `\dfrac{\Delta y}{\Delta x} = \dfrac{y(b) - y(a)}{b - a}` |
+| Average velocity and acceleration | `average-velocity-acceleration` | C.1 | `v_{\text{avg}} = \dfrac{\Delta x}{\Delta t} \qquad a_{\text{avg}} = \dfrac{\Delta v}{\Delta t}` |
+| Average rate of kt² | `average-rate-squared` | C.1 | `d = kt^{2} \;\Rightarrow\; \dfrac{\Delta d}{\Delta t} = k(t_{1} + t_{2})` |
+| Slope at a point (definition of the derivative) | `derivative-definition` | C.2 | `f'(a) = \lim_{h \to 0} \dfrac{f(a + h) - f(a)}{h}` |
+| Tangent line and linear approximation | `tangent-approx` | C.2 | `y = f(a) + f'(a)(x - a) \qquad f(a + h) \approx f(a) + f'(a)\,h` |
+| A key limit | `sinx-over-x` | C.2 | `\lim_{x \to 0} \dfrac{\sin x}{x} = 1 \qquad \lim_{h \to 0} \dfrac{e^{h} - 1}{h} = 1` |
+| Power, constant-multiple and sum rules | `power-rule` | C.3 | `\dfrac{d}{dx}x^{n} = nx^{n-1} \qquad \dfrac{d}{dx}[c\,f + g] = c\,f' + g' \qquad \dfrac{d}{dx}c = 0` |
+| Derivatives of eˣ, sin and cos | `exp-trig-derivatives` | C.3 | `\dfrac{d}{dx}e^{x} = e^{x} \qquad \dfrac{d}{dx}\sin x = \cos x \qquad \dfrac{d}{dx}\cos x = -\sin x` |
+| Scaling rule | `scaling-rule` | C.3 | `\dfrac{d}{dx}f(kx) = k\,f'(kx) \qquad \dfrac{d}{dt}e^{kt} = ke^{kt}` |
+| Velocity and acceleration as derivatives | `velocity-acceleration` | C.3 | `v = \dfrac{dx}{dt} \qquad a = \dfrac{dv}{dt} = \dfrac{d^{2}x}{dt^{2}}` |
 <!-- /AUTO:formulas -->
 
 ---
@@ -431,6 +452,7 @@ All constants and book figures used so far, each with its source, are in `script
 - Planet irradiance (NASA): Mercury 9082.7, Venus 2601.3, Mars 586.2, Jupiter 50.26, Saturn 14.82 W/m².
 - Tau Ceti: parallax 273.8097 ± 0.1701 mas (SIMBAD/Gaia) → 11.912 ly. Luminosity 0.49 to 0.52 L☉ (we use 0.52, and say so).
 - **Book figures (approximate, from the novel via reader guides and the Royal Institution article):** Astrophage 10 µm across, held at 96.415 °C. The *Hail Mary* accelerates at 1.5 g. Ship time about 3.75 yr, Earth time about 13 yr. Fuel about 2 × 10⁶ kg. Engines burn about 6 g/s. Dimming forecast: about 1% in about 9 yr and 5% in about 20 yr.
+- Calculus examples reuse the ship at 1.5 g as d = 7.35t² m (v = 14.7t m/s) and the dimming model D = 2^((t−9)/4.737) %, with dD/dt = 0.1463·D per year.
 - Open question for Part 5: is 2 × 10⁶ kg of fuel at 6 g/s consistent with the trip's duration (2 × 10⁶ / 0.006 s ≈ 10.6 yr of continuous burn, compared with about 3.75 yr of ship time)? Check against the novel, which may have several drives, before relying on it.
 
 ---
@@ -439,3 +461,4 @@ All constants and book figures used so far, each with its source, are in `script
 
 - **Session 1 (2026-10-05).** Built the site frame (Astro 7 + Starlight, KaTeX, overrides), the space theme (starfield, glass, hero, animations), all site features (sidebar by Part, progress tracking, glossary with tooltips, formula sheet, physics map, print stylesheet, Ask Claude with selection button, /raw/ markdown export), the verification and check scripts, the GitHub Actions deploy workflow, the README, and all of Part 0 (0.1 to 0.10, 119 practice problems, 10 simulations, 21 diagrams). Part 0 is marked `review`, waiting for the author's feedback on depth, style and difficulty. **Next session:** apply the review feedback, then start Part 0.5 with C.1 Rates of change.
 - **Session 1b (2026-10-05).** Redesigned the UI to be more mature and formal: serif display type, one gold accent, hairline panels, numbered sections, a navigation-chart hero and a calmer starfield. Added collapsible sidebars and focus mode. Pushed to GitHub.
+- **Session 2 (2026-10-05).** Found a deploy bug: re-running an *old* Actions run redeployed old code over newer code. The workflow now refuses to deploy any commit that isn't the tip of `main`. Wrote the first half of Part 0.5: C.1 Rates of change, C.2 Slopes of curves and limits, C.3 Derivatives and simple rules (33 practice problems, 3 simulations, 6 diagrams). They define velocity and acceleration as derivatives, ready for Part 1. Diagram labels that sit over lines use the `halo` class. **Next:** C.4 Area under curves, C.5 Integrals, C.6 The fundamental theorem.

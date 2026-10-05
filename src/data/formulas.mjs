@@ -323,4 +323,77 @@ export const formulas = [
 		where: 'For n independent factors each uncertain by a factor f. A squared input squares its error factor.',
 		chapter: 'estimation',
 	},
+	// ---- C.1 Rates of change ----
+	{
+		id: 'average-rate',
+		name: 'Average rate of change',
+		tex: '\\dfrac{\\Delta y}{\\Delta x} = \\dfrac{y(b) - y(a)}{b - a}',
+		where: 'Slope of the secant between x = a and x = b.',
+		chapter: 'rates-of-change',
+	},
+	{
+		id: 'average-velocity-acceleration',
+		name: 'Average velocity and acceleration',
+		tex: 'v_{\\text{avg}} = \\dfrac{\\Delta x}{\\Delta t} \\qquad a_{\\text{avg}} = \\dfrac{\\Delta v}{\\Delta t}',
+		where: 'x position (m), v velocity (m/s), a acceleration (m/s²), t time (s).',
+		chapter: 'rates-of-change',
+	},
+	{
+		id: 'average-rate-squared',
+		name: 'Average rate of kt²',
+		tex: 'd = kt^{2} \\;\\Rightarrow\\; \\dfrac{\\Delta d}{\\Delta t} = k(t_{1} + t_{2})',
+		where: 'From the difference of two squares.',
+		chapter: 'rates-of-change',
+	},
+	// ---- C.2 Slopes of curves and limits ----
+	{
+		id: 'derivative-definition',
+		name: 'Slope at a point (definition of the derivative)',
+		tex: "f'(a) = \\lim_{h \\to 0} \\dfrac{f(a + h) - f(a)}{h}",
+		where: 'Simplify the difference quotient first, then let h shrink.',
+		chapter: 'slopes-and-limits',
+	},
+	{
+		id: 'tangent-approx',
+		name: 'Tangent line and linear approximation',
+		tex: "y = f(a) + f'(a)(x - a) \\qquad f(a + h) \\approx f(a) + f'(a)\\,h",
+		where: 'Accurate for small h (local linearity).',
+		chapter: 'slopes-and-limits',
+	},
+	{
+		id: 'sinx-over-x',
+		name: 'A key limit',
+		tex: '\\lim_{x \\to 0} \\dfrac{\\sin x}{x} = 1 \\qquad \\lim_{h \\to 0} \\dfrac{e^{h} - 1}{h} = 1',
+		where: 'x in radians.',
+		chapter: 'slopes-and-limits',
+	},
+	// ---- C.3 Derivatives ----
+	{
+		id: 'power-rule',
+		name: 'Power, constant-multiple and sum rules',
+		tex: "\\dfrac{d}{dx}x^{n} = nx^{n-1} \\qquad \\dfrac{d}{dx}[c\\,f + g] = c\\,f' + g' \\qquad \\dfrac{d}{dx}c = 0",
+		where: 'Power rule for any real n (x > 0 when n is not a whole number).',
+		chapter: 'derivatives',
+	},
+	{
+		id: 'exp-trig-derivatives',
+		name: 'Derivatives of eˣ, sin and cos',
+		tex: '\\dfrac{d}{dx}e^{x} = e^{x} \\qquad \\dfrac{d}{dx}\\sin x = \\cos x \\qquad \\dfrac{d}{dx}\\cos x = -\\sin x',
+		where: 'Angles in radians.',
+		chapter: 'derivatives',
+	},
+	{
+		id: 'scaling-rule',
+		name: 'Scaling rule',
+		tex: "\\dfrac{d}{dx}f(kx) = k\\,f'(kx) \\qquad \\dfrac{d}{dt}e^{kt} = ke^{kt}",
+		where: 'k a constant.',
+		chapter: 'derivatives',
+	},
+	{
+		id: 'velocity-acceleration',
+		name: 'Velocity and acceleration as derivatives',
+		tex: 'v = \\dfrac{dx}{dt} \\qquad a = \\dfrac{dv}{dt} = \\dfrac{d^{2}x}{dt^{2}}',
+		where: 'x position, t time.',
+		chapter: 'derivatives',
+	},
 ];

@@ -134,14 +134,18 @@ for (const p of pages) {
 	}
 
 	// Collapsible sidebars (desktop, pages with a sidebar)
-	if (p.startsWith('part-') || p === 'glossary/') {
+	if (p.startsWith('part-') || p.startsWith('calculus') || p === 'glossary/') {
 		const lay = await page.evaluate(async () => {
 			const btn = document.querySelector('.layout-btn[data-toggle="focus"]');
 			if (!btn) return 'no focus button';
 			btn.click();
-			await new Promise((r) => setTimeout(r, 450));
 			const h = document.documentElement;
-			const ok = h.dataset.nav === 'collapsed' && h.dataset.toc === 'collapsed' && getComputedStyle(document.querySelector('.sidebar-pane')).visibility === 'hidden';
+			const pane = document.querySelector('.sidebar-pane');
+			let ok = false;
+			for (let i = 0; i < 40 && !ok; i++) {
+				await new Promise((r) => setTimeout(r, 100));
+				ok = h.dataset.nav === 'collapsed' && h.dataset.toc === 'collapsed' && getComputedStyle(pane).visibility === 'hidden';
+			}
 			btn.click();
 			await new Promise((r) => setTimeout(r, 50));
 			return ok && !h.dataset.nav ? 'ok' : 'focus mode did not hide and restore the sidebars';

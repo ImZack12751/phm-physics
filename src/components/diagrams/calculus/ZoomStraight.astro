@@ -1,0 +1,35 @@
+---
+// Local linearity: zoom in on a smooth curve and it looks like a straight line.
+const f = (x: number) => x * x;
+const a = 1;
+const panels = [
+	{ x: 20, half: 1.0, label: 'normal view' },
+	{ x: 220, half: 0.25, label: 'zoomed ×4' },
+	{ x: 420, half: 0.02, label: 'zoomed ×50' },
+];
+const S = 160; // panel size
+const path = (half: number, ox: number) =>
+	Array.from({ length: 61 }, (_, i) => {
+		const x = a - half + (2 * half * i) / 60;
+		const u = (x - (a - half)) / (2 * half);
+		// vertical window centred on f(a) with the same aspect as the slope (2) so the tangent is a diagonal
+		const v = (f(x) - (f(a) - 2 * half)) / (4 * half);
+		return `${i ? 'L' : 'M'}${(ox + u * S).toFixed(1)},${(40 + S - v * S).toFixed(1)}`;
+	}).join(' ');
+---
+
+<svg class="dg" viewBox="0 0 600 250" xmlns="http://www.w3.org/2000/svg">
+	<defs>{panels.map((p, i) => <clipPath id={`zs-${i}`}><rect x={p.x} y="40" width={S} height={S} /></clipPath>)}</defs>
+	{
+		panels.map((p, i) => (
+			<>
+				<rect x={p.x} y="40" width={S} height={S} class="s-muted w1" fill="none" />
+				<line x1={p.x} y1={40 + S} x2={p.x + S} y2="40" class="s-amber w1 dash" />
+				<path d={path(p.half, p.x)} class="s-fg w3" clip-path={`url(#zs-${i})`} />
+				<circle cx={p.x + S / 2} cy={40 + S / 2} r="4" class="f-amber" />
+				<text x={p.x + S / 2} y="226" class="t-mid t-sm">{p.label}</text>
+			</>
+		))
+	}
+	<text x="20" y="24" class="t-sm f-muted">The same curve around the same point. Dashed: the tangent line. Up close, curve and tangent merge.</text>
+</svg>
