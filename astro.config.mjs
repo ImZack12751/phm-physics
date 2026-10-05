@@ -47,8 +47,9 @@ export default defineConfig({
 			logo: { src: './src/assets/logo.svg', alt: '' },
 			customCss: [
 				'@fontsource-variable/inter',
-				'@fontsource-variable/space-grotesk',
-				'@fontsource-variable/jetbrains-mono',
+				'@fontsource-variable/source-serif-4',
+				'@fontsource/ibm-plex-mono/400.css',
+				'@fontsource/ibm-plex-mono/500.css',
 				'katex/dist/katex.min.css',
 				'./src/styles/theme.css',
 				'./src/styles/components.css',
@@ -62,6 +63,7 @@ export default defineConfig({
 				PageTitle: './src/components/overrides/PageTitle.astro',
 				Hero: './src/components/overrides/Hero.astro',
 				SkipLink: './src/components/overrides/SkipLink.astro',
+				SocialIcons: './src/components/overrides/SocialIcons.astro',
 			},
 			sidebar: [
 				{

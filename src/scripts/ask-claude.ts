@@ -19,7 +19,7 @@ const INSTRUCTION =
 	'I am a beginner working through this course. Explain my doubt from the ground up, using only ideas from this chapter and earlier ones unless you explicitly teach the new idea first. My doubt: ';
 
 const ICON =
-	'<svg aria-hidden="true" viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M12 2l1.9 5.6L19.5 9.5l-5.6 1.9L12 17l-1.9-5.6L4.5 9.5l5.6-1.9zM19 14l.9 2.6 2.6.9-2.6.9L19 21l-.9-2.6-2.6-.9 2.6-.9z"/></svg>';
+	'<svg aria-hidden="true" viewBox="0 0 24 24" width="12" height="12"><path fill="currentColor" d="M12 2l1.9 5.6L19.5 9.5l-5.6 1.9L12 17l-1.9-5.6L4.5 9.5l5.6-1.9zM19 14l.9 2.6 2.6.9-2.6.9L19 21l-.9-2.6-2.6-.9 2.6-.9z"/></svg>';
 
 const metaEl = document.getElementById('phm-chapter-meta');
 const content = document.querySelector<HTMLElement>('.sl-markdown-content');

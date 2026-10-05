@@ -133,6 +133,22 @@ for (const p of pages) {
 		if (ask.tip && ask.tip !== 'block') fail(p, 'glossary tooltip did not open on focus');
 	}
 
+	// Collapsible sidebars (desktop, pages with a sidebar)
+	if (p.startsWith('part-') || p === 'glossary/') {
+		const lay = await page.evaluate(async () => {
+			const btn = document.querySelector('.layout-btn[data-toggle="focus"]');
+			if (!btn) return 'no focus button';
+			btn.click();
+			await new Promise((r) => setTimeout(r, 450));
+			const h = document.documentElement;
+			const ok = h.dataset.nav === 'collapsed' && h.dataset.toc === 'collapsed' && getComputedStyle(document.querySelector('.sidebar-pane')).visibility === 'hidden';
+			btn.click();
+			await new Promise((r) => setTimeout(r, 50));
+			return ok && !h.dataset.nav ? 'ok' : 'focus mode did not hide and restore the sidebars';
+		});
+		if (lay !== 'ok') fail(p, lay);
+	}
+
 	// Mobile layout: no sideways scrolling
 	await page.setViewport({ width: 390, height: 844, isMobile: true, hasTouch: true });
 	await new Promise((r) => setTimeout(r, 200));

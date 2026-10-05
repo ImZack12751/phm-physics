@@ -1,12 +1,16 @@
 ---
 // Same as Starlight's ThemeProvider, but a first-time visitor gets the dark theme
-// (instead of following the operating system). Choosing "Auto" or "Light" still works.
+// (instead of following the operating system), and the reader's sidebar layout
+// (collapsed navigation / page contents) is restored before the page paints.
 import Default from '@astrojs/starlight/components/ThemeProvider.astro';
 ---
 
 <script is:inline>
 	try {
 		if (localStorage.getItem('starlight-theme') === null) localStorage.setItem('starlight-theme', 'dark');
-	} catch {}
+		var l = JSON.parse(localStorage.getItem('phm-layout-v1') || '{}');
+		if (l.nav) document.documentElement.dataset.nav = 'collapsed';
+		if (l.toc) document.documentElement.dataset.toc = 'collapsed';
+	} catch (e) {}
 </script>
 <Default />

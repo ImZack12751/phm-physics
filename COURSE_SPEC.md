@@ -42,8 +42,9 @@ A free, permanently online course that teaches physics from absolute zero, using
 
 **Design**
 
-- Dark space theme by default (deep-space background, starfield canvas, glass header and sidebar, amber→pink→sky accent gradient). Light text on dark everywhere, including inside diagrams. Never light-on-light or dark-on-dark. The light theme and print are plain and high-contrast.
-- Fonts: Inter (body), Space Grotesk (headings), JetBrains Mono (readouts), self-hosted via @fontsource.
+- A restrained, formal "mission dossier" look in a dark space theme. It has a quiet starfield, faint nebula glow, hairline rules and flat panels. **One gold accent** (`--gold`) with no rainbow gradients, glows, pills or pulsing dots. Chapter sections are numbered 01–10 automatically. Labels, chips and buttons use small uppercase mono text. Light text on dark everywhere, including inside diagrams. Never light-on-light or dark-on-dark. The light theme and print are plain and high-contrast.
+- Fonts: Source Serif 4 (h1, h2, display), Inter (body, h3), IBM Plex Mono (labels, readouts), self-hosted via @fontsource.
+- Collapsible sidebars: header buttons and the keys `[` `]` `\` hide navigation, page contents, or both (focus mode). The state is stored on `<html data-nav data-toc>` and restored before paint (`overrides/ThemeProvider.astro`, `overrides/SocialIcons.astro`, `scripts/layout.ts`, edge tabs in `overrides/SkipLink.astro`).
 - Every animation stops under `prefers-reduced-motion`.
 - Diagrams are hand-written inline SVG in `src/components/diagrams/<part>/Name.astro`, wrapped in `<Figure caption alt>`. They are simple and schematic, never decorative. Compute coordinates in the frontmatter so labels line up. Labels must not overlap and must point at the right part. Use the palette classes from `src/styles/components.css`: text `t-sm t-lg t-b t-mid t-end t-it`, strokes `s-fg s-muted s-grid s-amber s-sky s-green s-rose s-violet` with `w1 w2 w3 dash`, fills `f-…` and `f-…-soft`. Diagram and simulation panels are always dark, and switch to dark-on-white ink in print.
 - Each diagram needs a full text description in `alt` (screen readers and /raw/ markdown) and a caption.
@@ -91,7 +92,8 @@ The chapter footer ("mark complete", problem count), Ask Claude buttons and the 
 | Physics map (auto-layout DAG plus table) | `course/PhysicsMap.astro` |
 | Ask Claude (heading, example and problem buttons, selection button) | `src/scripts/ask-claude.ts`. `CLAUDE_LINK` is in `course.config.mjs` |
 | /raw/<slug>.md plain-markdown export | `src/integrations/raw-markdown.mjs` (runs after build) |
-| Space theme, starfield, hero, reveal animations | `src/styles/space.css`, `space/Starfield.astro`, `overrides/Hero.astro`, `overrides/SkipLink.astro`, `scripts/reveal.ts` |
+| Space theme, starfield, hero chart, reveal animations | `src/styles/space.css`, `space/Starfield.astro`, `overrides/Hero.astro`, `overrides/SkipLink.astro`, `scripts/reveal.ts` |
+| Collapsible sidebars / focus mode | `overrides/SocialIcons.astro`, `scripts/layout.ts`, `overrides/ThemeProvider.astro` |
 | Print stylesheet | `src/styles/print.css`, `scripts/print.ts` |
 | Base-path links in Markdown (`/part-0/x/` → `/phm-physics/part-0/x/`) | `src/plugins/rehype-base-links.mjs` |
 | Deploy | `.github/workflows/deploy.yml` (runs `npm run build:ci`) |
@@ -436,3 +438,4 @@ All constants and book figures used so far, each with its source, are in `script
 ## 9. Session log
 
 - **Session 1 (2026-10-05).** Built the site frame (Astro 7 + Starlight, KaTeX, overrides), the space theme (starfield, glass, hero, animations), all site features (sidebar by Part, progress tracking, glossary with tooltips, formula sheet, physics map, print stylesheet, Ask Claude with selection button, /raw/ markdown export), the verification and check scripts, the GitHub Actions deploy workflow, the README, and all of Part 0 (0.1 to 0.10, 119 practice problems, 10 simulations, 21 diagrams). Part 0 is marked `review`, waiting for the author's feedback on depth, style and difficulty. **Next session:** apply the review feedback, then start Part 0.5 with C.1 Rates of change.
+- **Session 1b (2026-10-05).** Redesigned the UI to be more mature and formal: serif display type, one gold accent, hairline panels, numbered sections, a navigation-chart hero and a calmer starfield. Added collapsible sidebars and focus mode. Pushed to GitHub.

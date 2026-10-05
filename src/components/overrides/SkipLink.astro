@@ -1,9 +1,12 @@
 ---
-// Starlight's skip link, plus the animated space backdrop and reading-progress bar
-// (rendered here because this is the first thing inside <body>).
+// Starlight's skip link, plus the animated space backdrop, the reading-progress bar and the
+// edge tabs that bring back a collapsed sidebar (rendered here because this is the first
+// thing inside <body>, outside the header).
 import Default from '@astrojs/starlight/components/SkipLink.astro';
 import Starfield from '../space/Starfield.astro';
 ---
 
 <Default />
 <Starfield />
+<button type="button" class="layout-rail layout-rail-nav" data-toggle="nav" aria-label="Show navigation sidebar">Contents</button>
+<button type="button" class="layout-rail layout-rail-toc" data-toggle="toc" aria-label="Show page contents">On this page</button>
