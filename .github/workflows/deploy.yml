@@ -23,6 +23,15 @@ jobs:
     steps:
       - name: Check out the repository
         uses: actions/checkout@v7
+      # Re-running an old run would redeploy old code over newer code. Refuse unless this
+      # commit is still the tip of main.
+      - name: Refuse to deploy a stale commit
+        run: |
+          latest=$(git ls-remote origin refs/heads/main | cut -f1)
+          if [ "$latest" != "${{ github.sha }}" ]; then
+            echo "::error::This run is for ${{ github.sha }}, but main is now at $latest. Re-run the newest run (or push again) instead."
+            exit 1
+          fi
       - name: Install, build, verify and upload
         uses: withastro/action@v6
         with:
