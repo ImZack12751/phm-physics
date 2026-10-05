@@ -1,0 +1,13 @@
+---
+// A worked example. Number them 1, 2, 3… within a chapter.
+interface Props { n: number; title: string; book?: boolean }
+const { n, title, book = false } = Astro.props;
+---
+
+<section class="example" id={`example-${n}`} data-ask data-ask-label={`Worked example ${n}: ${title}`}>
+	<header class="box-head">
+		<span class="box-title" data-raw-heading={`Worked example ${n}: ${title}${book ? ' (book scenario)' : ''}`}>Worked example {n}: {title}{book ? ' (book scenario)' : ''}</span>
+		<span class="box-tools" data-ask-slot></span>
+	</header>
+	<div class="box-body"><slot /></div>
+</section>

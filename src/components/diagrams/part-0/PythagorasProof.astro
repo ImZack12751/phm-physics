@@ -1,0 +1,28 @@
+---
+// Four copies of a right triangle (legs a, b; hypotenuse c) inside a square of side a + b,
+// leaving a tilted square of side c in the middle.
+const X = 40, Y = 40, S = 240, a = 90; // b = S - a
+const P1 = [X + a, Y], P2 = [X + S, Y + a], P3 = [X + S - a, Y + S], P4 = [X, Y + S - a];
+const tri = (pts: number[][]) => `M${pts.map((p) => p.join(',')).join(' L')} Z`;
+---
+
+<svg class="dg" viewBox="0 0 600 320" xmlns="http://www.w3.org/2000/svg">
+	<path d={tri([[X, Y], P1, P4])} class="f-sky-soft s-sky w1" />
+	<path d={tri([[X + S, Y], P2, P1])} class="f-sky-soft s-sky w1" />
+	<path d={tri([[X + S, Y + S], P3, P2])} class="f-sky-soft s-sky w1" />
+	<path d={tri([[X, Y + S], P4, P3])} class="f-sky-soft s-sky w1" />
+	<path d={tri([P1, P2, P3, P4])} class="f-amber-soft s-amber w2" />
+	<rect x={X} y={Y} width={S} height={S} class="s-fg w2" />
+	<text x={X + a / 2} y={Y - 10} class="t-mid t-it">a</text>
+	<text x={X + a + (S - a) / 2} y={Y - 10} class="t-mid t-it">b</text>
+	<text x={X + S + 12} y={Y + a / 2 + 5} class="t-it">a</text>
+	<text x={X + S + 12} y={Y + a + (S - a) / 2 + 5} class="t-it">b</text>
+	<text x={X + 160} y={Y + 72} class="t-it f-amber">c</text>
+	<text x={X + S / 2} y={Y + S / 2 + 6} class="t-mid t-lg f-amber">c²</text>
+	<text x="330" y="90" class="t-b">Area of the big square, two ways:</text>
+	<text x="330" y="124">(a + b)²  =  c²  +  4 × ½ab</text>
+	<text x="330" y="152">a² + 2ab + b²  =  c² + 2ab</text>
+	<text x="330" y="188" class="t-b f-amber">a² + b²  =  c²</text>
+	<text x="330" y="226" class="t-sm f-muted">The four blue triangles are identical</text>
+	<text x="330" y="244" class="t-sm f-muted">copies with legs a and b.</text>
+</svg>

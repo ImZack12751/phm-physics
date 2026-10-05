@@ -1,0 +1,45 @@
+---
+// An equation is a balance: doing the same thing to both pans keeps it level.
+// Left: 2x + 3 balances 11. Right: after taking 3 from both pans, 2x balances 8.
+const scales = [
+	{ cx: 145, left: '2x + 3', right: '11' },
+	{ cx: 535, left: '2x', right: '8' },
+];
+const BEAM_Y = 62, ARM = 88, PAN = 46, RIM_Y = 132, BASE_Y = 196;
+---
+
+<svg class="dg" viewBox="0 0 680 245" xmlns="http://www.w3.org/2000/svg">
+	<defs>
+		<marker id="bal-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+			<path d="M0,0 L10,5 L0,10 z" class="f-amber" />
+		</marker>
+	</defs>
+	<text x="20" y="26" class="t-sm f-muted">An equation is a balanced scale. Do the same thing to both sides and it stays balanced.</text>
+	{
+		scales.map((s) => (
+			<g>
+				{/* post and base */}
+				<line x1={s.cx} y1={BEAM_Y} x2={s.cx} y2={BASE_Y} class="s-muted w3" />
+				<line x1={s.cx - 34} y1={BASE_Y} x2={s.cx + 34} y2={BASE_Y} class="s-muted w3" />
+				{/* beam */}
+				<line x1={s.cx - ARM} y1={BEAM_Y} x2={s.cx + ARM} y2={BEAM_Y} class="s-fg w3" />
+				<circle cx={s.cx} cy={BEAM_Y} r="5" class="f-amber" />
+				{[-1, 1].map((side) => {
+					const x = s.cx + side * ARM;
+					return (
+						<>
+							<line x1={x} y1={BEAM_Y} x2={x - PAN} y2={RIM_Y} class="s-muted w1" />
+							<line x1={x} y1={BEAM_Y} x2={x + PAN} y2={RIM_Y} class="s-muted w1" />
+							<path d={`M${x - PAN},${RIM_Y} Q${x},${RIM_Y + 30} ${x + PAN},${RIM_Y}`} class="s-sky w2 f-sky-soft" />
+							<text x={x} y={RIM_Y - 7} class="t-mid t-lg t-b">{side < 0 ? s.left : s.right}</text>
+						</>
+					);
+				})}
+				<text x={s.cx} y={BASE_Y + 24} class="t-mid t-sm f-muted">level: {s.left} = {s.right}</text>
+			</g>
+		))
+	}
+	<path d="M292,112 L390,112" class="s-amber w2" marker-end="url(#bal-arrow)" />
+	<text x="341" y="98" class="t-mid t-sm f-amber">take 3 from</text>
+	<text x="341" y="134" class="t-mid t-sm f-amber">both pans</text>
+</svg>

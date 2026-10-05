@@ -1,0 +1,362 @@
+---
+title: Vectors
+description: Quantities with a direction, how to add and subtract them, and how to split them into components, the language of motion, force and spacecraft rendezvous.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import VectorAddition from '../../../components/diagrams/part-0/VectorAddition.astro';
+import VectorComponents from '../../../components/diagrams/part-0/VectorComponents.astro';
+import VectorPlayground from '../../../components/sims/VectorPlayground.astro';
+
+## The scene
+
+At Tau Ceti, the *Hail Mary* is not alone. Another ship is already there, and getting the two together means more than reaching the same place. To meet safely, the ships must end up moving *the same way at the same speed*. Two ships can both be doing 3 km/s and still pass each other at a deadly closing speed if they are heading in different directions.
+
+Speed alone isn't enough to describe motion. You also need direction. Quantities that have both are called vectors, and nearly everything in mechanics, from velocity to force to momentum, is one. This chapter teaches how to draw them, add them, subtract them and break them into pieces.
+
+## Prerequisites
+
+<Prereqs notes={{ trigonometry: 'sine, cosine, inverse tangent and Pythagoras, which turn a direction into components and back' }} />
+
+## The concept
+
+### Scalars and vectors
+
+A <Term id="scalar">scalar</Term> is a quantity described completely by a number and a unit: a mass of 70 kg, a temperature of 300 K, a time of 5 s. A <Term id="vector">vector</Term> needs a direction too: "5 km *to the north-east*". The size part of a vector is called its <Term id="magnitude">magnitude</Term>.
+
+Several everyday words come in scalar–vector pairs:
+
+| Scalar | Vector |
+|---|---|
+| distance: how far you travelled along your route | <Term id="displacement">displacement</Term>: how far you ended up from the start, *and in which direction* |
+| speed: how fast | <Term id="velocity">velocity</Term>: how fast, *and in which direction* |
+
+Walk once round a 400 m running track and your distance is 400 m, but your displacement is zero: you're back where you began.
+
+### Drawing vectors
+
+A vector is drawn as an arrow. Its length shows the magnitude (to some scale) and it points in the vector's direction. In print, vectors are written in bold, $\mathbf{A}$, or with an arrow on top, $\vec{A}$. The magnitude is written $|\mathbf{A}|$ or simply $A$ in italics.
+
+Two arrows with the same length and direction represent **the same vector**, wherever they are drawn. A vector says "this much, that way". It doesn't say where it starts. That freedom is what makes adding them easy.
+
+### Adding vectors: head to tail
+
+If you walk along displacement $\mathbf{A}$ and then along $\mathbf{B}$, your total displacement is a single arrow from your starting point to where you finish. That arrow is $\mathbf{A} + \mathbf{B}$, called the <Term id="resultant">resultant</Term>. To draw it, place the tail of $\mathbf{B}$ at the head of $\mathbf{A}$, then draw from the very start to the very end.
+
+<Figure caption="Two equivalent ways to add vectors. Order doesn't matter: A + B = B + A, which is why the parallelogram works." alt="Left panel, head to tail: an amber arrow A goes right and slightly up, a blue arrow B starts at A's tip and goes up and to the right, and a green arrow labelled A plus B goes straight from A's tail to B's tip. Right panel, parallelogram: amber A and blue B both start from the same point; dashed copies complete a parallelogram, and the green diagonal from the common start is labelled A plus B.">
+	<VectorAddition />
+</Figure>
+
+The magnitude of a sum is usually **not** the sum of the magnitudes. Walk 3 m east then 4 m north and you are 5 m from the start, not 7 m. The magnitudes only add normally when the two vectors point the same way.
+
+### Negative vectors and subtraction
+
+$-\mathbf{B}$ is $\mathbf{B}$ turned to face the opposite way: same length, reversed direction. Subtraction is adding the negative:
+
+$$
+\mathbf{A} - \mathbf{B} = \mathbf{A} + (-\mathbf{B}).
+$$
+
+Subtraction answers "what do I have to add to $\mathbf{B}$ to get $\mathbf{A}$?" That is exactly the question two ships ask before a rendezvous. If ship 1 has velocity $\mathbf{v}_{1}$ and ship 2 has $\mathbf{v}_{2}$, then ship 2's <Term id="relative-velocity">relative velocity</Term>, how it moves as seen from ship 1, is $\mathbf{v}_{2} - \mathbf{v}_{1}$. To match, ship 1 must change its velocity by exactly that vector.
+
+### Multiplying by a number
+
+$3\mathbf{A}$ points the same way as $\mathbf{A}$ but is three times as long. $-\tfrac{1}{2}\mathbf{A}$ is half as long and points the opposite way. Multiplying by an ordinary number stretches, shrinks or flips a vector.
+
+### Components: breaking a vector into pieces
+
+Drawing arrows is great for intuition, but calculating with them needs numbers. Set up $x$ and $y$ axes. Any vector can be replaced by two simpler ones: a step along $x$ and a step along $y$. These are its <Term id="component">components</Term>.
+
+<Figure caption="Resolving a vector A at angle θ above the x-axis into components. The vector and its two components form a right-angled triangle, with A as the hypotenuse." alt="A white arrow A from the origin points up and to the right at angle theta above the x axis. A blue arrow along the x axis from the origin to directly below A's tip is labelled A x equals A cos theta. An amber vertical arrow from there up to A's tip is labelled A y equals A sin theta. A note says the tip is at the point (A x, A y).">
+	<VectorComponents />
+</Figure>
+
+The vector and its components make a right-angled triangle, with the vector as the hypotenuse. That is why trigonometry was the prerequisite.
+
+Once you have components, adding vectors is easy: **add the x-components together and add the y-components together.** No drawing needed. Physicists also write a vector using <Term id="unit-vector">unit vectors</Term>: $\hat{\mathbf{i}}$, an arrow of length 1 along $x$, and $\hat{\mathbf{j}}$, length 1 along $y$. Then $\mathbf{A} = A_{x}\hat{\mathbf{i}} + A_{y}\hat{\mathbf{j}}$, or in short form $\mathbf{A} = (A_{x}, A_{y})$.
+
+Real space is three-dimensional, so a third component $A_{z}$ is sometimes needed. Everything in this chapter works the same way with one extra component.
+
+## Formulas
+
+### From magnitude and direction to components
+
+In the triangle above, $A$ is the hypotenuse, $A_{x}$ is adjacent to $\theta$ and $A_{y}$ is opposite. From the definitions of cosine and sine:
+
+$$
+\cos\theta = \frac{A_{x}}{A} \;\Rightarrow\; A_{x} = A\cos\theta, \qquad \sin\theta = \frac{A_{y}}{A} \;\Rightarrow\; A_{y} = A\sin\theta
+$$
+
+Here $\theta$ is measured anticlockwise from the positive $x$-axis. Because the unit circle defines sine and cosine for every angle, these formulas also give the right *signs* in all four quarters. For example, a vector pointing into the second quarter gets a negative $A_{x}$.
+
+### From components to magnitude and direction
+
+Pythagoras on the same triangle gives the magnitude:
+
+$$
+A = |\mathbf{A}| = \sqrt{A_{x}^{2} + A_{y}^{2}}
+$$
+
+Dividing $A_{y} = A\sin\theta$ by $A_{x} = A\cos\theta$ gives $\tan\theta = A_{y}/A_{x}$, so
+
+$$
+\theta = \tan^{-1}\!\left(\frac{A_{y}}{A_{x}}\right) \qquad \text{(then check the quarter)}
+$$
+
+**The quarter check.** A calculator's $\tan^{-1}$ only returns angles between $-90°$ and $+90°$. It can't tell $(+3, +4)$ from $(-3, -4)$, because both have $A_{y}/A_{x} = 4/3$. Always sketch the vector. If $A_{x}$ is negative, add $180°$ to the calculator's answer.
+
+In three dimensions the magnitude is $\sqrt{A_{x}^{2} + A_{y}^{2} + A_{z}^{2}}$. You get it by using Pythagoras twice.
+
+### Adding, subtracting and scaling by components
+
+Going $A_{x}$ along $x$ and then $B_{x}$ along $x$ moves you $A_{x} + B_{x}$ along $x$ in total. The same holds for $y$. So head-to-tail addition becomes simple arithmetic:
+
+$$
+\mathbf{A} + \mathbf{B} = (A_{x} + B_{x},\ A_{y} + B_{y}), \qquad
+\mathbf{A} - \mathbf{B} = (A_{x} - B_{x},\ A_{y} - B_{y}), \qquad
+k\mathbf{A} = (kA_{x},\ kA_{y})
+$$
+
+## Worked examples
+
+<Example n={1} title="A walk across the cargo bay">
+Grace floats 30 m along the ship's $x$-direction, then 40 m along its $y$-direction. What is his displacement?
+
+Components: $(30\ \text{m}, 40\ \text{m})$.
+
+$$
+\begin{aligned}
+d &= \sqrt{(30\ \text{m})^{2} + (40\ \text{m})^{2}} = \sqrt{2500\ \text{m}^{2}} = 50\ \text{m} \\
+\theta &= \tan^{-1}\!\left(\frac{40\ \text{m}}{30\ \text{m}}\right) = 53.1°
+\end{aligned}
+$$
+
+He is 50 m from where he started, at 53.1° from the $x$-axis, even though he moved 70 m in total.
+</Example>
+
+<Example n={2} title="Components of a ship's velocity" book>
+A ship moves at $2.0$ km/s in a direction $35°$ from the $x$-axis of a navigation chart. Find its velocity components.
+
+$$
+\begin{aligned}
+v_{x} &= 2.0\ \text{km/s} \times \cos 35° = 2.0\ \text{km/s} \times 0.8192 = 1.64\ \text{km/s} \\
+v_{y} &= 2.0\ \text{km/s} \times \sin 35° = 2.0\ \text{km/s} \times 0.5736 = 1.15\ \text{km/s}
+\end{aligned}
+$$
+
+**Check:** $\sqrt{1.638^{2} + 1.147^{2}} = \sqrt{2.683 + 1.316} = \sqrt{3.999} = 2.00$ ✓.
+</Example>
+
+<Example n={3} title="Crossing a river">
+A boat points straight across a river (call that $+y$) and moves at $4.0$ m/s through the water. The river flows at $1.5$ m/s in the $+x$ direction. What is the boat's velocity relative to the bank?
+
+The water carries the boat sideways while the boat pushes across, so the velocities add:
+
+$$
+\mathbf{v} = (1.5,\ 0)\ \text{m/s} + (0,\ 4.0)\ \text{m/s} = (1.5,\ 4.0)\ \text{m/s}
+$$
+
+$$
+\begin{aligned}
+v &= \sqrt{1.5^{2} + 4.0^{2}}\ \text{m/s} = \sqrt{18.25}\ \text{m/s} = 4.27\ \text{m/s} \\
+\theta &= \tan^{-1}\!\left(\frac{4.0}{1.5}\right) = 69.4°\ \text{from the } x\text{-direction}
+\end{aligned}
+$$
+
+The boat crosses faster than its own engine pushes it, but it drifts downstream along the way. The same idea, velocities adding as vectors, applies to a spacecraft launched from a moving planet.
+</Example>
+
+<Example n={4} title="How fast is the other ship approaching?" book>
+In one chart frame, the *Hail Mary* moves at $\mathbf{v}_{1} = (3.0,\ 1.0)$ km/s and another ship at $\mathbf{v}_{2} = (1.0,\ 4.0)$ km/s. (These numbers are made up for practice.) What is the second ship's velocity relative to the *Hail Mary*?
+
+$$
+\mathbf{v}_{\text{rel}} = \mathbf{v}_{2} - \mathbf{v}_{1} = (1.0 - 3.0,\ 4.0 - 1.0)\ \text{km/s} = (-2.0,\ 3.0)\ \text{km/s}
+$$
+
+$$
+v_{\text{rel}} = \sqrt{(-2.0)^{2} + 3.0^{2}}\ \text{km/s} = \sqrt{13}\ \text{km/s} = 3.61\ \text{km/s}
+$$
+
+For the direction, the calculator gives $\tan^{-1}(3.0/-2.0) = -56.3°$. But $v_{x}$ is negative, so the vector is in the second quarter: add $180°$ to get $123.7°$.
+
+Even though the two ships' speeds (3.16 and 4.12 km/s) differ by less than 1 km/s, they are moving 3.61 km/s relative to each other. To match velocities, the *Hail Mary* must change its velocity by exactly $(-2.0, 3.0)$ km/s.
+</Example>
+
+<Example n={5} title="Turning costs as much as stopping and starting" book>
+A ship moving at $3.0$ km/s in the $+x$ direction needs to end up moving at $4.0$ km/s in the $+y$ direction. What change in velocity, $\Delta\mathbf{v}$, does that need?
+
+$$
+\Delta\mathbf{v} = \mathbf{v}_{\text{final}} - \mathbf{v}_{\text{initial}} = (0,\ 4.0) - (3.0,\ 0) = (-3.0,\ 4.0)\ \text{km/s}
+$$
+
+$$
+|\Delta\mathbf{v}| = \sqrt{9.0 + 16}\ \text{km/s} = 5.0\ \text{km/s}, \qquad \theta = 180° - 53.1° = 126.9°
+$$
+
+The speed only changes from 3 to 4 km/s, yet the velocity change needed is 5 km/s. The engine must push "backwards and sideways". Changing direction in space is expensive, which matters for fuel in Parts 4 and 5.
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** Vector addition and components are standard mathematics, used for every real spacecraft manoeuvre. Rendezvous really does mean matching velocity vectors, not just positions. Mission planners measure manoeuvres by the size of $\Delta\mathbf{v}$ they require.
+
+**Weir's inventions.** The other ship, its crew and the specific velocities in our examples are fictional (our numbers are invented for practice).
+
+**How realistic is it?** Very: the difficulty the novel puts into close manoeuvring is real. Velocity has to be matched in all three dimensions at once, and orbital motion (Part 4) adds further twists, such as the fact that speeding up in orbit can make you fall behind.
+</RealVsBook>
+
+## Interactive simulation
+
+<VectorPlayground />
+
+Experiments: make $\mathbf{A}$ and $\mathbf{B}$ point the same way. When is $|\mathbf{A} + \mathbf{B}| = |\mathbf{A}| + |\mathbf{B}|$? Make them point in opposite directions. Then switch to $\mathbf{A} - \mathbf{B}$ and set $\mathbf{B} = \mathbf{A}$.
+
+## Practice set
+
+<Problem n={1} level="easy">
+Scalar or vector? (a) a mass of 2 kg (b) a velocity of 30 m/s to the north (c) a temperature of 290 K (d) a displacement of 5 m upward (e) a time of 3 s (f) a wind of 25 km/h from the west.
+
+<Solution>
+Scalars: (a), (c), (e), which have size only. Vectors: (b), (d), (f), which each have a direction. A wind "from the west" is a velocity pointing east.
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy">
+Find the magnitude and direction of $\mathbf{A} = (6.0,\ 8.0)$.
+
+<Solution>
+$A = \sqrt{36 + 64} = \sqrt{100} = 10$. $\theta = \tan^{-1}(8.0/6.0) = 53.1°$. Both components are positive, so it is in the first quarter and the calculator's answer stands.
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy">
+A displacement of $12$ m points $30°$ above the $x$-axis. Find its components.
+
+<Solution>
+$A_{x} = 12\cos 30° = 12 \times 0.8660 = 10.4$ m. $A_{y} = 12\sin 30° = 12 \times 0.5 = 6.0$ m.
+</Solution>
+</Problem>
+
+<Problem n={4} level="easy">
+Add $\mathbf{A} = (2,\ 3)$ and $\mathbf{B} = (4,\ -1)$. Then find $2\mathbf{A}$.
+
+<Solution>
+$\mathbf{A} + \mathbf{B} = (2 + 4,\ 3 + (-1)) = (6,\ 2)$. $2\mathbf{A} = (4,\ 6)$.
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium">
+You walk $5.0$ km north, then $12$ km west. Taking east as $+x$ and north as $+y$, find your displacement's magnitude and direction.
+
+<Solution>
+Displacement $= (0, 5.0) + (-12, 0) = (-12,\ 5.0)$ km. Magnitude $= \sqrt{144 + 25} = 13$ km.
+
+The calculator gives $\tan^{-1}(5.0/-12) = -22.6°$. Since $x$ is negative, add 180°: $157.4°$ from east. That is $67.4°$ west of north.
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium">
+For $\mathbf{A} = (5,\ 2)$ and $\mathbf{B} = (-1,\ 4)$, find $\mathbf{A} - \mathbf{B}$ and its magnitude.
+
+<Solution>
+$\mathbf{A} - \mathbf{B} = (5 - (-1),\ 2 - 4) = (6,\ -2)$. Magnitude $= \sqrt{36 + 4} = \sqrt{40} = 6.32$.
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium">
+An aircraft points due north and flies at $250$ m/s through the air. A wind blows towards the east at $40$ m/s. Find the aircraft's speed over the ground and how far east of north it actually travels.
+
+<Solution>
+Ground velocity $= (40,\ 250)$ m/s, with east as $+x$ and north as $+y$.
+
+Speed: $\sqrt{40^{2} + 250^{2}} = \sqrt{64\,100} = 253$ m/s.
+
+Angle east of north: $\tan^{-1}(40/250) = 9.1°$. (Measured from the north axis, the east component is the "opposite" side.)
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium" book>
+Two ships each move at $3.0$ km/s, one along $+x$ and the other at $60°$ to it. What is their relative speed?
+
+<Solution>
+$\mathbf{v}_{1} = (3.0,\ 0)$ and $\mathbf{v}_{2} = (3.0\cos 60°,\ 3.0\sin 60°) = (1.5,\ 2.598)$ km/s.
+
+$\mathbf{v}_{2} - \mathbf{v}_{1} = (-1.5,\ 2.598)$ km/s, with magnitude $\sqrt{2.25 + 6.75} = \sqrt{9.0} = 3.0$ km/s.
+
+Same speeds, but a 60° difference in direction gives a relative speed of 3.0 km/s. (The three vectors form an equilateral triangle.)
+</Solution>
+</Problem>
+
+<Problem n={9} level="medium">
+Find the magnitude of the 3D vector $(2,\ 3,\ 6)$.
+
+<Solution>
+$\sqrt{2^{2} + 3^{2} + 6^{2}} = \sqrt{4 + 9 + 36} = \sqrt{49} = 7$.
+</Solution>
+</Problem>
+
+<Problem n={10} level="challenging">
+A student finds the direction of $\mathbf{A} = (-4,\ -3)$ with a calculator and gets $36.9°$. Explain the error and give the correct direction.
+
+<Solution>
+$\tan^{-1}\!\left(\dfrac{-3}{-4}\right) = \tan^{-1}(0.75) = 36.9°$, which is the direction of $(+4, +3)$. The two minus signs cancelled inside the fraction, so the calculator can't tell the vectors apart. $\mathbf{A}$ has both components negative, so it points into the third quarter (down and to the left). Add 180°: $36.9° + 180° = 216.9°$. Its magnitude is 5.
+</Solution>
+</Problem>
+
+<Problem n={11} level="challenging">
+A probe moves $10$ m along $+x$, then $8.0$ m along $+y$. What single displacement $\mathbf{C}$ brings it back to the start? Give the magnitude and direction.
+
+<Solution>
+The total so far is $\mathbf{A} + \mathbf{B} = (10,\ 8.0)$ m. To return, $\mathbf{A} + \mathbf{B} + \mathbf{C} = \mathbf{0}$, so
+
+$$
+\mathbf{C} = -(\mathbf{A} + \mathbf{B}) = (-10,\ -8.0)\ \text{m}.
+$$
+
+Magnitude: $\sqrt{100 + 64} = \sqrt{164} = 12.8$ m. Direction: $\tan^{-1}(8/10) = 38.7°$, plus 180° for the third quarter, so $218.7°$.
+</Solution>
+</Problem>
+
+<Problem n={12} level="challenging" book>
+A ship fires its engine twice. The first burn changes its velocity by $2.0$ km/s along $+x$, the second by $1.5$ km/s at $120°$. What is the total change in velocity? Compare its size with $2.0 + 1.5 = 3.5$ km/s, the "fuel spent" measured as the total of the two burns.
+
+<Solution>
+Second burn components: $(1.5\cos 120°,\ 1.5\sin 120°) = (-0.75,\ 1.299)$ km/s.
+
+$$
+\Delta\mathbf{v} = (2.0 - 0.75,\ 0 + 1.299) = (1.25,\ 1.299)\ \text{km/s}
+$$
+
+$$
+|\Delta\mathbf{v}| = \sqrt{1.5625 + 1.6874}\ \text{km/s} = 1.80\ \text{km/s}, \qquad \theta = \tan^{-1}\!\left(\frac{1.299}{1.25}\right) = 46.1°
+$$
+
+The burns cost 3.5 km/s of engine effort but achieved a net 1.80 km/s, because part of the second burn undid the first. A single burn of 1.80 km/s at 46.1° would have done the same job for about half the fuel.
+</Solution>
+</Problem>
+
+## Summary
+
+- Scalars have size only. Vectors have size (magnitude) and direction: displacement, velocity, and later force and momentum.
+- Add vectors head to tail. The resultant runs from the first tail to the last head. Magnitudes don't simply add.
+- $\mathbf{A} - \mathbf{B} = \mathbf{A} + (-\mathbf{B})$. Relative velocity is $\mathbf{v}_{2} - \mathbf{v}_{1}$.
+- Components: $A_{x} = A\cos\theta$, $A_{y} = A\sin\theta$. Back again: $A = \sqrt{A_{x}^{2} + A_{y}^{2}}$ and $\theta = \tan^{-1}(A_{y}/A_{x})$, checking the quarter.
+- With components, vector arithmetic is ordinary arithmetic on each component separately.
+
+**Formulas from this chapter**
+
+$$
+A_{x} = A\cos\theta \qquad A_{y} = A\sin\theta \qquad A = \sqrt{A_{x}^{2} + A_{y}^{2}} \qquad \theta = \tan^{-1}\!\left(\frac{A_{y}}{A_{x}}\right)
+$$
+
+$$
+\mathbf{A} \pm \mathbf{B} = (A_{x} \pm B_{x},\ A_{y} \pm B_{y}) \qquad k\mathbf{A} = (kA_{x},\ kA_{y}) \qquad \mathbf{v}_{\text{rel}} = \mathbf{v}_{2} - \mathbf{v}_{1}
+$$
+
+## Sources
+
+- OpenStax, *University Physics Volume 1*: §2.1 "Scalars and Vectors", §2.2 "Coordinate Systems and Components of a Vector" and §2.3 "Algebra of Vectors". [§2.1](https://openstax.org/books/university-physics-volume-1/pages/2-1-scalars-and-vectors), [§2.2](https://openstax.org/books/university-physics-volume-1/pages/2-2-coordinate-systems-and-components-of-a-vector), [§2.3](https://openstax.org/books/university-physics-volume-1/pages/2-3-algebra-of-vectors)
+- HyperPhysics, "Vectors" (addition and components). [hyperphysics](http://hyperphysics.phy-astr.gsu.edu/hbase/vect.html)
+- *The Feynman Lectures on Physics*, Vol. I, Ch. 11, "Vectors". [feynmanlectures.caltech.edu](https://www.feynmanlectures.caltech.edu/I_11.html)
+- NASA, "Basics of Space Flight", on trajectories and velocity changes. [science.nasa.gov](https://science.nasa.gov/learn/basics-of-space-flight/)

@@ -1,0 +1,39 @@
+---
+// Light from a point source spreads out: the beam through 1 tile at distance r covers
+// 4 tiles at 2r and 9 tiles at 3r, so the light per tile falls to 1/4 and 1/9.
+const SX = 40, SY = 120; // source
+const R = 150; // pixels per "r"
+const T = 26; // tile size at distance r (side view half-height = T/2 per tile)
+const stations = [1, 2, 3].map((n) => ({ n, x: SX + n * R - 20, half: (n * T) / 2 }));
+---
+
+<svg class="dg" viewBox="0 0 520 330" xmlns="http://www.w3.org/2000/svg">
+	{/* the spreading beam (side view) */}
+	<path d={`M${SX},${SY} L${stations[2].x},${SY - stations[2].half} L${stations[2].x},${SY + stations[2].half} Z`} class="f-amber-soft" />
+	<line x1={SX} y1={SY} x2={stations[2].x} y2={SY - stations[2].half} class="s-amber w1" />
+	<line x1={SX} y1={SY} x2={stations[2].x} y2={SY + stations[2].half} class="s-amber w1" />
+	<circle cx={SX} cy={SY} r="9" class="f-amber" />
+	<text x={SX} y={SY + 30} class="t-mid t-sm">source</text>
+
+	{
+		stations.map((s) => (
+			<>
+				{/* side view of the screen at this distance, divided into n tiles */}
+				<line x1={s.x} y1={SY - s.half} x2={s.x} y2={SY + s.half} class="s-fg w3" />
+				{Array.from({ length: s.n - 1 }, (_, k) => (
+					<line x1={s.x - 5} y1={SY - s.half + (k + 1) * T} x2={s.x + 5} y2={SY - s.half + (k + 1) * T} class="s-fg w1" />
+				))}
+				<text x={s.x} y={SY - s.half - 10} class="t-mid t-sm f-muted">{s.n === 1 ? 'r' : `${s.n}r`}</text>
+				{/* front view: n × n tiles */}
+				<g transform={`translate(${s.x - (s.n * 18) / 2} ${210})`}>
+					{Array.from({ length: s.n * s.n }, (_, k) => (
+						<rect x={(k % s.n) * 18} y={Math.floor(k / s.n) * 18} width="16" height="16" rx="2" class="f-amber-soft s-amber w1" />
+					))}
+				</g>
+				<text x={s.x} y={210 + s.n * 18 + 18} class="t-mid t-sm">{s.n * s.n} tile{s.n > 1 ? 's' : ''}</text>
+				<text x={s.x} y={210 + s.n * 18 + 34} class="t-mid t-sm f-amber">{s.n === 1 ? 'I' : `I/${s.n * s.n}`} per tile</text>
+			</>
+		))
+	}
+	<text x="20" y="22" class="t-sm f-muted">Double the distance: the same light covers four times the area.</text>
+</svg>

@@ -1,0 +1,75 @@
+---
+// Moving the decimal point: a big number (point hops left) and a small number (point hops right).
+// Every position is computed from the cell grid so arcs and labels line up with the digits.
+const CW = 34; // width of one digit cell
+const X0 = 24; // left edge of the digit row
+const gapX = (g: number) => X0 + g * CW; // x of the gap after the g-th digit (g = 0 is before the first)
+
+const rows = [
+	{
+		y: 0,
+		title: 'A big number: 4 500 000',
+		digits: '4500000',
+		from: 7,
+		to: 1,
+		result: '4.5 × 10⁶',
+		note: 'Point moved 6 places left, so the power is +6.',
+	},
+	{
+		y: 150,
+		title: 'A small number: 0.000 010',
+		digits: '0000010',
+		from: 1,
+		to: 6,
+		result: '1.0 × 10⁻⁵',
+		note: 'Point moved 5 places right, so the power is −5.',
+	},
+];
+const DIGIT_Y = 104; // digit baseline within a row
+const ARC_Y = 70; // arc end height within a row
+---
+
+<svg class="dg" viewBox="0 0 580 290" xmlns="http://www.w3.org/2000/svg">
+	<defs>
+		<marker id="hop-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+			<path d="M0,0 L10,5 L0,10 z" class="f-amber" />
+		</marker>
+	</defs>
+	{
+		rows.map((r) => {
+			const step = r.to > r.from ? 1 : -1;
+			const hops = [];
+			for (let g = r.from; g !== r.to; g += step) hops.push(g);
+			return (
+				<g transform={`translate(0 ${r.y})`}>
+					<text x={X0} y="22" class="t-b">{r.title}</text>
+					{/* digit cells */}
+					{[...r.digits].map((d, i) => (
+						<>
+							<rect x={X0 + i * CW + 3} y={DIGIT_Y - 26} width={CW - 6} height="34" rx="4" class="s-grid w1" />
+							<text x={X0 + i * CW + CW / 2} y={DIGIT_Y} class="t-mid t-lg">{d}</text>
+						</>
+					))}
+					{/* original point (hollow) and final point (solid) */}
+					<circle cx={gapX(r.from)} cy={DIGIT_Y + 2} r="4" class="s-muted w2" />
+					<circle cx={gapX(r.to)} cy={DIGIT_Y + 2} r="4.5" class="f-amber" />
+					{/* one arc per hop, numbered */}
+					{hops.map((g, k) => {
+						const x1 = gapX(g), x2 = gapX(g + step), mx = (x1 + x2) / 2;
+						return (
+							<>
+								<path d={`M${x1},${ARC_Y} Q${mx},${ARC_Y - 26} ${x2},${ARC_Y}`} class="s-amber w2" marker-end="url(#hop-arrow)" />
+								<text x={mx} y={ARC_Y - 18} class="t-mid t-sm f-amber">{k + 1}</text>
+							</>
+						);
+					})}
+					<text x="300" y={DIGIT_Y - 6} class="t-lg">→</text>
+					<text x="330" y={DIGIT_Y - 6} class="t-lg t-b f-amber">{r.result}</text>
+					<text x="330" y={DIGIT_Y + 20} class="t-sm f-muted">{r.note}</text>
+				</g>
+			);
+		})
+	}
+	<circle cx="34" cy="283" r="4" class="s-muted w2" /><text x="44" y="287" class="t-sm f-muted">original point</text>
+	<circle cx="164" cy="283" r="4.5" class="f-amber" /><text x="174" y="287" class="t-sm f-muted">new point</text>
+</svg>

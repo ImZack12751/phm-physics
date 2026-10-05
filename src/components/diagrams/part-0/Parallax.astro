@@ -1,0 +1,38 @@
+---
+// Stellar parallax (not to scale): Earth six months apart sees a near star shift against far ones.
+const SUN = { x: 300, y: 262 }, E1 = { x: 160, y: 262 }, E2 = { x: 440, y: 262 }, STAR = { x: 300, y: 56 };
+const angDeg = (Math.atan2(E2.x - STAR.x, E2.y - STAR.y) * 180) / Math.PI; // half-angle at the star
+const r = 46;
+const a2 = (Math.PI / 2) - (angDeg * Math.PI) / 180; // direction from star to E2, measured from +x, y down
+---
+
+<svg class="dg" viewBox="0 0 600 350" xmlns="http://www.w3.org/2000/svg">
+	{/* far background stars */}
+	{[[40, 40], [90, 90], [530, 36], [560, 110], [470, 70], [130, 30], [520, 160]].map(([x, y]) => <circle cx={x} cy={y} r="1.8" class="f-muted" />)}
+	<text x="40" y="20" class="t-sm f-muted">very distant background stars</text>
+
+	{/* Earth's orbit and the two positions */}
+	<ellipse cx={SUN.x} cy={SUN.y} rx="140" ry="14" class="s-grid w1 dash" />
+	<line x1={E1.x} y1={E1.y} x2={STAR.x} y2={STAR.y} class="s-sky w2" />
+	<line x1={E2.x} y1={E2.y} x2={STAR.x} y2={STAR.y} class="s-sky w2" />
+	<line x1={SUN.x} y1={SUN.y} x2={STAR.x} y2={STAR.y} class="s-fg w1 dash" />
+	<line x1={SUN.x} y1={SUN.y + 40} x2={E2.x} y2={E2.y + 40} class="s-amber w1" />
+	<line x1={SUN.x} y1={SUN.y + 34} x2={SUN.x} y2={SUN.y + 46} class="s-amber w1" />
+	<line x1={E2.x} y1={E2.y + 34} x2={E2.x} y2={E2.y + 46} class="s-amber w1" />
+	<text x={(SUN.x + E2.x) / 2} y={SUN.y + 58} class="t-mid t-sm f-amber">1 au</text>
+
+	<circle cx={SUN.x} cy={SUN.y} r="12" class="f-amber" />
+	<text x={SUN.x} y={SUN.y + 30} class="t-mid t-sm">Sun</text>
+	<circle cx={E1.x} cy={E1.y} r="7" class="f-sky" />
+	<text x={E1.x - 12} y={E1.y + 4} class="t-end t-sm">Earth in January</text>
+	<circle cx={E2.x} cy={E2.y} r="7" class="f-sky" />
+	<text x={E2.x + 12} y={E2.y + 4} class="t-sm">Earth in July</text>
+
+	{/* the near star and its parallax angle */}
+	<circle cx={STAR.x} cy={STAR.y} r="7" class="f-amber" />
+	<text x={STAR.x + 14} y={STAR.y - 6} class="t-sm t-b">nearby star</text>
+	<path d={`M${STAR.x},${STAR.y + r} A${r},${r} 0 0 0 ${(STAR.x + r * Math.cos(a2)).toFixed(1)},${(STAR.y + r * Math.sin(a2)).toFixed(1)}`} class="s-amber w2" />
+	<text x={STAR.x + 13} y={STAR.y + r + 16} class="t-it f-amber">p</text>
+	<text x={SUN.x - 10} y="170" class="t-end t-it">d</text>
+	<text x="300" y="342" class="t-mid t-sm f-muted">Not to scale: for Tau Ceti, p is only about 0.000 076°.</text>
+</svg>

@@ -1,0 +1,513 @@
+---
+title: Rearranging formulas
+description: Making any quantity the subject of a formula by doing the same thing to both sides, with Grace's gravity measurement as the payoff.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import BalanceScales from '../../../components/diagrams/part-0/BalanceScales.astro';
+import OperationChain from '../../../components/diagrams/part-0/OperationChain.astro';
+import RearrangeStepper from '../../../components/sims/RearrangeStepper.astro';
+
+## The scene
+
+Grace wakes up on the *Hail Mary* with no memory of who he is or where he is. One of the first things he does, as a good science teacher, is improvise an experiment to measure how strong gravity is where he is lying. The answer tells him he isn't on Earth.
+
+One simple way to measure gravity is to drop something and time its fall. The formula that links a fall's height and time gives the height if you know the time and gravity. But an experimenter knows the height and the time, and wants gravity. So he has to turn the formula around and make a different quantity its subject. That move, rearranging, is something you'll do in almost every calculation in this course.
+
+## Prerequisites
+
+<Prereqs notes={{ 'unit-handling': 'carrying units through every step, and checking the units of an answer' }}>
+You also need school algebra: solving a simple equation like $2x + 3 = 11$.
+</Prereqs>
+
+## The concept
+
+### An equation is a balance
+
+An <Term id="equation">equation</Term> says two things are equal. Picture a perfectly balanced scale, with one side of the equation in each pan. You are allowed to do *anything* to the scale, as long as you do exactly the same thing to both pans. Then it stays balanced, and the equation stays true.
+
+<Figure caption="Taking 3 away from both pans keeps the scale level, turning 2x + 3 = 11 into 2x = 8. Halving both pans would then give x = 4." alt="Two balance scales. The left scale has 2x plus 3 in the left pan and 11 in the right pan, level. An arrow labelled 'take 3 from both pans' points to the right scale, which has 2x in the left pan and 8 in the right pan, still level.">
+	<BalanceScales />
+</Figure>
+
+The things you can do to both sides include adding, subtracting, multiplying or dividing by the same amount (but never dividing by zero), squaring, and taking a square root.
+
+### Inverse operations
+
+Every operation has an <Term id="inverse-operation">inverse</Term> that undoes it:
+
+| Operation | Undone by |
+|---|---|
+| add $a$ | subtract $a$ |
+| multiply by $a$ | divide by $a$ |
+| square | square root |
+
+To get a quantity on its own, you undo, one by one, everything that has been done to it.
+
+### Undo in reverse order
+
+Think about getting dressed: socks first, then shoes. To undress you take the shoes off *first*. Formulas work the same way. The last operation applied to a quantity must be the first one you undo.
+
+Take the temperature formula from the last chapter, $T_{°\text{F}} = \tfrac{9}{5}T_{°\text{C}} + 32$. To build $T_{°\text{F}}$ from $T_{°\text{C}}$ you multiply by $\tfrac{9}{5}$ and *then* add 32. To get back to $T_{°\text{C}}$ you subtract 32 *first*, then multiply by $\tfrac{5}{9}$.
+
+<Figure caption="Building a formula, then undoing it. Each inverse sits directly under the operation it undoes, but the order is reversed." alt="Top row, with amber arrows pointing right: Celsius value, then a box 'times 9 over 5', then a box 'plus 32', then Fahrenheit value. Bottom row, with blue arrows pointing left: Fahrenheit value, then 'minus 32', then 'times 5 over 9', then Celsius value. Dotted lines connect 'times 9 over 5' to 'times 5 over 9' and 'plus 32' to 'minus 32'.">
+	<OperationChain />
+</Figure>
+
+### The subject of a formula
+
+The quantity standing alone on one side of a formula is its <Term id="subject-of-formula">subject</Term>. In $v = d/t$ the subject is the speed $v$. Rearranging means changing which <Term id="variable">variable</Term> is the subject. You do it by applying inverse operations to both sides until the one you want is on its own.
+
+Some situations come up again and again.
+
+**The variable you want is on the bottom of a fraction.** Multiply both sides by it to bring it to the top. Then deal with whatever is left.
+
+**The variable you want is squared.** Get the square on its own, then take the square root of both sides. A square root has two answers ($\sqrt{9}$ could be $+3$ or $-3$, because both square to 9). In physics, the situation usually tells you which one makes sense: a time or a length can't be negative.
+
+**The variable you want appears twice.** Collect both copies on one side, then *factorise*, pulling the variable out as a common factor: $3t + 5t = (3 + 5)t$. Then divide.
+
+### Rearrange first, then put the numbers in
+
+You *can* substitute numbers first and then solve, but rearranging first is better. You get a formula you can reuse, it's easier to spot mistakes, and you can check the units of the result before any arithmetic. Then substitute the values, with their units, as the last step.
+
+### Always check
+
+Two quick checks catch almost every error:
+
+1. **Units.** Does the rearranged formula give the right kind of unit? If you rearrange for a time and the units come out as m/s, something went wrong.
+2. **Substitute back.** Put your answer into the *original* formula and see whether it balances.
+
+## Formulas
+
+There is no new physics in this chapter, only the rules that justify every move.
+
+### Why "do the same to both sides" works
+
+If $a = b$, then $a$ and $b$ are the same number. Doing the same thing to the same number can only give the same result, so for any $c$:
+
+$$
+a + c = b + c, \qquad a - c = b - c, \qquad ac = bc, \qquad \frac{a}{c} = \frac{b}{c}\ \ (c \neq 0), \qquad a^{2} = b^{2}.
+$$
+
+Division by zero is excluded because it isn't defined. Squaring is safe in this direction, but going backwards needs care: $a^{2} = b^{2}$ only tells you $a = b$ *or* $a = -b$.
+
+### The three forms of a two-step formula
+
+Any formula of the form $y = \dfrac{x}{z}$ has three equivalent versions. Multiply both sides by $z$:
+
+$$
+yz = x \qquad\Longrightarrow\qquad x = yz.
+$$
+
+Divide both sides of that by $y$:
+
+$$
+z = \frac{x}{y}.
+$$
+
+So, for example, the <Term id="density">density</Term> formula $\rho = \dfrac{m}{V}$ (density is mass per unit volume) also gives $m = \rho V$ and $V = \dfrac{m}{\rho}$. The same pattern applies to $v = \dfrac{d}{t}$, giving $d = vt$ and $t = \dfrac{d}{v}$.
+
+### Rearranging the fall formula
+
+In Part 1 we will derive that an object dropped from rest falls a height
+
+$$
+h = \tfrac{1}{2}\,g\,t^{2}
+$$
+
+in a time $t$, where $g$ measures how strong gravity is. Here we only need its *algebra*. Make $g$ the subject. The $g$ has been multiplied by $\tfrac{1}{2}$ and by $t^{2}$, so we undo both.
+
+$$
+\begin{aligned}
+h &= \tfrac{1}{2}\,g\,t^{2} \\
+2h &= g\,t^{2} && \text{(multiply both sides by 2)} \\
+\frac{2h}{t^{2}} &= g && \text{(divide both sides by } t^{2}\text{)}
+\end{aligned}
+$$
+
+So
+
+$$
+g = \frac{2h}{t^{2}}.
+$$
+
+**Units check.** $\dfrac{\text{m}}{\text{s}^{2}}$: exactly the units we said $g$ has. ✓
+
+Making $t$ the subject instead takes one more step:
+
+$$
+\begin{aligned}
+h &= \tfrac{1}{2}\,g\,t^{2} \\
+2h &= g\,t^{2} \\
+\frac{2h}{g} &= t^{2} \\
+t &= \sqrt{\frac{2h}{g}} && \text{(positive root: a time is positive)}
+\end{aligned}
+$$
+
+This is the formula that dimensional analysis picked out in the last chapter's Worked example 5.
+
+## Worked examples
+
+<Example n={1} title="Measuring gravity like Grace" book>
+Grace drops an object from a height of $1.50$ m and times the fall at $0.452$ s. Find $g$, and compare it with Earth's standard value of $9.81\ \text{m/s}^{2}$.
+
+We derived $g = \dfrac{2h}{t^{2}}$ above. Substitute, with units:
+
+$$
+\begin{aligned}
+g &= \frac{2 \times 1.50\ \text{m}}{(0.452\ \text{s})^{2}} \\
+  &= \frac{3.00\ \text{m}}{0.204\,304\ \text{s}^{2}} \\
+  &= 14.68\ \text{m/s}^{2} \\
+  &\approx 14.7\ \text{m/s}^{2}
+\end{aligned}
+$$
+
+Compare with Earth's value by division:
+
+$$
+\frac{14.68\ \text{m/s}^{2}}{9.81\ \text{m/s}^{2}} = 1.50.
+$$
+
+Gravity here is one and a half times Earth's. In the novel, finding gravity of about 1.5 times Earth's is Grace's first big clue that he isn't on Earth. (The height and time here are our own numbers, chosen to match the novel's result. Part 2 explains *why* a ship can feel 1.5 times Earth's gravity.)
+</Example>
+
+<Example n={2} title="How much water fits in a tank?">
+Water has density $1000\ \text{kg/m}^{3}$. What volume does $5.0$ kg of water fill? Give the answer in litres.
+
+Start from $\rho = \dfrac{m}{V}$ and make $V$ the subject. Multiply both sides by $V$, then divide both sides by $\rho$:
+
+$$
+V = \frac{m}{\rho}
+$$
+
+Units check: $\dfrac{\text{kg}}{\text{kg/m}^{3}} = \text{kg} \times \dfrac{\text{m}^{3}}{\text{kg}} = \text{m}^{3}$, a volume ✓. Now substitute:
+
+$$
+\begin{aligned}
+V &= \frac{5.0\ \text{kg}}{1000\ \text{kg/m}^{3}} \\
+  &= 5.0 \times 10^{-3}\ \text{m}^{3} \\
+  &= 5.0 \times 10^{-3}\ \text{m}^{3} \times \frac{1\ \text{L}}{10^{-3}\ \text{m}^{3}} \\
+  &= 5.0\ \text{L}
+\end{aligned}
+$$
+</Example>
+
+<Example n={3} title="How long does light take from Tau Ceti?" book>
+Light covers a distance $d$ in a time $t$ at speed $c$, so $c = d/t$. Tau Ceti is $d = 1.127 \times 10^{17}$ m away. How long does its light take to reach us?
+
+Make $t$ the subject. The $t$ is on the bottom, so multiply both sides by $t$, then divide by $c$:
+
+$$
+c = \frac{d}{t} \;\Longrightarrow\; c\,t = d \;\Longrightarrow\; t = \frac{d}{c}
+$$
+
+Substitute:
+
+$$
+\begin{aligned}
+t &= \frac{1.127 \times 10^{17}\ \text{m}}{2.998 \times 10^{8}\ \text{m/s}} \\
+  &= 0.3759 \times 10^{9}\ \text{s} \\
+  &= 3.759 \times 10^{8}\ \text{s}
+\end{aligned}
+$$
+
+In years, with $1\ \text{yr} = 3.156 \times 10^{7}$ s:
+
+$$
+t = 3.759 \times 10^{8}\ \text{s} \times \frac{1\ \text{yr}}{3.156 \times 10^{7}\ \text{s}} = 11.91\ \text{yr}
+$$
+
+It takes 11.9 years, as it should, since the distance is 11.9 light-years. When Grace looks at the Sun from Tau Ceti, he sees it as it was almost twelve years earlier.
+</Example>
+
+<Example n={4} title="Bouncing radar off Venus">
+Astronomers have measured the distance to Venus by bouncing radio waves off it and timing the echo. The signal goes there and back, so the total time is $t = \dfrac{2d}{c}$. An echo returns after $276$ s. How far away is Venus?
+
+Make $d$ the subject. Multiply both sides by $c$, then divide by 2:
+
+$$
+t = \frac{2d}{c} \;\Longrightarrow\; ct = 2d \;\Longrightarrow\; d = \frac{ct}{2}
+$$
+
+$$
+\begin{aligned}
+d &= \frac{2.998 \times 10^{8}\ \text{m/s} \times 276\ \text{s}}{2} \\
+  &= \frac{8.274 \times 10^{10}\ \text{m}}{2} \\
+  &= 4.14 \times 10^{10}\ \text{m}
+\end{aligned}
+$$
+
+That is about 41 million km, roughly Venus's distance at its closest approach to Earth. A favourite exam slip is to forget the factor of 2 for the round trip.
+</Example>
+
+<Example n={5} title="Two ships closing in (the variable appears twice)" book>
+Two ships are $1200$ km apart and fly straight towards each other. Grace's ship moves at $3.0$ km/s and Rocky's at $5.0$ km/s. (These numbers are invented for practice.) How long until they meet?
+
+In time $t$, Grace covers $3.0t$ and Rocky covers $5.0t$. Together they must cover the 1200 km gap:
+
+$$
+3.0\,t + 5.0\,t = 1200
+$$
+
+(with $t$ in seconds and distances in km). The variable appears twice, so factorise:
+
+$$
+(3.0 + 5.0)\,t = 1200 \;\Longrightarrow\; 8.0\,t = 1200 \;\Longrightarrow\; t = \frac{1200}{8.0} = 150
+$$
+
+So $t = 150$ s. **Check by substituting back:** Grace covers $3.0 \times 150 = 450$ km and Rocky covers $5.0 \times 150 = 750$ km, and $450 + 750 = 1200$ ✓.
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** Rearranging equations is pure algebra and always works when each step is applied to both sides. Measuring gravity by timing a fall is a real classroom experiment, and the formula $h = \tfrac{1}{2}gt^{2}$ is derived properly in Part 1. Radar ranging of Venus is real: it is one of the ways the size of the astronomical unit was pinned down.
+
+**Weir's inventions.** None in this chapter. The ships in Worked example 5 and their speeds are our own invention for practice.
+
+**How realistic is the experiment?** Very, with one catch. A fall of 1.5 m lasts less than half a second, and human reaction time is around 0.2 to 0.3 s. Timing a single drop by hand could easily be off by 20% or more. A careful experimenter repeats the drop many times and averages, or uses a longer fall or a pendulum. Part 1 looks at how to get a reliable $g$ from rough measurements.
+</RealVsBook>
+
+## Interactive simulation
+
+<RearrangeStepper />
+
+Before you press Next, say out loud which operation *you* would do. Then check.
+
+## Practice set
+
+<Problem n={1} level="easy">
+Solve: (a) $2x + 3 = 11$ (b) $5y - 7 = 18$ (c) $\dfrac{z}{4} + 2 = 5$
+
+<Solution>
+(a) Subtract 3 from both sides: $2x = 8$. Divide both sides by 2: $x = 4$.
+
+(b) Add 7: $5y = 25$. Divide by 5: $y = 5$.
+
+(c) Subtract 2: $\dfrac{z}{4} = 3$. Multiply by 4: $z = 12$.
+
+Check (c): $\tfrac{12}{4} + 2 = 3 + 2 = 5$ ✓.
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy">
+Rearrange (a) $v = \dfrac{d}{t}$ to make $d$ the subject (b) $\rho = \dfrac{m}{V}$ to make $m$ the subject (c) $A = lw$ (area of a rectangle) to make $w$ the subject.
+
+<Solution>
+(a) Multiply both sides by $t$: $d = vt$.
+
+(b) Multiply both sides by $V$: $m = \rho V$.
+
+(c) Divide both sides by $l$: $w = \dfrac{A}{l}$.
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy">
+A car travels $150$ km at an average speed of $60$ km/h. Use $t = d/v$ to find the time taken, with units on every line.
+
+<Solution>
+$$
+t = \frac{d}{v} = \frac{150\ \text{km}}{60\ \text{km/h}} = 2.5\ \frac{\text{km}}{\text{km/h}} = 2.5\ \text{km} \times \frac{\text{h}}{\text{km}} = 2.5\ \text{h}
+$$
+
+The km cancel, leaving hours ✓.
+</Solution>
+</Problem>
+
+<Problem n={4} level="medium">
+A circular solar panel has area $A = 50.0\ \text{m}^{2}$. Make $r$ the subject of $A = \pi r^{2}$ and find the radius.
+
+<Solution>
+Divide both sides by $\pi$: $\dfrac{A}{\pi} = r^{2}$. Take the positive square root (a radius is positive): $r = \sqrt{\dfrac{A}{\pi}}$.
+
+$$
+r = \sqrt{\frac{50.0\ \text{m}^{2}}{\pi}} = \sqrt{15.92\ \text{m}^{2}} = 3.99\ \text{m}
+$$
+
+Units: $\sqrt{\text{m}^{2}} = \text{m}$ ✓.
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium">
+Combine $T_{\text{K}} = T_{°\text{C}} + 273.15$ and $T_{°\text{C}} = \tfrac{5}{9}(T_{°\text{F}} - 32)$ into one formula giving $T_{\text{K}}$ directly from $T_{°\text{F}}$. Use it to convert $451\ °\text{F}$ to kelvins.
+
+<Solution>
+Substitute the second formula into the first, replacing $T_{°\text{C}}$:
+
+$$
+T_{\text{K}} = \tfrac{5}{9}\left(T_{°\text{F}} - 32\right) + 273.15
+$$
+
+For $451\ °\text{F}$:
+
+$$
+\begin{aligned}
+T_{\text{K}} &= \tfrac{5}{9}(451 - 32) + 273.15 \\
+&= \tfrac{5}{9} \times 419 + 273.15 \\
+&= 232.78 + 273.15 \\
+&= 505.93\ \text{K} \approx 506\ \text{K}
+\end{aligned}
+$$
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium">
+In Part 1 you'll meet the formula $v^{2} = u^{2} + 2as$. Treating it purely as algebra, make $a$ the subject, then make $u$ the subject (assume $u$ is positive).
+
+<Solution>
+**For $a$:** subtract $u^{2}$ from both sides, giving $v^{2} - u^{2} = 2as$. Divide by $2s$:
+
+$$
+a = \frac{v^{2} - u^{2}}{2s}
+$$
+
+**For $u$:** subtract $2as$ from both sides, giving $v^{2} - 2as = u^{2}$. Take the positive square root:
+
+$$
+u = \sqrt{v^{2} - 2as}
+$$
+
+Careful: $\sqrt{v^{2} - 2as}$ is **not** $v - \sqrt{2as}$. The square root of a difference doesn't split up.
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium" book>
+Suppose Grace had a radio powerful enough to reach Earth from Tau Ceti, $1.127 \times 10^{17}$ m away. Radio waves travel at the speed of light. How long would he wait between sending a question and receiving an answer (ignoring thinking time on Earth)?
+
+<Solution>
+One way: $t = \dfrac{d}{c} = \dfrac{1.127 \times 10^{17}\ \text{m}}{2.998 \times 10^{8}\ \text{m/s}} = 3.759 \times 10^{8}$ s, which is 11.91 years (Worked example 3).
+
+The round trip is twice that:
+
+$$
+t_{\text{round}} = 2 \times 11.91\ \text{yr} = 23.8\ \text{yr}.
+$$
+
+Nearly a quarter of a century per question. A conversation with Earth from Tau Ceti is not practical, so Grace has to solve problems on his own.
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium">
+The distance covered while speeding up steadily from speed $u$ to speed $v$ is $s = \dfrac{(u + v)\,t}{2}$. Make $t$ the subject, and find $t$ when $s = 120$ m, $u = 4.0$ m/s and $v = 20$ m/s.
+
+<Solution>
+Multiply both sides by 2: $2s = (u + v)\,t$. Divide by $(u + v)$:
+
+$$
+t = \frac{2s}{u + v}
+$$
+
+$$
+t = \frac{2 \times 120\ \text{m}}{4.0\ \text{m/s} + 20\ \text{m/s}} = \frac{240\ \text{m}}{24\ \text{m/s}} = 10\ \text{s}
+$$
+
+Keep the bracket. Dividing by $u$ and then by $v$ separately would be wrong.
+</Solution>
+</Problem>
+
+<Problem n={9} level="medium">
+Solve $3x + 7 = 5x - 9$.
+
+<Solution>
+Collect the $x$ terms on one side: subtract $3x$ from both sides to get $7 = 2x - 9$. Add 9 to both sides: $16 = 2x$. Divide by 2: $x = 8$.
+
+Check: left side $3(8) + 7 = 31$, right side $5(8) - 9 = 31$ ✓.
+</Solution>
+</Problem>
+
+<Problem n={10} level="challenging" book>
+A pendulum of length $L$ swings with period $T = 2\pi\sqrt{\dfrac{L}{g}}$ (derived in Part 2). (a) Make $g$ the subject. (b) Grace times a $0.500$ m pendulum and finds $T = 1.16$ s. What is $g$?
+
+<Solution>
+(a) Divide both sides by $2\pi$: $\dfrac{T}{2\pi} = \sqrt{\dfrac{L}{g}}$. Square both sides: $\dfrac{T^{2}}{4\pi^{2}} = \dfrac{L}{g}$. Multiply both sides by $g$: $\dfrac{gT^{2}}{4\pi^{2}} = L$. Multiply by $4\pi^{2}$ and divide by $T^{2}$:
+
+$$
+g = \frac{4\pi^{2}L}{T^{2}}
+$$
+
+(b)
+
+$$
+\begin{aligned}
+g &= \frac{4\pi^{2} \times 0.500\ \text{m}}{(1.16\ \text{s})^{2}} \\
+&= \frac{19.74\ \text{m}}{1.3456\ \text{s}^{2}} \\
+&= 14.7\ \text{m/s}^{2}
+\end{aligned}
+$$
+
+That's 1.5 times Earth's gravity again, agreeing with the drop experiment. Two independent methods giving the same answer is how scientists build confidence.
+</Solution>
+</Problem>
+
+<Problem n={11} level="challenging" book>
+Two ships start $2400$ km apart and fly towards each other: Rocky's at $2.5$ km/s and Grace's at $1.5$ km/s. Grace launches $100$ s *after* Rocky. How long after Rocky's launch do they meet?
+
+<Solution>
+Let $t$ be the time since Rocky's launch, in seconds. Rocky has flown $2.5t$ km. Grace has only been flying for $(t - 100)$ s, so he has covered $1.5(t - 100)$ km. Together:
+
+$$
+2.5\,t + 1.5\,(t - 100) = 2400
+$$
+
+Expand the bracket: $2.5t + 1.5t - 150 = 2400$. Collect terms: $4.0t = 2550$. Divide:
+
+$$
+t = \frac{2550}{4.0} = 637.5\ \text{s} \approx 638\ \text{s}
+$$
+
+Check: Rocky covers $2.5 \times 637.5 = 1593.75$ km, and Grace covers $1.5 \times 537.5 = 806.25$ km. The total is $2400$ km ✓.
+</Solution>
+</Problem>
+
+<Problem n={12} level="challenging">
+Next chapter shows that sunlight's intensity (power per square metre) at distance $r$ from the Sun is $I = \dfrac{L}{4\pi r^{2}}$, where $L$ is the Sun's total power output. (a) Make $r$ the subject. (b) With $L = 3.828 \times 10^{26}$ W, at what distance is $I = 1361\ \text{W/m}^{2}$, the intensity measured at Earth?
+
+<Solution>
+(a) Multiply both sides by $4\pi r^{2}$: $4\pi r^{2} I = L$. Divide by $4\pi I$: $r^{2} = \dfrac{L}{4\pi I}$. Take the positive root:
+
+$$
+r = \sqrt{\frac{L}{4\pi I}}
+$$
+
+(b)
+
+$$
+\begin{aligned}
+r &= \sqrt{\frac{3.828 \times 10^{26}\ \text{W}}{4\pi \times 1361\ \text{W/m}^{2}}} \\
+&= \sqrt{\frac{3.828 \times 10^{26}}{1.7103 \times 10^{4}}\ \text{m}^{2}} \\
+&= \sqrt{2.238 \times 10^{22}\ \text{m}^{2}} \\
+&= 1.496 \times 10^{11}\ \text{m}
+\end{aligned}
+$$
+
+That is exactly one astronomical unit, the Earth–Sun distance. The formula, the Sun's power and the measured sunlight all agree. (To take the root, write $2.238 \times 10^{22}$ with its even exponent: $\sqrt{2.238} \times 10^{11}$.)
+</Solution>
+</Problem>
+
+## Summary
+
+- An equation is a balance. Any operation is allowed as long as you apply it to both sides, except dividing by zero.
+- Undo operations with their inverses, in reverse order: the last thing done is the first thing undone.
+- A variable in a denominator: multiply both sides by it. A variable that's squared: isolate the square, then take the root, choosing the sign that makes physical sense. A variable that appears twice: collect, factorise, divide.
+- Rearrange first, substitute last, and check both the units and the answer in the original formula.
+
+**Formulas from this chapter**
+
+$$
+y = \frac{x}{z} \iff x = yz \iff z = \frac{x}{y}
+$$
+
+$$
+h = \tfrac{1}{2}gt^{2} \;\Rightarrow\; g = \frac{2h}{t^{2}}, \quad t = \sqrt{\frac{2h}{g}} \qquad\qquad \rho = \frac{m}{V},\quad m = \rho V,\quad V = \frac{m}{\rho}
+$$
+
+## Sources
+
+- OpenStax, *Algebra and Trigonometry 2e*, §2.3 "Models and Applications" (solving and rearranging equations). [openstax.org](https://openstax.org/books/algebra-and-trigonometry-2e/pages/2-3-models-and-applications)
+- OpenStax, *University Physics Volume 1*, §1.4 "Dimensional Analysis" (checking the units of a rearranged formula). [openstax.org](https://openstax.org/books/university-physics-volume-1/pages/1-4-dimensional-analysis)
+- Standard gravity $g_{n} = 9.806\,65\ \text{m/s}^{2}$ (conventional, exact): CODATA 2022, NIST. [physics.nist.gov](https://physics.nist.gov/cgi-bin/cuu/Value?gn)
+- Speed of light (exact): CODATA 2022, NIST. [physics.nist.gov](https://physics.nist.gov/cgi-bin/cuu/Value?c)
+- Distance to Tau Ceti: SIMBAD (Gaia parallax). [simbad](https://simbad.cds.unistra.fr/simbad/sim-id?Ident=tau+Cet). Venus and Earth orbit sizes: NASA NSSDCA [planetary fact sheet](https://nssdc.gsfc.nasa.gov/planetary/factsheet/).
+- Solar luminosity $3.828 \times 10^{26}$ W and solar irradiance 1361 W/m²: NASA NSSDCA [Sun](https://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html) and [Earth](https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html) fact sheets.
+- Simple visual reaction times are about 0.2 to 0.3 s: BioNumbers database, entry 110798 (Harvard Medical School). [bionumbers.hms.harvard.edu](https://bionumbers.hms.harvard.edu/bionumber.aspx?id=110798)
+- Grace's gravity experiment and the 1.5 g result: Andy Weir, *Project Hail Mary* (2021). The specific height and time values above are our own illustration.

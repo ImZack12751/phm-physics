@@ -1,0 +1,33 @@
+---
+import katex from 'katex';
+import { formulas } from '../../data/formulas.mjs';
+import { chapters, chapterBySlug } from '../../data/curriculum.mjs';
+import { chapterUrl } from '../../lib/urls.mjs';
+
+for (const f of formulas) if (!chapterBySlug[f.chapter]) throw new Error(`formula ${f.id}: unknown chapter ${f.chapter}`);
+const groups = chapters
+	.map((ch) => ({ ch, items: formulas.filter((f) => f.chapter === ch.slug) }))
+	.filter((g) => g.items.length);
+const render = (tex: string) =>
+	katex.renderToString(tex, { displayMode: true, output: 'htmlAndMathml', throwOnError: true });
+---
+
+{
+	groups.map(({ ch, items }) => (
+		<section class="formula-group">
+			<h2 id={`ch-${ch.slug}`}>
+				<a href={chapterUrl(ch)}>
+					{ch.number} {ch.title}
+				</a>
+			</h2>
+			{items.map((f) => (
+				<div class="formula-card" id={f.id}>
+					<p class="formula-name">{f.name}</p>
+					<Fragment set:html={render(f.tex)} />
+					{f.where && <p class="formula-where">{f.where}</p>}
+				</div>
+			))}
+		</section>
+	))
+}
+<p>{formulas.length} formulas so far.</p>

@@ -1,0 +1,42 @@
+---
+import { glossary } from '../../data/glossary.mjs';
+import { chapterBySlug } from '../../data/curriculum.mjs';
+import { chapterUrl } from '../../lib/urls.mjs';
+
+const entries = Object.entries(glossary)
+	.map(([id, g]) => ({ id, ...g }))
+	.sort((a, b) => a.term.localeCompare(b.term, 'en', { sensitivity: 'base' }));
+const letterOf = (t: string) => t[0].toUpperCase();
+const letters = [...new Set(entries.map((e) => letterOf(e.term)))];
+---
+
+<nav class="glossary-letters no-raw" aria-label="Jump to letter">
+	{letters.map((l) => <a href={`#letter-${l}`}>{l}</a>)}
+</nav>
+<dl class="glossary-list">
+	{
+		entries.map((e, i) => {
+			const ch = e.chapter && chapterBySlug[e.chapter];
+			const first = i === 0 || letterOf(entries[i - 1].term) !== letterOf(e.term);
+			return (
+				<>
+					{first && (
+						<p class="glossary-letter" id={`letter-${letterOf(e.term)}`}>
+							{letterOf(e.term)}
+						</p>
+					)}
+					<dt id={e.id}>{e.term}</dt>
+					<dd>
+						{e.def}
+						{ch && (
+							<span class="glossary-src">
+								{' '}First met in <a href={chapterUrl(ch)}>{ch.number} {ch.title}</a>.
+							</span>
+						)}
+					</dd>
+				</>
+			);
+		})
+	}
+</dl>
+<p>{entries.length} terms so far.</p>

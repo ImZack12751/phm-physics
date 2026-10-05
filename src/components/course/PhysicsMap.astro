@@ -1,0 +1,190 @@
+---
+// Dependency map of published chapters, laid out top-to-bottom by depth:
+// each chapter sits one row below the deepest chapter it builds on.
+import { publishedChapters, chapterBySlug, parts } from '../../data/curriculum.mjs';
+import { chapterUrl } from '../../lib/urls.mjs';
+
+const W = 200, H = 50, GX = 26, GY = 50, LANE = 56, PAD = 12;
+const level: Record<string, number> = {};
+for (const c of publishedChapters)
+	level[c.slug] = c.prereqs.length ? 1 + Math.max(...c.prereqs.map((p: string) => level[p])) : 0;
+const rows: any[][] = [];
+for (const c of publishedChapters) (rows[level[c.slug]] ||= []).push(c);
+const rowWidth = (r: any[]) => r.length * W + (r.length - 1) * GX;
+const innerW = Math.max(...rows.map(rowWidth));
+const width = innerW + 2 * LANE + 2 * PAD;
+const pos: Record<string, { x: number; y: number }> = {};
+rows.forEach((r, i) => {
+	const x0 = PAD + LANE + (innerW - rowWidth(r)) / 2;
+	r.forEach((c, j) => (pos[c.slug] = { x: x0 + j * (W + GX), y: PAD + i * (H + GY) }));
+});
+const height = PAD * 2 + rows.length * H + (rows.length - 1) * GY;
+
+/** Wrap a title into at most two lines of about 22 characters. */
+function wrap(t: string) {
+	const lines = [''];
+	for (const w of t.split(' ')) {
+		const cur = lines[lines.length - 1];
+		if (cur && (cur + ' ' + w).length > 22) lines.push(w);
+		else lines[lines.length - 1] = (cur + ' ' + w).trim();
+	}
+	return lines.length > 2 ? [lines[0], lines.slice(1).join(' ').slice(0, 20) + '…'] : lines;
+}
+
+// Edges between adjacent rows are S-curves. Longer edges detour through a side lane so
+// they never pass behind another chapter's box.
+let laneL = 0, laneR = 0;
+const edges = publishedChapters.flatMap((c) =>
+	c.prereqs.map((p: string) => {
+		const a = pos[p], b = pos[c.slug];
+		const x1 = a.x + W / 2, y1 = a.y + H, x2 = b.x + W / 2, y2 = b.y - 2;
+		let d;
+		if (level[c.slug] - level[p] === 1) {
+			const my = (y1 + y2) / 2;
+			d = `M${x1},${y1} C${x1},${my} ${x2},${my} ${x2},${y2}`;
+		} else {
+			const right = x2 >= width / 2;
+			const lx = right ? width - PAD - 8 - 12 * laneR++ : PAD + 8 + 12 * laneL++;
+			const ya = y1 + GY / 2 - 6, yb = y2 - GY / 2 + 8;
+			d = `M${x1},${y1} L${x1},${ya} L${lx},${ya} L${lx},${yb} L${x2},${yb} L${x2},${y2}`;
+		}
+		return { from: p, to: c.slug, d };
+	})
+);
+const graph = Object.fromEntries(publishedChapters.map((c) => [c.slug, c.prereqs]));
+const plannedParts = parts.filter((p) => p.chapters.every((c: any) => c.status === 'planned'));
+---
+
+<div class="pmap no-raw">
+	<p class="pmap-help">
+		Hover over, focus or tap a chapter to highlight everything it builds on (amber) and everything that builds on it
+		(blue). Click a chapter's name to open it. Chapters you have marked complete get a green edge.
+	</p>
+	<div class="pmap-scroll">
+		<svg
+			class="dg pmap-svg"
+			viewBox={`0 0 ${width} ${height}`}
+			width={width}
+			height={height}
+			role="img"
+			aria-label="Chapter dependency map. The same information is in the table below."
+			data-graph={JSON.stringify(graph)}
+		>
+			<defs>
+				<marker id="pmap-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+					<path d="M0,0 L10,5 L0,10 z" class="pmap-arrowhead" />
+				</marker>
+			</defs>
+			{edges.map((e) => <path class="pmap-edge" d={e.d} data-from={e.from} data-to={e.to} marker-end="url(#pmap-arrow)" />)}
+			{
+				publishedChapters.map((c) => {
+					const { x, y } = pos[c.slug];
+					const lines = wrap(c.title);
+					const y0 = y + (lines.length === 1 ? 30 : 21);
+					return (
+						<a href={chapterUrl(c)} class="pmap-node" data-node={c.slug}>
+							<title>{`${c.number} ${c.title}`}</title>
+							<rect x={x} y={y} width={W} height={H} rx="8" />
+							<text x={x + 10} y={y0} class="pmap-num">{c.number}</text>
+							{lines.map((l, i) => (
+								<text x={x + 46} y={y0 + i * 17} class="pmap-label">{l}</text>
+							))}
+						</a>
+					);
+				})
+			}
+		</svg>
+	</div>
+	{
+		plannedParts.length > 0 && (
+			<p class="pmap-help">
+				Not on the map yet (still to be written): {plannedParts.map((p) => p.label.split(' · ')[1]).join(', ')}.
+			</p>
+		)
+	}
+</div>
+
+<h2 id="table">The same map as a table</h2>
+<div class="table-scroll">
+	<table class="pmap-table">
+		<thead>
+			<tr><th>Chapter</th><th>Builds directly on</th><th>Needed directly by</th></tr>
+		</thead>
+		<tbody>
+			{
+				publishedChapters.map((c) => {
+					const by = publishedChapters.filter((d) => d.prereqs.includes(c.slug));
+					return (
+						<tr>
+							<td><a href={chapterUrl(c)}>{c.number} {c.title}</a></td>
+							<td>
+								{c.prereqs.length
+									? c.prereqs.map((p: string) => `${chapterBySlug[p].number} ${chapterBySlug[p].title}`).join('; ')
+									: 'nothing (a starting point)'}
+							</td>
+							<td>{by.length ? by.map((d) => `${d.number} ${d.title}`).join('; ') : '(later parts)'}</td>
+						</tr>
+					);
+				})
+			}
+		</tbody>
+	</table>
+</div>
+
+<script>
+	import { onProgress } from '../../scripts/progress';
+
+	const svg = document.querySelector<SVGSVGElement>('.pmap-svg');
+	if (svg) {
+		const graph: Record<string, string[]> = JSON.parse(svg.dataset.graph || '{}');
+		const dependents: Record<string, string[]> = {};
+		for (const [k, ps] of Object.entries(graph)) for (const p of ps) (dependents[p] ||= []).push(k);
+		const closure = (start: string, next: Record<string, string[]>) => {
+			const seen = new Set<string>();
+			const stack = [...(next[start] || [])];
+			while (stack.length) {
+				const s = stack.pop()!;
+				if (!seen.has(s)) {
+					seen.add(s);
+					stack.push(...(next[s] || []));
+				}
+			}
+			return seen;
+		};
+		const nodes = [...svg.querySelectorAll<SVGAElement>('.pmap-node')];
+		const edges = [...svg.querySelectorAll<SVGPathElement>('.pmap-edge')];
+		const highlight = (slug: string | null) => {
+			svg.classList.toggle('focusing', Boolean(slug));
+			const up = slug ? closure(slug, graph) : new Set<string>();
+			const down = slug ? closure(slug, dependents) : new Set<string>();
+			if (slug) {
+				up.add(slug);
+				down.add(slug);
+			}
+			nodes.forEach((n) => {
+				const s = n.dataset.node!;
+				n.classList.toggle('is-focus', s === slug);
+				n.classList.toggle('is-up', s !== slug && up.has(s));
+				n.classList.toggle('is-down', s !== slug && down.has(s));
+			});
+			edges.forEach((e) => {
+				const { from, to } = e.dataset as { from: string; to: string };
+				e.classList.toggle('is-up', up.has(from) && up.has(to));
+				e.classList.toggle('is-down', down.has(from) && down.has(to));
+			});
+		};
+		nodes.forEach((n) => {
+			n.addEventListener('mouseenter', () => highlight(n.dataset.node!));
+			n.addEventListener('focus', () => highlight(n.dataset.node!));
+			// On touch screens the first tap highlights, the second tap follows the link.
+			n.addEventListener('click', (e) => {
+				if (matchMedia('(hover: none)').matches && !n.classList.contains('is-focus')) {
+					e.preventDefault();
+					highlight(n.dataset.node!);
+				}
+			});
+		});
+		svg.addEventListener('mouseleave', () => highlight(null));
+		onProgress((p) => nodes.forEach((n) => n.classList.toggle('is-done', Boolean(p.chapters[n.dataset.node!]))));
+	}
+</script>

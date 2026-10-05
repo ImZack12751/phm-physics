@@ -1,0 +1,171 @@
+---
+// Simulation: a logarithmic "ruler of sizes" from a proton to the distance to Tau Ceti.
+// Pick two things; the readout divides them in scientific notation step by step.
+const objects = [
+	{ id: 'proton', name: 'Proton (diameter)', a: 1.7, n: -15 },
+	{ id: 'atom', name: 'Hydrogen atom (diameter)', a: 1.1, n: -10 },
+	{ id: 'astrophage', name: 'Astrophage cell (book)', a: 1.0, n: -5 },
+	{ id: 'hair', name: 'Human hair (width)', a: 1.0, n: -4 },
+	{ id: 'human', name: 'Adult human (height)', a: 1.7, n: 0 },
+	{ id: 'earth', name: 'Earth (diameter)', a: 1.27, n: 7 },
+	{ id: 'moon', name: 'Earth to Moon', a: 3.84, n: 8 },
+	{ id: 'sun', name: 'Sun (diameter)', a: 1.39, n: 9 },
+	{ id: 'au', name: 'Earth to Sun (1 au)', a: 1.5, n: 11 },
+	{ id: 'ly', name: 'One light-year', a: 9.46, n: 15 },
+	{ id: 'tauceti', name: 'Earth to Tau Ceti', a: 1.13, n: 17 },
+];
+const MIN = -16, MAX = 18;
+const TOP = 20, PX = 14; // y of 10¹⁸ and pixels per power of ten
+const H = TOP * 2 + (MAX - MIN) * PX;
+const yOf = (log: number) => TOP + (MAX - log) * PX;
+const AXIS_X = 170;
+
+// Place labels next to their ticks, pushing them apart so none overlap (min 17 px apart).
+const placed = objects
+	.map((o) => ({ ...o, log: Math.log10(o.a) + o.n }))
+	.sort((p, q) => q.log - p.log)
+	.map((o) => ({ ...o, ty: yOf(o.log), ly: yOf(o.log) }));
+for (let pass = 0; pass < 50; pass++) {
+	for (let i = 1; i < placed.length; i++) {
+		const gap = placed[i].ly - placed[i - 1].ly;
+		if (gap < 17) {
+			const push = (17 - gap) / 2;
+			placed[i - 1].ly -= push;
+			placed[i].ly += push;
+		}
+	}
+}
+---
+
+<div
+	class="sim pot"
+	data-title="Powers of ten: a ruler of sizes"
+	data-description="A logarithmic ruler from 10⁻¹⁶ m to 10¹⁸ m with eleven objects (proton to the distance to Tau Ceti). Choose two objects and the simulation divides their sizes in scientific notation, showing how many powers of ten apart they are."
+	data-objects={JSON.stringify(objects)}
+>
+	<p class="sim-title">Simulation: a ruler of sizes</p>
+	<p class="sim-help">
+		Every step up this ruler is ten times bigger than the step below it. Choose two things to compare: the readout divides one size by the other using the rules from this chapter.
+	</p>
+	<div class="pot-layout">
+		<svg class="dg" viewBox={`0 0 460 ${H}`} role="img" aria-label="Logarithmic ruler of sizes from 10 to the minus 16 metres up to 10 to the 18 metres">
+			<line x1={AXIS_X} y1={yOf(MAX)} x2={AXIS_X} y2={yOf(MIN)} class="s-muted w2" />
+			{
+				Array.from({ length: MAX - MIN + 1 }, (_, k) => MIN + k).map((p) => (
+					<>
+						<line x1={AXIS_X - (p % 5 === 0 ? 10 : 5)} y1={yOf(p)} x2={AXIS_X} y2={yOf(p)} class="s-muted w1" />
+						{p % 2 === 0 && (
+							<text x={AXIS_X - 14} y={yOf(p) + 4} class="t-end t-sm f-muted">
+								10{String(p).replace('-', '⁻').replace(/\d/g, (d) => '⁰¹²³⁴⁵⁶⁷⁸⁹'[+d])} m
+							</text>
+						)}
+					</>
+				))
+			}
+			<path class="pot-bracket s-fg w2" d="" />
+			<text class="pot-bracket-label t-sm t-b" x="30" y="0"></text>
+			{
+				placed.map((o) => (
+					<g class="pot-obj" data-id={o.id}>
+						<circle cx={AXIS_X} cy={o.ty} r="4" class="pot-dot" />
+						<path d={`M${AXIS_X + 6},${o.ty} L${AXIS_X + 26},${o.ly} L${AXIS_X + 32},${o.ly}`} class="s-grid w1 pot-leader" />
+						<text x={AXIS_X + 36} y={o.ly + 4} class="t-sm pot-label">{o.name}</text>
+					</g>
+				))
+			}
+		</svg>
+		<div class="pot-side">
+			<div class="sim-controls">
+				<label>Bigger thing <select class="pot-a">{objects.map((o) => <option value={o.id} selected={o.id === 'tauceti'}>{o.name}</option>)}</select></label>
+				<label>Smaller thing <select class="pot-b">{objects.map((o) => <option value={o.id} selected={o.id === 'astrophage'}>{o.name}</option>)}</select></label>
+			</div>
+			<div class="readout pot-readout" aria-live="polite"></div>
+		</div>
+	</div>
+</div>
+
+<style>
+	.pot-layout svg {
+		max-width: 520px;
+		margin: 0 auto;
+	}
+	.pot :global(.pot-dot) {
+		fill: var(--dg-muted);
+	}
+	.pot :global(.pot-obj.is-a .pot-dot) {
+		fill: var(--dg-amber);
+		r: 6;
+	}
+	.pot :global(.pot-obj.is-b .pot-dot) {
+		fill: var(--dg-sky);
+		r: 6;
+	}
+	.pot :global(.pot-obj.is-a .pot-label) {
+		fill: var(--dg-amber);
+		font-weight: 700;
+	}
+	.pot :global(.pot-obj.is-b .pot-label) {
+		fill: var(--dg-sky);
+		font-weight: 700;
+	}
+	.pot :global(.pot-bracket-label) {
+		fill: var(--dg-fg);
+	}
+</style>
+
+<script>
+	const SUP: Record<string, string> = { '-': '⁻', '0': '⁰', '1': '¹', '2': '²', '3': '³', '4': '⁴', '5': '⁵', '6': '⁶', '7': '⁷', '8': '⁸', '9': '⁹' };
+	const sup = (n: number) => String(n).replace(/[-\d]/g, (c) => SUP[c]);
+	const sci = (a: number, n: number) => `${a.toPrecision(3)} × 10<sup>${n}</sup>`;
+
+	document.querySelectorAll<HTMLElement>('.sim.pot').forEach((root) => {
+		const objects: { id: string; name: string; a: number; n: number }[] = JSON.parse(root.dataset.objects!);
+		const byId = Object.fromEntries(objects.map((o) => [o.id, o]));
+		const selA = root.querySelector<HTMLSelectElement>('.pot-a')!;
+		const selB = root.querySelector<HTMLSelectElement>('.pot-b')!;
+		const out = root.querySelector<HTMLElement>('.pot-readout')!;
+		const bracket = root.querySelector<SVGPathElement>('.pot-bracket')!;
+		const blabel = root.querySelector<SVGTextElement>('.pot-bracket-label')!;
+		const dotY = (id: string) => Number(root.querySelector(`.pot-obj[data-id="${id}"] circle`)!.getAttribute('cy'));
+
+		function update() {
+			const A = byId[selA.value], B = byId[selB.value];
+			root.querySelectorAll('.pot-obj').forEach((g) => {
+				g.classList.toggle('is-a', (g as HTMLElement).dataset.id === A.id);
+				g.classList.toggle('is-b', (g as HTMLElement).dataset.id === B.id);
+			});
+			// Divide: (a × 10^m) / (b × 10^n) = (a/b) × 10^(m−n), then tidy the coefficient.
+			let coef = A.a / B.a;
+			let exp = A.n - B.n;
+			const raw = `${(A.a / B.a).toPrecision(3)} × 10<sup>${exp}</sup>`;
+			let tidy = '';
+			if (coef < 1) {
+				coef *= 10;
+				exp -= 1;
+				tidy = `<br><span class="k">Tidy up (coefficient below 1):</span> = ${sci(coef, exp)}`;
+			} else if (coef >= 10) {
+				coef /= 10;
+				exp += 1;
+				tidy = `<br><span class="k">Tidy up (coefficient 10 or more):</span> = ${sci(coef, exp)}`;
+			}
+			const decades = Math.log10(A.a / B.a) + (A.n - B.n);
+			out.innerHTML =
+				`<span class="k">Bigger:</span> <b>${A.name}</b> ≈ ${sci(A.a, A.n)} m<br>` +
+				`<span class="k">Smaller:</span> <b style="color:var(--dg-sky)">${B.name}</b> ≈ ${sci(B.a, B.n)} m<br><br>` +
+				`<span class="k">Ratio</span> = (${A.a} ÷ ${B.a}) × 10<sup>${A.n} − (${B.n})</sup><br>` +
+				`= ${raw}${tidy}<br><br>` +
+				(decades >= 0
+					? `The first is about <b>${Math.round(decades)}</b> powers of ten (orders of magnitude) bigger.`
+					: `The first is actually <b>smaller</b>: about ${Math.round(-decades)} powers of ten smaller.`);
+			// Bracket on the left of the axis spanning the two objects.
+			const y1 = dotY(A.id), y2 = dotY(B.id), x = 100;
+			bracket.setAttribute('d', `M${x + 8},${y1} L${x},${y1} L${x},${y2} L${x + 8},${y2}`);
+			blabel.setAttribute('x', '6');
+			blabel.setAttribute('y', String((y1 + y2) / 2 + 4));
+			blabel.textContent = `×10${sup(Math.round(decades))}`;
+		}
+		selA.addEventListener('change', update);
+		selB.addEventListener('change', update);
+		update();
+	});
+</script>

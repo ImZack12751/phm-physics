@@ -1,0 +1,135 @@
+---
+// Simulation: build a chain of conversion factors for a speed, with cancelling units struck out.
+---
+
+<div
+	class="sim uc"
+	data-title="Conversion chain builder"
+	data-description="Choose a speed and its units (metres, kilometres, miles, astronomical units or light-years per second, minute, hour, day or year) and the units to convert to. The simulation writes out the chain of conversion factors, each equal to 1, crosses out the cancelling units and gives the result."
+>
+	<p class="sim-title">Simulation: conversion chain builder</p>
+	<p class="sim-help">Pick a speed and the units you want. Every factor in the chain equals 1, and units that appear on both top and bottom cancel (crossed out).</p>
+	<div class="sim-controls">
+		<label>Value <input type="number" class="uc-v" value="90" step="any" /></label>
+		<label>From <select class="uc-l1"></select> per <select class="uc-t1"></select></label>
+		<label>To <select class="uc-l2"></select> per <select class="uc-t2"></select></label>
+	</div>
+	<p class="uc-quick">
+		Quick fill:
+		<button type="button" data-q="90,km,h,m,s">Motorway speed</button>
+		<button type="button" data-q="29.78,km,s,km,h">Earth's orbit</button>
+		<button type="button" data-q="299792458,m,s,ly,yr">Speed of light</button>
+	</p>
+	<div class="readout uc-out" aria-live="polite"></div>
+</div>
+
+<style>
+	.uc-quick {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+		align-items: center;
+		font-size: var(--sl-text-sm);
+		margin: 0.75rem 0 0;
+	}
+	.uc-out :global(.chain) {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 0.4rem 0.6rem;
+		font-size: 1rem;
+	}
+	.uc-out :global(.fr) {
+		display: inline-flex;
+		flex-direction: column;
+		align-items: center;
+		line-height: 1.5;
+	}
+	.uc-out :global(.fr > span:first-child) {
+		border-bottom: 2px solid var(--dg-fg);
+		padding: 0 0.3rem;
+	}
+	.uc-out :global(.x) {
+		text-decoration: line-through;
+		text-decoration-thickness: 2px;
+	}
+	.uc-out :global(.c0) {
+		text-decoration-color: var(--dg-amber);
+		color: var(--dg-amber);
+	}
+	.uc-out :global(.c1) {
+		text-decoration-color: var(--dg-sky);
+		color: var(--dg-sky);
+	}
+</style>
+
+<script>
+	const L: Record<string, [string, number]> = {
+		m: ['metres', 1],
+		km: ['kilometres', 1000],
+		mi: ['miles', 1609.344],
+		au: ['au', 149597870700],
+		ly: ['light-years', 9.4607304725808e15],
+	};
+	const T: Record<string, [string, number]> = {
+		s: ['second', 1],
+		min: ['minute', 60],
+		h: ['hour', 3600],
+		d: ['day', 86400],
+		yr: ['year', 31557600],
+	};
+	const fmt = (x: number) => {
+		if (x === 0) return '0';
+		const ax = Math.abs(x);
+		if (ax >= 0.01 && ax < 1e6) return String(+x.toPrecision(5));
+		const n = Math.floor(Math.log10(ax));
+		return `${+(x / 10 ** n).toPrecision(4)} × 10<sup>${n}</sup>`;
+	};
+
+	document.querySelectorAll<HTMLElement>('.sim.uc').forEach((root) => {
+		const $ = <E extends Element>(s: string) => root.querySelector<E>(s)!;
+		const v = $<HTMLInputElement>('.uc-v');
+		const [l1, t1, l2, t2] = ['.uc-l1', '.uc-t1', '.uc-l2', '.uc-t2'].map((s) => $<HTMLSelectElement>(s));
+		for (const sel of [l1, l2]) sel.innerHTML = Object.entries(L).map(([k, [n]]) => `<option value="${k}">${k} (${n})</option>`).join('');
+		for (const sel of [t1, t2]) sel.innerHTML = Object.entries(T).map(([k, [n]]) => `<option value="${k}">${k} (${n})</option>`).join('');
+		l1.value = 'km'; t1.value = 'h'; l2.value = 'm'; t2.value = 's';
+		const out = $<HTMLElement>('.uc-out');
+
+		function update() {
+			const x = parseFloat(v.value);
+			if (!isFinite(x)) return void (out.textContent = 'Enter a number.');
+			const A = l1.value, B = t1.value, C = l2.value, D = t2.value;
+			const fr: string[] = [];
+			const frac = (tn: string, tu: string, bn: string, bu: string, tx: string, bx: string) =>
+				`<span class="fr"><span>${tn} <span class="${tx}">${tu}</span></span><span>${bn} <span class="${bx}">${bu}</span></span></span>`;
+			const lenSame = A === C, timeSame = B === D;
+			const lenCancel = lenSame ? '' : 'x c0';
+			const timeCancel = timeSame ? '' : 'x c1';
+			fr.push(frac(String(x), A, '1', B, lenCancel, timeCancel));
+			let factor = 1;
+			if (!lenSame) {
+				if (A !== 'm') { fr.push(frac(fmt(L[A][1]), 'm', '1', A, C !== 'm' ? 'x c0' : '', 'x c0')); factor *= L[A][1]; }
+				if (C !== 'm') { fr.push(frac('1', C, fmt(L[C][1]), 'm', '', 'x c0')); factor /= L[C][1]; }
+			}
+			if (!timeSame) {
+				if (B !== 's') { fr.push(frac('1', B, fmt(T[B][1]), 's', 'x c1', D !== 's' ? 'x c1' : '')); factor /= T[B][1]; }
+				if (D !== 's') { fr.push(frac(fmt(T[D][1]), 's', '1', D, 'x c1', '')); factor *= T[D][1]; }
+			}
+			const result = x * factor;
+			out.innerHTML =
+				`<div class="chain">${fr.join('<span>×</span>')}<span>=</span><b>${fmt(result)} ${C}/${D}</b></div>` +
+				`<p style="margin:0.75rem 0 0"><span class="k">Overall conversion factor:</span> × ${fmt(factor)}. ` +
+				(lenSame && timeSame ? 'Same units: nothing to convert.' : 'Crossed-out units cancel in pairs, leaving only the units you asked for.') +
+				'</p>';
+		}
+		[v, l1, t1, l2, t2].forEach((el) => el.addEventListener('input', update));
+		root.querySelectorAll<HTMLButtonElement>('.uc-quick button').forEach((b) =>
+			b.addEventListener('click', () => {
+				const [val, a, bb, c, d] = b.dataset.q!.split(',');
+				v.value = val; l1.value = a; t1.value = bb; l2.value = c; t2.value = d;
+				update();
+			})
+		);
+		update();
+	});
+</script>

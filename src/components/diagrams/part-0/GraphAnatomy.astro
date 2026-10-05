@@ -1,0 +1,38 @@
+---
+// A distance–time graph d = 20 + 15t with its intercept and a gradient triangle.
+const O = { x: 80, y: 270 }, SX = 46, SY = 1.4; // px per s, px per m
+const px = (t: number) => O.x + t * SX, py = (d: number) => O.y - d * SY;
+const d = (t: number) => 20 + 15 * t;
+const P1 = { t: 2, d: d(2) }, P2 = { t: 8, d: d(8) };
+---
+
+<svg class="dg" viewBox="0 0 620 330" xmlns="http://www.w3.org/2000/svg">
+	{[0, 40, 80, 120, 160].map((v) => (
+		<>
+			<line x1={px(0)} y1={py(v)} x2={px(10)} y2={py(v)} class="s-grid w1" />
+			<text x={px(0) - 8} y={py(v) + 4} class="t-end t-sm f-muted">{v}</text>
+		</>
+	))}
+	{[0, 2, 4, 6, 8, 10].map((t) => <text x={px(t)} y={O.y + 20} class="t-mid t-sm f-muted">{t}</text>)}
+	<line x1={px(0)} y1={O.y} x2={px(10.4)} y2={O.y} class="s-fg w2" />
+	<line x1={px(0)} y1={O.y} x2={px(0)} y2={py(178)} class="s-fg w2" />
+	<text x={px(5)} y={O.y + 42} class="t-mid t-sm">time, t (s)   ← independent variable</text>
+	<text x="22" y={py(80)} class="t-mid t-sm" transform={`rotate(-90 22 ${py(80)})`}>distance, d (m)</text>
+
+	<line x1={px(0)} y1={py(d(0))} x2={px(10)} y2={py(d(10))} class="s-amber w3" />
+	{/* gradient triangle */}
+	<path d={`M${px(P1.t)},${py(P1.d)} L${px(P2.t)},${py(P1.d)} L${px(P2.t)},${py(P2.d)}`} class="s-sky w2 dash" />
+	<circle cx={px(P1.t)} cy={py(P1.d)} r="5" class="f-sky" />
+	<circle cx={px(P2.t)} cy={py(P2.d)} r="5" class="f-sky" />
+	<text x={px(5.6)} y={py(P1.d) + 18} class="t-mid t-sm f-sky">Δt = 6 s</text>
+	<text x={px(P2.t) + 10} y={py((P1.d + P2.d) / 2) + 4} class="t-sm f-sky">Δd = 90 m</text>
+	<text x={px(P1.t) + 6} y={py(P1.d) + 18} class="t-sm f-muted">(2 s, 50 m)</text>
+	<text x={px(P2.t) - 10} y={py(P2.d) - 8} class="t-end t-sm f-muted">(8 s, 140 m)</text>
+
+	{/* intercept */}
+	<circle cx={px(0)} cy={py(20)} r="5" class="f-green" />
+	<path d={`M${px(0) + 8},${py(20) + 4} L${px(0.9)},${py(5)}`} class="s-green w1" />
+	<text x={px(0.95)} y={py(5) + 4} class="t-sm f-green">intercept c = 20 m (distance at t = 0)</text>
+
+	<text x={px(10) + 4} y={py(P1.d) + 44} class="t-end t-b f-amber">gradient = Δd / Δt = 15 m/s</text>
+</svg>

@@ -1,0 +1,496 @@
+---
+title: SI units and prefixes
+description: What a unit is, the seven SI base units, how they are defined, and the prefixes from femto to peta.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import PrefixLadder from '../../../components/diagrams/part-0/PrefixLadder.astro';
+import AreaGrid from '../../../components/diagrams/part-0/AreaGrid.astro';
+import PrefixConverter from '../../../components/sims/PrefixConverter.astro';
+
+## The scene
+
+Once Grace makes contact with <Term id="rocky">Rocky</Term>, an engineer from another star system, the two of them want to compare notes on Astrophage. Before they can share a single measurement, they hit a basic problem. A number on its own means nothing. "Seven" what? Grace's units are human inventions, and Rocky's are Eridian inventions. Neither means anything to the other.
+
+So, in the novel, the two of them build a shared set of units from scratch, anchored to things both of them can observe. That is exactly how humanity's own system of units, the SI, works today. This chapter explains that system and the prefixes that let one unit cover everything from a proton to the distance to Tau Ceti.
+
+## Prerequisites
+
+<Prereqs notes={{ 'scientific-notation': 'every prefix is a power of ten, and conversions use the exponent rules' }} />
+
+## The concept
+
+### A measurement is a number times a unit
+
+When you say a corridor is 12 metres long, you are really saying
+
+$$
+\text{length} = 12 \times (1\ \text{metre}).
+$$
+
+The <Term id="unit">unit</Term> is an agreed amount of something: one metre of length, one second of time. The number says how many of those units fit into the thing you measured. Change the unit and the number changes too: the same corridor is $1200$ centimetres or $0.012$ kilometres. Physicists call the combination of number and unit a **quantity**, and they always keep the two together. A quantity without its unit is half a measurement.
+
+An analogy: a unit is like a currency. "The price is 12" is useless until you know whether it's 12 dollars or 12 yen. Converting units, which the next chapter covers in detail, is like exchanging currency.
+
+### Why the world agreed on one system
+
+For most of history, every region had its own units, often based on body parts (feet, hands, cubits) or local customs. Trade and science suffered because nobody's "foot" matched anybody else's. The metric system was designed in France in the 1790s to fix this. Its modern form is the <Term id="si">International System of Units</Term>, abbreviated **SI** (from the French *Système international*). Nearly all science is done in SI units, and this course uses them throughout.
+
+### The seven base units
+
+The SI is built on seven <Term id="base-unit">base units</Term>. Everything else is made from them.
+
+| Quantity | Unit | Symbol | Where we meet it |
+|---|---|---|---|
+| time | second | s | everywhere |
+| length | metre | m | everywhere |
+| mass | kilogram | kg | Part 2 onwards |
+| electric current | ampere | A | Part 14 (magnetic fields) |
+| temperature | kelvin | K | Part 6 |
+| amount of substance | mole | mol | Part 12 (gases) |
+| luminous intensity | candela | cd | rarely: it measures brightness as human eyes perceive it |
+
+For now you only need the first three: the <Term id="second">second</Term>, the <Term id="metre">metre</Term> and the <Term id="kilogram">kilogram</Term>. The others will be explained properly when a chapter first needs them.
+
+### How the units are defined: by nature, not by objects
+
+Until 2019, the kilogram was defined as the mass of one particular metal cylinder kept in a vault near Paris. If it got scratched, the mass of everything in the universe would, officially, change. Today every SI unit is defined by fixing the exact value of a constant of nature, something any laboratory (or any alien) can reproduce:
+
+- **The second** is defined by caesium atoms. A caesium-133 atom can flip between two energy states, and doing so involves a natural vibration with a fixed rhythm. Exactly $9\,192\,631\,770$ of these vibrations make one second. An atomic clock is a machine that counts them.
+- **The metre** is defined by the speed of light. Light in a vacuum travels exactly $299\,792\,458$ metres in one second, so one metre is the distance light travels in $1/299\,792\,458$ of a second. The speed of light isn't *measured* any more: it's fixed by definition, and the metre is whatever makes it true.
+- **The kilogram** is defined by fixing a number called the Planck constant. You'll need quantum physics (Part 7) to see exactly how. The key idea is the same: a number of nature, not a lump of metal.
+
+Notice the chain: the metre is built on the second. Define time well, and length comes along with it. This is the deep reason two strangers, like Grace and Rocky, *can* agree on units. Caesium atoms and light behave the same everywhere in the universe.
+
+### Derived units
+
+Other quantities use units built from the base units. They are called <Term id="derived-unit">derived units</Term>:
+
+| Quantity | How it is built | Unit |
+|---|---|---|
+| area | length × length | $\text{m}^{2}$ (square metre) |
+| volume | length × length × length | $\text{m}^{3}$ (cubic metre) |
+| speed | distance ÷ time | $\text{m/s}$ (metres per second) |
+| density | mass ÷ volume | $\text{kg/m}^{3}$ |
+
+Some derived units get their own names, such as the newton for force and the joule for energy. Each will be introduced in the chapter where it is first needed, with its full meaning.
+
+### Prefixes: one unit for every scale
+
+An Astrophage is $0.000\,01$ m wide and Tau Ceti is $113\,000\,000\,000\,000\,000$ m away. Scientific notation helps, but SI also offers a shortcut: a <Term id="prefix">prefix</Term> placed in front of a unit multiplies it by a power of ten. "Kilo" means a thousand, so a kilometre is a thousand metres. "Micro" means a millionth, so a micrometre is a millionth of a metre.
+
+<Figure caption="The main SI prefixes. Each labelled step is a factor of 1000 (three powers of ten). Centi breaks the pattern: it is 10⁻², a hundredth, and is used mainly in centimetres." alt="A horizontal axis of powers of ten from 10 to the minus 15 to 10 to the 15. Ticks every three powers are labelled with prefix symbol, name and value: f femto 10⁻¹⁵, p pico 10⁻¹², n nano 10⁻⁹, µ micro 10⁻⁶, m milli 10⁻³, no prefix 10⁰, k kilo 10³, M mega 10⁶, G giga 10⁹, T tera 10¹², P peta 10¹⁵. A separate green tick between milli and no prefix marks c, centi, 10⁻².">
+	<PrefixLadder />
+</Figure>
+
+| Prefix | Symbol | Multiplies by | Example |
+|---|---|---|---|
+| peta | P | $10^{15}$ | Tau Ceti is about 113 Pm away |
+| tera | T | $10^{12}$ | |
+| giga | G | $10^{9}$ | 1 Gm is about 2.6 times the Earth–Moon distance |
+| mega | M | $10^{6}$ | Earth's radius is about 6.37 Mm |
+| kilo | k | $10^{3}$ | 1 km = 1000 m |
+| centi | c | $10^{-2}$ | 1 cm = 0.01 m |
+| milli | m | $10^{-3}$ | 1 mm = 0.001 m |
+| micro | µ | $10^{-6}$ | an Astrophage is about 10 µm across |
+| nano | n | $10^{-9}$ | light travels about 30 cm in 1 ns |
+| pico | p | $10^{-12}$ | |
+| femto | f | $10^{-15}$ | a proton is about 1.7 fm across |
+
+There are more beyond these (exa, $10^{18}$, and atto, $10^{-18}$, and since 2022 even quetta, $10^{30}$). The ones in the table cover almost everything in this course.
+
+Rules worth knowing:
+
+- **Capital letters matter.** M (mega, a million) and m (milli, a thousandth) differ by a factor of $10^{9}$. Lower-case k is kilo, and capital K is kelvin.
+- **One prefix at a time.** Write ns for nanosecond, never "mµs".
+- **The kilogram is odd.** It is the base unit but it already contains a prefix. Prefixes attach to the gram instead: 1 mg is a milligram, not a "microkilogram".
+- **µ is the Greek letter mu.** If you can't type it, writing "u" (as in "um") is a common fallback, but avoid it in finished work.
+
+### Units that aren't SI but are allowed
+
+Some older units are so convenient that the SI officially accepts them alongside its own:
+
+- time: minute (min), hour (h), day (d)
+- volume: the <Term id="litre">litre</Term> (L), where $1\ \text{L} = 10^{-3}\ \text{m}^{3}$, the volume of a 10 cm cube
+- mass: the <Term id="tonne">tonne</Term> (t), where $1\ \text{t} = 1000\ \text{kg}$
+- astronomy: the <Term id="astronomical-unit">astronomical unit</Term> (au), the conventional Earth–Sun distance, exactly $149\,597\,870\,700$ m
+
+The light-year is *not* officially accepted by the SI, but astronomers and science fiction use it constantly, so we will too.
+
+### Writing quantities properly
+
+The SI also has rules for *writing*, and they exist to prevent misreadings:
+
+- Put a space between the number and the unit: $5\ \text{m}$, not "5m". (The exceptions are the symbols for angles, such as $30°$.)
+- Unit symbols are never pluralised and never take a full stop: "10 kg", not "10 kgs" or "10 kg.".
+- Unit symbols are upright, not italic. Italic letters are reserved for quantities, so $m$ is a mass, while m is the metre.
+
+## Formulas
+
+### A prefix is just a multiplier
+
+Because a prefix *means* a power of ten, you can always replace it by that power. This turns every prefix conversion into the exponent arithmetic from [Scientific notation](/part-0/scientific-notation/):
+
+$$
+1\ \text{k}\square = 10^{3}\ \square, \qquad 1\ \text{m}\square = 10^{-3}\ \square, \qquad 1\ \text{µ}\square = 10^{-6}\ \square, \qquad \ldots
+$$
+
+where $\square$ stands for any unit. In general, if a prefix stands for $10^{p}$:
+
+$$
+x\ (\text{prefix})\square = x \times 10^{p}\ \square
+$$
+
+**Example.** $350\ \text{nm} = 350 \times 10^{-9}\ \text{m} = 3.50 \times 10^{2} \times 10^{-9}\ \text{m} = 3.50 \times 10^{-7}\ \text{m}$.
+
+### Going from one prefix to another
+
+To change from a prefix worth $10^{p}$ to one worth $10^{q}$, first remove the old prefix (multiply by $10^{p}$), then express the result in the new one (divide by $10^{q}$):
+
+$$
+x\ (10^{p}\text{-prefix})\square = x \times \frac{10^{p}}{10^{q}}\ (10^{q}\text{-prefix})\square = x \times 10^{\,p - q}\ (10^{q}\text{-prefix})\square
+$$
+
+**Check with something familiar.** Kilometres to metres: $p = 3$, $q = 0$, so multiply by $10^{3}$. Indeed $2\ \text{km} = 2000\ \text{m}$. And millimetres to micrometres: $p = -3$, $q = -6$, so multiply by $10^{-3-(-6)} = 10^{3}$. Indeed $1\ \text{mm} = 1000\ \text{µm}$.
+
+A sanity check that never fails: **a smaller unit needs a bigger number.** Converting to a smaller unit (km to m) must make the number bigger, and converting to a bigger unit must make it smaller.
+
+### Prefixes on squared and cubed units
+
+This is the most common trap in the whole topic. In $\text{cm}^{2}$, the square applies to the *whole* unit, prefix included:
+
+$$
+1\ \text{cm}^{2} = (1\ \text{cm})^{2} = (10^{-2}\ \text{m})^{2} = 10^{-4}\ \text{m}^{2}
+$$
+
+It is **not** $10^{-2}\ \text{m}^{2}$. The diagram shows why: a 1 m square holds $100 \times 100 = 10\,000$ squares of 1 cm.
+
+<Figure caption="One square metre contains 10 000 square centimetres, not 100. Squaring the unit squares the prefix too." alt="A large square labelled 1 m by 1 m, divided into a 10 by 10 grid of 10 cm squares. The top-right 10 cm square is highlighted and enlarged to the right, where it is itself divided into a 10 by 10 grid of 1 cm squares; one 1 cm square is highlighted and labelled 1 square centimetre. Text: 100 squares of 100 square centimetres each, so 1 square metre equals 10 000 square centimetres.">
+	<AreaGrid />
+</Figure>
+
+The same applies to cubes. In general:
+
+$$
+1\ (\text{prefix})\square^{\,k} = \left(10^{p}\right)^{k}\ \square^{\,k} = 10^{pk}\ \square^{\,k}
+$$
+
+So $1\ \text{cm}^{3} = 10^{-6}\ \text{m}^{3}$ and $1\ \text{km}^{2} = 10^{6}\ \text{m}^{2}$.
+
+## Worked examples
+
+<Example n={1} title="Astrophage in metres, millimetres and nanometres" book>
+An Astrophage is $10\ \text{µm}$ wide. Express this in m, mm and nm.
+
+**In metres.** Micro means $10^{-6}$:
+
+$$
+10\ \text{µm} = 10 \times 10^{-6}\ \text{m} = 1.0 \times 10^{1} \times 10^{-6}\ \text{m} = 1.0 \times 10^{-5}\ \text{m}
+$$
+
+**In millimetres.** From $10^{-6}$ to $10^{-3}$: multiply by $10^{-6-(-3)} = 10^{-3}$:
+
+$$
+10\ \text{µm} = 10 \times 10^{-3}\ \text{mm} = 1.0 \times 10^{-2}\ \text{mm} = 0.010\ \text{mm}
+$$
+
+**In nanometres.** From $10^{-6}$ to $10^{-9}$: multiply by $10^{-6-(-9)} = 10^{3}$:
+
+$$
+10\ \text{µm} = 10 \times 10^{3}\ \text{nm} = 1.0 \times 10^{4}\ \text{nm}
+$$
+
+**Sanity check.** nm is the smallest unit, so it gets the biggest number, and mm the smallest number. ✓
+</Example>
+
+<Example n={2} title="The distance to Tau Ceti with a prefix" book>
+Tau Ceti is $1.13 \times 10^{17}$ m away. Which prefix gives a number between 1 and 1000, and what is the distance with it?
+
+We want $10^{17} = 10^{q} \times 10^{r}$ with $q$ a prefix power and the leftover $10^{r}$ small. Peta is $10^{15}$, leaving $10^{2}$:
+
+$$
+\begin{aligned}
+1.13 \times 10^{17}\ \text{m} &= 1.13 \times 10^{2} \times 10^{15}\ \text{m} \\
+  &= 113 \times 10^{15}\ \text{m} \\
+  &= 113\ \text{Pm}
+\end{aligned}
+$$
+
+About 113 petametres. Astronomers would normally say 11.9 light-years instead, which is why that unit exists.
+</Example>
+
+<Example n={3} title="Fuel in kilograms, tonnes and gigagrams" book>
+In the novel, the *<Term id="hail-mary">Hail Mary</Term>* sets out carrying roughly two million kilograms of Astrophage as fuel. Write this in scientific notation, in tonnes and in grams with a suitable prefix.
+
+**Scientific notation.** $2\ 000\ 000\ \text{kg} = 2.0 \times 10^{6}\ \text{kg}$.
+
+**Tonnes.** $1\ \text{t} = 10^{3}\ \text{kg}$, so the number of tonnes is
+
+$$
+\frac{2.0 \times 10^{6}\ \text{kg}}{10^{3}\ \text{kg per tonne}} = 2.0 \times 10^{3}\ \text{t} = 2000\ \text{t}.
+$$
+
+**Grams.** First remove the kilo: $1\ \text{kg} = 10^{3}\ \text{g}$, so
+
+$$
+2.0 \times 10^{6}\ \text{kg} = 2.0 \times 10^{6} \times 10^{3}\ \text{g} = 2.0 \times 10^{9}\ \text{g} = 2.0\ \text{Gg}.
+$$
+
+Two gigagrams. It's correct but unusual: people say "2000 tonnes".
+</Example>
+
+<Example n={4} title="How far does light go in a nanosecond?">
+Light travels $299\,792\,458$ m every second (this is exact, because it defines the metre). How far does it go in $1\ \text{ns}$?
+
+In one nanosecond, light covers $10^{-9}$ of its one-second distance:
+
+$$
+\begin{aligned}
+d &= 299\,792\,458\ \text{m} \times 10^{-9} \\
+  &= 2.99792458 \times 10^{8} \times 10^{-9}\ \text{m} \\
+  &= 2.998 \times 10^{-1}\ \text{m} \\
+  &\approx 0.300\ \text{m} = 30.0\ \text{cm}
+\end{aligned}
+$$
+
+About 30 cm, the length of a school ruler. Computer engineers care about this, because a signal can't cross a large circuit board faster than a few nanoseconds.
+</Example>
+
+<Example n={5} title="An Astrophage's volume in friendlier units" book>
+In [Scientific notation](/part-0/scientific-notation/) we found that one Astrophage has a volume of about $5.2 \times 10^{-16}\ \text{m}^{3}$. Express this in $\text{µm}^{3}$.
+
+Since $1\ \text{µm} = 10^{-6}\ \text{m}$, cubing gives
+
+$$
+1\ \text{µm}^{3} = (10^{-6}\ \text{m})^{3} = 10^{-18}\ \text{m}^{3}.
+$$
+
+So every cubic metre contains $10^{18}$ cubic micrometres, and
+
+$$
+\begin{aligned}
+V &= 5.2 \times 10^{-16}\ \text{m}^{3} \times \frac{10^{18}\ \text{µm}^{3}}{1\ \text{m}^{3}} \\
+  &= 5.2 \times 10^{2}\ \text{µm}^{3} \\
+  &= 520\ \text{µm}^{3}
+\end{aligned}
+$$
+
+That makes sense: a sphere 10 µm wide fits inside a cube of $10 \times 10 \times 10 = 1000\ \text{µm}^{3}$, and a sphere fills a bit more than half of its box.
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** The SI, its seven base units and its prefixes are real and defined by the BIPM, the international bureau of weights and measures. Since 2019 every SI unit has been defined by fixing the value of a constant of nature, such as the caesium frequency for the second and the speed of light for the metre.
+
+**Weir's inventions.** Eridians and their units are fictional.
+
+**How realistic is the idea?** Very. Two civilisations that had never met really would have to build shared units, and the only sensible way is to anchor them to physics that is the same everywhere: atomic transitions, the speed of light, the properties of particular elements. That is exactly what the modern SI does. The novel's "about two million kilograms" of fuel is the book's own figure. We use it as a number to practise with, and Part 5 will test whether it makes sense.
+</RealVsBook>
+
+## Interactive simulation
+
+<PrefixConverter />
+
+Try the quick-fill buttons, then predict before you look: what is 1 Gm in km? What is 3 ns in µs?
+
+## Practice set
+
+<Problem n={1} level="easy">
+Convert to the base unit (m, g or s) and write in scientific notation: (a) $5\ \text{km}$ (b) $250\ \text{mg}$ (c) $3.2\ \text{ns}$ (d) $47\ \text{Mm}$
+
+<Solution>
+Replace each prefix by its power of ten.
+
+(a) $5\ \text{km} = 5 \times 10^{3}\ \text{m}$.
+
+(b) $250\ \text{mg} = 250 \times 10^{-3}\ \text{g} = 2.50 \times 10^{2} \times 10^{-3}\ \text{g} = 2.50 \times 10^{-1}\ \text{g}$ (that is, $0.250$ g).
+
+(c) $3.2\ \text{ns} = 3.2 \times 10^{-9}\ \text{s}$.
+
+(d) $47\ \text{Mm} = 47 \times 10^{6}\ \text{m} = 4.7 \times 10^{7}\ \text{m}$.
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy">
+Rewrite each with a prefix that gives a number between 1 and 1000: (a) $0.000\,004\,2\ \text{m}$ (b) $7.5 \times 10^{9}\ \text{m}$ (c) $0.035\ \text{s}$ (d) $6.0 \times 10^{-14}\ \text{g}$
+
+<Solution>
+(a) $4.2 \times 10^{-6}\ \text{m} = 4.2\ \text{µm}$.
+
+(b) $7.5 \times 10^{9}\ \text{m} = 7.5\ \text{Gm}$.
+
+(c) $0.035\ \text{s} = 35 \times 10^{-3}\ \text{s} = 35\ \text{ms}$.
+
+(d) $6.0 \times 10^{-14}\ \text{g} = 60 \times 10^{-15}\ \text{g} = 60\ \text{fg}$. (Or $0.060\ \text{pg}$, but that number is below 1.)
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy">
+Each of these is written wrongly. Say what is wrong and correct it: (a) 5 Kg (b) 10 kms (c) 3m (d) 20 Secs. (e) 2 mkm
+
+<Solution>
+(a) Capital K is the kelvin. Kilo is lower-case: **5 kg**.
+
+(b) Symbols are never pluralised: **10 km**.
+
+(c) A space is needed between number and unit: **3 m**.
+
+(d) Use the symbol, with no plural and no full stop: **20 s**.
+
+(e) Double prefixes aren't allowed. A milli-kilometre is $10^{-3} \times 10^{3}$ m = 1 m: **2 m**.
+</Solution>
+</Problem>
+
+<Problem n={4} level="easy">
+Which is bigger, and by what factor: (a) $1\ \text{Mm}$ or $1\ \text{mm}$? (b) $1\ \text{ms}$ or $1\ \text{µs}$?
+
+<Solution>
+(a) $1\ \text{Mm} = 10^{6}$ m and $1\ \text{mm} = 10^{-3}$ m. The ratio is $10^{6}/10^{-3} = 10^{9}$. The megametre is a billion times bigger. This is why capitalisation matters.
+
+(b) $1\ \text{ms} = 10^{-3}$ s and $1\ \text{µs} = 10^{-6}$ s. The ratio is $10^{-3}/10^{-6} = 10^{3}$. The millisecond is 1000 times longer.
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium">
+Convert: (a) $1\ \text{km}^{2}$ to $\text{m}^{2}$ (b) $2.5\ \text{cm}^{2}$ to $\text{m}^{2}$ (c) $1\ \text{m}^{3}$ to $\text{cm}^{3}$
+
+<Solution>
+Square or cube the whole unit, prefix included.
+
+(a) $1\ \text{km}^{2} = (10^{3}\ \text{m})^{2} = 10^{6}\ \text{m}^{2}$, a million square metres.
+
+(b) $1\ \text{cm}^{2} = (10^{-2}\ \text{m})^{2} = 10^{-4}\ \text{m}^{2}$, so $2.5\ \text{cm}^{2} = 2.5 \times 10^{-4}\ \text{m}^{2}$.
+
+(c) $1\ \text{cm}^{3} = (10^{-2}\ \text{m})^{3} = 10^{-6}\ \text{m}^{3}$. So one cubic metre holds $10^{6}$ cubic centimetres: $1\ \text{m}^{3} = 10^{6}\ \text{cm}^{3}$.
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium">
+A litre is defined as $10^{-3}\ \text{m}^{3}$. (a) How many litres are in $1\ \text{m}^{3}$? (b) Show that $1\ \text{mL} = 1\ \text{cm}^{3}$. (c) Write $500\ \text{mL}$ in $\text{m}^{3}$.
+
+<Solution>
+(a) $1\ \text{m}^{3} \div (10^{-3}\ \text{m}^{3}\ \text{per litre}) = 10^{3}$ litres, so 1000 L.
+
+(b) $1\ \text{mL} = 10^{-3}\ \text{L} = 10^{-3} \times 10^{-3}\ \text{m}^{3} = 10^{-6}\ \text{m}^{3}$. From Problem 5(c), $1\ \text{cm}^{3} = 10^{-6}\ \text{m}^{3}$ as well. They are the same. ✓
+
+(c) $500\ \text{mL} = 500 \times 10^{-6}\ \text{m}^{3} = 5.00 \times 10^{-4}\ \text{m}^{3}$.
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium">
+How far does light travel in (a) $1\ \text{µs}$ (b) $1\ \text{ms}$? Use $c = 3.00 \times 10^{8}$ m covered per second.
+
+<Solution>
+(a) One microsecond is $10^{-6}$ of a second, so the distance is $3.00 \times 10^{8}\ \text{m} \times 10^{-6} = 3.00 \times 10^{2}\ \text{m} = 300\ \text{m}$.
+
+(b) $3.00 \times 10^{8}\ \text{m} \times 10^{-3} = 3.00 \times 10^{5}\ \text{m} = 300\ \text{km}$.
+
+Each step of 1000 in time gives a step of 1000 in distance, as you'd expect.
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium" book>
+The width of an Astrophage, $10\ \text{µm}$, is compared with a human hair about $0.08\ \text{mm}$ wide. Convert both to µm. About how many Astrophage would fit side by side across one hair?
+
+<Solution>
+$0.08\ \text{mm} = 0.08 \times 10^{3}\ \text{µm} = 80\ \text{µm}$ (going from milli to micro multiplies by $10^{-3-(-6)} = 10^{3}$).
+
+Number across the hair: $80\ \text{µm} \div 10\ \text{µm} = 8$.
+
+About 8 cells. The units cancel, so the answer is a plain number.
+</Solution>
+</Problem>
+
+<Problem n={9} level="medium">
+Earth's surface area is about $5.10 \times 10^{14}\ \text{m}^{2}$. Express it in $\text{km}^{2}$.
+
+<Solution>
+From Problem 5, $1\ \text{km}^{2} = 10^{6}\ \text{m}^{2}$. So the number of square kilometres is
+
+$$
+\frac{5.10 \times 10^{14}\ \text{m}^{2}}{10^{6}\ \text{m}^{2}\ \text{per km}^{2}} = 5.10 \times 10^{8}\ \text{km}^{2}.
+$$
+
+The common mistake is to divide by $10^{3}$ and get $5.10 \times 10^{11}$, which is a thousand times too big.
+</Solution>
+</Problem>
+
+<Problem n={10} level="challenging">
+Water has a density of about $1\ \text{g/cm}^{3}$. Express this in $\text{kg/m}^{3}$.
+
+<Solution>
+Replace each prefixed unit by its value in base units: $1\ \text{g} = 10^{-3}\ \text{kg}$ and $1\ \text{cm}^{3} = 10^{-6}\ \text{m}^{3}$. So
+
+$$
+\begin{aligned}
+1\ \frac{\text{g}}{\text{cm}^{3}} &= \frac{10^{-3}\ \text{kg}}{10^{-6}\ \text{m}^{3}} \\
+  &= 10^{-3-(-6)}\ \frac{\text{kg}}{\text{m}^{3}} \\
+  &= 10^{3}\ \text{kg/m}^{3}
+\end{aligned}
+$$
+
+So water is $1000\ \text{kg/m}^{3}$: a cubic metre of water has a mass of one tonne. Worth remembering.
+</Solution>
+</Problem>
+
+<Problem n={11} level="challenging" book>
+Grace and Rocky need a shared unit of time. Suppose they agree to use caesium vibrations, as the SI does. (a) How many caesium vibrations happen in $1\ \text{ms}$? (b) An Eridian time unit happens to equal $2.366$ s (an invented value, for practice only). How many caesium vibrations is that?
+
+<Solution>
+One second is exactly $9\,192\,631\,770 = 9.192\,631\,770 \times 10^{9}$ vibrations.
+
+(a) $1\ \text{ms} = 10^{-3}\ \text{s}$, so the count is $9.19263177 \times 10^{9} \times 10^{-3} = 9.19 \times 10^{6}$, about 9.19 million.
+
+(b) $2.366 \times 9.19263177 \times 10^{9} = 21.75 \times 10^{9} = 2.175 \times 10^{10}$ vibrations.
+
+Any civilisation with an atomic clock could count these, which is why such a definition can be shared across species.
+</Solution>
+</Problem>
+
+<Problem n={12} level="challenging">
+A hard drive stores a bit of data in a region about $20\ \text{nm} \times 80\ \text{nm}$. (a) What is that area in $\text{m}^{2}$? (b) How many such regions fit in $1\ \text{cm}^{2}$?
+
+<Solution>
+(a) Area $= 20 \times 10^{-9}\ \text{m} \times 80 \times 10^{-9}\ \text{m} = 1600 \times 10^{-18}\ \text{m}^{2} = 1.6 \times 10^{-15}\ \text{m}^{2}$.
+
+(b) $1\ \text{cm}^{2} = 10^{-4}\ \text{m}^{2}$, so the number of regions is
+
+$$
+\frac{10^{-4}\ \text{m}^{2}}{1.6 \times 10^{-15}\ \text{m}^{2}} = 0.625 \times 10^{11} = 6.25 \times 10^{10}.
+$$
+
+About $6 \times 10^{10}$ bits, or 60 billion, per square centimetre.
+</Solution>
+</Problem>
+
+## Summary
+
+- A measurement is a number times a unit. Never separate them.
+- The SI has seven base units. For now, you need the second (s), metre (m) and kilogram (kg).
+- SI units are defined by fixing constants of nature: the second by caesium atoms, the metre by the speed of light, the kilogram by the Planck constant.
+- Derived units are built from base units, such as $\text{m}^{2}$, $\text{m}^{3}$, $\text{m/s}$ and $\text{kg/m}^{3}$.
+- A prefix is a power of ten. Replace it by that power to convert.
+- A squared or cubed unit squares or cubes its prefix too: $1\ \text{cm}^{2} = 10^{-4}\ \text{m}^{2}$.
+- Write a space between the number and unit, use upright symbols, and never pluralise them.
+
+**Formulas from this chapter**
+
+$$
+x\ (\text{prefix})\square = x \times 10^{p}\ \square \qquad\qquad 1\ (\text{prefix})\square^{\,k} = 10^{pk}\ \square^{\,k}
+$$
+
+$$
+1\ \text{L} = 10^{-3}\ \text{m}^{3} \qquad 1\ \text{t} = 10^{3}\ \text{kg} \qquad 1\ \text{au} = 149\,597\,870\,700\ \text{m}
+$$
+
+## Sources
+
+- BIPM, *The International System of Units (SI Brochure)*, 9th edition (2019, updated 2022): base units, defining constants, prefixes (including those added in 2022), accepted non-SI units such as the litre, tonne and au, and writing conventions. [bipm.org](https://www.bipm.org/en/publications/si-brochure)
+- NIST, *Guide for the Use of the International System of Units* (SP 811): writing rules such as spacing, plurals and italics. [nist.gov](https://www.nist.gov/pml/special-publication-811)
+- Speed of light $299\,792\,458$ m/s (exact) and caesium hyperfine frequency $9\,192\,631\,770$ Hz (exact): CODATA 2022, NIST. [physics.nist.gov](https://physics.nist.gov/cgi-bin/cuu/Value?c)
+- OpenStax, *University Physics Volume 1*, §1.2 "Units and Standards". [openstax.org](https://openstax.org/books/university-physics-volume-1/pages/1-2-units-and-standards)
+- IAU 2012 Resolution B2, re-definition of the astronomical unit. [Observatoire de Paris, "The astronomical unit"](https://syrte.obspm.fr/~capitaine/AU.html)
+- Earth's mean radius (6371 km) and the Earth–Moon distance ($384\,400$ km): NASA NSSDCA [Earth](https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html) and [Moon](https://nssdc.gsfc.nasa.gov/planetary/factsheet/moonfact.html) fact sheets.
+- Human hair is roughly 20 to 200 µm wide, so 0.08 mm is a typical value. "Micrometre", *Wikipedia* (orders-of-magnitude examples). [wikipedia.org](https://en.wikipedia.org/wiki/Micrometre)
+- Fuel mass of the *Hail Mary* ("about two million kilograms") is the novel's figure, as summarised in fan references. Treat it as approximate. Andy Weir, *Project Hail Mary* (2021).

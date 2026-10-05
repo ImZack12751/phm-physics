@@ -1,0 +1,528 @@
+---
+title: Handling units
+description: Conversion factors, unit cancellation, temperature scales and dimensional analysis, the habits that stop a calculation going silently wrong.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import UnitCancel from '../../../components/diagrams/part-0/UnitCancel.astro';
+import TempScales from '../../../components/diagrams/part-0/TempScales.astro';
+import UnitChain from '../../../components/sims/UnitChain.astro';
+
+## The scene
+
+Once Grace and Rocky have agreed on a shared set of units, every number that passes between them has to be translated. Rocky reports a measurement in Eridian terms, and Grace converts it into something he can reason with. Grace answers in human terms, and Rocky converts it back. On a spaceship, one slip in a conversion isn't an embarrassment. It could kill someone.
+
+Real spaceflight has learned this the hard way. In 1999 NASA lost the *Mars Climate Orbiter* because one team's software produced numbers in imperial units while another team's software assumed metric. The spacecraft flew too low into Mars's atmosphere and was destroyed. This chapter is about the habits that prevent that kind of mistake.
+
+## Prerequisites
+
+<Prereqs notes={{ 'si-units': 'units, prefixes and the idea that a quantity is a number times a unit' }} />
+
+## The concept
+
+### Units behave like algebra
+
+In algebra, $3x \times 2x = 6x^{2}$ and $\dfrac{6x}{2x} = 3$. Units obey exactly the same rules. They multiply, divide and cancel as if they were letters:
+
+$$
+3\ \text{m} \times 2\ \text{m} = 6\ \text{m}^{2}, \qquad \frac{6\ \text{m}}{2\ \text{s}} = 3\ \frac{\text{m}}{\text{s}} = 3\ \text{m/s}, \qquad \frac{12\ \text{m}}{4\ \text{m}} = 3
+$$
+
+The last one is worth a second look. Metres divided by metres cancel completely, leaving a plain number with no unit. Such a quantity is called *dimensionless*. It is what you get whenever you ask "how many times bigger?"
+
+Because units follow algebra, they also follow the exponent rules from [Scientific notation](/part-0/scientific-notation/): $\text{m}^{2} \times \text{m} = \text{m}^{3}$, and $\dfrac{\text{m}}{\text{s}} \div \text{s} = \dfrac{\text{m}}{\text{s}^{2}}$.
+
+### Conversion factors: multiplying by one
+
+Here is the key trick of the whole chapter. Since $1\ \text{km} = 1000\ \text{m}$, the fraction
+
+$$
+\frac{1000\ \text{m}}{1\ \text{km}}
+$$
+
+has the same thing on top and bottom, just written differently. **It equals exactly 1.** Such a fraction is a <Term id="conversion-factor">conversion factor</Term>. Multiplying any quantity by 1 doesn't change it, but it can change the units it is written in. And you can flip a conversion factor upside down, $\dfrac{1\ \text{km}}{1000\ \text{m}}$, which also equals 1.
+
+How do you know which way up to use it? **Choose the orientation that makes the unwanted unit cancel.** If you have kilometres and want metres, you need km on the *bottom* of the factor so it cancels the km you have:
+
+$$
+4.2\ \text{km} \times \frac{1000\ \text{m}}{1\ \text{km}} = 4200\ \text{m}
+$$
+
+If you pick the wrong orientation, the units tell you immediately: you'd get $\text{km}^{2}/\text{m}$, which is obviously nonsense. This self-checking is why physicists carry units on every line.
+
+### Chains of factors
+
+For a compound unit like km/h, you need one factor per unit you want to change, multiplied one after another. Each factor is 1, so the chain is still 1.
+
+<Figure caption="Converting 90 km/h to m/s. Each factor equals 1. km on top cancels km underneath, and h underneath cancels h on top, leaving m/s." alt="A row of fractions: 90 km over 1 h, times 1000 m over 1 km, times 1 h over 3600 s, equals 25 m over 1 s. The km in the first numerator and the km in the second denominator are crossed out in amber. The h in the first denominator and the h in the third numerator are crossed out in blue. Notes say each of the two middle fractions equals 1.">
+	<UnitCancel />
+</Figure>
+
+### Temperature: a conversion that isn't just a multiplication
+
+Most conversions are pure multiplication, because the two units share the same zero: zero metres is zero feet. Temperature scales are different, because each one puts its zero in a different place.
+
+- The **Celsius** scale puts 0 at the freezing point of water and 100 at its boiling point (at normal air pressure).
+- The **Fahrenheit** scale, still used in the USA, puts freezing at 32 and boiling at 212.
+- The <Term id="kelvin">kelvin</Term> scale, the SI base unit, starts at <Term id="absolute-zero">absolute zero</Term>, the coldest possible temperature, and uses steps the same size as Celsius degrees.
+
+<Figure caption="The same four temperatures on three scales. A kelvin and a Celsius degree are the same size, but the scales start in different places. A Fahrenheit degree is smaller: 180 of them span what 100 Celsius degrees span." alt="Three vertical thermometer scales labelled kelvin, Celsius and Fahrenheit, with four dashed rows across them. Water boils: 373.15 K, 100 degrees C, 212 degrees F. Astrophage in the book: 369.565 K, 96.415 degrees C, 205.547 degrees F. Water freezes: 273.15 K, 0 degrees C, 32 degrees F. Absolute zero: 0 K, minus 273.15 degrees C, minus 459.67 degrees F. Rows are not to scale.">
+	<TempScales />
+</Figure>
+
+Part 6 explains what temperature *is* and why there is an absolute zero. For now we only need to convert between the scales.
+
+### Dimensions: what kind of thing is it?
+
+A <Term id="dimension">dimension</Term> is the *kind* of quantity, regardless of the unit: length, mass or time. We write them as $[L]$, $[M]$ and $[T]$. A metre, a mile and a light-year all have dimension $[L]$. A speed, whether in m/s or mph, has dimension $[L]/[T]$.
+
+Two rules follow from common sense:
+
+1. **You can only add or subtract quantities of the same dimension.** Three metres plus two seconds is meaningless, like three apples plus two Tuesdays.
+2. **Both sides of an equation must have the same dimension.** If they don't, the equation is wrong.
+
+Rule 2 gives a powerful error check called <Term id="dimensional-analysis">dimensional analysis</Term>. Before trusting any formula, yours or anyone else's, check that its dimensions match. It can't catch every mistake (a missing factor of 2 has no dimension), but it catches a great many.
+
+## Formulas
+
+### The conversion factor
+
+If a unit A is equal to $k$ units of B, then
+
+$$
+1\ \text{A} = k\ \text{B} \quad\Longrightarrow\quad \frac{k\ \text{B}}{1\ \text{A}} = 1 \quad\text{and}\quad \frac{1\ \text{A}}{k\ \text{B}} = 1.
+$$
+
+Dividing both sides of a true equation by the same non-zero thing keeps it true. That is all a conversion factor is. To convert a quantity from A to B:
+
+$$
+x\ \text{A} = x\ \text{A} \times \frac{k\ \text{B}}{1\ \text{A}} = kx\ \text{B}
+$$
+
+### Squared and cubed conversions
+
+If $1\ \text{A} = k\ \text{B}$, then squaring both sides gives $1\ \text{A}^{2} = k^{2}\ \text{B}^{2}$, and cubing gives $1\ \text{A}^{3} = k^{3}\ \text{B}^{3}$. So **square or cube the whole conversion factor**:
+
+$$
+x\ \text{A}^{2} = x\ \text{A}^{2} \times \left(\frac{k\ \text{B}}{1\ \text{A}}\right)^{2} = k^{2}x\ \text{B}^{2}
+$$
+
+You met this already with prefixes, where $1\ \text{cm}^{2} = 10^{-4}\ \text{m}^{2}$.
+
+### Celsius and kelvin
+
+A kelvin and a Celsius degree are the same size. The only difference is the starting point: absolute zero is $0\ \text{K}$ and $-273.15\ °\text{C}$. So every temperature in kelvins is 273.15 more than the same temperature in degrees Celsius:
+
+$$
+T_{\text{K}} = T_{°\text{C}} + 273.15
+$$
+
+### Celsius and Fahrenheit, derived from two fixed points
+
+Both scales are evenly spaced, so one is a stretched and shifted copy of the other: $T_{°\text{F}} = a\,T_{°\text{C}} + b$ for some numbers $a$ and $b$. Two known points pin them down.
+
+At freezing, $T_{°\text{C}} = 0$ and $T_{°\text{F}} = 32$:
+
+$$
+32 = a \times 0 + b \quad\Longrightarrow\quad b = 32
+$$
+
+At boiling, $T_{°\text{C}} = 100$ and $T_{°\text{F}} = 212$:
+
+$$
+212 = 100a + 32 \quad\Longrightarrow\quad 100a = 180 \quad\Longrightarrow\quad a = \frac{180}{100} = \frac{9}{5}
+$$
+
+So
+
+$$
+T_{°\text{F}} = \frac{9}{5}\,T_{°\text{C}} + 32 \qquad\text{and, rearranging,}\qquad T_{°\text{C}} = \frac{5}{9}\left(T_{°\text{F}} - 32\right)
+$$
+
+(The [next chapter](/part-0/rearranging-formulas/) covers rearranging in detail.)
+
+### The dimension rules
+
+Writing $[x]$ for "the dimension of $x$":
+
+$$
+[A \times B] = [A][B], \qquad \left[\frac{A}{B}\right] = \frac{[A]}{[B]}, \qquad [A + B] = [A] = [B]\ \text{(they must already match)}
+$$
+
+Pure numbers such as $2$, $\tfrac{1}{2}$ or $\pi$ have no dimension. Their dimension is $1$, so they don't change the dimension of anything they multiply.
+
+## Worked examples
+
+<Example n={1} title="Motorway speed in metres per second">
+Convert $90\ \text{km/h}$ to $\text{m/s}$.
+
+We want to replace km by m and h by s. We need km on the bottom of one factor and h on the top of another:
+
+$$
+\begin{aligned}
+90\ \frac{\text{km}}{\text{h}} &= 90\ \frac{\text{km}}{\text{h}} \times \frac{1000\ \text{m}}{1\ \text{km}} \times \frac{1\ \text{h}}{3600\ \text{s}} \\
+&= \frac{90 \times 1000}{3600}\ \frac{\text{m}}{\text{s}} \\
+&= 25\ \text{m/s}
+\end{aligned}
+$$
+
+**Shortcut worth remembering.** The combined factor is $\tfrac{1000}{3600} = \tfrac{1}{3.6}$. To go from km/h to m/s, divide by 3.6. To go back, multiply by 3.6.
+</Example>
+
+<Example n={2} title="How fast is the Earth moving?">
+Earth orbits the Sun at an average of $29.78\ \text{km/s}$. Express this in km/h and in miles per hour ($1\ \text{mile} = 1.609344\ \text{km}$ exactly).
+
+**km/h.** Seconds are on the bottom, so the factor needs s on top:
+
+$$
+\begin{aligned}
+29.78\ \frac{\text{km}}{\text{s}} \times \frac{3600\ \text{s}}{1\ \text{h}} &= 107\,208\ \text{km/h} \\
+&\approx 1.072 \times 10^{5}\ \text{km/h}
+\end{aligned}
+$$
+
+**mph.** Continue from the km/h answer, with km on the bottom:
+
+$$
+\begin{aligned}
+107\,208\ \frac{\text{km}}{\text{h}} \times \frac{1\ \text{mile}}{1.609344\ \text{km}} &= 66\,616\ \text{mph} \\
+&\approx 6.662 \times 10^{4}\ \text{mph}
+\end{aligned}
+$$
+
+You are moving at more than sixty-six thousand miles per hour right now, and feel nothing. Part 2 explains why you can't feel it.
+</Example>
+
+<Example n={3} title="Checking that light goes one light-year per year" book>
+The *Hail Mary* will eventually travel at a sizeable fraction of the speed of light, so the novel talks about speeds as fractions of $c = 299\,792\,458\ \text{m/s}$. As a check of our factors, convert $c$ to light-years per year. A Julian year is $365.25$ days, and a light-year is $9.4607 \times 10^{15}$ m.
+
+First, the number of seconds in a year:
+
+$$
+\begin{aligned}
+1\ \text{yr} &= 365.25\ \text{d} \times \frac{24\ \text{h}}{1\ \text{d}} \times \frac{3600\ \text{s}}{1\ \text{h}} \\
+&= 31\,557\,600\ \text{s} \\
+&= 3.15576 \times 10^{7}\ \text{s}
+\end{aligned}
+$$
+
+Now the chain:
+
+$$
+\begin{aligned}
+c &= 2.99792458 \times 10^{8}\ \frac{\text{m}}{\text{s}} \times \frac{3.15576 \times 10^{7}\ \text{s}}{1\ \text{yr}} \times \frac{1\ \text{ly}}{9.4607 \times 10^{15}\ \text{m}} \\
+&= \frac{2.99792458 \times 3.15576}{9.4607} \times 10^{8+7-15}\ \frac{\text{ly}}{\text{yr}} \\
+&= 1.0000\ \text{ly/yr}
+\end{aligned}
+$$
+
+Exactly one light-year per year, as it must be, because that is the *definition* of a light-year. If you ever get something else, a factor is upside down.
+</Example>
+
+<Example n={4} title="Astrophage's temperature on three scales" book>
+In the novel, Astrophage keeps itself at exactly $96.415\ °\text{C}$. Convert this to kelvins and to degrees Fahrenheit.
+
+**Kelvin:**
+
+$$
+T_{\text{K}} = 96.415 + 273.15 = 369.565\ \text{K}
+$$
+
+**Fahrenheit:**
+
+$$
+\begin{aligned}
+T_{°\text{F}} &= \tfrac{9}{5} \times 96.415 + 32 \\
+&= 173.547 + 32 \\
+&= 205.547\ °\text{F}
+\end{aligned}
+$$
+
+Notice that in the Fahrenheit conversion we multiply *first* and add 32 *after*. Doing it the other way round gives a wrong answer.
+</Example>
+
+<Example n={5} title="Which formula could give a time?" book>
+In Part 1 Grace measures gravity by timing a falling object. Without knowing any physics yet, use dimensions to decide which of these could possibly give a *time*, if $h$ is a height in metres and $g$ is a quantity measured in $\text{m/s}^{2}$:
+
+$$
+\text{(a)}\ \frac{h}{g} \qquad \text{(b)}\ \sqrt{\frac{2h}{g}} \qquad \text{(c)}\ \sqrt{gh}
+$$
+
+Work out the units of each, treating them algebraically:
+
+**(a)**
+
+$$
+\frac{\text{m}}{\text{m/s}^{2}} = \text{m} \times \frac{\text{s}^{2}}{\text{m}} = \text{s}^{2}
+$$
+
+That is a time *squared*, not a time. ✗
+
+**(b)** The 2 is a pure number with no units. Inside the root, $\tfrac{h}{g}$ has units $\text{s}^{2}$ (from part a), and $\sqrt{\text{s}^{2}} = \text{s}$. A time. ✓
+
+**(c)**
+
+$$
+\sqrt{\frac{\text{m}}{\text{s}^{2}} \times \text{m}} = \sqrt{\frac{\text{m}^{2}}{\text{s}^{2}}} = \frac{\text{m}}{\text{s}}
+$$
+
+A speed. ✗
+
+Only (b) can be right. In Part 1 we will derive that it is indeed the fall time. Dimensional analysis found it before we knew any of the physics.
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** Unit conversion, temperature scales and dimensional analysis are standard tools. The *Mars Climate Orbiter* really was lost in September 1999 because of a unit mismatch between two teams' software. The exact definitions used here, such as $1\ \text{inch} = 2.54\ \text{cm}$, $1\ \text{mile} = 1609.344\ \text{m}$ and $0\ °\text{C} = 273.15\ \text{K}$, are fixed by international agreement.
+
+**Weir's inventions.** Astrophage's fixed temperature of $96.415\ °\text{C}$ is the novel's own invention. No real organism holds a precise temperature like this.
+
+**How realistic are the numbers?** The figure is suspiciously precise (five significant figures) and sits just below water's boiling point. In the story that precision becomes a useful clue, because a population of cells that all sit at one exact temperature is unlike anything in nature.
+</RealVsBook>
+
+## Interactive simulation
+
+<UnitChain />
+
+Try converting the speed of light into au per minute. Then flip the "to" and "from" units and check you get back where you started.
+
+## Practice set
+
+<Problem n={1} level="easy">
+Convert to seconds: (a) $3.5\ \text{h}$ (b) one day (c) $45\ \text{min}$
+
+<Solution>
+(a) $3.5\ \text{h} \times \dfrac{3600\ \text{s}}{1\ \text{h}} = 12\,600\ \text{s} = 1.26 \times 10^{4}\ \text{s}$.
+
+(b) $1\ \text{d} \times \dfrac{24\ \text{h}}{1\ \text{d}} \times \dfrac{3600\ \text{s}}{1\ \text{h}} = 86\,400\ \text{s}$.
+
+(c) $45\ \text{min} \times \dfrac{60\ \text{s}}{1\ \text{min}} = 2700\ \text{s}$.
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy">
+Convert (a) $72\ \text{km/h}$ to m/s (b) $15\ \text{m/s}$ to km/h.
+
+<Solution>
+(a) $72\ \dfrac{\text{km}}{\text{h}} \times \dfrac{1000\ \text{m}}{1\ \text{km}} \times \dfrac{1\ \text{h}}{3600\ \text{s}} = \dfrac{72\,000}{3600}\ \text{m/s} = 20\ \text{m/s}$. (Or use the shortcut: $72 \div 3.6 = 20$.)
+
+(b) $15\ \dfrac{\text{m}}{\text{s}} \times \dfrac{1\ \text{km}}{1000\ \text{m}} \times \dfrac{3600\ \text{s}}{1\ \text{h}} = 54\ \text{km/h}$. (Shortcut: $15 \times 3.6 = 54$.)
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy">
+Convert to kelvins: (a) $0\ °\text{C}$ (b) $-40\ °\text{C}$. Convert to °C: (c) $300\ \text{K}$.
+
+<Solution>
+Use $T_{\text{K}} = T_{°\text{C}} + 273.15$.
+
+(a) $0 + 273.15 = 273.15\ \text{K}$.
+
+(b) $-40 + 273.15 = 233.15\ \text{K}$.
+
+(c) Rearranged, $T_{°\text{C}} = T_{\text{K}} - 273.15 = 300 - 273.15 = 26.85\ °\text{C}$, a warm room.
+</Solution>
+</Problem>
+
+<Problem n={4} level="easy">
+A rectangle measures $3.0\ \text{m}$ by $50\ \text{cm}$. A student writes "area $= 3.0 \times 50 = 150\ \text{m}^{2}$". What went wrong? Give the correct area in $\text{m}^{2}$.
+
+<Solution>
+The two lengths are in different units, so multiplying the bare numbers is meaningless. With units the product is $150\ \text{m·cm}$, a mixed unit. Convert first: $50\ \text{cm} = 0.50\ \text{m}$. Then
+
+$$
+A = 3.0\ \text{m} \times 0.50\ \text{m} = 1.5\ \text{m}^{2}.
+$$
+
+The student's answer was 100 times too big.
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium">
+Show that one Julian year ($365.25$ days) is close to $\pi \times 10^{7}$ seconds, and find the percentage difference.
+
+<Solution>
+From Worked example 3, $1\ \text{yr} = 3.15576 \times 10^{7}\ \text{s}$. And $\pi \times 10^{7} = 3.14159 \times 10^{7}\ \text{s}$.
+
+The percentage difference is
+
+$$
+\frac{3.15576 - 3.14159}{3.15576} \times 100\% = 0.449\%,
+$$
+
+under half a percent. "A year is about $\pi \times 10^{7}$ seconds" is a handy memory aid for estimates.
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium" book>
+Tau Ceti is $11.9$ light-years away. How many astronomical units is that? ($1\ \text{ly} = 9.4607 \times 10^{15}$ m and $1\ \text{au} = 1.495979 \times 10^{11}$ m.)
+
+<Solution>
+Convert ly to m, then m to au:
+
+$$
+\begin{aligned}
+11.9\ \text{ly} &\times \frac{9.4607 \times 10^{15}\ \text{m}}{1\ \text{ly}} \times \frac{1\ \text{au}}{1.495979 \times 10^{11}\ \text{m}} \\
+&= \frac{11.9 \times 9.4607}{1.495979} \times 10^{15-11}\ \text{au} \\
+&= 75.26 \times 10^{4}\ \text{au} \\
+&= 7.53 \times 10^{5}\ \text{au}
+\end{aligned}
+$$
+
+About 750 000 times the Earth–Sun distance.
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium">
+Sound travels through air at about $343\ \text{m/s}$. Express this in km/h and in mph.
+
+<Solution>
+km/h: $343 \times 3.6 = 1234.8\ \text{km/h} \approx 1235\ \text{km/h}$.
+
+mph:
+
+$$
+1234.8\ \frac{\text{km}}{\text{h}} \times \frac{1\ \text{mile}}{1.609344\ \text{km}} = 767.3\ \text{mph} \approx 767\ \text{mph}.
+$$
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium">
+Using dimensions only, decide which of these could be a formula for a *speed* $v$, where $d$ is a distance, $t$ a time and $g$ a quantity in $\text{m/s}^{2}$:
+(a) $v = d/t$ (b) $v = d \times t$ (c) $v = gt$ (d) $v = d/t^{2}$
+
+<Solution>
+A speed has units m/s.
+
+(a) $\text{m}/\text{s}$ ✓
+
+(b) $\text{m·s}$ ✗
+
+(c) $\dfrac{\text{m}}{\text{s}^{2}} \times \text{s} = \dfrac{\text{m}}{\text{s}}$ ✓ (In Part 1 this turns out to be the speed of a falling object after time $t$.)
+
+(d) $\text{m}/\text{s}^{2}$ ✗
+
+Dimensional analysis allows (a) and (c). It can't tell us whether either is actually right, or whether a pure number such as 2 is missing.
+</Solution>
+</Problem>
+
+<Problem n={9} level="medium">
+A thermometer from the USA reads $98.6\ °\text{F}$, a traditional "normal" body temperature. What is that in °C and in K?
+
+<Solution>
+$$
+\begin{aligned}
+T_{°\text{C}} &= \tfrac{5}{9}(98.6 - 32) \\
+&= \tfrac{5}{9} \times 66.6 \\
+&= 37.0\ °\text{C}
+\end{aligned}
+$$
+
+$$
+T_{\text{K}} = 37.0 + 273.15 = 310.15\ \text{K} \approx 310\ \text{K}
+$$
+
+Subtract the 32 *before* multiplying by $\tfrac{5}{9}$.
+</Solution>
+</Problem>
+
+<Problem n={10} level="challenging">
+At what temperature do the Celsius and Fahrenheit scales show the same number?
+
+<Solution>
+We want the temperature where $T_{°\text{F}} = T_{°\text{C}}$. Call that common number $x$ and put it into the conversion formula:
+
+$$
+x = \tfrac{9}{5}x + 32
+$$
+
+Subtract $\tfrac{9}{5}x$ from both sides:
+
+$$
+x - \tfrac{9}{5}x = 32 \quad\Longrightarrow\quad -\tfrac{4}{5}x = 32 \quad\Longrightarrow\quad x = 32 \times \left(-\tfrac{5}{4}\right) = -40
+$$
+
+So $-40\ °\text{C} = -40\ °\text{F}$. Check: $\tfrac{9}{5}(-40) + 32 = -72 + 32 = -40$ ✓.
+</Solution>
+</Problem>
+
+<Problem n={11} level="challenging" book>
+Fan summaries of the novel say the *Hail Mary*'s engines use Astrophage at about 6 grams per second. Convert this rate to kilograms per day and to tonnes per year (Julian). Part 5 will check whether this fits the rest of the book's figures.
+
+<Solution>
+$$
+\begin{aligned}
+6\ \frac{\text{g}}{\text{s}} &\times \frac{1\ \text{kg}}{1000\ \text{g}} \times \frac{86\,400\ \text{s}}{1\ \text{d}} \\
+&= \frac{6 \times 86\,400}{1000}\ \frac{\text{kg}}{\text{d}} \\
+&= 518.4\ \text{kg/d} \approx 520\ \text{kg/d}
+\end{aligned}
+$$
+
+Per year:
+
+$$
+\begin{aligned}
+518.4\ \frac{\text{kg}}{\text{d}} &\times \frac{365.25\ \text{d}}{1\ \text{yr}} \times \frac{1\ \text{t}}{1000\ \text{kg}} \\
+&= 189.3\ \text{t/yr} \approx 190\ \text{t/yr}
+\end{aligned}
+$$
+
+(With only one significant figure in "6 g/s", the honest answers are about $500\ \text{kg/d}$ and $200\ \text{t/yr}$.)
+</Solution>
+</Problem>
+
+<Problem n={12} level="challenging">
+A pendulum's swing time $T$ (a time) depends only on its length $L$ (in m) and on $g$ (in $\text{m/s}^{2}$). Suppose $T = k\,L^{a}g^{b}$, where $k$ is a pure number. Use dimensions to find $a$ and $b$.
+
+<Solution>
+Write the dimensions of each side. $[T]$ is time. $[L^{a}] = [L]^{a}$, and $[g^{b}] = \left(\dfrac{[L]}{[T]^{2}}\right)^{b} = [L]^{b}[T]^{-2b}$. So
+
+$$
+[T]^{1} = [L]^{a+b}\,[T]^{-2b}.
+$$
+
+The powers of each dimension must match on both sides:
+
+- Length: the left side has no $[L]$, so $a + b = 0$.
+- Time: $1 = -2b$, so $b = -\tfrac{1}{2}$.
+
+Then $a = -b = \tfrac{1}{2}$, giving
+
+$$
+T = k\,L^{1/2}g^{-1/2}.
+$$
+
+A power of $\tfrac{1}{2}$ is a square root, because $(x^{1/2})^{2} = x^{\frac{1}{2} \times 2} = x$ by the power-of-a-power rule. So $T = k\sqrt{L/g}$. Part 2 shows that $k = 2\pi$ for small swings. Dimensions alone got us everything except that number.
+</Solution>
+</Problem>
+
+## Summary
+
+- Units multiply, divide and cancel like algebra symbols. Carry them on every line.
+- A conversion factor is a fraction equal to 1. Orient it so the unit you don't want cancels.
+- For compound units, use one factor per unit you change. For squared or cubed units, square or cube the factor.
+- Temperature scales have different zeros: $T_{\text{K}} = T_{°\text{C}} + 273.15$ and $T_{°\text{F}} = \tfrac{9}{5}T_{°\text{C}} + 32$.
+- Only quantities with the same dimension can be added or compared. Both sides of a valid equation have the same dimension.
+- Dimensional analysis catches many wrong formulas, and can even suggest the right one, up to a pure number.
+
+**Formulas from this chapter**
+
+$$
+1\ \text{A} = k\ \text{B} \;\Rightarrow\; \frac{k\ \text{B}}{1\ \text{A}} = 1 \qquad\qquad x\ \text{A}^{2} = k^{2}x\ \text{B}^{2}
+$$
+
+$$
+T_{\text{K}} = T_{°\text{C}} + 273.15 \qquad T_{°\text{F}} = \tfrac{9}{5}T_{°\text{C}} + 32 \qquad T_{°\text{C}} = \tfrac{5}{9}(T_{°\text{F}} - 32)
+$$
+
+## Sources
+
+- OpenStax, *University Physics Volume 1*, §1.3 "Unit Conversion" and §1.4 "Dimensional Analysis". [§1.3](https://openstax.org/books/university-physics-volume-1/pages/1-3-unit-conversion), [§1.4](https://openstax.org/books/university-physics-volume-1/pages/1-4-dimensional-analysis)
+- NIST, *Guide for the Use of the International System of Units* (SP 811), Appendix B: exact conversion factors (inch, mile, pound) and temperature conversions. [nist.gov](https://www.nist.gov/pml/special-publication-811)
+- BIPM, *SI Brochure*, 9th edition: the kelvin, and $T/°\text{C} = T/\text{K} - 273.15$. [bipm.org](https://www.bipm.org/en/publications/si-brochure)
+- Earth's mean orbital velocity, 29.78 km/s: NASA NSSDCA [Earth fact sheet](https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html).
+- Light-year and Julian year: IAU. [Measuring the Universe](https://iauarchive.eso.org/public/measuring/)
+- Loss of the *Mars Climate Orbiter* (1999) due to a metric/imperial mismatch: NASA JPL mission page. [jpl.nasa.gov](https://www.jpl.nasa.gov/missions/mars-climate-orbiter)
+- Speed of sound in air, about 343 m/s at 20 °C: HyperPhysics, "Speed of Sound in Air". [hyperphysics](http://hyperphysics.phy-astr.gsu.edu/hbase/Sound/souspe.html)
+- Astrophage temperature (96.415 °C): Royal Institution, "Project Hail Mary: the science behind the fiction". [rigb.org](https://www.rigb.org/explore-science/explore/blog/project-hail-mary-science-behind-fiction). Fuel-use rate: the novel's figure as given in fan summaries, flagged as approximate.

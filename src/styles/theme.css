@@ -1,0 +1,64 @@
+/* Colour theme: dark by default, high contrast, amber accent (Astrophage / Petrova-line glow). */
+
+:root {
+	--sl-color-white: hsl(0, 0%, 100%);
+	--sl-color-gray-1: hsl(215, 30%, 95%);
+	--sl-color-gray-2: hsl(215, 20%, 87%);
+	--sl-color-gray-3: hsl(215, 14%, 70%);
+	--sl-color-gray-4: hsl(215, 12%, 46%);
+	--sl-color-gray-5: hsl(218, 18%, 24%);
+	--sl-color-gray-6: hsl(220, 24%, 12%);
+	--sl-color-black: hsl(222, 28%, 7%);
+
+	--sl-color-accent-low: hsl(36, 70%, 16%);
+	--sl-color-accent: hsl(38, 95%, 56%);
+	--sl-color-accent-high: hsl(40, 100%, 76%);
+
+	--sl-color-text: var(--sl-color-gray-2);
+	--sl-line-height: 1.7;
+	--sl-content-width: 48rem;
+
+	/* Diagram + simulation palette. Panels are always dark, so all ink is light. */
+	--dg-bg: #0f1724;
+	--dg-border: #2b3b54;
+	--dg-fg: #eef3fa;
+	--dg-muted: #a8b7cb;
+	--dg-grid: #2a3a52;
+	--dg-amber: #ffbe5c;
+	--dg-sky: #6ccaff;
+	--dg-green: #86e29b;
+	--dg-rose: #ff94a8;
+	--dg-violet: #c9adff;
+	--dg-amber-fill: rgba(255, 190, 92, 0.18);
+	--dg-sky-fill: rgba(108, 202, 255, 0.18);
+	--dg-green-fill: rgba(134, 226, 155, 0.18);
+	--dg-rose-fill: rgba(255, 148, 168, 0.18);
+
+	/* Course boxes */
+	--box-example: hsl(200, 70%, 60%);
+	--box-problem: hsl(38, 95%, 56%);
+	--box-rvb: hsl(280, 70%, 72%);
+	--box-bg: hsl(220, 24%, 11%);
+}
+
+:root[data-theme='light'] {
+	--sl-color-white: hsl(222, 30%, 8%);
+	--sl-color-gray-1: hsl(222, 22%, 14%);
+	--sl-color-gray-2: hsl(222, 16%, 20%);
+	--sl-color-gray-3: hsl(222, 10%, 32%);
+	--sl-color-gray-4: hsl(222, 8%, 50%);
+	--sl-color-gray-5: hsl(222, 10%, 78%);
+	--sl-color-gray-6: hsl(222, 25%, 94%);
+	--sl-color-gray-7: hsl(222, 25%, 97%);
+	--sl-color-black: hsl(0, 0%, 100%);
+
+	--sl-color-accent-low: hsl(40, 95%, 90%);
+	--sl-color-accent: hsl(34, 90%, 42%);
+	--sl-color-accent-high: hsl(28, 90%, 24%);
+	--sl-color-text-accent: var(--sl-color-accent-high);
+
+	--box-example: hsl(205, 75%, 35%);
+	--box-problem: hsl(30, 90%, 35%);
+	--box-rvb: hsl(280, 55%, 40%);
+	--box-bg: hsl(222, 25%, 97%);
+}

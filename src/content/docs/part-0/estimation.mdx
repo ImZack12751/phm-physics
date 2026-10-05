@@ -1,0 +1,362 @@
+---
+title: Order-of-magnitude estimation
+description: Getting answers that are roughly right, fast, with orders of magnitude, Fermi problems and sanity checks, including how much Astrophage it takes to dim a star.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import OrderRounding from '../../../components/diagrams/part-0/OrderRounding.astro';
+import FermiTree from '../../../components/diagrams/part-0/FermiTree.astro';
+import FermiBuilder from '../../../components/sims/FermiBuilder.astro';
+
+## The scene
+
+Grace often doesn't have the luxury of a precise calculation. He needs to know *roughly* how big something is, fast: is this enough fuel, or hopelessly short? Is a result plausible, or did he slip a decimal point? He thinks like a good scientist. Get an approximate answer first, check whether it is sensible, and only then worry about the third decimal place.
+
+The same habit explains why the novel's crisis is believable. Before you even ask whether a microbe *could* dim a star, you can estimate *how many* microbes it would take. That one estimate, which we do in this chapter, turns an absurd-sounding premise into a number you can reason about.
+
+## Prerequisites
+
+<Prereqs notes={{ 'unit-handling': 'chains of conversions with units on every line', 'ratios-proportionality': 'scaling arguments and the areas of spheres and discs' }}>
+It also uses scientific notation and logarithms from earlier chapters.
+</Prereqs>
+
+## The concept
+
+### Roughly right beats precisely wrong
+
+An <Term id="order-of-magnitude">order of magnitude</Term> is a power of ten. Saying a number is "of order $10^{6}$" means it is somewhere around a million: more than a few hundred thousand, less than a few million. Two quantities that differ by "three orders of magnitude" differ by a factor of about 1000.
+
+Thinking in orders of magnitude is powerful because most mistakes, such as a slipped decimal point, a forgotten "kilo" or a factor of 1000 from mixing units, change the answer by whole powers of ten. A quick estimate catches them.
+
+### Rounding to an order of magnitude
+
+Write the number in scientific notation, $a \times 10^{n}$, and decide whether $a$ is closer to 1 or to 10. "Closer" here means on a logarithmic scale, where the halfway point is not 5 but $\sqrt{10} \approx 3.16$:
+
+<Figure caption="On a logarithmic scale, 1 to 10 is split in half at √10 ≈ 3.16. So 2.9 rounds down to 10⁰, but 4.2 rounds up to 10¹." alt="A logarithmic number line from 1 to 10 with ticks at each whole number. The left part from 1 to 3.16 is shaded blue and labelled 'round down to 10 to the n'. The right part from 3.16 to 10 is shaded amber and labelled 'round up to 10 to the n plus 1'. A red line at 3.16 is labelled square root of 10, halfway on a log scale. A blue dot at 2.9 is labelled 2.9 goes to 10 to the 0, and an amber dot at 4.2 is labelled 4.2 goes to 10 to the 1.">
+	<OrderRounding />
+</Figure>
+
+So Earth's mass, $5.97 \times 10^{24}$ kg, is of order $10^{25}$ kg, because 5.97 is bigger than 3.16. The speed of light, $3.00 \times 10^{8}$ m/s, is of order $10^{8}$ m/s, because 3.00 is just *below* 3.16.
+
+### Fermi problems
+
+The physicist Enrico Fermi was famous for estimating seemingly impossible quantities, like the number of piano tuners in Chicago, with no data at all. The method, now called a <Term id="fermi-problem">Fermi problem</Term>, is:
+
+1. **Break the question into factors** you can estimate separately, each one easier than the whole.
+2. **Estimate each factor** using knowledge or common sense. One significant figure is enough.
+3. **Multiply and divide**, keeping track of powers of ten, and give the answer to one significant figure or as an order of magnitude.
+4. **Sanity-check the result** against anything you know.
+
+Why does this work when each guess is rough? Because errors in independent guesses partly cancel. If you overestimate one factor and underestimate another, the product can still be close.
+
+### Bounds and the geometric mean
+
+Sometimes all you can say is "between 10 and 1000". The best single guess is not the ordinary average (505), because on a log scale 505 is much nearer 1000. It is the <Term id="geometric-mean">geometric mean</Term>, $\sqrt{10 \times 1000} = 100$, which is exactly halfway between the bounds in orders of magnitude.
+
+### Benchmark numbers worth knowing
+
+A small set of memorised values makes estimation fast. All of these have come up in Part 0:
+
+| Quantity | Value |
+|---|---|
+| speed of light | $3 \times 10^{8}$ m/s |
+| one year | $\approx \pi \times 10^{7}$ s |
+| Earth's radius | $6.4 \times 10^{6}$ m |
+| Earth–Sun distance (1 au) | $1.5 \times 10^{11}$ m |
+| Sun's radius | $7 \times 10^{8}$ m |
+| one light-year | $\approx 10^{16}$ m |
+| sunlight at Earth | $\approx 1400\ \text{W/m}^{2}$ |
+| density of water | $1000\ \text{kg/m}^{3}$ |
+| Astrophage cell (book) | $10^{-5}$ m across |
+
+### Sanity checks
+
+Every answer deserves a ten-second check. Do the units come out right? Is the size believable? Compare it with a benchmark. Does it scale the right way, so that doubling an input does what you'd expect? A result that says a cell weighs a tonne, or that light takes three years to reach the Moon, is wrong no matter how carefully the arithmetic was done.
+
+## Formulas
+
+### Order of magnitude
+
+The order of magnitude of a positive number $x$ is the whole number nearest to $\log_{10}x$:
+
+$$
+\text{order of magnitude of } x = 10^{\,\text{round}(\log_{10}x)}
+$$
+
+The rounding boundary $3.16$ comes from asking where $\log_{10}a$ is exactly $\tfrac{1}{2}$, halfway between $\log_{10}1 = 0$ and $\log_{10}10 = 1$:
+
+$$
+\log_{10}a = \tfrac{1}{2} \quad\Longrightarrow\quad a = 10^{1/2} = \sqrt{10} = 3.162
+$$
+
+### Geometric mean of two bounds
+
+The point halfway between $\log a$ and $\log b$ is their average:
+
+$$
+\log g = \frac{\log a + \log b}{2} = \frac{\log(ab)}{2} = \log\left((ab)^{1/2}\right)
+$$
+
+(using the product and power laws of logarithms), so
+
+$$
+g = \sqrt{ab}.
+$$
+
+### How uncertainties combine
+
+If an answer is a product of factors, an error *factor* in any one input multiplies the answer by the same factor (or by that factor raised to the input's power). In the worst case, when every error pushes the same way, the error factors multiply. If each of $n$ factors could be off by up to a factor of 2, the product could be off by up to $2^{n}$.
+
+Usually some errors push up and some push down, and they partly cancel. A useful rule of thumb from statistics is that the *typical* error factor is about $2^{\sqrt{n}}$ rather than $2^{n}$. Squared factors count double: a factor of 2 error in a radius becomes a factor of 4 in an area.
+
+## Worked examples
+
+<Example n={1} title="Orders of magnitude">
+Give the order of magnitude of (a) Earth's mass, $5.97 \times 10^{24}$ kg (b) the speed of light, $3.00 \times 10^{8}$ m/s (c) an Astrophage's volume, $5.2 \times 10^{-16}\ \text{m}^{3}$.
+
+(a) $5.97 > 3.16$, so round up: $10^{25}$ kg. (Check: $\log_{10}(5.97 \times 10^{24}) = 24.78$, which rounds to 25 ✓.)
+
+(b) $3.00 < 3.16$, so round down: $10^{8}$ m/s. ($\log_{10} = 8.48$, which rounds to 8 ✓.)
+
+(c) $5.2 > 3.16$, so round up: $10^{-15}\ \text{m}^{3}$. ($\log_{10} = -15.28$, which rounds to $-15$ ✓.)
+</Example>
+
+<Example n={2} title="How much sunlight does the Earth catch?">
+Estimate the total power of sunlight hitting the Earth.
+
+The Sun is so far away that its light arrives in parallel rays. Earth blocks those rays like a flat disc of radius $R$ (its shadow), so the catching area is $\pi R^{2}$, not the area of the whole sphere.
+
+$$
+\begin{aligned}
+P &\approx \pi R^{2} \times I \\
+  &\approx 3 \times (6.4 \times 10^{6}\ \text{m})^{2} \times 1400\ \text{W/m}^{2} \\
+  &\approx 3 \times 4.1 \times 10^{13}\ \text{m}^{2} \times 1.4 \times 10^{3}\ \text{W/m}^{2} \\
+  &\approx 1.7 \times 10^{17}\ \text{W}
+\end{aligned}
+$$
+
+The precise calculation, with $R = 6.371 \times 10^{6}$ m and $I = 1361\ \text{W/m}^{2}$, gives $1.74 \times 10^{17}$ W. Our rough estimate was within 2%. A 1% dimmer Sun would take away about $1.7 \times 10^{15}$ W of heating from the planet.
+</Example>
+
+<Example n={3} title="How many Astrophage would it take to block 1% of the Sun's light?" book>
+In the novel, Astrophage gathers sunlight close to the Sun. Estimate how many cells it would take to intercept 1% of the Sun's output.
+
+<Figure caption="The estimate as a tree of factors: the area of a shell around the Sun, times the fraction to block, divided by one cell's shadow." alt="Three boxes along the top: area of a shell near the Sun, 4 pi times 7 times 10 to the 8 metres squared, about 6 times 10 to the 18 square metres; fraction to block, 1 percent; and shadow of one cell, 10 to the minus 5 metres squared, which is 10 to the minus 10 square metres. The first two feed by multiplication into a box 'area to cover, 6 times 10 to the 16 square metres'. That box and the cell-shadow box feed by division into a final box 'number of cells, about 6 times 10 to the 26'.">
+	<FermiTree />
+</Figure>
+
+**Model.** All the Sun's light passes through any imaginary shell around it. Put the cells just outside the Sun, at $r \approx 7 \times 10^{8}$ m. To catch 1% of the light, they must cover 1% of the shell, assuming each cell absorbs everything that hits it and cells don't shade each other.
+
+**Step 1: the shell's area.**
+
+$$
+4\pi r^{2} \approx 4\pi \times (7 \times 10^{8}\ \text{m})^{2} \approx 12.6 \times 4.9 \times 10^{17}\ \text{m}^{2} \approx 6 \times 10^{18}\ \text{m}^{2}
+$$
+
+**Step 2: the area to cover.** $0.01 \times 6 \times 10^{18}\ \text{m}^{2} = 6 \times 10^{16}\ \text{m}^{2}$.
+
+**Step 3: one cell's shadow.** A cell $10^{-5}$ m across casts a shadow of roughly $(10^{-5}\ \text{m})^{2} = 10^{-10}\ \text{m}^{2}$.
+
+**Step 4: divide.**
+
+$$
+N \approx \frac{6 \times 10^{16}\ \text{m}^{2}}{10^{-10}\ \text{m}^{2}} = 6 \times 10^{26}\ \text{cells}
+$$
+
+**Their total mass.** Each cell is about $5 \times 10^{-13}$ kg, if it is about as dense as water ($5.2 \times 10^{-16}\ \text{m}^{3} \times 1000\ \text{kg/m}^{3}$). That gives
+
+$$
+6 \times 10^{26} \times 5 \times 10^{-13}\ \text{kg} = 3 \times 10^{14}\ \text{kg}.
+$$
+
+That is a huge number of cells, but their total mass is less than a ten-thousandth of the mass of Earth's atmosphere ($5.1 \times 10^{18}$ kg). A population of microbes really *could* shade a star, provided it lives right next to it, where a small area blocks a lot of light.
+</Example>
+
+<Example n={4} title="Heartbeats on the way to Tau Ceti" book>
+The trip to Tau Ceti takes about 3.75 years of ship time. Roughly how many times does Grace's heart beat during it?
+
+$$
+N \approx 70\ \frac{\text{beats}}{\text{min}} \times 60\ \frac{\text{min}}{\text{h}} \times 24\ \frac{\text{h}}{\text{d}} \times 365\ \frac{\text{d}}{\text{yr}} \times 3.75\ \text{yr} \approx 1.4 \times 10^{8}\ \text{beats}
+$$
+
+About 140 million heartbeats, of order $10^{8}$. For a sleeping person the rate is lower, but even 50 beats per minute only changes the answer to $1.0 \times 10^{8}$. The order of magnitude doesn't change.
+</Example>
+
+<Example n={5} title="Catching a slipped factor of 1000">
+A student writes: "the Sun is $1.5 \times 10^{8}$ m away." Use a benchmark to check it.
+
+Sunlight takes about 8 minutes to reach us (Scientific notation, Problem 7). In 8 minutes light travels
+
+$$
+8 \times 60\ \text{s} \times 3 \times 10^{8}\ \text{m/s} \approx 1.4 \times 10^{11}\ \text{m}.
+$$
+
+The student's value is 1000 times too small. They almost certainly used $1.5 \times 10^{8}$ *kilometres* and forgot to convert. A one-line estimate caught a mistake of three orders of magnitude.
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** Fermi estimation is a standard tool in science and engineering. The benchmark values in this chapter come from NIST, the IAU and NASA. Our Earth-sunlight estimate matches the precise value to within a few percent.
+
+**Weir's inventions.** Astrophage, and the idea of a microbe blocking sunlight, are fictional.
+
+**How realistic is the premise?** Our estimate shows that blocking 1% of the Sun's light needs about $10^{27}$ cells close to the Sun, with a total mass of around $10^{14}$ to $10^{15}$ kg. That is tiny next to a planet. So the premise doesn't fail on mass. The hard part, which the novel invents its way around, is everything else: surviving and breeding right next to a star, and multiplying fast enough to reach those numbers in a few decades. Notice how sensitive the estimate is to where the cells sit. Since the area goes as $r^{2}$, cells near Venus's orbit would need tens of thousands of times more of them (try it in the simulation).
+</RealVsBook>
+
+## Interactive simulation
+
+<FermiBuilder />
+
+Try the Astrophage question and slide the cells' distance from the Sun out to 1 au. How many orders of magnitude does the answer move? Then compare the spread of the heartbeat estimate.
+
+## Practice set
+
+<Problem n={1} level="easy">
+Give the order of magnitude of: (a) $4.2 \times 10^{-3}$ (b) $8.1 \times 10^{5}$ (c) $2.9 \times 10^{3}$ (d) $3.3 \times 10^{-7}$
+
+<Solution>
+Round the coefficient at 3.16:
+
+(a) $4.2 > 3.16$, so $10^{-2}$. (b) $8.1 > 3.16$, so $10^{6}$. (c) $2.9 < 3.16$, so $10^{3}$. (d) $3.3 > 3.16$, so $10^{-6}$.
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy">
+Find the geometric mean of (a) 10 and 1000 (b) 2 and 50 (c) $10^{-6}$ and $10^{-2}$.
+
+<Solution>
+(a) $\sqrt{10\,000} = 100$. (b) $\sqrt{100} = 10$. (c) $\sqrt{10^{-8}} = 10^{-4}$.
+
+Each is halfway between its bounds in orders of magnitude.
+</Solution>
+</Problem>
+
+<Problem n={3} level="medium">
+Estimate the number of seconds in an 80-year human life.
+
+<Solution>
+$80\ \text{yr} \times \pi \times 10^{7}\ \text{s/yr} \approx 2.5 \times 10^{9}$ s, about two and a half billion seconds.
+</Solution>
+</Problem>
+
+<Problem n={4} level="medium">
+Estimate how many times a human heart beats in an 80-year life.
+
+<Solution>
+$70\ \text{per min} \times 5.3 \times 10^{5}\ \text{min/yr} \times 80\ \text{yr} \approx 3 \times 10^{9}$ beats. (There are $60 \times 24 \times 365 \approx 5.3 \times 10^{5}$ minutes in a year.)
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium" book>
+About how many Astrophage cells would fit in a 1-litre jar? Each cell has a volume of about $5 \times 10^{-16}\ \text{m}^{3}$, and spheres pack to fill roughly 60% of a space.
+
+<Solution>
+$1\ \text{L} = 10^{-3}\ \text{m}^{3}$, and 60% of that is $6 \times 10^{-4}\ \text{m}^{3}$.
+
+$$
+N \approx \frac{6 \times 10^{-4}\ \text{m}^{3}}{5 \times 10^{-16}\ \text{m}^{3}} \approx 1 \times 10^{12}\ \text{cells}
+$$
+
+About a trillion cells in a litre.
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium">
+Estimate the mass of air in a room $5$ m × $4$ m × $2.5$ m. Air near the ground has a density of about $1.2\ \text{kg/m}^{3}$.
+
+<Solution>
+Volume $= 5 \times 4 \times 2.5 = 50\ \text{m}^{3}$. Mass $= \rho V \approx 1.2\ \text{kg/m}^{3} \times 50\ \text{m}^{3} = 60$ kg.
+
+The air in a room weighs about as much as a person. That surprises most people.
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium">
+Estimate the total mass of all the humans on Earth (about $8 \times 10^{9}$ people) and compare it with the mass of Earth's atmosphere, $5.1 \times 10^{18}$ kg.
+
+<Solution>
+Average mass, children included: roughly 50 kg. Total: $8 \times 10^{9} \times 50\ \text{kg} = 4 \times 10^{11}$ kg.
+
+Ratio: $\dfrac{5.1 \times 10^{18}}{4 \times 10^{11}} \approx 10^{7}$. The atmosphere outweighs humanity about ten million times.
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium" book>
+The *Hail Mary* carries about $2 \times 10^{6}$ kg of Astrophage fuel. If every cell ($5 \times 10^{-13}$ kg each, shadow area $10^{-10}\ \text{m}^{2}$) were spread out in a single layer, roughly what area would it cover?
+
+<Solution>
+Number of cells: $\dfrac{2 \times 10^{6}\ \text{kg}}{5 \times 10^{-13}\ \text{kg}} = 4 \times 10^{18}$.
+
+Area: $4 \times 10^{18} \times 10^{-10}\ \text{m}^{2} = 4 \times 10^{8}\ \text{m}^{2} = 400\ \text{km}^{2}$, about the size of a large city.
+</Solution>
+</Problem>
+
+<Problem n={9} level="medium">
+Estimate how many Earths would fit inside the Sun (by volume). Use radii of $7 \times 10^{8}$ m and $6.4 \times 10^{6}$ m.
+
+<Solution>
+Volume scales as radius cubed: $\left(\dfrac{7 \times 10^{8}}{6.4 \times 10^{6}}\right)^{3} = (109)^{3} \approx 1.3 \times 10^{6}$.
+
+About a million Earths. NASA's value for the volume ratio is 1 304 000.
+</Solution>
+</Problem>
+
+<Problem n={10} level="challenging">
+A Fermi estimate multiplies 4 independent factors, each of which you think could be off by a factor of up to 2 either way. What is the worst-case error factor in the answer, and roughly what is the typical one?
+
+<Solution>
+Worst case: all four errors push the same way, giving $2^{4} = 16$.
+
+Typical: about $2^{\sqrt{4}} = 2^{2} = 4$, because some errors cancel. So the estimate is most likely within a factor of about 4, which is why one significant figure is the honest precision.
+</Solution>
+</Problem>
+
+<Problem n={11} level="challenging" book>
+How long would it take to *walk* to Tau Ceti ($1.1 \times 10^{17}$ m) at a brisk $5$ km/h? Give the answer in years and compare it with the age of the Earth, about $4.5 \times 10^{9}$ years.
+
+<Solution>
+Speed: $5\ \text{km/h} = 5000\ \text{m} / 3600\ \text{s} \approx 1.4$ m/s.
+
+Time: $\dfrac{1.1 \times 10^{17}\ \text{m}}{1.4\ \text{m/s}} \approx 8 \times 10^{16}$ s. In years: $\dfrac{8 \times 10^{16}\ \text{s}}{\pi \times 10^{7}\ \text{s/yr}} \approx 2.5 \times 10^{9}$ yr.
+
+About two and a half billion years, more than half the age of the Earth. The *Hail Mary* covers the distance in a few years of ship time. Parts 5 and 10 explain how.
+</Solution>
+</Problem>
+
+<Problem n={12} level="challenging" book>
+Repeat the Astrophage estimate of Worked example 3, but with the cells gathered near Venus's orbit ($r \approx 1.1 \times 10^{11}$ m) instead of near the Sun. By what factor does the number of cells change?
+
+<Solution>
+The area to cover scales as $r^{2}$, so the factor is
+
+$$
+\left(\frac{1.1 \times 10^{11}}{7 \times 10^{8}}\right)^{2} = (157)^{2} \approx 2.5 \times 10^{4}.
+$$
+
+About 25 000 times more cells, roughly $6 \times 10^{26} \times 2.5 \times 10^{4} \approx 1.5 \times 10^{31}$. Where the cells sit matters more than any other assumption, which is why a careful estimate always asks which factor dominates.
+</Solution>
+</Problem>
+
+## Summary
+
+- An order of magnitude is the nearest power of ten. Round the coefficient of $a \times 10^{n}$ at $\sqrt{10} \approx 3.16$.
+- Fermi method: split the question into factors, estimate each to one significant figure, combine, then sanity-check.
+- With only bounds, the best guess is the geometric mean $\sqrt{ab}$.
+- Error factors multiply in the worst case ($2^{n}$), but typically partly cancel (about $2^{\sqrt{n}}$). A squared factor doubles its error's effect.
+- Sanity checks against benchmark numbers catch slipped factors of 10, 1000 or more.
+
+**Formulas from this chapter**
+
+$$
+\text{order of magnitude} = 10^{\,\text{round}(\log_{10}x)} \qquad \sqrt{10} \approx 3.16 \qquad g = \sqrt{ab}
+$$
+
+## Sources
+
+- OpenStax, *University Physics Volume 1*, §1.5 "Estimates and Fermi Calculations". [openstax.org](https://openstax.org/books/university-physics-volume-1/pages/1-5-estimates-and-fermi-calculations)
+- OpenStax, *College Physics 2e*, §1.4 "Approximation". [openstax.org](https://openstax.org/books/college-physics-2e/pages/1-4-approximation)
+- Earth's mass ($5.9722 \times 10^{24}$ kg), radius (6371 km), atmosphere mass ($5.1 \times 10^{18}$ kg) and surface air density (1.217 kg/m³); Sun's radius (695 700 km), Sun/Earth volume ratio (1 304 000) and solar irradiance (1361 W/m²): NASA NSSDCA [Earth](https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html) and [Sun](https://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html) fact sheets.
+- World population of about 8.2 billion (2024): United Nations, *World Population Prospects 2024*. [population.un.org](https://population.un.org/wpp/)
+- Age of the Earth, about 4.5 billion years: NASA Science, "Earth Facts". [science.nasa.gov](https://science.nasa.gov/earth/facts/)
+- The trip's ship time (about 3.75 years) and fuel mass (about 2 million kg) are the novel's figures, as summarised in reader guides. Astrophage size: Royal Institution, "Project Hail Mary: the science behind the fiction". [rigb.org](https://www.rigb.org/explore-science/explore/blog/project-hail-mary-science-behind-fiction)

@@ -1,0 +1,46 @@
+---
+// A conversion chain written as fractions, with each pair of cancelling units struck through.
+// 90 km/h × (1000 m / 1 km) × (1 h / 3600 s) = 25 m/s
+const CH = 9.6; // approximate width of one character at this font size
+const NUM_Y = 62, LINE_Y = 74, DEN_Y = 100;
+type Part = { n: string; u: string; cancel?: 'amber' | 'sky' };
+const fracs: { x: number; top: Part; bot: Part }[] = [
+	{ x: 80, top: { n: '90', u: 'km', cancel: 'amber' }, bot: { n: '1', u: 'h', cancel: 'sky' } },
+	{ x: 240, top: { n: '1000', u: 'm' }, bot: { n: '1', u: 'km', cancel: 'amber' } },
+	{ x: 400, top: { n: '1', u: 'h', cancel: 'sky' }, bot: { n: '3600', u: 's' } },
+	{ x: 555, top: { n: '25', u: 'm' }, bot: { n: '1', u: 's' } },
+];
+const ops = [{ x: 160, t: '×' }, { x: 320, t: '×' }, { x: 478, t: '=' }];
+// Each term is drawn as number + space + unit, centred on x.
+const layout = (p: Part, x: number) => {
+	const w = (p.n.length + 1 + p.u.length) * CH;
+	const x0 = x - w / 2;
+	return { nx: x0, ux: x0 + (p.n.length + 1) * CH, uw: p.u.length * CH, w };
+};
+---
+
+<svg class="dg" viewBox="0 0 640 190" xmlns="http://www.w3.org/2000/svg">
+	{
+		fracs.map((f) => {
+			const t = layout(f.top, f.x), b = layout(f.bot, f.x);
+			const w = Math.max(t.w, b.w) + 12;
+			return (
+				<>
+					<text x={t.nx} y={NUM_Y} class="t-lg">{f.top.n}</text>
+					<text x={t.ux} y={NUM_Y} class="t-lg">{f.top.u}</text>
+					<line x1={f.x - w / 2} y1={LINE_Y} x2={f.x + w / 2} y2={LINE_Y} class="s-fg w2" />
+					<text x={b.nx} y={DEN_Y} class="t-lg">{f.bot.n}</text>
+					<text x={b.ux} y={DEN_Y} class="t-lg">{f.bot.u}</text>
+					{f.top.cancel && <line x1={t.ux - 2} y1={NUM_Y + 3} x2={t.ux + t.uw + 2} y2={NUM_Y - 15} class={`s-${f.top.cancel} w3`} />}
+					{f.bot.cancel && <line x1={b.ux - 2} y1={DEN_Y + 3} x2={b.ux + b.uw + 2} y2={DEN_Y - 15} class={`s-${f.bot.cancel} w3`} />}
+				</>
+			);
+		})
+	}
+	{ops.map((o) => <text x={o.x} y={LINE_Y + 6} class="t-mid t-lg">{o.t}</text>)}
+	<text x="240" y="138" class="t-mid t-sm f-muted">this fraction equals 1</text>
+	<text x="400" y="138" class="t-mid t-sm f-muted">this fraction equals 1</text>
+	<text x="24" y="172" class="t-sm f-amber">km on top cancels km underneath</text>
+	<text x="300" y="172" class="t-sm f-sky">h underneath cancels h on top</text>
+	<text x="555" y="138" class="t-mid t-sm f-muted">= 25 m/s</text>
+</svg>

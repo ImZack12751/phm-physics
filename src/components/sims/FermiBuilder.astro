@@ -1,0 +1,144 @@
+---
+// Simulation: build a Fermi estimate from factors you can guess, each with a plausible range.
+// The answer is the product of the factors (each raised to a power); the range shows the best and worst cases.
+const presets = {
+	astrophage: {
+		label: 'Astrophage cells to block 1% of sunlight (book)',
+		unit: 'cells',
+		factors: [
+			{ name: '4π (sphere area = 4πr²)', low: 12.566, high: 12.566, best: 12.566, power: 1, unit: '' },
+			{ name: 'distance of the cells from the Sun, r', low: 7e8, high: 1.5e11, best: 7e8, power: 2, unit: 'm' },
+			{ name: 'fraction of sunlight to block', low: 0.01, high: 0.01, best: 0.01, power: 1, unit: '' },
+			{ name: 'shadow area of one cell', low: 5e-11, high: 2e-10, best: 1e-10, power: -1, unit: 'm²' },
+		],
+	},
+	sunlight: {
+		label: 'Sunlight power hitting the Earth',
+		unit: 'W',
+		factors: [
+			{ name: 'π (disc area = πR²)', low: 3.1416, high: 3.1416, best: 3.1416, power: 1, unit: '' },
+			{ name: 'Earth radius, R', low: 6e6, high: 7e6, best: 6.4e6, power: 2, unit: 'm' },
+			{ name: 'sunlight intensity', low: 1300, high: 1400, best: 1361, power: 1, unit: 'W/m²' },
+		],
+	},
+	heartbeats: {
+		label: 'Grace’s heartbeats during the 3.75-year trip (book)',
+		unit: 'beats',
+		factors: [
+			{ name: 'heart rate', low: 50, high: 100, best: 70, power: 1, unit: 'per minute' },
+			{ name: 'minutes in a year', low: 525960, high: 525960, best: 525960, power: 1, unit: 'min' },
+			{ name: 'years of the trip (ship time)', low: 3.75, high: 3.75, best: 3.75, power: 1, unit: 'yr' },
+		],
+	},
+};
+---
+
+<div
+	class="sim fb"
+	data-title="Fermi estimate builder"
+	data-description="Choose a question (Astrophage cells needed to block 1% of sunlight; sunlight power hitting Earth; heartbeats during a 3.75-year trip). Each factor has a plausible range and a slider for your best guess on a logarithmic scale. The simulation multiplies the factors (with their powers), shows the estimate in scientific notation and its order of magnitude, and the lowest and highest possible answers."
+	data-presets={JSON.stringify(presets)}
+>
+	<p class="sim-title">Simulation: Fermi estimate builder</p>
+	<p class="sim-help">Each slider is one factor you can guess. Move it within its plausible range and watch how much (or how little) the final answer changes.</p>
+	<div class="sim-controls">
+		<label>Question <select class="fb-q">{Object.entries(presets).map(([k, p]) => <option value={k}>{p.label}</option>)}</select></label>
+	</div>
+	<div class="fb-factors"></div>
+	<div class="readout fb-out" aria-live="polite"></div>
+</div>
+
+<style>
+	.fb-factors {
+		display: grid;
+		gap: 0.6rem;
+		margin-top: 0.75rem;
+	}
+	.fb-factors :global(.fb-row) {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr);
+		gap: 0.2rem;
+		padding: 0.5rem 0.7rem;
+		border: 1px solid var(--dg-grid);
+		border-radius: 0.45rem;
+	}
+	.fb-factors :global(.fb-row label) {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+		align-items: center;
+		font-size: var(--sl-text-sm);
+		color: var(--dg-fg);
+	}
+	.fb-factors :global(.fb-val) {
+		font-family: var(--__sl-font-mono);
+		color: var(--dg-amber);
+	}
+	.fb-factors :global(.fb-fixed) {
+		color: var(--dg-muted);
+		font-size: var(--sl-text-sm);
+	}
+</style>
+
+<script>
+	type F = { name: string; low: number; high: number; best: number; power: number; unit: string };
+	const sup = (n: number) => `<sup>${n}</sup>`;
+	const sci = (x: number) => {
+		const n = Math.floor(Math.log10(x));
+		const a = x / 10 ** n;
+		return n >= -2 && n <= 4 ? String(+x.toPrecision(3)) : `${a.toFixed(1)} × 10${sup(n)}`;
+	};
+	const oom = (x: number) => Math.floor(Math.log10(x) + 0.5); // rounds the coefficient at √10
+
+	document.querySelectorAll<HTMLElement>('.sim.fb').forEach((root) => {
+		const presets: Record<string, { label: string; unit: string; factors: F[] }> = JSON.parse(root.dataset.presets!);
+		const sel = root.querySelector<HTMLSelectElement>('.fb-q')!;
+		const box = root.querySelector<HTMLElement>('.fb-factors')!;
+		const out = root.querySelector<HTMLElement>('.fb-out')!;
+		let vals: number[] = [];
+
+		function build() {
+			const P = presets[sel.value];
+			vals = P.factors.map((f) => f.best);
+			box.innerHTML = P.factors
+				.map((f, i) => {
+					const pw = f.power === 1 ? '' : f.power === -1 ? ' (divide by it)' : ` (raised to the power ${f.power})`;
+					if (f.low === f.high) return `<div class="fb-row"><span class="fb-fixed">${f.name}${pw}: <span class="fb-val">${sci(f.best)}</span> ${f.unit} (fixed)</span></div>`;
+					const t = (Math.log(f.best) - Math.log(f.low)) / (Math.log(f.high) - Math.log(f.low));
+					return `<div class="fb-row"><label>${f.name}${pw}: <span class="fb-val" data-i="${i}">${sci(f.best)}</span> ${f.unit}</label>
+						<input type="range" min="0" max="1" step="0.001" value="${t}" data-i="${i}" aria-label="${f.name}">
+						<span class="fb-fixed">plausible range ${sci(f.low)} to ${sci(f.high)} ${f.unit}</span></div>`;
+				})
+				.join('');
+			box.querySelectorAll<HTMLInputElement>('input[type=range]').forEach((r) =>
+				r.addEventListener('input', () => {
+					const i = Number(r.dataset.i), f = P.factors[i];
+					vals[i] = Math.exp(Math.log(f.low) + Number(r.value) * (Math.log(f.high) - Math.log(f.low)));
+					box.querySelector(`.fb-val[data-i="${i}"]`)!.innerHTML = sci(vals[i]);
+					update();
+				})
+			);
+			update();
+		}
+
+		function update() {
+			const P = presets[sel.value];
+			let est = 1, lo = 1, hi = 1;
+			P.factors.forEach((f, i) => {
+				est *= vals[i] ** f.power;
+				const a = f.low ** f.power, b = f.high ** f.power;
+				lo *= Math.min(a, b);
+				hi *= Math.max(a, b);
+			});
+			const span = Math.log10(hi / lo);
+			out.innerHTML =
+				`<span class="k">Estimate</span> ≈ <b>${sci(est)}</b> ${P.unit}<br>` +
+				`<span class="k">Order of magnitude</span> 10${sup(oom(est))}<br>` +
+				`<span class="k">Lowest to highest possible</span> ${sci(lo)} to ${sci(hi)} ${P.unit}` +
+				(span > 0.01 ? ` (a spread of ${span.toFixed(1)} powers of ten)` : '') +
+				(sel.value === 'astrophage' ? '<br><span class="k">The biggest uncertainty is where the cells sit: r is squared, so it dominates.</span>' : '');
+		}
+		sel.addEventListener('input', build);
+		build();
+	});
+</script>

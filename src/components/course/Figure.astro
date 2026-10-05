@@ -1,0 +1,11 @@
+---
+// A schematic diagram. Put a hand-written <svg> inside (usually a diagram component).
+// `alt` is a full text description: it is read by screen readers and copied into /raw/ markdown.
+interface Props { caption: string; alt: string; wide?: boolean }
+const { caption, alt, wide = false } = Astro.props;
+---
+
+<figure class:list={['diagram', { wide }]} data-alt={alt}>
+	<div class="diagram-panel" role="img" aria-label={alt}><slot /></div>
+	<figcaption>{caption}</figcaption>
+</figure>

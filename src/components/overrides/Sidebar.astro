@@ -1,0 +1,45 @@
+---
+// Starlight's sidebar plus a progress bar on top and a tick next to finished chapters.
+import Default from '@astrojs/starlight/components/Sidebar.astro';
+import { publishedChapters } from '../../data/curriculum.mjs';
+import { chapterUrl } from '../../lib/urls.mjs';
+
+const list = publishedChapters.map((c) => ({ slug: c.slug, href: chapterUrl(c) }));
+---
+
+<div class="progress-widget" data-chapters={JSON.stringify(list)}>
+	<div class="pw-row">
+		<span class="pw-label">Your progress</span>
+		<span class="pw-count">0 / {list.length} chapters</span>
+	</div>
+	<div class="pw-bar" role="progressbar" aria-label="Chapters completed" aria-valuemin="0" aria-valuemax={list.length} aria-valuenow="0">
+		<div class="pw-fill"></div>
+	</div>
+	<p class="pw-note">Saved in this browser only.</p>
+</div>
+<Default />
+
+<script>
+	import { onProgress } from '../../scripts/progress';
+
+	const widget = document.querySelector<HTMLElement>('.progress-widget');
+	if (widget) {
+		const list: { slug: string; href: string }[] = JSON.parse(widget.dataset.chapters || '[]');
+		const count = widget.querySelector('.pw-count')!;
+		const bar = widget.querySelector<HTMLElement>('.pw-bar')!;
+		const fill = widget.querySelector<HTMLElement>('.pw-fill')!;
+		onProgress((p) => {
+			let done = 0;
+			for (const c of list) {
+				const isDone = Boolean(p.chapters[c.slug]);
+				if (isDone) done++;
+				document.querySelectorAll<HTMLAnchorElement>(`nav.sidebar a[href="${c.href}"]`).forEach((a) => {
+					a.classList.toggle('chapter-done', isDone);
+				});
+			}
+			count.textContent = `${done} / ${list.length} chapters`;
+			bar.setAttribute('aria-valuenow', String(done));
+			fill.style.width = list.length ? `${(100 * done) / list.length}%` : '0';
+		});
+	}
+</script>

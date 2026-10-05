@@ -1,0 +1,113 @@
+---
+// Simulation: fit an exponential to the novel's two dimming forecasts (1% at ~9 years,
+// 5% at ~20 years) by adjusting the doubling time; switch the y-axis between linear and log.
+---
+
+<div
+	class="sim dfit"
+	data-title="Fit the dimming forecast"
+	data-description="A graph of the Sun's predicted dimming (percent) against years from 0 to 30, with the novel's two forecast points: 1% at 9 years and 5% at 20 years. An exponential curve passes through the first point; a slider sets its doubling time (2 to 15 years) so it can be fitted to the second point. A button switches the vertical axis between linear and logarithmic, where the exponential becomes a straight line."
+>
+	<p class="sim-title">Simulation: fit the dimming forecast</p>
+	<p class="sim-help">The curve always passes through the novel's first forecast (1% at about 9 years). Adjust the doubling time until it also hits the second (5% at about 20 years). Then switch to a log scale.</p>
+	<svg class="dg dfit-svg" viewBox="0 0 600 335" role="img" aria-label="Dimming percentage against years with an adjustable exponential curve">
+		<g class="dfit-grid"></g>
+		<path class="dfit-curve s-amber w3" d="" />
+		<circle class="dfit-p1 f-sky" r="6" />
+		<circle class="dfit-p2 f-sky" r="6" />
+		<text class="dfit-l1 t-sm f-sky">1% at 9 yr</text>
+		<text class="dfit-l2 t-sm f-sky">5% at 20 yr</text>
+		<text x="320" y="328" class="t-mid t-sm">years from the first measurement</text>
+		<text class="dfit-ylab t-sm" x="16" y="18">dimming (%)</text>
+	</svg>
+	<div class="sim-controls">
+		<label>Doubling time <input type="range" class="dfit-T" min="2" max="15" step="0.01" value="9" /> <output class="dfit-Tv">9.00 yr</output></label>
+		<button type="button" class="dfit-log" aria-pressed="false">Log scale</button>
+		<button type="button" class="dfit-best">Best fit</button>
+	</div>
+	<div class="readout dfit-out" aria-live="polite"></div>
+</div>
+
+<script>
+	document.querySelectorAll<HTMLElement>('.sim.dfit').forEach((root) => {
+		const q = <E extends Element>(s: string) => root.querySelector<E>(s)!;
+		const X0 = 60, X1 = 580, Y0 = 280, Y1 = 30, TMAX = 30;
+		const T = q<HTMLInputElement>('.dfit-T');
+		const logBtn = q<HTMLButtonElement>('.dfit-log');
+		let log = false;
+		const D = (t: number, Td: number) => 1 * 2 ** ((t - 9) / Td); // percent
+		const px = (t: number) => X0 + (t / TMAX) * (X1 - X0);
+		const LIN_MAX = 30, LOG_MIN = 0.01, LOG_MAX = 100;
+		const py = (d: number) =>
+			log
+				? Y0 - ((Math.log10(Math.max(d, LOG_MIN)) - Math.log10(LOG_MIN)) / (Math.log10(LOG_MAX) - Math.log10(LOG_MIN))) * (Y0 - Y1)
+				: Y0 - (Math.min(d, LIN_MAX * 1.2) / LIN_MAX) * (Y0 - Y1);
+		const NS = 'http://www.w3.org/2000/svg';
+		const el = (tag: string, a: Record<string, string | number>, text?: string) => {
+			const e = document.createElementNS(NS, tag);
+			Object.entries(a).forEach(([k, v]) => e.setAttribute(k, String(v)));
+			if (text) e.textContent = text;
+			return e;
+		};
+
+		function grid() {
+			const g = q<SVGGElement>('.dfit-grid');
+			g.replaceChildren();
+			const ticks = log ? [0.01, 0.1, 1, 10, 100] : [0, 5, 10, 15, 20, 25, 30];
+			for (const v of ticks) {
+				g.append(el('line', { x1: X0, y1: py(v), x2: X1, y2: py(v), class: 's-grid w1' }));
+				g.append(el('text', { x: X0 - 8, y: py(v) + 4, class: 't-end t-sm f-muted' }, String(v)));
+			}
+			for (let t = 0; t <= 30; t += 5) {
+				g.append(el('line', { x1: px(t), y1: Y0, x2: px(t), y2: Y0 + 5, class: 's-muted w1' }));
+				g.append(el('text', { x: px(t), y: Y0 + 20, class: 't-mid t-sm f-muted' }, String(t)));
+			}
+			g.append(el('line', { x1: X0, y1: Y0, x2: X1, y2: Y0, class: 's-fg w2' }));
+			g.append(el('line', { x1: X0, y1: Y0, x2: X0, y2: Y1 - 6, class: 's-fg w2' }));
+		}
+
+		function update() {
+			const Td = Number(T.value);
+			q('.dfit-Tv').textContent = `${Td.toFixed(2)} yr`;
+			grid();
+			const pts: string[] = [];
+			for (let i = 0; i <= 150; i++) {
+				const t = (i / 150) * TMAX;
+				const d = D(t, Td);
+				if (!log && d > LIN_MAX * 1.15) break;
+				pts.push(`${pts.length ? 'L' : 'M'}${px(t).toFixed(1)},${py(d).toFixed(1)}`);
+			}
+			q('.dfit-curve').setAttribute('d', pts.join(' '));
+			const p1 = { x: px(9), y: py(1) }, p2 = { x: px(20), y: py(5) };
+			q('.dfit-p1').setAttribute('cx', String(p1.x));
+			q('.dfit-p1').setAttribute('cy', String(p1.y));
+			q('.dfit-p2').setAttribute('cx', String(p2.x));
+			q('.dfit-p2').setAttribute('cy', String(p2.y));
+			q('.dfit-l1').setAttribute('x', String(p1.x - 10));
+			q('.dfit-l1').setAttribute('y', String(p1.y - 12));
+			q('.dfit-l1').setAttribute('text-anchor', 'end');
+			q('.dfit-l2').setAttribute('x', String(p2.x - 10));
+			q('.dfit-l2').setAttribute('y', String(p2.y - 12));
+			q('.dfit-l2').setAttribute('text-anchor', 'end');
+			const d20 = D(20, Td), d30 = D(30, Td);
+			const best = (11 * Math.LN2) / Math.log(5);
+			q('.dfit-out').innerHTML =
+				`<span class="k">Model</span> D(t) = 1% × 2<sup>(t − 9)/${Td.toFixed(2)}</sup><br>` +
+				`<span class="k">At 20 years</span> D = <b>${d20.toFixed(2)}%</b> (novel: about 5%) ${Math.abs(d20 - 5) < 0.05 ? '✓ fits' : d20 > 5 ? '(too fast: increase the doubling time)' : '(too slow: decrease the doubling time)'}<br>` +
+				`<span class="k">At 30 years</span> D = <b>${d30.toFixed(1)}%</b><br>` +
+				`<span class="k">Exact fit:</span> T = 11 × ln 2 / ln 5 = ${best.toFixed(2)} yr` +
+				(log ? '<br><span class="k">On a log scale the exponential is a straight line: equal steps up mean equal multiplications.</span>' : '');
+		}
+		T.addEventListener('input', update);
+		logBtn.addEventListener('click', () => {
+			log = !log;
+			logBtn.setAttribute('aria-pressed', String(log));
+			update();
+		});
+		q('.dfit-best').addEventListener('click', () => {
+			T.value = String((11 * Math.LN2) / Math.log(5));
+			update();
+		});
+		update();
+	});
+</script>

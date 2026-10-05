@@ -1,0 +1,35 @@
+---
+// Wraps every page's content. On chapter pages it also:
+//  - adds the "finished this chapter" footer,
+//  - embeds chapter metadata used by the "Ask Claude" buttons,
+//  - loads the Ask Claude, glossary-tooltip and print helpers.
+import Default from '@astrojs/starlight/components/MarkdownContent.astro';
+import ChapterFooter from '../course/ChapterFooter.astro';
+import { COURSE_NAME, SITE, BASE } from '../../../course.config.mjs';
+import { chapterById, chaptersBefore } from '../../data/curriculum.mjs';
+
+const ch = chapterById[Astro.locals.starlightRoute.entry.id];
+const meta = ch && {
+	course: COURSE_NAME,
+	slug: ch.slug,
+	number: ch.number,
+	title: ch.title,
+	part: ch.partLabel,
+	rawUrl: `${SITE}${BASE}/raw/${ch.slug}.md`,
+	before: chaptersBefore(ch.slug).map((c) => `${c.number} ${c.title}`),
+};
+---
+
+<Default>
+	<slot />
+	{ch && <ChapterFooter chapter={ch} />}
+</Default>
+{meta && <script type="application/json" id="phm-chapter-meta" set:html={JSON.stringify(meta)} />}
+
+<script>
+	import '../../scripts/ask-claude';
+	import '../../scripts/tooltips';
+	import '../../scripts/print';
+	import '../../scripts/problems';
+	import '../../scripts/reveal';
+</script>

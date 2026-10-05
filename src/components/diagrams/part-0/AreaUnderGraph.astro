@@ -1,0 +1,28 @@
+---
+// Speed–time graph: area under it = distance travelled.
+const O = { x: 70, y: 260 }, SX = 30, SY = 6;
+const px = (t: number) => O.x + t * SX, py = (v: number) => O.y - v * SY;
+---
+
+<svg class="dg" viewBox="0 0 600 320" xmlns="http://www.w3.org/2000/svg">
+	{[0, 10, 20, 30].map((v) => (
+		<>
+			<line x1={px(0)} y1={py(v)} x2={px(16)} y2={py(v)} class="s-grid w1" />
+			<text x={px(0) - 8} y={py(v) + 4} class="t-end t-sm f-muted">{v}</text>
+		</>
+	))}
+	{[0, 2, 4, 6, 8, 10, 12, 14, 16].map((t) => <text x={px(t)} y={O.y + 20} class="t-mid t-sm f-muted">{t}</text>)}
+	<path d={`M${px(0)},${py(0)} L${px(10)},${py(30)} L${px(10)},${py(0)} Z`} class="f-amber-soft" />
+	<rect x={px(10)} y={py(30)} width={px(16) - px(10)} height={py(0) - py(30)} class="f-sky-soft" />
+	<path d={`M${px(0)},${py(0)} L${px(10)},${py(30)} L${px(16)},${py(30)}`} class="s-fg w3" />
+	<line x1={px(0)} y1={O.y} x2={px(16.6)} y2={O.y} class="s-fg w2" />
+	<line x1={px(0)} y1={O.y} x2={px(0)} y2={py(36)} class="s-fg w2" />
+	<text x={px(7)} y={py(7)} class="t-mid t-sm t-b f-amber">½ × 10 s × 30 m/s</text>
+	<text x={px(7)} y={py(7) + 17} class="t-mid t-sm f-amber">= 150 m</text>
+	<text x={px(13)} y={py(16)} class="t-mid t-sm t-b f-sky">6 s × 30 m/s</text>
+	<text x={px(13)} y={py(16) + 17} class="t-mid t-sm f-sky">= 180 m</text>
+	<text x={px(8)} y={O.y + 42} class="t-mid t-sm">time, t (s)</text>
+	<text x="20" y={py(15)} class="t-mid t-sm" transform={`rotate(-90 20 ${py(15)})`}>speed, v (m/s)</text>
+	<text x="96" y="22" class="t-sm f-muted">units of area = (m/s) × s = m</text>
+	<text x="330" y="22" class="t-b">total distance = 150 m + 180 m = 330 m</text>
+</svg>

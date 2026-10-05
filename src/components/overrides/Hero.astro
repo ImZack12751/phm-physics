@@ -1,0 +1,98 @@
+---
+// Home-page hero: title, tagline, call-to-action buttons and an animated orbital scene.
+import { parts, chapters, publishedChapters } from '../../data/curriculum.mjs';
+import { url, chapterUrl } from '../../lib/urls.mjs';
+
+const { data } = Astro.locals.starlightRoute.entry;
+const { title = data.title, tagline } = data.hero || {};
+const first = publishedChapters[0];
+const stats = [
+	`${parts.length} parts`,
+	`${chapters.length} chapters planned`,
+	`${publishedChapters.length} live now`,
+	'free, no account',
+];
+// Ellipse paths centred on the Sun, for the orbit rings and the orbiting Earth.
+const SUN = { x: 190, y: 250 };
+const ell = (rx: number, ry: number) =>
+	`M${SUN.x - rx},${SUN.y} a${rx},${ry} 0 1,0 ${2 * rx},0 a${rx},${ry} 0 1,0 ${-2 * rx},0`;
+---
+
+<div class="space-hero">
+	<div class="space-hero-copy">
+		<p class="space-hero-kicker"><span class="pulse-dot"></span> Mission briefing</p>
+		<h1 id="_top" class="space-hero-title">{title}</h1>
+		{tagline && <p class="space-hero-tagline" set:html={tagline} />}
+		<div class="space-hero-actions">
+			<a class="btn-primary" href={url('start-here/')}>Start here <span aria-hidden="true">→</span></a>
+			{first && <a class="btn-ghost" href={chapterUrl(first)}>Jump to {first.number} {first.title}</a>}
+		</div>
+		<ul class="space-hero-stats">{stats.map((s) => <li>{s}</li>)}</ul>
+	</div>
+
+	<svg class="space-hero-art" viewBox="0 0 520 420" role="img" aria-label="Animated illustration: the Sun with a glowing line of Astrophage reaching to Venus, the Earth orbiting, and a small ship flying out towards the distant star Tau Ceti.">
+		<defs>
+			<radialGradient id="hero-sun" cx="50%" cy="45%" r="55%">
+				<stop offset="0%" stop-color="#fff6d8" />
+				<stop offset="45%" stop-color="#ffc35a" />
+				<stop offset="100%" stop-color="#ff7a1a" />
+			</radialGradient>
+			<radialGradient id="hero-sun-glow">
+				<stop offset="0%" stop-color="#ffb347" stop-opacity="0.55" />
+				<stop offset="100%" stop-color="#ffb347" stop-opacity="0" />
+			</radialGradient>
+			<radialGradient id="hero-tau">
+				<stop offset="0%" stop-color="#fffbe8" />
+				<stop offset="60%" stop-color="#ffe08a" />
+				<stop offset="100%" stop-color="#ffe08a" stop-opacity="0" />
+			</radialGradient>
+			<linearGradient id="hero-trail" x1="1" x2="0" y1="0" y2="0">
+				<stop offset="0%" stop-color="#ffd58a" stop-opacity="0.95" />
+				<stop offset="100%" stop-color="#ff6fb5" stop-opacity="0" />
+			</linearGradient>
+			<path id="hero-earth-orbit" d={ell(135, 50)} transform={`rotate(-15 ${SUN.x} ${SUN.y})`} />
+			<path id="hero-route" d="M 312,228 C 372,196 392,118 452,80" />
+		</defs>
+
+		{/* orbit rings */}
+		<g transform={`rotate(-15 ${SUN.x} ${SUN.y})`} class="hero-orbits">
+			<path d={ell(80, 30)} />
+			<path d={ell(135, 50)} />
+			<path d={ell(205, 76)} class="faint" />
+		</g>
+
+		{/* the Sun */}
+		<circle cx={SUN.x} cy={SUN.y} r="95" fill="url(#hero-sun-glow)" class="hero-sun-glow" />
+		<circle cx={SUN.x} cy={SUN.y} r="34" fill="url(#hero-sun)" />
+
+		{/* Petrova line: Sun to Venus */}
+		<path d={`M${SUN.x - 30},${SUN.y + 8} L 114,271`} class="hero-petrova" />
+		<circle cx="113" cy="271" r="5.5" class="hero-venus" />
+
+		{/* Earth, orbiting */}
+		<circle r="6.5" class="hero-earth">
+			<animateMotion dur="16s" repeatCount="indefinite"><mpath href="#hero-earth-orbit" /></animateMotion>
+		</circle>
+
+		{/* route to Tau Ceti and the ship */}
+		<use href="#hero-route" class="hero-route" />
+		<circle cx="455" cy="78" r="26" fill="url(#hero-tau)" class="hero-tau" />
+		<g class="hero-ship">
+			<animateMotion dur="7s" repeatCount="indefinite" rotate="auto" keyPoints="0;1" keyTimes="0;1" calcMode="spline" keySplines="0.45 0 0.55 1"><mpath href="#hero-route" /></animateMotion>
+			<animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.12;0.85;1" dur="7s" repeatCount="indefinite" />
+			<rect x="-26" y="-1.6" width="22" height="3.2" rx="1.6" fill="url(#hero-trail)" />
+			<path d="M 9,0 L -5,-5 L -2,0 L -5,5 Z" class="hero-ship-body" />
+		</g>
+
+		<text x={SUN.x} y={SUN.y + 58} class="hero-label">Sun</text>
+		<text x="455" y="122" class="hero-label">Tau Ceti</text>
+		<text x="455" y="138" class="hero-label faint">11.9 light-years</text>
+	</svg>
+</div>
+
+<script>
+	// Honour "reduce motion": freeze the SVG animations.
+	if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+		document.querySelector<SVGSVGElement>('.space-hero-art')?.pauseAnimations();
+	}
+</script>

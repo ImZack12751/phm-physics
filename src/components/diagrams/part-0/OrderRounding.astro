@@ -1,0 +1,35 @@
+---
+// Rounding to an order of magnitude happens on a log scale: the halfway point between 1 and 10 is √10 ≈ 3.16.
+const X0 = 50, X1 = 570, Y = 110;
+const xOf = (v: number) => X0 + Math.log10(v) * (X1 - X0); // 1 → X0, 10 → X1
+const ticks = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+const mid = Math.sqrt(10);
+const examples = [
+	{ v: 2.9, label: '2.9 → 10⁰', cls: 'f-sky' },
+	{ v: 4.2, label: '4.2 → 10¹', cls: 'f-amber' },
+];
+---
+
+<svg class="dg" viewBox="0 0 620 230" xmlns="http://www.w3.org/2000/svg">
+	<rect x={X0} y={Y - 18} width={xOf(mid) - X0} height="36" class="f-sky-soft" />
+	<rect x={xOf(mid)} y={Y - 18} width={X1 - xOf(mid)} height="36" class="f-amber-soft" />
+	<line x1={X0} y1={Y} x2={X1} y2={Y} class="s-fg w2" />
+	{ticks.map((t) => (
+		<>
+			<line x1={xOf(t)} y1={Y - 6} x2={xOf(t)} y2={Y + 6} class="s-fg w1" />
+			<text x={xOf(t)} y={Y + 34} class="t-mid t-sm f-muted">{t}</text>
+		</>
+	))}
+	<line x1={xOf(mid)} y1={Y - 40} x2={xOf(mid)} y2={Y + 18} class="s-rose w2" />
+	<text x={xOf(mid)} y={Y - 48} class="t-mid t-sm t-b f-rose">√10 ≈ 3.16: halfway on a log scale</text>
+	<text x={(X0 + xOf(mid)) / 2} y={Y + 62} class="t-mid t-sm f-sky">round down to 10ⁿ</text>
+	<text x={(xOf(mid) + X1) / 2} y={Y + 62} class="t-mid t-sm f-amber">round up to 10ⁿ⁺¹</text>
+	{examples.map((e) => (
+		<>
+			<circle cx={xOf(e.v)} cy={Y} r="6" class={e.cls} />
+			<text x={xOf(e.v)} y={Y + 92} class={`t-mid t-sm t-b ${e.cls}`}>{e.label}</text>
+			<line x1={xOf(e.v)} y1={Y + 8} x2={xOf(e.v)} y2={Y + 78} class="s-grid w1 dash" />
+		</>
+	))}
+	<text x="20" y="22" class="t-sm f-muted">The coefficient a of a × 10ⁿ, placed on a logarithmic scale from 1 to 10</text>
+</svg>

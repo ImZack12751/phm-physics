@@ -1,0 +1,39 @@
+---
+// Adding vectors head to tail (left) and the parallelogram picture (right): both give A + B.
+const A = { x: 150, y: -40 }, B = { x: 60, y: -110 };
+const left = { x: 40, y: 230 }, right = { x: 340, y: 230 };
+const pt = (o: { x: number; y: number }, ...vs: { x: number; y: number }[]) =>
+	vs.reduce((p, v) => ({ x: p.x + v.x, y: p.y + v.y }), o);
+---
+
+<svg class="dg" viewBox="0 0 620 270" xmlns="http://www.w3.org/2000/svg">
+	<defs>
+		{['amber', 'sky', 'green'].map((c) => (
+			<marker id={`va-${c}`} viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+				<path d="M0,0 L10,5 L0,10 z" class={`f-${c}`} />
+			</marker>
+		))}
+	</defs>
+
+	{/* head to tail */}
+	<text x="40" y="24" class="t-b">Head to tail</text>
+	<line x1={left.x} y1={left.y} x2={pt(left, A).x} y2={pt(left, A).y} class="s-amber w3" marker-end="url(#va-amber)" />
+	<line x1={pt(left, A).x} y1={pt(left, A).y} x2={pt(left, A, B).x} y2={pt(left, A, B).y} class="s-sky w3" marker-end="url(#va-sky)" />
+	<line x1={left.x} y1={left.y} x2={pt(left, A, B).x} y2={pt(left, A, B).y} class="s-green w3" marker-end="url(#va-green)" />
+	<text x={left.x + A.x / 2} y={left.y + A.y / 2 + 22} class="t-b f-amber">A</text>
+	<text x={pt(left, A).x + B.x / 2 + 10} y={pt(left, A).y + B.y / 2 + 4} class="t-b f-sky">B</text>
+	<text x={left.x + (A.x + B.x) / 2 - 44} y={left.y + (A.y + B.y) / 2 - 8} class="t-b f-green">A + B</text>
+	<text x="40" y="258" class="t-sm f-muted">Start B where A ends.</text>
+
+	{/* parallelogram */}
+	<text x="340" y="24" class="t-b">Parallelogram</text>
+	<line x1={right.x} y1={right.y} x2={pt(right, A).x} y2={pt(right, A).y} class="s-amber w3" marker-end="url(#va-amber)" />
+	<line x1={right.x} y1={right.y} x2={pt(right, B).x} y2={pt(right, B).y} class="s-sky w3" marker-end="url(#va-sky)" />
+	<line x1={pt(right, A).x} y1={pt(right, A).y} x2={pt(right, A, B).x} y2={pt(right, A, B).y} class="s-sky w1 dash" />
+	<line x1={pt(right, B).x} y1={pt(right, B).y} x2={pt(right, A, B).x} y2={pt(right, A, B).y} class="s-amber w1 dash" />
+	<line x1={right.x} y1={right.y} x2={pt(right, A, B).x} y2={pt(right, A, B).y} class="s-green w3" marker-end="url(#va-green)" />
+	<text x={right.x + A.x / 2} y={right.y + A.y / 2 + 22} class="t-b f-amber">A</text>
+	<text x={right.x + B.x / 2 - 18} y={right.y + B.y / 2} class="t-b f-sky">B</text>
+	<text x={pt(right, A, B).x + 10} y={pt(right, A, B).y + 4} class="t-b f-green">A + B</text>
+	<text x="340" y="258" class="t-sm f-muted">Both from the same start; the diagonal is A + B.</text>
+</svg>

@@ -1,0 +1,32 @@
+---
+// Linear growth (add 6 each step) vs exponential growth (double each step), both starting at 1.
+const O = { x: 60, y: 270 }, SX = 80, SY = 3.6; // pixels per step, pixels per unit
+const px = (t: number) => O.x + t * SX, py = (y: number) => O.y - y * SY;
+const lin = (t: number) => 1 + 6 * t, exp = (t: number) => 2 ** t;
+const path = (f: (t: number) => number) =>
+	Array.from({ length: 61 }, (_, i) => `${i ? 'L' : 'M'}${px(i / 10).toFixed(1)},${py(f(i / 10)).toFixed(1)}`).join(' ');
+// where they cross again after the start (found numerically by Newton's method, about t = 4.9)
+let tc = 5;
+for (let i = 0; i < 60; i++) tc -= (exp(tc) - lin(tc)) / (Math.log(2) * exp(tc) - 6);
+---
+
+<svg class="dg" viewBox="0 0 580 310" xmlns="http://www.w3.org/2000/svg">
+	{[0, 10, 20, 30, 40, 50, 60].map((v) => (
+		<>
+			<line x1={px(0)} y1={py(v)} x2={px(6)} y2={py(v)} class="s-grid w1" />
+			<text x={px(0) - 8} y={py(v) + 4} class="t-end t-sm f-muted">{v}</text>
+		</>
+	))}
+	{[0, 1, 2, 3, 4, 5, 6].map((t) => <text x={px(t)} y={O.y + 20} class="t-mid t-sm f-muted">{t}</text>)}
+	<line x1={px(0)} y1={O.y} x2={px(6.2)} y2={O.y} class="s-fg w2" />
+	<line x1={px(0)} y1={O.y} x2={px(0)} y2={py(66)} class="s-fg w2" />
+	<text x={px(3)} y={O.y + 38} class="t-mid t-sm">time (in doubling times)</text>
+	<path d={path(lin)} class="s-sky w3" />
+	<path d={path(exp)} class="s-amber w3" />
+	{[0, 1, 2, 3, 4, 5, 6].map((t) => <circle cx={px(t)} cy={py(exp(t))} r="4" class="f-amber" />)}
+	<circle cx={px(tc)} cy={py(exp(tc))} r="6" class="s-fg w2" />
+	<text x={px(tc) - 12} y={py(exp(tc)) - 12} class="t-end t-sm">they cross near t = {tc.toFixed(1)}</text>
+	<path d={`M${px(0.9)},${py(42)} L${px(2)},${py(lin(2)) - 6}`} class="s-sky w1" />
+	<text x={px(0.3)} y={py(44)} class="t-b f-sky">linear: +6 per step</text>
+	<text x={px(6) - 4} y={py(64) - 8} class="t-end t-b f-amber">exponential: ×2 per step</text>
+</svg>

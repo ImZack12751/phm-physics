@@ -1,0 +1,52 @@
+---
+// Building T_F from T_C (top row), and undoing it in reverse order (bottom row).
+const W = 124, H = 42;
+const xs = [12, 164, 316, 476]; // box left edges
+const top = [
+	{ t: 'Celsius value', end: true },
+	{ t: '× 9/5' },
+	{ t: '+ 32' },
+	{ t: 'Fahrenheit value', end: true },
+];
+const bottom = [
+	{ t: 'Celsius value', end: true },
+	{ t: '× 5/9' },
+	{ t: '− 32' },
+	{ t: 'Fahrenheit value', end: true },
+];
+const TOP_Y = 48, BOT_Y = 168;
+---
+
+<svg class="dg" viewBox="0 0 612 250" xmlns="http://www.w3.org/2000/svg">
+	<defs>
+		<marker id="op-arrow-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+			<path d="M0,0 L10,5 L0,10 z" class="f-amber" />
+		</marker>
+		<marker id="op-arrow-s" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+			<path d="M0,0 L10,5 L0,10 z" class="f-sky" />
+		</marker>
+	</defs>
+	<text x="24" y="30" class="t-sm t-b f-amber">Building the formula: do these in order →</text>
+	{
+		top.map((b, i) => (
+			<>
+				<rect x={xs[i]} y={TOP_Y} width={W} height={H} rx="8" class={b.end ? 's-fg w2' : 's-amber w2 f-amber-soft'} />
+				<text x={xs[i] + W / 2} y={TOP_Y + 26} class="t-mid">{b.t}</text>
+				{i < 3 && <line x1={xs[i] + W + 4} y1={TOP_Y + H / 2} x2={xs[i + 1] - 6} y2={TOP_Y + H / 2} class="s-amber w2" marker-end="url(#op-arrow-a)" />}
+			</>
+		))
+	}
+	<text x="24" y="150" class="t-sm t-b f-sky">← Undoing it: inverse operations, in reverse order</text>
+	{
+		bottom.map((b, i) => (
+			<>
+				<rect x={xs[i]} y={BOT_Y} width={W} height={H} rx="8" class={b.end ? 's-fg w2' : 's-sky w2 f-sky-soft'} />
+				<text x={xs[i] + W / 2} y={BOT_Y + 26} class="t-mid">{b.t}</text>
+				{i < 3 && <line x1={xs[i + 1] - 4} y1={BOT_Y + H / 2} x2={xs[i] + W + 6} y2={BOT_Y + H / 2} class="s-sky w2" marker-end="url(#op-arrow-s)" />}
+			</>
+		))
+	}
+	{/* dotted links showing each operation sits above its inverse */}
+	{[1, 2].map((i) => <line x1={xs[i] + W / 2} y1={TOP_Y + H + 4} x2={xs[i] + W / 2} y2={BOT_Y - 36} class="s-muted w1 dash" />)}
+	<text x="306" y="238" class="t-mid t-sm f-muted">The last thing done (+ 32) is the first thing undone (− 32).</text>
+</svg>

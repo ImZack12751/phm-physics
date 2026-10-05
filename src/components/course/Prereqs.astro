@@ -1,0 +1,31 @@
+---
+// Lists the chapter's prerequisites from src/data/curriculum.mjs.
+// Optional `notes` explains what each prerequisite is needed for: notes={{ 'si-units': 'for prefixes' }}
+import { chapterById, chapterBySlug } from '../../data/curriculum.mjs';
+import { chapterUrl } from '../../lib/urls.mjs';
+
+interface Props { notes?: Record<string, string> }
+const { notes = {} } = Astro.props;
+const ch = chapterById[Astro.locals.starlightRoute.entry.id];
+if (!ch) throw new Error('<Prereqs /> used outside a curriculum chapter');
+const pre = ch.prereqs.map((s: string) => chapterBySlug[s]);
+for (const k of Object.keys(notes)) if (!ch.prereqs.includes(k)) throw new Error(`<Prereqs> note for "${k}", which is not a prerequisite of ${ch.slug}`);
+---
+
+<div class="prereqs">
+	{
+		pre.length ? (
+			<ul>
+				{pre.map((p: any) => (
+					<li>
+						<a href={chapterUrl(p)}>{p.number} {p.title}</a>
+						{notes[p.slug] && <span>: {notes[p.slug]}</span>}
+					</li>
+				))}
+			</ul>
+		) : (
+			<p>None. This chapter starts from scratch.</p>
+		)
+	}
+	<slot />
+</div>

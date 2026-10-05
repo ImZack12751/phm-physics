@@ -1,0 +1,12 @@
+---
+// Rendered automatically at the end of every chapter (see overrides/MarkdownContent.astro).
+interface Props { chapter: { number: string; title: string } }
+const { chapter } = Astro.props;
+---
+
+<div class="chapter-footer no-raw">
+	<p class="cf-title">Finished {chapter.number} {chapter.title}?</p>
+	<p data-chapter-status>Practice problems solved: 0.</p>
+	<button type="button" class="cf-btn" data-chapter-done aria-pressed="false">Mark this chapter as completed</button>
+	<p class="cf-note">Progress is stored only in this browser (localStorage). Clearing site data resets it.</p>
+</div>

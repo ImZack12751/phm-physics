@@ -1,0 +1,26 @@
+---
+// One cell dividing every doubling time: 1, 2, 4, 8, 16, 32.
+const ROW = 44, TOP = 46, X0 = 170, GAP = 13;
+const gens = [0, 1, 2, 3, 4, 5];
+---
+
+<svg class="dg" viewBox="0 0 640 320" xmlns="http://www.w3.org/2000/svg">
+	<text x="20" y="22" class="t-sm f-muted">One row per doubling time. Cells = 2 to the power of the number of doublings.</text>
+	{
+		gens.map((g) => {
+			const n = 2 ** g;
+			const y = TOP + g * ROW;
+			return (
+				<>
+					<text x="20" y={y + 5} class="t-sm">after {g} doubling{g === 1 ? '' : 's'}</text>
+					<text x="150" y={y + 5} class="t-end t-sm t-b f-amber">{n}</text>
+					{Array.from({ length: n }, (_, i) => (
+						<circle cx={X0 + i * GAP} cy={y} r="5.5" class="f-amber-soft s-amber w1" />
+					))}
+					<text x={X0 + n * GAP + 6} y={y + 5} class="t-sm f-muted">= 2{'⁰¹²³⁴⁵'[g]}</text>
+				</>
+			);
+		})
+	}
+	<text x="20" y="312" class="t-sm f-muted">After 40 doublings: 2⁴⁰ ≈ 1.1 × 10¹² cells, a trillion, from one.</text>
+</svg>

@@ -1,0 +1,120 @@
+---
+// Simulation: the unit circle. Drag the point (or use the slider); sin θ and cos θ appear as the
+// vertical and horizontal sides of the triangle and trace out their waves on the graph.
+const C = { x: 140, y: 150 }, R = 105;
+const G = { x0: 300, x1: 620, y: 150 }; // graph: θ from 0 to 2π across x0..x1, amplitude R
+const gx = (t: number) => G.x0 + (t / (2 * Math.PI)) * (G.x1 - G.x0);
+const wave = (f: (t: number) => number) =>
+	Array.from({ length: 121 }, (_, i) => {
+		const t = (i / 120) * 2 * Math.PI;
+		return `${i ? 'L' : 'M'}${gx(t).toFixed(1)},${(G.y - R * f(t)).toFixed(1)}`;
+	}).join(' ');
+---
+
+<div
+	class="sim uc2"
+	data-title="The unit circle"
+	data-description="A circle of radius 1 with a point at angle θ, adjustable from 0° to 360° by dragging or with a slider. The vertical side of the triangle is sin θ and the horizontal side is cos θ; a graph alongside traces both waves. The readout gives θ in degrees and radians, sin, cos and tan, checks sin² + cos² = 1, and compares sin θ and tan θ with θ for small angles."
+>
+	<p class="sim-title">Simulation: the unit circle</p>
+	<p class="sim-help">Drag the white point around the circle, or use the slider. The circle has radius 1, so the amber side <em>is</em> sin θ and the blue side <em>is</em> cos θ.</p>
+	<svg class="dg uc2-svg" viewBox="0 0 640 300" role="img" aria-label="Unit circle and sine and cosine graphs">
+		<line x1={C.x - R - 15} y1={C.y} x2={C.x + R + 15} y2={C.y} class="s-grid w1" />
+		<line x1={C.x} y1={C.y - R - 15} x2={C.x} y2={C.y + R + 15} class="s-grid w1" />
+		<circle cx={C.x} cy={C.y} r={R} class="s-muted w2" />
+		<text x={C.x + R + 4} y={C.y + 16} class="t-sm f-muted">1</text>
+		<text x={C.x + 4} y={C.y - R - 4} class="t-sm f-muted">1</text>
+		<path class="uc2-arc s-fg w1" d="" />
+		<line class="uc2-cos s-sky w3" />
+		<line class="uc2-sin s-amber w3" />
+		<line class="uc2-rad s-fg w2" />
+		<line class="uc2-proj s-amber w1 dash" />
+		<circle class="uc2-pt f-fg" r="9" style="cursor: grab" />
+
+		{/* graph */}
+		<line x1={G.x0} y1={G.y} x2={G.x1 + 6} y2={G.y} class="s-grid w1" />
+		<line x1={G.x0} y1={G.y - R - 10} x2={G.x0} y2={G.y + R + 10} class="s-grid w1" />
+		{[
+			[Math.PI / 2, '90°'],
+			[Math.PI, '180°'],
+			[(3 * Math.PI) / 2, '270°'],
+			[2 * Math.PI, '360°'],
+		].map(([t, l]) => (
+			<>
+				<line x1={gx(t as number)} y1={G.y - 4} x2={gx(t as number)} y2={G.y + 4} class="s-muted w1" />
+				<text x={gx(t as number)} y={G.y + R + 24} class="t-mid t-sm f-muted">{l}</text>
+				<line x1={gx(t as number)} y1={G.y - R} x2={gx(t as number)} y2={G.y + R} class="s-grid w1 dash" />
+			</>
+		))}
+		<path d={wave(Math.sin)} class="s-amber w2" />
+		<path d={wave(Math.cos)} class="s-sky w2" />
+		<line class="uc2-mark s-fg w1" y1={G.y - R - 6} y2={G.y + R + 6} />
+		<circle class="uc2-dsin f-amber" r="5" />
+		<circle class="uc2-dcos f-sky" r="5" />
+		<text x={G.x0 + 8} y="24" class="t-sm t-b f-amber">sin θ</text>
+		<text x={G.x0 + 60} y="24" class="t-sm t-b f-sky">cos θ</text>
+	</svg>
+	<div class="sim-controls">
+		<label>θ <input type="range" class="uc2-a" min="0" max="360" step="1" value="30" /> <output class="uc2-av">30°</output></label>
+	</div>
+	<div class="readout uc2-out" aria-live="polite"></div>
+</div>
+
+<script>
+	document.querySelectorAll<HTMLElement>('.sim.uc2').forEach((root) => {
+		const C = { x: 140, y: 150 }, R = 105, G = { x0: 300, x1: 620, y: 150 };
+		const svg = root.querySelector<SVGSVGElement>('.uc2-svg')!;
+		const q = <E extends Element>(s: string) => root.querySelector<E>(s)!;
+		const slider = q<HTMLInputElement>('.uc2-a');
+		const set = (el: Element, attrs: Record<string, number | string>) => Object.entries(attrs).forEach(([k, v]) => el.setAttribute(k, String(v)));
+		const f = (x: number) => (Math.abs(x) < 5e-16 ? '0.0000' : x.toFixed(4));
+
+		function draw(deg: number) {
+			const t = (deg * Math.PI) / 180;
+			const px = C.x + R * Math.cos(t), py = C.y - R * Math.sin(t);
+			set(q('.uc2-cos'), { x1: C.x, y1: C.y, x2: px, y2: C.y });
+			set(q('.uc2-sin'), { x1: px, y1: C.y, x2: px, y2: py });
+			set(q('.uc2-rad'), { x1: C.x, y1: C.y, x2: px, y2: py });
+			set(q('.uc2-pt'), { cx: px, cy: py });
+			const ar = 26, large = deg > 180 ? 1 : 0;
+			q('.uc2-arc').setAttribute('d', deg <= 0 || deg >= 360 ? '' : `M${C.x + ar},${C.y} A${ar},${ar} 0 ${large} 0 ${C.x + ar * Math.cos(t)},${C.y - ar * Math.sin(t)}`);
+			const gx = G.x0 + (t / (2 * Math.PI)) * (G.x1 - G.x0);
+			set(q('.uc2-mark'), { x1: gx, x2: gx });
+			set(q('.uc2-dsin'), { cx: gx, cy: G.y - R * Math.sin(t) });
+			set(q('.uc2-dcos'), { cx: gx, cy: G.y - R * Math.cos(t) });
+			set(q('.uc2-proj'), { x1: px, y1: py, x2: gx, y2: py });
+			slider.value = String(Math.round(deg));
+			q('.uc2-av').textContent = `${Math.round(deg)}°`;
+			const s = Math.sin(t), c = Math.cos(t);
+			const tan = Math.abs(c) < 1e-9 ? 'undefined (cos θ = 0)' : f(s / c);
+			let small = '';
+			if (deg > 0 && deg <= 20) {
+				const pct = (x: number) => ((100 * (x - t)) / t).toFixed(2);
+				small = `<br><span class="k">Small-angle check (θ in rad = ${t.toFixed(4)}):</span> sin θ differs from θ by ${pct(s)}%, tan θ by +${pct(Math.tan(t))}%`;
+			}
+			q('.uc2-out').innerHTML =
+				`<span class="k">θ</span> = <b>${Math.round(deg)}°</b> = ${t.toFixed(4)} rad (= ${(deg / 180).toFixed(3)}π)<br>` +
+				`<span class="k">sin θ</span> = <b style="color:var(--dg-amber)">${f(s)}</b>   <span class="k">cos θ</span> = <b style="color:var(--dg-sky)">${f(c)}</b>   <span class="k">tan θ</span> = ${tan}<br>` +
+				`<span class="k">sin²θ + cos²θ</span> = ${(s * s + c * c).toFixed(4)}` +
+				small;
+		}
+		slider.addEventListener('input', () => draw(Number(slider.value)));
+		// Dragging the point
+		const pt = q<SVGCircleElement>('.uc2-pt');
+		let dragging = false;
+		const toDeg = (e: PointerEvent) => {
+			const m = svg.getScreenCTM()!.inverse();
+			const p = new DOMPoint(e.clientX, e.clientY).matrixTransform(m);
+			let a = (Math.atan2(C.y - p.y, p.x - C.x) * 180) / Math.PI;
+			if (a < 0) a += 360;
+			return a;
+		};
+		pt.addEventListener('pointerdown', (e) => {
+			dragging = true;
+			pt.setPointerCapture(e.pointerId);
+		});
+		pt.addEventListener('pointermove', (e) => dragging && draw(Math.round(toDeg(e))));
+		pt.addEventListener('pointerup', () => (dragging = false));
+		draw(30);
+	});
+</script>

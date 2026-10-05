@@ -1,0 +1,12 @@
+---
+// Same as Starlight's ThemeProvider, but a first-time visitor gets the dark theme
+// (instead of following the operating system). Choosing "Auto" or "Light" still works.
+import Default from '@astrojs/starlight/components/ThemeProvider.astro';
+---
+
+<script is:inline>
+	try {
+		if (localStorage.getItem('starlight-theme') === null) localStorage.setItem('starlight-theme', 'dark');
+	} catch {}
+</script>
+<Default />

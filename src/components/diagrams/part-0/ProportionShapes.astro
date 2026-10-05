@@ -1,0 +1,35 @@
+---
+// The shapes of y ∝ x, y ∝ 1/x and y ∝ 1/x² (all with constant 1).
+const O = { x: 60, y: 250 }, SX = 100, SY = 50; // origin and pixels per unit
+const px = (x: number) => O.x + x * SX;
+const py = (y: number) => O.y - y * SY;
+const curve = (f: (x: number) => number, x0: number, x1: number) =>
+	Array.from({ length: 80 }, (_, i) => {
+		const x = x0 + ((x1 - x0) * i) / 79;
+		return `${i ? 'L' : 'M'}${px(x).toFixed(1)},${py(f(x)).toFixed(1)}`;
+	}).join(' ');
+---
+
+<svg class="dg" viewBox="0 0 500 290" xmlns="http://www.w3.org/2000/svg">
+	{[1, 2, 3, 4].map((v) => (
+		<>
+			<line x1={px(v)} y1={py(0)} x2={px(v)} y2={py(4)} class="s-grid w1" />
+			<line x1={px(0)} y1={py(v)} x2={px(4)} y2={py(v)} class="s-grid w1" />
+			<text x={px(v)} y={py(0) + 18} class="t-mid t-sm f-muted">{v}</text>
+			<text x={px(0) - 10} y={py(v) + 4} class="t-end t-sm f-muted">{v}</text>
+		</>
+	))}
+	<line x1={px(0)} y1={py(0)} x2={px(4.15)} y2={py(0)} class="s-fg w2" />
+	<line x1={px(0)} y1={py(0)} x2={px(0)} y2={py(4.15)} class="s-fg w2" />
+	<text x={px(4.15) + 6} y={py(0) + 5} class="t-it">x</text>
+	<text x={px(0) - 4} y={py(4.15) - 8} class="t-it t-mid">y</text>
+	<text x={px(0) - 10} y={py(0) + 18} class="t-end t-sm f-muted">0</text>
+
+	<path d={curve((x) => x, 0, 4)} class="s-sky w3" />
+	<path d={curve((x) => 1 / x, 0.25, 4)} class="s-green w3" />
+	<path d={curve((x) => 1 / (x * x), 0.5, 4)} class="s-amber w3" />
+
+	<text x="300" y="160" class="t-b f-sky">y ∝ x</text>
+	<text x="200" y="205" class="t-b f-green">y ∝ 1/x</text>
+	<text x="125" y="70" class="t-b f-amber">y ∝ 1/x²</text>
+</svg>

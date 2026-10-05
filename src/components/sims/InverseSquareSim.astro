@@ -1,0 +1,107 @@
+---
+// Simulation: sunlight intensity vs distance (inverse square) and vs the star's output (direct).
+const AU = 1.495978707e11;
+const planets = [
+	{ name: 'Venus', au: 0.7233 },
+	{ name: 'Earth', au: 1.0 },
+	{ name: 'Mars', au: 1.5237 },
+	{ name: 'Jupiter', au: 5.2038 },
+];
+const X0 = 40, PX = 90, Y = 150;
+---
+
+<div
+	class="sim isq"
+	data-title="Sunlight and distance"
+	data-description="A star on the left and a one-square-metre panel at an adjustable distance (0.2 to 6 au). Dots on the panel stand for the light it catches. Sliders change the distance and how much the star has been dimmed (as Astrophage dims the Sun); a menu switches between the Sun and Tau Ceti (52% of the Sun's luminosity). The readout computes I = L/(4πr²) and compares it with sunlight at Earth today, 1361 W/m²."
+	data-planets={JSON.stringify(planets)}
+	data-au={AU}
+>
+	<p class="sim-title">Simulation: sunlight and distance</p>
+	<p class="sim-help">Move the panel and watch the dots (each one is a share of the light). Double the distance and the dots drop to a quarter. Dim the star by 10% and they drop by 10%.</p>
+	<svg class="dg" viewBox="0 0 600 260" role="img" aria-label="Star, distance axis with planets, and a light-collecting panel">
+		<defs>
+			<radialGradient id="isq-star"><stop offset="0" stop-color="#fff6d8" /><stop offset=".5" stop-color="#ffc35a" /><stop offset="1" stop-color="#ff7a1a" stop-opacity="0" /></radialGradient>
+		</defs>
+		<line x1={X0} y1={Y} x2={X0 + 6.1 * PX} y2={Y} class="s-grid w1" />
+		{[1, 2, 3, 4, 5, 6].map((a) => (
+			<>
+				<line x1={X0 + a * PX} y1={Y + 52} x2={X0 + a * PX} y2={Y + 60} class="s-muted w1" />
+				<text x={X0 + a * PX} y={Y + 76} class="t-mid t-sm f-muted">{a} au</text>
+			</>
+		))}
+		<line x1={X0} y1={Y + 56} x2={X0 + 6.1 * PX} y2={Y + 56} class="s-muted w1" />
+		{planets.map((p, i) => (
+			<>
+				<circle cx={X0 + p.au * PX} cy={Y + 56} r="4" class={p.name === 'Earth' ? 'f-sky' : 'f-muted'} />
+				<text x={X0 + p.au * PX} y={Y + (i % 2 ? 100 : 40)} class="t-mid t-sm f-muted">{p.name}</text>
+			</>
+		))}
+		<path class="isq-shell s-amber w1 dash" d="" />
+		<circle cx={X0} cy={Y} r="34" fill="url(#isq-star)" class="isq-star" />
+		<g class="isq-panel"></g>
+	</svg>
+	<div class="sim-controls">
+		<label>Distance <input type="range" class="isq-r" min="0.2" max="6" step="0.01" value="1" /> <output class="isq-rv">1.00 au</output></label>
+		<label>Star dimmed by <input type="range" class="isq-d" min="0" max="20" step="0.5" value="0" /> <output class="isq-dv">0%</output></label>
+		<label>Star <select class="isq-s"><option value="1">Sun</option><option value="0.52">Tau Ceti (0.52 × Sun)</option></select></label>
+	</div>
+	<div class="readout isq-out" aria-live="polite"></div>
+</div>
+
+<script>
+	const LSUN = 3.828e26, IEARTH = 1361;
+	document.querySelectorAll<HTMLElement>('.sim.isq').forEach((root) => {
+		const AU = Number(root.dataset.au);
+		const planets: { name: string; au: number }[] = JSON.parse(root.dataset.planets!);
+		const r = root.querySelector<HTMLInputElement>('.isq-r')!;
+		const d = root.querySelector<HTMLInputElement>('.isq-d')!;
+		const s = root.querySelector<HTMLSelectElement>('.isq-s')!;
+		const panel = root.querySelector<SVGGElement>('.isq-panel')!;
+		const shell = root.querySelector<SVGPathElement>('.isq-shell')!;
+		const star = root.querySelector<SVGCircleElement>('.isq-star')!;
+		const out = root.querySelector<HTMLElement>('.isq-out')!;
+		const X0 = 40, PX = 90, Y = 150, P = 56;
+		const NS = 'http://www.w3.org/2000/svg';
+		const sci = (x: number, p = 3) => {
+			const n = Math.floor(Math.log10(Math.abs(x)));
+			return n >= -2 && n < 5 ? (+x.toPrecision(p)).toLocaleString('en-GB') : `${+(x / 10 ** n).toPrecision(p)} × 10<sup>${n}</sup>`;
+		};
+
+		function update() {
+			const rau = Number(r.value), dim = Number(d.value) / 100, starL = Number(s.value);
+			const L = LSUN * starL * (1 - dim);
+			const I = L / (4 * Math.PI * (rau * AU) ** 2);
+			root.querySelector('.isq-rv')!.textContent = `${rau.toFixed(2)} au`;
+			root.querySelector('.isq-dv')!.textContent = `${d.value}%`;
+			const x = X0 + rau * PX;
+			shell.setAttribute('d', `M${x},${Y - 95} A${rau * PX},${rau * PX} 0 0 1 ${x},${Y + 45}`);
+			star.setAttribute('r', String(34 * Math.sqrt(starL * (1 - dim))));
+			// The panel and its dots: dot count is proportional to the intensity.
+			panel.replaceChildren();
+			const rect = document.createElementNS(NS, 'rect');
+			Object.entries({ x: x - P / 2, y: Y - P / 2, width: P, height: P, rx: 4, class: 's-fg w2' }).forEach(([k, v]) => rect.setAttribute(k, String(v)));
+			panel.append(rect);
+			const n = Math.min(600, Math.round((36 * I) / IEARTH));
+			let seed = 7;
+			const rand = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
+			for (let i = 0; i < n; i++) {
+				const c = document.createElementNS(NS, 'circle');
+				c.setAttribute('cx', String(x - P / 2 + 3 + rand() * (P - 6)));
+				c.setAttribute('cy', String(Y - P / 2 + 3 + rand() * (P - 6)));
+				c.setAttribute('r', '1.6');
+				c.setAttribute('class', 'f-amber');
+				panel.append(c);
+			}
+			const near = planets.find((p) => Math.abs(p.au - rau) < 0.03);
+			out.innerHTML =
+				`<span class="k">Star output</span> L = ${starL === 1 ? '' : '0.52 × '}3.828 × 10<sup>26</sup> W${dim ? ` × (1 − ${dim.toFixed(3)})` : ''} = <b>${sci(L)} W</b><br>` +
+				`<span class="k">Distance</span> r = ${rau.toFixed(2)} au = ${sci(rau * AU)} m${near ? ` (about ${near.name}'s orbit)` : ''}<br>` +
+				`<span class="k">Intensity</span> I = L / (4πr²) = <b>${sci(I, 4)} W/m²</b><br>` +
+				`<span class="k">Compared with Earth today (1361 W/m²):</span> <b>${(I / IEARTH).toPrecision(3)} ×</b>` +
+				`<br><span class="k">Dots on the panel:</span> ${n}${n === 600 ? ' (capped)' : ''}`;
+		}
+		[r, d, s].forEach((el) => el.addEventListener('input', update));
+		update();
+	});
+</script>

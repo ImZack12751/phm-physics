@@ -1,0 +1,406 @@
+// Site-wide glossary. Every term wrapped in <Term id="…"> must have an entry here.
+//   term:    how the term is written
+//   def:     one or two plain-text sentences (Unicode allowed: m/s², ×, 10⁻³); no LaTeX
+//   chapter: slug of the chapter that introduces it
+// Terms from the novel say so in their definition ("In the novel, …").
+export const glossary = {
+	// ---- 0.1 Scientific notation ----
+	exponent: {
+		term: 'Exponent',
+		def: 'The small raised number in a power. In 10⁶ the exponent is 6: six tens multiplied together. A negative exponent means "one divided by": 10⁻² = 1/100.',
+		chapter: 'scientific-notation',
+	},
+	'power-of-ten': {
+		term: 'Power of ten',
+		def: 'A number of the form 10ⁿ, such as 10³ = 1000 or 10⁻³ = 0.001. Each step up in n makes the number ten times bigger.',
+		chapter: 'scientific-notation',
+	},
+	'scientific-notation': {
+		term: 'Scientific notation',
+		def: 'Writing a number as a × 10ⁿ, where the coefficient a is at least 1 but less than 10 and n is a whole number. Example: 0.000 01 = 1 × 10⁻⁵.',
+		chapter: 'scientific-notation',
+	},
+	coefficient: {
+		term: 'Coefficient (in scientific notation)',
+		def: 'The number in front of the power of ten in a × 10ⁿ. In scientific notation it is at least 1 and less than 10. It carries the significant figures.',
+		chapter: 'scientific-notation',
+	},
+	'significant-figures': {
+		term: 'Significant figures',
+		def: 'The digits of a number that carry real information about its value. 1.20 × 10³ has three. Leading zeros never count; trailing zeros count only after a decimal point.',
+		chapter: 'scientific-notation',
+	},
+	'e-notation': {
+		term: 'E notation',
+		def: 'The way calculators and computers display scientific notation: 1.13E17 means 1.13 × 10¹⁷. Fine on a screen, but write the proper form in your working.',
+		chapter: 'scientific-notation',
+	},
+	'light-year': {
+		term: 'Light-year (ly)',
+		def: 'A unit of distance: how far light travels in one year (a Julian year of 365.25 days), about 9.46 × 10¹⁵ m. Despite the name, it measures distance, not time.',
+		chapter: 'scientific-notation',
+	},
+	astrophage: {
+		term: 'Astrophage',
+		def: 'In the novel, a fictional single-celled organism about 10 micrometres across that lives on stars, stores energy as mass and moves by emitting infrared light. It is dimming the Sun.',
+		chapter: 'scientific-notation',
+	},
+	'tau-ceti': {
+		term: 'Tau Ceti',
+		def: 'A real Sun-like star about 11.9 light-years from Earth, a little smaller and dimmer than the Sun. In the novel it is the one nearby star that Astrophage has not dimmed, so the mission goes there.',
+		chapter: 'scientific-notation',
+	},
+	'petrova-line': {
+		term: 'Petrova line',
+		def: 'In the novel, a faint line of infrared light stretching from the Sun towards Venus, made by Astrophage travelling between them. Fictional.',
+		chapter: 'scientific-notation',
+	},
+
+	// ---- 0.2 SI units and prefixes ----
+	rocky: {
+		term: 'Rocky',
+		def: 'In the novel, an engineer from the planet Erid who becomes Grace’s partner. Eridians are fictional: they sense the world by sound rather than sight.',
+		chapter: 'si-units',
+	},
+	'hail-mary': {
+		term: 'Hail Mary (the ship)',
+		def: 'In the novel, the spacecraft that carries Grace to Tau Ceti, powered by Astrophage fuel. Fictional.',
+		chapter: 'si-units',
+	},
+	unit: {
+		term: 'Unit',
+		def: 'An agreed amount of a quantity that measurements are counted in, such as one metre of length or one second of time. A measurement is a number times a unit.',
+		chapter: 'si-units',
+	},
+	si: {
+		term: 'SI (International System of Units)',
+		def: 'The worldwide system of units used in science, built on seven base units (second, metre, kilogram, ampere, kelvin, mole, candela) and decimal prefixes.',
+		chapter: 'si-units',
+	},
+	'base-unit': {
+		term: 'Base unit',
+		def: 'One of the seven SI units from which all others are built: s, m, kg, A, K, mol, cd.',
+		chapter: 'si-units',
+	},
+	'derived-unit': {
+		term: 'Derived unit',
+		def: 'A unit built by multiplying or dividing base units, such as m² for area, m/s for speed or kg/m³ for density.',
+		chapter: 'si-units',
+	},
+	second: {
+		term: 'Second (s)',
+		def: 'The SI unit of time: the duration of exactly 9 192 631 770 vibrations of the radiation from a particular transition in caesium-133 atoms.',
+		chapter: 'si-units',
+	},
+	metre: {
+		term: 'Metre (m)',
+		def: 'The SI unit of length: the distance light travels in a vacuum in exactly 1/299 792 458 of a second.',
+		chapter: 'si-units',
+	},
+	kilogram: {
+		term: 'Kilogram (kg)',
+		def: 'The SI unit of mass, defined since 2019 by fixing the value of the Planck constant. It is the only base unit whose name contains a prefix.',
+		chapter: 'si-units',
+	},
+	prefix: {
+		term: 'Prefix (SI)',
+		def: 'A word or symbol in front of a unit that multiplies it by a power of ten: k (kilo) = 10³, m (milli) = 10⁻³, µ (micro) = 10⁻⁶, and so on.',
+		chapter: 'si-units',
+	},
+	litre: {
+		term: 'Litre (L)',
+		def: 'A unit of volume accepted for use with the SI: 1 L = 10⁻³ m³, the volume of a cube 10 cm on each side. 1 mL = 1 cm³.',
+		chapter: 'si-units',
+	},
+	tonne: {
+		term: 'Tonne (t)',
+		def: 'A unit of mass accepted for use with the SI: 1 t = 1000 kg.',
+		chapter: 'si-units',
+	},
+	'astronomical-unit': {
+		term: 'Astronomical unit (au)',
+		def: 'A unit of length roughly equal to the average Earth–Sun distance, defined as exactly 149 597 870 700 m.',
+		chapter: 'si-units',
+	},
+
+	// ---- 0.3 Handling units ----
+	'conversion-factor': {
+		term: 'Conversion factor',
+		def: 'A fraction equal to 1 that changes a quantity’s units without changing its size, such as (1000 m)/(1 km). Orient it so the unwanted unit cancels.',
+		chapter: 'unit-handling',
+	},
+	kelvin: {
+		term: 'Kelvin (K)',
+		def: 'The SI unit of temperature. Its zero is absolute zero and its steps are the same size as Celsius degrees: T(K) = T(°C) + 273.15.',
+		chapter: 'unit-handling',
+	},
+	'absolute-zero': {
+		term: 'Absolute zero',
+		def: 'The lowest possible temperature: 0 K, which is −273.15 °C or −459.67 °F. Part 6 explains why nothing can be colder.',
+		chapter: 'unit-handling',
+	},
+	dimension: {
+		term: 'Dimension',
+		def: 'The kind of quantity something is, regardless of the unit: length [L], mass [M], time [T], or combinations such as [L]/[T] for speed.',
+		chapter: 'unit-handling',
+	},
+	'dimensional-analysis': {
+		term: 'Dimensional analysis',
+		def: 'Checking that both sides of an equation have the same dimensions. It catches many wrong formulas and can suggest the form of a correct one.',
+		chapter: 'unit-handling',
+	},
+
+	// ---- 0.4 Rearranging formulas ----
+	equation: {
+		term: 'Equation',
+		def: 'A statement that two expressions are equal, like a balanced scale. It stays true if you do the same thing to both sides (except divide by zero).',
+		chapter: 'rearranging-formulas',
+	},
+	variable: {
+		term: 'Variable',
+		def: 'A letter standing for a quantity that can take different values, such as t for time or v for speed.',
+		chapter: 'rearranging-formulas',
+	},
+	'subject-of-formula': {
+		term: 'Subject (of a formula)',
+		def: 'The variable standing alone on one side of a formula. In v = d/t the subject is v. Rearranging changes which variable is the subject.',
+		chapter: 'rearranging-formulas',
+	},
+	'inverse-operation': {
+		term: 'Inverse operation',
+		def: 'An operation that undoes another: subtraction undoes addition, division undoes multiplication, a square root undoes squaring.',
+		chapter: 'rearranging-formulas',
+	},
+	density: {
+		term: 'Density (ρ)',
+		def: 'Mass per unit volume, ρ = m/V, measured in kg/m³. Water is about 1000 kg/m³.',
+		chapter: 'rearranging-formulas',
+	},
+
+	// ---- 0.5 Ratios, proportionality and the inverse-square law ----
+	ratio: {
+		term: 'Ratio',
+		def: 'One quantity divided by another of the same kind, giving a pure number that says how many times bigger one is: 14.7 m/s² ÷ 9.81 m/s² = 1.5.',
+		chapter: 'ratios-proportionality',
+	},
+	'direct-proportion': {
+		term: 'Direct proportion (y ∝ x)',
+		def: 'Doubling one quantity doubles the other: y = kx. The graph is a straight line through the origin.',
+		chapter: 'ratios-proportionality',
+	},
+	'inverse-proportion': {
+		term: 'Inverse proportion (y ∝ 1/x)',
+		def: 'Doubling one quantity halves the other: y = k/x, so the product xy stays constant.',
+		chapter: 'ratios-proportionality',
+	},
+	'constant-of-proportionality': {
+		term: 'Constant of proportionality',
+		def: 'The fixed number k in y = kx (or y = k/x, y = kxⁿ). It often has units.',
+		chapter: 'ratios-proportionality',
+	},
+	'inverse-square-law': {
+		term: 'Inverse-square law',
+		def: 'For anything spreading evenly from a point, strength falls as 1/r²: twice as far gives a quarter as much. For light, I = L/(4πr²).',
+		chapter: 'ratios-proportionality',
+	},
+	luminosity: {
+		term: 'Luminosity (L)',
+		def: 'The total power a star radiates in all directions, in watts. The Sun’s is about 3.83 × 10²⁶ W.',
+		chapter: 'ratios-proportionality',
+	},
+	intensity: {
+		term: 'Intensity (of light)',
+		def: 'Power arriving per square metre of a surface facing the source, in W/m².',
+		chapter: 'ratios-proportionality',
+	},
+	'solar-constant': {
+		term: 'Solar constant',
+		def: 'The intensity of sunlight at Earth’s average distance, measured above the atmosphere: about 1361 W/m². It varies by around 0.1%.',
+		chapter: 'ratios-proportionality',
+	},
+	watt: {
+		term: 'Watt (W)',
+		def: 'The SI unit of power: how fast energy is delivered or used. A 60 W bulb uses energy twice as fast as a 30 W bulb. Defined properly in Part 5 (1 W = 1 joule per second).',
+		chapter: 'ratios-proportionality',
+	},
+
+	// ---- 0.6 Trigonometry ----
+	'degree-angle': {
+		term: 'Degree (angle)',
+		def: 'A unit of angle: a full turn is 360°. One degree is 60 arcminutes, and one arcminute is 60 arcseconds.',
+		chapter: 'trigonometry',
+	},
+	radian: {
+		term: 'Radian (rad)',
+		def: 'The natural unit of angle: the angle whose arc length equals the radius. A full turn is 2π rad = 360°, so 1 rad ≈ 57.3°.',
+		chapter: 'trigonometry',
+	},
+	sine: {
+		term: 'Sine (sin)',
+		def: 'For an angle θ in a right-angled triangle, opposite ÷ hypotenuse. On the unit circle, the y-coordinate of the point at angle θ.',
+		chapter: 'trigonometry',
+	},
+	cosine: {
+		term: 'Cosine (cos)',
+		def: 'For an angle θ in a right-angled triangle, adjacent ÷ hypotenuse. On the unit circle, the x-coordinate of the point at angle θ.',
+		chapter: 'trigonometry',
+	},
+	tangent: {
+		term: 'Tangent (tan)',
+		def: 'For an angle θ in a right-angled triangle, opposite ÷ adjacent, which equals sin θ / cos θ.',
+		chapter: 'trigonometry',
+	},
+	'unit-circle': {
+		term: 'Unit circle',
+		def: 'A circle of radius 1 centred on the origin. The point at angle θ (measured anticlockwise from the x-axis) is (cos θ, sin θ), which defines sine and cosine for any angle.',
+		chapter: 'trigonometry',
+	},
+	'small-angle-approximation': {
+		term: 'Small-angle approximation',
+		def: 'For small angles measured in radians, sin θ ≈ tan θ ≈ θ (and cos θ ≈ 1). Accurate to about 1% up to 10°.',
+		chapter: 'trigonometry',
+	},
+	parallax: {
+		term: 'Parallax',
+		def: 'The apparent shift of a nearby object against distant ones when seen from two places. For stars, the parallax angle p (from a 1 au baseline) gives the distance d ≈ 1 au / p.',
+		chapter: 'trigonometry',
+	},
+
+	// ---- 0.7 Vectors ----
+	scalar: {
+		term: 'Scalar',
+		def: 'A quantity fully described by a number and a unit, with no direction: mass, time, temperature, speed.',
+		chapter: 'vectors',
+	},
+	vector: {
+		term: 'Vector',
+		def: 'A quantity with both a size (magnitude) and a direction, drawn as an arrow: displacement, velocity, force.',
+		chapter: 'vectors',
+	},
+	magnitude: {
+		term: 'Magnitude',
+		def: 'The size of a vector, ignoring its direction: |A| = √(Aₓ² + A_y²). It is never negative.',
+		chapter: 'vectors',
+	},
+	displacement: {
+		term: 'Displacement',
+		def: 'The straight-line change in position, with direction: how far and which way you ended up from where you started. Compare distance, the length of the route taken.',
+		chapter: 'vectors',
+	},
+	velocity: {
+		term: 'Velocity',
+		def: 'Speed together with direction: a vector. Two objects with the same speed but different directions have different velocities.',
+		chapter: 'vectors',
+	},
+	resultant: {
+		term: 'Resultant',
+		def: 'The single vector equal to the sum of several vectors, drawn from the first tail to the last head.',
+		chapter: 'vectors',
+	},
+	component: {
+		term: 'Component (of a vector)',
+		def: 'The part of a vector along one axis: Aₓ = A cos θ along x and A_y = A sin θ along y. Vectors add component by component.',
+		chapter: 'vectors',
+	},
+	'unit-vector': {
+		term: 'Unit vector',
+		def: 'A vector of length 1 used to mark a direction, such as î along x and ĵ along y, so that A = Aₓ î + A_y ĵ.',
+		chapter: 'vectors',
+	},
+	'relative-velocity': {
+		term: 'Relative velocity',
+		def: 'How an object moves as seen from another moving object: v_rel = v₂ − v₁ (vector subtraction).',
+		chapter: 'vectors',
+	},
+
+	// ---- 0.8 Exponentials and logarithms ----
+	'exponential-growth': {
+		term: 'Exponential growth',
+		def: 'Growth by the same factor in every equal time interval, for example doubling every T: N = N₀ × 2^(t/T). Slow at first, then explosive.',
+		chapter: 'exponentials-logarithms',
+	},
+	'exponential-decay': {
+		term: 'Exponential decay',
+		def: 'Shrinking by the same factor in every equal time interval, for example halving every half-life.',
+		chapter: 'exponentials-logarithms',
+	},
+	'doubling-time': {
+		term: 'Doubling time (T)',
+		def: 'The time for an exponentially growing quantity to double. Related to the continuous growth rate k by T = ln 2 / k ≈ 0.693/k.',
+		chapter: 'exponentials-logarithms',
+	},
+	'half-life': {
+		term: 'Half-life',
+		def: 'The time for an exponentially decaying quantity, such as a radioactive sample, to fall to half. Plutonium-238’s is 87.7 years.',
+		chapter: 'exponentials-logarithms',
+	},
+	'eulers-number': {
+		term: 'e (Euler’s number)',
+		def: 'The constant 2.718 28…, the limit of (1 + 1/n)ⁿ as n grows. It is the natural base for continuous growth: N = N₀ e^(kt).',
+		chapter: 'exponentials-logarithms',
+	},
+	logarithm: {
+		term: 'Logarithm',
+		def: 'The exponent needed to make a number from a base: log_b(x) = y means bʸ = x. log₁₀ 1000 = 3, log₂ 32 = 5. It undoes exponentiation.',
+		chapter: 'exponentials-logarithms',
+	},
+	'natural-logarithm': {
+		term: 'Natural logarithm (ln)',
+		def: 'The logarithm with base e: ln x = log_e x. The ln key on a calculator. ln 2 ≈ 0.693.',
+		chapter: 'exponentials-logarithms',
+	},
+	'log-scale': {
+		term: 'Logarithmic scale',
+		def: 'A scale where equal steps mean equal multiplications (1, 10, 100, 1000 evenly spaced). Exponential curves become straight lines on it.',
+		chapter: 'exponentials-logarithms',
+	},
+
+	// ---- 0.9 Graphs ----
+	'independent-variable': {
+		term: 'Independent variable',
+		def: 'The quantity an experimenter chooses or controls. It goes on the horizontal (x) axis.',
+		chapter: 'graphs',
+	},
+	'dependent-variable': {
+		term: 'Dependent variable',
+		def: 'The quantity that responds to the independent variable and is measured. It goes on the vertical (y) axis.',
+		chapter: 'graphs',
+	},
+	gradient: {
+		term: 'Gradient (slope)',
+		def: 'How steeply a graph rises: Δy/Δx. Its units are (units of y) per (unit of x), and it is a rate, such as speed on a distance–time graph.',
+		chapter: 'graphs',
+	},
+	intercept: {
+		term: 'Intercept',
+		def: 'Where a line crosses the y-axis: the value of y when x = 0 (the c in y = mx + c).',
+		chapter: 'graphs',
+	},
+	interpolation: {
+		term: 'Interpolation',
+		def: 'Estimating a value between measured points. Usually reliable.',
+		chapter: 'graphs',
+	},
+	extrapolation: {
+		term: 'Extrapolation',
+		def: 'Estimating a value beyond the measured range, assuming the pattern continues. Risky: different models that fit the data can disagree wildly.',
+		chapter: 'graphs',
+	},
+
+	// ---- 0.10 Order-of-magnitude estimation ----
+	'order-of-magnitude': {
+		term: 'Order of magnitude',
+		def: 'The power of ten nearest to a number: 5.97 × 10²⁴ is of order 10²⁵. Two things "three orders of magnitude apart" differ by about 1000×.',
+		chapter: 'estimation',
+	},
+	'fermi-problem': {
+		term: 'Fermi problem',
+		def: 'A quick estimate made by splitting a hard question into factors you can each guess roughly, then multiplying. Named after physicist Enrico Fermi.',
+		chapter: 'estimation',
+	},
+	'geometric-mean': {
+		term: 'Geometric mean',
+		def: 'For two positive numbers a and b, √(ab): the value halfway between them on a logarithmic scale. The best single guess when you only know bounds.',
+		chapter: 'estimation',
+	},
+};

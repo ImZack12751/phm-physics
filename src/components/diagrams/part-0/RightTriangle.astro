@@ -1,0 +1,25 @@
+---
+// A right-angled triangle with sides named relative to the angle θ.
+const A = { x: 60, y: 250 }, B = { x: 460, y: 250 }, C = { x: 460, y: 70 };
+const theta = Math.atan2(B.y - C.y, B.x - A.x); // radians
+const R = 56;
+const arcEnd = { x: A.x + R * Math.cos(theta), y: A.y - R * Math.sin(theta) };
+---
+
+<svg class="dg" viewBox="0 0 540 300" xmlns="http://www.w3.org/2000/svg">
+	<path d={`M${A.x},${A.y} L${B.x},${B.y} L${C.x},${C.y} Z`} class="s-fg w2 f-sky-soft" />
+	{/* right-angle marker */}
+	<path d={`M${B.x - 18},${B.y} L${B.x - 18},${B.y - 18} L${B.x},${B.y - 18}`} class="s-fg w1" />
+	{/* angle arc */}
+	<path d={`M${A.x + R},${A.y} A${R},${R} 0 0 0 ${arcEnd.x.toFixed(1)},${arcEnd.y.toFixed(1)}`} class="s-amber w2" />
+	<text x={A.x + R + 10} y={A.y - 9} class="t-it f-amber">θ</text>
+
+	{/* side labels */}
+	<text x="250" y="140" class="t-end t-b f-amber">hypotenuse</text>
+	<text x="250" y="156" class="t-end t-sm f-muted">longest side, opposite the right angle</text>
+	<text x={B.x + 12} y="150" class="t-b f-green">opposite</text>
+	<text x={B.x + 12} y="166" class="t-sm f-muted">faces θ</text>
+	<text x="260" y="276" class="t-mid t-b f-sky">adjacent</text>
+	<text x="260" y="292" class="t-mid t-sm f-muted">next to θ (not the hypotenuse)</text>
+	<circle cx={A.x} cy={A.y} r="3" class="f-fg" />
+</svg>

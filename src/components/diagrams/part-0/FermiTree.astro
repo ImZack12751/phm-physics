@@ -1,0 +1,39 @@
+---
+// The Fermi estimate for "how many Astrophage cells would block 1% of the Sun's light?" as a tree of factors.
+const box = (x: number, y: number, w: number) => ({ x, y, w, h: 54 });
+const B = {
+	sphere: box(10, 40, 205),
+	frac: box(228, 40, 160),
+	cell: box(400, 40, 210),
+	cover: box(110, 150, 200),
+	answer: box(210, 250, 200),
+};
+const mid = (b: { x: number; w: number }) => b.x + b.w / 2;
+---
+
+<svg class="dg" viewBox="0 0 620 330" xmlns="http://www.w3.org/2000/svg">
+	{
+		[
+			[B.sphere, 'area of a shell near the Sun', '4π(7 × 10⁸ m)² ≈ 6 × 10¹⁸ m²', 's-sky', 'f-sky'],
+			[B.frac, 'fraction to block', '1% = 10⁻²', 's-sky', 'f-sky'],
+			[B.cell, 'shadow of one cell', '(10⁻⁵ m)² = 10⁻¹⁰ m²', 's-sky', 'f-sky'],
+			[B.cover, 'area to cover', '6 × 10¹⁶ m²', 's-amber', 'f-amber'],
+			[B.answer, 'number of cells', '≈ 6 × 10²⁶', 's-green', 'f-green'],
+		].map(([b, t1, t2, s, f]: any) => (
+			<>
+				<rect x={b.x} y={b.y} width={b.w} height={b.h} rx="10" class={`${s} w2 f-bg`} />
+				<text x={mid(b)} y={b.y + 22} class="t-mid t-sm f-muted">{t1}</text>
+				<text x={mid(b)} y={b.y + 42} class={`t-mid t-b ${f}`} style="font-size: 13px">{t2}</text>
+			</>
+		))
+	}
+	{/* multiply sphere × fraction → cover */}
+	<path d={`M${mid(B.sphere)},${B.sphere.y + 54} L${mid(B.cover) - 40},${B.cover.y}`} class="s-muted w2" />
+	<path d={`M${mid(B.frac)},${B.frac.y + 54} L${mid(B.cover) + 40},${B.cover.y}`} class="s-muted w2" />
+	<text x={mid(B.cover)} y={B.cover.y - 12} class="t-mid t-sm f-muted">× (multiply)</text>
+	{/* divide cover ÷ cell → answer */}
+	<path d={`M${mid(B.cover)},${B.cover.y + 54} L${mid(B.answer) - 40},${B.answer.y}`} class="s-muted w2" />
+	<path d={`M${mid(B.cell)},${B.cell.y + 54} L${mid(B.answer) + 40},${B.answer.y}`} class="s-muted w2" />
+	<text x={mid(B.answer) + 140} y={B.answer.y - 12} class="t-mid t-sm f-muted">÷ (divide)</text>
+	<text x="20" y="322" class="t-sm f-muted">Each box is a number you can estimate separately. Errors in different boxes partly cancel.</text>
+</svg>

@@ -1,0 +1,428 @@
+---
+title: Exponentials and logarithms
+description: Doubling, halving and the number e, and logarithms as the tool for asking "how long until?", applied to the runaway growth of Astrophage.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import DoublingCells from '../../../components/diagrams/part-0/DoublingCells.astro';
+import LinearVsExponential from '../../../components/diagrams/part-0/LinearVsExponential.astro';
+import DimmingFit from '../../../components/sims/DimmingFit.astro';
+
+## The scene
+
+Astrophage reproduces by splitting in two. Each cell becomes two, those two become four, and so on, as long as there is energy to feed on. In the novel, that is why the forecast is so frightening. The Sun is expected to lose about 1% of its output within roughly nine years, but about 5% within twenty. The second interval is only about twice as long as the first, yet the loss is five times bigger. The damage isn't growing steadily. It is accelerating.
+
+Growth by repeated multiplication is called exponential growth, and it fools human intuition badly. This chapter explains it, introduces the special number $e$, and then teaches logarithms. Logarithms answer the question everyone in the novel is asking: *how long until it's too late?*
+
+## Prerequisites
+
+<Prereqs notes={{ 'scientific-notation': 'the exponent rules for powers of ten, which work for any base', 'rearranging-formulas': 'undoing operations to isolate an unknown, here one stuck in an exponent' }} />
+
+## The concept
+
+### Adding versus multiplying
+
+Imagine two ways a quantity can grow each year:
+
+- **Linear growth:** it *adds* the same amount each step: 10, 16, 22, 28, …
+- **Exponential growth:** it *multiplies* by the same factor each step: 1, 2, 4, 8, …
+
+Early on, linear growth can be ahead. But a quantity that keeps doubling always overtakes one that keeps adding, and then leaves it far behind.
+
+<Figure caption="Linear growth adds a fixed amount each step. Exponential growth multiplies by a fixed factor. The doubling curve starts behind but overtakes and then races away." alt="A graph with time in doubling times from 0 to 6 across and quantity from 0 to 60 up. A blue straight line, labelled linear: plus 6 per step, rises from 1 to 37. An amber curve, labelled exponential: times 2 per step, rises slowly through 1, 2, 4, 8, 16, 32, 64, with dots at each step, crossing the line near t equals 4.9, which is circled.">
+	<LinearVsExponential />
+</Figure>
+
+### Doubling
+
+When something doubles every fixed interval, that interval is its <Term id="doubling-time">doubling time</Term>, $T$. After one doubling time there are 2 times as many. After two, $2 \times 2 = 4$ times. After $n$ doublings, $2^{n}$ times.
+
+<Figure caption="One cell, doubling. Five doublings give 32 cells; forty give over a trillion." alt="Six rows of small amber circles. The row after 0 doublings has 1 circle, then 2, 4, 8, 16 and 32 circles, each labelled with its count and as 2 to the power 0 up to 2 to the power 5. A note says after 40 doublings, 2 to the 40 is about 1.1 times 10 to the 12 cells.">
+	<DoublingCells />
+</Figure>
+
+If a time $t$ has passed, the number of doublings is $n = t/T$, and the amount is
+
+$$
+N = N_{0} \times 2^{t/T},
+$$
+
+where $N_{0}$ is the starting amount. This is <Term id="exponential-growth">exponential growth</Term>. The variable $t$ sits in the exponent, which is where the name comes from.
+
+The reverse, repeated halving, is <Term id="exponential-decay">exponential decay</Term>. Radioactive materials decay this way. The time to halve is the <Term id="half-life">half-life</Term>, $t_{1/2}$:
+
+$$
+N = N_{0} \times \left(\tfrac{1}{2}\right)^{t/t_{1/2}}.
+$$
+
+### Powers of any number
+
+In [Scientific notation](/part-0/scientific-notation/) we derived the exponent rules for powers of ten. Nothing in those derivations used the fact that the base was 10. They only counted how many copies were multiplied. So for any positive base $a$:
+
+$$
+a^{m}a^{n} = a^{m+n}, \qquad \frac{a^{m}}{a^{n}} = a^{m-n}, \qquad (a^{m})^{n} = a^{mn}, \qquad a^{0} = 1, \qquad a^{-n} = \frac{1}{a^{n}}.
+$$
+
+The power-of-a-power rule also tells us what a *fractional* exponent must mean. Since $(a^{1/2})^{2} = a^{1/2 \times 2} = a^{1}$, the number $a^{1/2}$ squares to give $a$. In other words, $a^{1/2} = \sqrt{a}$. Similarly $a^{1/3} = \sqrt[3]{a}$, the cube root, and $a^{m/n} = (\sqrt[n]{a})^{m}$. That lets the exponent $t/T$ be any number at all, such as 2.37 doublings.
+
+### The number e
+
+Any base can describe exponential growth, but one base is special: <Term id="eulers-number">Euler's number</Term>, $e \approx 2.71828$, named after Leonhard Euler. Here is where it comes from.
+
+Suppose something grows by 100% over a year, a doubling. If that growth is added all at once at the end, you get a factor of 2. If instead it is added in two half-year steps of 50%, the second half's growth is on an already bigger amount: $(1 + \tfrac{1}{2})^{2} = 2.25$. In 12 monthly steps: $(1 + \tfrac{1}{12})^{12} = 2.613$. In daily steps: $(1 + \tfrac{1}{365})^{365} = 2.7146$. Making the steps ever smaller, so that growth is added *continuously*, the factor settles on a definite limit:
+
+$$
+e = 2.718\,28\ldots
+$$
+
+Real growth, from bacteria to Astrophage, happens continuously rather than in yearly jumps. That is why $e$ appears all over physics. Continuous growth at rate $k$ is written
+
+$$
+N = N_{0}\,e^{kt}.
+$$
+
+The calculus chapters will show the deeper reason $e$ is special: $e^{kt}$ is the function whose rate of growth is exactly $k$ times its current size.
+
+### Logarithms: asking for the exponent
+
+Exponential growth answers "how much after time $t$?" Very often we need the reverse: "how long until it reaches a certain amount?" The unknown is then stuck in the exponent, and no amount of adding or multiplying will get it out. We need a new inverse operation, the <Term id="logarithm">logarithm</Term>.
+
+The logarithm base $b$ of $x$ is *the power you must raise $b$ to in order to get $x$*:
+
+$$
+\log_{b}x = y \quad\text{means}\quad b^{y} = x.
+$$
+
+So $\log_{10}1000 = 3$ because $10^{3} = 1000$, and $\log_{2}32 = 5$ because $2^{5} = 32$. Three bases are common:
+
+- $\log_{10}$, often written just $\log$, counts powers of ten. It measures orders of magnitude.
+- $\log_{2}$ counts doublings.
+- $\ln$, the <Term id="natural-logarithm">natural logarithm</Term>, is $\log_{e}$. It is the one on most calculators' `ln` key and the one used most in physics.
+
+A logarithm undoes an exponential, just as a square root undoes a square: $\log_{b}(b^{y}) = y$ and $b^{\log_{b}x} = x$. You can only take the logarithm of a positive number.
+
+### Logarithmic scales
+
+A <Term id="log-scale">logarithmic scale</Term> spaces numbers by their logarithms, so each equal step is a multiplication: 1, 10, 100, 1000 are evenly spaced. You met one in the [ruler of sizes](/part-0/scientific-notation/#interactive-simulation). On a log scale, an exponential curve becomes a **straight line**, because each equal time step multiplies by the same factor, and that is an equal step up. The simulation below shows this.
+
+## Formulas
+
+### The laws of logarithms
+
+Each law comes straight from an exponent rule. Let $x = b^{p}$ and $y = b^{q}$, so that $p = \log_{b}x$ and $q = \log_{b}y$.
+
+**Product.** $xy = b^{p}b^{q} = b^{p+q}$, so $\log_{b}(xy) = p + q$:
+
+$$
+\log_{b}(xy) = \log_{b}x + \log_{b}y
+$$
+
+**Quotient.** $x/y = b^{p-q}$:
+
+$$
+\log_{b}\!\left(\frac{x}{y}\right) = \log_{b}x - \log_{b}y
+$$
+
+**Power.** $x^{n} = (b^{p})^{n} = b^{np}$:
+
+$$
+\log_{b}(x^{n}) = n\log_{b}x
+$$
+
+Logarithms turn multiplication into addition and powers into multiplication. Before calculators existed, this was how scientists did hard arithmetic.
+
+### Change of base
+
+Calculators usually only offer $\log_{10}$ and $\ln$. To find $\log_{b}x$, let $y = \log_{b}x$, so $b^{y} = x$. Take $\ln$ of both sides and use the power law: $y\ln b = \ln x$. Dividing:
+
+$$
+\log_{b}x = \frac{\ln x}{\ln b} = \frac{\log_{10}x}{\log_{10}b}
+$$
+
+### Solving for time
+
+Start from $N = N_{0} \times 2^{t/T}$ and isolate $t$. Divide both sides by $N_{0}$:
+
+$$
+\frac{N}{N_{0}} = 2^{t/T}
+$$
+
+Take $\ln$ of both sides and use the power law:
+
+$$
+\ln\!\left(\frac{N}{N_{0}}\right) = \frac{t}{T}\ln 2
+$$
+
+Multiply both sides by $\dfrac{T}{\ln 2}$:
+
+$$
+t = T\,\frac{\ln(N/N_{0})}{\ln 2} = T\log_{2}\!\left(\frac{N}{N_{0}}\right)
+$$
+
+In words: **the time needed is the doubling time multiplied by the number of doublings needed.**
+
+### Doubling time and growth rate
+
+The same growth can be written as $N_{0}e^{kt}$ or as $N_{0}2^{t/T}$. Setting them equal at every time means $e^{k} = 2^{1/T}$. Take $\ln$ of both sides: $k = \dfrac{\ln 2}{T}$. So
+
+$$
+T = \frac{\ln 2}{k} \approx \frac{0.693}{k}
+$$
+
+For growth of $r$ percent per year, $k \approx r/100$ when $r$ is small, which gives the **rule of 70**: doubling time $\approx 70/r$ years. For example, 7% a year doubles in about 10 years.
+
+## Worked examples
+
+<Example n={1} title="How many doublings to a trillion cells?" book>
+Starting from a single Astrophage cell, how many doublings give a trillion ($10^{12}$) cells?
+
+We need $2^{n} = 10^{12}$, so
+
+$$
+n = \log_{2}(10^{12}) = \frac{\log_{10}(10^{12})}{\log_{10}2} = \frac{12}{0.301\,03} = 39.86.
+$$
+
+About **40 doublings**. Check: $2^{40} = 1.0995 \times 10^{12}$ ✓. This is the counter-intuitive power of doubling: a trillion is only 40 steps away from one. If a population doubled once a day, it would go from a single cell to a trillion in under six weeks.
+</Example>
+
+<Example n={2} title="Fitting the novel's forecast" book>
+Assume the dimming $D$ grows exponentially, with $D = 1\%$ at $t = 9$ years and $D = 5\%$ at $t = 20$ years. Find the doubling time.
+
+Write $D = D_{9} \times 2^{(t - 9)/T}$, with $D_{9} = 1\%$, so the curve passes through the first point. At $t = 20$:
+
+$$
+5\% = 1\% \times 2^{(20 - 9)/T} \quad\Longrightarrow\quad 5 = 2^{11/T}
+$$
+
+Take $\ln$ of both sides:
+
+$$
+\ln 5 = \frac{11}{T}\ln 2 \quad\Longrightarrow\quad T = \frac{11\ln 2}{\ln 5} = \frac{11 \times 0.693\,15}{1.609\,44} = 4.74\ \text{yr}
+$$
+
+On this model, the dimming doubles roughly every four and three-quarter years.
+</Example>
+
+<Example n={3} title="Where does the forecast lead?" book>
+Using $T = 4.74$ yr from Worked example 2, what dimming does the model predict at $t = 30$ years?
+
+From 20 to 30 years is 10 years, which is $10/4.74 = 2.11$ doublings:
+
+$$
+\begin{aligned}
+D_{30} &= 5\% \times 2^{10/4.737} \\
+       &= 5\% \times 2^{2.111} \\
+       &= 5\% \times 4.32 \\
+       &= 21.6\%
+\end{aligned}
+$$
+
+A fifth of the Sun's output would be gone. That is far beyond anything that could keep Earth habitable. A model like this should be extrapolated with caution: real growth stops when it runs out of food or room. But it shows why nobody in the story can afford to wait.
+</Example>
+
+<Example n={4} title="A nuclear battery running down">
+Deep-space probes such as Voyager are powered by the heat from plutonium-238, which has a half-life of 87.7 years. What fraction of its original heat output remains after 20 years?
+
+$$
+\frac{N}{N_{0}} = \left(\tfrac{1}{2}\right)^{20/87.7} = 0.5^{0.2281}
+$$
+
+Use logs to evaluate (or a calculator's power key): $\ln(0.5^{0.2281}) = 0.2281 \times \ln 0.5 = 0.2281 \times (-0.6931) = -0.1581$. So the fraction is $e^{-0.1581} = 0.854$.
+
+About 85% of the heat remains after 20 years. Long half-lives make good long-life power sources. (Real generators lose electrical output somewhat faster, because their converters also wear out.)
+</Example>
+
+<Example n={5} title="From doubling time to growth rate" book>
+Express the dimming model from Worked example 2 as continuous growth, $D = D_{9}\,e^{k(t - 9)}$, and check it.
+
+$$
+k = \frac{\ln 2}{T} = \frac{0.6931}{4.737\ \text{yr}} = 0.1463\ \text{per year}
+$$
+
+Check at $t = 20$: $e^{0.1463 \times 11} = e^{1.609} = 5.00$ ✓. So the dimming grows at about 14.6% per year, compounded continuously. The rule of 70 gives $70/14.6 = 4.8$ years, close to the exact 4.74.
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** Exponential growth and decay, $e$ and logarithms are standard mathematics. Bacteria such as *E. coli* can double every 20 minutes in ideal lab conditions. Radioactive decay is accurately exponential: plutonium-238's half-life is 87.7 years.
+
+**Weir's inventions.** Astrophage itself is invented, and so is its growth.
+
+**How realistic are the numbers?** Fitting the novel's two forecasts (about 1% at nine years and 5% at twenty) gives a doubling time of about 4.7 years for the dimming. That is very slow for a microbe, but the *dimming* is a whole-Sun effect limited by how fast Astrophage spreads and breeds across space, not by how fast one cell divides. The story's logic, that an exponential process looks harmless at first and then becomes unstoppable, is exactly right. Note that we have assumed pure exponential growth. The novel's figures are approximate, and a real population would eventually be limited.
+</RealVsBook>
+
+## Interactive simulation
+
+<DimmingFit />
+
+Try a doubling time of 9 years (too slow) and 3 years (too fast), then press **Best fit**. Switch on the log scale: an exponential becomes a straight line, and its steepness is set by the doubling time.
+
+## Practice set
+
+<Problem n={1} level="easy">
+Simplify: (a) $2^{3} \times 2^{4}$ (b) $\dfrac{3^{5}}{3^{2}}$ (c) $(5^{2})^{3}$. Give each as a power and as a number.
+
+<Solution>
+(a) $2^{3+4} = 2^{7} = 128$. (b) $3^{5-2} = 3^{3} = 27$. (c) $5^{2 \times 3} = 5^{6} = 15\,625$.
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy">
+Evaluate without a calculator: (a) $16^{1/2}$ (b) $27^{1/3}$ (c) $8^{2/3}$ (d) $4^{-1/2}$
+
+<Solution>
+(a) $\sqrt{16} = 4$. (b) $\sqrt[3]{27} = 3$. (c) $(\sqrt[3]{8})^{2} = 2^{2} = 4$. (d) $\dfrac{1}{4^{1/2}} = \dfrac{1}{2}$.
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy">
+Evaluate: (a) $\log_{10}1000$ (b) $\log_{10}0.01$ (c) $\log_{2}32$ (d) $\ln(e^{4})$
+
+<Solution>
+(a) $10^{3} = 1000$, so 3. (b) $10^{-2} = 0.01$, so $-2$. (c) $2^{5} = 32$, so 5. (d) $\ln$ undoes $e^{x}$, so 4.
+</Solution>
+</Problem>
+
+<Problem n={4} level="easy">
+A colony doubles 6 times. By what factor does it grow? A radioactive sample goes through 3 half-lives. What fraction is left?
+
+<Solution>
+$2^{6} = 64$ times bigger. $(\tfrac{1}{2})^{3} = \tfrac{1}{8}$ is left.
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium">
+*E. coli* can double every 20 minutes in ideal lab conditions. Starting from one cell, how many would there be after 24 hours if nothing limited the growth?
+
+<Solution>
+Doublings: $\dfrac{24 \times 60\ \text{min}}{20\ \text{min}} = 72$. Cells: $2^{72}$. Using logs, $\log_{10}(2^{72}) = 72 \times 0.301\,03 = 21.674$, so
+
+$$
+2^{72} = 10^{21.674} = 10^{0.674} \times 10^{21} = 4.72 \times 10^{21}.
+$$
+
+That would be an impossibly large mass of bacteria from one cell in one day. In reality food and space run out long before. Unlimited exponential growth never lasts.
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium">
+Solve $2^{x} = 50$.
+
+<Solution>
+Take $\ln$ of both sides: $x\ln 2 = \ln 50$, so
+
+$$
+x = \frac{\ln 50}{\ln 2} = \frac{3.912}{0.6931} = 5.64.
+$$
+
+Check: $2^{5} = 32$ and $2^{6} = 64$, so the answer must lie between 5 and 6 ✓.
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium">
+A plutonium-238 heat source has a half-life of 87.7 years. How long until its output falls to (a) 50% (b) 25% (c) 10% of the original?
+
+<Solution>
+(a) One half-life: 87.7 yr. (b) Two half-lives: 175.4 yr.
+
+(c) We need $(\tfrac{1}{2})^{t/87.7} = 0.10$. Taking $\ln$: $\dfrac{t}{87.7}\ln 0.5 = \ln 0.10$, so
+
+$$
+t = 87.7 \times \frac{\ln 0.10}{\ln 0.5} = 87.7 \times \frac{-2.3026}{-0.6931} = 87.7 \times 3.322 = 291\ \text{yr}.
+$$
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium">
+Something grows by 7% a year. Estimate its doubling time with the rule of 70, then find it exactly from $(1.07)^{T} = 2$.
+
+<Solution>
+Rule of 70: $70/7 = 10$ years.
+
+Exactly: $T\ln 1.07 = \ln 2$, so $T = \dfrac{0.6931}{0.067\,66} = 10.24$ years. The rule of thumb is within 3%.
+</Solution>
+</Problem>
+
+<Problem n={9} level="medium" book>
+With a doubling time of 4.74 years, how long does the dimming take to grow from 5% to 50%?
+
+<Solution>
+The factor needed is $50/5 = 10$. The number of doublings is $\log_{2}10 = \dfrac{\ln 10}{\ln 2} = 3.32$. The time is $3.32 \times 4.74\ \text{yr} = 15.7$ years.
+
+(This assumes the model keeps working, which the [Real physics vs. book physics](#real-physics-vs-book-physics) box warns about.)
+</Solution>
+</Problem>
+
+<Problem n={10} level="challenging" book>
+Run the model of Worked example 2 *backwards*. When was the dimming only 0.01%, perhaps too small for anyone to notice?
+
+<Solution>
+We need $1\% \times 2^{(t - 9)/4.737} = 0.01\%$, so $2^{(t-9)/4.737} = 0.01$. Taking logs base 2:
+
+$$
+\frac{t - 9}{4.737} = \log_{2}0.01 = \frac{\ln 0.01}{\ln 2} = \frac{-4.605}{0.6931} = -6.644
+$$
+
+$$
+t - 9 = -31.5 \quad\Longrightarrow\quad t = -22.5\ \text{yr}
+$$
+
+About 22.5 years before the first measurement, the effect would have been a hundred times smaller than 1%, buried in the Sun's natural flicker of about 0.1%. Exponential threats often go unnoticed until they are already large.
+</Solution>
+</Problem>
+
+<Problem n={11} level="challenging">
+Given only $\log_{10}2 = 0.3010$, find (a) $\log_{10}8$ (b) $\log_{10}5$ (c) $\log_{10}(1.6 \times 10^{3})$ using the laws of logarithms.
+
+<Solution>
+(a) $8 = 2^{3}$, so $\log 8 = 3\log 2 = 0.9031$.
+
+(b) $5 = 10/2$, so $\log 5 = \log 10 - \log 2 = 1 - 0.3010 = 0.6990$.
+
+(c) $1.6 \times 10^{3} = 16 \times 10^{2} = 2^{4} \times 10^{2}$, so $\log = 4 \times 0.3010 + 2 = 3.2041$.
+
+Notice that the whole-number part (3) is the power of ten in scientific notation. Logarithms and scientific notation are two views of the same idea.
+</Solution>
+</Problem>
+
+<Problem n={12} level="challenging">
+(a) Compute $(1 + \tfrac{1}{n})^{n}$ for $n = 1$, $12$ and $365$, and compare with $e = 2.71828$. (b) An amount grows at 5% a year for 10 years. Compare growing once a year, $(1.05)^{10}$, with continuous growth, $e^{0.05 \times 10}$.
+
+<Solution>
+(a) $n = 1$: $2$. $n = 12$: $(1.083\,33)^{12} = 2.6130$. $n = 365$: $(1.002\,740)^{365} = 2.7146$. Each step closer to continuous growth creeps closer to $e$.
+
+(b) Yearly: $1.05^{10} = 1.6289$. Continuous: $e^{0.5} = 1.6487$. Continuous growth ends up about 1.2% higher, because the growth earns further growth sooner.
+</Solution>
+</Problem>
+
+## Summary
+
+- Exponential growth multiplies by a fixed factor in each interval: $N = N_{0}2^{t/T}$ with doubling time $T$. Decay halves in each half-life.
+- The exponent rules work for any base. A fractional power means a root: $a^{1/2} = \sqrt{a}$.
+- The number $e \approx 2.718$ is the limit of continuous compounding, and continuous growth is $N_{0}e^{kt}$ with $T = \ln 2/k$.
+- A logarithm is an exponent: $\log_{b}x = y \iff b^{y} = x$. The laws of logs come from the laws of exponents. Use them to get a variable down from an exponent.
+- Time to grow by a factor $F$ = doubling time $\times\ \log_{2}F$. On a log scale, exponentials are straight lines.
+
+**Formulas from this chapter**
+
+$$
+N = N_{0}\,2^{t/T} \qquad N = N_{0}\left(\tfrac{1}{2}\right)^{t/t_{1/2}} \qquad N = N_{0}\,e^{kt} \qquad T = \frac{\ln 2}{k}
+$$
+
+$$
+\log_{b}x = y \iff b^{y} = x \qquad \log(xy) = \log x + \log y \qquad \log\frac{x}{y} = \log x - \log y \qquad \log x^{n} = n\log x \qquad \log_{b}x = \frac{\ln x}{\ln b}
+$$
+
+$$
+t = T\log_{2}\!\left(\frac{N}{N_{0}}\right)
+$$
+
+## Sources
+
+- OpenStax, *Algebra and Trigonometry 2e*: §6.1 "Exponential Functions", §6.3 "Logarithmic Functions", §6.5 "Logarithmic Properties" and §6.7 "Exponential and Logarithmic Models". [§6.1](https://openstax.org/books/algebra-and-trigonometry-2e/pages/6-1-exponential-functions), [§6.3](https://openstax.org/books/algebra-and-trigonometry-2e/pages/6-3-logarithmic-functions), [§6.5](https://openstax.org/books/algebra-and-trigonometry-2e/pages/6-5-logarithmic-properties), [§6.7](https://openstax.org/books/algebra-and-trigonometry-2e/pages/6-7-exponential-and-logarithmic-models)
+- HyperPhysics, "Radioactive Half-Life" (exponential decay and its logarithmic form). [hyperphysics](http://hyperphysics.phy-astr.gsu.edu/hbase/Nuclear/halfli2.html)
+- *E. coli* doubling time of 20 min in rich broth at 37 °C: BioNumbers, BNID 103514. [bionumbers.hms.harvard.edu](https://bionumbers.hms.harvard.edu/bionumber.aspx?id=103514)
+- Plutonium-238 half-life of 87.7 years and its use in space power systems: US Department of Energy, "Plutonium-238 Production for Space Exploration". [energy.gov (PDF)](https://www.energy.gov/sites/default/files/NEGTN0NEAC_PU-238_042108.pdf)
+- Natural variation of the Sun's output, about 0.1%: Kopp & Lean (2011), *Geophysical Research Letters* 38. [doi.org/10.1029/2010GL045777](https://doi.org/10.1029/2010GL045777)
+- The dimming forecast (about 1% in nine years, 5% in twenty): Andy Weir, *Project Hail Mary* (2021), as summarised in reader guides. Approximate.

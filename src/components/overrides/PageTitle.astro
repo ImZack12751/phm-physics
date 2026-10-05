@@ -1,0 +1,9 @@
+---
+// Starlight's page title, with "Chapter 0.1 · Part 0 · Maths toolkit" above it on chapter pages.
+import Default from '@astrojs/starlight/components/PageTitle.astro';
+import { chapterById } from '../../data/curriculum.mjs';
+const ch = chapterById[Astro.locals.starlightRoute.entry.id];
+---
+
+{ch && <p class="chapter-eyebrow">Chapter {ch.number} · {ch.partLabel}</p>}
+<Default />

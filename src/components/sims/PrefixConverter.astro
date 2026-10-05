@@ -1,0 +1,138 @@
+---
+// Simulation: type a value with any prefix and see it expressed with every other prefix.
+const prefixes = [
+	{ s: 'E', name: 'exa', p: 18 },
+	{ s: 'P', name: 'peta', p: 15 },
+	{ s: 'T', name: 'tera', p: 12 },
+	{ s: 'G', name: 'giga', p: 9 },
+	{ s: 'M', name: 'mega', p: 6 },
+	{ s: 'k', name: 'kilo', p: 3 },
+	{ s: '', name: '(no prefix)', p: 0 },
+	{ s: 'c', name: 'centi', p: -2 },
+	{ s: 'm', name: 'milli', p: -3 },
+	{ s: 'µ', name: 'micro', p: -6 },
+	{ s: 'n', name: 'nano', p: -9 },
+	{ s: 'p', name: 'pico', p: -12 },
+	{ s: 'f', name: 'femto', p: -15 },
+];
+---
+
+<div
+	class="sim pfx"
+	data-title="Prefix converter"
+	data-description="Enter a value with any SI prefix (for metres, grams or seconds). The table shows the same quantity written with every prefix from femto to exa, and highlights the prefix that gives a number between 1 and 1000."
+	data-prefixes={JSON.stringify(prefixes)}
+>
+	<p class="sim-title">Simulation: prefix converter</p>
+	<p class="sim-help">
+		Type a value, choose its prefix and unit, and see the same length, mass or time written with every prefix. The highlighted row gives a number between 1 and 1000, which is usually the clearest choice.
+	</p>
+	<div class="sim-controls">
+		<label>Value <input type="number" class="pfx-val" value="10" step="any" /></label>
+		<label>
+			Prefix
+			<select class="pfx-p">{prefixes.map((q) => <option value={q.p} selected={q.p === -6}>{q.s ? `${q.s} (${q.name})` : 'none'}</option>)}</select>
+		</label>
+		<label>
+			Unit
+			<select class="pfx-u">
+				<option value="m">m (metre)</option>
+				<option value="g">g (gram)</option>
+				<option value="s">s (second)</option>
+			</select>
+		</label>
+	</div>
+	<p class="pfx-quick">
+		Quick fill:
+		<button type="button" data-v="10" data-p="-6" data-u="m">Astrophage width</button>
+		<button type="button" data-v="2" data-p="9" data-u="g">Hail Mary fuel (book)</button>
+		<button type="button" data-v="113" data-p="15" data-u="m">Earth to Tau Ceti</button>
+	</p>
+	<div class="readout">
+		<table class="pfx-table">
+			<thead><tr><th>Prefix</th><th>Same quantity</th></tr></thead>
+			<tbody></tbody>
+		</table>
+	</div>
+</div>
+
+<style>
+	.pfx-quick {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+		align-items: center;
+		font-size: var(--sl-text-sm);
+		margin: 0.75rem 0 0;
+	}
+	.pfx-table {
+		width: 100%;
+		border-collapse: collapse;
+		margin: 0;
+		font-size: var(--sl-text-sm);
+	}
+	.pfx-table :global(th),
+	.pfx-table :global(td) {
+		border: none;
+		border-bottom: 1px solid var(--dg-grid);
+		padding: 0.2rem 0.5rem;
+		text-align: left;
+		color: var(--dg-fg);
+		background: transparent;
+	}
+	.pfx-table :global(tr.best td) {
+		color: var(--dg-amber);
+		font-weight: 700;
+	}
+</style>
+
+<script>
+	const sup = (n: number) => `<sup>${n}</sup>`;
+	function sci(x: number) {
+		if (x === 0) return '0';
+		const n = Math.floor(Math.log10(Math.abs(x)) + 1e-12);
+		const a = x / 10 ** n;
+		return `${+a.toPrecision(4)} × 10${sup(n)}`;
+	}
+	function plain(x: number) {
+		const ax = Math.abs(x);
+		if (ax >= 1e-4 && ax < 1e7) return (+x.toPrecision(6)).toLocaleString('en-GB', { maximumFractionDigits: 10 });
+		return sci(x);
+	}
+
+	document.querySelectorAll<HTMLElement>('.sim.pfx').forEach((root) => {
+		const prefixes: { s: string; name: string; p: number }[] = JSON.parse(root.dataset.prefixes!);
+		const val = root.querySelector<HTMLInputElement>('.pfx-val')!;
+		const pre = root.querySelector<HTMLSelectElement>('.pfx-p')!;
+		const unit = root.querySelector<HTMLSelectElement>('.pfx-u')!;
+		const body = root.querySelector('tbody')!;
+
+		function update() {
+			const v = parseFloat(val.value);
+			if (!isFinite(v)) {
+				body.innerHTML = '<tr><td colspan="2">Enter a number.</td></tr>';
+				return;
+			}
+			const base = v * 10 ** Number(pre.value); // value in the unprefixed unit
+			const u = unit.value;
+			body.innerHTML = prefixes
+				.map((q) => {
+					const x = base / 10 ** q.p;
+					const best = Math.abs(x) >= 1 && Math.abs(x) < 1000;
+					const label = q.s ? `${q.s}${u} <span style="color:var(--dg-muted)">(${q.name}, 10${sup(q.p)})</span>` : `${u} <span style="color:var(--dg-muted)">(no prefix)</span>`;
+					return `<tr class="${best ? 'best' : ''}"><td>${label}</td><td>${plain(x)} ${q.s}${u}</td></tr>`;
+				})
+				.join('');
+		}
+		[val, pre, unit].forEach((el) => el.addEventListener('input', update));
+		root.querySelectorAll<HTMLButtonElement>('.pfx-quick button').forEach((b) =>
+			b.addEventListener('click', () => {
+				val.value = b.dataset.v!;
+				pre.value = b.dataset.p!;
+				unit.value = b.dataset.u!;
+				update();
+			})
+		);
+		update();
+	});
+</script>

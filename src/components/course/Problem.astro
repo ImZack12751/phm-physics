@@ -1,0 +1,20 @@
+---
+// A practice problem. Put the statement first, then a <Solution> with the full worked answer.
+interface Props { n: number; level: 'easy' | 'medium' | 'challenging'; book?: boolean; title?: string }
+const { n, level, book = false, title } = Astro.props;
+const levelLabel = { easy: 'Easy', medium: 'Medium', challenging: 'Challenging' }[level];
+const plainTitle = `Problem ${n}${title ? `: ${title}` : ''} (${levelLabel}${book ? ', book-based' : ''})`;
+---
+
+<section class:list={['problem', `level-${level}`]} id={`problem-${n}`} data-ask data-ask-label={`Practice problem ${n}`}>
+	<header class="box-head">
+		<span class="box-title" data-raw-heading={plainTitle}>
+			Problem {n}{title ? `: ${title}` : ''}
+			<span class="chip">{levelLabel}</span>{book && <span class="chip chip-book">Book</span>}
+		</span>
+		<span class="box-tools" data-ask-slot>
+			<label class="problem-check"><input type="checkbox" data-problem-check={String(n)} /> Solved</label>
+		</span>
+	</header>
+	<div class="box-body"><slot /></div>
+</section>

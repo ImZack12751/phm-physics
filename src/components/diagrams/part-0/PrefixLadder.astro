@@ -1,0 +1,41 @@
+---
+// The SI prefixes on a powers-of-ten axis (every third power, plus centi).
+const prefixes = [
+	{ p: -15, s: 'f', name: 'femto' },
+	{ p: -12, s: 'p', name: 'pico' },
+	{ p: -9, s: 'n', name: 'nano' },
+	{ p: -6, s: 'µ', name: 'micro' },
+	{ p: -3, s: 'm', name: 'milli' },
+	{ p: 0, s: '–', name: '(none)' },
+	{ p: 3, s: 'k', name: 'kilo' },
+	{ p: 6, s: 'M', name: 'mega' },
+	{ p: 9, s: 'G', name: 'giga' },
+	{ p: 12, s: 'T', name: 'tera' },
+	{ p: 15, s: 'P', name: 'peta' },
+];
+const X0 = 30, X1 = 590, Y = 110;
+const xOf = (p: number) => X0 + ((p + 15) / 30) * (X1 - X0);
+const sup = (n: number) => String(n).replace('-', '⁻').replace(/\d/g, (d) => '⁰¹²³⁴⁵⁶⁷⁸⁹'[+d]);
+---
+
+<svg class="dg" viewBox="0 0 620 210" xmlns="http://www.w3.org/2000/svg">
+	<text x="310" y="22" class="t-mid t-sm f-muted">each labelled step is 1000 times bigger than the one to its left</text>
+	<line x1={X0 - 10} y1={Y} x2={X1 + 12} y2={Y} class="s-muted w2" />
+	<path d={`M${X1 + 12},${Y - 5} L${X1 + 20},${Y} L${X1 + 12},${Y + 5} z`} class="f-muted" />
+	{
+		prefixes.map((q) => (
+			<>
+				<line x1={xOf(q.p)} y1={Y - 8} x2={xOf(q.p)} y2={Y + 8} class="s-fg w2" />
+				<text x={xOf(q.p)} y={Y - 42} class="t-mid t-lg t-b f-amber">{q.s}</text>
+				<text x={xOf(q.p)} y={Y - 20} class="t-mid t-sm">{q.name}</text>
+				<text x={xOf(q.p)} y={Y + 28} class="t-mid t-sm f-sky">10{sup(q.p)}</text>
+			</>
+		))
+	}
+	{/* centi sits off the every-third pattern, so it gets its own row with a leader line */}
+	<line x1={xOf(-2)} y1={Y - 5} x2={xOf(-2)} y2={Y + 5} class="s-green w2" />
+	<path d={`M${xOf(-2)},${Y + 8} L${xOf(-2)},${Y + 52}`} class="s-green w1 dash" />
+	<text x={xOf(-2)} y={Y + 68} class="t-mid t-sm f-green">c (centi) = 10⁻²</text>
+	<text x={X0} y="196" class="t-sm f-muted">← smaller</text>
+	<text x={X1} y="196" class="t-sm t-end f-muted">bigger →</text>
+</svg>

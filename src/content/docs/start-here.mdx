@@ -1,0 +1,80 @@
+---
+title: Start here
+description: Who this course is for, how each chapter works, and how to get the most out of the site.
+---
+
+## What this course is
+
+*Project Hail Mary* is a novel about a science teacher who wakes up alone on a spaceship and has to think his way out of trouble, one experiment at a time. Almost every problem he faces is a physics problem: measuring gravity with improvised tools, working out how much fuel a ship needs, understanding why a slightly dimmer Sun would freeze the Earth, talking to someone who hears instead of sees.
+
+This course uses those problems as the reason to learn physics properly. It starts from school algebra and builds everything else, including the calculus, before it is needed. By the end you should be able to check the novel's numbers yourself, and see where the author used real physics and where he invented things.
+
+:::caution[Spoilers]
+The course discusses events from the whole novel, including late-book twists. It teaches in the order the *physics* needs, not the order of the plot, so a chapter early in the course may describe something that happens late in the book. If you have not read it yet and care about surprises, read the novel first.
+:::
+
+## Who it is for
+
+You need to be comfortable with:
+
+- school algebra (solving $2x + 3 = 11$, expanding brackets, working with fractions),
+- basic trigonometry from school (we refresh it in [Part 0](/part-0/trigonometry/)),
+- the idea of a logarithm (also refreshed in Part 0),
+- introductory school physics vocabulary such as speed and energy.
+
+Everything else is built from scratch, and nothing is used before it has been explained. If you ever meet a word you don't know, it is either explained earlier in the course or in the [Glossary](/glossary/).
+
+## How every chapter works
+
+Each chapter follows the same ten-part template, so you always know where you are:
+
+1. **The scene**: the moment in the book that needs this physics.
+2. **Prerequisites**: the earlier chapters it builds on, with links.
+3. **The concept**: the idea, explained from zero, with analogies first and maths second.
+4. **Formulas**: every formula derived step by step. Nothing is just stated.
+5. **Worked examples**: problems from the book, solved line by line with units on every line.
+6. **Real physics vs. book physics**: what is established science, what the author invented, and whether his numbers hold up.
+7. **Interactive simulation**: something to play with, wherever it genuinely helps.
+8. **Practice set**: 8 to 15 problems from easy to challenging, each with a hidden, fully worked solution.
+9. **Summary**: the key ideas and formulas in one place.
+10. **Sources**: where every number and claim comes from.
+
+Practise actively. Try each problem on paper before opening the solution. Getting stuck for five minutes and then reading the solution teaches you far more than reading it straight away.
+
+## Asking Claude when you're stuck
+
+Every section heading, worked example and practice problem has an **Ask Claude** button. Selecting any text in a chapter also shows a floating **Ask Claude about this** button. When you click one:
+
+1. A ready-made prompt is copied to your clipboard. It contains the course name, the chapter and section, the exact passage or problem, a link to a plain-text copy of the chapter, and the list of chapters you have already done.
+2. A short "Copied, paste it into Claude" message appears.
+3. Claude opens in a new tab. Paste the prompt, type your question at the end, and send.
+
+The prompt asks Claude to explain your doubt using only ideas from this chapter and earlier ones, so the answer stays at your level. The site itself never contacts any AI service: it only copies text and opens a link, using your own claude.ai account.
+
+:::tip[Using a Claude Project]
+If you have a Claude Project for this course, the site owner can make the button open it directly by changing `CLAUDE_LINK` in `course.config.mjs`. See the README.
+:::
+
+Every chapter also has a plain-markdown version at `/raw/<chapter>.md`, for example [the first chapter](/raw/scientific-notation.md). Claude can read these from the link in the prompt.
+
+## Tracking your progress
+
+Tick **Solved** on practice problems and press **Mark this chapter as completed** at the end of a chapter. The sidebar shows your overall progress, and the [home page](/) shows a full table. Progress is saved only in this browser, with no account and no server. Clearing your browser's site data resets it.
+
+## Other useful pages
+
+- [Physics map](/physics-map/): which chapters depend on which.
+- [Glossary](/glossary/): every term, defined in plain language.
+- [Formula sheet](/formulas/): every formula so far, linked to where it is derived.
+
+To keep a chapter for offline reading, use your browser's **Print → Save as PDF**. Diagrams switch to dark-on-white ink, and every solution is printed in full.
+
+## How the maths is written
+
+- Units are written in upright letters with a space after the number: $9.81\ \text{m/s}^2$, $3.0 \times 10^{8}\ \text{m/s}$.
+- Symbols for quantities are italic: $m$ for mass, $t$ for time.
+- Numbers keep their units on every line of a calculation. It is the best error-catching habit in physics.
+
+## About this project
+
+This is a free, non-commercial teaching project. It is not affiliated with Andy Weir or his publishers. The scenes are described in our own words, with no quoted text from the novel. Read the book: it's great.

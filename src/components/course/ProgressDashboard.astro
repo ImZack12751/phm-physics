@@ -1,0 +1,117 @@
+---
+// Home-page progress table plus the full course roadmap.
+import { readFileSync } from 'node:fs';
+import path from 'node:path';
+import { parts, publishedChapters } from '../../data/curriculum.mjs';
+import { chapterUrl } from '../../lib/urls.mjs';
+
+// Count <Problem …> components in each chapter's source to know the total per chapter.
+const problemCount = (id: string) => {
+	try {
+		const src = readFileSync(path.join(process.cwd(), 'src/content/docs', `${id}.mdx`), 'utf8');
+		return (src.match(/<Problem\b/g) || []).length;
+	} catch {
+		return 0;
+	}
+};
+const rows = publishedChapters.map((c) => ({ ...c, href: chapterUrl(c), problems: problemCount(c.id) }));
+---
+
+<div class="dashboard no-raw" data-rows={JSON.stringify(rows.map((r) => ({ slug: r.slug, problems: r.problems })))}>
+	<p class="dash-summary" aria-live="polite">Loading your progress…</p>
+	<div class="table-scroll">
+		<table class="dash-table">
+			<thead>
+				<tr><th>Chapter</th><th>Problems solved</th><th>Completed</th></tr>
+			</thead>
+			<tbody>
+				{
+					rows.map((r) => (
+						<tr data-slug={r.slug}>
+							<td><a href={r.href}>{r.number} {r.title}</a></td>
+							<td class="dash-problems">0 / {r.problems}</td>
+							<td class="dash-done">–</td>
+						</tr>
+					))
+				}
+			</tbody>
+		</table>
+	</div>
+	<div class="dash-reset">
+		<button type="button" class="dash-reset-btn">Reset my progress…</button>
+		<span class="dash-confirm" hidden>
+			Erase all ticks in this browser?
+			<button type="button" class="dash-yes">Yes, reset</button>
+			<button type="button" class="dash-no">Cancel</button>
+		</span>
+	</div>
+</div>
+
+<h2 id="roadmap">Course roadmap</h2>
+<p>Teaching order follows what depends on what, not the order of events in the novel.</p>
+<div class="roadmap">
+	{
+		parts.map((p) => {
+			const live = p.chapters.some((c: any) => c.status !== 'planned');
+			return (
+				<section class:list={['roadmap-part', { planned: !live }]}>
+					<h3 id={`roadmap-${p.id}`}>{p.label}</h3>
+					{!live && <span class="chip roadmap-soon">coming later</span>}
+					<p class="roadmap-blurb">{p.blurb}</p>
+					<ol>
+						{p.chapters.map((c: any, i: number) => (
+							<li class:list={{ planned: c.status === 'planned' }}>
+								<span class="roadmap-num">{p.code}.{i + 1}</span>{' '}
+								{c.status === 'planned' ? (
+									<span>{c.title}</span>
+								) : (
+									<a href={chapterUrl({ id: `${p.dir}/${c.slug}` })}>{c.title}</a>
+								)}
+							</li>
+						))}
+					</ol>
+				</section>
+			);
+		})
+	}
+</div>
+
+<script>
+	import { onProgress, problemsDoneIn, resetProgress } from '../../scripts/progress';
+
+	const dash = document.querySelector<HTMLElement>('.dashboard');
+	if (dash) {
+		const rows: { slug: string; problems: number }[] = JSON.parse(dash.dataset.rows || '[]');
+		const summary = dash.querySelector('.dash-summary')!;
+		onProgress((p) => {
+			let chapters = 0, solved = 0, total = 0;
+			for (const r of rows) {
+				const tr = dash.querySelector(`tr[data-slug="${r.slug}"]`)!;
+				const n = problemsDoneIn(p, r.slug);
+				const done = Boolean(p.chapters[r.slug]);
+				chapters += done ? 1 : 0;
+				solved += n;
+				total += r.problems;
+				tr.querySelector('.dash-problems')!.textContent = `${n} / ${r.problems}`;
+				tr.querySelector('.dash-done')!.textContent = done ? '✓ done' : '–';
+				tr.classList.toggle('is-done', done);
+			}
+			summary.textContent = `You have completed ${chapters} of ${rows.length} chapters and solved ${solved} of ${total} practice problems.`;
+		});
+		const btn = dash.querySelector<HTMLButtonElement>('.dash-reset-btn')!;
+		const confirmBox = dash.querySelector<HTMLElement>('.dash-confirm')!;
+		btn.addEventListener('click', () => {
+			confirmBox.hidden = false;
+			btn.hidden = true;
+		});
+		const close = () => {
+			confirmBox.hidden = true;
+			btn.hidden = false;
+		};
+		dash.querySelector('.dash-yes')!.addEventListener('click', () => {
+			resetProgress();
+			close();
+		});
+		dash.querySelector('.dash-no')!.addEventListener('click', close);
+	}
+</script>

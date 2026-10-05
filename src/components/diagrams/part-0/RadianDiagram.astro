@@ -1,0 +1,27 @@
+---
+// One radian: the angle at the centre when the arc length equals the radius.
+const O = { x: 150, y: 160 }, R = 115;
+const P = (a: number) => ({ x: O.x + R * Math.cos(a), y: O.y - R * Math.sin(a) });
+const p0 = P(0), p1 = P(1);
+const mid = P(0.5);
+const labelArc = { x: O.x + (R + 24) * Math.cos(0.5), y: O.y - (R + 24) * Math.sin(0.5) };
+---
+
+<svg class="dg" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+	<circle cx={O.x} cy={O.y} r={R} class="s-muted w1" />
+	<line x1={O.x} y1={O.y} x2={p0.x} y2={p0.y} class="s-sky w2" />
+	<line x1={O.x} y1={O.y} x2={p1.x.toFixed(1)} y2={p1.y.toFixed(1)} class="s-sky w2" />
+	<path d={`M${p0.x},${p0.y} A${R},${R} 0 0 0 ${p1.x.toFixed(1)},${p1.y.toFixed(1)}`} class="s-amber w3" />
+	<path d={`M${O.x + 32},${O.y} A32,32 0 0 0 ${(O.x + 32 * Math.cos(1)).toFixed(1)},${(O.y - 32 * Math.sin(1)).toFixed(1)}`} class="s-fg w1" />
+	<circle cx={O.x} cy={O.y} r="3.5" class="f-fg" />
+	<text x={O.x + (R / 2)} y={O.y + 20} class="t-mid t-b f-sky">r</text>
+	<text x={O.x + (R / 2) * Math.cos(1) - 14} y={O.y - (R / 2) * Math.sin(1)} class="t-end t-b f-sky">r</text>
+	<text x={labelArc.x + 4} y={labelArc.y + 4} class="t-b f-amber">arc = r</text>
+	<text x={O.x + 40} y={O.y - 12} class="t-sm">1 rad</text>
+	<text x="330" y="90" class="t-b">One radian ≈ 57.3°</text>
+	<text x="330" y="118" class="t-sm f-muted">Lay the radius along the edge of the circle.</text>
+	<text x="330" y="138" class="t-sm f-muted">The angle it spans at the centre is 1 radian.</text>
+	<text x="330" y="172" class="t-sm f-muted">The whole edge is 2πr long (about 6.28 radii),</text>
+	<text x="330" y="192" class="t-sm f-muted">so a full turn is 2π rad = 360°.</text>
+	<text x="330" y="226" class="t-sm f-amber">arc length s = r θ   (θ in radians)</text>
+</svg>

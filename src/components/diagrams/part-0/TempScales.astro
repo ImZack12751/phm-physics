@@ -1,0 +1,41 @@
+---
+// The same four temperatures on the kelvin, Celsius and Fahrenheit scales (rows not to scale).
+const cols = [
+	{ x: 250, name: 'kelvin (K)' },
+	{ x: 385, name: 'Celsius (°C)' },
+	{ x: 520, name: 'Fahrenheit (°F)' },
+];
+const rows = [
+	{ y: 60, label: 'water boils', v: ['373.15 K', '100 °C', '212 °F'], cls: 'f-rose' },
+	{ y: 105, label: 'Astrophage (book)', v: ['369.565 K', '96.415 °C', '205.547 °F'], cls: 'f-amber' },
+	{ y: 200, label: 'water freezes', v: ['273.15 K', '0 °C', '32 °F'], cls: 'f-sky' },
+	{ y: 300, label: 'absolute zero', v: ['0 K', '−273.15 °C', '−459.67 °F'], cls: 'f-violet' },
+];
+const BREAK = 250; // zig-zag on each stem: the gap below freezing is squashed
+---
+
+<svg class="dg" viewBox="0 0 640 350" xmlns="http://www.w3.org/2000/svg">
+	{cols.map((c) => <text x={c.x} y="28" class="t-mid t-b">{c.name}</text>)}
+	{
+		rows.map((r) => (
+			<>
+				<line x1="20" y1={r.y} x2="610" y2={r.y} class="s-grid w1 dash" />
+				<text x="20" y={r.y - 6} class={`t-sm t-b ${r.cls}`}>{r.label}</text>
+			</>
+		))
+	}
+	{
+		cols.map((c, i) => (
+			<>
+				<path d={`M${c.x},44 L${c.x},${BREAK - 8} l-6,4 l12,6 l-6,4 L${c.x},312`} class="s-fg w2" />
+				{rows.map((r) => (
+					<>
+						<circle cx={c.x} cy={r.y} r="4" class={r.cls} />
+						<text x={c.x + 9} y={r.y + 16} class="t-sm">{r.v[i]}</text>
+					</>
+				))}
+			</>
+		))
+	}
+	<text x="20" y="335" class="t-sm f-muted">Rows are not to scale. From freezing to boiling: 100 kelvins = 100 Celsius degrees = 180 Fahrenheit degrees.</text>
+</svg>

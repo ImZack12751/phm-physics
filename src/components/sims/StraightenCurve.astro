@@ -1,0 +1,148 @@
+---
+// Simulation: choose what to plot on each axis until a curved dataset becomes a straight line.
+const datasets = {
+	sun: {
+		label: 'Sunlight at the planets (NASA data)',
+		xName: 'distance r (au)',
+		yName: 'intensity I (W/m²)',
+		pts: [
+			[0.3871, 9082.7],
+			[0.7233, 2601.3],
+			[1.0, 1361.0],
+			[1.5238, 586.2],
+			[5.2038, 50.26],
+			[9.5727, 14.82],
+		],
+	},
+	pendulum: {
+		label: 'Pendulum swing time vs length (simulated measurements)',
+		xName: 'length L (m)',
+		yName: 'period T (s)',
+		pts: [
+			[0.2, 0.9],
+			[0.4, 1.27],
+			[0.6, 1.55],
+			[0.8, 1.79],
+			[1.0, 2.0],
+			[1.2, 2.2],
+		],
+	},
+	dimming: {
+		label: 'Dimming model from Chapter 0.8',
+		xName: 'time t (years)',
+		yName: 'dimming D (%)',
+		pts: [9, 12, 15, 18, 20, 24].map((t) => [t, +(2 ** ((t - 9) / 4.737)).toPrecision(3)]),
+	},
+};
+---
+
+<div
+	class="sim sc"
+	data-title="Straighten the curve"
+	data-description="Three datasets: NASA's sunlight intensity at six planets against distance, simulated pendulum periods against length, and the dimming model against time. Menus choose what to plot on each axis (x, x², 1/x, 1/x², log x; y, y², log y). A best-fit straight line and a straightness score (R²) show when a choice turns the curve into a straight line, revealing the law behind the data."
+	data-sets={JSON.stringify(datasets)}
+>
+	<p class="sim-title">Simulation: straighten the curve</p>
+	<p class="sim-help">Pick a dataset, then change what goes on each axis. When the points fall on a straight line, you have found the law. The score R² reaches 1.0000 for a perfect line.</p>
+	<div class="sim-controls">
+		<label>Data <select class="sc-set">{Object.entries(datasets).map(([k, d]) => <option value={k}>{d.label}</option>)}</select></label>
+	</div>
+	<div class="sim-controls">
+		<label>Plot across (x-axis) <select class="sc-x"><option value="x">x</option><option value="x2">x²</option><option value="inv">1/x</option><option value="inv2">1/x²</option><option value="log">log x</option></select></label>
+		<label>Plot up (y-axis) <select class="sc-y"><option value="y">y</option><option value="y2">y²</option><option value="log">log y</option></select></label>
+	</div>
+	<svg class="dg sc-svg" viewBox="0 0 600 330" role="img" aria-label="Scatter plot with best-fit line"></svg>
+	<div class="readout sc-out" aria-live="polite"></div>
+</div>
+
+<script>
+	type Set = { label: string; xName: string; yName: string; pts: number[][] };
+	document.querySelectorAll<HTMLElement>('.sim.sc').forEach((root) => {
+		const sets: Record<string, Set> = JSON.parse(root.dataset.sets!);
+		const q = <E extends Element>(s: string) => root.querySelector<E>(s)!;
+		const selSet = q<HTMLSelectElement>('.sc-set'), selX = q<HTMLSelectElement>('.sc-x'), selY = q<HTMLSelectElement>('.sc-y');
+		const svg = q<SVGSVGElement>('.sc-svg');
+		const NS = 'http://www.w3.org/2000/svg';
+		const el = (tag: string, a: Record<string, string | number>, text?: string) => {
+			const e = document.createElementNS(NS, tag);
+			Object.entries(a).forEach(([k, v]) => e.setAttribute(k, String(v)));
+			if (text !== undefined) e.textContent = text;
+			return e;
+		};
+		const fx: Record<string, [(v: number) => number, (n: string) => string]> = {
+			x: [(v) => v, (n) => n],
+			x2: [(v) => v * v, (n) => `(${n})²`],
+			inv: [(v) => 1 / v, (n) => `1 / ${n}`],
+			inv2: [(v) => 1 / (v * v), (n) => `1 / (${n})²`],
+			log: [(v) => Math.log10(v), (n) => `log₁₀ of ${n}`],
+		};
+		const fy: Record<string, [(v: number) => number, (n: string) => string]> = {
+			y: [(v) => v, (n) => n],
+			y2: [(v) => v * v, (n) => `(${n})²`],
+			log: [(v) => Math.log10(v), (n) => `log₁₀ of ${n}`],
+		};
+		const nice = (v: number) => {
+			if (v === 0 || Math.abs(v) < 1e-12) return '0';
+			const a = Math.abs(v);
+			if (a >= 1e5 || a < 1e-3) {
+				const n = Math.floor(Math.log10(a));
+				return `${+(v / 10 ** n).toPrecision(3)}×10^${n}`.replace(/\^(-?\d+)/, (_, e) => e.replace('-', '⁻').replace(/\d/g, (d: string) => '⁰¹²³⁴⁵⁶⁷⁸⁹'[+d]));
+			}
+			return (+v.toPrecision(3)).toLocaleString('en-GB');
+		};
+
+		function update() {
+			const S = sets[selSet.value];
+			const [gx, nx] = fx[selX.value], [gy, ny] = fy[selY.value];
+			const P = S.pts.map(([x, y]) => [gx(x), gy(y)]);
+			const n = P.length;
+			const mx = P.reduce((a, p) => a + p[0], 0) / n, my = P.reduce((a, p) => a + p[1], 0) / n;
+			let sxx = 0, sxy = 0, syy = 0;
+			for (const [x, y] of P) {
+				sxx += (x - mx) ** 2;
+				sxy += (x - mx) * (y - my);
+				syy += (y - my) ** 2;
+			}
+			const m = sxy / sxx, c = my - m * mx;
+			const r2 = (sxy * sxy) / (sxx * syy);
+			// axes ranges
+			const xs = P.map((p) => p[0]), ys = P.map((p) => p[1]);
+			const pad = (lo: number, hi: number) => {
+				const d = hi - lo || Math.abs(hi) || 1;
+				// keep a positive-only axis starting at zero rather than dipping below it
+				return [lo >= 0 && lo - 0.08 * d < 0 ? 0 : lo - 0.08 * d, hi + 0.08 * d];
+			};
+			const [x0, x1] = pad(Math.min(...xs), Math.max(...xs)), [y0, y1] = pad(Math.min(...ys), Math.max(...ys));
+			const L = 80, R = 580, T = 20, B = 270;
+			const px = (x: number) => L + ((x - x0) / (x1 - x0)) * (R - L), py = (y: number) => B - ((y - y0) / (y1 - y0)) * (B - T);
+			svg.replaceChildren();
+			for (let i = 0; i <= 4; i++) {
+				const yv = y0 + ((y1 - y0) * i) / 4, xv = x0 + ((x1 - x0) * i) / 4;
+				svg.append(el('line', { x1: L, y1: py(yv), x2: R, y2: py(yv), class: 's-grid w1' }));
+				svg.append(el('text', { x: L - 6, y: py(yv) + 4, class: 't-end t-sm f-muted' }, nice(yv)));
+				svg.append(el('text', { x: px(xv), y: B + 18, class: 't-mid t-sm f-muted' }, nice(xv)));
+			}
+			svg.append(el('rect', { x: L, y: T, width: R - L, height: B - T, class: 's-muted w1', fill: 'none' }));
+			const straight = r2 > 0.999;
+			svg.append(el('line', { x1: px(x0), y1: py(m * x0 + c), x2: px(x1), y2: py(m * x1 + c), class: straight ? 's-green w2' : 's-rose w2 dash' }));
+			for (const [x, y] of P) svg.append(el('circle', { cx: px(x), cy: py(y), r: 5.5, class: 'f-amber' }));
+			svg.append(el('text', { x: (L + R) / 2, y: B + 42, class: 't-mid t-sm' }, nx(S.xName)));
+			svg.append(el('text', { x: 14, y: (T + B) / 2, class: 't-mid t-sm', transform: `rotate(-90 14 ${(T + B) / 2})` }, ny(S.yName)));
+			if (straight) svg.append(el('text', { x: R - 8, y: T + 22, class: 't-end t-b f-green' }, 'Straight line!'));
+			q('.sc-out').innerHTML =
+				`<span class="k">Best-fit line:</span> (y-axis) = <b>${nice(m)}</b> × (x-axis) + ${nice(c)}<br>` +
+				`<span class="k">Straightness R²</span> = <b>${r2.toFixed(4)}</b> ${straight ? '<b style="color:var(--dg-green)">straight!</b>' : '(not straight yet)'}<br>` +
+				(straight ? hint(selSet.value, selX.value, selY.value, m) : '<span class="k">Hint:</span> curves that bend away from the axes often straighten when you plot 1/x², x² or logs.');
+		}
+		function hint(set: string, x: string, y: string, m: number) {
+			if (set === 'sun' && x === 'inv2' && y === 'y') return `<span class="k">Law found:</span> I ∝ 1/r², with gradient ${m.toFixed(0)} W/m² per (1/au²): the inverse-square law.`;
+			if (set === 'sun' && x === 'log' && y === 'log') return `<span class="k">Law found:</span> log–log gradient ${m.toFixed(3)} ≈ −2, so I ∝ r⁻².`;
+			if (set === 'pendulum' && x === 'x' && y === 'y2') return `<span class="k">Law found:</span> T² ∝ L (gradient ${m.toFixed(2)} s²/m), so T ∝ √L.`;
+			if (set === 'pendulum' && x === 'log' && y === 'log') return `<span class="k">Law found:</span> log–log gradient ${m.toFixed(3)} ≈ 0.5, so T ∝ L^0.5 = √L.`;
+			if (set === 'dimming' && y === 'log') return `<span class="k">Law found:</span> exponential growth. Gradient ${m.toFixed(4)} per year in log₁₀ means ×10 every ${(1 / m).toFixed(1)} years, or doubling every ${(Math.log10(2) / m).toFixed(2)} years.`;
+			return '<span class="k">Straight, but check which law this combination means.</span>';
+		}
+		[selSet, selX, selY].forEach((s) => s.addEventListener('input', update));
+		update();
+	});
+</script>

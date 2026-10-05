@@ -1,0 +1,552 @@
+---
+title: Scientific notation
+description: Writing very large and very small numbers compactly, and calculating with them, from Astrophage cells to the distance to Tau Ceti.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import DecimalHops from '../../../components/diagrams/part-0/DecimalHops.astro';
+import PowersOfTen from '../../../components/sims/PowersOfTen.astro';
+
+## The scene
+
+Early in the novel, Ryland Grace is trying to make sense of <Term id="astrophage">Astrophage</Term>, the microscopic organism that is dimming the Sun. A single cell is about ten millionths of a metre across, far too small to see without a microscope. Yet the mission it forces, a trip to the star <Term id="tau-ceti">Tau Ceti</Term>, covers a distance of more than a hundred thousand million million metres.
+
+Grace keeps jumping between these two extremes, sometimes in the same thought. Written out in full, his numbers would need long strings of zeros, and miscounting one zero makes an answer ten times wrong. Physicists avoid this with a compact way of writing numbers called **scientific notation**. It is the first tool in our kit, and every later chapter uses it.
+
+## Prerequisites
+
+<Prereqs>
+You need school arithmetic: multiplying and dividing decimals, and knowing that $5^3$ means $5 \times 5 \times 5$.
+</Prereqs>
+
+## The concept
+
+### The problem with zeros
+
+Here are two numbers from the book, written the ordinary way:
+
+- the width of one Astrophage cell: $0.000\,01$ metres
+- the distance from Earth to Tau Ceti: about $113\,000\,000\,000\,000\,000$ metres
+
+Both are hard to read. To know how big they are, you have to count zeros, and it is easy to miscount. The fix is to notice that these numbers are mostly *tens multiplied together*.
+
+### Powers of ten
+
+Multiplying ten by itself gives a pattern:
+
+| Written out | As repeated multiplication | Short form |
+|---|---|---|
+| $10$ | $10$ | $10^{1}$ |
+| $100$ | $10 \times 10$ | $10^{2}$ |
+| $1000$ | $10 \times 10 \times 10$ | $10^{3}$ |
+| $1\,000\,000$ | six tens multiplied together | $10^{6}$ |
+
+The small raised number is the <Term id="exponent">exponent</Term>. In $10^{6}$ it tells you how many tens are multiplied together, and also how many zeros follow the 1. A number written like this is a <Term id="power-of-ten">power of ten</Term>.
+
+What about numbers smaller than 1? Each time you go *down* one row of the table you divide by ten. Keep going past $10^{1}$:
+
+$$
+10^{1} = 10, \qquad 10^{0} = 1, \qquad 10^{-1} = \frac{1}{10} = 0.1, \qquad 10^{-2} = \frac{1}{100} = 0.01
+$$
+
+So a **negative exponent means "one divided by"**: $10^{-5} = \dfrac{1}{10^{5}} = 0.000\,01$. In the [Formulas](#formulas) section we prove that this pattern isn't a convention we made up but the only choice that keeps the rules of arithmetic working.
+
+A useful picture: think of the exponent as an address on a ladder. Every rung up is ten times bigger, and every rung down is ten times smaller. Rung 0 is the number 1.
+
+### Scientific notation
+
+A number in <Term id="scientific-notation">scientific notation</Term> is written as
+
+$$
+a \times 10^{n}
+$$
+
+where:
+
+- $a$, the <Term id="coefficient">coefficient</Term>, is a number from 1 up to (but not including) 10, so $1 \le a < 10$;
+- $n$, the exponent, is a whole number: positive, negative or zero.
+
+So the Astrophage width is $1 \times 10^{-5}$ metres, and the distance to Tau Ceti is about $1.13 \times 10^{17}$ metres. The exponent tells you at a glance roughly how big the number is. The coefficient gives you the detail.
+
+The rule that $a$ must be between 1 and 10 makes the form unique: every number has exactly one way of being written. You could write $4\,500\,000$ as $45 \times 10^{5}$ or $0.45 \times 10^{7}$, and both are *equal* to it, but only $4.5 \times 10^{6}$ is in scientific notation.
+
+### Converting: the decimal point hops
+
+To convert an ordinary number:
+
+1. Move the decimal point until exactly one non-zero digit is in front of it. That gives the coefficient $a$.
+2. Count how many places the point moved. That count is the size of the exponent.
+3. If the point moved **left** (the number was big), the exponent is **positive**. If it moved **right** (the number was small), the exponent is **negative**.
+
+<Figure caption="Converting by moving the decimal point. Each arc is one hop of one place. Hopping left makes the coefficient smaller, so you multiply by a positive power of ten to compensate. Hopping right makes it bigger, so you compensate with a negative power." alt="Two rows of digit boxes. Top row: the digits 4 5 0 0 0 0 0, with the decimal point starting after the last digit and hopping left six times to sit between 4 and 5, giving 4.5 times 10 to the 6. Bottom row: the digits 0 0 0 0 0 1 0 representing 0.000010, with the point starting after the first zero and hopping right five times to sit after the 1, giving 1.0 times 10 to the minus 5.">
+	<DecimalHops />
+</Figure>
+
+Why does left mean positive? Moving the point left by one place divides the number by 10. To keep the value unchanged, you must multiply by 10 to make up for it. So six hops left means multiplying by $10^{6}$. The same logic, reversed, gives negative exponents for hops to the right.
+
+To convert *back*, do the opposite: a positive exponent moves the point right (making the number big again) and a negative exponent moves it left.
+
+### Significant figures: how much do we really know?
+
+When Grace measures something, his answer is only as precise as his instrument. <Term id="significant-figures">Significant figures</Term> are the digits in a number that carry real information.
+
+Scientific notation makes them unambiguous. Suppose someone writes that a distance is $1200$ m. Did they measure to the nearest metre, or only to the nearest hundred metres? You can't tell. In scientific notation there is no doubt:
+
+| Written | Significant figures | Meaning |
+|---|---|---|
+| $1.2 \times 10^{3}$ m | 2 | somewhere from about 1150 m to 1250 m |
+| $1.20 \times 10^{3}$ m | 3 | known to about the nearest 10 m |
+| $1.200 \times 10^{3}$ m | 4 | known to about the nearest metre |
+
+The rules for counting them in ordinary notation:
+
+- Non-zero digits always count: $345$ has 3.
+- Zeros *between* non-zero digits count: $305$ has 3.
+- Leading zeros never count, because they only place the decimal point: $0.0045$ has 2.
+- Trailing zeros count only if there is a decimal point: $4.50$ has 3, but $450$ is ambiguous.
+
+For multiplying and dividing, the working rule is: **give your answer to the same number of significant figures as the least precise number you started with.** Keep extra digits during the calculation and round only at the end. We follow this rule throughout the course.
+
+### Calculators and "E" notation
+
+Calculators and spreadsheets often display $1.13 \times 10^{17}$ as `1.13E17` or `1.13e17`. The "E" means "times ten to the power". This is <Term id="e-notation">E notation</Term>. It is fine on a screen, but in written work always convert it back to $1.13 \times 10^{17}$.
+
+On most calculators you enter a number like $9.46 \times 10^{15}$ with a key labelled `EXP`, `EE` or `×10ˣ`: type `9.46`, press that key, then type `15`. Don't type `× 10` and then the key as well, or you'll get a number ten times too big.
+
+## Formulas
+
+Every rule in this section follows from one idea: $10^{n}$ means $n$ tens multiplied together. We derive each rule rather than asking you to memorise it.
+
+### Multiplying powers of ten
+
+Take $10^{3} \times 10^{2}$. Write out what each one means:
+
+$$
+10^{3} \times 10^{2} = (10 \times 10 \times 10) \times (10 \times 10)
+$$
+
+That is five tens multiplied together, so it equals $10^{5}$. The exponents added: $3 + 2 = 5$. Nothing in that argument depended on the particular numbers 3 and 2, so in general:
+
+$$
+10^{m} \times 10^{n} = 10^{m+n}
+$$
+
+### Dividing powers of ten
+
+Now take $10^{5} \div 10^{2}$:
+
+$$
+\frac{10^{5}}{10^{2}} = \frac{10 \times 10 \times 10 \times 10 \times 10}{10 \times 10} = 10 \times 10 \times 10 = 10^{3}
+$$
+
+Two of the tens on top cancel with the two on the bottom, leaving $5 - 2 = 3$. In general:
+
+$$
+\frac{10^{m}}{10^{n}} = 10^{m-n}
+$$
+
+### Zero and negative exponents
+
+Use the division rule on a number divided by itself. Anything divided by itself is 1, so
+
+$$
+1 = \frac{10^{3}}{10^{3}} = 10^{3-3} = 10^{0}.
+$$
+
+So if the division rule is to keep working, $10^{0}$ *must* equal 1. Next, divide a smaller power by a bigger one:
+
+$$
+\frac{10^{2}}{10^{5}} = \frac{10 \times 10}{10 \times 10 \times 10 \times 10 \times 10} = \frac{1}{10 \times 10 \times 10} = \frac{1}{10^{3}}
+$$
+
+while the division rule says the same thing equals $10^{2-5} = 10^{-3}$. Both are right, so
+
+$$
+10^{-n} = \frac{1}{10^{n}}
+$$
+
+### Powers of powers
+
+What is $(10^{3})^{2}$? It means $10^{3} \times 10^{3}$, which by the multiplication rule is $10^{3+3} = 10^{6}$. In general, $(10^{m})^{n}$ is $n$ copies of $10^{m}$ multiplied together, so the exponent $m$ is added $n$ times:
+
+$$
+\left(10^{m}\right)^{n} = 10^{m \times n}
+$$
+
+### Multiplying and dividing in scientific notation
+
+Multiplication can be done in any order, so you can group the coefficients together and the powers of ten together:
+
+$$
+(a \times 10^{m}) \times (b \times 10^{n}) = (a \times b) \times (10^{m} \times 10^{n}) = (a \times b) \times 10^{m+n}
+$$
+
+Division works the same way:
+
+$$
+\frac{a \times 10^{m}}{b \times 10^{n}} = \frac{a}{b} \times 10^{m-n}
+$$
+
+**Tidying up.** The new coefficient might fall outside 1 to 10. Fix it by shifting a factor of 10 between the coefficient and the power. For example, $30 \times 10^{4} = 3.0 \times 10^{1} \times 10^{4} = 3.0 \times 10^{5}$, and $0.25 \times 10^{4} = 2.5 \times 10^{-1} \times 10^{4} = 2.5 \times 10^{3}$. The rule to remember: *if the coefficient goes down by a factor of ten, the exponent goes up by one*, and the other way round.
+
+### Adding and subtracting
+
+Here there is no shortcut, because powers of ten only combine neatly when you multiply. To add, first rewrite the numbers so they share the same power of ten, then add the coefficients:
+
+$$
+a \times 10^{n} + b \times 10^{n} = (a + b) \times 10^{n}
+$$
+
+This is just collecting like terms, the same as $3x + 2x = 5x$ with $x = 10^{n}$. If the exponents differ, rewrite the smaller number first, as in Worked example 5 below.
+
+### Square roots
+
+A square root undoes squaring. Since $(10^{m})^{2} = 10^{2m}$, the square root of $10^{2m}$ is $10^{m}$: **halve the exponent**. This only works cleanly for an even exponent, so first adjust the number until the exponent is even:
+
+$$
+\sqrt{a \times 10^{2m}} = \sqrt{a} \times 10^{m}
+$$
+
+## Worked examples
+
+<Example n={1} title="The size of an Astrophage" book>
+In the novel, an Astrophage cell is about 10 micrometres across. A micrometre is a millionth of a metre, so this is ten millionths of a metre, $0.000\,010$ m. Write it in scientific notation.
+
+**Step 1.** Move the decimal point right until one non-zero digit is in front of it:
+$0.000\,010 \;\to\; 1.0$. That took 5 hops to the right.
+
+**Step 2.** Hops to the right give a negative exponent:
+
+$$
+0.000\,010\ \text{m} = 1.0 \times 10^{-5}\ \text{m}
+$$
+
+**Check:** $10^{-5} = 1/100\,000 = 0.000\,01$, and $1.0 \times 0.000\,01 = 0.000\,010$. ✓
+
+We kept the trailing zero, writing $1.0$ rather than $1$, because "about 10 micrometres" has two significant figures.
+</Example>
+
+<Example n={2} title="How far is Tau Ceti in metres?" book>
+Tau Ceti is $11.9$ <Term id="light-year">light-years</Term> from Earth. One light-year is $9.46 \times 10^{15}$ m. How many metres is that?
+
+Eleven point nine light-years means 11.9 lots of $9.46 \times 10^{15}$ m:
+
+$$
+\begin{aligned}
+d &= 11.9 \times (9.46 \times 10^{15}\ \text{m}) \\
+  &= (11.9 \times 9.46) \times 10^{15}\ \text{m} \\
+  &= 112.574 \times 10^{15}\ \text{m}
+\end{aligned}
+$$
+
+The coefficient $112.574$ is bigger than 10, so tidy up. Moving the point 2 places left divides it by $10^{2}$, so the power must go up by 2:
+
+$$
+\begin{aligned}
+d &= 1.12574 \times 10^{2} \times 10^{15}\ \text{m} \\
+  &= 1.12574 \times 10^{17}\ \text{m} \\
+  &\approx 1.13 \times 10^{17}\ \text{m}
+\end{aligned}
+$$
+
+Both starting numbers have 3 significant figures, so we round to 3.
+</Example>
+
+<Example n={3} title="A chain of Astrophage across the Earth" book>
+Earth's diameter is $1.27 \times 10^{7}$ m. How many Astrophage cells ($1.0 \times 10^{-5}$ m wide) would fit side by side across it?
+
+The number of cells is the total length divided by the length of one cell:
+
+$$
+\begin{aligned}
+N &= \frac{1.27 \times 10^{7}\ \text{m}}{1.0 \times 10^{-5}\ \text{m}} \\
+  &= \frac{1.27}{1.0} \times 10^{7-(-5)} \\
+  &= 1.27 \times 10^{12}
+\end{aligned}
+$$
+
+The metres cancel (metres divided by metres), leaving a plain number: about $1.3 \times 10^{12}$ cells, or 1.3 trillion. Watch the double negative in the exponent: $7 - (-5) = 7 + 5 = 12$.
+</Example>
+
+<Example n={4} title="The volume of one cell (power of a power)" book>
+Treat an Astrophage as a sphere of radius $r = 5.0 \times 10^{-6}$ m (half its width). The volume of a sphere is $V = \tfrac{4}{3}\pi r^{3}$, a formula from school geometry. Find $V$.
+
+First cube the radius. Cubing a product cubes each part:
+
+$$
+\begin{aligned}
+r^{3} &= (5.0 \times 10^{-6}\ \text{m})^{3} \\
+      &= 5.0^{3} \times (10^{-6})^{3}\ \text{m}^{3} \\
+      &= 125 \times 10^{-18}\ \text{m}^{3}
+\end{aligned}
+$$
+
+using $(10^{-6})^{3} = 10^{-6 \times 3} = 10^{-18}$. Now multiply by $\tfrac{4}{3}\pi$:
+
+$$
+\begin{aligned}
+V &= \tfrac{4}{3}\pi \times 125 \times 10^{-18}\ \text{m}^{3} \\
+  &= 523.6 \times 10^{-18}\ \text{m}^{3} \\
+  &= 5.236 \times 10^{-16}\ \text{m}^{3} \\
+  &\approx 5.2 \times 10^{-16}\ \text{m}^{3}
+\end{aligned}
+$$
+
+(Tidying $523.6$ to $5.236$ moved the point 2 places left, so the exponent rose by 2, from $-18$ to $-16$.) Notice the units: cubing metres gives cubic metres, $\text{m}^{3}$.
+</Example>
+
+<Example n={5} title="From the Sun's surface to Venus (adding and subtracting)" book>
+In the book, a faint glowing line called the <Term id="petrova-line">Petrova line</Term> stretches from the Sun towards Venus. Venus orbits $1.082 \times 10^{11}$ m from the Sun's centre, and the Sun's radius is $6.96 \times 10^{8}$ m. How far is it from the Sun's *surface* to Venus?
+
+We need $1.082 \times 10^{11} - 6.96 \times 10^{8}$. The exponents differ, so first rewrite the smaller number with $10^{11}$. Going from $10^{8}$ to $10^{11}$ raises the exponent by 3, so the coefficient must shrink by $10^{3}$:
+
+$$
+6.96 \times 10^{8} = 0.00696 \times 10^{11}
+$$
+
+Now subtract the coefficients:
+
+$$
+\begin{aligned}
+d &= 1.082 \times 10^{11}\ \text{m} - 0.00696 \times 10^{11}\ \text{m} \\
+  &= (1.082 - 0.00696) \times 10^{11}\ \text{m} \\
+  &= 1.07504 \times 10^{11}\ \text{m} \\
+  &\approx 1.075 \times 10^{11}\ \text{m}
+\end{aligned}
+$$
+
+The Sun's radius changes the answer by less than 1%. When two numbers differ by several powers of ten, the smaller one barely matters in a sum. The [Order-of-magnitude estimation](/part-0/estimation/) chapter puts this habit to work.
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** Scientific notation is the standard way of writing numbers in science. The international rulebook for units, the BIPM's SI Brochure, uses it throughout. Tau Ceti is a real star. Its distance comes from parallax measurements (Part 14 explains how) and is $11.912 \pm 0.007$ light-years.
+
+**Weir's inventions.** Astrophage and the Petrova line are fictional. No known organism lives on a star's surface or feeds on starlight in space.
+
+**How realistic are the numbers?** The novel's "about 12 light-years" to Tau Ceti matches the measured value. A width of 10 micrometres for Astrophage is a believable size for a single cell: human red blood cells are about 7 to 8 micrometres across. So Weir picked a realistic size for an unrealistic organism.
+</RealVsBook>
+
+## Interactive simulation
+
+<PowersOfTen />
+
+Try comparing the Earth's diameter with the distance from Earth to the Moon, then the Sun's diameter with one light-year. Before reading the readout, guess how many powers of ten apart each pair is.
+
+## Practice set
+
+<Problem n={1} level="easy">
+Write in scientific notation: (a) $300\,000\,000$ (b) $0.0042$ (c) $6\,371\,000$
+
+<Solution>
+(a) Move the point 8 places left: $3.00\,000\,000 \to 3$. Left means positive: $3 \times 10^{8}$.
+
+(b) Move the point 3 places right to get $4.2$. Right means negative: $4.2 \times 10^{-3}$.
+
+(c) Move the point 6 places left to get $6.371$: $6.371 \times 10^{6}$.
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy">
+Write as ordinary numbers: (a) $2.5 \times 10^{4}$ (b) $7.0 \times 10^{-3}$ (c) $9.1 \times 10^{0}$
+
+<Solution>
+(a) A positive exponent moves the point right 4 places: $2.5 \to 25\,000$.
+
+(b) A negative exponent moves the point left 3 places: $7.0 \to 0.0070$. (Keeping the final zero shows the two significant figures.)
+
+(c) $10^{0} = 1$, so $9.1 \times 1 = 9.1$.
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy">
+Simplify, giving a single power of ten: (a) $10^{7} \times 10^{-3}$ (b) $\dfrac{10^{5}}{10^{8}}$ (c) $(10^{3})^{4}$ (d) $\dfrac{10^{-2}}{10^{-6}}$
+
+<Solution>
+(a) Add exponents: $10^{7 + (-3)} = 10^{4}$.
+
+(b) Subtract exponents: $10^{5 - 8} = 10^{-3}$.
+
+(c) Multiply exponents: $10^{3 \times 4} = 10^{12}$.
+
+(d) Subtract exponents, watching the signs: $10^{-2 - (-6)} = 10^{-2 + 6} = 10^{4}$.
+</Solution>
+</Problem>
+
+<Problem n={4} level="easy">
+How many significant figures are in each? (a) $0.00450$ (b) $4.500 \times 10^{3}$ (c) $1.0 \times 10^{-5}$ (d) $30.07$
+
+<Solution>
+(a) Leading zeros don't count. The trailing zero after the decimal point does: digits 4, 5, 0, so **3**.
+
+(b) In scientific notation every digit of the coefficient counts: **4**.
+
+(c) **2** (the 1 and the trailing 0).
+
+(d) Zeros between non-zero digits count: 3, 0, 0, 7, so **4**.
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium">
+Calculate and give the answer in scientific notation: (a) $(6.0 \times 10^{3}) \times (5.0 \times 10^{-7})$ (b) $\dfrac{8.4 \times 10^{-2}}{2.1 \times 10^{4}}$ (c) $\dfrac{1.5 \times 10^{6}}{6.0 \times 10^{-2}}$
+
+<Solution>
+(a) Coefficients: $6.0 \times 5.0 = 30$. Powers: $10^{3 + (-7)} = 10^{-4}$. So $30 \times 10^{-4}$. Tidy up: $30 = 3.0 \times 10^{1}$, giving $3.0 \times 10^{-3}$.
+
+(b) Coefficients: $8.4 / 2.1 = 4.0$. Powers: $10^{-2 - 4} = 10^{-6}$. Answer: $4.0 \times 10^{-6}$.
+
+(c) Coefficients: $1.5 / 6.0 = 0.25$. Powers: $10^{6 - (-2)} = 10^{8}$. So $0.25 \times 10^{8}$. Tidy up: $0.25 = 2.5 \times 10^{-1}$, giving $2.5 \times 10^{7}$.
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium">
+Calculate: (a) $4.2 \times 10^{5} + 3.1 \times 10^{4}$ (b) $9.0 \times 10^{-3} - 5.0 \times 10^{-4}$
+
+<Solution>
+(a) Rewrite the smaller number with $10^{5}$: $3.1 \times 10^{4} = 0.31 \times 10^{5}$. Add: $(4.2 + 0.31) \times 10^{5} = 4.51 \times 10^{5}$. But $4.2 \times 10^{5}$ is only known to the nearest $0.1 \times 10^{5}$, and a sum can't be more precise than its least precise part, so round to $4.5 \times 10^{5}$.
+
+(b) Rewrite with $10^{-3}$: $5.0 \times 10^{-4} = 0.50 \times 10^{-3}$. Subtract: $(9.0 - 0.50) \times 10^{-3} = 8.5 \times 10^{-3}$.
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium" book>
+Sunlight travels $3.00 \times 10^{8}$ metres every second. The Earth is $1.50 \times 10^{11}$ m from the Sun. How many seconds does sunlight take to reach Earth? Convert your answer to minutes.
+
+<Solution>
+Each second covers $3.00 \times 10^{8}$ m, so the number of seconds is the distance divided by the distance per second:
+
+$$
+\begin{aligned}
+t &= \frac{1.50 \times 10^{11}}{3.00 \times 10^{8}}\ \text{s} \\
+  &= 0.500 \times 10^{3}\ \text{s} \\
+  &= 5.00 \times 10^{2}\ \text{s}
+\end{aligned}
+$$
+
+That's 500 s. There are 60 s in a minute, so $500 / 60 = 8.33$ minutes. When Astrophage starts dimming the Sun, Earth sees the change about 8 minutes later.
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium" book>
+Suppose Astrophage cells, each $1.0 \times 10^{-5}$ m wide, were lined up from the Sun's surface to Venus, a distance of $1.075 \times 10^{11}$ m (from Worked example 5). How many cells would that take?
+
+<Solution>
+$$
+\begin{aligned}
+N &= \frac{1.075 \times 10^{11}\ \text{m}}{1.0 \times 10^{-5}\ \text{m}} \\
+  &= 1.075 \times 10^{11 - (-5)} \\
+  &= 1.075 \times 10^{16}
+\end{aligned}
+$$
+
+That's about $1.1 \times 10^{16}$ cells, ten million billion, in a single-file line. The real Petrova line in the book is a broad stream with vastly more cells than this.
+</Solution>
+</Problem>
+
+<Problem n={9} level="medium">
+Find the square roots without a calculator, then check with one: (a) $\sqrt{4.0 \times 10^{-6}}$ (b) $\sqrt{9.0 \times 10^{9}}$
+
+<Solution>
+(a) The exponent $-6$ is even. $\sqrt{4.0} = 2.0$ and halving the exponent gives $10^{-3}$, so the answer is $2.0 \times 10^{-3}$. Check: $(2.0 \times 10^{-3})^{2} = 4.0 \times 10^{-6}$ ✓.
+
+(b) The exponent 9 is odd, so first move one factor of ten into the coefficient: $9.0 \times 10^{9} = 90 \times 10^{8}$. Then $\sqrt{90} \approx 9.49$ and $\sqrt{10^{8}} = 10^{4}$, giving $9.5 \times 10^{4}$. (Writing it as $\sqrt{9.0} \times 10^{4.5}$ would also be true, but a half-integer exponent is awkward to work with.)
+</Solution>
+</Problem>
+
+<Problem n={10} level="medium" book>
+How many Earth diameters ($1.27 \times 10^{7}$ m) would you need to lay end to end to reach Tau Ceti ($1.13 \times 10^{17}$ m)?
+
+<Solution>
+$$
+\begin{aligned}
+N &= \frac{1.13 \times 10^{17}\ \text{m}}{1.27 \times 10^{7}\ \text{m}} \\
+  &= 0.8898 \times 10^{10} \\
+  &= 8.898 \times 10^{9} \\
+  &\approx 8.90 \times 10^{9}
+\end{aligned}
+$$
+
+About nine billion Earths. (The coefficient $0.8898$ was below 1, so we multiplied it by 10 and took one off the exponent.)
+</Solution>
+</Problem>
+
+<Problem n={11} level="challenging">
+Evaluate $\dfrac{(2.0 \times 10^{-3})^{3}}{(4.0 \times 10^{5})^{2}}$, giving the answer in scientific notation.
+
+<Solution>
+Numerator: $(2.0)^{3} \times (10^{-3})^{3} = 8.0 \times 10^{-9}$.
+
+Denominator: $(4.0)^{2} \times (10^{5})^{2} = 16 \times 10^{10} = 1.6 \times 10^{11}$.
+
+Divide:
+
+$$
+\frac{8.0 \times 10^{-9}}{1.6 \times 10^{11}} = \frac{8.0}{1.6} \times 10^{-9 - 11} = 5.0 \times 10^{-20}
+$$
+</Solution>
+</Problem>
+
+<Problem n={12} level="challenging" book>
+A proton is about $1.7 \times 10^{-15}$ m across. Compare two ratios: (i) the distance to Tau Ceti ($1.13 \times 10^{17}$ m) divided by the width of an Astrophage ($1.0 \times 10^{-5}$ m), and (ii) the width of an Astrophage divided by the width of a proton. Which ratio is larger, and by roughly how many powers of ten?
+
+<Solution>
+(i)
+
+$$
+\frac{1.13 \times 10^{17}}{1.0 \times 10^{-5}} = 1.13 \times 10^{17-(-5)} = 1.13 \times 10^{22}
+$$
+
+(ii)
+
+$$
+\begin{aligned}
+\frac{1.0 \times 10^{-5}}{1.7 \times 10^{-15}} &= 0.588 \times 10^{-5-(-15)} \\
+  &= 0.588 \times 10^{10} \\
+  &= 5.88 \times 10^{9}
+\end{aligned}
+$$
+
+Compare them by dividing (i) by (ii):
+
+$$
+\frac{1.13 \times 10^{22}}{5.88 \times 10^{9}} = 0.192 \times 10^{13} = 1.92 \times 10^{12}
+$$
+
+Ratio (i) is larger by about $2 \times 10^{12}$, so about 12 powers of ten. Grace's mission spans far more "zoom levels" outward from a cell than inward to its protons.
+</Solution>
+</Problem>
+
+## Summary
+
+- Powers of ten count how many tens are multiplied together. A negative exponent means "one divided by", and $10^{0} = 1$.
+- A number in scientific notation is $a \times 10^{n}$ with $1 \le a < 10$ and whole-number $n$. The exponent gives the rough size, and the coefficient the detail.
+- To convert, hop the decimal point: hops to the left give a positive exponent, hops to the right a negative one.
+- To multiply, multiply coefficients and add exponents. To divide, divide coefficients and subtract exponents. Then tidy the coefficient back into the range 1 to 10.
+- To add or subtract, first give both numbers the same power of ten.
+- Significant figures show how precisely a number is known. Round only at the end, to the precision of your least precise input.
+
+**Formulas from this chapter**
+
+$$
+10^{m} \times 10^{n} = 10^{m+n} \qquad \frac{10^{m}}{10^{n}} = 10^{m-n} \qquad 10^{0} = 1 \qquad 10^{-n} = \frac{1}{10^{n}} \qquad (10^{m})^{n} = 10^{mn}
+$$
+
+$$
+(a \times 10^{m})(b \times 10^{n}) = ab \times 10^{m+n} \qquad \frac{a \times 10^{m}}{b \times 10^{n}} = \frac{a}{b} \times 10^{m-n}
+$$
+
+All of them are also on the [formula sheet](/formulas/#ch-scientific-notation).
+
+## Sources
+
+- OpenStax, *Prealgebra 2e*, §10.5 "Integer Exponents and Scientific Notation". [openstax.org](https://openstax.org/books/prealgebra-2e/pages/10-5-integer-exponents-and-scientific-notation)
+- OpenStax, *University Physics Volume 1*, §1.6 "Significant Figures". [openstax.org](https://openstax.org/books/university-physics-volume-1/pages/1-6-significant-figures)
+- BIPM, *The International System of Units (SI Brochure)*, 9th edition (2019), on writing numbers and units. [bipm.org](https://www.bipm.org/en/publications/si-brochure)
+- IAU: the light-year is the distance light travels in one Julian year, $9.4607 \times 10^{15}$ m. [IAU, Measuring the Universe](https://iauarchive.eso.org/public/measuring/)
+- Tau Ceti parallax $273.8097 \pm 0.1701$ milliarcseconds (Gaia EDR3), giving $3.652$ pc $= 11.91$ light-years. [SIMBAD: tau Cet](https://simbad.cds.unistra.fr/simbad/sim-id?Ident=tau+Cet)
+- Earth's mean radius 6371 km; Sun's radius 695 700 km; Venus's mean distance from the Sun $108.21 \times 10^{6}$ km. NASA NSSDCA [Earth](https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html), [Sun](https://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html) and [Venus](https://nssdc.gsfc.nasa.gov/planetary/factsheet/venusfact.html) fact sheets.
+- Proton charge radius $0.84075$ fm and Bohr radius $5.29 \times 10^{-11}$ m: CODATA 2022, NIST. [physics.nist.gov](https://physics.nist.gov/cuu/Constants/)
+- Red blood cells are about 7 to 8 µm across. OpenStax, *Anatomy and Physiology 2e*, §18.3. [openstax.org](https://openstax.org/books/anatomy-and-physiology-2e/pages/18-3-erythrocytes)
+- Astrophage size (10 micrometres) in the novel: Royal Institution, "Project Hail Mary: the science behind the fiction". [rigb.org](https://www.rigb.org/explore-science/explore/blog/project-hail-mary-science-behind-fiction)
+- Andy Weir, *Project Hail Mary* (Ballantine Books, 2021). Scenes are described in our own words.

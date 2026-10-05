@@ -1,0 +1,449 @@
+---
+title: Ratios, proportionality and the inverse-square law
+description: How quantities scale together, from a 1% dimmer Sun to sunlight at Venus, Mars and Tau Ceti, and why light fades with the square of distance.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import ProportionShapes from '../../../components/diagrams/part-0/ProportionShapes.astro';
+import InverseSquare from '../../../components/diagrams/part-0/InverseSquare.astro';
+import InverseSquareSim from '../../../components/sims/InverseSquareSim.astro';
+
+## The scene
+
+The whole plot of the novel rests on a small-sounding number. Astrophage is eating sunlight, and the Sun's output is predicted to drop by a few percent over the next couple of decades. Scientists in the story are terrified, because they know how strongly a planet's climate depends on how much sunlight reaches it.
+
+Two questions run through the book. If the Sun puts out a certain fraction less light, how much less reaches Earth? And at another star, such as the dimmer Tau Ceti, how close would you need to be to get the same warmth as on Earth? Both are questions about how one quantity *scales* with another. Answering them needs ratios, proportionality and one of the most important patterns in physics, the inverse-square law.
+
+## Prerequisites
+
+<Prereqs notes={{ 'rearranging-formulas': 'making r the subject of a formula, and solving with square roots' }} />
+
+## The concept
+
+### Ratios: how many times bigger?
+
+A <Term id="ratio">ratio</Term> compares two quantities by dividing one by the other. When the Hail Mary's gravity is $14.7\ \text{m/s}^{2}$ and Earth's is $9.81\ \text{m/s}^{2}$, the ratio is
+
+$$
+\frac{14.7\ \text{m/s}^{2}}{9.81\ \text{m/s}^{2}} = 1.50.
+$$
+
+The units cancel, so a ratio of like quantities is a pure number. It answers "how many times bigger?" Ratios are often more useful than raw values. "1.5 times Earth's gravity" means something to anyone, whereas "14.7 m/s²" needs context.
+
+### Direct proportion
+
+Two quantities are in <Term id="direct-proportion">direct proportion</Term> if doubling one doubles the other, tripling one triples the other, and so on. We write $y \propto x$, read "$y$ is proportional to $x$". Examples:
+
+- At a steady speed, the distance you travel is proportional to the time you travel for.
+- The sunlight reaching Earth is proportional to the Sun's total output. If the Sun puts out 1% less, Earth receives 1% less.
+
+Direct proportion always means there is some fixed number $k$, the <Term id="constant-of-proportionality">constant of proportionality</Term>, such that
+
+$$
+y = kx.
+$$
+
+A quick test: if $y \propto x$, then the ratio $y/x$ is the same for every pair of values. On a graph, it is a straight line through the origin.
+
+### Inverse proportion
+
+Two quantities are in <Term id="inverse-proportion">inverse proportion</Term> if doubling one *halves* the other. We write $y \propto 1/x$, meaning $y = k/x$. The classic example is travel time and speed: double your speed and the same trip takes half as long. For inverse proportion the *product* $xy$ is constant.
+
+### Proportional to a power
+
+Many physical relationships involve powers. If you double the width of a cell, its surface area grows by $2^{2} = 4$ and its volume by $2^{3} = 8$. So area $\propto$ (width)$^{2}$ and volume $\propto$ (width)$^{3}$. In general $y \propto x^{n}$ means $y = kx^{n}$, and multiplying $x$ by some factor multiplies $y$ by that factor *to the power $n$*.
+
+<Figure caption="The shapes of three proportionalities. Direct proportion is a straight line through the origin. Inverse proportion falls away. Inverse-square falls away much faster." alt="A graph with x and y axes from 0 to 4. A straight blue line y proportional to x rises through the origin. A green curve y proportional to 1 over x falls from top left towards the x axis. An amber curve y proportional to 1 over x squared falls more steeply, starting lower on the left side of the graph and hugging the x axis sooner.">
+	<ProportionShapes />
+</Figure>
+
+### The inverse-square law
+
+Picture a light bulb in the middle of a huge dark room. The light leaves it equally in all directions and spreads out. Hold a small square card at some distance and it catches some of that light. Move the card twice as far away. The same cone of light that filled the card now covers a square twice as wide and twice as tall: four times the area. So the card catches only a quarter as much light. At three times the distance, a ninth.
+
+<Figure caption="The beam that fills one tile at distance r covers 4 tiles at 2r and 9 tiles at 3r. The light per tile falls as 1/r²." alt="Side view of a cone of light spreading from a point source on the left, passing screens at distances r, 2r and 3r whose heights are one, two and three tile-widths. Below each screen, a front view shows 1 tile, a 2 by 2 block of 4 tiles, and a 3 by 3 block of 9 tiles, labelled I, I over 4 and I over 9 per tile.">
+	<InverseSquare />
+</Figure>
+
+This is the <Term id="inverse-square-law">inverse-square law</Term>: for anything spreading out evenly from a point, the strength falls as one over the distance squared. It applies to light, to sound in open air, and, as Part 4 will show, to gravity.
+
+To make it precise we need two words. A star's <Term id="luminosity">luminosity</Term>, $L$, is the total power it gives off: how much energy it radiates each second, measured in <Term id="watt">watts</Term> (W). (Part 5 defines energy and power properly. For now, a watt is a rate of delivering energy: a 60 W bulb uses energy twice as fast as a 30 W bulb.) The <Term id="intensity">intensity</Term>, $I$, at some distance is the power falling on each square metre facing the star, measured in W/m². The intensity of sunlight at Earth's distance, about $1361\ \text{W/m}^{2}$, has a special name: the <Term id="solar-constant">solar constant</Term>, although it isn't quite constant.
+
+## Formulas
+
+### Direct proportion and the ratio method
+
+If $y = kx$, take two situations, $(x_{1}, y_{1})$ and $(x_{2}, y_{2})$:
+
+$$
+y_{1} = kx_{1}, \qquad y_{2} = kx_{2}.
+$$
+
+Divide the second equation by the first. The $k$ cancels:
+
+$$
+\frac{y_{2}}{y_{1}} = \frac{kx_{2}}{kx_{1}} = \frac{x_{2}}{x_{1}}
+$$
+
+This is the **ratio method**. You can compare two situations without ever knowing $k$. That matters, because $k$ is often messy or unknown, while ratios are easy.
+
+### Proportional to any power
+
+The same argument with $y = kx^{n}$ gives
+
+$$
+\frac{y_{2}}{y_{1}} = \frac{kx_{2}^{\,n}}{kx_{1}^{\,n}} = \left(\frac{x_{2}}{x_{1}}\right)^{n}.
+$$
+
+Inverse proportion is the case $n = -1$, and the inverse-square law is $n = -2$:
+
+$$
+\frac{y_{2}}{y_{1}} = \left(\frac{x_{2}}{x_{1}}\right)^{-2} = \left(\frac{x_{1}}{x_{2}}\right)^{2}.
+$$
+
+(A negative power flips the fraction: $\left(\tfrac{a}{b}\right)^{-1} = \tfrac{b}{a}$, by the same reasoning as $10^{-n} = 1/10^{n}$.)
+
+### Deriving the inverse-square law
+
+Put an imaginary sphere of radius $r$ around a star, centred on it. Every bit of the star's light has to pass through that sphere sooner or later. Nothing is lost on the way through empty space, so the total power crossing the sphere is the luminosity $L$.
+
+The surface area of a sphere is $4\pi r^{2}$ (from school geometry). If the light is spread evenly, each square metre of the sphere gets an equal share:
+
+$$
+I = \frac{\text{total power}}{\text{total area}} = \frac{L}{4\pi r^{2}}
+$$
+
+That is the inverse-square law. The $r^{2}$ appears because area grows with the square of radius. Using the ratio method with $n = -2$, for the same star at two distances:
+
+$$
+\frac{I_{2}}{I_{1}} = \left(\frac{r_{1}}{r_{2}}\right)^{2}
+$$
+
+**Units check.** $\dfrac{\text{W}}{\text{m}^{2}}$, power per area ✓. The $4\pi$ is a pure number.
+
+## Worked examples
+
+<Example n={1} title="A 1% dimmer Sun" book>
+Today, sunlight at Earth has intensity $1361\ \text{W/m}^{2}$. In the novel, the Sun's output is forecast to fall by 1% within about nine years. What would the intensity at Earth become?
+
+At fixed distance, $I = \dfrac{L}{4\pi r^{2}}$ is directly proportional to $L$. By the ratio method:
+
+$$
+\frac{I_{2}}{I_{1}} = \frac{L_{2}}{L_{1}} = \frac{0.99\,L_{1}}{L_{1}} = 0.99
+$$
+
+So
+
+$$
+I_{2} = 0.99 \times 1361\ \text{W/m}^{2} = 1347\ \text{W/m}^{2}.
+$$
+
+That's a drop of about $14\ \text{W/m}^{2}$ on every square metre facing the Sun, continuously. Part 6 shows why that is enough to cool the planet badly.
+</Example>
+
+<Example n={2} title="Deriving the solar constant from the Sun's power">
+The Sun's luminosity is $L = 3.828 \times 10^{26}$ W and Earth is $r = 1.496 \times 10^{11}$ m away. Calculate the intensity at Earth.
+
+$$
+\begin{aligned}
+I &= \frac{L}{4\pi r^{2}} \\
+  &= \frac{3.828 \times 10^{26}\ \text{W}}{4\pi \times (1.496 \times 10^{11}\ \text{m})^{2}} \\
+  &= \frac{3.828 \times 10^{26}\ \text{W}}{4\pi \times 2.238 \times 10^{22}\ \text{m}^{2}} \\
+  &= \frac{3.828 \times 10^{26}\ \text{W}}{2.812 \times 10^{23}\ \text{m}^{2}} \\
+  &= 1.361 \times 10^{3}\ \text{W/m}^{2}
+\end{aligned}
+$$
+
+That's $1361\ \text{W/m}^{2}$, exactly what satellites measure. Two completely different measurements (the Sun's total output, and sunlight above Earth's atmosphere) agree through one simple formula.
+</Example>
+
+<Example n={3} title="Sunlight at Venus, by the ratio method" book>
+In the novel, Astrophage gathers near Venus, which orbits at $1.082 \times 10^{11}$ m from the Sun. Earth orbits at $1.496 \times 10^{11}$ m. How intense is sunlight at Venus?
+
+Use the ratio method, so that $L$ and $4\pi$ never appear:
+
+$$
+\begin{aligned}
+\frac{I_{\text{V}}}{I_{\text{E}}} &= \left(\frac{r_{\text{E}}}{r_{\text{V}}}\right)^{2} \\
+&= \left(\frac{1.496 \times 10^{11}\ \text{m}}{1.082 \times 10^{11}\ \text{m}}\right)^{2} \\
+&= (1.3826)^{2} \\
+&= 1.912
+\end{aligned}
+$$
+
+$$
+I_{\text{V}} = 1.912 \times 1361\ \text{W/m}^{2} = 2602\ \text{W/m}^{2}.
+$$
+
+NASA's value is $2601.3\ \text{W/m}^{2}$, so we agree to within rounding. Venus is only 28% closer to the Sun than Earth, yet it gets almost twice the sunlight. Squares exaggerate differences.
+</Example>
+
+<Example n={4} title="An Earth-like distance at Tau Ceti" book>
+Tau Ceti's luminosity is about $0.52$ times the Sun's. At what distance from Tau Ceti would a planet receive the same intensity as Earth does from the Sun?
+
+We want $I_{\text{TC}} = I_{\text{Sun}}$ at the two distances:
+
+$$
+\frac{0.52\,L_{\odot}}{4\pi r^{2}} = \frac{L_{\odot}}{4\pi (1\ \text{au})^{2}}
+$$
+
+The $L_{\odot}$ (the Sun's luminosity) and the $4\pi$ cancel from both sides:
+
+$$
+\frac{0.52}{r^{2}} = \frac{1}{(1\ \text{au})^{2}}
+$$
+
+Multiply both sides by $r^{2}$ and by $(1\ \text{au})^{2}$:
+
+$$
+r^{2} = 0.52\ \text{au}^{2} \quad\Longrightarrow\quad r = \sqrt{0.52}\ \text{au} = 0.72\ \text{au}
+$$
+
+A planet at about 0.72 au from Tau Ceti, roughly where Venus is in our system, would get Earth-like sunlight. Note that $L$ and $r$ don't scale the same way: halving the luminosity only moves the comfortable distance in by a factor of $\sqrt{0.52} = 0.72$.
+</Example>
+
+<Example n={5} title="Bigger cells, less surface per volume" book>
+Suppose an Astrophage-like cell doubled its diameter. By what factors would its surface area, its volume, and its surface-area-to-volume ratio change?
+
+Area $\propto d^{2}$, so area changes by $2^{2} = 4$.
+
+Volume $\propto d^{3}$, so volume changes by $2^{3} = 8$.
+
+The ratio area/volume therefore changes by
+
+$$
+\frac{4}{8} = \frac{1}{2}.
+$$
+
+The bigger cell has half as much surface per unit of volume. This is why real cells stay small. Everything a cell absorbs, whether food or (for Astrophage) light, has to come in through its surface, while its needs grow with its volume.
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** The inverse-square law for light is exact for a point source in empty space, and stars are very close to point sources at planetary distances. The solar constant is measured by satellites at about $1361\ \text{W/m}^{2}$ and varies by roughly 0.1% over the Sun's 11-year activity cycle. NASA's values for Venus (2601 W/m²), Mars (586 W/m²) and Jupiter (50 W/m²) all follow from the inverse-square law. Tau Ceti's luminosity, about half the Sun's, is a real measurement (published values run from 0.49 to 0.52 times the Sun's).
+
+**Weir's inventions.** A sunlight-eating organism is fictional, so the cause of the dimming is invented.
+
+**How realistic are the numbers?** The forecast in the novel (1% dimmer within about nine years, 5% within about twenty) is far beyond anything the real Sun has done in recorded history: its natural variations are around a tenth of a percent. That is the point of the plot, because a change this big needs an unnatural cause. The physics of what such a drop *would* do is real, and Part 6 works it out.
+</RealVsBook>
+
+## Interactive simulation
+
+<InverseSquareSim />
+
+Things to try: put the panel at Mars and compare with NASA's 586 W/m². Switch to Tau Ceti and find where the intensity matches Earth's (the readout's ratio becomes 1.00). Dim the Sun by 5% at 1 au and read off the new intensity.
+
+## Practice set
+
+<Problem n={1} level="easy">
+$y$ is directly proportional to $x$, and $y = 12$ when $x = 3$. (a) Find the constant of proportionality. (b) Find $y$ when $x = 5$.
+
+<Solution>
+(a) $y = kx$, so $k = \dfrac{y}{x} = \dfrac{12}{3} = 4$.
+
+(b) $y = 4 \times 5 = 20$. Or by the ratio method: $y_{2} = 12 \times \dfrac{5}{3} = 20$.
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy">
+A trip takes $3.0$ h at $60$ km/h. Travel time is inversely proportional to speed. How long does it take at $90$ km/h?
+
+<Solution>
+Inverse proportion: $\dfrac{t_{2}}{t_{1}} = \dfrac{v_{1}}{v_{2}}$. So
+
+$$
+t_{2} = 3.0\ \text{h} \times \frac{60\ \text{km/h}}{90\ \text{km/h}} = 3.0\ \text{h} \times \frac{2}{3} = 2.0\ \text{h}.
+$$
+
+Check: the distance is $60 \times 3.0 = 180$ km, and $180 / 90 = 2.0$ h ✓.
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy">
+By what factor does the intensity of light from a lamp change if you move (a) twice as far away (b) three times as far (c) ten times as far (d) half as far?
+
+<Solution>
+$I \propto 1/r^{2}$, so the factor is $1/(\text{distance factor})^{2}$:
+
+(a) $1/2^{2} = 1/4$. (b) $1/9$. (c) $1/100$. (d) $1/(1/2)^{2} = 4$: four times *brighter*.
+</Solution>
+</Problem>
+
+<Problem n={4} level="easy">
+Which of these pairs are directly proportional? (a) the side of a square and its perimeter (b) the side of a square and its area (c) the number of identical books and their total mass
+
+<Solution>
+(a) Yes: perimeter $= 4 \times$ side, with $k = 4$.
+
+(b) No: area $= \text{side}^{2}$. Doubling the side quadruples the area. Area is proportional to the side *squared*.
+
+(c) Yes: total mass $=$ (mass of one book) $\times$ (number of books).
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium" book>
+Mars orbits $1.524$ au from the Sun. Using the ratio method and Earth's $1361\ \text{W/m}^{2}$, find the intensity of sunlight at Mars. Compare with NASA's $586.2\ \text{W/m}^{2}$.
+
+<Solution>
+$$
+I_{\text{M}} = 1361\ \text{W/m}^{2} \times \left(\frac{1\ \text{au}}{1.524\ \text{au}}\right)^{2} = \frac{1361}{2.3226}\ \text{W/m}^{2} = 586.0\ \text{W/m}^{2}
+$$
+
+That agrees with NASA to within 0.04%. The tiny difference comes from rounding the orbit to 1.524 au.
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium">
+Jupiter orbits at $5.204$ au. What is the intensity of sunlight there, and what fraction of Earth's is it?
+
+<Solution>
+Fraction: $(1/5.204)^{2} = 1/27.08 = 0.0369$, about 3.7%.
+
+Intensity: $0.0369 \times 1361 = 50.3\ \text{W/m}^{2}$ (NASA: 50.26 W/m²).
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium" book>
+In the novel, the Sun's output is forecast to drop 5% within about twenty years. If Earth could be moved closer to the Sun to make up for it, what new orbital distance would restore $1361\ \text{W/m}^{2}$? How many kilometres closer is that?
+
+<Solution>
+We need $\dfrac{0.95\,L}{4\pi r^{2}} = \dfrac{L}{4\pi(1\ \text{au})^{2}}$. Cancelling $L$ and $4\pi$: $r^{2} = 0.95\ \text{au}^{2}$, so
+
+$$
+r = \sqrt{0.95}\ \text{au} = 0.9747\ \text{au}.
+$$
+
+That's $0.0253$ au closer:
+
+$$
+0.0253 \times 1.496 \times 10^{8}\ \text{km} = 3.8 \times 10^{6}\ \text{km}.
+$$
+
+About 2.5% closer, or 3.8 million km. Moving a planet is, of course, impossible. The calculation just shows how sensitive climate is: a 5% dimming is equivalent to moving Earth outward by 2.5%.
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium">
+A cube of metal has sides of $2.0$ cm. A second cube of the same metal has sides of $6.0$ cm. By what factor is the second cube's (a) surface area (b) mass bigger?
+
+<Solution>
+The side ratio is $6.0/2.0 = 3.0$.
+
+(a) Area $\propto \text{side}^{2}$: factor $3.0^{2} = 9.0$.
+
+(b) For the same metal, mass is proportional to volume, which is proportional to $\text{side}^{3}$: factor $3.0^{3} = 27$.
+</Solution>
+</Problem>
+
+<Problem n={9} level="medium" book>
+What intensity would a panel receive at 1 au from Tau Ceti (luminosity $0.52\,L_{\odot}$)?
+
+<Solution>
+At the same distance, intensity is directly proportional to luminosity:
+
+$$
+I = 0.52 \times 1361\ \text{W/m}^{2} = 708\ \text{W/m}^{2}.
+$$
+
+About half of Earth's sunlight. This is why the comfortable distance at Tau Ceti is closer in (Worked example 4).
+</Solution>
+</Problem>
+
+<Problem n={10} level="challenging">
+A space probe measures sunlight of $2000\ \text{W/m}^{2}$. How far is it from the Sun, in au and in metres?
+
+<Solution>
+By the ratio method, $\dfrac{I}{I_{\text{E}}} = \left(\dfrac{1\ \text{au}}{r}\right)^{2}$. Rearranging for $r$:
+
+$$
+r = 1\ \text{au} \times \sqrt{\frac{I_{\text{E}}}{I}} = 1\ \text{au} \times \sqrt{\frac{1361}{2000}} = 1\ \text{au} \times \sqrt{0.6805} = 0.825\ \text{au}.
+$$
+
+In metres: $0.825 \times 1.496 \times 10^{11} = 1.23 \times 10^{11}$ m.
+
+Sanity check: the intensity is higher than at Earth, so the probe must be closer than 1 au ✓.
+</Solution>
+</Problem>
+
+<Problem n={11} level="challenging" book>
+Astrophage gathers sunlight close to the Sun. (a) What is the intensity at $0.10$ au from the Sun? (b) How much power falls on one Astrophage cell there? Treat the cell as a disc of radius $5.0 \times 10^{-6}$ m facing the Sun.
+
+<Solution>
+(a) Ten times closer means $10^{2} = 100$ times the intensity:
+
+$$
+I = 100 \times 1361\ \text{W/m}^{2} = 1.361 \times 10^{5}\ \text{W/m}^{2}.
+$$
+
+(b) The disc's area is
+
+$$
+A = \pi r^{2} = \pi(5.0 \times 10^{-6}\ \text{m})^{2} = 7.85 \times 10^{-11}\ \text{m}^{2}.
+$$
+
+The power caught is intensity times area (W/m² × m² = W):
+
+$$
+\begin{aligned}
+P &= 1.361 \times 10^{5}\ \text{W/m}^{2} \times 7.85 \times 10^{-11}\ \text{m}^{2} \\
+&= 1.07 \times 10^{-5}\ \text{W}
+\end{aligned}
+$$
+
+About ten microwatts per cell. Tiny, but there are an astronomical number of cells. The [estimation chapter](/part-0/estimation/) asks how many.
+</Solution>
+</Problem>
+
+<Problem n={12} level="challenging" book>
+Seen from Earth, Tau Ceti ($0.52\,L_{\odot}$, $1.127 \times 10^{17}$ m away) is a faint star. (a) Find its intensity at Earth. (b) How many times fainter is it than the Sun? (c) How far from the Sun would you have to go for the Sun to look equally faint? Give the answer in au and in light-years ($1\ \text{ly} = 63\,240$ au).
+
+<Solution>
+(a)
+
+$$
+\begin{aligned}
+I_{\text{TC}} &= \frac{0.52 \times 3.828 \times 10^{26}\ \text{W}}{4\pi (1.127 \times 10^{17}\ \text{m})^{2}} \\
+&= \frac{1.991 \times 10^{26}\ \text{W}}{1.596 \times 10^{35}\ \text{m}^{2}} \\
+&= 1.25 \times 10^{-9}\ \text{W/m}^{2}
+\end{aligned}
+$$
+
+(b) $\dfrac{1361}{1.25 \times 10^{-9}} = 1.09 \times 10^{12}$. Tau Ceti is about a trillion times fainter.
+
+(c) The Sun's intensity must drop by that same factor. Since $I \propto 1/r^{2}$, the distance must grow by $\sqrt{1.09 \times 10^{12}} = 1.04 \times 10^{6}$. So $r = 1.04 \times 10^{6}$ au. In light-years:
+
+$$
+\frac{1.04 \times 10^{6}\ \text{au}}{63\,240\ \text{au/ly}} = 16.5\ \text{ly}.
+$$
+
+That's farther than Tau Ceti's 11.9 ly, which makes sense: Tau Ceti is dimmer than the Sun, so the Sun would have to be farther away to look as faint.
+</Solution>
+</Problem>
+
+## Summary
+
+- A ratio of like quantities is a pure number that says "how many times bigger".
+- Direct proportion: $y = kx$, a straight line through the origin, $y/x$ constant. Inverse proportion: $y = k/x$, $xy$ constant.
+- If $y \propto x^{n}$, multiplying $x$ by a factor multiplies $y$ by that factor to the power $n$. The ratio method compares two situations without knowing $k$.
+- Light from a point source spreads over a sphere of area $4\pi r^{2}$, so its intensity is $I = L/(4\pi r^{2})$: the inverse-square law.
+- At Earth, $I \approx 1361\ \text{W/m}^{2}$ (the solar constant). Venus gets about 1.9 times this and Mars about 0.43 times.
+
+**Formulas from this chapter**
+
+$$
+y = kx \qquad y = \frac{k}{x} \qquad \frac{y_{2}}{y_{1}} = \left(\frac{x_{2}}{x_{1}}\right)^{n}
+$$
+
+$$
+I = \frac{L}{4\pi r^{2}} \qquad\qquad \frac{I_{2}}{I_{1}} = \left(\frac{r_{1}}{r_{2}}\right)^{2}
+$$
+
+## Sources
+
+- OpenStax, *Algebra and Trigonometry 2e*, §5.8 "Modeling Using Variation" (direct, inverse and power variation). [openstax.org](https://openstax.org/books/algebra-and-trigonometry-2e/pages/5-8-modeling-using-variation)
+- HyperPhysics, "Inverse Square Law, General". [hyperphysics](http://hyperphysics.phy-astr.gsu.edu/hbase/Forces/isq.html)
+- Solar luminosity $3.828 \times 10^{26}$ W and solar irradiance at Earth 1361.0 W/m²; Venus 2601.3 W/m², Mars 586.2 W/m², Jupiter 50.26 W/m², with orbital distances: NASA NSSDCA fact sheets ([Sun](https://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html), [Earth](https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html), [Venus](https://nssdc.gsfc.nasa.gov/planetary/factsheet/venusfact.html), [Mars](https://nssdc.gsfc.nasa.gov/planetary/factsheet/marsfact.html), [Jupiter](https://nssdc.gsfc.nasa.gov/planetary/factsheet/jupiterfact.html)).
+- Natural variation of total solar irradiance (about 0.1% over the solar cycle): Kopp & Lean, "A new, lower value of total solar irradiance: Evidence and climate significance", *Geophysical Research Letters* 38 (2011). [doi.org/10.1029/2010GL045777](https://doi.org/10.1029/2010GL045777) (paywalled; the 1361 W/m² value is also in NASA's Earth fact sheet)
+- Tau Ceti's luminosity: published values range from about 0.49 L☉ (Teixeira et al. 2009, from interferometry) to 0.52 ± 0.03 L☉ (from spectroscopy). We use 0.52, and the uncertainty changes our answers by only a few percent. Both values are compared in Tang & Gai, "Asteroseismic modelling of the metal-poor star τ Ceti", *Astronomy & Astrophysics* 526, A35 (2011). [arXiv:1010.3154](https://arxiv.org/abs/1010.3154). Distance: [SIMBAD](https://simbad.cds.unistra.fr/simbad/sim-id?Ident=tau+Cet).
+- The novel's dimming forecast (about 1% in nine years, 5% in twenty): Andy Weir, *Project Hail Mary* (2021), as summarised in reader guides. Treat it as approximate.

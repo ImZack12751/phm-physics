@@ -1,0 +1,215 @@
+---
+// Simulation: step through rearranging a formula, one "same thing to both sides" move at a time.
+// All maths is rendered with KaTeX at build time; the script only shows and hides steps.
+import katex from 'katex';
+
+type Step = { op: string; tex: string };
+type Task = { id: string; label: string; steps: Step[] };
+const tex = (t: string) => katex.renderToString(t, { displayMode: true, throwOnError: true, output: 'htmlAndMathml' });
+
+const tasks: Task[] = [
+	{
+		id: 'speed-t', label: 'v = d/t → make t the subject',
+		steps: [
+			{ op: 'Start', tex: 'v = \\frac{d}{t}' },
+			{ op: 'Multiply both sides by t (t is on the bottom, so bring it up)', tex: 'v\\,t = \\frac{d}{t}\\times t = d' },
+			{ op: 'Divide both sides by v', tex: 't = \\frac{d}{v}' },
+		],
+	},
+	{
+		id: 'density-V', label: 'ρ = m/V → make V the subject',
+		steps: [
+			{ op: 'Start', tex: '\\rho = \\frac{m}{V}' },
+			{ op: 'Multiply both sides by V', tex: '\\rho\\,V = m' },
+			{ op: 'Divide both sides by ρ', tex: 'V = \\frac{m}{\\rho}' },
+		],
+	},
+	{
+		id: 'temp-C', label: 'T_F = (9/5)T_C + 32 → make T_C the subject',
+		steps: [
+			{ op: 'Start', tex: 'T_{\\text{F}} = \\tfrac{9}{5}\\,T_{\\text{C}} + 32' },
+			{ op: 'Subtract 32 from both sides (undo the last thing done first)', tex: 'T_{\\text{F}} - 32 = \\tfrac{9}{5}\\,T_{\\text{C}}' },
+			{ op: 'Multiply both sides by 5/9 (undo × 9/5)', tex: '\\tfrac{5}{9}\\left(T_{\\text{F}} - 32\\right) = T_{\\text{C}}' },
+			{ op: 'Swap sides so the subject is on the left', tex: 'T_{\\text{C}} = \\tfrac{5}{9}\\left(T_{\\text{F}} - 32\\right)' },
+		],
+	},
+	{
+		id: 'fall-g', label: 'h = ½gt² → make g the subject',
+		steps: [
+			{ op: 'Start', tex: 'h = \\tfrac{1}{2}\\,g\\,t^{2}' },
+			{ op: 'Multiply both sides by 2 (undo the ½)', tex: '2h = g\\,t^{2}' },
+			{ op: 'Divide both sides by t²', tex: '\\frac{2h}{t^{2}} = g' },
+			{ op: 'Swap sides', tex: 'g = \\frac{2h}{t^{2}}' },
+		],
+	},
+	{
+		id: 'fall-t', label: 'h = ½gt² → make t the subject',
+		steps: [
+			{ op: 'Start', tex: 'h = \\tfrac{1}{2}\\,g\\,t^{2}' },
+			{ op: 'Multiply both sides by 2', tex: '2h = g\\,t^{2}' },
+			{ op: 'Divide both sides by g', tex: '\\frac{2h}{g} = t^{2}' },
+			{ op: 'Take the square root of both sides (a time is positive, so keep the + root)', tex: 't = \\sqrt{\\frac{2h}{g}}' },
+		],
+	},
+	{
+		id: 'circle-r', label: 'A = πr² → make r the subject',
+		steps: [
+			{ op: 'Start', tex: 'A = \\pi r^{2}' },
+			{ op: 'Divide both sides by π', tex: '\\frac{A}{\\pi} = r^{2}' },
+			{ op: 'Square-root both sides (a radius is positive)', tex: 'r = \\sqrt{\\frac{A}{\\pi}}' },
+		],
+	},
+];
+---
+
+<div
+	class="sim rs"
+	data-title="Rearranging, one step at a time"
+	data-description="Choose a formula and the quantity to make the subject. Step forwards and backwards through the rearrangement; each step names the operation applied to both sides. Formulas: v = d/t, density, Celsius-Fahrenheit, h = (1/2)gt² for g and for t, and A = πr²."
+>
+	<p class="sim-title">Simulation: rearranging, one step at a time</p>
+	<p class="sim-help">Pick a task, then press Next. Each step does one thing to both sides. Watch the balance: it stays level the whole way.</p>
+	<div class="sim-controls">
+		<label>Task <select class="rs-task">{tasks.map((t) => <option value={t.id}>{t.label}</option>)}</select></label>
+		<button type="button" class="rs-prev">← Back</button>
+		<button type="button" class="rs-next">Next →</button>
+	</div>
+	<div class="rs-stage">
+		<svg class="rs-balance dg" viewBox="0 0 120 70" aria-hidden="true">
+			<path d="M60,22 L48,64 L72,64 Z" class="s-muted w2 f-bg" />
+			<g class="rs-beam">
+				<line x1="14" y1="22" x2="106" y2="22" class="s-fg w3" />
+				<path d="M2,38 Q14,48 26,38" class="s-sky w2" /><line x1="14" y1="22" x2="4" y2="38" class="s-muted w1" /><line x1="14" y1="22" x2="24" y2="38" class="s-muted w1" />
+				<path d="M94,38 Q106,48 118,38" class="s-sky w2" /><line x1="106" y1="22" x2="96" y2="38" class="s-muted w1" /><line x1="106" y1="22" x2="116" y2="38" class="s-muted w1" />
+			</g>
+			<circle cx="60" cy="22" r="3.5" class="f-amber" />
+		</svg>
+		<div class="rs-steps" aria-live="polite">
+			{
+				tasks.map((t) => (
+					<ol class="rs-list" data-task={t.id} hidden>
+						{t.steps.map((s, i) => (
+							<li class="rs-step" data-i={i} hidden>
+								<p class="rs-op"><span class="rs-num">Step {i}</span> {s.op}</p>
+								<Fragment set:html={tex(s.tex)} />
+							</li>
+						))}
+					</ol>
+				))
+			}
+		</div>
+	</div>
+	<p class="readout rs-status"></p>
+</div>
+
+<style>
+	.rs-stage {
+		display: grid;
+		grid-template-columns: 6.5rem minmax(0, 1fr);
+		gap: 1rem;
+		align-items: start;
+		margin-top: 0.75rem;
+	}
+	.rs-balance {
+		width: 6.5rem;
+		height: auto;
+	}
+	.rs-beam {
+		transform-origin: 60px 22px;
+	}
+	.rs-beam.wobble {
+		animation: rs-wobble 0.9s cubic-bezier(0.3, 0.7, 0.3, 1);
+	}
+	@keyframes rs-wobble {
+		20% { transform: rotate(-7deg); }
+		45% { transform: rotate(4deg); }
+		70% { transform: rotate(-1.5deg); }
+		100% { transform: rotate(0deg); }
+	}
+	.rs-list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+	.rs-step {
+		margin: 0 0 0.5rem;
+		padding: 0.4rem 0.8rem;
+		border-left: 3px solid var(--dg-grid);
+		color: var(--dg-fg);
+		animation: rs-in 0.4s cubic-bezier(0.2, 0.7, 0.2, 1);
+	}
+	.rs-step.current {
+		border-left-color: var(--dg-amber);
+		background: rgba(255, 190, 92, 0.07);
+	}
+	@keyframes rs-in {
+		from { opacity: 0; transform: translateX(-8px); }
+	}
+	.rs-op {
+		margin: 0;
+		font-size: var(--sl-text-sm);
+		color: var(--dg-muted);
+	}
+	.rs-num {
+		font-family: var(--__sl-font-mono);
+		color: var(--dg-amber);
+		margin-inline-end: 0.4rem;
+	}
+	.rs-step :global(.katex-display) {
+		margin: 0.3rem 0;
+		text-align: left;
+	}
+	.rs-step :global(.katex) {
+		color: var(--dg-fg);
+	}
+	@media (max-width: 30rem) {
+		.rs-stage {
+			grid-template-columns: minmax(0, 1fr);
+		}
+	}
+</style>
+
+<script>
+	document.querySelectorAll<HTMLElement>('.sim.rs').forEach((root) => {
+		const task = root.querySelector<HTMLSelectElement>('.rs-task')!;
+		const prev = root.querySelector<HTMLButtonElement>('.rs-prev')!;
+		const next = root.querySelector<HTMLButtonElement>('.rs-next')!;
+		const status = root.querySelector<HTMLElement>('.rs-status')!;
+		const beam = root.querySelector<SVGGElement>('.rs-beam')!;
+		let shown = 0;
+
+		const list = () => root.querySelector<HTMLOListElement>(`.rs-list[data-task="${task.value}"]`)!;
+		function render(animate: boolean) {
+			root.querySelectorAll<HTMLOListElement>('.rs-list').forEach((l) => (l.hidden = l !== list()));
+			const steps = [...list().querySelectorAll<HTMLLIElement>('.rs-step')];
+			steps.forEach((s, i) => {
+				s.hidden = i > shown;
+				s.classList.toggle('current', i === shown);
+			});
+			prev.disabled = shown === 0;
+			next.disabled = shown >= steps.length - 1;
+			status.textContent =
+				shown >= steps.length - 1
+					? `Done in ${steps.length - 1} step${steps.length > 2 ? 's' : ''}. Check: the units of the new subject should come out right.`
+					: `Step ${shown} of ${steps.length - 1}.`;
+			if (animate) {
+				beam.classList.remove('wobble');
+				void beam.getBoundingClientRect();
+				beam.classList.add('wobble');
+			}
+		}
+		task.addEventListener('change', () => {
+			shown = 0;
+			render(false);
+		});
+		next.addEventListener('click', () => {
+			shown++;
+			render(true);
+		});
+		prev.addEventListener('click', () => {
+			shown = Math.max(0, shown - 1);
+			render(true);
+		});
+		render(false);
+	});
+</script>

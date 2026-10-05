@@ -1,0 +1,358 @@
+---
+title: Reading and making graphs
+description: Axes, gradients and areas with units, interpolation and extrapolation, and straightening curves to discover the law behind the data.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import GraphAnatomy from '../../../components/diagrams/part-0/GraphAnatomy.astro';
+import AreaUnderGraph from '../../../components/diagrams/part-0/AreaUnderGraph.astro';
+import StraightenCurve from '../../../components/sims/StraightenCurve.astro';
+
+## The scene
+
+Grace is a scientist with a lab, a supply of Astrophage and a lot of unanswered questions. Again and again in the novel he runs an experiment, writes down a column of numbers and tries to see the pattern in it. Back on Earth, the scientists who first spotted the Sun dimming were doing the same: plotting measurements over time and asking where the line was heading.
+
+A table of numbers hides its pattern. A graph shows it at a glance. A graph also does more than show: its *slope* is a rate, the *area under it* is a total, and the right choice of axes can turn a curve into a straight line that reveals the law behind the data. This chapter teaches all three.
+
+## Prerequisites
+
+<Prereqs notes={{ 'ratios-proportionality': 'direct, inverse and inverse-square proportion, whose graphs you will learn to recognise', 'exponentials-logarithms': 'logarithms, which straighten exponential and power-law graphs' }} />
+
+## The concept
+
+### Anatomy of a graph
+
+When you take measurements, you usually choose one quantity and measure how another responds. The quantity you control is the <Term id="independent-variable">independent variable</Term>. It goes along the horizontal axis (the $x$-axis). The one that responds is the <Term id="dependent-variable">dependent variable</Term>, and it goes up the vertical axis (the $y$-axis).
+
+Label each axis with the quantity **and its unit**, as in "time, $t$ (s)". A graph without units is as useless as a number without units.
+
+<Figure caption="A distance–time graph. The gradient is the speed, and the intercept is the distance at time zero." alt="A graph with time t in seconds from 0 to 10 across and distance d in metres from 0 to 160 up. An amber straight line starts at 20 m when t equals 0, where a green dot is labelled 'intercept c equals 20 m'. Two blue points at (2 s, 50 m) and (8 s, 140 m) are joined by a dashed right-angled triangle with sides labelled delta t equals 6 s and delta d equals 90 m. A label says gradient equals delta d over delta t equals 15 m/s.">
+	<GraphAnatomy />
+</Figure>
+
+### Straight lines
+
+Many relationships give a straight line. Every straight line has the equation
+
+$$
+y = mx + c,
+$$
+
+where:
+
+- $m$ is the <Term id="gradient">gradient</Term> (slope): how much $y$ rises for each unit step in $x$;
+- $c$ is the <Term id="intercept">intercept</Term>: the value of $y$ where the line crosses the $y$-axis (at $x = 0$).
+
+If $c = 0$ the line passes through the origin, and $y$ is directly proportional to $x$, as in [the proportionality chapter](/part-0/ratios-proportionality/).
+
+### The gradient is a rate, with units
+
+The gradient divides a change in $y$ by a change in $x$, so its unit is (unit of $y$) ÷ (unit of $x$). On a distance–time graph that is m/s: **the gradient is the speed**. On a graph of fuel left against time, it is kg/s, the rate fuel is used. Whenever you see a gradient, ask "what rate is this?"
+
+A *curved* graph has a gradient that changes from point to point. Its gradient at a single point is the gradient of the straight line that just touches the curve there. Making that precise is the first job of calculus, in Part 0.5.
+
+### The area under a graph is a total
+
+On a speed–time graph, the area between the line and the time axis has units of (m/s) × s = m. It is the **distance travelled**. That makes sense: at a steady 30 m/s for 6 s, you cover $30 \times 6 = 180$ m, which is exactly the area of a rectangle 6 s wide and 30 m/s tall.
+
+<Figure caption="The area under a speed–time graph is the distance travelled. Here the ship speeds up for 10 s, then cruises for 6 s." alt="A speed–time graph. Speed rises in a straight line from 0 to 30 m/s over the first 10 s, then stays at 30 m/s until 16 s. The triangle under the rising part is shaded amber and labelled half times 10 s times 30 m/s equals 150 m. The rectangle under the flat part is shaded blue and labelled 6 s times 30 m/s equals 180 m. Text: total distance 150 m plus 180 m equals 330 m; units of area are m/s times s, which is m.">
+	<AreaUnderGraph />
+</Figure>
+
+Gradients and areas are opposite operations: one turns totals into rates, and the other turns rates into totals. That relationship is the heart of calculus.
+
+### Reading between and beyond the points
+
+Estimating a value *between* measured points is <Term id="interpolation">interpolation</Term>, and it is usually safe. Estimating *beyond* the measurements is <Term id="extrapolation">extrapolation</Term>, and it is risky, because you are assuming the pattern carries on. The novel's dimming forecast is an extrapolation. Problem 7 shows how much the answer depends on which pattern you assume.
+
+### Real data scatter
+
+Real measurements never fall exactly on a line, because every measurement has some uncertainty. So scientists draw a **best-fit line** that passes as close as possible to all the points, with roughly as many points above it as below. Computers find it by a method called *least squares*: they choose the line that makes the total of the squared vertical misses as small as possible. The simulation below uses it.
+
+### Straightening curves: finding the law
+
+Our eyes judge straight lines well but curves badly. Is a curve a $1/x$ or a $1/x^{2}$? It's hard to tell. The trick is to change what you plot so that the *expected* law becomes a straight line:
+
+| If you suspect | Plot | You get a straight line with gradient |
+|---|---|---|
+| $y = kx^{2}$ | $y$ against $x^{2}$ | $k$ |
+| $y = k/x^{2}$ | $y$ against $1/x^{2}$ | $k$ |
+| $y = k\sqrt{x}$ | $y^{2}$ against $x$ | $k^{2}$ |
+| $y = Ae^{kx}$ (exponential) | $\ln y$ against $x$ | $k$ |
+| $y = kx^{n}$ (any power, $n$ unknown) | $\log y$ against $\log x$ | $n$ |
+
+If the points fall on a straight line, your guess is confirmed, and the gradient gives you the constant. That is how a lot of physics was discovered.
+
+## Formulas
+
+### Gradient from two points
+
+Between two points $(x_{1}, y_{1})$ and $(x_{2}, y_{2})$ on a straight line, the rise is $\Delta y = y_{2} - y_{1}$ and the run is $\Delta x = x_{2} - x_{1}$ ($\Delta$, the Greek capital delta, means "change in"):
+
+$$
+m = \frac{\Delta y}{\Delta x} = \frac{y_{2} - y_{1}}{x_{2} - x_{1}}
+$$
+
+Then the intercept follows from $y_{1} = mx_{1} + c$, rearranged to $c = y_{1} - mx_{1}$.
+
+### Why log plots straighten exponentials
+
+Take $y = Ae^{kx}$ and take the natural log of both sides. By the product and power laws of logarithms:
+
+$$
+\ln y = \ln A + \ln(e^{kx}) = \ln A + kx
+$$
+
+Compare with $Y = mX + c$: plotting $Y = \ln y$ against $X = x$ gives a straight line with gradient $m = k$ and intercept $c = \ln A$. (With $\log_{10}$ instead, the gradient is $k\log_{10}e = 0.4343k$.)
+
+### Why log–log plots straighten power laws
+
+Take $y = kx^{n}$ and take logs of both sides:
+
+$$
+\log y = \log k + n\log x
+$$
+
+Plotting $\log y$ against $\log x$ gives a straight line of gradient $n$, the power, and intercept $\log k$. The base of the logarithm doesn't matter, as long as both axes use the same one.
+
+## Worked examples
+
+<Example n={1} title="Reading a speed from a graph">
+A probe's distance from a ship is plotted against time. The straight line passes through $(2.0\ \text{s}, 50\ \text{m})$ and $(8.0\ \text{s}, 140\ \text{m})$. Find its speed and its distance at $t = 0$.
+
+$$
+m = \frac{140\ \text{m} - 50\ \text{m}}{8.0\ \text{s} - 2.0\ \text{s}} = \frac{90\ \text{m}}{6.0\ \text{s}} = 15\ \text{m/s}
+$$
+
+$$
+c = y_{1} - mx_{1} = 50\ \text{m} - 15\ \text{m/s} \times 2.0\ \text{s} = 50\ \text{m} - 30\ \text{m} = 20\ \text{m}
+$$
+
+So $d = 20\ \text{m} + (15\ \text{m/s})\,t$. The probe moves at 15 m/s and started 20 m away.
+</Example>
+
+<Example n={2} title="Calibrating a home-made thermometer" book>
+Suppose Grace builds a temperature sensor whose reading $R$ (in arbitrary units) changes steadily with temperature. In melting ice ($0\ °\text{C}$) it reads 12. In boiling water ($100\ °\text{C}$) it reads 87. (a) Find the formula for $T$ in terms of $R$. (b) What temperature does a reading of 62 mean? (c) What would it read for Astrophage at $96.415\ °\text{C}$?
+
+(a) Put $T$ on the $y$-axis and $R$ on the $x$-axis. The two points are $(12, 0\ °\text{C})$ and $(87, 100\ °\text{C})$:
+
+$$
+m = \frac{100\ °\text{C} - 0\ °\text{C}}{87 - 12} = \frac{100}{75}\ °\text{C} = 1.333\ °\text{C per unit}, \qquad c = 0 - 1.333 \times 12 = -16.0\ °\text{C}
+$$
+
+So $T = 1.333R - 16.0$ (in °C), which is the same as $T = \tfrac{4}{3}(R - 12)$.
+
+(b) $T = \tfrac{4}{3}(62 - 12) = \tfrac{4}{3} \times 50 = 66.7\ °\text{C}$. That is interpolation, so it is reliable.
+
+(c) Rearrange: $R = \tfrac{3}{4}T + 12 = 0.75 \times 96.415 + 12 = 84.3$.
+
+This is exactly how the Celsius scale itself was built: two fixed points and a straight line between them, as in [Handling units](/part-0/unit-handling/).
+</Example>
+
+<Example n={3} title="Distance from a speed–time graph">
+A ship's speed rises steadily from 0 to 30 m/s in 10 s, then stays at 30 m/s for 6 s (the graph above). How far does it go?
+
+Area of the triangle: $\tfrac{1}{2} \times 10\ \text{s} \times 30\ \text{m/s} = 150\ \text{m}$.
+
+Area of the rectangle: $6\ \text{s} \times 30\ \text{m/s} = 180\ \text{m}$.
+
+Total: $150\ \text{m} + 180\ \text{m} = 330\ \text{m}$.
+</Example>
+
+<Example n={4} title="Straightening the planets' sunlight">
+NASA's measured intensities of sunlight at the planets (Mercury 9082.7, Venus 2601.3, Earth 1361.0, Mars 586.2, Jupiter 50.26 and Saturn 14.82 W/m²) form a steep curve against distance. Show that plotting $I$ against $1/r^{2}$ (with $r$ in au) gives a straight line, and use its gradient to find the Sun's luminosity.
+
+If $I = \dfrac{L}{4\pi r^{2}}$, then $I = \left(\dfrac{L}{4\pi}\right) \times \dfrac{1}{r^{2}}$. That has the form $y = mx$ with $y = I$, $x = 1/r^{2}$ and gradient $m = L/(4\pi)$. Earth's point is $x = 1/1^{2} = 1\ \text{au}^{-2}$, $y = 1361\ \text{W/m}^{2}$, and the line passes through the origin, so
+
+$$
+m = 1361\ \text{W/m}^{2} \text{ per au}^{-2} = 1361\ \text{W/m}^{2} \times \text{au}^{2}.
+$$
+
+Mars confirms it: $x = 1/1.5238^{2} = 0.4307$ and $y = 586.2$, so $y/x = 1361$ ✓. Every planet gives the same gradient, so the points form a perfect straight line through the origin.
+
+The luminosity is then
+
+$$
+\begin{aligned}
+L &= 4\pi m = 4\pi \times 1361\ \text{W/m}^{2} \times (1.496 \times 10^{11}\ \text{m})^{2} \\
+  &= 4\pi \times 1361 \times 2.238 \times 10^{22}\ \text{W} \\
+  &= 3.83 \times 10^{26}\ \text{W}.
+\end{aligned}
+$$
+
+From a straight-line fit through six planets, we have recovered the Sun's total power output.
+</Example>
+
+<Example n={5} title="A log plot reveals the doubling time" book>
+The dimming model from [the last chapter](/part-0/exponentials-logarithms/) predicts $D = 1.00\%$ at 9 years and $D = 5.00\%$ at 20 years. If you plot $\log_{10}D$ against $t$, what is the gradient, and what doubling time does it imply?
+
+$$
+m = \frac{\log_{10}5.00 - \log_{10}1.00}{20\ \text{yr} - 9\ \text{yr}} = \frac{0.6990 - 0}{11\ \text{yr}} = 0.0635\ \text{per year}
+$$
+
+Each year, $\log_{10}D$ rises by 0.0635. A doubling raises $\log_{10}D$ by $\log_{10}2 = 0.3010$, which takes
+
+$$
+T = \frac{0.3010}{0.0635\ \text{per year}} = 4.74\ \text{yr},
+$$
+
+matching the previous chapter. On a log plot the doubling time can be read straight off the slope.
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** Gradients as rates, areas as totals, best-fit lines and log plots are standard tools of experimental science. The planetary sunlight data really do fall on a perfect $1/r^{2}$ line, because NASA's values come from the inverse-square law, which satellites have confirmed directly.
+
+**Weir's inventions.** The thermometer in Worked example 2 and its readings are our own invention, in the spirit of Grace's improvised lab work.
+
+**How realistic is the forecasting?** Extrapolating a measured trend is exactly what real scientists do. The danger, which Problem 7 shows, is that two models that fit the same early data can disagree wildly about the future. Scientists handle this by understanding the *mechanism*, not just the curve. In the novel, knowing that Astrophage breeds is what makes an exponential model the right choice.
+</RealVsBook>
+
+## Interactive simulation
+
+<StraightenCurve />
+
+Challenges: (1) Find two different ways to straighten the planets' data. (2) Straighten the pendulum data. What law does it reveal? (3) Straighten the dimming data and read the doubling time off the hint.
+
+## Practice set
+
+<Problem n={1} level="easy">
+For the line $y = 3x - 2$: (a) what are the gradient and intercept? (b) What is $y$ when $x = 4$? (c) Where does the line cross the $x$-axis?
+
+<Solution>
+(a) Gradient 3, intercept $-2$.
+
+(b) $y = 3 \times 4 - 2 = 10$.
+
+(c) On the $x$-axis, $y = 0$: $0 = 3x - 2$, so $x = 2/3 \approx 0.67$.
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy">
+A graph of distance (km) against time (h) is a straight line through $(0, 5)$ and $(4, 25)$. Give the gradient with its unit and say what it means physically.
+
+<Solution>
+$m = \dfrac{25\ \text{km} - 5\ \text{km}}{4\ \text{h} - 0\ \text{h}} = \dfrac{20\ \text{km}}{4\ \text{h}} = 5\ \text{km/h}$. It is the speed: the walker covers 5 km each hour, having started 5 km from the reference point.
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy">
+An experimenter moves a light meter to different distances from a lamp and records the reading at each. Which is the independent variable and which is the dependent variable? Which goes on which axis?
+
+<Solution>
+The distance is chosen by the experimenter, so it is the independent variable and goes on the $x$-axis. The meter reading responds, so it is the dependent variable and goes on the $y$-axis.
+</Solution>
+</Problem>
+
+<Problem n={4} level="medium">
+A rover moves at a steady $12$ m/s for 5.0 s, then slows steadily to a stop over the next 4.0 s. Sketch the speed–time graph and find the total distance.
+
+<Solution>
+The graph is a rectangle (12 m/s tall, 5.0 s wide) followed by a triangle sloping down to zero over 4.0 s.
+
+Rectangle: $12\ \text{m/s} \times 5.0\ \text{s} = 60$ m. Triangle: $\tfrac{1}{2} \times 4.0\ \text{s} \times 12\ \text{m/s} = 24$ m. Total: $84$ m.
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium">
+Find the equation of the straight line through $(2, 7)$ and $(6, 19)$.
+
+<Solution>
+$m = \dfrac{19 - 7}{6 - 2} = \dfrac{12}{4} = 3$. $c = 7 - 3 \times 2 = 1$. So $y = 3x + 1$.
+
+Check with the other point: $3 \times 6 + 1 = 19$ ✓.
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium">
+You suspect $y = k/x$. What should you plot to get a straight line, and what would its gradient be? What would a graph of $y$ against $x$ look like?
+
+<Solution>
+Plot $y$ against $1/x$. Since $y = k \times (1/x)$, you get a straight line through the origin with gradient $k$. Plotted against $x$ itself, the graph is a curve that falls steeply at first and then levels off towards the axis, the green curve in the [proportionality chapter's figure](/part-0/ratios-proportionality/).
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium" book>
+Two models both fit the novel's forecasts of 1% dimming at 9 years and 5% at 20 years: a straight line and an exponential (doubling time 4.74 yr). What does each predict at 30 years?
+
+<Solution>
+**Straight line** through $(9, 1)$ and $(20, 5)$: $m = \dfrac{5 - 1}{20 - 9} = \dfrac{4}{11} = 0.364\ \%$ per year. At 30 years: $D = 5 + 0.364 \times 10 = 8.6\%$.
+
+**Exponential:** $D = 5\% \times 2^{10/4.74} = 21.6\%$ (from the previous chapter).
+
+The two models agree at the measured points but differ by a factor of 2.5 just ten years later. Extrapolation is only as good as the model behind it.
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium">
+Two points on a power law $y = kx^{n}$ are $(2, 24)$ and $(4, 192)$. Use the log–log idea to find $n$, then find $k$.
+
+<Solution>
+The log–log gradient is
+
+$$
+n = \frac{\log 192 - \log 24}{\log 4 - \log 2} = \frac{\log(192/24)}{\log(4/2)} = \frac{\log 8}{\log 2} = 3.
+$$
+
+Then $k = \dfrac{y}{x^{3}} = \dfrac{24}{8} = 3$. So $y = 3x^{3}$. Check: $3 \times 4^{3} = 192$ ✓.
+</Solution>
+</Problem>
+
+<Problem n={9} level="challenging" book>
+For a pendulum, $T = 2\pi\sqrt{L/g}$, so $T^{2} = \dfrac{4\pi^{2}}{g}L$. Plotting $T^{2}$ against $L$ gives a straight line. (a) What gradient would you expect on Earth ($g = 9.81\ \text{m/s}^{2}$)? (b) Grace's plot gives a gradient of $2.69\ \text{s}^{2}/\text{m}$. What is $g$ on the *Hail Mary*?
+
+<Solution>
+(a) Gradient $= \dfrac{4\pi^{2}}{g} = \dfrac{39.48}{9.81\ \text{m/s}^{2}} = 4.02\ \text{s}^{2}/\text{m}$.
+
+(b) Rearranging, $g = \dfrac{4\pi^{2}}{\text{gradient}} = \dfrac{39.48}{2.69\ \text{s}^{2}/\text{m}} = 14.7\ \text{m/s}^{2}$, which is 1.5 times Earth's gravity.
+
+Using the gradient of a best-fit line, rather than a single measurement, averages out the random errors in each swing.
+</Solution>
+</Problem>
+
+<Problem n={10} level="challenging">
+A radioactive sample's count rate falls from 800 counts per minute to 200 counts per minute in 10.0 minutes. Plotting $\ln(\text{count rate})$ against $t$ gives a straight line. Find its gradient and the half-life.
+
+<Solution>
+$$
+m = \frac{\ln 200 - \ln 800}{10.0\ \text{min}} = \frac{\ln(1/4)}{10.0\ \text{min}} = \frac{-1.386}{10.0\ \text{min}} = -0.139\ \text{per min}
+$$
+
+That is $N = N_{0}e^{-0.139t}$, a decay with $k = -0.139$ per minute. The half-life is $t_{1/2} = \dfrac{\ln 2}{0.139} = 5.0$ min. Check: from 800 to 200 is two halvings in 10 minutes, so 5 minutes each ✓.
+</Solution>
+</Problem>
+
+<Problem n={11} level="challenging">
+A solar panel's power per square metre (W/m²) is plotted against time (s). What are the units of the area under this graph? What does that area represent? (Use the plain-language meaning of the watt: an amount of energy per second.)
+
+<Solution>
+Area units: $\dfrac{\text{W}}{\text{m}^{2}} \times \text{s}$. A watt is energy per second, so W × s is an amount of energy, and the area is the **energy collected per square metre** of panel. (Part 5 names this unit of energy the joule: $1\ \text{J} = 1\ \text{W} \times 1\ \text{s}$.) Integrating power over time, as we will call it in Part 0.5, gives energy.
+</Solution>
+</Problem>
+
+## Summary
+
+- Independent variable on $x$, dependent on $y$. Label every axis with its quantity and unit.
+- A straight line is $y = mx + c$. The gradient $m = \Delta y/\Delta x$ is a rate, with units of $y$ per unit of $x$. The intercept $c$ is the value at $x = 0$.
+- The area under a graph is a total, with units of $y$ times units of $x$. Under a speed–time graph, it is distance.
+- Interpolating is safe. Extrapolating assumes the pattern continues.
+- Change the axes to straighten a curve: $1/x^{2}$ for inverse-square, $\ln y$ for exponentials, log–log for power laws. The gradient then gives the constant or the power.
+
+**Formulas from this chapter**
+
+$$
+y = mx + c \qquad m = \frac{\Delta y}{\Delta x} = \frac{y_{2} - y_{1}}{x_{2} - x_{1}} \qquad c = y_{1} - mx_{1}
+$$
+
+$$
+y = Ae^{kx} \Rightarrow \ln y = \ln A + kx \qquad\qquad y = kx^{n} \Rightarrow \log y = \log k + n\log x
+$$
+
+## Sources
+
+- OpenStax, *Algebra and Trigonometry 2e*: §2.1 "The Rectangular Coordinate Systems and Graphs" and §4.1 "Linear Functions". [§2.1](https://openstax.org/books/algebra-and-trigonometry-2e/pages/2-1-the-rectangular-coordinate-systems-and-graphs), [§4.1](https://openstax.org/books/algebra-and-trigonometry-2e/pages/4-1-linear-functions). §6.7 "Exponential and Logarithmic Models" covers log plots. [§6.7](https://openstax.org/books/algebra-and-trigonometry-2e/pages/6-7-exponential-and-logarithmic-models)
+- Planetary solar irradiance and orbital distances (Mercury 9082.7, Venus 2601.3, Earth 1361.0, Mars 586.2, Jupiter 50.26, Saturn 14.82 W/m²): NASA NSSDCA fact sheets for [Mercury](https://nssdc.gsfc.nasa.gov/planetary/factsheet/mercuryfact.html), [Venus](https://nssdc.gsfc.nasa.gov/planetary/factsheet/venusfact.html), [Earth](https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html), [Mars](https://nssdc.gsfc.nasa.gov/planetary/factsheet/marsfact.html), [Jupiter](https://nssdc.gsfc.nasa.gov/planetary/factsheet/jupiterfact.html) and [Saturn](https://nssdc.gsfc.nasa.gov/planetary/factsheet/saturnfact.html).
+- OpenStax, *University Physics Volume 1*, §3.2 "Instantaneous Velocity and Speed" (gradients of position–time graphs). [openstax.org](https://openstax.org/books/university-physics-volume-1/pages/3-2-instantaneous-velocity-and-speed)
+- Least-squares fitting: NIST/SEMATECH *e-Handbook of Statistical Methods*, §4.1.4.1 "Linear Least Squares Regression". [itl.nist.gov](https://www.itl.nist.gov/div898/handbook/pmd/section1/pmd141.htm)
+- The pendulum dataset in the simulation is generated from $T = 2\pi\sqrt{L/g}$ with Earth's $g$, rounded to mimic measurements (derived properly in Part 2).

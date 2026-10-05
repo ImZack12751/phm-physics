@@ -1,0 +1,126 @@
+---
+// Simulation: drag the tips of two vectors; see A + B (or A − B) head to tail, with components.
+const W = 600, H = 400, S = 40, O = { x: 300, y: 200 };
+const xs = Array.from({ length: 15 }, (_, i) => i - 7);
+const ys = Array.from({ length: 9 }, (_, i) => i - 4);
+---
+
+<div
+	class="sim vp"
+	data-title="Vector playground"
+	data-description="Two vectors A and B start at the origin of a grid; their tips can be dragged. The sum A + B (or the difference A − B) is drawn head to tail in green. The readout lists the x and y components, magnitudes and directions of A, B and the result, showing that components simply add or subtract."
+>
+	<p class="sim-title">Simulation: vector playground</p>
+	<p class="sim-help">Drag the round handles at the tips of <b style="color:var(--dg-amber)">A</b> and <b style="color:var(--dg-sky)">B</b>. The green arrow is the result, drawn head to tail. Grid squares are 1 unit.</p>
+	<svg class="dg vp-svg" viewBox={`0 0 ${W} ${H}`} role="img" aria-label="Two draggable vectors on a grid and their sum">
+		<defs>
+			{['amber', 'sky', 'green'].map((c) => (
+				<marker id={`vp-${c}`} viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+					<path d="M0,0 L10,5 L0,10 z" class={`f-${c}`} />
+				</marker>
+			))}
+		</defs>
+		{xs.map((x) => <line x1={O.x + x * S} y1="20" x2={O.x + x * S} y2={H - 20} class="s-grid w1" />)}
+		{ys.map((y) => <line x1="20" y1={O.y - y * S} x2={W - 20} y2={O.y - y * S} class="s-grid w1" />)}
+		<line x1="20" y1={O.y} x2={W - 20} y2={O.y} class="s-muted w1" />
+		<line x1={O.x} y1="20" x2={O.x} y2={H - 20} class="s-muted w1" />
+		<line class="vp-bcopy s-sky w2 dash" marker-end="url(#vp-sky)" />
+		<line class="vp-r s-green w3" marker-end="url(#vp-green)" />
+		<line class="vp-a s-amber w3" marker-end="url(#vp-amber)" />
+		<line class="vp-b s-sky w3" marker-end="url(#vp-sky)" />
+		<text class="vp-la t-b f-amber">A</text>
+		<text class="vp-lb t-b f-sky">B</text>
+		<text class="vp-lr t-b f-green"></text>
+		<circle class="vp-ha" r="11" fill="var(--dg-amber)" fill-opacity="0.35" stroke="var(--dg-amber)" stroke-width="2" style="cursor: grab" />
+		<circle class="vp-hb" r="11" fill="var(--dg-sky)" fill-opacity="0.35" stroke="var(--dg-sky)" stroke-width="2" style="cursor: grab" />
+	</svg>
+	<div class="sim-controls">
+		<button type="button" class="vp-add" aria-pressed="true">A + B</button>
+		<button type="button" class="vp-sub" aria-pressed="false">A − B</button>
+		<button type="button" class="vp-reset">Reset</button>
+	</div>
+	<div class="readout vp-out" aria-live="polite"></div>
+</div>
+
+<script>
+	document.querySelectorAll<HTMLElement>('.sim.vp').forEach((root) => {
+		const S = 40, O = { x: 300, y: 200 };
+		const svg = root.querySelector<SVGSVGElement>('.vp-svg')!;
+		const q = <E extends Element>(s: string) => root.querySelector<E>(s)!;
+		const set = (el: Element, a: Record<string, number | string>) => Object.entries(a).forEach(([k, v]) => el.setAttribute(k, String(v)));
+		let A = { x: 4, y: 1 }, B = { x: 1, y: 3 }, sub = false;
+		const toPx = (v: { x: number; y: number }, from = { x: 0, y: 0 }) => ({ x: O.x + (from.x + v.x) * S, y: O.y - (from.y + v.y) * S });
+		const fmt = (n: number) => (Math.round(n * 100) / 100).toString();
+		const mag = (v: { x: number; y: number }) => Math.hypot(v.x, v.y);
+		const dir = (v: { x: number; y: number }) => {
+			if (mag(v) === 0) return '—';
+			let a = (Math.atan2(v.y, v.x) * 180) / Math.PI;
+			if (a < 0) a += 360;
+			return `${a.toFixed(1)}°`;
+		};
+		const shorten = (from: { x: number; y: number }, to: { x: number; y: number }) => {
+			// stop the line a little short so the arrowhead tip lands on the point
+			const dx = to.x - from.x, dy = to.y - from.y, L = Math.hypot(dx, dy) || 1;
+			return { x: to.x - (dx / L) * 2, y: to.y - (dy / L) * 2 };
+		};
+
+		function draw() {
+			const Bs = sub ? { x: -B.x, y: -B.y } : B;
+			const R = { x: A.x + Bs.x, y: A.y + Bs.y };
+			const o = toPx({ x: 0, y: 0 }), a = toPx(A), b = toPx(B), r = toPx(R), bc = toPx(Bs, A);
+			set(q('.vp-a'), { x1: o.x, y1: o.y, ...{ x2: shorten(o, a).x, y2: shorten(o, a).y } });
+			set(q('.vp-b'), { x1: o.x, y1: o.y, x2: shorten(o, b).x, y2: shorten(o, b).y });
+			set(q('.vp-bcopy'), { x1: a.x, y1: a.y, x2: shorten(a, bc).x, y2: shorten(a, bc).y });
+			set(q('.vp-r'), { x1: o.x, y1: o.y, x2: shorten(o, r).x, y2: shorten(o, r).y });
+			set(q('.vp-ha'), { cx: a.x, cy: a.y });
+			set(q('.vp-hb'), { cx: b.x, cy: b.y });
+			set(q('.vp-la'), { x: (o.x + a.x) / 2 + 8, y: (o.y + a.y) / 2 - 8 });
+			set(q('.vp-lb'), { x: (o.x + b.x) / 2 - 18, y: (o.y + b.y) / 2 });
+			set(q('.vp-lr'), { x: r.x + 14, y: r.y - 10 });
+			q('.vp-lr').textContent = sub ? 'A − B' : 'A + B';
+			const op = sub ? '−' : '+';
+			q('.vp-out').innerHTML =
+				`<span class="k">A</span> = (<b style="color:var(--dg-amber)">${fmt(A.x)}, ${fmt(A.y)}</b>)   |A| = ${mag(A).toFixed(2)}   direction ${dir(A)}<br>` +
+				`<span class="k">B</span> = (<b style="color:var(--dg-sky)">${fmt(B.x)}, ${fmt(B.y)}</b>)   |B| = ${mag(B).toFixed(2)}   direction ${dir(B)}<br>` +
+				`<span class="k">A ${op} B</span> = (${fmt(A.x)} ${op} ${fmt(B.x)}, ${fmt(A.y)} ${op} ${fmt(B.y)}) = (<b style="color:var(--dg-green)">${fmt(R.x)}, ${fmt(R.y)}</b>)<br>` +
+				`<span class="k">|A ${op} B|</span> = √(${fmt(R.x)}² + ${fmt(R.y)}²) = <b>${mag(R).toFixed(2)}</b>   direction ${dir(R)}<br>` +
+				`<span class="k">Compare:</span> |A| + |B| = ${(mag(A) + mag(B)).toFixed(2)}. Lengths only add like ordinary numbers when the arrows point the same way.`;
+		}
+
+		function drag(handle: SVGCircleElement, which: 'A' | 'B') {
+			let on = false;
+			handle.addEventListener('pointerdown', (e) => {
+				on = true;
+				handle.setPointerCapture(e.pointerId);
+			});
+			handle.addEventListener('pointermove', (e) => {
+				if (!on) return;
+				const p = new DOMPoint(e.clientX, e.clientY).matrixTransform(svg.getScreenCTM()!.inverse());
+				const v = {
+					x: Math.max(-7, Math.min(7, Math.round(((p.x - O.x) / S) * 2) / 2)),
+					y: Math.max(-4, Math.min(4, Math.round(((O.y - p.y) / S) * 2) / 2)),
+				};
+				if (which === 'A') A = v;
+				else B = v;
+				draw();
+			});
+			handle.addEventListener('pointerup', () => (on = false));
+		}
+		drag(q('.vp-ha'), 'A');
+		drag(q('.vp-hb'), 'B');
+		const modeBtns = [q<HTMLButtonElement>('.vp-add'), q<HTMLButtonElement>('.vp-sub')];
+		modeBtns.forEach((b, i) =>
+			b.addEventListener('click', () => {
+				sub = i === 1;
+				modeBtns.forEach((m, j) => m.setAttribute('aria-pressed', String(j === i)));
+				draw();
+			})
+		);
+		q('.vp-reset').addEventListener('click', () => {
+			A = { x: 4, y: 1 };
+			B = { x: 1, y: 3 };
+			draw();
+		});
+		draw();
+	});
+</script>

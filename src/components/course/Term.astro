@@ -1,0 +1,14 @@
+---
+// A glossary term with a hover / tap tooltip:  <Term id="significant-figures">significant figures</Term>
+// The id must exist in src/data/glossary.mjs, otherwise the build fails.
+import { glossary } from '../../data/glossary.mjs';
+import { url } from '../../lib/urls.mjs';
+
+interface Props { id: string }
+const { id } = Astro.props;
+const g = glossary[id];
+if (!g) throw new Error(`<Term id="${id}">: no such entry in src/data/glossary.mjs`);
+const tipId = `tip-${id}-${Math.random().toString(36).slice(2, 8)}`;
+---
+
+<span class="term" tabindex="0" aria-describedby={tipId}><slot /><span class="term-tip" role="tooltip" id={tipId}><strong>{g.term}.</strong> {g.def} <a href={url(`glossary/#${id}`)}>Glossary →</a></span></span>

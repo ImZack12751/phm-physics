@@ -1,0 +1,39 @@
+---
+// Why 1 m² = 10 000 cm²: a 1 m square split into 10 cm squares, one of which is zoomed into 1 cm squares.
+const B = { x: 40, y: 40, s: 240 }; // big square (1 m)
+const cell = B.s / 10; // 10 cm
+const Z = { x: 370, y: 40, s: 200 }; // zoomed 10 cm square
+const zc = Z.s / 10; // 1 cm
+const hx = B.x + 9 * cell, hy = B.y; // highlighted cell: top-right
+---
+
+<svg class="dg" viewBox="0 0 610 330" xmlns="http://www.w3.org/2000/svg">
+	{/* big square with 10 cm grid */}
+	{Array.from({ length: 11 }, (_, i) => (
+		<>
+			<line x1={B.x + i * cell} y1={B.y} x2={B.x + i * cell} y2={B.y + B.s} class={i % 10 === 0 ? 's-fg w2' : 's-grid w1'} />
+			<line x1={B.x} y1={B.y + i * cell} x2={B.x + B.s} y2={B.y + i * cell} class={i % 10 === 0 ? 's-fg w2' : 's-grid w1'} />
+		</>
+	))}
+	<rect x={hx} y={hy} width={cell} height={cell} class="f-amber-soft s-amber w2" />
+	<text x={B.x + B.s / 2} y={B.y + B.s + 24} class="t-mid">1 m = 100 cm</text>
+	<text x={B.x - 12} y={B.y + B.s / 2} class="t-mid" transform={`rotate(-90 ${B.x - 12} ${B.y + B.s / 2})`}>1 m</text>
+
+	{/* zoom lines from the highlighted cell to the enlarged copy */}
+	<line x1={hx + cell} y1={hy} x2={Z.x} y2={Z.y} class="s-amber w1 dash" />
+	<line x1={hx + cell} y1={hy + cell} x2={Z.x} y2={Z.y + Z.s} class="s-amber w1 dash" />
+
+	{/* zoomed 10 cm square with 1 cm grid */}
+	{Array.from({ length: 11 }, (_, i) => (
+		<>
+			<line x1={Z.x + i * zc} y1={Z.y} x2={Z.x + i * zc} y2={Z.y + Z.s} class={i % 10 === 0 ? 's-amber w2' : 's-grid w1'} />
+			<line x1={Z.x} y1={Z.y + i * zc} x2={Z.x + Z.s} y2={Z.y + i * zc} class={i % 10 === 0 ? 's-amber w2' : 's-grid w1'} />
+		</>
+	))}
+	<rect x={Z.x} y={Z.y + Z.s - zc} width={zc} height={zc} class="f-sky-soft s-sky w2" />
+	<text x={Z.x + Z.s / 2} y={Z.y - 10} class="t-mid f-amber">10 cm × 10 cm = 100 cm²</text>
+	<path d={`M${Z.x + zc / 2},${Z.y + Z.s + 2} L${Z.x + zc / 2},${Z.y + Z.s + 44} L${Z.x + 30},${Z.y + Z.s + 44}`} class="s-sky w1" />
+	<text x={Z.x + 34} y={Z.y + Z.s + 48} class="t-sm f-sky">one 1 cm × 1 cm square = 1 cm²</text>
+
+	<text x={B.x} y="322" class="t-sm f-muted">100 squares of 100 cm² each:  1 m² = 100 × 100 cm² = 10 000 cm² = 10⁴ cm²</text>
+</svg>

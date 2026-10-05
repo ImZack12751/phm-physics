@@ -1,0 +1,157 @@
+/* Clean printing / "Save as PDF" for any chapter. Starlight already hides the header and
+   sidebars and switches to light colours; this adds the course-specific parts. */
+@media print {
+	/* Force a light palette whatever theme is active (the dark theme's selectors are more
+	   specific than Starlight's own print rules, so we repeat them here). */
+	:root,
+	:root[data-theme='dark'],
+	:root[data-theme='light'] {
+		--sl-color-white: #111111 !important;
+		--sl-color-gray-1: #1b1f24 !important;
+		--sl-color-gray-2: #24292f !important;
+		--sl-color-gray-3: #444c56 !important;
+		--sl-color-gray-4: #6e7781 !important;
+		--sl-color-gray-5: #c9d1d9 !important;
+		--sl-color-gray-6: #eef1f4 !important;
+		--sl-color-gray-7: #f6f8fa !important;
+		--sl-color-black: #ffffff !important;
+		--sl-color-text: #1b1f24 !important;
+		--sl-color-bg: #ffffff !important;
+		--sl-color-bg-nav: #ffffff !important;
+		--sl-color-bg-sidebar: #ffffff !important;
+		--sl-color-hairline-light: #d0d7de !important;
+		--sl-color-hairline: #d0d7de !important;
+		--sl-color-green: #1d6b2e !important;
+		--sl-color-green-high: #1d6b2e !important;
+		--sl-color-red-high: #a3123a !important;
+		--sl-color-purple-high: #5b2a9e !important;
+		--veil: transparent !important;
+		--box-bg: #ffffff !important;
+		--box-example: #005f99 !important;
+		--box-problem: #a35a00 !important;
+		--box-rvb: #5b2a9e !important;
+		--sl-color-accent-high: hsl(28, 90%, 24%) !important;
+		--sl-color-accent: hsl(34, 90%, 42%) !important;
+		--sl-color-accent-low: hsl(40, 95%, 92%) !important;
+		--sl-color-text-accent: hsl(28, 90%, 24%) !important;
+		color-scheme: light;
+	}
+	html,
+	body {
+		background: #ffffff !important;
+		color: #1b1f24 !important;
+	}
+	.sim .readout,
+	.ask-dialog textarea {
+		background: #ffffff !important;
+		color: #111111 !important;
+		border-color: #9aa5b4 !important;
+	}
+	.sim .readout b {
+		color: #a35a00 !important;
+	}
+	.sl-markdown-content :is(h1, h2, h3, h4, h5, h6),
+	.box-title,
+	.formula-name,
+	.glossary-list dt {
+		color: #111111 !important;
+	}
+	:is(.example, .problem, .prereqs, .rvb, .formula-card, .roadmap-part) {
+		box-shadow: none !important;
+	}
+	:root {
+		/* Diagrams and simulations switch to dark ink on white paper. */
+		--dg-bg: #ffffff;
+		--dg-border: #9aa5b4;
+		--dg-fg: #111111;
+		--dg-muted: #444c58;
+		--dg-grid: #d5dbe3;
+		--dg-amber: #a35a00;
+		--dg-sky: #005f99;
+		--dg-green: #1d6b2e;
+		--dg-rose: #a3123a;
+		--dg-violet: #5b2a9e;
+		--dg-amber-fill: rgba(163, 90, 0, 0.12);
+		--dg-sky-fill: rgba(0, 95, 153, 0.12);
+		--dg-green-fill: rgba(29, 107, 46, 0.12);
+		--dg-rose-fill: rgba(163, 18, 58, 0.12);
+		--box-bg: #ffffff;
+		--box-example: #005f99;
+		--box-problem: #a35a00;
+		--box-rvb: #5b2a9e;
+		--sl-color-accent-high: hsl(28, 90%, 24%);
+		--sl-color-accent: hsl(34, 90%, 42%);
+		--sl-color-accent-low: hsl(40, 95%, 92%);
+		--sl-color-text-accent: hsl(28, 90%, 24%);
+	}
+
+	body {
+		font-size: 11pt;
+	}
+
+	/* Interactive-only things. */
+	.ask-claude-btn,
+	.ask-toast,
+	.progress-widget,
+	.chapter-footer,
+	.problem-check,
+	.sl-anchor-link,
+	.pagination-links,
+	.sim-controls,
+	.term-tip,
+	.dash-reset,
+	.glossary-letters {
+		display: none !important;
+	}
+	.sim::after {
+		content: 'Interactive simulation: open the web version of this chapter to use it.';
+		display: block;
+		font-style: italic;
+		font-size: 9pt;
+		margin-top: 0.3rem;
+	}
+
+	/* Every solution is revealed for printing (see scripts/print.ts). */
+	.solution > summary::after {
+		content: '' !important;
+	}
+	details.solution::details-content {
+		content-visibility: visible;
+		display: block;
+	}
+
+	.term {
+		border-bottom: none;
+	}
+
+	/* Keep boxes and figures in one piece where possible. */
+	.example,
+	.problem,
+	.diagram,
+	.formula-card,
+	.rvb,
+	.sim,
+	.katex-display {
+		break-inside: avoid;
+	}
+	h2,
+	h3,
+	.sl-heading-wrapper {
+		break-after: avoid;
+	}
+	.diagram-panel,
+	.sim,
+	.pmap-scroll {
+		border-color: #9aa5b4;
+	}
+	.pmap-node rect {
+		fill: #ffffff;
+	}
+	.sl-markdown-content .katex-display {
+		overflow: visible;
+	}
+	a {
+		color: inherit;
+		text-decoration: underline;
+	}
+}
