@@ -1,0 +1,42 @@
+---
+// The parts of the integral sign, next to the area it stands for.
+const O = { x: 40, y: 230 }, W = 230, H = 170;
+const f = (u: number) => 0.35 + 0.5 * u - 0.25 * u * u + 0.35 * u * u * u; // u in [0, 1]
+const px = (u: number) => O.x + u * W, py = (v: number) => O.y - v * H;
+const a = 0.15, b = 0.9, n = 10, du = (b - a) / n;
+const curve = Array.from({ length: 61 }, (_, i) => {
+	const u = (i / 60) * 1;
+	return `${i ? 'L' : 'M'}${px(u).toFixed(1)},${py(f(u)).toFixed(1)}`;
+}).join(' ');
+const area = `M${px(a)},${py(0)} ` + Array.from({ length: 41 }, (_, i) => {
+	const u = a + ((b - a) * i) / 40;
+	return `L${px(u).toFixed(1)},${py(f(u)).toFixed(1)}`;
+}).join(' ') + ` L${px(b)},${py(0)} Z`;
+const k = 6, sx = px(a + k * du), sw = du * W, sh = f(a + (k + 0.5) * du);
+---
+
+<svg class="dg" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+	<path d={area} class="f-amber-soft" />
+	{Array.from({ length: n - 1 }, (_, i) => <line x1={px(a + (i + 1) * du)} y1={py(0)} x2={px(a + (i + 1) * du)} y2={py(f(a + (i + 1) * du))} class="s-amber w1" opacity="0.45" />)}
+	<rect x={sx} y={py(sh)} width={sw} height={py(0) - py(sh)} class="f-sky-soft s-sky w2" />
+	<path d={curve} class="s-amber w3" />
+	<line x1={O.x} y1={O.y} x2={O.x + W + 10} y2={O.y} class="s-fg w2" />
+	<line x1={O.x} y1={O.y} x2={O.x} y2={O.y - H - 10} class="s-fg w2" />
+	<text x={px(a)} y={O.y + 18} class="t-mid t-it">a</text>
+	<text x={px(b)} y={O.y + 18} class="t-mid t-it">b</text>
+	<text x={px(1) + 6} y={py(f(1)) + 4} class="t-sm f-amber">y = f(x)</text>
+	<text x={sx + sw / 2} y={O.y + 34} class="t-mid t-sm f-sky">width dx</text>
+	<text x={sx - 6} y={py(sh) - 8} class="t-end t-sm f-sky halo">height f(x)</text>
+	<text x={O.x + W / 2} y="293" class="t-mid t-sm f-muted">area = sum of infinitely many thin strips</text>
+
+	<text x="352" y="150" class="f-amber" style="font-size:78px;font-family:'Times New Roman',serif">∫</text>
+	<text x="384" y="86" class="t-it">b</text>
+	<text x="366" y="168" class="t-it">a</text>
+	<text x="400" y="134" class="t-lg">f(x)</text>
+	<text x="440" y="134" class="t-lg f-sky">dx</text>
+	<text x="330" y="40" class="t-sm f-amber">∫ is a stretched S, for "sum"</text>
+	<text x="420" y="78" class="t-sm f-muted">b: where to stop</text>
+	<text x="384" y="200" class="t-sm f-muted">a: where to start</text>
+	<text x="330" y="232" class="t-sm">f(x): each strip’s height (the integrand)</text>
+	<text x="330" y="252" class="t-sm f-sky">dx: each strip’s width, shrunk towards 0</text>
+</svg>

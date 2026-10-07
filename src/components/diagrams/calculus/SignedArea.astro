@@ -1,0 +1,27 @@
+---
+// Velocity v = 6 − 2t (0 to 5 s): area above the axis counts positive, area below counts negative.
+const O = { x: 80, y: 160 }, SX = 80, SY = 18;
+const px = (t: number) => O.x + t * SX, py = (val: number) => O.y - val * SY;
+const v = (t: number) => 6 - 2 * t;
+---
+
+<svg class="dg" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+	{[-4, -2, 0, 2, 4, 6].map((val) => (
+		<>
+			<line x1={px(0)} y1={py(val)} x2={px(5.3)} y2={py(val)} class="s-grid w1" />
+			<text x={px(0) - 8} y={py(val) + 4} class="t-end t-sm f-muted">{val}</text>
+		</>
+	))}
+	<path d={`M${px(0)},${py(0)} L${px(0)},${py(6)} L${px(3)},${py(0)} Z`} class="f-green-soft" />
+	<path d={`M${px(3)},${py(0)} L${px(5)},${py(-4)} L${px(5)},${py(0)} Z`} class="f-rose-soft" />
+	<line x1={px(0)} y1={py(v(0))} x2={px(5)} y2={py(v(5))} class="s-amber w3" />
+	<line x1={px(0)} y1={py(0)} x2={px(5.4)} y2={py(0)} class="s-fg w2" />
+	<line x1={px(0)} y1={py(-4.6)} x2={px(0)} y2={py(7)} class="s-fg w2" />
+	{[1, 2, 3, 4, 5].map((t) => <text x={px(t)} y={py(0) + 18} class="t-mid t-sm f-muted">{t}</text>)}
+	<text x={px(0.9)} y={py(1.6)} class="t-mid t-b f-green">+9 m</text>
+	<text x={px(4.4)} y={py(-2.2)} class="t-mid t-b f-rose">−4 m</text>
+	<text x={px(1.75)} y={py(4.2)} class="t-sm f-amber halo">v = 6 − 2t</text>
+	<text x={px(5.45)} y={py(0) + 4} class="t-sm">t (s)</text>
+	<text x="24" y={py(1)} class="t-mid t-sm" transform={`rotate(-90 24 ${py(1)})`}>velocity (m/s)</text>
+	<text x={px(0)} y="284" class="t-sm">displacement = 9 − 4 = 5 m forward · distance travelled = 9 + 4 = 13 m</text>
+</svg>

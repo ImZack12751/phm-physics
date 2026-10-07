@@ -1,0 +1,106 @@
+---
+// Simulation: the area so far under f (top) traced out as the accumulation function A(x) (bottom), whose slope is f(x).
+---
+
+<div
+	class="sim acc"
+	data-title="The area-so-far function"
+	data-description="Choose a rate function (the probe's speed 0.6t², cos t, 1/t starting from t = 1, or the dimming model's rate). A slider moves the right-hand end x of the shaded area under the top graph. The bottom graph traces the accumulated area A(x) as x moves, with its tangent at x. The readout compares A(x) found by adding 400 thin strips with F(x) − F(a) from an antiderivative, and compares the slope of A with the height f(x)."
+>
+	<p class="sim-title">Simulation: the area-so-far function</p>
+	<p class="sim-help">Drag the end of the shaded area. The bottom graph records how much area has built up. Its slope at each moment equals the height of the top graph there, and the strip total always matches F(x) − F(a).</p>
+	<div class="sim-controls">
+		<label>Rate
+			<select class="acc-f">
+				<option value="probe">probe speed: 0.6t² (m/s)</option>
+				<option value="cos">cos t</option>
+				<option value="inv">1/t, starting at t = 1</option>
+				<option value="dim">dimming rate: 0.1463 D (%/yr)</option>
+			</select>
+		</label>
+		<label>End point x <input type="range" class="acc-x" min="0" max="1" step="0.002" value="0.6" /> <output class="acc-xv"></output></label>
+	</div>
+	<svg class="dg acc-svg" viewBox="0 0 600 440" role="img" aria-label="Area under a rate graph (top) and the accumulated area as a function (bottom)"></svg>
+	<div class="readout acc-out" aria-live="polite"></div>
+</div>
+
+<script>
+	type R = { f: (t: number) => number; F: (t: number) => number; a: number; x0: number; x1: number; fy: [number, number]; Ay: [number, number]; name: string; Fname: string };
+	const k = Math.LN2 / 4.737;
+	const RS: Record<string, R> = {
+		probe: { f: (t) => 0.6 * t * t, F: (t) => 0.2 * t ** 3, a: 0, x0: 0, x1: 10, fy: [0, 64], Ay: [0, 210], name: '0.6t²', Fname: '0.2t³' },
+		cos: { f: Math.cos, F: Math.sin, a: 0, x0: 0, x1: 2 * Math.PI, fy: [-1.2, 1.2], Ay: [-1.2, 1.2], name: 'cos t', Fname: 'sin t' },
+		inv: { f: (t) => 1 / t, F: Math.log, a: 1, x0: 0.25, x1: 5, fy: [0, 4.2], Ay: [-1.6, 1.8], name: '1/t', Fname: 'ln t' },
+		dim: { f: (t) => k * 2 ** ((t - 9) / 4.737), F: (t) => 2 ** ((t - 9) / 4.737), a: 9, x0: 9, x1: 24, fy: [0, 1.4], Ay: [0, 9], name: '0.1463 × D(t)', Fname: 'D(t), the dimming in %' },
+	};
+	document.querySelectorAll<HTMLElement>('.sim.acc').forEach((root) => {
+		const svg = root.querySelector<SVGSVGElement>('.acc-svg')!;
+		const S = root.querySelector<HTMLSelectElement>('.acc-f')!, X = root.querySelector<HTMLInputElement>('.acc-x')!;
+		const out = root.querySelector<HTMLElement>('.acc-out')!;
+		const L = 60, Rr = 580, top = { T: 14, B: 180 }, bot = { T: 220, B: 410 };
+		const NS = 'http://www.w3.org/2000/svg';
+		const el = (tag: string, at: Record<string, string | number>, text?: string) => {
+			const e = document.createElementNS(NS, tag);
+			Object.entries(at).forEach(([kk, v]) => e.setAttribute(kk, String(v)));
+			if (text !== undefined) e.textContent = text;
+			svg.append(e);
+			return e;
+		};
+		const strips = (f: (t: number) => number, a: number, b: number, n = 400) => {
+			const dx = (b - a) / n;
+			let s = 0;
+			for (let i = 0; i < n; i++) s += f(a + (i + 0.5) * dx);
+			return s * dx;
+		};
+		function draw() {
+			const g = RS[S.value];
+			const x = g.x0 + Number(X.value) * (g.x1 - g.x0);
+			root.querySelector('.acc-xv')!.textContent = x.toFixed(2);
+			const px = (t: number) => L + ((t - g.x0) / (g.x1 - g.x0)) * (Rr - L);
+			const pyT = (v: number) => top.B - ((v - g.fy[0]) / (g.fy[1] - g.fy[0])) * (top.B - top.T);
+			const pyB = (v: number) => bot.B - ((v - g.Ay[0]) / (g.Ay[1] - g.Ay[0])) * (bot.B - bot.T);
+			const A = (t: number) => g.F(t) - g.F(g.a);
+			svg.replaceChildren();
+			for (const [pane, py, lo, hi] of [[top, pyT, g.fy[0], g.fy[1]], [bot, pyB, g.Ay[0], g.Ay[1]]] as const) {
+				el('rect', { x: L, y: pane.T, width: Rr - L, height: pane.B - pane.T, class: 's-grid w1' });
+				el('line', { x1: L, y1: py(Math.max(lo, Math.min(hi, 0))), x2: Rr, y2: py(Math.max(lo, Math.min(hi, 0))), class: 's-muted w1' });
+			}
+			const lo = Math.min(g.a, x), hi = Math.max(g.a, x);
+			if (hi > lo) {
+				const pts = Array.from({ length: 121 }, (_, i) => {
+					const t = lo + ((hi - lo) * i) / 120;
+					return `L${px(t).toFixed(1)},${pyT(g.f(t)).toFixed(1)}`;
+				}).join(' ');
+				el('path', { d: `M${px(lo)},${pyT(0)} ${pts} L${px(hi)},${pyT(0)} Z`, class: x >= g.a ? 'f-amber-soft' : 'f-rose-soft' });
+			}
+			const curve = (fn: (t: number) => number, py: (v: number) => number, t0: number, t1: number) =>
+				Array.from({ length: 241 }, (_, i) => {
+					const t = t0 + ((t1 - t0) * i) / 240;
+					return `${i ? 'L' : 'M'}${px(t).toFixed(1)},${py(fn(t)).toFixed(1)}`;
+				}).join(' ');
+			el('path', { d: curve(g.f, pyT, g.x0, g.x1), class: 's-amber w3' });
+			el('text', { x: L + 8, y: top.T + 18, class: 't-sm f-amber' }, `rate f(t) = ${g.name}`);
+			el('line', { x1: px(g.a), y1: top.T, x2: px(g.a), y2: bot.B, class: 's-grid w1 dash' });
+			el('text', { x: px(g.a) + 4, y: bot.B - 6, class: 't-sm f-muted' }, `a = ${g.a}`);
+			el('path', { d: curve(A, pyB, g.x0, g.x1), class: 's-muted w1', opacity: 0.5 });
+			el('path', { d: curve(A, pyB, lo, hi), class: 's-sky w3' });
+			const m = g.f(x), span = (g.x1 - g.x0) * 0.08;
+			el('line', { x1: px(x - span), y1: pyB(A(x) - m * span), x2: px(x + span), y2: pyB(A(x) + m * span), class: 's-green w2' });
+			el('line', { x1: px(x), y1: top.T, x2: px(x), y2: bot.B, class: 's-muted w1 dash' });
+			el('circle', { cx: px(x), cy: pyT(m), r: 5, class: 'f-amber' });
+			el('circle', { cx: px(x), cy: pyB(A(x)), r: 5, class: 'f-sky' });
+			el('text', { x: L + 8, y: bot.T + 18, class: 't-sm f-sky' }, `area so far A(x) = F(x) − F(a), with F(t) = ${g.Fname}`);
+			el('text', { x: (L + Rr) / 2, y: bot.B + 24, class: 't-mid t-sm' }, 't');
+			const byStrips = x >= g.a ? strips(g.f, g.a, x) : -strips(g.f, x, g.a);
+			const h = 1e-4, slope = (A(x + h) - A(x - h)) / (2 * h);
+			out.innerHTML =
+				`<span class="k">A(${x.toFixed(2)}) from 400 strips</span> = <b>${byStrips.toFixed(4)}</b><br>` +
+				`<span class="k">F(${x.toFixed(2)}) − F(${g.a})</span> = ${g.F(x).toFixed(4)} − ${g.F(g.a).toFixed(4)} = <b>${A(x).toFixed(4)}</b><br>` +
+				`<span class="k">slope of A at x</span> = ${slope.toFixed(4)} &nbsp; <span class="k">height f(x)</span> = <b>${m.toFixed(4)}</b>` +
+				(x < g.a ? '<br><span class="k">x is left of a, so the area counts as negative (the limits are reversed).</span>' : '');
+		}
+		S.addEventListener('change', draw);
+		X.addEventListener('input', draw);
+		draw();
+	});
+</script>

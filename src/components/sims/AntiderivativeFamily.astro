@@ -1,0 +1,98 @@
+---
+// Simulation: a rate f(x) (top) and its family of antiderivatives F(x) + C (bottom), with a slider for C.
+---
+
+<div
+	class="sim af"
+	data-title="A family of antiderivatives"
+	data-description="Choose a rate function f (2x, 0.6x², cos x, eˣ or 1/x). The top graph shows f. The bottom graph shows its antiderivatives F(x) + C for several values of C, with one highlighted; a slider changes C and another moves a point x. At that x, every curve in the family has a tangent with the same slope, f(x). The readout shows F(x) + C, the numerical slope of the highlighted curve, and f(x)."
+>
+	<p class="sim-title">Simulation: a family of antiderivatives</p>
+	<p class="sim-help">The bottom curves all have the top graph as their slope. Change C to slide the highlighted curve up and down: its slope at every point stays the same. Move x and watch all the tangents stay parallel.</p>
+	<div class="sim-controls">
+		<label>Rate f(x)
+			<select class="af-f">
+				<option value="lin">f(x) = 2x</option>
+				<option value="sq">f(x) = 0.6x²</option>
+				<option value="cos">f(x) = cos x</option>
+				<option value="exp">f(x) = eˣ</option>
+				<option value="inv">f(x) = 1/x</option>
+			</select>
+		</label>
+		<label>Constant C <input type="range" class="af-c" min="-3" max="3" step="0.1" value="0" /> <output class="af-cv"></output></label>
+		<label>x <input type="range" class="af-x" min="0" max="1" step="0.002" value="0.7" /> <output class="af-xv"></output></label>
+	</div>
+	<svg class="dg af-svg" viewBox="0 0 600 440" role="img" aria-label="A rate function (top) and its family of antiderivatives (bottom)"></svg>
+	<div class="readout af-out" aria-live="polite"></div>
+</div>
+
+<script>
+	type G = { f: (x: number) => number; F: (x: number) => number; x0: number; x1: number; fy: [number, number]; Fy: [number, number]; name: string; Fname: string };
+	const GS: Record<string, G> = {
+		lin: { f: (x) => 2 * x, F: (x) => x * x, x0: -2, x1: 2, fy: [-4.5, 4.5], Fy: [-4, 8], name: '2x', Fname: 'x²' },
+		sq: { f: (x) => 0.6 * x * x, F: (x) => 0.2 * x ** 3, x0: -2.5, x1: 2.5, fy: [-0.5, 4], Fy: [-6, 6], name: '0.6x²', Fname: '0.2x³' },
+		cos: { f: Math.cos, F: Math.sin, x0: 0, x1: 2 * Math.PI, fy: [-1.3, 1.3], Fy: [-4.5, 4.5], name: 'cos x', Fname: 'sin x' },
+		exp: { f: Math.exp, F: Math.exp, x0: -2.5, x1: 1.8, fy: [0, 6.5], Fy: [-3.5, 9.5], name: 'eˣ', Fname: 'eˣ' },
+		inv: { f: (x) => 1 / x, F: Math.log, x0: 0.2, x1: 5, fy: [0, 5.2], Fy: [-5, 5], name: '1/x', Fname: 'ln x' },
+	};
+	document.querySelectorAll<HTMLElement>('.sim.af').forEach((root) => {
+		const svg = root.querySelector<SVGSVGElement>('.af-svg')!;
+		const S = root.querySelector<HTMLSelectElement>('.af-f')!;
+		const Cin = root.querySelector<HTMLInputElement>('.af-c')!, X = root.querySelector<HTMLInputElement>('.af-x')!;
+		const out = root.querySelector<HTMLElement>('.af-out')!;
+		const L = 60, R = 580;
+		const top = { T: 14, B: 150 }, bot = { T: 190, B: 410 };
+		const NS = 'http://www.w3.org/2000/svg';
+		const el = (tag: string, a: Record<string, string | number>, text?: string) => {
+			const e = document.createElementNS(NS, tag);
+			Object.entries(a).forEach(([k, v]) => e.setAttribute(k, String(v)));
+			if (text !== undefined) e.textContent = text;
+			svg.append(e);
+			return e;
+		};
+		function draw() {
+			const g = GS[S.value], C = Number(Cin.value);
+			const x = g.x0 + Number(X.value) * (g.x1 - g.x0);
+			root.querySelector('.af-cv')!.textContent = C.toFixed(1);
+			root.querySelector('.af-xv')!.textContent = x.toFixed(2);
+			const px = (v: number) => L + ((v - g.x0) / (g.x1 - g.x0)) * (R - L);
+			const pyT = (v: number) => top.B - ((v - g.fy[0]) / (g.fy[1] - g.fy[0])) * (top.B - top.T);
+			const pyB = (v: number) => bot.B - ((v - g.Fy[0]) / (g.Fy[1] - g.Fy[0])) * (bot.B - bot.T);
+			const clipB = (v: number) => Math.max(bot.T - 4, Math.min(bot.B + 4, pyB(v)));
+			svg.replaceChildren();
+			for (const [pane, py, lo, hi] of [[top, pyT, g.fy[0], g.fy[1]], [bot, pyB, g.Fy[0], g.Fy[1]]] as const) {
+				el('rect', { x: L, y: pane.T, width: R - L, height: pane.B - pane.T, class: 's-grid w1' });
+				if (lo < 0 && hi > 0) el('line', { x1: L, y1: py(0), x2: R, y2: py(0), class: 's-muted w1' });
+			}
+			if (g.x0 < 0 && g.x1 > 0) el('line', { x1: px(0), y1: top.T, x2: px(0), y2: bot.B, class: 's-grid w1' });
+			const path = (fn: (v: number) => number, py: (v: number) => number) =>
+				Array.from({ length: 241 }, (_, i) => {
+					const v = g.x0 + ((g.x1 - g.x0) * i) / 240;
+					return `${i ? 'L' : 'M'}${px(v).toFixed(1)},${py(fn(v)).toFixed(1)}`;
+				}).join(' ');
+			el('path', { d: path(g.f, pyT), class: 's-sky w3' });
+			el('text', { x: L + 8, y: top.T + 18, class: 't-sm f-sky' }, `rate f(x) = ${g.name}`);
+			el('circle', { cx: px(x), cy: pyT(g.f(x)), r: 5, class: 'f-sky' });
+			el('line', { x1: px(x), y1: top.T, x2: px(x), y2: bot.B, class: 's-muted w1 dash' });
+			const m = g.f(x), half = (R - L) * 0.06, dxv = (half / (R - L)) * (g.x1 - g.x0);
+			for (let c = -3; c <= 3; c += 1.5) {
+				el('path', { d: path((v) => g.F(v) + c, clipB), class: 's-muted w1', opacity: 0.6 });
+				el('line', { x1: px(x - dxv), y1: clipB(g.F(x) + c - m * dxv), x2: px(x + dxv), y2: clipB(g.F(x) + c + m * dxv), class: 's-green w2' });
+			}
+			el('path', { d: path((v) => g.F(v) + C, clipB), class: 's-amber w3' });
+			el('line', { x1: px(x - dxv), y1: clipB(g.F(x) + C - m * dxv), x2: px(x + dxv), y2: clipB(g.F(x) + C + m * dxv), class: 's-green w3' });
+			el('circle', { cx: px(x), cy: clipB(g.F(x) + C), r: 5, class: 'f-amber' });
+			el('text', { x: L + 8, y: bot.T + 18, class: 't-sm f-amber' }, `F(x) + C = ${g.Fname} ${C >= 0 ? '+' : '−'} ${Math.abs(C).toFixed(1)}`);
+			el('text', { x: (L + R) / 2, y: bot.B + 24, class: 't-mid t-sm' }, 'x');
+			const h = 1e-4, num = (g.F(x + h) + C - (g.F(x - h) + C)) / (2 * h);
+			out.innerHTML =
+				`<span class="k">highlighted curve at x = ${x.toFixed(2)}</span>: F(x) + C = <b>${(g.F(x) + C).toFixed(3)}</b><br>` +
+				`<span class="k">its slope (measured)</span> = ${num.toFixed(3)}<br>` +
+				`<span class="k">rate f(${x.toFixed(2)})</span>, from f(x) = ${g.name}: <b>${m.toFixed(3)}</b><br>` +
+				`<span class="k">Changing C moves the curve but never changes this slope.</span>`;
+		}
+		S.addEventListener('change', draw);
+		[Cin, X].forEach((i) => i.addEventListener('input', draw));
+		draw();
+	});
+</script>

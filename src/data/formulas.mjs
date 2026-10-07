@@ -396,4 +396,87 @@ export const formulas = [
 		where: 'x position, t time.',
 		chapter: 'derivatives',
 	},
+
+	// ---- C.4 Area under curves ----
+	{
+		id: 'riemann-sum',
+		name: 'Riemann sums and the trapezoid rule',
+		tex: '\\Delta x = \\dfrac{b - a}{n} \\qquad \\text{area} \\approx \\sum_{k=1}^{n} f(x_{k})\\,\\Delta x \\qquad T_{n} = \\dfrac{L_{n} + R_{n}}{2}',
+		where: 'n strips of width Δx; xₖ = a + kΔx. Lₙ, Rₙ: left and right sums.',
+		chapter: 'area-under-curves',
+	},
+	{
+		id: 'sum-formulas',
+		name: 'Sums of whole numbers and squares',
+		tex: '\\sum_{k=1}^{n} k = \\dfrac{n(n + 1)}{2} \\qquad \\sum_{k=1}^{n} k^{2} = \\dfrac{n(n + 1)(2n + 1)}{6}',
+		where: 'n a positive whole number.',
+		chapter: 'area-under-curves',
+	},
+	{
+		id: 'area-parabola',
+		name: 'Area under a parabola',
+		tex: '\\text{area under } x^{2} \\text{ from 0 to } b = \\dfrac{b^{3}}{3}',
+		where: 'The limit of Riemann sums as n → ∞.',
+		chapter: 'area-under-curves',
+	},
+
+	// ---- C.5 Integrals ----
+	{
+		id: 'definite-integral',
+		name: 'The definite integral',
+		tex: '\\int_{a}^{b} f(x)\\,dx = \\lim_{n \\to \\infty} \\sum_{k=1}^{n} f(x_{k})\\,\\Delta x',
+		where: 'Signed area under f from a to b.',
+		chapter: 'integrals',
+	},
+	{
+		id: 'integral-properties',
+		name: 'Properties of definite integrals',
+		tex: '\\int_{a}^{b} [c\\,f + g]\\,dx = c\\int_{a}^{b} f\\,dx + \\int_{a}^{b} g\\,dx \\qquad \\int_{a}^{b} + \\int_{b}^{c} = \\int_{a}^{c} \\qquad \\int_{b}^{a} = -\\int_{a}^{b}',
+		where: 'c a constant.',
+		chapter: 'integrals',
+	},
+	{
+		id: 'antiderivative-rules',
+		name: 'Basic antiderivatives',
+		tex: '\\int x^{n}\\,dx = \\dfrac{x^{n+1}}{n + 1} + C \\;(n \\neq -1) \\qquad \\int \\dfrac{1}{x}\\,dx = \\ln x + C \\qquad \\int e^{kx}\\,dx = \\dfrac{e^{kx}}{k} + C \\qquad \\int \\cos kx\\,dx = \\dfrac{\\sin kx}{k} + C \\qquad \\int \\sin kx\\,dx = -\\dfrac{\\cos kx}{k} + C',
+		where: 'x > 0 for ln x; angles in radians; k ≠ 0.',
+		chapter: 'integrals',
+	},
+	{
+		id: 'ln-derivative',
+		name: 'Derivative of the natural logarithm',
+		tex: '\\dfrac{d}{dx}\\ln x = \\dfrac{1}{x}',
+		where: 'x > 0.',
+		chapter: 'integrals',
+	},
+	{
+		id: 'constant-acceleration',
+		name: 'Motion with constant acceleration',
+		tex: 'v = v_{0} + at \\qquad x = x_{0} + v_{0}t + \\tfrac{1}{2}at^{2}',
+		where: 'x₀, v₀: position and velocity at t = 0; a constant.',
+		chapter: 'integrals',
+	},
+
+	// ---- C.6 The fundamental theorem ----
+	{
+		id: 'ftc',
+		name: 'The fundamental theorem of calculus',
+		tex: '\\dfrac{d}{dx}\\int_{a}^{x} f(t)\\,dt = f(x) \\qquad \\int_{a}^{b} f(x)\\,dx = \\Big[F(x)\\Big]_{a}^{b} = F(b) - F(a)',
+		where: 'F any antiderivative of f (F′ = f).',
+		chapter: 'fundamental-theorem',
+	},
+	{
+		id: 'net-change',
+		name: 'Net change from a rate',
+		tex: '\\int_{a}^{b} \\dfrac{dQ}{dt}\\,dt = Q(b) - Q(a) \\qquad \\Delta x = \\int_{t_{1}}^{t_{2}} v\\,dt \\qquad \\Delta v = \\int_{t_{1}}^{t_{2}} a\\,dt',
+		where: 'Integrating a rate gives the total change.',
+		chapter: 'fundamental-theorem',
+	},
+	{
+		id: 'average-value',
+		name: 'Average value of a function',
+		tex: '\\bar{f} = \\dfrac{1}{b - a}\\int_{a}^{b} f(x)\\,dx',
+		where: 'Over the interval from a to b.',
+		chapter: 'fundamental-theorem',
+	},
 ];

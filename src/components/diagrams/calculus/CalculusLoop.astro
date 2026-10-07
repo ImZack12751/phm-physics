@@ -1,0 +1,39 @@
+---
+// Position, velocity and acceleration linked by differentiation (rightwards) and integration (leftwards).
+const boxes = [
+	{ x: 30, title: 'position x(t)', note: 'how far the ship has gone', cls: 'f-amber' },
+	{ x: 225, title: 'velocity v(t)', note: 'what a speed log records', cls: 'f-sky' },
+	{ x: 420, title: 'acceleration a(t)', note: 'what Grace feels: 1.5 g', cls: 'f-green' },
+];
+const W = 150, Y = 100, H = 70;
+---
+
+<svg class="dg" viewBox="0 0 600 260" xmlns="http://www.w3.org/2000/svg">
+	<defs>
+		<marker id="cl-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+			<path d="M0,0 L10,5 L0,10 Z" class="f-fg" />
+		</marker>
+	</defs>
+	{
+		boxes.map((b) => (
+			<>
+				<rect x={b.x} y={Y} width={W} height={H} rx="8" class="s-fg w2" />
+				<text x={b.x + W / 2} y={Y + 30} class={`t-mid t-b ${b.cls}`}>{b.title}</text>
+				<text x={b.x + W / 2} y={Y + 52} class="t-mid t-sm f-muted">{b.note}</text>
+			</>
+		))
+	}
+	{[0, 1].map((i) => {
+		const x1 = boxes[i].x + W, x2 = boxes[i + 1].x;
+		return (
+			<>
+				<path d={`M${x1 + 4},${Y - 6} Q${(x1 + x2) / 2},${Y - 50} ${x2 - 4},${Y - 6}`} class="s-fg w2" marker-end="url(#cl-arrow)" />
+				<text x={(x1 + x2) / 2} y={Y - 44} class="t-mid t-sm t-b">d/dt</text>
+				<path d={`M${x2 - 4},${Y + H + 6} Q${(x1 + x2) / 2},${Y + H + 50} ${x1 + 4},${Y + H + 6}`} class="s-violet w2" marker-end="url(#cl-arrow)" />
+				<text x={(x1 + x2) / 2} y={Y + H + 54} class="t-mid t-sm t-b f-violet">∫ … dt</text>
+			</>
+		);
+	})}
+	<text x="300" y="24" class="t-mid t-sm">differentiate: totals → rates (slopes)</text>
+	<text x="300" y="250" class="t-mid t-sm f-violet">integrate (plus a starting value): rates → totals (areas)</text>
+</svg>

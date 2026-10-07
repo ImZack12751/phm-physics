@@ -1,0 +1,42 @@
+import { check, report } from './lib.mjs';
+import { C, BOOK } from './constants.mjs';
+const integ = (f, a, b, n = 20000) => {
+	const dx = (b - a) / n;
+	let s = 0;
+	for (let k = 0; k < n; k++) s += f(a + (k + 0.5) * dx);
+	return s * dx;
+};
+export default function () {
+	check('WE1', integ((t) => 0.6 * t * t, 0, 10), 200);
+	const day = 86400;
+	check('WE2 v', 14.7 * day, 1.27e6, 1e-3); check('WE2 frac c', (14.7 * day) / C.c, 0.0042, 0.01);
+	check('WE2 d', integ((t) => 14.7 * t, 0, day), 5.487e10, 1e-3); check('WE2 au', (7.35 * day * day) / C.au, 0.367, 0.002);
+	check('WE2 au 1.496', 1.496e11, C.au, 0.001);
+	const T = 4.737, k = Math.LN2 / T, D = (t) => 2 ** ((t - 9) / T);
+	check('WE3 k', k, 0.1463, 1e-3); check('WE3 1/k', 1 / k, 6.834, 1e-3);
+	check('WE3 int', integ(D, 9, 20), 27.34, 1e-3); check('WE3 avg', integ(D, 9, 20) / 11, 2.49, 0.002);
+	const kp = Math.LN2 / 87.7;
+	check('WE4 k', kp, 7.904e-3, 1e-3); check('WE4 e', Math.exp(-10 * kp), 0.924, 1e-3);
+	check('WE4 E', integ((t) => 100 * Math.exp(-kp * t), 0, 10), 961.5, 1e-4);
+	check('WE4 Ws', 961.5 * C.julianYear, 3.03e10, 0.002); check('WE4 yr s', C.julianYear, 3.156e7, 1e-3);
+	check('WE4 cost', (1000 - 961.5) / 1000, 0.04, 0.05);
+	const v5 = (t) => 3 * t * t - 12 * t + 9, x5 = (t) => t ** 3 - 6 * t * t + 9 * t;
+	check('WE5 disp', integ(v5, 0, 4), 4); check('WE5 dist', integ((t) => Math.abs(v5(t)), 0, 4), 12, 1e-4);
+	check('WE5 x(1)', x5(1), 4); check('WE5 x(3)', x5(3), 0); check('WE5 x(4)', x5(4), 4);
+	check('P1a', integ((x) => x ** 3, 0, 2), 4); check('P1b', integ(Math.sqrt, 1, 4), 4.667, 1e-3); check('P1c', integ(Math.sin, 0, Math.PI), 2);
+	check('P2', integ((x) => 2 * x + 1, 1, 3), 10);
+	check('P3', integ((t) => 14.7 * t, 60, 120), 79380); check('P3 first', 7.35 * 3600, 26460);
+	check('P5', BOOK.fuelBurnKgPerS * day, 518.4);
+	let s = 0; for (const m of [1.125, 1.375, 1.625, 1.875]) s += 1 / m;
+	check('P6 exact', Math.LN2, 0.6931, 1e-4); check('P6 mid', 0.25 * s, 0.6912, 1e-4); check('P6 sum', s, 2.7649, 1e-4);
+	check('P7', integ(Math.sin, 0, Math.PI) / Math.PI, 0.637, 1e-3);
+	check('P8', integ((t) => 14.7 * t, 0, 60) / 60, 441);
+	check('P9a', integ((t) => 0.4 * Math.cos(2 * t), 0, Math.PI / 4), 0.2); check('P9b', integ((t) => 0.4 * Math.cos(2 * t), 0, Math.PI), 0);
+	const P = C.solarIrradiance * Math.PI * C.earthRadius ** 2;
+	check('P10 P', P, 1.735e17, 1e-3); check('P10 Wyr', P * 0.2734, 4.745e16, 1e-3); check('P10 Ws', P * 0.2734 * C.julianYear, 1.5e24, 0.005);
+	check('P11 5k', 5 * kp, 0.03952, 1e-3); check('P11 kt', -Math.log(1 - 5 * kp), 0.04032, 1e-3); check('P11 t', -Math.log(1 - 5 * kp) / kp, 5.1, 0.002);
+	check('P12 trap', 0.5 * 1 + 0.5 + 0.5 / 3, 1.1667, 1e-4); check('P12 ln3', Math.log(3), 1.0986, 1e-4);
+	check('realism c/g', C.c / 14.7 / C.julianYear, 0.646, 0.003);
+	check('realism gamma-1', 1 / Math.sqrt(1 - ((14.7 * day) / C.c) ** 2) - 1, 9e-6, 0.01);
+	return report('C.6 Fundamental theorem');
+}

@@ -40,9 +40,9 @@ export const parts = [
 			{ slug: 'rates-of-change', title: 'Rates of change', prereqs: ['graphs', 'vectors'], status: 'review' },
 			{ slug: 'slopes-and-limits', title: 'Slopes of curves and limits', prereqs: ['rates-of-change'], status: 'review' },
 			{ slug: 'derivatives', title: 'Derivatives and simple rules', prereqs: ['slopes-and-limits', 'exponentials-logarithms', 'trigonometry'], status: 'review' },
-			{ slug: 'area-under-curves', title: 'Area under curves', prereqs: [], status: 'planned' },
-			{ slug: 'integrals', title: 'Integrals', prereqs: [], status: 'planned' },
-			{ slug: 'fundamental-theorem', title: 'The fundamental theorem of calculus', prereqs: [], status: 'planned' },
+			{ slug: 'area-under-curves', title: 'Area under curves', prereqs: ['graphs', 'slopes-and-limits'], status: 'review' },
+			{ slug: 'integrals', title: 'Integrals', prereqs: ['area-under-curves', 'derivatives'], status: 'review' },
+			{ slug: 'fundamental-theorem', title: 'The fundamental theorem of calculus', prereqs: ['integrals'], status: 'review' },
 		],
 	},
 	{

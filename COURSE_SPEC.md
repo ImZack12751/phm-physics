@@ -130,9 +130,9 @@ Teaching order follows logical dependency, not plot order. Planned chapters have
 | C.1 | Rates of change | `calculus/rates-of-change` | 0.9, 0.7 | written, awaiting review |
 | C.2 | Slopes of curves and limits | `calculus/slopes-and-limits` | C.1 | written, awaiting review |
 | C.3 | Derivatives and simple rules | `calculus/derivatives` | C.2, 0.8, 0.6 | written, awaiting review |
-| C.4 | Area under curves | `calculus/area-under-curves` | – | planned |
-| C.5 | Integrals | `calculus/integrals` | – | planned |
-| C.6 | The fundamental theorem of calculus | `calculus/fundamental-theorem` | – | planned |
+| C.4 | Area under curves | `calculus/area-under-curves` | 0.9, C.2 | written, awaiting review |
+| C.5 | Integrals | `calculus/integrals` | C.4, C.3 | written, awaiting review |
+| C.6 | The fundamental theorem of calculus | `calculus/fundamental-theorem` | C.5 | written, awaiting review |
 
 **Part 1 · Motion**
 
@@ -281,7 +281,7 @@ Brief biology and chemistry sidebars are added only where the plot's physics dep
 Source of truth: `src/data/glossary.mjs`.
 
 <!-- AUTO:glossary -->
-87 terms.
+101 terms.
 
 | Term | id | First chapter |
 |---|---|---|
@@ -372,6 +372,20 @@ Source of truth: `src/data/glossary.mjs`.
 | Derivative | `derivative` | C.3 |
 | Differentiation | `differentiation` | C.3 |
 | Second derivative | `second-derivative` | C.3 |
+| Riemann sum | `riemann-sum` | C.4 |
+| Sigma notation (Σ) | `sigma-notation` | C.4 |
+| Trapezoid rule | `trapezoid-rule` | C.4 |
+| Signed area | `signed-area` | C.4 |
+| Integral (definite) | `integral` | C.5 |
+| Integrand | `integrand` | C.5 |
+| Limits of integration | `limits-of-integration` | C.5 |
+| Antiderivative | `antiderivative` | C.5 |
+| Indefinite integral | `indefinite-integral` | C.5 |
+| Constant of integration (C) | `constant-of-integration` | C.5 |
+| Initial condition | `initial-condition` | C.5 |
+| Accumulation function | `accumulation-function` | C.6 |
+| Fundamental theorem of calculus | `fundamental-theorem` | C.6 |
+| Average value (of a function) | `average-value` | C.6 |
 <!-- /AUTO:glossary -->
 
 ---
@@ -381,7 +395,7 @@ Source of truth: `src/data/glossary.mjs`.
 Source of truth: `src/data/formulas.mjs`.
 
 <!-- AUTO:formulas -->
-54 formulas.
+65 formulas.
 
 | Formula | id | First chapter | LaTeX |
 |---|---|---|---|
@@ -439,6 +453,17 @@ Source of truth: `src/data/formulas.mjs`.
 | Derivatives of eˣ, sin and cos | `exp-trig-derivatives` | C.3 | `\dfrac{d}{dx}e^{x} = e^{x} \qquad \dfrac{d}{dx}\sin x = \cos x \qquad \dfrac{d}{dx}\cos x = -\sin x` |
 | Scaling rule | `scaling-rule` | C.3 | `\dfrac{d}{dx}f(kx) = k\,f'(kx) \qquad \dfrac{d}{dt}e^{kt} = ke^{kt}` |
 | Velocity and acceleration as derivatives | `velocity-acceleration` | C.3 | `v = \dfrac{dx}{dt} \qquad a = \dfrac{dv}{dt} = \dfrac{d^{2}x}{dt^{2}}` |
+| Riemann sums and the trapezoid rule | `riemann-sum` | C.4 | `\Delta x = \dfrac{b - a}{n} \qquad \text{area} \approx \sum_{k=1}^{n} f(x_{k})\,\Delta x \qquad T_{n} = \dfrac{L_{n} + R_{n}}{2}` |
+| Sums of whole numbers and squares | `sum-formulas` | C.4 | `\sum_{k=1}^{n} k = \dfrac{n(n + 1)}{2} \qquad \sum_{k=1}^{n} k^{2} = \dfrac{n(n + 1)(2n + 1)}{6}` |
+| Area under a parabola | `area-parabola` | C.4 | `\text{area under } x^{2} \text{ from 0 to } b = \dfrac{b^{3}}{3}` |
+| The definite integral | `definite-integral` | C.5 | `\int_{a}^{b} f(x)\,dx = \lim_{n \to \infty} \sum_{k=1}^{n} f(x_{k})\,\Delta x` |
+| Properties of definite integrals | `integral-properties` | C.5 | `\int_{a}^{b} [c\,f + g]\,dx = c\int_{a}^{b} f\,dx + \int_{a}^{b} g\,dx \qquad \int_{a}^{b} + \int_{b}^{c} = \int_{a}^{c} \qquad \int_{b}^{a} = -\int_{a}^{b}` |
+| Basic antiderivatives | `antiderivative-rules` | C.5 | `\int x^{n}\,dx = \dfrac{x^{n+1}}{n + 1} + C \;(n \neq -1) \qquad \int \dfrac{1}{x}\,dx = \ln x + C \qquad \int e^{kx}\,dx = \dfrac{e^{kx}}{k} + C \qquad \int \cos kx\,dx = \dfrac{\sin kx}{k} + C \qquad \int \sin kx\,dx = -\dfrac{\cos kx}{k} + C` |
+| Derivative of the natural logarithm | `ln-derivative` | C.5 | `\dfrac{d}{dx}\ln x = \dfrac{1}{x}` |
+| Motion with constant acceleration | `constant-acceleration` | C.5 | `v = v_{0} + at \qquad x = x_{0} + v_{0}t + \tfrac{1}{2}at^{2}` |
+| The fundamental theorem of calculus | `ftc` | C.6 | `\dfrac{d}{dx}\int_{a}^{x} f(t)\,dt = f(x) \qquad \int_{a}^{b} f(x)\,dx = \Big[F(x)\Big]_{a}^{b} = F(b) - F(a)` |
+| Net change from a rate | `net-change` | C.6 | `\int_{a}^{b} \dfrac{dQ}{dt}\,dt = Q(b) - Q(a) \qquad \Delta x = \int_{t_{1}}^{t_{2}} v\,dt \qquad \Delta v = \int_{t_{1}}^{t_{2}} a\,dt` |
+| Average value of a function | `average-value` | C.6 | `\bar{f} = \dfrac{1}{b - a}\int_{a}^{b} f(x)\,dx` |
 <!-- /AUTO:formulas -->
 
 ---
@@ -454,6 +479,7 @@ All constants and book figures used so far, each with its source, are in `script
 - Tau Ceti: parallax 273.8097 ± 0.1701 mas (SIMBAD/Gaia) → 11.912 ly. Luminosity 0.49 to 0.52 L☉ (we use 0.52, and say so).
 - **Book figures (approximate, from the novel via reader guides and the Royal Institution article):** Astrophage 10 µm across, held at 96.415 °C. The *Hail Mary* accelerates at 1.5 g. Ship time about 3.75 yr, Earth time about 13 yr. Fuel about 2 × 10⁶ kg. Engines burn about 6 g/s. Dimming forecast: about 1% in about 9 yr and 5% in about 20 yr.
 - Calculus examples reuse the ship at 1.5 g as d = 7.35t² m (v = 14.7t m/s) and the dimming model D = 2^((t−9)/4.737) %, with dD/dt = 0.1463·D per year.
+- Integral results to reuse: ∫₉²⁰ D dt = 27.34 %·yr (average dimming 2.49%); the ship's first day at 1.5 g gives 1.270 × 10⁶ m/s (0.42% c) and 0.367 au; the probe v = 0.6t² covers 200 m in 10 s. C.5 already derives v = v₀ + at and x = x₀ + v₀t + ½at² (formula `constant-acceleration`), so Part 1.2 should build on it rather than re-derive it from scratch.
 - Open question for Part 5: is 2 × 10⁶ kg of fuel at 6 g/s consistent with the trip's duration (2 × 10⁶ / 0.006 s ≈ 10.6 yr of continuous burn, compared with about 3.75 yr of ship time)? Check against the novel, which may have several drives, before relying on it.
 
 ---
@@ -463,3 +489,4 @@ All constants and book figures used so far, each with its source, are in `script
 - **Session 1 (2026-10-05).** Built the site frame (Astro 7 + Starlight, KaTeX, overrides), the space theme (starfield, glass, hero, animations), all site features (sidebar by Part, progress tracking, glossary with tooltips, formula sheet, physics map, print stylesheet, Ask Claude with selection button, /raw/ markdown export), the verification and check scripts, the GitHub Actions deploy workflow, the README, and all of Part 0 (0.1 to 0.10, 119 practice problems, 10 simulations, 21 diagrams). Part 0 is marked `review`, waiting for the author's feedback on depth, style and difficulty. **Next session:** apply the review feedback, then start Part 0.5 with C.1 Rates of change.
 - **Session 1b (2026-10-05).** Redesigned the UI to be more mature and formal: serif display type, one gold accent, hairline panels, numbered sections, a navigation-chart hero and a calmer starfield. Added collapsible sidebars and focus mode. Pushed to GitHub.
 - **Session 2 (2026-10-05).** Found a deploy bug: re-running an *old* Actions run redeployed old code over newer code. The workflow now refuses to deploy any commit that isn't the tip of `main`. Wrote the first half of Part 0.5: C.1 Rates of change, C.2 Slopes of curves and limits, C.3 Derivatives and simple rules (33 practice problems, 3 simulations, 6 diagrams). They define velocity and acceleration as derivatives, ready for Part 1. Diagram labels that sit over lines use the `halo` class. Redesigned the UI again at the author's request (more detailed, space-themed and fun; see Style rules). **Next:** C.4 Area under curves, C.5 Integrals, C.6 The fundamental theorem.
+- **Session 3 (2026-10-07).** Finished Part 0.5: C.4 Area under curves (Riemann sums, sigma notation, trapezoid rule, signed area, exact parabola area via the sum of squares), C.5 Integrals (notation and properties, antiderivatives and + C, initial conditions, d/dx ln x = 1/x, constant-acceleration equations), C.6 The fundamental theorem (area-so-far function, both parts, net change, average value). 36 practice problems, 3 simulations (RiemannSum, AntiderivativeFamily, AccumulationSim) and 6 diagrams. **Next:** Part 1, starting with 1.1 Position, velocity and acceleration.

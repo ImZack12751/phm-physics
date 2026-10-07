@@ -1,0 +1,414 @@
+---
+title: The fundamental theorem of calculus
+description: Why areas and slopes are inverse operations, how that turns every area problem into finding an antiderivative, and what it says about distance, fuel, energy and averages.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import FtcSliver from '../../../components/diagrams/calculus/FtcSliver.astro';
+import CalculusLoop from '../../../components/diagrams/calculus/CalculusLoop.astro';
+import AccumulationSim from '../../../components/sims/AccumulationSim.astro';
+
+## The scene
+
+Back on Earth, the scientists studying the Petrova problem have a forecast of how fast the Sun is dimming. A rate isn't what a government needs, though. It needs a total: how much sunlight will Earth lose over the next twenty years, and how much colder will that make things? On the *Hail Mary*, Grace faces the same kind of question in miniature: the engines burn fuel at some rate, so how much is left?
+
+Each time, the answer is an integral. Until now, working out an integral meant adding up thousands of strips or hunting for rectangles and triangles. This chapter proves the result that makes it easy. It is called the **fundamental theorem of calculus**, and it says that areas and slopes undo each other. With it, the exact area under almost any curve in this course takes one line.
+
+## Prerequisites
+
+<Prereqs notes={{ integrals: 'the integral as an exact area, and antiderivatives with their "+ C"' }} />
+
+## The concept
+
+### Two problems that turn out to be one
+
+Calculus has two halves. **Derivatives** turn a total into a rate: the slope of position is velocity. **Integrals** turn a rate into a total: the area under velocity is distance. The two look completely different. One is about steepness, the other about area.
+
+Yet a strange coincidence turned up in the last chapter (Problem 9). The area under the probe's speed $v = 0.6t^{2}$ from 0 to 10 s took a limit of strip sums in Chapter C.4, and the answer was 200 m. The antiderivative of $0.6t^{2}$ is $0.2t^{3}$, and $0.2 \times 10^{3} = 200$. The antiderivative knew the area. This chapter shows that this always happens.
+
+### The area-so-far function
+
+Fix a starting point $a$ and let the right-hand end of the area move. The area under $f$ from $a$ up to $x$ is then a function of $x$:
+
+$$
+A(x) = \int_{a}^{x} f(t)\,dt.
+$$
+
+This is called the <Term id="accumulation-function">accumulation function</Term>, or simply the area so far. (The letter inside is now $t$, so that $x$ can mean the moving end. The letter inside an integral doesn't matter.) For the ship, if $f$ is the speed, $A(x)$ is the distance covered by time $x$. That's exactly what an odometer shows.
+
+### How fast does the area grow?
+
+Move the end from $x$ to $x + h$. The area gains one thin sliver, of width $h$ and height very nearly $f(x)$.
+
+<Figure caption="When the end moves from x to x + h, the area so far gains a thin sliver that is almost a rectangle of height f(x) and width h. So the rate at which the area grows is the height of the curve." alt="A graph of a curve y equals f of t. The area under it from t equals a to t equals x is shaded amber and labelled A of x, area so far. A thin blue sliver from x to x plus h is shaded next to it, with its left edge labelled height f(x) and its base labelled width h. Text on the right: new sliver is approximately a rectangle, A(x + h) minus A(x) is approximately f(x) times h. Divide by h: the difference quotient is approximately f(x). Let h go to 0: A prime of x equals f of x. The area grows at a rate equal to the curve's height.">
+	<FtcSliver />
+</Figure>
+
+So $A(x + h) - A(x) \approx f(x)\,h$. Divide by $h$, and the left side becomes the difference quotient from Chapter C.2. As $h \to 0$, the sliver becomes ever more exactly a rectangle, and
+
+$$
+\boxed{A'(x) = \frac{d}{dx}\int_{a}^{x} f(t)\,dt = f(x)}
+$$
+
+**The area grows at a rate equal to the height of the curve.** In ship terms: the odometer's reading changes at a rate equal to the speed. Put like that it sounds obvious, and in a sense it is. It is also the whole bridge between the two halves of calculus. This is the first part of the <Term id="fundamental-theorem">fundamental theorem of calculus</Term>.
+
+### Computing any area with an antiderivative
+
+Part one says the area function $A$ is an antiderivative of $f$. Chapter C.5 showed that any two antiderivatives differ only by a constant. So if $F$ is *any* antiderivative of $f$ you can find with the rules, then $A(x) = F(x) + C$ for some constant $C$.
+
+To find $C$, use the fact that at $x = a$ there is no area yet: $A(a) = 0$. So $F(a) + C = 0$, which gives $C = -F(a)$. Therefore $A(x) = F(x) - F(a)$, and at $x = b$:
+
+$$
+\boxed{\int_{a}^{b} f(x)\,dx = F(b) - F(a)}
+$$
+
+This is the second part of the theorem, and the one you'll use every day. To find an area, you don't add strips. Find an antiderivative, evaluate it at the two ends, and subtract. It is written with square brackets:
+
+$$
+\int_{a}^{b} f(x)\,dx = \Big[F(x)\Big]_{a}^{b} = F(b) - F(a).
+$$
+
+The $+ C$ doesn't matter here. Whatever constant you add to $F$ appears in both $F(b)$ and $F(a)$ and cancels when you subtract.
+
+### Rates in, totals out
+
+Here is the theorem in its most useful form for physics. If $Q(t)$ is any quantity and $\dfrac{dQ}{dt}$ is its rate of change, then $Q$ is an antiderivative of its own rate, so
+
+$$
+\int_{t_{1}}^{t_{2}} \frac{dQ}{dt}\,dt = Q(t_{2}) - Q(t_{1}).
+$$
+
+**Integrating a rate over time gives the total change.** Velocity integrates to displacement, acceleration to change in velocity, fuel burn rate to fuel used, power to energy, and the dimming rate to the change in dimming.
+
+<Figure caption="Position, velocity and acceleration are linked both ways. Differentiating moves to the right, from totals to rates. Integrating, plus a starting value, moves back to the left." alt="Three boxes in a row: position x of t (how far the ship has gone), velocity v of t (what a speed log records) and acceleration a of t (what Grace feels: 1.5 g). Black arrows above the boxes point rightwards from each box to the next, labelled d by d t. Violet arrows below point leftwards, labelled integral dt. Text at the top: differentiate, totals to rates (slopes). Text at the bottom: integrate, plus a starting value, rates to totals (areas).">
+	<CalculusLoop />
+</Figure>
+
+### The average value of a changing quantity
+
+What is the "average" speed of a ship whose speed changes all the time? The natural answer is total distance ÷ total time. In integral form, the <Term id="average-value">average value</Term> of $f$ from $a$ to $b$ is
+
+$$
+\bar{f} = \frac{1}{b - a}\int_{a}^{b} f(x)\,dx.
+$$
+
+Geometrically, $\bar{f}$ is the height of the rectangle on the same base with the same area as the region under the curve.
+
+## Formulas
+
+### Part one, more carefully
+
+For a smooth curve without jumps, let $m_{h}$ and $M_{h}$ be the smallest and largest values of $f$ between $x$ and $x + h$. The sliver lies between a rectangle of height $m_{h}$ and one of height $M_{h}$, both of width $h$:
+
+$$
+m_{h}\,h \le A(x + h) - A(x) \le M_{h}\,h \quad\Rightarrow\quad m_{h} \le \frac{A(x + h) - A(x)}{h} \le M_{h}.
+$$
+
+As $h \to 0$, the interval shrinks onto the single point $x$, so both $m_{h}$ and $M_{h}$ close in on $f(x)$. The difference quotient is trapped between them, so it must close in on $f(x)$ too:
+
+$$
+A'(x) = \lim_{h \to 0} \frac{A(x + h) - A(x)}{h} = f(x).
+$$
+
+### Part two
+
+1. $A(x) = \int_{a}^{x} f(t)\,dt$ has $A' = f$ (part one).
+2. $F$ also has $F' = f$, so $A(x) = F(x) + C$ (Chapter C.5).
+3. $A(a) = 0$, so $C = -F(a)$.
+4. So $\displaystyle\int_{a}^{b} f(x)\,dx = A(b) = F(b) - F(a)$.
+
+### A first test: the area under a parabola
+
+Chapter C.4 needed a formula for the sum of squares and a limit to show that the area under $x^{2}$ from 0 to $b$ is $\dfrac{b^{3}}{3}$. With the theorem, an antiderivative of $x^{2}$ is $\dfrac{x^{3}}{3}$, so
+
+$$
+\int_{0}^{b} x^{2}\,dx = \left[\frac{x^{3}}{3}\right]_{0}^{b} = \frac{b^{3}}{3} - 0 = \frac{b^{3}}{3}.
+$$
+
+The pattern $\dfrac{b^{2}}{2}$, $\dfrac{b^{3}}{3}$, $\dfrac{b^{4}}{4}$ noticed in Chapter C.4 (Problem 12) is just the reversed power rule.
+
+### Displacement and change in velocity
+
+Applying "rates in, totals out" to motion:
+
+$$
+\boxed{x(t_{2}) - x(t_{1}) = \int_{t_{1}}^{t_{2}} v\,dt \qquad v(t_{2}) - v(t_{1}) = \int_{t_{1}}^{t_{2}} a\,dt}
+$$
+
+For the total **distance** travelled, rather than the displacement, split the integral wherever $v$ changes sign and add the sizes of the pieces.
+
+### Average value
+
+$$
+\boxed{\bar{f} = \frac{1}{b - a}\int_{a}^{b} f(x)\,dx = \frac{F(b) - F(a)}{b - a}}
+$$
+
+The second form is the slope of the secant of $F$ from Chapter C.1. The average of a rate is the average rate of change of its total, which is exactly what it should be.
+
+## Worked examples
+
+<Example n={1} title="The probe's distance in one line">
+A probe's speed is $v = 0.6t^{2}$ m/s. Find the distance it covers in the first 10 s.
+
+$$
+d = \int_{0}^{10} 0.6t^{2}\,dt = \Big[0.2t^{3}\Big]_{0}^{10} = 0.2 \times 1000 - 0 = 200\ \text{m}.
+$$
+
+Compare Chapter C.4: strip sums of 144, 185.25, 198, 203.01 and 200.30 m, closing in on 200 m. The theorem gets the exact answer at once.
+</Example>
+
+<Example n={2} title="The ship's first day under thrust" book>
+Starting from rest at 1.5 g, how fast is the *Hail Mary* going after one day, and how far has it gone?
+
+The change in velocity is the integral of the acceleration. One day is 86 400 s.
+
+$$
+v = \int_{0}^{86\,400} 14.7\,dt = \Big[14.7t\Big]_{0}^{86\,400} = 1.270 \times 10^{6}\ \text{m/s}
+$$
+
+That is about 1270 km/s, or $1.270 \times 10^{6} / 2.998 \times 10^{8} = 0.42\%$ of the speed of light.
+
+The displacement is the integral of the velocity:
+
+$$
+d = \int_{0}^{86\,400} 14.7t\,dt = \Big[7.35t^{2}\Big]_{0}^{86\,400} = 7.35 \times (86\,400)^{2} = 5.487 \times 10^{10}\ \text{m}.
+$$
+
+In astronomical units, $5.487 \times 10^{10} / 1.496 \times 10^{11} = 0.367$ au. After a single day, the ship is already more than a third of the Earth–Sun distance from where it started.
+</Example>
+
+<Example n={3} title="The average dimming over eleven years" book>
+In the model $D = 2^{(t - 9)/T}$ percent, with $T = 4.737$ yr, the dimming grows from 1% at 9 years to 5% at 20 years. Find the average dimming over that stretch.
+
+Write $D$ as an exponential in $e$: $2^{(t - 9)/T} = e^{k(t - 9)}$ with $k = \dfrac{\ln 2}{T} = 0.1463$ per year. An antiderivative is $\dfrac{1}{k}e^{k(t - 9)} = \dfrac{D}{k}$. So
+
+$$
+\int_{9}^{20} D\,dt = \left[\frac{D}{k}\right]_{9}^{20} = \frac{5.000 - 1.000}{0.1463\ \text{per yr}}\ \% = 6.834 \times 4.000 = 27.34\ \%\cdot\text{yr}.
+$$
+
+(Chapter C.4's two-trapezoid estimate, 28.80 %·yr, was too high, as predicted.) The average is
+
+$$
+\bar{D} = \frac{27.34\ \%\cdot\text{yr}}{11\ \text{yr}} = 2.49\%.
+$$
+
+That is less than the simple average of the end values, $(1 + 5)/2 = 3\%$. An exponential curve spends most of its time low and shoots up near the end.
+</Example>
+
+<Example n={4} title="Energy from a fading nuclear battery">
+A plutonium-238 heat source starts at $P_{0} = 100$ W, and its power fades as $P = P_{0}e^{-kt}$, with $k = \dfrac{\ln 2}{87.7}$ per year. How much energy does it give out in its first 10 years?
+
+Energy is the integral of power. An antiderivative of $e^{-kt}$ is $-\dfrac{e^{-kt}}{k}$, so
+
+$$
+E = \int_{0}^{10} P_{0}e^{-kt}\,dt = \left[-\frac{P_{0}}{k}e^{-kt}\right]_{0}^{10} = \frac{P_{0}}{k}\left(1 - e^{-10k}\right).
+$$
+
+With $k = 7.904 \times 10^{-3}$ per year and $e^{-0.07904} = 0.9240$:
+
+$$
+E = \frac{100\ \text{W}}{7.904 \times 10^{-3}\ \text{per yr}} \times 0.0760 = 961.5\ \text{W·yr}.
+$$
+
+A watt-year is a watt kept up for a year. Converting with 1 yr = $3.156 \times 10^{7}$ s gives $3.03 \times 10^{10}$ W·s. Without the fading, the source would have given 1000 W·yr, so the decay costs about 4% over the decade.
+</Example>
+
+<Example n={5} title="Displacement and distance for a back-and-forth motion">
+An object moves with $v = 3t^{2} - 12t + 9$ m/s (Chapter C.3, Problem 9). Find its displacement and the total distance it travels from $t = 0$ to $t = 4$ s.
+
+An antiderivative is $x(t) = t^{3} - 6t^{2} + 9t$. Displacement:
+
+$$
+\int_{0}^{4} v\,dt = \Big[t^{3} - 6t^{2} + 9t\Big]_{0}^{4} = (64 - 96 + 36) - 0 = 4\ \text{m}.
+$$
+
+For the distance, split where $v = 3(t - 1)(t - 3)$ changes sign, at 1 s and 3 s. With $x(0) = 0$, $x(1) = 4$, $x(3) = 0$ and $x(4) = 4$:
+
+$$
+\text{distance} = |4 - 0| + |0 - 4| + |4 - 0| = 4 + 4 + 4 = 12\ \text{m}.
+$$
+
+It goes forward 4 m, back 4 m, then forward 4 m again, ending 4 m from the start after travelling 12 m.
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** The fundamental theorem was found independently by Isaac Newton and Gottfried Leibniz in the late 1600s, and it is the reason calculus is so powerful. Every result in this course that turns a rate into a total, from distance and fuel to energy and radiation dose, rests on it. Plutonium-238's 87.7-year half-life is measured, and such heat sources have powered real spacecraft.
+
+**Weir's inventions.** The 1.5 g thrust and the dimming forecast (about 1% in 9 years, 5% in 20) are the novel's figures, and our exponential curve through them is a model, not a quotation.
+
+**How realistic are the numbers?** After one day at 1.5 g the ship moves at 0.42% of light speed, slow enough that ordinary (Newtonian) physics is still accurate to about one part in a hundred thousand. But $v = 14.7t$ would reach light speed in under a year, which is impossible. Part 10 shows how relativity changes the integral: the ship keeps feeling 1.5 g, but its speed creeps towards light speed without ever reaching it.
+</RealVsBook>
+
+## Interactive simulation
+
+<AccumulationSim />
+
+Things to try: with the probe's speed, drag the end point and watch the bottom curve grow slowly at first and then faster, because its slope is the height of the top curve. With $\cos t$, the area so far rises, peaks where $\cos t$ crosses zero, then falls as negative area builds up. It traces out $\sin t$. With $1/t$ starting at 1, the area traces out $\ln t$, and it goes negative to the left of 1, where the limits are reversed.
+
+## Practice set
+
+<Problem n={1} level="easy">
+Evaluate (a) $\displaystyle\int_{0}^{2} x^{3}\,dx$ (b) $\displaystyle\int_{1}^{4} \sqrt{x}\,dx$ (c) $\displaystyle\int_{0}^{\pi} \sin x\,dx$.
+
+<Solution>
+(a) $\left[\dfrac{x^{4}}{4}\right]_{0}^{2} = 4$.
+
+(b) $\left[\tfrac{2}{3}x^{3/2}\right]_{1}^{4} = \tfrac{2}{3}(8 - 1) = \dfrac{14}{3} \approx 4.667$.
+
+(c) $\Big[-\cos x\Big]_{0}^{\pi} = -\cos\pi + \cos 0 = 1 + 1 = 2$. One arch of the sine curve has area exactly 2.
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy">
+Evaluate $\displaystyle\int_{1}^{3} (2x + 1)\,dx$, then check it with the area of a trapezoid.
+
+<Solution>
+$\Big[x^{2} + x\Big]_{1}^{3} = (9 + 3) - (1 + 1) = 10$.
+
+Check: the line goes from 3 at $x = 1$ to 7 at $x = 3$, so the trapezoid's area is $\tfrac{1}{2}(3 + 7) \times 2 = 10$ ✓.
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy" book>
+Starting from rest at 1.5 g, how far does the ship travel during its *second* minute (from 60 s to 120 s)?
+
+<Solution>
+$\displaystyle\int_{60}^{120} 14.7t\,dt = \Big[7.35t^{2}\Big]_{60}^{120} = 7.35(14\,400 - 3600) = 79\,380$ m, about 79 km. That is three times as far as in the first minute (26 460 m).
+</Solution>
+</Problem>
+
+<Problem n={4} level="easy">
+Using part one of the theorem, write down (a) $\dfrac{d}{dx}\displaystyle\int_{2}^{x} (t^{3} + 1)\,dt$ (b) $\dfrac{d}{dx}\displaystyle\int_{0}^{x} e^{-t}\,dt$.
+
+<Solution>
+The slope of an area-so-far function is the height of the curve at the moving end. (a) $x^{3} + 1$. (b) $e^{-x}$. The starting point (2 or 0) doesn't matter.
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium" book>
+In the novel, the engines burn fuel at about 6 grams per second. How much fuel do they use in one day of thrust? Write the answer as an integral first.
+
+<Solution>
+Fuel used $= \displaystyle\int_{0}^{86\,400} 0.006\ \text{kg/s}\,dt = 0.006\ \text{kg/s} \times 86\,400\ \text{s} = 518.4\ \text{kg}$.
+
+For a constant rate the integral is just a rectangle. If the burn rate changed (for example, as the throttle changed), the same integral would still give the total.
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium">
+Show that $\displaystyle\int_{1}^{2} \frac{1}{x}\,dx = \ln 2$, and give its value. Then estimate the same integral with 4 midpoint strips and compare.
+
+<Solution>
+$\Big[\ln x\Big]_{1}^{2} = \ln 2 - \ln 1 = \ln 2 = 0.6931$.
+
+Midpoints at 1.125, 1.375, 1.625 and 1.875, with width 0.25:
+
+$$
+0.25 \times (0.8889 + 0.7273 + 0.6154 + 0.5333) = 0.25 \times 2.7649 = 0.6912.
+$$
+
+That is within 0.3% of the exact value.
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium">
+Find the average value of $\sin x$ from $0$ to $\pi$.
+
+<Solution>
+$\bar{f} = \dfrac{1}{\pi}\displaystyle\int_{0}^{\pi}\sin x\,dx = \dfrac{2}{\pi} \approx 0.637$. A rectangle of height 0.637 over the same base has the same area as the arch.
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium" book>
+Show that the ship's average speed over its first $T$ seconds (from rest at 1.5 g) is half its final speed. What is it for $T = 60$ s?
+
+<Solution>
+$\bar{v} = \dfrac{1}{T}\displaystyle\int_{0}^{T} 14.7t\,dt = \dfrac{7.35T^{2}}{T} = 7.35T$, which is half of the final speed $14.7T$.
+
+For $T = 60$ s: $\bar{v} = 441$ m/s, half of 882 m/s.
+</Solution>
+</Problem>
+
+<Problem n={9} level="medium" book>
+The vibrating sample has velocity $v = 0.40\cos(2.0t)$ m/s. Find its displacement (a) from $t = 0$ to $t = \pi/4$ s (b) over a full cycle, from $t = 0$ to $t = \pi$ s.
+
+<Solution>
+An antiderivative is $0.20\sin(2.0t)$.
+
+(a) $0.20\sin(\pi/2) - 0.20\sin 0 = 0.20$ m: a quarter cycle carries it from the centre out to the end of its swing.
+
+(b) $0.20\sin(2\pi) - 0.20\sin 0 = 0$: after a full cycle it is back where it started.
+</Solution>
+</Problem>
+
+<Problem n={10} level="challenging" book>
+Earth intercepts sunlight over a disc of its own radius, so it receives a power of $1361\ \text{W/m}^{2} \times \pi R^{2}$, with $R = 6.371 \times 10^{6}$ m. Use Example 3 ($\int_{9}^{20} D\,dt = 27.34\ \%\cdot\text{yr}$) to find the total energy Earth would miss out on between years 9 and 20 of the dimming model, in watt-years and in watt-seconds.
+
+<Solution>
+Power received: $1361 \times \pi \times (6.371 \times 10^{6})^{2} = 1.735 \times 10^{17}$ W.
+
+The missing power at any moment is $\dfrac{D}{100} \times 1.735 \times 10^{17}$ W, so the missing energy is
+
+$$
+1.735 \times 10^{17}\ \text{W} \times \frac{27.34}{100}\ \text{yr} = 4.745 \times 10^{16}\ \text{W·yr}.
+$$
+
+In watt-seconds: $4.745 \times 10^{16} \times 3.156 \times 10^{7} = 1.50 \times 10^{24}$ W·s.
+</Solution>
+</Problem>
+
+<Problem n={11} level="challenging">
+For the plutonium-238 source in Example 4, how long does it take to deliver 500 W·yr in total?
+
+<Solution>
+We need $\dfrac{P_{0}}{k}\left(1 - e^{-kt}\right) = 500$, so $1 - e^{-kt} = \dfrac{500k}{100} = 5k = 0.03952$.
+
+Then $e^{-kt} = 0.96048$, so $kt = -\ln 0.96048 = 0.04032$ and $t = \dfrac{0.04032}{7.904 \times 10^{-3}} = 5.10$ yr. That's a little more than the 5.00 years it would take at a steady 100 W.
+</Solution>
+</Problem>
+
+<Problem n={12} level="challenging">
+Part one of the theorem says $\ln x = \displaystyle\int_{1}^{x} \frac{1}{t}\,dt$: the natural logarithm is an area. Estimate $\ln 3$ with the trapezoid rule using 2 strips, compare with the true value, and explain why the estimate is too high.
+
+<Solution>
+Strips of width 1 on $[1, 3]$, with heights $1$, $\tfrac{1}{2}$ and $\tfrac{1}{3}$:
+
+$$
+1 \times \left[\tfrac{1}{2}(1) + \tfrac{1}{2} + \tfrac{1}{2}\left(\tfrac{1}{3}\right)\right] = 1.1667.
+$$
+
+The true value is $\ln 3 = 1.0986$. The curve $1/t$ bends upwards (it is hollow, like a bowl), so the straight top of each trapezoid lies above the curve and the estimate is too high.
+</Solution>
+</Problem>
+
+## Summary
+
+- The area-so-far function $A(x) = \int_{a}^{x} f(t)\,dt$ grows at a rate equal to the curve's height: $A'(x) = f(x)$.
+- So areas can be found from antiderivatives: $\int_{a}^{b} f(x)\,dx = F(b) - F(a)$ for any $F$ with $F' = f$. The $+ C$ cancels.
+- Differentiation and integration undo each other. That is the fundamental theorem of calculus.
+- Integrating a rate gives the total change: velocity gives displacement, acceleration gives change in velocity, burn rate gives fuel used, and power gives energy.
+- The average value of $f$ over an interval is its integral divided by the interval's width.
+- For the total distance, split the integral where the velocity changes sign and add the sizes of the pieces.
+
+**Formulas from this chapter**
+
+$$
+\frac{d}{dx}\int_{a}^{x} f(t)\,dt = f(x) \qquad \int_{a}^{b} f(x)\,dx = \Big[F(x)\Big]_{a}^{b} = F(b) - F(a)
+$$
+
+$$
+\int_{t_{1}}^{t_{2}} \frac{dQ}{dt}\,dt = Q(t_{2}) - Q(t_{1}) \qquad \Delta x = \int_{t_{1}}^{t_{2}} v\,dt \qquad \Delta v = \int_{t_{1}}^{t_{2}} a\,dt \qquad \bar{f} = \frac{1}{b - a}\int_{a}^{b} f(x)\,dx
+$$
+
+## Sources
+
+- OpenStax, *Calculus Volume 1*, §5.3 "The Fundamental Theorem of Calculus" (both parts, average value, and the theorem's history). [§5.3](https://openstax.org/books/calculus-volume-1/pages/5-3-the-fundamental-theorem-of-calculus)
+- OpenStax, *Calculus Volume 1*, §5.4 "Integration Formulas and the Net Change Theorem". [§5.4](https://openstax.org/books/calculus-volume-1/pages/5-4-integration-formulas-and-the-net-change-theorem)
+- OpenStax, *Calculus Volume 1*, §5.6 "Integrals Involving Exponential and Logarithmic Functions". [§5.6](https://openstax.org/books/calculus-volume-1/pages/5-6-integrals-involving-exponential-and-logarithmic-functions)
+- OpenStax, *University Physics Volume 1*, §3.6 "Finding Velocity and Displacement from Acceleration". [§3.6](https://openstax.org/books/university-physics-volume-1/pages/3-6-finding-velocity-and-displacement-from-acceleration)
+- Speed of light (exact) and the astronomical unit: NIST CODATA and IAU 2012 Resolution B2, as in `constants.mjs`. [NIST](https://physics.nist.gov/cgi-bin/cuu/Value?c)
+- Solar irradiance at 1 au (1361 W/m²) and Earth's mean radius (6371 km): NASA NSSDCA [Earth fact sheet](https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html).
+- Plutonium-238 half-life (87.7 years) and its use in spacecraft power sources: US Department of Energy. [energy.gov (PDF)](https://www.energy.gov/sites/default/files/NEGTN0NEAC_PU-238_042108.pdf)
+- The 1.5 g acceleration, the fuel burn of about 6 g/s and the dimming forecast that the model is fitted to are the novel's figures (Andy Weir, *Project Hail Mary*, 2021), as summarised by readers. Approximate.

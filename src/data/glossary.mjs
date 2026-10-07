@@ -464,4 +464,80 @@ export const glossary = {
 		def: 'The derivative of the derivative, d²y/dx². The second derivative of position is acceleration.',
 		chapter: 'derivatives',
 	},
+
+	// ---- C.4 Area under curves ----
+	'riemann-sum': {
+		term: 'Riemann sum',
+		def: 'An estimate of the area under a curve made by cutting it into thin strips and adding up "height × width" for each. Thinner strips give a better estimate.',
+		chapter: 'area-under-curves',
+	},
+	'sigma-notation': {
+		term: 'Sigma notation (Σ)',
+		def: 'Shorthand for a sum: Σ from k = 1 to n of aₖ means a₁ + a₂ + … + aₙ.',
+		chapter: 'area-under-curves',
+	},
+	'trapezoid-rule': {
+		term: 'Trapezoid rule',
+		def: 'Estimating an area by joining neighbouring points on a curve with straight lines, so each strip is a trapezoid. It equals the average of the left and right sums.',
+		chapter: 'area-under-curves',
+	},
+	'signed-area': {
+		term: 'Signed area',
+		def: 'Area that counts as positive above the horizontal axis and negative below it. Under a velocity–time graph it gives the displacement.',
+		chapter: 'area-under-curves',
+	},
+
+	// ---- C.5 Integrals ----
+	integral: {
+		term: 'Integral (definite)',
+		def: 'The exact signed area under f(x) from a to b, written ∫ₐᵇ f(x) dx: the limit of Riemann sums as the strips become infinitely thin. It turns a rate into a total.',
+		chapter: 'integrals',
+	},
+	integrand: {
+		term: 'Integrand',
+		def: 'The function being integrated: the f(x) in ∫ f(x) dx.',
+		chapter: 'integrals',
+	},
+	'limits-of-integration': {
+		term: 'Limits of integration',
+		def: 'The start and end values a and b in ∫ₐᵇ f(x) dx, written at the bottom and top of the integral sign.',
+		chapter: 'integrals',
+	},
+	antiderivative: {
+		term: 'Antiderivative',
+		def: 'A function F whose derivative is f. Position is an antiderivative of velocity. Antiderivatives of the same function differ only by a constant.',
+		chapter: 'integrals',
+	},
+	'indefinite-integral': {
+		term: 'Indefinite integral',
+		def: 'The whole family of antiderivatives of f, written ∫ f(x) dx = F(x) + C.',
+		chapter: 'integrals',
+	},
+	'constant-of-integration': {
+		term: 'Constant of integration (C)',
+		def: 'The unknown constant "+ C" in an antiderivative. Differentiating removes any constant, so reversing it can’t tell what the constant was.',
+		chapter: 'integrals',
+	},
+	'initial-condition': {
+		term: 'Initial condition',
+		def: 'A known value at one moment, such as the starting position, used to fix the constant of integration.',
+		chapter: 'integrals',
+	},
+
+	// ---- C.6 The fundamental theorem ----
+	'accumulation-function': {
+		term: 'Accumulation function',
+		def: 'The area so far, A(x) = ∫ₐˣ f(t) dt, as a function of where the area stops. Its slope is f(x).',
+		chapter: 'fundamental-theorem',
+	},
+	'fundamental-theorem': {
+		term: 'Fundamental theorem of calculus',
+		def: 'Differentiation and integration undo each other: the area function of f has slope f, and ∫ₐᵇ f(x) dx = F(b) − F(a) for any antiderivative F.',
+		chapter: 'fundamental-theorem',
+	},
+	'average-value': {
+		term: 'Average value (of a function)',
+		def: 'The height of the rectangle with the same width and area as the area under f: (1/(b − a)) ∫ₐᵇ f(x) dx.',
+		chapter: 'fundamental-theorem',
+	},
 };

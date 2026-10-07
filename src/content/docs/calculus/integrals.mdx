@@ -1,0 +1,425 @@
+---
+title: Integrals
+description: The integral sign as shorthand for the exact area under a curve, its rules, and antiderivatives (differentiation run backwards), which rebuild velocity and position from acceleration.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import IntegralAnatomy from '../../../components/diagrams/calculus/IntegralAnatomy.astro';
+import AntiderivativeFamily from '../../../components/diagrams/calculus/AntiderivativeFamily.astro';
+import AntiderivativeFamilySim from '../../../components/sims/AntiderivativeFamily.astro';
+
+## The scene
+
+Strapped in aboard the *Hail Mary* while the engines push at 1.5 g, Grace can *feel* the acceleration. It presses him into his seat. What he can't feel is his speed, or how far the ship has gone. A ship's accelerometer has the same blind spot: it measures acceleration and nothing else.
+
+To get speed from acceleration, and position from speed, you have to run differentiation **backwards**. This chapter gives that reverse process a name and a notation, the **integral**, and works out its rules. The last chapter's strips will become a single symbol, and the derivative rules from Chapter C.3 will run in reverse to produce the equations every rocket scientist uses.
+
+## Prerequisites
+
+<Prereqs notes={{ 'area-under-curves': 'the area under a rate graph as a total, and Riemann sums with shrinking strips', derivatives: 'the derivative rules for powers, eˣ, sin and cos, and the scaling rule' }} />
+
+## The concept
+
+### A symbol for the exact area
+
+In the last chapter, the exact area under a curve was the limit of strip sums as the strips got infinitely thin. That idea is so useful that it gets its own symbol. The <Term id="integral">integral</Term> of $f$ from $a$ to $b$ is
+
+$$
+\int_{a}^{b} f(x)\,dx = \lim_{n \to \infty} \sum_{k=1}^{n} f(x_{k})\,\Delta x.
+$$
+
+Read it as "the integral from $a$ to $b$ of $f$ of $x$, d $x$". Every piece of the symbol comes from the strip sum.
+
+<Figure caption="The integral sign is a stretched S for 'sum'. The symbol stands for the sum of infinitely many thin strips, each of height f(x) and width dx, from x = a to x = b." alt="Left: a graph of a rising amber curve y equals f of x, with the area under it between x equals a and x equals b shaded amber and divided into thin vertical strips. One strip is highlighted blue and labelled 'height f(x)' and 'width dx'. Caption under the graph: area equals the sum of infinitely many thin strips. Right: the integral notation, with labels. The integral sign is a stretched S, for sum. b, at the top, is where to stop. a, at the bottom, is where to start. f(x) is each strip's height, called the integrand. dx is each strip's width, shrunk towards 0.">
+	<IntegralAnatomy />
+</Figure>
+
+- The sign $\int$ is an old-fashioned long S, for "sum".
+- $a$ and $b$ are the <Term id="limits-of-integration">limits of integration</Term>: where the area starts and stops.
+- $f(x)$ is the <Term id="integrand">integrand</Term>, the height of each strip.
+- $dx$ is the width of each strip, the $\Delta x$ of the strip sum shrunk towards zero. It also tells you which letter is the variable along the bottom.
+
+So $\int_{0}^{10} 14.7t\,dt$ means "the area under $v = 14.7t$ from $t = 0$ to $t = 10$". It is a **number** (735 m), not a function. The letter inside doesn't matter: $\int_{0}^{10} 14.7u\,du$ is the same area, just as "the area under the graph" doesn't depend on what you call the axis.
+
+### Integrals turn rates into totals
+
+Because the integral is an area, everything from the last chapter carries over. Integrating speed over time gives distance. Integrating fuel burn rate over time gives fuel used. Integrating power over time gives energy. Area below the axis counts as negative, so integrating velocity gives the **displacement**, the net change in position.
+
+### Rules for integrals
+
+Several rules follow straight from thinking about areas:
+
+- **Constant height.** $\int_{a}^{b} c\,dx = c(b - a)$: a rectangle.
+- **Constant multiples.** $\int_{a}^{b} c\,f(x)\,dx = c\int_{a}^{b} f(x)\,dx$: stretching every strip by $c$ stretches the total by $c$.
+- **Sums.** $\int_{a}^{b} [f(x) + g(x)]\,dx = \int_{a}^{b} f(x)\,dx + \int_{a}^{b} g(x)\,dx$: stack one set of strips on top of the other.
+- **Joining intervals.** $\int_{a}^{b} f\,dx + \int_{b}^{c} f\,dx = \int_{a}^{c} f\,dx$: the area from $a$ to $b$ plus the area from $b$ to $c$ is the area from $a$ to $c$.
+- **Reversing.** $\int_{b}^{a} f\,dx = -\int_{a}^{b} f\,dx$: going backwards makes every $\Delta x$ negative. And $\int_{a}^{a} f\,dx = 0$: no width, no area.
+
+### Running differentiation backwards
+
+Here is the other half of the chapter. If you know a function's slope everywhere, can you recover the function?
+
+A function $F$ whose derivative is $f$ is called an <Term id="antiderivative">antiderivative</Term> of $f$. For example, $x^{2}$ is an antiderivative of $2x$, because $\dfrac{d}{dx}x^{2} = 2x$. Position is an antiderivative of velocity, and velocity is an antiderivative of acceleration.
+
+But $x^{2} + 5$ also has slope $2x$, and so does $x^{2} - 17$. Adding a constant shifts a graph up or down without changing any of its slopes.
+
+<Figure caption="Antiderivatives of 2x: the curves x² + C for C = −2, −1, 0, 1 and 2. They are copies of one another shifted up and down, so at any x (here x = 1) they all have the same slope." alt="Five upward-opening parabolas, y equals x squared plus C, for C equals minus 2, minus 1, 0, 1 and 2, each a vertical shift of the next. The C equals 0 curve is amber and the others blue. A dashed vertical line marks x equals 1, and at that x each curve has a short green tangent line. All five tangents are parallel, with slope 2. Text: shifting a curve up or down doesn't change its slopes; at x equals 1 every tangent has slope 2, all parallel.">
+	<AntiderivativeFamily />
+</Figure>
+
+Is that the only freedom? Yes. Suppose $F$ and $G$ are both antiderivatives of $f$. Then their difference $F - G$ has slope $f - f = 0$ at every point. A graph that is flat everywhere can never climb or fall, so it is a horizontal line: $F - G$ is a constant. **Any two antiderivatives of the same function differ only by a constant.**
+
+### The indefinite integral and "+ C"
+
+The whole family of antiderivatives is written with the integral sign but without limits. This is called the <Term id="indefinite-integral">indefinite integral</Term>:
+
+$$
+\int 2x\,dx = x^{2} + C.
+$$
+
+The $C$ is the <Term id="constant-of-integration">constant of integration</Term>. It stands for "some constant we can't know from the slope alone". Why borrow the area symbol for this? Because, as Chapter C.6 shows, antiderivatives are exactly the tool for working out areas. For now, keep the two ideas side by side: $\int_{a}^{b}$ with limits is a number (an area), and $\int$ without limits is a family of functions.
+
+### Pinning down the constant
+
+The slope alone can't tell you where a curve starts, so you need one more fact: its value at one point. That fact is called an <Term id="initial-condition">initial condition</Term>. If you know the ship's acceleration, its speed at $t = 0$ fixes the constant in $v(t)$. Then its position at $t = 0$ fixes the constant in $x(t)$. The physics needs both the rate and a starting point, and the mathematics says so.
+
+## Formulas
+
+Every rule here is checked the same way: differentiate the answer and see that you get back the integrand.
+
+### Reversing the power rule
+
+The power rule lowers the power by one and multiplies by the old power. To undo it, raise the power by one and divide by the new power:
+
+$$
+\boxed{\int x^{n}\,dx = \frac{x^{n+1}}{n + 1} + C \qquad (n \neq -1)}
+$$
+
+Check: $\dfrac{d}{dx}\left(\dfrac{x^{n+1}}{n + 1}\right) = \dfrac{(n + 1)x^{n}}{n + 1} = x^{n}$ ✓. The rule works for fractional and negative powers too, for example $\int x^{-2}\,dx = \dfrac{x^{-1}}{-1} + C = -\dfrac{1}{x} + C$.
+
+Constant multiples and sums pass through unchanged, just as they do for derivatives, so you can integrate term by term:
+
+$$
+\int (c\,f + g)\,dx = c\int f\,dx + \int g\,dx.
+$$
+
+### The missing power: 1/x and the natural logarithm
+
+The rule fails for $n = -1$: it would divide by zero. So which function has slope $\dfrac{1}{x}$? The answer is the natural logarithm.
+
+Let $y = \ln x$, for $x > 0$. By the definition of $\ln$, this means $x = e^{y}$. So the graph of $y = \ln x$ is the graph of $x = e^{y}$, the exponential with its axes swapped (a mirror image in the line $y = x$). Swapping the axes turns every "rise over run" into "run over rise", so slopes become their reciprocals.
+
+The slope of $x = e^{y}$, measured as $x$ changes with $y$, is $e^{y}$, which equals $x$. Taking the reciprocal:
+
+$$
+\boxed{\frac{d}{dx}\ln x = \frac{1}{x}} \qquad \text{so} \qquad \boxed{\int \frac{1}{x}\,dx = \ln x + C \quad (x > 0)}
+$$
+
+Check at $x = 1$: the slope of $\ln x$ should be $1$. Numerically, $\dfrac{\ln 1.001 - \ln 1}{0.001} = 0.9995$ ✓.
+
+### Exponentials, sine and cosine
+
+From the derivative rules in Chapter C.3, including the scaling rule $\dfrac{d}{dx}f(kx) = k\,f'(kx)$:
+
+$$
+\boxed{\int e^{kx}\,dx = \frac{e^{kx}}{k} + C \qquad \int \cos(kx)\,dx = \frac{\sin(kx)}{k} + C \qquad \int \sin(kx)\,dx = -\frac{\cos(kx)}{k} + C}
+$$
+
+Here $k \neq 0$, and angles are in radians. Check the last one: $\dfrac{d}{dx}\left(-\dfrac{\cos kx}{k}\right) = -\dfrac{k(-\sin kx)}{k} = \sin kx$ ✓.
+
+### Motion with constant acceleration
+
+Let the acceleration $a$ be constant, with velocity $v_{0}$ and position $x_{0}$ at $t = 0$.
+
+**Velocity.** $v$ is an antiderivative of $a$:
+
+$$
+v = \int a\,dt = at + C_{1}.
+$$
+
+At $t = 0$, $v = C_{1}$, so the initial condition gives $C_{1} = v_{0}$:
+
+$$
+\boxed{v = v_{0} + at}
+$$
+
+**Position.** $x$ is an antiderivative of $v$:
+
+$$
+x = \int (v_{0} + at)\,dt = v_{0}t + \tfrac{1}{2}at^{2} + C_{2}.
+$$
+
+At $t = 0$, $x = C_{2}$, so $C_{2} = x_{0}$:
+
+$$
+\boxed{x = x_{0} + v_{0}t + \tfrac{1}{2}at^{2}}
+$$
+
+These are two of the equations of motion that Part 1 is built on, derived here in four lines. With $a = 14.7\ \text{m/s}^{2}$ and the ship starting from rest at the origin, they give $v = 14.7t$ and $x = 7.35t^{2}$, the formulas we've used since Chapter C.1.
+
+## Worked examples
+
+<Example n={1} title="The ship's distance as an integral" book>
+Starting from rest at 1.5 g, the ship's speed is $v = 14.7t$ m/s. Write the distance covered in the first 20 s as an integral, split it at 10 s, and evaluate both pieces from areas.
+
+$$
+d = \int_{0}^{20} 14.7t\,dt = \int_{0}^{10} 14.7t\,dt + \int_{10}^{20} 14.7t\,dt
+$$
+
+The first piece is a triangle, $\tfrac{1}{2} \times 10\ \text{s} \times 147\ \text{m/s} = 735$ m. The second is a trapezoid with sides 147 and 294 m/s, $\tfrac{1}{2}(147 + 294)\ \text{m/s} \times 10\ \text{s} = 2205$ m. So
+
+$$
+d = 735\ \text{m} + 2205\ \text{m} = 2940\ \text{m}.
+$$
+
+Check: $x = 7.35t^{2} = 7.35 \times 400 = 2940$ m ✓. The ship covers three times as far in the second ten seconds as in the first.
+</Example>
+
+<Example n={2} title="Using the rules of integrals">
+Evaluate $\displaystyle\int_{0}^{4} (3 + 2t)\,dt$ by splitting it into simpler integrals, and then find $\displaystyle\int_{4}^{0} (3 + 2t)\,dt$.
+
+By the sum and constant-multiple rules:
+
+$$
+\int_{0}^{4} (3 + 2t)\,dt = \int_{0}^{4} 3\,dt + 2\int_{0}^{4} t\,dt.
+$$
+
+The first is a rectangle, $3 \times 4 = 12$. The second is a triangle under $y = t$, $\tfrac{1}{2} \times 4 \times 4 = 8$. So the total is $12 + 2 \times 8 = 28$.
+
+Reversing the limits flips the sign: $\displaystyle\int_{4}^{0} (3 + 2t)\,dt = -28$.
+</Example>
+
+<Example n={3} title="An antiderivative, term by term">
+Find $\displaystyle\int (6x^{2} - 4x + 5)\,dx$ and check the answer.
+
+Term by term with the reversed power rule ($5 = 5x^{0}$):
+
+$$
+\int (6x^{2} - 4x + 5)\,dx = 6 \cdot \frac{x^{3}}{3} - 4 \cdot \frac{x^{2}}{2} + 5x + C = 2x^{3} - 2x^{2} + 5x + C.
+$$
+
+Check by differentiating: $6x^{2} - 4x + 5$ ✓. A single $+ C$ at the end is enough, because the constants from each term add up to one constant.
+</Example>
+
+<Example n={4} title="Speed and position from a felt acceleration" book>
+The ship is already moving at $3000$ m/s when the engines start, pushing at a steady 1.5 g ($14.7\ \text{m/s}^{2}$). Taking $x = 0$ when the engines start, find $v(t)$ and $x(t)$, and the speed and distance after one minute.
+
+Integrate the acceleration and use $v(0) = 3000$ m/s:
+
+$$
+v = \int 14.7\,dt = 14.7t + C_{1}, \qquad C_{1} = 3000\ \text{m/s}, \qquad v = 3000 + 14.7t\ \text{m/s}.
+$$
+
+Integrate again and use $x(0) = 0$:
+
+$$
+x = \int (3000 + 14.7t)\,dt = 3000t + 7.35t^{2} + C_{2}, \qquad C_{2} = 0.
+$$
+
+At $t = 60$ s:
+
+$$
+v = 3000 + 14.7 \times 60 = 3882\ \text{m/s}
+$$
+
+$$
+x = 3000 \times 60 + 7.35 \times 60^{2} = 180\,000 + 26\,460 = 206\,460\ \text{m} \approx 206\ \text{km}
+$$
+
+The starting speed of 3000 m/s is our own illustration.
+</Example>
+
+<Example n={5} title="Position of a vibrating sample from its velocity" book>
+In Chapter C.3 a sample vibrated with velocity $v = 0.40\cos(2.0t)$ m/s. Find its position $x(t)$ if (a) it starts at the centre, $x(0) = 0$; (b) it starts at $x(0) = 0.05$ m.
+
+Integrate with the cosine rule, $k = 2.0$:
+
+$$
+x = \int 0.40\cos(2.0t)\,dt = \frac{0.40}{2.0}\sin(2.0t) + C = 0.20\sin(2.0t) + C.
+$$
+
+(a) $x(0) = 0.20\sin 0 + C = C = 0$, so $x = 0.20\sin(2.0t)$ m. That is the position we started from in Chapter C.3, recovered from its velocity.
+
+(b) $C = 0.05$ m, so $x = 0.20\sin(2.0t) + 0.05$ m. The same vibration happens around a centre shifted by 5 cm. The velocity alone can't tell the two cases apart. Only the initial condition can.
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** Integrals as limits of sums, antiderivatives and the role of initial conditions are standard mathematics. Real spacecraft and submarines use **inertial navigation**: accelerometers measure acceleration, and computers integrate it twice, starting from a known position and velocity, to track where the craft is.
+
+**Weir's inventions.** The 1.5 g thrust is the novel's figure. The 3000 m/s starting speed and the vibrating sample are our own illustrations.
+
+**How realistic are the numbers?** The constant-acceleration formulas are exact in Newtonian physics. For the *Hail Mary*, which ends up moving at a large fraction of light speed, Part 10 shows that $v = v_{0} + at$ must be replaced, because nothing can be pushed past the speed of light. Inertial navigation also drifts: a tiny error in measured acceleration, integrated twice, grows like $t^{2}$, so real navigators re-fix their position from outside references.
+</RealVsBook>
+
+## Interactive simulation
+
+<AntiderivativeFamilySim />
+
+Things to try: with $f(x) = 2x$, drag $C$ and watch the highlighted parabola slide while its slope at $x$ stays exactly $f(x)$. Switch to $\cos x$ and notice that the antiderivative $\sin x + C$ peaks exactly where $\cos x$ crosses zero. Try $1/x$: the antiderivative $\ln x$ keeps climbing, more and more slowly.
+
+## Practice set
+
+<Problem n={1} level="easy">
+Evaluate from areas: (a) $\displaystyle\int_{0}^{5} 3\,dx$ (b) $\displaystyle\int_{0}^{4} x\,dx$ (c) $\displaystyle\int_{-2}^{2} x\,dx$.
+
+<Solution>
+(a) A rectangle: $3 \times 5 = 15$.
+
+(b) A triangle: $\tfrac{1}{2} \times 4 \times 4 = 8$.
+
+(c) A triangle of area 2 below the axis (from $-2$ to $0$) and one of area 2 above it (from $0$ to $2$): $-2 + 2 = 0$.
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy">
+Find: (a) $\int x^{4}\,dx$ (b) $\int 6x^{2}\,dx$ (c) $\int 7\,dx$ (d) $\int x^{-2}\,dx$ (e) $\int \sqrt{x}\,dx$.
+
+<Solution>
+(a) $\dfrac{x^{5}}{5} + C$. (b) $2x^{3} + C$. (c) $7x + C$. (d) $-x^{-1} + C = -\dfrac{1}{x} + C$. (e) $\sqrt{x} = x^{1/2}$, so $\dfrac{x^{3/2}}{3/2} + C = \tfrac{2}{3}x^{3/2} + C$.
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy">
+Suppose $\displaystyle\int_{0}^{3} f(x)\,dx = 5$ and $\displaystyle\int_{3}^{7} f(x)\,dx = -2$. Find (a) $\displaystyle\int_{0}^{7} f(x)\,dx$ (b) $\displaystyle\int_{7}^{3} f(x)\,dx$ (c) $\displaystyle\int_{0}^{3} 4f(x)\,dx$.
+
+<Solution>
+(a) Joining intervals: $5 + (-2) = 3$. (b) Reversing: $-(-2) = 2$. (c) Constant multiple: $4 \times 5 = 20$.
+</Solution>
+</Problem>
+
+<Problem n={4} level="medium">
+Find (a) $\int \left(e^{2t} + \cos 3t\right)dt$ (b) $\int \dfrac{5}{x}\,dx$ for $x > 0$ (c) $\int \sin(\pi t)\,dt$.
+
+<Solution>
+(a) $\dfrac{e^{2t}}{2} + \dfrac{\sin 3t}{3} + C$.
+
+(b) $5\ln x + C$.
+
+(c) $-\dfrac{\cos(\pi t)}{\pi} + C$.
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium" book>
+Arriving at a star system, the ship must brake. Suppose it is moving at $5000$ m/s and decelerates at a steady 1.5 g, so $a = -14.7\ \text{m/s}^{2}$. Find $v(t)$ and $x(t)$ (with $x(0) = 0$). When does it stop, and how far does it travel before stopping?
+
+<Solution>
+$v = 5000 - 14.7t$ m/s and $x = 5000t - 7.35t^{2}$ m.
+
+It stops when $v = 0$: $t = \dfrac{5000}{14.7} = 340.1$ s.
+
+Distance: $x = 5000 \times 340.1 - 7.35 \times 340.1^{2} = 850\,340$ m, about 850 km. (A shortcut: the area under the velocity graph is a triangle, $\tfrac{1}{2} \times 340.1\ \text{s} \times 5000\ \text{m/s}$, which gives the same answer.)
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium">
+Find $f(x)$ if $f'(x) = 3x^{2} - 2$ and $f(1) = 4$.
+
+<Solution>
+$f(x) = x^{3} - 2x + C$. Then $f(1) = 1 - 2 + C = 4$, so $C = 5$ and $f(x) = x^{3} - 2x + 5$.
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium">
+Use the scaling rule to show that $\dfrac{d}{dx}\ln(3x) = \dfrac{1}{x}$. So $\ln(3x)$ and $\ln x$ are both antiderivatives of $\dfrac{1}{x}$. By the rule that antiderivatives differ by a constant, what is $\ln(3x) - \ln x$? Confirm it with a law of logarithms.
+
+<Solution>
+Scaling rule: $\dfrac{d}{dx}\ln(3x) = 3 \times \dfrac{1}{3x} = \dfrac{1}{x}$.
+
+The two must differ by a constant. Indeed, $\ln(3x) - \ln x = \ln\dfrac{3x}{x} = \ln 3 \approx 1.0986$, the same for every $x$.
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium" book>
+The dimming grows at the rate $\dfrac{dD}{dt} = 0.1463\,e^{0.1463(t - 9)}$ percent per year, and $D = 1\%$ at $t = 9$ years. Find $D(t)$, and show that it matches the model $D = 2^{(t - 9)/4.737}$.
+
+<Solution>
+Integrating with the exponential rule ($k = 0.1463$; shifting $t$ by 9 doesn't change the rule):
+
+$$
+D = \frac{0.1463}{0.1463}e^{0.1463(t - 9)} + C = e^{0.1463(t - 9)} + C.
+$$
+
+At $t = 9$: $1 + C = 1$, so $C = 0$.
+
+Since $0.1463 = \dfrac{\ln 2}{4.737}$, $e^{0.1463(t - 9)} = \left(e^{\ln 2}\right)^{(t - 9)/4.737} = 2^{(t - 9)/4.737}$ ✓.
+</Solution>
+</Problem>
+
+<Problem n={9} level="medium">
+A probe starts from $x = 0$ with velocity $v = 0.6t^{2}$ m/s. Find $x(t)$ and the distance after 10 s. Compare with Chapter C.4's answer for the area under this velocity graph.
+
+<Solution>
+$x = \int 0.6t^{2}\,dt = 0.2t^{3} + C$, and $x(0) = 0$ gives $C = 0$. At $t = 10$ s, $x = 0.2 \times 1000 = 200$ m.
+
+That is exactly the area Chapter C.4 needed a limit of strip sums to find. The antiderivative got there in one line. That is no coincidence, and Chapter C.6 explains why.
+</Solution>
+</Problem>
+
+<Problem n={10} level="challenging">
+A stone is thrown straight up at $5.0$ m/s on Earth, where the acceleration is $-9.81\ \text{m/s}^{2}$ (taking up as positive). Starting from $x = 0$, find $v(t)$ and $x(t)$, the time to reach the top, and the greatest height.
+
+<Solution>
+$v = 5.0 - 9.81t$ m/s and $x = 5.0t - 4.905t^{2}$ m.
+
+At the top $v = 0$: $t = \dfrac{5.0}{9.81} = 0.510$ s.
+
+Height: $x = 5.0 \times 0.510 - 4.905 \times 0.510^{2} = 1.27$ m. (In general, the greatest height is $\dfrac{v_{0}^{2}}{2g} = \dfrac{25}{19.62}$.)
+</Solution>
+</Problem>
+
+<Problem n={11} level="challenging">
+A thruster is throttled up steadily, so the acceleration grows as $a = 6t\ \text{m/s}^{2}$. The craft starts at rest at $x = 0$. Find $v(t)$ and $x(t)$, and the time it takes to cover 1000 m.
+
+<Solution>
+$v = \int 6t\,dt = 3t^{2} + C_{1}$, with $C_{1} = 0$. Then $x = \int 3t^{2}\,dt = t^{3} + C_{2}$, with $C_{2} = 0$.
+
+$t^{3} = 1000$ gives $t = 10$ s.
+</Solution>
+</Problem>
+
+<Problem n={12} level="challenging">
+Explain using areas why $\displaystyle\int_{-a}^{a} g(x)\,dx = 0$ whenever $g(-x) = -g(x)$ for every $x$. Use it to write down $\displaystyle\int_{-\pi}^{\pi}\sin x\,dx$ and $\displaystyle\int_{-1}^{1}x^{3}\,dx$ without any calculation.
+
+<Solution>
+If $g(-x) = -g(x)$, the graph on the left of the vertical axis is the graph on the right turned upside down. Every strip at $x$ has a partner at $-x$ with the same width and the opposite height. Their signed areas cancel in pairs, so the total is 0.
+
+$\sin(-x) = -\sin x$ and $(-x)^{3} = -x^{3}$, so both integrals are 0.
+</Solution>
+</Problem>
+
+## Summary
+
+- The integral $\int_{a}^{b} f(x)\,dx$ is the exact signed area under $f$ from $a$ to $b$, the limit of strip sums. It turns a rate into a total.
+- Integrals of constants are rectangles. Constant multiples and sums pass through, intervals join up, and reversing the limits flips the sign.
+- An antiderivative $F$ of $f$ satisfies $F' = f$. Any two antiderivatives differ by a constant, so the indefinite integral is $\int f\,dx = F(x) + C$.
+- An initial condition (a known value at one moment) fixes the constant.
+- Reversing the derivative rules: raise the power and divide by the new power; $1/x$ gives $\ln x$; $e^{kx}$, $\sin kx$ and $\cos kx$ come back divided by $k$.
+- Integrating a constant acceleration twice gives $v = v_{0} + at$ and $x = x_{0} + v_{0}t + \tfrac{1}{2}at^{2}$.
+
+**Formulas from this chapter**
+
+$$
+\int_{a}^{b} f(x)\,dx = \lim_{n \to \infty} \sum_{k=1}^{n} f(x_{k})\,\Delta x \qquad \int_{a}^{b} f\,dx + \int_{b}^{c} f\,dx = \int_{a}^{c} f\,dx \qquad \int_{b}^{a} f\,dx = -\int_{a}^{b} f\,dx
+$$
+
+$$
+\int x^{n}\,dx = \frac{x^{n+1}}{n + 1} + C \;(n \neq -1) \qquad \frac{d}{dx}\ln x = \frac{1}{x} \qquad \int \frac{1}{x}\,dx = \ln x + C
+$$
+
+$$
+\int e^{kx}\,dx = \frac{e^{kx}}{k} + C \qquad \int \cos kx\,dx = \frac{\sin kx}{k} + C \qquad \int \sin kx\,dx = -\frac{\cos kx}{k} + C
+$$
+
+$$
+v = v_{0} + at \qquad x = x_{0} + v_{0}t + \tfrac{1}{2}at^{2}
+$$
+
+## Sources
+
+- OpenStax, *Calculus Volume 1*, §5.2 "The Definite Integral" (notation, properties, net signed area). [§5.2](https://openstax.org/books/calculus-volume-1/pages/5-2-the-definite-integral)
+- OpenStax, *Calculus Volume 1*, §4.10 "Antiderivatives" (families of antiderivatives, indefinite integrals, initial-value problems). [§4.10](https://openstax.org/books/calculus-volume-1/pages/4-10-antiderivatives)
+- OpenStax, *Calculus Volume 1*, §3.7 "Derivatives of Inverse Functions" and §3.9 "Derivatives of Exponential and Logarithmic Functions" (the derivative of ln x). [§3.7](https://openstax.org/books/calculus-volume-1/pages/3-7-derivatives-of-inverse-functions), [§3.9](https://openstax.org/books/calculus-volume-1/pages/3-9-derivatives-of-exponential-and-logarithmic-functions)
+- OpenStax, *University Physics Volume 1*, §3.6 "Finding Velocity and Displacement from Acceleration" (the kinematic equations by integration). [§3.6](https://openstax.org/books/university-physics-volume-1/pages/3-6-finding-velocity-and-displacement-from-acceleration)
+- The 1.5 g acceleration and the dimming forecast that the model is fitted to are the novel's figures (Andy Weir, *Project Hail Mary*, 2021), as summarised by readers. Approximate.

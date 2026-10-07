@@ -1,0 +1,32 @@
+---
+// The family y = x² + C: every member has slope 2x, so at x = 1 all their tangents are parallel.
+const O = { x: 300, y: 230 }, SX = 105, SY = 26;
+const px = (x: number) => O.x + x * SX, py = (y: number) => O.y - y * SY;
+const Cs = [-2, -1, 0, 1, 2];
+const curve = (C: number) =>
+	Array.from({ length: 61 }, (_, i) => {
+		const x = -1.8 + (3.6 * i) / 60;
+		return `${i ? 'L' : 'M'}${px(x).toFixed(1)},${py(x * x + C).toFixed(1)}`;
+	}).join(' ');
+const tx = 1, dx = 0.35;
+---
+
+<svg class="dg" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+	<line x1={px(-2)} y1={py(0)} x2={px(2.1)} y2={py(0)} class="s-muted w1" />
+	<line x1={px(0)} y1={py(-2.4)} x2={px(0)} y2={py(5.6)} class="s-muted w1" />
+	<line x1={px(tx)} y1={py(-2.4)} x2={px(tx)} y2={py(5.6)} class="s-grid w1 dash" />
+	<text x={px(tx)} y={py(-2.4) + 16} class="t-mid t-sm f-muted">x = 1</text>
+	{Cs.map((C) => (
+		<>
+			<path d={curve(C)} class={C === 0 ? 's-amber w3' : 's-sky w2'} opacity={C === 0 ? 1 : 0.7} />
+			<line x1={px(tx - dx)} y1={py(tx * tx + C - 2 * dx)} x2={px(tx + dx)} y2={py(tx * tx + C + 2 * dx)} class="s-green w2" />
+			<circle cx={px(tx)} cy={py(tx * tx + C)} r="3.5" class="f-green" />
+			<text x={px(1.8) + 8} y={py(1.8 * 1.8 + C) + 4} class={`t-sm ${C === 0 ? 'f-amber t-b' : 'f-sky'}`}>C = {C}</text>
+		</>
+	))}
+	<text x="20" y="28" class="t-b">y = x² + C</text>
+	<text x="20" y="48" class="t-sm f-muted">Shifting a curve up or down</text>
+	<text x="20" y="64" class="t-sm f-muted">doesn’t change its slopes.</text>
+	<text x="20" y="274" class="t-sm f-green">At x = 1 every tangent</text>
+	<text x="20" y="290" class="t-sm f-green">has slope 2: all parallel.</text>
+</svg>

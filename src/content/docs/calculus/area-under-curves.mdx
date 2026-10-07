@@ -1,0 +1,462 @@
+---
+title: Area under curves
+description: Turning a rate into a total by slicing the area under its graph into thin strips, adding them up, and letting the strips shrink, with distance from speed as the guiding example.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import StripsRefine from '../../../components/diagrams/calculus/StripsRefine.astro';
+import SignedArea from '../../../components/diagrams/calculus/SignedArea.astro';
+import RiemannSum from '../../../components/sims/RiemannSum.astro';
+
+## The scene
+
+Grace wakes from a years-long coma on a ship that has crossed light-years while he slept. A record of the ship's speed over time is a list of rates. What a navigator really wants to know is **how far** the ship has gone. A speedometer gives a rate, but the trip needs a total.
+
+The same problem turns up all through the novel. The engines report how fast they burn fuel, and Grace needs to know how much fuel is used up. A sample absorbs heat at some rate, and he needs the total energy. The last three chapters went from totals to rates. This chapter goes the other way, from a rate to a total, and the tool is the **area under a graph**.
+
+## Prerequisites
+
+<Prereqs notes={{ graphs: 'the area under a graph is a total, with units of y times units of x', 'slopes-and-limits': 'what it means for a quantity to approach a limit as something shrinks towards zero' }} />
+
+## The concept
+
+### Area is a total
+
+You met this idea in [Reading and making graphs](/part-0/graphs/). At a steady 30 m/s, in 6 s you go $30 \times 6 = 180$ m. On a speed–time graph that is a rectangle 6 s wide and 30 m/s tall, and its area, $\text{(m/s)} \times \text{s} = \text{m}$, is the distance.
+
+The rule works for any rate:
+
+| Graph of… | against… | Area under it means… | Units of area |
+|---|---|---|---|
+| speed | time | distance travelled | (m/s) × s = m |
+| fuel burn rate | time | fuel used | (kg/s) × s = kg |
+| power | time | energy delivered | W × s |
+| acceleration | time | change in speed | (m/s²) × s = m/s |
+
+When the graph is made of straight lines, the area is made of rectangles and triangles, and school geometry gives the answer exactly. The trouble starts when the graph **curves**.
+
+### Slicing a curved area into strips
+
+Suppose a probe's speed grows as $v = 0.6t^{2}$ m/s. How far does it go in the first 10 s? The area under this curve isn't a rectangle or a triangle. But over a *short* stretch of time the speed hardly changes, so the area under that stretch is almost a rectangle.
+
+So cut the time into $n$ equal slices of width $\Delta t$. Over each slice, pretend the speed is constant, taking for example the speed at the start of the slice. Each slice is then a thin rectangle with area "speed × $\Delta t$", which is the distance covered in that slice if the speed really were constant. Add up all the rectangles.
+
+<Figure caption="Rectangles under v = 0.6t², each as tall as the speed at its left edge. Five strips give 144 m and twenty give 185.25 m. The true area is 200 m, and the gaps between the rectangles and the curve shrink as the strips get thinner." alt="Two speed–time graphs side by side, each showing the amber curve v equals 0.6 t squared rising from 0 to 60 m/s between t equals 0 and 10 s. The left graph has 5 blue rectangles under the curve, each as tall as the curve at its left edge, labelled '5 strips: 144 m'. The right graph has 20 thinner rectangles, labelled '20 strips: 185.25 m'. The rectangles sit below the curve, leaving small gaps that are much smaller on the right. Text at the bottom: the exact area is 200 m; thinner strips leave smaller gaps under the curve.">
+	<StripsRefine />
+</Figure>
+
+The rectangles always miss a little sliver under the curve, because the speed keeps rising during each slice. But the slivers shrink as the strips get thinner. With 5 strips the estimate is 144 m, and with 20 it is 185.25 m. Keep going and the total settles towards **200 m**. That settling value is the exact area.
+
+A total built this way, from strips of the form "height × width", is called a <Term id="riemann-sum">Riemann sum</Term>, after the mathematician Bernhard Riemann.
+
+### Left, right, midpoint and trapezoid strips
+
+You can choose which height to use for each strip:
+
+- **Left endpoints**: the height at the start of each strip. For a rising curve this underestimates.
+- **Right endpoints**: the height at the end of each strip. For a rising curve this overestimates.
+- **Midpoints**: the height in the middle of each strip. The overshoot on one half of the strip roughly cancels the undershoot on the other, so this is usually far more accurate.
+- **Trapezoids**: join the two ends of each strip with a straight line instead of a flat top. Each strip is then a trapezoid, with area "average of the two heights × width". This is the <Term id="trapezoid-rule">trapezoid rule</Term>, and it is the natural choice when all you have is a table of readings.
+
+Whatever the choice, the answers converge on the same value as the strips get thinner.
+
+### Area below the axis counts as negative
+
+Velocity can be negative: it means moving backwards. A strip under the axis has a negative height, so its "area" (height × width) is negative too, and it subtracts from the total. This is called <Term id="signed-area">signed area</Term>, and it gives the **net** change: the <Term id="displacement">displacement</Term>, how far you end up from where you started.
+
+<Figure caption="A craft moves forward while its velocity is positive, then backward once it turns negative. Signed area gives the displacement (5 m). Adding the sizes of the two areas gives the distance travelled (13 m)." alt="A velocity–time graph. A straight amber line v equals 6 minus 2t falls from 6 m/s at t equals 0 to minus 4 m/s at t equals 5 s, crossing zero at t equals 3 s. The triangle above the axis from 0 to 3 s is shaded green and labelled plus 9 m. The triangle below the axis from 3 to 5 s is shaded red and labelled minus 4 m. Text at the bottom: displacement equals 9 minus 4 equals 5 m forward; distance travelled equals 9 plus 4 equals 13 m.">
+	<SignedArea />
+</Figure>
+
+If you want the total **distance** travelled, count every area as positive. If you want the **displacement**, let the areas below the axis subtract.
+
+## Formulas
+
+### Sigma notation for sums
+
+Long sums get a compact notation. The Greek capital sigma, $\Sigma$, means "add up". This is called <Term id="sigma-notation">sigma notation</Term>:
+
+$$
+\sum_{k=1}^{n} a_{k} = a_{1} + a_{2} + a_{3} + \cdots + a_{n}.
+$$
+
+Read it as "the sum of $a_{k}$ for $k$ from 1 to $n$". The letter $k$ is just a counter. For example, $\sum_{k=1}^{4} k^{2} = 1 + 4 + 9 + 16 = 30$.
+
+### The Riemann sum
+
+To find the area under $y = f(x)$ from $x = a$ to $x = b$ with $n$ strips:
+
+1. Each strip has width $\Delta x = \dfrac{b - a}{n}$.
+2. The strips' edges are at $x_{k} = a + k\,\Delta x$, for $k = 0, 1, \ldots, n$.
+3. Strip $k$ (from $x_{k-1}$ to $x_{k}$) has area height × width.
+
+Left-endpoint, right-endpoint and midpoint sums are
+
+$$
+L_{n} = \sum_{k=1}^{n} f(x_{k-1})\,\Delta x, \qquad R_{n} = \sum_{k=1}^{n} f(x_{k})\,\Delta x, \qquad M_{n} = \sum_{k=1}^{n} f\!\left(\frac{x_{k-1} + x_{k}}{2}\right)\Delta x.
+$$
+
+### The trapezoid rule
+
+A trapezoid with parallel sides $f(x_{k-1})$ and $f(x_{k})$ and width $\Delta x$ has area $\tfrac{1}{2}[f(x_{k-1}) + f(x_{k})]\,\Delta x$. Adding these up, each inside height appears in two neighbouring trapezoids, while the two end heights appear once each:
+
+$$
+T_{n} = \Delta x\left[\tfrac{1}{2}f(x_{0}) + f(x_{1}) + f(x_{2}) + \cdots + f(x_{n-1}) + \tfrac{1}{2}f(x_{n})\right] = \frac{L_{n} + R_{n}}{2}.
+$$
+
+### How far apart are the left and right sums?
+
+For a rising curve, the left sum is too small and the right sum too big, so the true area lies between them. How wide is that gap? Write both sums out. They share every height except two: $R_{n}$ contains $f(x_{n}) = f(b)$, which $L_{n}$ lacks, and $L_{n}$ contains $f(x_{0}) = f(a)$, which $R_{n}$ lacks. So
+
+$$
+R_{n} - L_{n} = [f(b) - f(a)]\,\Delta x = \frac{[f(b) - f(a)](b - a)}{n}.
+$$
+
+Doubling the number of strips halves the gap, and making $n$ large enough squeezes it as small as you like. That is the real reason the strip sums close in on one exact value.
+
+### Two useful sums
+
+To find areas exactly, we need closed formulas for two sums.
+
+**The sum of the first $n$ whole numbers.** Write the sum forwards and backwards and add the two lines column by column:
+
+$$
+\begin{aligned}
+S &= 1 + 2 + \cdots + (n - 1) + n \\
+S &= n + (n - 1) + \cdots + 2 + 1 \\
+2S &= (n + 1) + (n + 1) + \cdots + (n + 1) = n(n + 1)
+\end{aligned}
+$$
+
+$$
+\boxed{\sum_{k=1}^{n} k = \frac{n(n + 1)}{2}}
+$$
+
+**The sum of the first $n$ squares.** Use a trick. Expanding the cube, $(k + 1)^{3} - k^{3} = 3k^{2} + 3k + 1$. Write that out for $k = 1, 2, \ldots, n$ and add all the lines. On the left almost everything cancels, $(2^{3} - 1^{3}) + (3^{3} - 2^{3}) + \cdots + ((n + 1)^{3} - n^{3})$, leaving just $(n + 1)^{3} - 1$. So
+
+$$
+(n + 1)^{3} - 1 = 3\sum_{k=1}^{n} k^{2} + 3\,\frac{n(n + 1)}{2} + n.
+$$
+
+Solving for the sum of squares and tidying up (multiply out, collect terms, factor) gives
+
+$$
+\boxed{\sum_{k=1}^{n} k^{2} = \frac{n(n + 1)(2n + 1)}{6}}
+$$
+
+Check with $n = 4$: $\dfrac{4 \times 5 \times 9}{6} = 30$ ✓, matching $1 + 4 + 9 + 16$.
+
+### The exact area under a parabola
+
+Find the area under $y = x^{2}$ from $0$ to $b$. With $n$ strips, $\Delta x = b/n$ and $x_{k} = kb/n$. Using right endpoints:
+
+$$
+R_{n} = \sum_{k=1}^{n}\left(\frac{kb}{n}\right)^{2}\frac{b}{n} = \frac{b^{3}}{n^{3}}\sum_{k=1}^{n}k^{2} = \frac{b^{3}}{n^{3}} \cdot \frac{n(n + 1)(2n + 1)}{6} = \frac{b^{3}}{6}\left(1 + \frac{1}{n}\right)\left(2 + \frac{1}{n}\right).
+$$
+
+As $n \to \infty$, both $\tfrac{1}{n}$ terms vanish, leaving $\dfrac{b^{3}}{6} \times 1 \times 2$:
+
+$$
+\boxed{\text{area under } x^{2} \text{ from 0 to } b = \lim_{n \to \infty} R_{n} = \frac{b^{3}}{3}}
+$$
+
+The same steps with $\sum k$ show that the area under $y = x$ from 0 to $b$ is $\dfrac{b^{2}}{2}$, which is the triangle you'd expect.
+
+## Worked examples
+
+<Example n={1} title="How far does the ship go in its first 10 seconds?" book>
+Starting from rest at 1.5 g, the ship's speed is $v = 14.7t$ m/s. Find the distance it covers in the first 10 s from the area under the speed–time graph.
+
+The graph is a straight line from $(0, 0)$ to $(10\ \text{s}, 147\ \text{m/s})$, so the area is a triangle:
+
+$$
+d = \tfrac{1}{2} \times 10\ \text{s} \times 147\ \text{m/s} = 735\ \text{m}.
+$$
+
+Check with the distance formula from Chapter C.1: $d = 7.35t^{2} = 7.35 \times 100 = 735$ m ✓. The area under the speed graph and the distance formula agree, as they must.
+</Example>
+
+<Example n={2} title="Strips under a curve" book>
+A probe launched from the ship starts from rest with speed $v = 0.6t^{2}$ m/s. Estimate the distance it covers in the first 10 s using 5 strips, with left endpoints, right endpoints and midpoints.
+
+The strip width is $\Delta t = 10/5 = 2$ s.
+
+Left endpoints, $t = 0, 2, 4, 6, 8$: speeds $0,\ 2.4,\ 9.6,\ 21.6,\ 38.4$ m/s.
+
+$$
+L_{5} = (0 + 2.4 + 9.6 + 21.6 + 38.4)\ \text{m/s} \times 2\ \text{s} = 72 \times 2 = 144\ \text{m}
+$$
+
+Right endpoints, $t = 2, 4, 6, 8, 10$: speeds $2.4,\ 9.6,\ 21.6,\ 38.4,\ 60$ m/s.
+
+$$
+R_{5} = 132\ \text{m/s} \times 2\ \text{s} = 264\ \text{m}
+$$
+
+Midpoints, $t = 1, 3, 5, 7, 9$: $v = 0.6 \times (1, 9, 25, 49, 81) = 0.6,\ 5.4,\ 15,\ 29.4,\ 48.6$ m/s.
+
+$$
+M_{5} = 99\ \text{m/s} \times 2\ \text{s} = 198\ \text{m}
+$$
+
+The true answer is 200 m (Example 5 proves it). The left sum is 28% low and the right sum 32% high, but the midpoint sum is only 1% off with the same five strips.
+</Example>
+
+<Example n={3} title="Energy from a table of power readings">
+A heater warming a sample logs its power every 2 minutes:
+
+| time (min) | 0 | 2 | 4 | 6 | 8 |
+|---|---|---|---|---|---|
+| power (W) | 50 | 80 | 90 | 85 | 60 |
+
+Estimate the energy delivered over the 8 minutes with the trapezoid rule.
+
+There is no formula, just readings, so the trapezoid rule is the natural tool. The strip width is $\Delta t = 2\ \text{min} = 120$ s.
+
+$$
+\begin{aligned}
+E &\approx \Delta t\left[\tfrac{1}{2}(50) + 80 + 90 + 85 + \tfrac{1}{2}(60)\right]\ \text{W} \\
+&= 120\ \text{s} \times 310\ \text{W} \\
+&= 37\,200\ \text{W·s}
+\end{aligned}
+$$
+
+A watt-second is an amount of energy (Part 5 names it the joule). The area under a power–time graph is energy, just as the area under a speed–time graph is distance.
+</Example>
+
+<Example n={4} title="Edging towards another ship, then backing off" book>
+Grace nudges the *Hail Mary* towards Rocky's ship, overshoots his plan, and reverses. Model the closing velocity as $v = 6 - 2t$ m/s for $0 \le t \le 5$ s. Find the displacement and the total distance travelled.
+
+The velocity is zero when $6 - 2t = 0$, so at $t = 3$ s. Before that the ship moves forward, and afterwards it moves back.
+
+Forward part, a triangle above the axis from 0 to 3 s:
+
+$$
+\tfrac{1}{2} \times 3\ \text{s} \times 6\ \text{m/s} = +9\ \text{m}
+$$
+
+Backward part, a triangle below the axis from 3 to 5 s, reaching $v(5) = -4$ m/s:
+
+$$
+\tfrac{1}{2} \times 2\ \text{s} \times (-4\ \text{m/s}) = -4\ \text{m}
+$$
+
+Displacement $= 9 - 4 = 5$ m towards Rocky's ship. Distance travelled $= 9 + 4 = 13$ m. The numbers here are our own illustration, not the novel's.
+</Example>
+
+<Example n={5} title="The exact distance as a limit">
+Show that the right-endpoint sums for the probe in Example 2 approach exactly 200 m.
+
+With $n$ strips, $\Delta t = 10/n$ and the right endpoints are $t_{k} = 10k/n$. Then
+
+$$
+R_{n} = \sum_{k=1}^{n} 0.6\left(\frac{10k}{n}\right)^{2}\frac{10}{n} = \frac{600}{n^{3}}\sum_{k=1}^{n}k^{2} = \frac{600}{n^{3}} \cdot \frac{n(n + 1)(2n + 1)}{6} = \frac{100(n + 1)(2n + 1)}{n^{2}}\ \text{m}.
+$$
+
+| $n$ | 5 | 100 | 1000 |
+|---|---|---|---|
+| $R_{n}$ (m) | 264 | 203.01 | 200.30 |
+
+The first entry matches Example 2. Writing $R_{n} = 100\left(1 + \tfrac{1}{n}\right)\left(2 + \tfrac{1}{n}\right)$, the limit as $n \to \infty$ is $100 \times 1 \times 2 = 200$ m exactly. It also matches the parabola formula: $0.6 \times \dfrac{10^{3}}{3} = 200$ ✓.
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** Areas under rate graphs give totals: distance from speed, fuel from burn rate, energy from power. Riemann sums and the trapezoid rule are exactly how real navigation computers and lab software add up sensor readings that arrive as a stream of numbers. A spacecraft's inertial navigation adds up its measured accelerations in tiny time steps in just this way.
+
+**Weir's inventions.** The 1.5 g acceleration is the novel's figure. The probe, the heater log and the manoeuvre near Rocky's ship are our own illustrations, with numbers chosen to keep the arithmetic clear.
+
+**How realistic are the numbers?** Using strips introduces a small error that shrinks with thinner strips. Real instruments add their own measurement errors on top. Over a long voyage these small errors build up, which is why real spacecraft also check their position against the stars rather than trusting the running total alone.
+</RealVsBook>
+
+## Interactive simulation
+
+<RiemannSum />
+
+Things to try: with the probe curve and 5 strips, compare left, right and midpoint (144, 264 and 198 m). Push the strips up to 100 and watch the error fall below 1%. Pick the ship's straight line and notice that midpoints and trapezoids are exact for every $n$. Pick the reversing craft and watch the red strips subtract.
+
+## Practice set
+
+<Problem n={1} level="easy">
+What are the units of the area under each graph, and what does the area mean? (a) speed in m/s against time in s (b) fuel burn rate in kg/s against time in s (c) power in W against time in hours.
+
+<Solution>
+(a) $\text{m/s} \times \text{s} = \text{m}$, the distance travelled.
+
+(b) $\text{kg/s} \times \text{s} = \text{kg}$, the mass of fuel burned.
+
+(c) $\text{W} \times \text{h}$, the energy delivered (the familiar "watt-hour" on electricity bills).
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy">
+Suppose a probe coasts at a steady $30$ km/s for 2 hours. Sketch the speed–time graph and use its area to find the distance.
+
+<Solution>
+The graph is a horizontal line at 30 km/s from 0 to 7200 s, so the area is a rectangle: $30\ \text{km/s} \times 7200\ \text{s} = 216\,000$ km.
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy">
+Evaluate (a) $\displaystyle\sum_{k=1}^{4} k^{2}$ (b) $\displaystyle\sum_{k=1}^{5} (2k + 1)$ (c) $\displaystyle\sum_{k=1}^{100} k$ (d) $\displaystyle\sum_{k=1}^{10} k^{2}$.
+
+<Solution>
+(a) $1 + 4 + 9 + 16 = 30$.
+
+(b) $3 + 5 + 7 + 9 + 11 = 35$.
+
+(c) $\dfrac{100 \times 101}{2} = 5050$.
+
+(d) $\dfrac{10 \times 11 \times 21}{6} = 385$.
+</Solution>
+</Problem>
+
+<Problem n={4} level="medium">
+Estimate the area under $y = x^{2}$ from 0 to 3 with 3 strips, using left endpoints, right endpoints and midpoints. Compare with the exact value.
+
+<Solution>
+$\Delta x = 1$.
+
+Left (0, 1, 2): $0 + 1 + 4 = 5$.
+
+Right (1, 2, 3): $1 + 4 + 9 = 14$.
+
+Midpoints (0.5, 1.5, 2.5): $0.25 + 2.25 + 6.25 = 8.75$.
+
+Exact: $\dfrac{3^{3}}{3} = 9$. The midpoint sum is within 3%. Notice that the right minus the left sum is $14 - 5 = 9 = [f(3) - f(0)] \times 1$, as the gap formula says.
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium" book>
+The ship's speed is $v = 14.7t$ m/s. Use the area under the graph to find how far it travels between $t = 10$ s and $t = 20$ s. Check with $d = 7.35t^{2}$.
+
+<Solution>
+The area is a trapezoid with parallel sides $v(10) = 147$ m/s and $v(20) = 294$ m/s and width 10 s:
+
+$$
+\tfrac{1}{2}(147 + 294)\ \text{m/s} \times 10\ \text{s} = 2205\ \text{m}.
+$$
+
+Check: $7.35 \times (20^{2} - 10^{2}) = 7.35 \times 300 = 2205$ m ✓.
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium">
+A probe's speed is logged every 10 s:
+
+| t (s) | 0 | 10 | 20 | 30 | 40 |
+|---|---|---|---|---|---|
+| v (m/s) | 0 | 12 | 20 | 25 | 27 |
+
+Estimate the distance it travels with the left sum, the right sum and the trapezoid rule.
+
+<Solution>
+$\Delta t = 10$ s.
+
+Left: $10 \times (0 + 12 + 20 + 25) = 570$ m.
+
+Right: $10 \times (12 + 20 + 25 + 27) = 840$ m.
+
+Trapezoid: $10 \times (0 + 12 + 20 + 25 + 13.5) = 705$ m, which is the average of the left and right sums.
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium" book>
+During a spacewalk, Grace's velocity along a tether is $v = 4 - t$ m/s for $0 \le t \le 6$ s. Find his displacement and the total distance he moves.
+
+<Solution>
+$v = 0$ at $t = 4$ s.
+
+Forward area: $\tfrac{1}{2} \times 4 \times 4 = +8$ m.
+
+Backward area: from 4 to 6 s, reaching $v = -2$ m/s, $\tfrac{1}{2} \times 2 \times (-2) = -2$ m.
+
+Displacement $= 8 - 2 = 6$ m. Distance $= 8 + 2 = 10$ m.
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium">
+Without drawing anything, explain why the midpoint sum and the trapezoid rule both give the exact area under any straight line, $y = mx + c$, for every number of strips.
+
+<Solution>
+Under a straight line, each strip is exactly a trapezoid, so the trapezoid rule makes no error. For the midpoint rectangle, the line rises as far above the rectangle's top on one half of the strip as it falls below it on the other half. The two small triangles are equal in size and cancel, so the rectangle's area equals the strip's area.
+</Solution>
+</Problem>
+
+<Problem n={9} level="challenging">
+Show that the right-endpoint sum for $y = x^{2}$ from 0 to 1 with $n$ strips is $\dfrac{(n + 1)(2n + 1)}{6n^{2}}$. Evaluate it for $n = 10$ and $n = 100$. What is its limit?
+
+<Solution>
+$\Delta x = 1/n$ and $x_{k} = k/n$, so
+
+$$
+R_{n} = \sum_{k=1}^{n}\frac{k^{2}}{n^{2}} \cdot \frac{1}{n} = \frac{1}{n^{3}} \cdot \frac{n(n + 1)(2n + 1)}{6} = \frac{(n + 1)(2n + 1)}{6n^{2}}.
+$$
+
+$n = 10$: $\dfrac{11 \times 21}{600} = 0.385$. $n = 100$: $\dfrac{101 \times 201}{60\,000} = 0.33835$.
+
+As $n \to \infty$ it approaches $\dfrac{2n^{2}}{6n^{2}} = \dfrac{1}{3}$.
+</Solution>
+</Problem>
+
+<Problem n={10} level="challenging" book>
+The dimming model from Chapter C.3, $D = 2^{(t - 9)/4.737}$ percent, gives $D = 1\%$ at 9 years, $2.236\%$ at 14.5 years and $5\%$ at 20 years. Use the trapezoid rule with these two strips to estimate the area under the curve from 9 to 20 years. What are its units? Is the estimate too high or too low?
+
+<Solution>
+$\Delta t = 5.5$ yr.
+
+$$
+T_{2} = 5.5 \times \left[\tfrac{1}{2}(1) + 2.236 + \tfrac{1}{2}(5)\right] = 5.5 \times 5.236 = 28.80\ \%\cdot\text{yr}.
+$$
+
+The units are percent × years. Divided by the 11 years, the area gives an average dimming (Chapter C.6). The curve bends upwards, so each straight top of a trapezoid lies *above* the curve, and the estimate is **too high**. Chapter C.6 finds the exact value, 27.34 %·yr.
+</Solution>
+</Problem>
+
+<Problem n={11} level="challenging">
+For the probe ($v = 0.6t^{2}$ from 0 to 10 s), how many strips guarantee that the left and right sums differ by less than 1 m?
+
+<Solution>
+$R_{n} - L_{n} = [v(10) - v(0)]\,\Delta t = 60 \times \dfrac{10}{n} = \dfrac{600}{n}$ m. For this to be less than 1 m, we need $n > 600$. With 601 strips or more, the exact distance is pinned down to within 1 m.
+</Solution>
+</Problem>
+
+<Problem n={12} level="challenging">
+Given that $\displaystyle\sum_{k=1}^{n} k^{3} = \left(\frac{n(n + 1)}{2}\right)^{2}$, show that the area under $y = x^{3}$ from 0 to $b$ is $\dfrac{b^{4}}{4}$.
+
+<Solution>
+With $\Delta x = b/n$ and right endpoints $x_{k} = kb/n$:
+
+$$
+R_{n} = \sum_{k=1}^{n}\frac{k^{3}b^{3}}{n^{3}} \cdot \frac{b}{n} = \frac{b^{4}}{n^{4}} \cdot \frac{n^{2}(n + 1)^{2}}{4} = \frac{b^{4}}{4}\left(1 + \frac{1}{n}\right)^{2} \;\to\; \frac{b^{4}}{4}.
+$$
+
+Notice the pattern so far: $x$ gives $\dfrac{b^{2}}{2}$, $x^{2}$ gives $\dfrac{b^{3}}{3}$ and $x^{3}$ gives $\dfrac{b^{4}}{4}$. The next two chapters explain it.
+</Solution>
+</Problem>
+
+## Summary
+
+- The area under a rate graph is a total, with units of (units up the side) × (units along the bottom): distance from speed, fuel from burn rate, energy from power.
+- For a curved graph, slice the area into thin strips, treat each as a rectangle (or trapezoid), and add them up. This is a Riemann sum.
+- Left, right and midpoint sums differ in which height they use. The trapezoid rule averages the left and right sums and suits tables of readings.
+- Thinner strips give better estimates. The exact area is the limit as the number of strips goes to infinity.
+- Area below the axis counts as negative. Signed area gives the net change (displacement), and adding the sizes of all the areas gives the total distance.
+
+**Formulas from this chapter**
+
+$$
+\Delta x = \frac{b - a}{n} \qquad \text{area} \approx \sum_{k=1}^{n} f(x_{k})\,\Delta x \qquad T_{n} = \frac{L_{n} + R_{n}}{2} \qquad R_{n} - L_{n} = [f(b) - f(a)]\,\Delta x
+$$
+
+$$
+\sum_{k=1}^{n} k = \frac{n(n + 1)}{2} \qquad \sum_{k=1}^{n} k^{2} = \frac{n(n + 1)(2n + 1)}{6} \qquad \text{area under } x^{2} \text{ from 0 to } b = \frac{b^{3}}{3}
+$$
+
+## Sources
+
+- OpenStax, *Calculus Volume 1*, §5.1 "Approximating Areas" (sigma notation, sums of integers and squares, left and right Riemann sums). [§5.1](https://openstax.org/books/calculus-volume-1/pages/5-1-approximating-areas)
+- OpenStax, *Calculus Volume 1*, §5.2 "The Definite Integral" (signed area, net and total area). [§5.2](https://openstax.org/books/calculus-volume-1/pages/5-2-the-definite-integral)
+- OpenStax, *University Physics Volume 1*, §3.6 "Finding Velocity and Displacement from Acceleration" (displacement as area under a velocity graph). [§3.6](https://openstax.org/books/university-physics-volume-1/pages/3-6-finding-velocity-and-displacement-from-acceleration)
+- The 1.5 g acceleration and the dimming forecast that the model is fitted to are the novel's figures (Andy Weir, *Project Hail Mary*, 2021), as summarised by readers. Approximate.

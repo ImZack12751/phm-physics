@@ -1,0 +1,109 @@
+---
+// Simulation: approximate the area under a curve with n strips (left, right, midpoint or trapezoid) and compare with the exact area.
+---
+
+<div
+	class="sim rs"
+	data-title="Strips under a curve"
+	data-description="Choose a speed–time curve (the ship at 1.5 g, v = 14.7t; a probe with v = 0.6t²; a vibrating sample with v = 0.40 cos 2t; a craft that reverses, v = 6 − 2t). A slider sets the number of strips from 1 to 100, and a menu chooses left-endpoint, right-endpoint, midpoint or trapezoid strips. The graph shades each strip (green above the axis, red below) and the readout gives the strip sum, the exact area and the error."
+>
+	<p class="sim-title">Simulation: strips under a curve</p>
+	<p class="sim-help">Each strip is a thin rectangle (or trapezoid) whose area is speed × time. Add up the strips to estimate the distance. Increase the number of strips and watch the error shrink.</p>
+	<div class="sim-controls">
+		<label>Curve
+			<select class="rs-f">
+				<option value="probe">probe: v = 0.6t²</option>
+				<option value="ship">ship at 1.5 g: v = 14.7t</option>
+				<option value="osc">sample: v = 0.40 cos 2t</option>
+				<option value="rev">reversing craft: v = 6 − 2t</option>
+			</select>
+		</label>
+		<label>Strips
+			<select class="rs-m">
+				<option value="left">left endpoints</option>
+				<option value="right">right endpoints</option>
+				<option value="mid">midpoints</option>
+				<option value="trap">trapezoids</option>
+			</select>
+		</label>
+		<label>Number of strips n <input type="range" class="rs-n" min="1" max="100" step="1" value="5" /> <output class="rs-nv"></output></label>
+	</div>
+	<svg class="dg rs-svg" viewBox="0 0 600 330" role="img" aria-label="A speed–time curve with strips under it"></svg>
+	<div class="readout rs-out" aria-live="polite"></div>
+</div>
+
+<script>
+	type C = { v: (t: number) => number; exact: number; b: number; y: [number, number]; unit: string };
+	const CS: Record<string, C> = {
+		probe: { v: (t) => 0.6 * t * t, exact: 200, b: 10, y: [0, 60], unit: 'm' },
+		ship: { v: (t) => 14.7 * t, exact: 735, b: 10, y: [0, 150], unit: 'm' },
+		osc: { v: (t) => 0.4 * Math.cos(2 * t), exact: 0.2 * Math.sin(2 * 1.5), b: 1.5, y: [-0.45, 0.45], unit: 'm' },
+		rev: { v: (t) => 6 - 2 * t, exact: 5, b: 5, y: [-4.5, 6.5], unit: 'm' },
+	};
+	document.querySelectorAll<HTMLElement>('.sim.rs').forEach((root) => {
+		const svg = root.querySelector<SVGSVGElement>('.rs-svg')!;
+		const F = root.querySelector<HTMLSelectElement>('.rs-f')!, M = root.querySelector<HTMLSelectElement>('.rs-m')!;
+		const N = root.querySelector<HTMLInputElement>('.rs-n')!;
+		const out = root.querySelector<HTMLElement>('.rs-out')!;
+		const L = 70, R = 580, T = 20, B = 280;
+		const NS = 'http://www.w3.org/2000/svg';
+		const el = (tag: string, a: Record<string, string | number>, text?: string) => {
+			const e = document.createElementNS(NS, tag);
+			Object.entries(a).forEach(([k, v]) => e.setAttribute(k, String(v)));
+			if (text !== undefined) e.textContent = text;
+			svg.append(e);
+			return e;
+		};
+		const fmt = (x: number) => (Math.abs(x) >= 100 ? x.toFixed(1) : String(+x.toFixed(4)));
+		function draw() {
+			const c = CS[F.value], n = Number(N.value), m = M.value;
+			root.querySelector('.rs-nv')!.textContent = String(n);
+			const px = (t: number) => L + (t / c.b) * (R - L);
+			const py = (val: number) => B - ((val - c.y[0]) / (c.y[1] - c.y[0])) * (B - T);
+			svg.replaceChildren();
+			const ticks = 5;
+			for (let i = 0; i <= ticks; i++) {
+				const val = c.y[0] + ((c.y[1] - c.y[0]) * i) / ticks;
+				el('line', { x1: L, y1: py(val), x2: R, y2: py(val), class: 's-grid w1' });
+				el('text', { x: L - 8, y: py(val) + 4, class: 't-end t-sm f-muted' }, String(+val.toFixed(2)));
+			}
+			for (let i = 0; i <= 5; i++) el('text', { x: px((c.b * i) / 5), y: B + 18, class: 't-mid t-sm f-muted' }, String(+((c.b * i) / 5).toFixed(2)));
+			el('text', { x: (L + R) / 2, y: B + 40, class: 't-mid t-sm' }, 'time, t (s)');
+			el('text', { x: 16, y: (T + B) / 2, class: 't-mid t-sm', transform: `rotate(-90 16 ${(T + B) / 2})` }, 'speed (m/s)');
+			const dt = c.b / n;
+			let sum = 0;
+			for (let k = 0; k < n; k++) {
+				const a = k * dt, b = a + dt;
+				let pts: string;
+				let area: number;
+				if (m === 'trap') {
+					area = ((c.v(a) + c.v(b)) / 2) * dt;
+					pts = `M${px(a)},${py(0)} L${px(a)},${py(c.v(a))} L${px(b)},${py(c.v(b))} L${px(b)},${py(0)} Z`;
+				} else {
+					const h = c.v(m === 'left' ? a : m === 'right' ? b : (a + b) / 2);
+					area = h * dt;
+					pts = `M${px(a)},${py(0)} L${px(a)},${py(h)} L${px(b)},${py(h)} L${px(b)},${py(0)} Z`;
+				}
+				sum += area;
+				el('path', { d: pts, class: area >= 0 ? 'f-green-soft s-green w1' : 'f-rose-soft s-rose w1' });
+			}
+			el('path', {
+				d: Array.from({ length: 201 }, (_, i) => `${i ? 'L' : 'M'}${px((c.b * i) / 200)},${py(c.v((c.b * i) / 200))}`).join(' '),
+				class: 's-amber w3',
+			});
+			el('line', { x1: L, y1: py(0), x2: R, y2: py(0), class: 's-fg w2' });
+			el('line', { x1: L, y1: B, x2: L, y2: T, class: 's-fg w1' });
+			const err = sum - c.exact;
+			const names: Record<string, string> = { left: 'left-endpoint', right: 'right-endpoint', mid: 'midpoint', trap: 'trapezoid' };
+			out.innerHTML =
+				`<span class="k">strip width Δt</span> = ${fmt(c.b)} s ÷ ${n} = ${fmt(dt)} s<br>` +
+				`<span class="k">${names[m]} sum</span> = <b>${fmt(sum)} ${c.unit}</b><br>` +
+				`<span class="k">exact area</span> = ${fmt(c.exact)} ${c.unit}<br>` +
+				`<span class="k">error</span> = ${err >= 0 ? '+' : '−'}${fmt(Math.abs(err))} ${c.unit}` +
+				(Math.abs(c.exact) > 0 ? ` (${((Math.abs(err) / Math.abs(c.exact)) * 100).toFixed(2)}%)` : '');
+		}
+		[F, M].forEach((x) => x.addEventListener('change', draw));
+		N.addEventListener('input', draw);
+		draw();
+	});
+</script>

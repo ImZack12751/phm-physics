@@ -1,0 +1,46 @@
+---
+// Left-endpoint strips under v = 0.6 t² (0 to 10 s): 5 strips vs 20 strips. Exact area 200 m.
+const v = (t: number) => 0.6 * t * t;
+const W = 230, H = 170, Y0 = 50, VMAX = 60;
+const panels = [
+	{ x: 60, n: 5, label: '5 strips: 144 m' },
+	{ x: 350, n: 20, label: '20 strips: 185.25 m' },
+];
+const px = (x0: number, t: number) => x0 + (t / 10) * W;
+const py = (val: number) => Y0 + H - (val / VMAX) * H;
+const curve = (x0: number) =>
+	Array.from({ length: 81 }, (_, i) => {
+		const t = (i / 80) * 10;
+		return `${i ? 'L' : 'M'}${px(x0, t).toFixed(1)},${py(v(t)).toFixed(1)}`;
+	}).join(' ');
+---
+
+<svg class="dg" viewBox="0 0 600 290" xmlns="http://www.w3.org/2000/svg">
+	{
+		panels.map((p) => {
+			const dt = 10 / p.n;
+			return (
+				<>
+					{[0, 20, 40, 60].map((val) => (
+						<>
+							<line x1={p.x} y1={py(val)} x2={p.x + W} y2={py(val)} class="s-grid w1" />
+							<text x={p.x - 6} y={py(val) + 4} class="t-end t-sm f-muted">{val}</text>
+						</>
+					))}
+					{Array.from({ length: p.n }, (_, k) => (
+						<rect x={px(p.x, k * dt)} y={py(v(k * dt))} width={(dt / 10) * W} height={py(0) - py(v(k * dt))} class="f-sky-soft s-sky w1" />
+					))}
+					<path d={curve(p.x)} class="s-amber w3" />
+					<line x1={p.x} y1={py(0)} x2={p.x + W + 6} y2={py(0)} class="s-fg w2" />
+					<line x1={p.x} y1={py(0)} x2={p.x} y2={py(64)} class="s-fg w2" />
+					{[0, 5, 10].map((t) => <text x={px(p.x, t)} y={py(0) + 18} class="t-mid t-sm f-muted">{t}</text>)}
+					<text x={p.x + W / 2} y={py(0) + 38} class="t-mid t-sm">time, t (s)</text>
+					<text x={p.x + 10} y="30" class="t-b f-sky">{p.label}</text>
+				</>
+			);
+		})
+	}
+	<text x="18" y={py(30)} class="t-mid t-sm" transform={`rotate(-90 18 ${py(30)})`}>speed (m/s)</text>
+	<text x={px(60, 6.2)} y={py(v(8.2))} class="t-end t-sm f-amber halo">v = 0.6t²</text>
+	<text x="300" y="284" class="t-mid t-sm f-muted">The exact area is 200 m. Thinner strips leave smaller gaps under the curve.</text>
+</svg>
