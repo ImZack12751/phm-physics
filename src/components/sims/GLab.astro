@@ -1,0 +1,100 @@
+---
+// Simulation: measure g aboard the ship by hand-timed drops or by counting pendulum swings, with random timing errors.
+---
+
+<div
+	class="sim gl"
+	data-title="Measuring g by hand"
+	data-description="Simulates Grace's two methods for measuring g aboard a ship accelerating at 1.5 g (14.7 m/s²). Method: timing a 0.91 m drop, or counting swings of a 1.12 m pendulum. Sliders set the number of repeated trials (1 to 30), the number of swings counted per trial for the pendulum (1 to 400), and the size of the hand-timing scatter (0 to 0.10 s). Each trial's estimate of g is plotted as a dot on an axis from 5 to 25 m/s², together with Earth's 9.81 and the true 14.7. The readout gives the mean, the spread and the uncertainty of the mean."
+>
+	<p class="sim-title">Simulation: measuring g by hand</p>
+	<p class="sim-help">Each dot is one trial. Timing by hand adds a random error to every stopwatch reading. Compare a single drop with an average of many, and both with a pendulum timed over many swings.</p>
+	<div class="sim-controls">
+		<label>Method
+			<select class="gl-m">
+				<option value="drop">time a 0.91 m drop</option>
+				<option value="pend">time N swings of a pendulum</option>
+			</select>
+		</label>
+		<label>Trials <input type="range" class="gl-n" min="1" max="30" step="1" value="5" /> <output class="gl-nv"></output></label>
+		<label>Swings per trial N <input type="range" class="gl-s" min="1" max="400" step="1" value="20" /> <output class="gl-sv"></output></label>
+		<label>Timing scatter <input type="range" class="gl-e" min="0" max="0.1" step="0.005" value="0.03" /> <output class="gl-ev"></output></label>
+	</div>
+	<svg class="dg gl-svg" viewBox="0 0 600 200" role="img" aria-label="Estimates of g from each trial"></svg>
+	<div class="readout gl-out" aria-live="polite"></div>
+</div>
+
+<script>
+	const G = 14.7, H = 0.91, LEN = 1.12;
+	const T0 = 2 * Math.PI * Math.sqrt(LEN / G), TDROP = Math.sqrt((2 * H) / G);
+	// Repeatable pseudo-random numbers, so the same settings always give the same dots.
+	function rng(seed: number) {
+		let s = seed >>> 0;
+		return () => ((s = (s * 1664525 + 1013904223) >>> 0) / 4294967296);
+	}
+	const gauss = (r: () => number) => Math.sqrt(-2 * Math.log(1 - r())) * Math.cos(2 * Math.PI * r());
+	document.querySelectorAll<HTMLElement>('.sim.gl').forEach((root) => {
+		const svg = root.querySelector<SVGSVGElement>('.gl-svg')!;
+		const M = root.querySelector<HTMLSelectElement>('.gl-m')!;
+		const N = root.querySelector<HTMLInputElement>('.gl-n')!, S = root.querySelector<HTMLInputElement>('.gl-s')!, E = root.querySelector<HTMLInputElement>('.gl-e')!;
+		const out = root.querySelector<HTMLElement>('.gl-out')!;
+		const NS = 'http://www.w3.org/2000/svg';
+		const el = (tag: string, at: Record<string, string | number>, text?: string) => {
+			const e = document.createElementNS(NS, tag);
+			Object.entries(at).forEach(([k, v]) => e.setAttribute(k, String(v)));
+			if (text !== undefined) e.textContent = text;
+			svg.append(e);
+			return e;
+		};
+		function draw() {
+			const pend = M.value === 'pend', n = +N.value, swings = +S.value, err = +E.value;
+			root.querySelector('.gl-nv')!.textContent = String(n);
+			root.querySelector('.gl-sv')!.textContent = pend ? String(swings) : '(pendulum only)';
+			root.querySelector('.gl-ev')!.textContent = `± ${err.toFixed(3)} s`;
+			S.disabled = !pend;
+			const r = rng(12345 + n * 7 + swings * 131 + Math.round(err * 1000) * 17 + (pend ? 99991 : 0));
+			const gs: number[] = [];
+			for (let i = 0; i < n; i++) {
+				const e = err * gauss(r);
+				if (pend) {
+					const T = (swings * T0 + e) / swings;
+					gs.push((4 * Math.PI * Math.PI * LEN) / (T * T));
+				} else {
+					const t = Math.max(0.05, TDROP + e);
+					gs.push((2 * H) / (t * t));
+				}
+			}
+			const mean = gs.reduce((a, b) => a + b, 0) / n;
+			const sd = n > 1 ? Math.sqrt(gs.reduce((a, b) => a + (b - mean) ** 2, 0) / (n - 1)) : NaN;
+			const se = sd / Math.sqrt(n);
+			const L = 40, R = 570, GMIN = 5, GMAX = 25, Y = 110;
+			const px = (g: number) => L + ((Math.max(GMIN, Math.min(GMAX, g)) - GMIN) / (GMAX - GMIN)) * (R - L);
+			svg.replaceChildren();
+			el('line', { x1: L, y1: Y + 40, x2: R, y2: Y + 40, class: 's-fg w2' });
+			for (let g = 5; g <= 25; g += 5) {
+				el('line', { x1: px(g), y1: Y + 36, x2: px(g), y2: Y + 44, class: 's-fg w1' });
+				el('text', { x: px(g), y: Y + 60, class: 't-mid t-sm f-muted' }, String(g));
+			}
+			el('text', { x: (L + R) / 2, y: Y + 82, class: 't-mid t-sm' }, 'estimate of g (m/s²)');
+			el('line', { x1: px(9.81), y1: 20, x2: px(9.81), y2: Y + 40, class: 's-rose w2 dash' });
+			el('text', { x: px(9.81), y: 16, class: 't-mid t-sm f-rose' }, 'Earth');
+			el('line', { x1: px(G), y1: 20, x2: px(G), y2: Y + 40, class: 's-muted w1 dash' });
+			el('text', { x: px(G), y: 16, class: 't-mid t-sm f-muted' }, 'true 14.7');
+			gs.forEach((g, i) => el('circle', { cx: px(g), cy: Y + 22 - (i % 6) * 9, r: 4, class: 'f-sky', opacity: 0.8 }));
+			if (n > 1) {
+				el('line', { x1: px(mean - se), y1: 40, x2: px(mean + se), y2: 40, class: 's-amber w3' });
+				el('line', { x1: px(mean - se), y1: 33, x2: px(mean - se), y2: 47, class: 's-amber w2' });
+				el('line', { x1: px(mean + se), y1: 33, x2: px(mean + se), y2: 47, class: 's-amber w2' });
+			}
+			el('circle', { cx: px(mean), cy: 40, r: 6, class: 'f-amber' });
+			out.innerHTML =
+				`<span class="k">${pend ? `each trial times ${swings} swing${swings > 1 ? 's' : ''}` : 'each trial times one drop'}</span><br>` +
+				`<span class="k">mean of ${n} trial${n > 1 ? 's' : ''}</span> = <b>${mean.toFixed(3)} m/s²</b>` +
+				(n > 1 ? ` &nbsp; <span class="k">spread (standard deviation)</span> = ${sd.toFixed(3)} &nbsp; <span class="k">uncertainty of the mean</span> = ± <b>${se.toFixed(3)} m/s²</b>` : ' (one trial: no spread to measure)') +
+				`<br><span class="k">is Earth's 9.81 ruled out?</span> ${n > 1 ? (mean - 3 * se > 9.81 ? 'yes, by more than three times the uncertainty' : 'not convincingly') : 'take more trials to tell'}`;
+		}
+		M.addEventListener('change', draw);
+		[N, S, E].forEach((i) => i.addEventListener('input', draw));
+		draw();
+	});
+</script>

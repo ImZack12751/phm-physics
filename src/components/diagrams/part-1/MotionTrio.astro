@@ -1,0 +1,50 @@
+---
+// Position, velocity and acceleration graphs for one trip: speed up, cruise, slow down.
+// a = 2 m/s² for 0–5 s, 0 for 5–10 s, −2.5 m/s² for 10–14 s.
+const L = 90, R = 560, TMAX = 14;
+const px = (t: number) => L + (t / TMAX) * (R - L);
+const a = (t: number) => (t < 5 ? 2 : t < 10 ? 0 : -2.5);
+const v = (t: number) => (t < 5 ? 2 * t : t < 10 ? 10 : 10 - 2.5 * (t - 10));
+const x = (t: number) => (t < 5 ? t * t : t < 10 ? 25 + 10 * (t - 5) : 75 + 10 * (t - 10) - 1.25 * (t - 10) ** 2);
+const panels = [
+	{ top: 34, h: 100, lo: 0, hi: 100, f: x, label: 'position x (m)', ticks: [0, 50, 100], cls: 's-amber' },
+	{ top: 160, h: 100, lo: 0, hi: 12, f: v, label: 'velocity v (m/s)', ticks: [0, 5, 10], cls: 's-sky' },
+	{ top: 286, h: 90, lo: -3, hi: 3, f: a, label: 'acceleration a (m/s²)', ticks: [-2.5, 0, 2], cls: 's-green' },
+];
+const path = (p: (typeof panels)[number]) =>
+	Array.from({ length: 281 }, (_, i) => {
+		const t = (i / 280) * TMAX;
+		const y = p.top + p.h - ((p.f(t) - p.lo) / (p.hi - p.lo)) * p.h;
+		return `${i ? 'L' : 'M'}${px(t).toFixed(1)},${y.toFixed(1)}`;
+	}).join(' ');
+const yOf = (p: (typeof panels)[number], val: number) => p.top + p.h - ((val - p.lo) / (p.hi - p.lo)) * p.h;
+---
+
+<svg class="dg" viewBox="0 0 600 430" xmlns="http://www.w3.org/2000/svg">
+	{[5, 10].map((t) => <line x1={px(t)} y1="24" x2={px(t)} y2="378" class="s-grid w1 dash" />)}
+	{
+		panels.map((p) => (
+			<>
+				{p.ticks.map((tk) => (
+					<>
+						<line x1={L} y1={yOf(p, tk)} x2={R} y2={yOf(p, tk)} class="s-grid w1" />
+						<text x={L - 6} y={yOf(p, tk) + 4} class="t-end t-sm f-muted">{tk}</text>
+					</>
+				))}
+				<line x1={L} y1={p.top} x2={L} y2={p.top + p.h} class="s-fg w1" />
+				<path d={path(p)} class={`${p.cls} w3`} />
+				<text x="16" y={p.top + p.h / 2} class="t-mid t-sm" transform={`rotate(-90 16 ${p.top + p.h / 2})`}>{p.label}</text>
+			</>
+		))
+	}
+	<line x1={L} y1={yOf(panels[2], 0)} x2={R} y2={yOf(panels[2], 0)} class="s-muted w1" />
+	{[0, 5, 10, 14].map((t) => <text x={px(t)} y="398" class="t-mid t-sm f-muted">{t}</text>)}
+	<text x={px(7)} y="420" class="t-mid t-sm">time, t (s)</text>
+	<text x={px(2.5)} y="16" class="t-mid t-sm f-muted">speeding up</text>
+	<text x={px(7.5)} y="16" class="t-mid t-sm f-muted">cruising</text>
+	<text x={px(12)} y="16" class="t-mid t-sm f-muted">slowing down</text>
+	<text x={px(8.2)} y={yOf(panels[0], 50) + 14} class="t-sm f-amber halo">slope = 10 m/s</text>
+	<text x={px(7.5)} y={yOf(panels[1], 10) + 22} class="t-mid t-sm f-sky halo">area = 50 m</text>
+	<text x={px(2.5)} y={yOf(panels[2], 2) - 8} class="t-mid t-sm f-green">+2 m/s²</text>
+	<text x={px(12)} y={yOf(panels[2], -2.5) + 18} class="t-mid t-sm f-green">−2.5 m/s²</text>
+</svg>

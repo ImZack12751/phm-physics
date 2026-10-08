@@ -409,6 +409,34 @@ nav.sidebar a[aria-current='page'].chapter-done::after {
 	font-weight: 600;
 	color: var(--sl-color-white);
 }
+.dash-jump {
+	margin-top: 0.25rem;
+	font-size: var(--sl-text-sm);
+}
+.dash-details {
+	margin-top: 0.75rem;
+	border: 1px solid var(--sl-color-gray-5);
+	border-radius: 6px;
+	background: var(--box-bg);
+	padding: 0.5rem 1rem;
+}
+.dash-details > summary {
+	cursor: pointer;
+	font-weight: 600;
+	color: var(--sl-color-text-accent);
+	width: fit-content;
+}
+.dash-details > summary::after {
+	content: ' (click to show)';
+	font-weight: 400;
+	color: var(--sl-color-gray-3);
+}
+.dash-details[open] > summary::after {
+	content: ' (click to hide)';
+}
+.dash-details[open] > summary {
+	margin-bottom: 0.5rem;
+}
 .dash-table tr.is-done td {
 	color: var(--sl-color-green-high);
 }

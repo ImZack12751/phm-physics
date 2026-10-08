@@ -540,4 +540,107 @@ export const glossary = {
 		def: 'The height of the rectangle with the same width and area as the area under f: (1/(b − a)) ∫ₐᵇ f(x) dx.',
 		chapter: 'fundamental-theorem',
 	},
+
+	// ---- 1.1 Position, velocity and acceleration ----
+	'reference-frame': {
+		term: 'Reference frame',
+		def: 'A choice of origin, positive directions and clock from which positions and times are measured. Physics works in any sensible frame.',
+		chapter: 'kinematics',
+	},
+	position: {
+		term: 'Position (x)',
+		def: 'Where something is, measured from the origin of a reference frame. Along a line it is a signed number; in space it is a vector.',
+		chapter: 'kinematics',
+	},
+	'instantaneous-velocity': {
+		term: 'Instantaneous velocity',
+		def: 'The velocity at a single moment, v = dx/dt: the slope of the position–time graph at that moment.',
+		chapter: 'kinematics',
+	},
+	speed: {
+		term: 'Speed',
+		def: 'How fast something moves, regardless of direction: the size of the velocity, |v|. A scalar.',
+		chapter: 'kinematics',
+	},
+
+	// ---- 1.2 The equations of motion ----
+	'uniform-acceleration': {
+		term: 'Uniform acceleration',
+		def: 'Acceleration that stays constant in size and direction, so the velocity–time graph is a straight line.',
+		chapter: 'equations-of-motion',
+	},
+	'kinematic-equations': {
+		term: 'Kinematic equations ("suvat")',
+		def: 'The five equations linking displacement s, initial velocity u, final velocity v, acceleration a and time t when the acceleration is constant.',
+		chapter: 'equations-of-motion',
+	},
+	'flip-and-burn': {
+		term: 'Flip-and-burn',
+		def: 'A trip plan: accelerate for the first half, turn the ship round, and decelerate for the second half, arriving at rest.',
+		chapter: 'equations-of-motion',
+	},
+
+	// ---- 1.3 Free fall ----
+	'free-fall': {
+		term: 'Free fall',
+		def: 'Motion under gravity alone, with nothing else pushing or pulling. In free fall all objects have the same acceleration.',
+		chapter: 'free-fall',
+	},
+	'acceleration-due-to-gravity': {
+		term: 'Acceleration due to gravity (g)',
+		def: 'The acceleration of an object in free fall: about 9.81 m/s² on Earth, 1.62 m/s² on the Moon and 3.73 m/s² on Mars.',
+		chapter: 'free-fall',
+	},
+	'air-resistance': {
+		term: 'Air resistance',
+		def: 'The push of the air against a moving object. It grows with speed and acts against the motion.',
+		chapter: 'free-fall',
+	},
+	'terminal-velocity': {
+		term: 'Terminal velocity',
+		def: 'The steady speed a falling object reaches when air resistance has grown to balance the pull of gravity.',
+		chapter: 'free-fall',
+	},
+	projectile: {
+		term: 'Projectile',
+		def: 'An object launched and then left to move under gravity alone. Its horizontal velocity stays constant while it falls vertically.',
+		chapter: 'free-fall',
+	},
+
+	// ---- 1.4 Measuring g ----
+	uncertainty: {
+		term: 'Uncertainty',
+		def: 'The range within which the true value of a measurement probably lies, written as value ± uncertainty.',
+		chapter: 'measuring-g',
+	},
+	'fractional-uncertainty': {
+		term: 'Fractional uncertainty',
+		def: 'Uncertainty divided by the value (often as a percentage). For y ∝ xⁿ, it is multiplied by n.',
+		chapter: 'measuring-g',
+	},
+	'random-error': {
+		term: 'Random error',
+		def: 'An error that scatters results unpredictably both ways, such as varying reaction time. Averaging reduces it.',
+		chapter: 'measuring-g',
+	},
+	'systematic-error': {
+		term: 'Systematic error',
+		def: 'An error that pushes every result the same way, such as a miscalibrated ruler. Averaging does not reduce it.',
+		chapter: 'measuring-g',
+	},
+	mean: {
+		term: 'Mean',
+		def: 'The ordinary average: the sum of the readings divided by how many there are.',
+		chapter: 'measuring-g',
+	},
+	'standard-deviation': {
+		term: 'Standard deviation',
+		def: 'A measure of how widely readings scatter about their mean. The uncertainty of the mean is about the standard deviation ÷ √N.',
+		chapter: 'measuring-g',
+	},
+	period: {
+		term: 'Period (T)',
+		def: 'The time for one complete cycle of a repeating motion, such as one full swing of a pendulum, out and back.',
+		chapter: 'measuring-g',
+	},
 };

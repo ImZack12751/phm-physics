@@ -1,0 +1,33 @@
+---
+// T² against L for a pendulum at 1.5 g: a straight line through the origin with slope 4π²/g.
+const O = { x: 80, y: 260 }, SX = 300, SY = 60;
+const px = (L: number) => O.x + L * SX, py = (T2: number) => O.y - T2 * SY;
+const data = [
+	{ L: 0.5, T: 1.159 },
+	{ L: 0.75, T: 1.419 },
+	{ L: 1.0, T: 1.639 },
+	{ L: 1.25, T: 1.832 },
+];
+const slope = 2.684;
+---
+
+<svg class="dg" viewBox="0 0 600 320" xmlns="http://www.w3.org/2000/svg">
+	{[0, 1, 2, 3].map((v) => (
+		<>
+			<line x1={px(0)} y1={py(v)} x2={px(1.4)} y2={py(v)} class="s-grid w1" />
+			<text x={px(0) - 8} y={py(v) + 4} class="t-end t-sm f-muted">{v}</text>
+		</>
+	))}
+	{[0, 0.25, 0.5, 0.75, 1, 1.25].map((L) => <text x={px(L)} y={O.y + 20} class="t-mid t-sm f-muted">{L}</text>)}
+	<line x1={px(0)} y1={py(0)} x2={px(1.38)} y2={py(1.38 * slope)} class="s-amber w2" />
+	{data.map((d) => <circle cx={px(d.L)} cy={py(d.T * d.T)} r="6" class="f-sky" />)}
+	<line x1={px(0)} y1={O.y} x2={px(1.42)} y2={O.y} class="s-fg w2" />
+	<line x1={px(0)} y1={O.y} x2={px(0)} y2={py(3.9)} class="s-fg w2" />
+	<path d={`M${px(0.5)},${py(0.5 * slope)} L${px(1.25)},${py(0.5 * slope)} L${px(1.25)},${py(1.25 * slope)}`} class="s-fg w1 dash" />
+	<text x={px(0.875)} y={py(0.5 * slope) + 18} class="t-mid t-sm">ΔL = 0.75 m</text>
+	<text x={px(1.25) + 8} y={py(0.875 * slope) + 4} class="t-sm">ΔT² = 2.013 s²</text>
+	<text x={px(0.05)} y="34" class="t-sm t-b f-amber">slope = 2.013 ÷ 0.75 = 2.684 s²/m</text>
+	<text x={px(0.05)} y="54" class="t-sm f-amber">g = 4π² ÷ slope = 14.7 m/s²</text>
+	<text x={px(0.7)} y={O.y + 40} class="t-mid t-sm">pendulum length, L (m)</text>
+	<text x="26" y={py(1.8)} class="t-mid t-sm" transform={`rotate(-90 26 ${py(1.8)})`}>period squared, T² (s²)</text>
+</svg>

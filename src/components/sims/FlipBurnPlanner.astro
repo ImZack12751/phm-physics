@@ -1,0 +1,79 @@
+---
+// Simulation: plan a flip-and-burn trip with Newton's equations of motion and compare the peak speed with light speed.
+---
+
+<div
+	class="sim fb"
+	data-title="Flip-and-burn trip planner"
+	data-description="Choose a distance (the Moon, 1 au, 5.2 au, or Tau Ceti at 11.9 light-years) and an acceleration from 0.1 g to 3 g. The craft accelerates for half the distance, flips, and decelerates for the other half. Using the constant-acceleration equations, the simulation draws the triangular speed–time graph and reports the trip time and the peak speed, both in everyday units and as a fraction of the speed of light, and warns when the Newtonian answer exceeds light speed."
+>
+	<p class="sim-title">Simulation: flip-and-burn trip planner</p>
+	<p class="sim-help">Accelerate for the first half, flip the ship round, and brake for the second half, arriving at rest. Newton's equations give the trip time and the peak speed. For which trips do they give an impossible answer?</p>
+	<div class="sim-controls">
+		<label>Distance
+			<select class="fb-d">
+				<option value="moon">Earth to Moon (384 400 km)</option>
+				<option value="au">1 au (Earth to Sun)</option>
+				<option value="jup">5.2 au (Sun to Jupiter)</option>
+				<option value="tau" selected>Tau Ceti (11.9 light-years)</option>
+			</select>
+		</label>
+		<label>Acceleration <input type="range" class="fb-a" min="0.1" max="3" step="0.1" value="1.5" /> <output class="fb-av"></output></label>
+	</div>
+	<svg class="dg fb-svg" viewBox="0 0 600 300" role="img" aria-label="Speed–time graph for a flip-and-burn trip"></svg>
+	<div class="readout fb-out" aria-live="polite"></div>
+</div>
+
+<script>
+	const C = 299792458, G = 9.81, YEAR = 365.25 * 86400;
+	const D: Record<string, number> = { moon: 3.844e8, au: 1.495978707e11, jup: 5.2 * 1.495978707e11, tau: 11.912 * C * YEAR };
+	const fmtTime = (s: number) =>
+		s < 2 * 86400 ? `${(s / 3600).toFixed(1)} hours` : s < 2 * YEAR ? `${(s / 86400).toFixed(1)} days` : `${(s / YEAR).toFixed(2)} years`;
+	document.querySelectorAll<HTMLElement>('.sim.fb').forEach((root) => {
+		const svg = root.querySelector<SVGSVGElement>('.fb-svg')!;
+		const S = root.querySelector<HTMLSelectElement>('.fb-d')!, A = root.querySelector<HTMLInputElement>('.fb-a')!;
+		const out = root.querySelector<HTMLElement>('.fb-out')!;
+		const NS = 'http://www.w3.org/2000/svg';
+		const el = (tag: string, at: Record<string, string | number>, text?: string) => {
+			const e = document.createElementNS(NS, tag);
+			Object.entries(at).forEach(([k, v]) => e.setAttribute(k, String(v)));
+			if (text !== undefined) e.textContent = text;
+			svg.append(e);
+			return e;
+		};
+		function draw() {
+			const d = D[S.value], g = +A.value, a = g * G;
+			root.querySelector('.fb-av')!.textContent = `${g.toFixed(1)} g`;
+			const tHalf = Math.sqrt(d / a), T = 2 * tHalf, vpk = a * tHalf;
+			const L = 80, R = 560, Tp = 30, B = 250;
+			const vmax = Math.max(vpk, vpk > 0.3 * C ? C : 0) * 1.15;
+			const px = (t: number) => L + (t / T) * (R - L), py = (v: number) => B - (v / vmax) * (B - Tp);
+			svg.replaceChildren();
+			el('path', { d: `M${px(0)},${py(0)} L${px(tHalf)},${py(vpk)} L${px(T)},${py(0)} Z`, class: 'f-amber-soft' });
+			el('path', { d: `M${px(0)},${py(0)} L${px(tHalf)},${py(vpk)} L${px(T)},${py(0)}`, class: 's-amber w3' });
+			el('line', { x1: L, y1: B, x2: R + 10, y2: B, class: 's-fg w2' });
+			el('line', { x1: L, y1: B, x2: L, y2: Tp - 10, class: 's-fg w2' });
+			if (C < vmax) {
+				el('line', { x1: L, y1: py(C), x2: R + 10, y2: py(C), class: 's-rose w2 dash' });
+				el('text', { x: R + 4, y: py(C) - 6, class: 't-end t-sm t-b f-rose' }, 'speed of light');
+			}
+			el('text', { x: px(tHalf), y: py(vpk) - 10, class: 't-mid t-sm t-b f-amber' }, 'flip');
+			el('text', { x: L, y: B + 20, class: 't-mid t-sm f-muted' }, '0');
+			el('text', { x: px(T), y: B + 20, class: 't-mid t-sm f-muted' }, fmtTime(T));
+			el('text', { x: (L + R) / 2, y: B + 40, class: 't-mid t-sm' }, 'time');
+			el('text', { x: 20, y: (Tp + B) / 2, class: 't-mid t-sm', transform: `rotate(-90 20 ${(Tp + B) / 2})` }, 'speed');
+			const frac = vpk / C;
+			out.innerHTML =
+				`<span class="k">time to the flip</span> = √(d ÷ a) = <b>${fmtTime(tHalf)}</b> &nbsp; <span class="k">whole trip</span> = <b>${fmtTime(T)}</b><br>` +
+				`<span class="k">peak speed</span> = a × t = <b>${vpk >= 1e5 ? (vpk / 1000).toExponential(3) : (vpk / 1000).toFixed(2)} km/s</b> = ${frac >= 0.01 ? (frac * 100).toFixed(1) + '%' : (frac * 100).toExponential(2) + '%'} of light speed<br>` +
+				(frac > 1
+					? '<b>Impossible:</b> Newton\'s equations predict a speed above light speed. Part 10 (special relativity) gives the real answer.'
+					: frac > 0.1
+						? 'Above about 10% of light speed, Newton\'s equations start to go noticeably wrong (Part 10).'
+						: 'Well below light speed: Newton\'s equations are an excellent description.');
+		}
+		S.addEventListener('change', draw);
+		A.addEventListener('input', draw);
+		draw();
+	});
+</script>

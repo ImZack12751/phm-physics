@@ -1,0 +1,37 @@
+---
+// Three estimates of g on one axis, with their uncertainty ranges, against Earth's value.
+const L = 60, R = 570, GMIN = 8, GMAX = 22;
+const px = (g: number) => L + ((g - GMIN) / (GMAX - GMIN)) * (R - L);
+const rows = [
+	{ y: 80, g: 15.03, lo: 10.6, hi: 19.4, name: 'one timed drop: 15.0 ± 4.4', cls: 'amber' },
+	{ y: 150, g: 15.2, lo: 14.4, hi: 16.0, name: 'average of five drops: 15.2 ± 0.8', cls: 'sky' },
+	{ y: 220, g: 14.70, lo: 14.68, hi: 14.72, name: 'pendulum, 346 swings: 14.70 ± 0.02', cls: 'green' },
+];
+---
+
+<svg class="dg" viewBox="0 0 600 310" xmlns="http://www.w3.org/2000/svg">
+	<line x1={px(9.81)} y1="40" x2={px(9.81)} y2="252" class="s-rose w2 dash" />
+	<text x={px(9.81)} y="32" class="t-mid t-sm t-b f-rose">Earth 9.81</text>
+	<line x1={px(14.7)} y1="40" x2={px(14.7)} y2="252" class="s-muted w1 dash" />
+	<text x={px(14.7)} y="32" class="t-mid t-sm f-muted">1.5 g = 14.7</text>
+	{
+		rows.map((r) => (
+			<>
+				<line x1={px(r.lo)} y1={r.y} x2={px(r.hi)} y2={r.y} class={`s-${r.cls} w3`} />
+				<line x1={px(r.lo)} y1={r.y - 8} x2={px(r.lo)} y2={r.y + 8} class={`s-${r.cls} w2`} />
+				<line x1={px(r.hi)} y1={r.y - 8} x2={px(r.hi)} y2={r.y + 8} class={`s-${r.cls} w2`} />
+				<circle cx={px(r.g)} cy={r.y} r="6" class={`f-${r.cls}`} />
+				<text x={px(r.hi) + 12} y={r.y + 4} class={`t-sm f-${r.cls}`}>{r.name.split(':')[0]}</text>
+				<text x={px(r.hi) + 12} y={r.y + 20} class="t-sm f-muted">{r.name.split(':')[1].trim()} m/s²</text>
+			</>
+		))
+	}
+	<line x1={L} y1="260" x2={R} y2="260" class="s-fg w2" />
+	{[8, 10, 12, 14, 16, 18, 20, 22].map((g) => (
+		<>
+			<line x1={px(g)} y1="256" x2={px(g)} y2="264" class="s-fg w1" />
+			<text x={px(g)} y="280" class="t-mid t-sm f-muted">{g}</text>
+		</>
+	))}
+	<text x="315" y="302" class="t-mid t-sm">measured g (m/s²)</text>
+</svg>

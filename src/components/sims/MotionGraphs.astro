@@ -1,0 +1,97 @@
+---
+// Simulation: choose a starting position, starting velocity and constant acceleration; scrub through time and
+// see the craft on its track together with its position, velocity and acceleration graphs.
+---
+
+<div
+	class="sim mg"
+	data-title="Motion graphs"
+	data-description="A craft moves along a straight track with constant acceleration. Sliders set the starting position x₀ (−40 to 40 m), the starting velocity v₀ (−10 to 10 m/s) and the acceleration a (−3 to 3 m/s²), and a time slider scrubs from 0 to 10 s. The craft is drawn on the track at its current position with a velocity arrow, and three graphs show position, velocity and acceleration against time with a marker at the current moment. The readout gives x, v and a and says whether the craft is speeding up or slowing down."
+>
+	<p class="sim-title">Simulation: motion graphs</p>
+	<p class="sim-help">Set how the craft starts and how it accelerates, then drag the time slider. Watch how the slope of each graph gives the one below it. Try a positive velocity with a negative acceleration: the craft slows, stops and comes back.</p>
+	<div class="sim-controls">
+		<label>Start position x₀ <input type="range" class="mg-x0" min="-40" max="40" step="1" value="-20" /> <output class="mg-x0v"></output></label>
+		<label>Start velocity v₀ <input type="range" class="mg-v0" min="-10" max="10" step="0.5" value="8" /> <output class="mg-v0v"></output></label>
+		<label>Acceleration a <input type="range" class="mg-a" min="-3" max="3" step="0.1" value="-1.5" /> <output class="mg-av"></output></label>
+		<label>Time t <input type="range" class="mg-t" min="0" max="10" step="0.05" value="3" /> <output class="mg-tv"></output></label>
+	</div>
+	<svg class="dg mg-svg" viewBox="0 0 600 470" role="img" aria-label="A craft on a straight track and its position, velocity and acceleration graphs"></svg>
+	<div class="readout mg-out" aria-live="polite"></div>
+</div>
+
+<script>
+	document.querySelectorAll<HTMLElement>('.sim.mg').forEach((root) => {
+		const svg = root.querySelector<SVGSVGElement>('.mg-svg')!;
+		const q = (c: string) => root.querySelector<HTMLInputElement>(c)!;
+		const X0 = q('.mg-x0'), V0 = q('.mg-v0'), A = q('.mg-a'), T = q('.mg-t');
+		const out = root.querySelector<HTMLElement>('.mg-out')!;
+		const NS = 'http://www.w3.org/2000/svg';
+		const el = (tag: string, at: Record<string, string | number>, text?: string) => {
+			const e = document.createElementNS(NS, tag);
+			Object.entries(at).forEach(([k, v]) => e.setAttribute(k, String(v)));
+			if (text !== undefined) e.textContent = text;
+			svg.append(e);
+			return e;
+		};
+		const L = 80, R = 580, TMAX = 10;
+		const pt = (t: number) => L + (t / TMAX) * (R - L);
+		function draw() {
+			const x0 = +X0.value, v0 = +V0.value, a = +A.value, t = +T.value;
+			root.querySelector('.mg-x0v')!.textContent = `${x0} m`;
+			root.querySelector('.mg-v0v')!.textContent = `${v0} m/s`;
+			root.querySelector('.mg-av')!.textContent = `${a.toFixed(1)} m/s²`;
+			root.querySelector('.mg-tv')!.textContent = `${t.toFixed(2)} s`;
+			const x = (s: number) => x0 + v0 * s + 0.5 * a * s * s, v = (s: number) => v0 + a * s;
+			svg.replaceChildren();
+			// track
+			const xs = Array.from({ length: 101 }, (_, i) => x((i / 100) * TMAX));
+			const span = Math.max(60, ...xs.map(Math.abs)) * 1.1;
+			const tx = (val: number) => 300 + (val / span) * 270;
+			el('line', { x1: 30, y1: 40, x2: 570, y2: 40, class: 's-muted w2' });
+			for (const k of [-1, -0.5, 0, 0.5, 1]) {
+				const val = Math.round(k * span);
+				el('line', { x1: tx(val), y1: 35, x2: tx(val), y2: 45, class: 's-muted w1' });
+				el('text', { x: tx(val), y: 62, class: 't-mid t-sm f-muted' }, `${val} m`);
+			}
+			const cx = tx(x(t));
+			el('rect', { x: cx - 14, y: 28, width: 28, height: 24, rx: 5, class: 'f-amber' });
+			const vt = v(t);
+			if (Math.abs(vt) > 0.05) {
+				const len = Math.max(-80, Math.min(80, vt * 8));
+				el('line', { x1: cx, y1: 18, x2: cx + len, y2: 18, class: 's-sky w3' });
+				el('path', { d: `M${cx + len},18 l${-Math.sign(len) * 8},-5 l0,10 Z`, class: 'f-sky' });
+			}
+			// graphs
+			const panes = [
+				{ top: 90, h: 110, f: x, name: 'x (m)', cls: 's-amber' },
+				{ top: 220, h: 110, f: v, name: 'v (m/s)', cls: 's-sky' },
+				{ top: 350, h: 80, f: () => a, name: 'a (m/s²)', cls: 's-green' },
+			];
+			for (const p of panes) {
+				const vals = Array.from({ length: 201 }, (_, i) => p.f((i / 200) * TMAX));
+				let lo = Math.min(0, ...vals), hi = Math.max(0, ...vals);
+				if (hi - lo < 1) { lo -= 1; hi += 1; }
+				const pad = (hi - lo) * 0.1;
+				lo -= pad; hi += pad;
+				const py = (val: number) => p.top + p.h - ((val - lo) / (hi - lo)) * p.h;
+				el('rect', { x: L, y: p.top, width: R - L, height: p.h, class: 's-grid w1' });
+				el('line', { x1: L, y1: py(0), x2: R, y2: py(0), class: 's-muted w1' });
+				el('text', { x: L - 8, y: py(0) + 4, class: 't-end t-sm f-muted' }, '0');
+				el('text', { x: L + 6, y: p.top + 14, class: 't-sm halo' }, p.name);
+				el('path', { d: vals.map((val, i) => `${i ? 'L' : 'M'}${pt((i / 200) * TMAX)},${py(val)}`).join(' '), class: `${p.cls} w3` });
+				el('circle', { cx: pt(t), cy: py(p.f(t)), r: 5, class: 'f-fg' });
+			}
+			el('line', { x1: pt(t), y1: 90, x2: pt(t), y2: 430, class: 's-muted w1 dash' });
+			for (let s = 0; s <= TMAX; s += 2) el('text', { x: pt(s), y: 448, class: 't-mid t-sm f-muted' }, String(s));
+			el('text', { x: (L + R) / 2, y: 466, class: 't-mid t-sm' }, 'time, t (s)');
+			const state = Math.abs(vt) < 0.05 ? 'momentarily at rest' : a === 0 ? 'moving at constant velocity' : vt * a > 0 ? 'speeding up (v and a have the same sign)' : 'slowing down (v and a have opposite signs)';
+			out.innerHTML =
+				`<span class="k">x</span> = ${x(t).toFixed(2)} m &nbsp; <span class="k">v</span> = ${vt.toFixed(2)} m/s &nbsp; <span class="k">a</span> = ${a.toFixed(1)} m/s²<br>` +
+				`<span class="k">speed</span> = |v| = ${Math.abs(vt).toFixed(2)} m/s<br>` +
+				`<span class="k">The craft is</span> <b>${state}</b>.`;
+		}
+		[X0, V0, A, T].forEach((i) => i.addEventListener('input', draw));
+		draw();
+	});
+</script>

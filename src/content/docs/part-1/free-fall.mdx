@@ -1,0 +1,334 @@
+---
+title: Free fall
+description: Why everything falls with the same acceleration, the equations for drops and throws on Earth, the Moon, Mars and aboard the Hail Mary, the symmetry of a throw, air resistance, and sideways launches.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import StrobeFall from '../../../components/diagrams/part-1/StrobeFall.astro';
+import ThrowVt from '../../../components/diagrams/part-1/ThrowVt.astro';
+import DropLab from '../../../components/sims/DropLab.astro';
+
+## The scene
+
+One of the first things Grace does after waking is drop something and time how long it takes to hit the floor. It's an odd thing to do, but it's the right instinct for a scientist. Falling is the simplest motion there is, and it carries a fingerprint: the acceleration of free fall tells you how strong gravity is where you are. On Earth, the answer is always the same. When Grace's answer comes out different, he knows he isn't on Earth.
+
+This chapter applies the equations of motion to falling objects: dropped, thrown up, thrown down and thrown sideways, on Earth, on the Moon, on Mars, and inside a ship accelerating at 1.5 g.
+
+## Prerequisites
+
+<Prereqs notes={{ 'equations-of-motion': 'the five constant-acceleration equations and the recipe for choosing one' }} />
+
+## The concept
+
+### Everything falls the same way
+
+Drop a hammer and a feather and the hammer lands first. For two thousand years most people concluded that heavy things fall faster. Galileo argued the opposite: without air in the way, **all objects fall with the same acceleration**, whatever their mass. The feather is slowed by the air, not by being light.
+
+In 1971, at the end of the Apollo 15 mission, astronaut David Scott tested this on the airless Moon. He dropped a 1.32 kg hammer and a falcon feather together from about 1.6 m, and they hit the ground at the same moment.
+
+Motion under gravity alone, with nothing else pushing or pulling, is called <Term id="free-fall">free fall</Term>. The acceleration of free fall is called the <Term id="acceleration-due-to-gravity">acceleration due to gravity</Term>, written $g$. Near Earth's surface it is about $9.81\ \text{m/s}^{2}$, varying slightly from place to place. (The internationally agreed "standard" value is $9.806\,65\ \text{m/s}^{2}$.) It is $1.62\ \text{m/s}^{2}$ on the Moon and $3.73\ \text{m/s}^{2}$ on Mars.
+
+### Equal times, growing gaps
+
+Because the speed grows steadily, a falling object covers more distance in each successive tenth of a second than in the one before.
+
+<Figure caption="A dropped ball photographed every 0.1 s. The gaps grow in the ratio 1 : 3 : 5 : 7, because distance fallen grows with the square of the time. Aboard the Hail Mary, accelerating at 1.5 g, every gap is 1.5 times bigger." alt="Two columns of dots showing a falling ball every 0.1 s, against a scale of distance fallen from 0 to 120 cm. Earth column (blue), labelled 1 g: 0 s at 0 cm, 0.1 s at 4.9 cm, 0.2 s at 19.6 cm, 0.3 s at 44.1 cm, 0.4 s at 78.5 cm. Hail Mary column (amber), labelled 1.5 g: 0 s at 0 cm, 0.1 s at 7.4 cm, 0.2 s at 29.4 cm, 0.3 s at 66.2 cm, 0.4 s at 117.6 cm. Caption text: equal times, growing gaps (1 : 3 : 5 : 7 …); at 1.5 g every gap is 1.5 times bigger.">
+	<StrobeFall />
+</Figure>
+
+### Signs: choose "up" as positive
+
+Free-fall problems go smoothly with one fixed convention: **up is positive**. Then the acceleration is $a = -g$ at every moment of the flight: on the way up, at the top and on the way down.
+
+A common mistake is to think the acceleration is zero at the top of a throw. It is the **velocity** that is zero there, for an instant. The acceleration is still $-g$. That's why the ball doesn't hang in the air but immediately starts back down.
+
+### A throw is symmetric
+
+Throw a ball straight up at speed $u$. Its velocity falls steadily, $v = u - gt$, through zero at the top and on to negative values as it comes back down.
+
+<Figure caption="Velocity of a ball thrown straight up at 12 m/s on Earth. The line has the same slope, −9.81 m/s², all the way. The area above the axis (going up) equals the area below it (coming down), so it returns to its starting height after 2.45 s, moving at 12 m/s downwards." alt="A velocity–time graph with up taken as positive. A straight amber line falls from +12 m/s at t equals 0 to −12 m/s at about 2.45 s, crossing zero at 1.22 s, where a dot is labelled 'top: v = 0 at 1.22 s'. The triangle above the axis is green, labelled +7.34 m. The triangle below is red, labelled −7.34 m. Text: slope = −9.81 m/s² throughout. Bottom text: up and down take equal times, and it lands at the same speed it was thrown.">
+	<ThrowVt />
+</Figure>
+
+Without air resistance the motion is perfectly symmetric. The time up equals the time down, and at every height the ball has the same speed going up as coming down.
+
+### Air resistance and terminal velocity
+
+In air, a falling object also feels <Term id="air-resistance">air resistance</Term>, a push against its motion that grows as it speeds up. Eventually the push can grow strong enough to cancel the pull of gravity, and the object stops speeding up. It then falls at a steady <Term id="terminal-velocity">terminal velocity</Term>. A feather reaches its terminal velocity almost immediately. A dense spanner dropped a metre or two hardly notices the air at all, which is why Grace's table-top drops work well. (Part 2 explains this balance with forces.)
+
+### Falling sideways
+
+Throw something horizontally and it follows a curved path, a <Term id="projectile">projectile</Term>. As in Chapter 1.1, the horizontal and vertical motions are independent. Horizontally nothing pushes, so the velocity stays constant. Vertically it falls exactly as if it had been dropped. A ball thrown sideways and a ball dropped from the same height at the same moment hit the floor together.
+
+## Formulas
+
+All of these are the equations of motion with $a = -g$ (up positive), or with $a = +g$ and down positive for a simple drop.
+
+### Dropping from rest
+
+Down positive, $u = 0$, $a = g$, fall height $h$:
+
+$$
+h = \tfrac{1}{2}gt^{2} \quad\Rightarrow\quad \boxed{t = \sqrt{\frac{2h}{g}}}
+$$
+
+$$
+v = gt \qquad \boxed{v = \sqrt{2gh}} \quad (\text{from } v^{2} = u^{2} + 2as)
+$$
+
+### Thrown straight up
+
+Up positive, initial velocity $u$, $a = -g$:
+
+$$
+v = u - gt \qquad y = ut - \tfrac{1}{2}gt^{2}
+$$
+
+At the top $v = 0$:
+
+$$
+\boxed{t_{\text{top}} = \frac{u}{g}} \qquad \boxed{h_{\text{max}} = \frac{u^{2}}{2g}} \quad (\text{from } 0 = u^{2} - 2gh)
+$$
+
+It is back at the starting height when $y = 0$, so $t\left(u - \tfrac{1}{2}gt\right) = 0$, giving $t = \dfrac{2u}{g} = 2t_{\text{top}}$. Then $v = u - 2u = -u$: the same speed, pointing down.
+
+### From any height, with any launch velocity
+
+Starting at height $h$ with upward velocity $u$ (negative if thrown down), the height is $y = h + ut - \tfrac{1}{2}gt^{2}$. The ball reaches the floor ($y = 0$) at the positive root of this quadratic:
+
+$$
+t = \frac{u + \sqrt{u^{2} + 2gh}}{g}, \qquad \text{landing speed } = \sqrt{u^{2} + 2gh}.
+$$
+
+### Horizontal launch
+
+From height $h$ with horizontal speed $u$:
+
+$$
+x = ut \qquad y = h - \tfrac{1}{2}gt^{2} \qquad t_{\text{fall}} = \sqrt{\frac{2h}{g}} \qquad \boxed{\text{range} = u\sqrt{\frac{2h}{g}}}
+$$
+
+## Worked examples
+
+<Example n={1} title="Grace's table drop" book>
+Grace drops an object from the underside of a table 0.91 m above the floor. How long should the fall take on Earth? How long aboard a ship accelerating at 1.5 g?
+
+$$
+t_{\text{Earth}} = \sqrt{\frac{2 \times 0.91\ \text{m}}{9.81\ \text{m/s}^{2}}} = \sqrt{0.1855\ \text{s}^{2}} = 0.431\ \text{s}
+$$
+
+$$
+t_{\text{ship}} = \sqrt{\frac{2 \times 0.91\ \text{m}}{14.7\ \text{m/s}^{2}}} = 0.352\ \text{s}
+$$
+
+In the novel, Grace's stopwatch reads about 0.35 s, much closer to the second answer. The difference is less than a tenth of a second, which is about the size of a human reaction time. Chapter 1.4 asks how much he can trust it.
+</Example>
+
+<Example n={2} title="A ball thrown straight up">
+A ball is thrown straight up at 12 m/s on Earth. Find the time to the top, the greatest height, and the time until it returns to the hand.
+
+$$
+t_{\text{top}} = \frac{u}{g} = \frac{12\ \text{m/s}}{9.81\ \text{m/s}^{2}} = 1.22\ \text{s}
+$$
+
+$$
+h_{\text{max}} = \frac{u^{2}}{2g} = \frac{144\ \text{m}^{2}/\text{s}^{2}}{19.62\ \text{m/s}^{2}} = 7.34\ \text{m}
+$$
+
+$$
+t_{\text{return}} = 2t_{\text{top}} = 2.45\ \text{s}
+$$
+
+It comes back down at 12 m/s.
+</Example>
+
+<Example n={3} title="The same throw on the Moon and on Mars">
+Repeat Example 2 on the Moon ($g = 1.62\ \text{m/s}^{2}$) and on Mars ($g = 3.73\ \text{m/s}^{2}$).
+
+Moon: $h_{\text{max}} = \dfrac{144}{2 \times 1.62} = 44.4$ m and $t_{\text{return}} = \dfrac{2 \times 12}{1.62} = 14.8$ s.
+
+Mars: $h_{\text{max}} = \dfrac{144}{2 \times 3.73} = 19.3$ m and $t_{\text{return}} = \dfrac{24}{3.73} = 6.43$ s.
+
+Both grow in proportion to $1/g$. On the Moon, with about a sixth of Earth's gravity, the ball goes six times as high and stays up six times as long.
+</Example>
+
+<Example n={4} title="A tool knocked off a shelf" book>
+On the *Hail Mary* (1.5 g), a tool falls from a shelf 2.0 m above the floor. How fast is it moving when it lands? Compare with Earth.
+
+$$
+v_{\text{ship}} = \sqrt{2gh} = \sqrt{2 \times 14.7\ \text{m/s}^{2} \times 2.0\ \text{m}} = \sqrt{58.8}\ \text{m/s} = 7.67\ \text{m/s}
+$$
+
+$$
+v_{\text{Earth}} = \sqrt{2 \times 9.81 \times 2.0}\ \text{m/s} = 6.26\ \text{m/s}
+$$
+
+The landing speed is $\sqrt{1.5} = 1.22$ times higher on the ship. Speed grows with the *square root* of $g$, not with $g$ itself.
+</Example>
+
+<Example n={5} title="A spanner sliding off a bench">
+A spanner slides off the edge of a 1.2 m high bench at 3.0 m/s (on Earth). How long does it take to land, and how far from the bench?
+
+The vertical motion is just a drop from 1.2 m:
+
+$$
+t = \sqrt{\frac{2 \times 1.2\ \text{m}}{9.81\ \text{m/s}^{2}}} = 0.495\ \text{s}
+$$
+
+The horizontal velocity stays at 3.0 m/s throughout:
+
+$$
+x = 3.0\ \text{m/s} \times 0.495\ \text{s} = 1.48\ \text{m}
+$$
+
+The sideways speed doesn't change the fall time at all. It only decides how far away the spanner lands.
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** All objects fall with the same acceleration in a vacuum, as the Apollo 15 hammer-and-feather drop showed directly. The values of $g$ for Earth, the Moon and Mars are measured. The symmetry of a throw and the independence of horizontal and vertical motion are standard results, accurate whenever air resistance is small.
+
+**Weir's inventions.** The 1.5 g "gravity" aboard the *Hail Mary* comes from the ship's engines, not from a planet. Chapter 1.1 showed why a dropped object can't tell the difference. The table height (0.91 m) and fall time (about 0.35 s) are the novel's figures, as summarised by readers.
+
+**How realistic are the numbers?** Grace's drop takes about a third of a second, and timing something that short by hand is hard. The difference between Earth (0.43 s) and the ship (0.35 s) is real but small. The next chapter looks at how he can measure $g$ more reliably.
+</RealVsBook>
+
+## Interactive simulation
+
+<DropLab />
+
+Things to try: the default is Grace's 0.91 m drop on the ship. Switch the world to Earth and compare the times. Throw upwards at 12 m/s on the Moon and watch how high it goes. Throw downwards (a negative launch velocity) and check that the landing speed matches $\sqrt{u^{2} + 2gh}$.
+
+## Practice set
+
+<Problem n={1} level="easy">
+A stone is dropped from 20 m on Earth. How long does it take to land, and how fast is it going?
+
+<Solution>
+$t = \sqrt{\dfrac{40}{9.81}} = 2.02$ s. $v = \sqrt{2 \times 9.81 \times 20} = 19.8$ m/s.
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy">
+A ball is thrown straight up at 9.81 m/s on Earth. How long does it take to reach the top, and how high does it go?
+
+<Solution>
+$t_{\text{top}} = \dfrac{9.81}{9.81} = 1.00$ s. $h_{\text{max}} = \dfrac{9.81^{2}}{2 \times 9.81} = 4.91$ m.
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy">
+At the very top of a vertical throw on Earth, what are the ball's velocity and acceleration?
+
+<Solution>
+Velocity: zero, for an instant. Acceleration: still $9.81\ \text{m/s}^{2}$ downwards ($-9.81$ with up positive). If it were zero, the ball would stay at the top.
+</Solution>
+</Problem>
+
+<Problem n={4} level="easy">
+Using the strobe figure, find how far the ball falls on Earth in each of the first three tenths of a second. Show that the distances are in the ratio 1 : 3 : 5.
+
+<Solution>
+Positions are 0, 4.9, 19.6 and 44.1 cm, so the distances in each tenth are 4.9, 14.7 and 24.5 cm. Divided by 4.9, they are 1, 3 and 5.
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium" book>
+From what height must Grace drop something aboard the ship (1.5 g) so that it takes 0.5 s to fall? What height would give the same time on Earth?
+
+<Solution>
+$h = \tfrac{1}{2}gt^{2}$. Ship: $\tfrac{1}{2} \times 14.7 \times 0.25 = 1.84$ m. Earth: $\tfrac{1}{2} \times 9.81 \times 0.25 = 1.23$ m.
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium">
+On the Moon ($g = 1.62\ \text{m/s}^{2}$), the hammer in the Apollo 15 demonstration was dropped from about 1.6 m. How long did it take to land? How long would the same drop take on Earth?
+
+<Solution>
+Moon: $t = \sqrt{\dfrac{3.2}{1.62}} = 1.41$ s. Earth: $t = \sqrt{\dfrac{3.2}{9.81}} = 0.571$ s. The lunar drop is about $\sqrt{6} \approx 2.5$ times slower.
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium">
+A ball is thrown straight down at 5.0 m/s from a height of 10 m on Earth. When does it land, and how fast is it moving?
+
+<Solution>
+Down positive: $10 = 5t + 4.905t^{2}$. The positive root is $t = \dfrac{-5 + \sqrt{25 + 196.2}}{9.81} = 1.01$ s.
+
+Landing speed: $\sqrt{5^{2} + 2 \times 9.81 \times 10} = 14.9$ m/s.
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium">
+A ball is thrown straight up at 15 m/s from 2.0 m above the ground. When does it hit the ground?
+
+<Solution>
+Up positive, with the ground at $y = 0$: $0 = 2 + 15t - 4.905t^{2}$.
+
+$t = \dfrac{15 + \sqrt{225 + 4 \times 4.905 \times 2}}{9.81} = \dfrac{15 + 16.26}{9.81} = 3.19$ s.
+</Solution>
+</Problem>
+
+<Problem n={9} level="medium" book>
+In the ship's lab (with air, at 1.5 g), Grace drops a crumpled sheet of foil and a spanner from the same height at the same time. What does he see, and why? What would happen in a vacuum chamber?
+
+<Solution>
+The spanner lands first. Both feel the same 1.5 g "pull", but the foil is light for its size, so air resistance slows it much more. In a vacuum chamber there is no air resistance, and they would land together, just like the hammer and feather on the Moon.
+</Solution>
+</Problem>
+
+<Problem n={10} level="challenging">
+A stone is dropped into a deep shaft on Earth, and the splash is heard 3.0 s later. Sound travels at 344 m/s in air at 20 °C. How deep is the shaft?
+
+<Solution>
+Let $t_{1}$ be the fall time and $h$ the depth. Then $h = 4.905t_{1}^{2}$, and the sound takes $h/344$ s, so $t_{1} + \dfrac{4.905t_{1}^{2}}{344} = 3.0$.
+
+Multiply by 344: $4.905t_{1}^{2} + 344t_{1} - 1032 = 0$, so $t_{1} = \dfrac{-344 + \sqrt{344^{2} + 4 \times 4.905 \times 1032}}{9.81} = 2.88$ s.
+
+$h = 4.905 \times 2.88^{2} = 40.7$ m. (Ignoring the sound's travel time would give $4.905 \times 9 = 44.1$ m, an 8% overestimate.)
+</Solution>
+</Problem>
+
+<Problem n={11} level="challenging">
+A dropped ball takes 0.12 s to pass a window 1.5 m tall. From how far above the top of the window was it dropped?
+
+<Solution>
+Let $v_{0}$ be its speed at the top of the window (down positive): $1.5 = 0.12v_{0} + 4.905(0.12)^{2}$, so $v_{0} = \dfrac{1.5 - 0.0706}{0.12} = 11.9$ m/s.
+
+It was dropped from rest, so the height above the window is $\dfrac{v_{0}^{2}}{2g} = \dfrac{11.9^{2}}{19.62} = 7.23$ m.
+</Solution>
+</Problem>
+
+<Problem n={12} level="challenging" book>
+Aboard the ship (1.5 g), Grace tosses a tool horizontally at 2.0 m/s from a height of 1.0 m. How far away does it land? How far would it land on Earth?
+
+<Solution>
+Ship: $t = \sqrt{\dfrac{2 \times 1.0}{14.7}} = 0.369$ s, so it lands $2.0 \times 0.369 = 0.74$ m away.
+
+Earth: $t = \sqrt{\dfrac{2}{9.81}} = 0.452$ s, so it lands $0.90$ m away. In the stronger effective gravity, it hits the floor sooner and travels less far.
+</Solution>
+</Problem>
+
+## Summary
+
+- Without air resistance, all objects fall with the same acceleration $g$: $9.81\ \text{m/s}^{2}$ on Earth, $1.62$ on the Moon, $3.73$ on Mars, and an effective $14.7\ \text{m/s}^{2}$ aboard the *Hail Mary*.
+- Take up as positive. Then $a = -g$ throughout the flight, including at the top, where only the velocity is zero.
+- Drop from rest: $t = \sqrt{2h/g}$ and $v = \sqrt{2gh}$. Throw up at $u$: $t_{\text{top}} = u/g$ and $h_{\text{max}} = u^{2}/(2g)$, and the motion is symmetric.
+- Air resistance grows with speed. It can balance gravity, giving a steady terminal velocity.
+- In a sideways launch, the horizontal velocity is constant and the vertical motion is the same as a plain drop.
+
+**Formulas from this chapter**
+
+$$
+t = \sqrt{\frac{2h}{g}} \qquad v = \sqrt{2gh} \qquad t_{\text{top}} = \frac{u}{g} \qquad h_{\text{max}} = \frac{u^{2}}{2g} \qquad \text{range} = u\sqrt{\frac{2h}{g}}
+$$
+
+## Sources
+
+- OpenStax, *University Physics Volume 1*, §3.5 "Free Fall" and §4.3 "Projectile Motion". [§3.5](https://openstax.org/books/university-physics-volume-1/pages/3-5-free-fall), [§4.3](https://openstax.org/books/university-physics-volume-1/pages/4-3-projectile-motion)
+- Standard gravity, 9.806 65 m/s²: NIST. [NIST](https://physics.nist.gov/cgi-bin/cuu/Value?gn)
+- Surface gravity of the Moon (1.62 m/s²) and Mars (3.73 m/s², mean): NASA NSSDCA [Moon fact sheet](https://nssdc.gsfc.nasa.gov/planetary/factsheet/moonfact.html), [Mars fact sheet](https://nssdc.gsfc.nasa.gov/planetary/factsheet/marsfact.html).
+- The Apollo 15 hammer-and-feather drop (1.32 kg hammer, about 1.6 m): NASA NSSDCA. [Apollo 15 Hammer-Feather Drop](https://nssdc.gsfc.nasa.gov/planetary/lunar/apollo_15_feather_drop.html)
+- Speed of sound in air at 20 °C (344 m/s): HyperPhysics. [Speed of sound](http://hyperphysics.phy-astr.gsu.edu/hbase/Sound/souspe.html)
+- The 1.5 g acceleration, the 0.91 m table and the fall time of about 0.35 s are the novel's figures (Andy Weir, *Project Hail Mary*, 2021), as summarised by readers. [Reader summary](https://trangnkp.substack.com/p/project-hail-mary). Approximate.

@@ -1,0 +1,83 @@
+---
+// Simulation: drop or throw a ball vertically on different worlds and plot its height against time.
+---
+
+<div
+	class="sim dl"
+	data-title="Free-fall lab"
+	data-description="Choose a world (Earth 9.81 m/s², the Moon 1.62 m/s², Mars 3.73 m/s², or aboard the Hail Mary at 1.5 g, 14.7 m/s²), a starting height from 0.5 to 20 m, and a launch velocity from −10 to +15 m/s (up is positive). The graph plots height against time until the ball reaches the floor, with the same throw on Earth drawn faintly for comparison. The readout gives the time to land, the landing speed, and the greatest height."
+>
+	<p class="sim-title">Simulation: free-fall lab</p>
+	<p class="sim-help">Pick a world, a starting height and a launch velocity (positive is upwards, zero is a plain drop). The ball ignores air resistance. Compare its flight with the same throw on Earth (faint curve).</p>
+	<div class="sim-controls">
+		<label>World
+			<select class="dl-w">
+				<option value="9.81">Earth (9.81 m/s²)</option>
+				<option value="1.62">Moon (1.62 m/s²)</option>
+				<option value="3.73">Mars (3.73 m/s²)</option>
+				<option value="14.7" selected>Hail Mary at 1.5 g (14.7 m/s²)</option>
+			</select>
+		</label>
+		<label>Start height h <input type="range" class="dl-h" min="0.5" max="20" step="0.01" value="0.91" /> <output class="dl-hv"></output></label>
+		<label>Launch velocity u <input type="range" class="dl-u" min="-10" max="15" step="0.5" value="0" /> <output class="dl-uv"></output></label>
+	</div>
+	<svg class="dg dl-svg" viewBox="0 0 600 320" role="img" aria-label="Height of the ball against time"></svg>
+	<div class="readout dl-out" aria-live="polite"></div>
+</div>
+
+<script>
+	document.querySelectorAll<HTMLElement>('.sim.dl').forEach((root) => {
+		const svg = root.querySelector<SVGSVGElement>('.dl-svg')!;
+		const W = root.querySelector<HTMLSelectElement>('.dl-w')!;
+		const H = root.querySelector<HTMLInputElement>('.dl-h')!, U = root.querySelector<HTMLInputElement>('.dl-u')!;
+		const out = root.querySelector<HTMLElement>('.dl-out')!;
+		const NS = 'http://www.w3.org/2000/svg';
+		const el = (tag: string, at: Record<string, string | number>, text?: string) => {
+			const e = document.createElementNS(NS, tag);
+			Object.entries(at).forEach(([k, v]) => e.setAttribute(k, String(v)));
+			if (text !== undefined) e.textContent = text;
+			svg.append(e);
+			return e;
+		};
+		// Time to reach the floor: h + u t − ½ g t² = 0, taking the positive root.
+		const land = (h: number, u: number, g: number) => (u + Math.sqrt(u * u + 2 * g * h)) / g;
+		const top = (h: number, u: number, g: number) => (u > 0 ? h + (u * u) / (2 * g) : h);
+		function draw() {
+			const g = +W.value, h = +H.value, u = +U.value;
+			root.querySelector('.dl-hv')!.textContent = `${h.toFixed(2)} m`;
+			root.querySelector('.dl-uv')!.textContent = `${u.toFixed(1)} m/s`;
+			const T = land(h, u, g), Te = land(h, u, 9.81);
+			const tMax = Math.max(T, g === 9.81 ? 0 : Te) * 1.05, yMax = Math.max(top(h, u, g), top(h, u, 9.81)) * 1.12;
+			const L = 70, R = 570, Tp = 20, B = 270;
+			const px = (t: number) => L + (t / tMax) * (R - L), py = (y: number) => B - (y / yMax) * (B - Tp);
+			svg.replaceChildren();
+			for (let i = 0; i <= 4; i++) {
+				const y = (yMax * i) / 4;
+				el('line', { x1: L, y1: py(y), x2: R, y2: py(y), class: 's-grid w1' });
+				el('text', { x: L - 8, y: py(y) + 4, class: 't-end t-sm f-muted' }, y >= 10 ? y.toFixed(0) : y.toFixed(2));
+			}
+			for (let i = 0; i <= 5; i++) el('text', { x: px((tMax * i) / 5), y: B + 18, class: 't-mid t-sm f-muted' }, ((tMax * i) / 5).toFixed(2));
+			el('text', { x: (L + R) / 2, y: B + 38, class: 't-mid t-sm' }, 'time, t (s)');
+			el('text', { x: 16, y: (Tp + B) / 2, class: 't-mid t-sm', transform: `rotate(-90 16 ${(Tp + B) / 2})` }, 'height (m)');
+			const curve = (gg: number, tt: number) =>
+				Array.from({ length: 161 }, (_, i) => {
+					const t = (tt * i) / 160;
+					return `${i ? 'L' : 'M'}${px(t).toFixed(1)},${py(Math.max(0, h + u * t - 0.5 * gg * t * t)).toFixed(1)}`;
+				}).join(' ');
+			if (g !== 9.81) el('path', { d: curve(9.81, Te), class: 's-sky w2', opacity: 0.45 });
+			el('path', { d: curve(g, T), class: 's-amber w3' });
+			el('line', { x1: L, y1: B, x2: R, y2: B, class: 's-fg w2' });
+			el('circle', { cx: px(T), cy: B, r: 5, class: 'f-amber' });
+			if (g !== 9.81) el('text', { x: px(Te), y: B - 8, class: 't-mid t-sm f-sky' }, 'Earth');
+			const vLand = Math.sqrt(u * u + 2 * g * h);
+			out.innerHTML =
+				`<span class="k">time to reach the floor</span> = <b>${T.toFixed(3)} s</b> (on Earth: ${Te.toFixed(3)} s)<br>` +
+				`<span class="k">landing speed</span> = √(u² + 2gh) = <b>${vLand.toFixed(2)} m/s</b><br>` +
+				`<span class="k">greatest height</span> = ${top(h, u, g).toFixed(2)} m` +
+				(u > 0 ? ` (reached after u ÷ g = ${(u / g).toFixed(3)} s)` : '');
+		}
+		W.addEventListener('change', draw);
+		[H, U].forEach((i) => i.addEventListener('input', draw));
+		draw();
+	});
+</script>

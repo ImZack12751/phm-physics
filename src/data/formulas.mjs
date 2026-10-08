@@ -479,4 +479,82 @@ export const formulas = [
 		where: 'Over the interval from a to b.',
 		chapter: 'fundamental-theorem',
 	},
+
+	// ---- 1.1 Position, velocity and acceleration ----
+	{
+		id: 'kinematics-definitions',
+		name: 'Displacement, velocity, speed and acceleration',
+		tex: '\\Delta x = x_{2} - x_{1} \\qquad v = \\dfrac{dx}{dt} \\qquad \\text{speed} = |v| \\qquad a = \\dfrac{dv}{dt}',
+		where: 'Speeds up when v and a have the same sign.',
+		chapter: 'kinematics',
+	},
+	{
+		id: 'velocity-2d',
+		name: 'Velocity in two dimensions',
+		tex: '\\mathbf{v} = \\left(\\dfrac{dx}{dt}, \\dfrac{dy}{dt}\\right) \\qquad |\\mathbf{v}| = \\sqrt{v_{x}^{2} + v_{y}^{2}}',
+		where: 'Each component is handled separately.',
+		chapter: 'kinematics',
+	},
+
+	// ---- 1.2 The equations of motion ----
+	{
+		id: 'suvat',
+		name: 'The equations of motion (constant acceleration)',
+		tex: 'v = u + at \\qquad s = ut + \\tfrac{1}{2}at^{2} \\qquad s = \\tfrac{1}{2}(u + v)t \\qquad v^{2} = u^{2} + 2as \\qquad s = vt - \\tfrac{1}{2}at^{2}',
+		where: 's displacement, u initial and v final velocity, a constant acceleration, t time.',
+		chapter: 'equations-of-motion',
+	},
+	{
+		id: 'flip-and-burn',
+		name: 'Flip-and-burn trip',
+		tex: 't_{\\text{trip}} = 2\\sqrt{\\dfrac{d}{a}} \\qquad v_{\\text{peak}} = \\sqrt{ad}',
+		where: 'Distance d, from rest to rest, accelerating then decelerating at a. Newtonian: fails near light speed.',
+		chapter: 'equations-of-motion',
+	},
+
+	// ---- 1.3 Free fall ----
+	{
+		id: 'free-fall',
+		name: 'Free fall',
+		tex: 't = \\sqrt{\\dfrac{2h}{g}} \\qquad v = \\sqrt{2gh} \\qquad t_{\\text{top}} = \\dfrac{u}{g} \\qquad h_{\\text{max}} = \\dfrac{u^{2}}{2g}',
+		where: 'Dropped from height h, or thrown up at speed u; no air resistance.',
+		chapter: 'free-fall',
+	},
+	{
+		id: 'horizontal-launch',
+		name: 'Horizontal launch',
+		tex: 'x = ut \\qquad y = h - \\tfrac{1}{2}gt^{2} \\qquad \\text{range} = u\\sqrt{\\dfrac{2h}{g}}',
+		where: 'Launched horizontally at speed u from height h.',
+		chapter: 'free-fall',
+	},
+
+	// ---- 1.4 Measuring g ----
+	{
+		id: 'g-from-drop',
+		name: 'g from a timed drop',
+		tex: 'g = \\dfrac{2h}{t^{2}} \\qquad \\dfrac{\\Delta g}{g} \\approx \\dfrac{\\Delta h}{h} + 2\\,\\dfrac{\\Delta t}{t}',
+		where: 'Height h, fall time t.',
+		chapter: 'measuring-g',
+	},
+	{
+		id: 'uncertainty-power',
+		name: 'Uncertainty of a power law',
+		tex: 'y = kx^{n} \\;\\Rightarrow\\; \\dfrac{\\Delta y}{y} \\approx n\\,\\dfrac{\\Delta x}{x}',
+		where: 'Small uncertainties; add the sizes for several factors (worst case).',
+		chapter: 'measuring-g',
+	},
+	{
+		id: 'mean-standard-error',
+		name: 'Mean and its uncertainty',
+		tex: '\\bar{x} = \\dfrac{1}{N}\\sum_{k=1}^{N} x_{k} \\qquad s = \\sqrt{\\dfrac{1}{N - 1}\\sum_{k=1}^{N}(x_{k} - \\bar{x})^{2}} \\qquad \\Delta\\bar{x} \\approx \\dfrac{s}{\\sqrt{N}}',
+		where: 'N readings; s is the standard deviation.',
+		chapter: 'measuring-g',
+	},
+	{
+		id: 'pendulum-period',
+		name: 'Period of a pendulum',
+		tex: 'T = 2\\pi\\sqrt{\\dfrac{L}{g}} \\qquad g = \\dfrac{4\\pi^{2}L}{T^{2}}',
+		where: 'Small swings; length L. Derived in Chapter 2.4.',
+		chapter: 'measuring-g',
+	},
 ];

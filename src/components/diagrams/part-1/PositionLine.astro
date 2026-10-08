@@ -1,0 +1,37 @@
+---
+// A position axis along the hull: start at −30 m, go out to +50 m, come back to +20 m.
+const L = 50, R = 560, XMIN = -40, XMAX = 60;
+const px = (x: number) => L + ((x - XMIN) / (XMAX - XMIN)) * (R - L);
+const Y = 150;
+---
+
+<svg class="dg" viewBox="0 0 600 260" xmlns="http://www.w3.org/2000/svg">
+	<defs>
+		<marker id="pl-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+			<path d="M0,0 L10,5 L0,10 Z" class="f-fg" />
+		</marker>
+		<marker id="pl-arrow-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+			<path d="M0,0 L10,5 L0,10 Z" class="f-green" />
+		</marker>
+	</defs>
+	<line x1={px(XMIN)} y1={Y} x2={px(XMAX)} y2={Y} class="s-fg w2" marker-end="url(#pl-arrow)" />
+	{[-40, -30, -20, -10, 0, 10, 20, 30, 40, 50].map((x) => (
+		<>
+			<line x1={px(x)} y1={Y - 5} x2={px(x)} y2={Y + 5} class="s-fg w1" />
+			<text x={px(x)} y={Y + 22} class={`t-mid t-sm ${x === 0 ? 't-b' : 'f-muted'}`}>{x}</text>
+		</>
+	))}
+	<text x={px(0)} y={Y + 40} class="t-mid t-sm t-b">origin (airlock)</text>
+	<text x={px(XMAX) - 4} y={Y + 22} class="t-end t-sm">x (m)</text>
+	<path d={`M${px(-30)},${Y - 30} L${px(50)},${Y - 30}`} class="s-amber w2" marker-end="url(#pl-arrow)" />
+	<text x={px(10)} y={Y - 38} class="t-mid t-sm f-amber">leg 1: out 80 m</text>
+	<path d={`M${px(50)},${Y - 58} L${px(20)},${Y - 58}`} class="s-sky w2" marker-end="url(#pl-arrow)" />
+	<text x={px(35)} y={Y - 66} class="t-mid t-sm f-sky">leg 2: back 30 m</text>
+	<path d={`M${px(-30)},${Y + 64} L${px(20)},${Y + 64}`} class="s-green w3" marker-end="url(#pl-arrow-g)" />
+	<text x={px(-5)} y={Y + 84} class="t-mid t-sm f-green">displacement = +20 − (−30) = +50 m</text>
+	<circle cx={px(-30)} cy={Y} r="6" class="f-amber" />
+	<circle cx={px(20)} cy={Y} r="6" class="f-sky" />
+	<text x={px(-30)} y="30" class="t-mid t-sm">start</text>
+	<line x1={px(-30)} y1="36" x2={px(-30)} y2={Y - 8} class="s-muted w1 dash" />
+	<text x="40" y="250" class="t-sm f-muted">distance travelled = 80 m + 30 m = 110 m</text>
+</svg>

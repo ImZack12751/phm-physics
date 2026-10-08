@@ -1,0 +1,376 @@
+---
+title: Measuring g
+description: How Grace measures gravity with a stopwatch and a pendulum, and the tools of experimental science that go with it, including uncertainty and how it spreads, random and systematic errors, averaging, timing many swings, and straight-line graphs.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import GEstimates from '../../../components/diagrams/part-1/GEstimates.astro';
+import PendulumLine from '../../../components/diagrams/part-1/PendulumLine.astro';
+import GLab from '../../../components/sims/GLab.astro';
+
+## The scene
+
+Grace has no memory and no idea where he is. He does have a scientist's habits. He drops an object from under a table, times the fall with a stopwatch, and works out the acceleration. Earth's answer would be about $9.8\ \text{m/s}^{2}$. His comes out near $15\ \text{m/s}^{2}$, about one and a half times stronger.
+
+He knows a single hand-timed drop could be badly off. So he builds a pendulum and counts its swings for ten minutes, a far more precise method. Then he repeats it on a lower deck to see whether anything changes. This chapter follows that reasoning. Its real subject is the most important question in experimental science: **how sure are you?**
+
+## Prerequisites
+
+<Prereqs notes={{ 'free-fall': 'the fall time t = √(2h/g), rearranged here to find g', derivatives: 'the approximation Δy ≈ (dy/dx)·Δx, used to see how errors spread', graphs: 'straightening a curve so that the gradient of a straight line gives the answer', 'unit-handling': 'dimensional analysis, used to find the form of the pendulum law' }} />
+
+## The concept
+
+### Method 1: time a drop
+
+From Chapter 1.3, an object dropped from height $h$ takes $t = \sqrt{2h/g}$ to land. Turn that round and a measured height and time give $g$:
+
+$$
+g = \frac{2h}{t^{2}}.
+$$
+
+Grace's drop: $h = 0.91$ m and $t = 0.348$ s give $g = 15.0\ \text{m/s}^{2}$. That's a startling result, but how far can a hand-held stopwatch be trusted over a third of a second?
+
+### Every measurement has an uncertainty
+
+No measurement is exact. The honest way to report one is as a best value plus a range, such as $t = 0.348 \pm 0.05$ s. The $\pm 0.05$ s is the <Term id="uncertainty">uncertainty</Term>: the true value is probably within that distance of the best value.
+
+For hand timing, the problem is human reaction time. People typically take 0.2 to 0.3 s to respond to something they see. Much of that delay cancels, because you are late both starting and stopping the watch. But the delay isn't the same every time, and that variation is what spoils the result. A scatter of a few hundredths of a second, roughly $\pm 0.05$ s, is a fair guess, and that is a large fraction of a 0.35 s fall.
+
+### How uncertainty spreads through a formula
+
+The time in $g = 2h/t^{2}$ is *squared*, so errors in $t$ count double. Chapter C.3 showed that small changes obey $\Delta y \approx \dfrac{dy}{dx}\Delta x$. Here
+
+$$
+\frac{dg}{dt} = -\frac{4h}{t^{3}} \quad\Rightarrow\quad \Delta g \approx -\frac{4h}{t^{3}}\Delta t \quad\Rightarrow\quad \frac{\Delta g}{g} \approx -2\,\frac{\Delta t}{t}.
+$$
+
+A 14% uncertainty in the time becomes a 29% uncertainty in $g$. Thinking in <Term id="fractional-uncertainty">fractional uncertainties</Term> (uncertainty ÷ value) makes this easy: for any power law, the fractional uncertainty is multiplied by the power.
+
+### Random and systematic errors
+
+Errors come in two kinds, and they need different cures.
+
+- A <Term id="random-error">random error</Term> scatters results both ways, sometimes too high and sometimes too low. The varying reaction time is one. **Repeating and averaging** reduces it.
+- A <Term id="systematic-error">systematic error</Term> pushes every result the same way. Examples are a ruler with misprinted marks, always stopping the watch late, or a fall slowed by air. Averaging doesn't help at all. You have to find the cause, or check against a different method.
+
+### Repeat and average
+
+Take several readings and average them. The <Term id="mean">mean</Term> is the sum divided by the number of readings. The <Term id="standard-deviation">standard deviation</Term> measures how widely the readings scatter. The mean is more trustworthy than any single reading, and its uncertainty shrinks as the number of readings grows, in proportion to $1/\sqrt{N}$. Four times as many readings halve the uncertainty.
+
+### Method 2: the pendulum
+
+A pendulum is a weight on a string, swinging to and fro. The time for one complete swing, out and back, is its <Term id="period">period</Term>, $T$. Two facts make it a superb clock for measuring $g$:
+
+- For small swings, the period doesn't depend on how wide the swing is. As the swings die away, each one still takes the same time.
+- The period depends only on the string's length $L$ and on $g$, not on the mass of the weight.
+
+**Dimensional analysis** (Chapter 0.3) shows what form the law must take. The period is a time. The only quantities available are $L$ (in m) and $g$ (in $\text{m/s}^{2}$), and the only way to combine them into seconds is $\sqrt{L/g}$, since $\sqrt{\text{m} \div \text{m/s}^{2}} = \sqrt{\text{s}^{2}} = \text{s}$. So $T$ must be some pure number times $\sqrt{L/g}$. Experiments, and the derivation in Chapter 2.4, show that the number is $2\pi$:
+
+$$
+T = 2\pi\sqrt{\frac{L}{g}} \quad\Rightarrow\quad g = \frac{4\pi^{2}L}{T^{2}}.
+$$
+
+### Timing many swings beats reaction time
+
+The trick is to time **many** swings at once. The same ±0.2 s fumble at the start and end of a 10-minute count is spread over hundreds of swings. Grace counts 346 complete swings in 600 s. The period is $600/346 = 1.734$ s, and a ±0.2 s error in the total becomes only $0.2/346 = 0.000\,58$ s per swing.
+
+<Figure caption="Three ways to estimate g aboard the ship, with their uncertainty ranges. A single timed drop only just rules out Earth's 9.81. Averaging five drops narrows the range. Timing 346 pendulum swings pins g down to within about 0.02 m/s²." alt="A horizontal axis of measured g from 8 to 22 metres per second squared. A red dashed line marks Earth's 9.81 and a grey dashed line marks 1.5 g equals 14.7. Three error bars: one timed drop, amber, 15.0 plus or minus 4.4, running from about 10.6 to 19.4; average of five drops, blue, 15.2 plus or minus 0.8; pendulum with 346 swings, green, 14.70 plus or minus 0.02, a bar so short it is almost a dot. Only the single-drop bar comes close to Earth's line, and none crosses it.">
+	<GEstimates />
+</Figure>
+
+### Method 3: let a graph do the averaging
+
+Square both sides of the pendulum law: $T^{2} = \dfrac{4\pi^{2}}{g}L$. Plotting $T^{2}$ against $L$ for several string lengths should give a **straight line through the origin**, with gradient $4\pi^{2}/g$. This is the straightening trick from [Reading and making graphs](/part-0/graphs/). A straight line drawn through all the points averages out their scatter, and points that miss the line badly stand out as mistakes.
+
+<Figure caption="Squared period against length for four pendulums aboard the ship. The points lie on a straight line through the origin. Its gradient, 2.684 s²/m, gives g = 4π² ÷ 2.684 = 14.7 m/s²." alt="A graph of period squared, T squared in seconds squared, against pendulum length L in metres from 0 to 1.25. Four blue points at L equals 0.5, 0.75, 1.0 and 1.25 metres, with T squared equal to 1.343, 2.014, 2.686 and 3.356, lie on an amber straight line through the origin. A dashed triangle between the first and last points shows a change in L of 0.75 m and a change in T squared of 2.013 s². Text: slope equals 2.013 divided by 0.75 equals 2.684 s² per metre; g equals 4 pi squared divided by the slope equals 14.7 m/s².">
+	<PendulumLine />
+</Figure>
+
+## Formulas
+
+### g from a drop
+
+$$
+\boxed{g = \frac{2h}{t^{2}}}
+$$
+
+### Fractional uncertainty of a power law
+
+For $y = kx^{n}$, the derivative gives $\Delta y \approx nkx^{n-1}\Delta x$. Divide by $y = kx^{n}$:
+
+$$
+\boxed{\frac{\Delta y}{y} \approx n\,\frac{\Delta x}{x}}
+$$
+
+For a product of several measured quantities, a cautious (worst-case) estimate adds the sizes of the fractional uncertainties. For the drop:
+
+$$
+\frac{\Delta g}{g} \approx \frac{\Delta h}{h} + 2\,\frac{\Delta t}{t}.
+$$
+
+### Mean, standard deviation and the uncertainty of the mean
+
+For $N$ readings $x_{1}, \ldots, x_{N}$:
+
+$$
+\bar{x} = \frac{1}{N}\sum_{k=1}^{N} x_{k} \qquad s = \sqrt{\frac{1}{N - 1}\sum_{k=1}^{N}(x_{k} - \bar{x})^{2}} \qquad \boxed{\Delta\bar{x} \approx \frac{s}{\sqrt{N}}}
+$$
+
+The standard deviation $s$ describes a single reading's typical scatter. The last quantity, called the standard error, is the uncertainty of the mean. (The $N - 1$ instead of $N$ is a small correction for having estimated $\bar{x}$ from the same readings.)
+
+### The pendulum
+
+$$
+\boxed{T = 2\pi\sqrt{\frac{L}{g}} \qquad g = \frac{4\pi^{2}L}{T^{2}} \qquad \frac{\Delta g}{g} \approx \frac{\Delta L}{L} + 2\,\frac{\Delta T}{T}}
+$$
+
+Timing $N$ swings with a total-time uncertainty $\Delta t_{\text{total}}$:
+
+$$
+T = \frac{t_{\text{total}}}{N} \qquad \Delta T = \frac{\Delta t_{\text{total}}}{N}
+$$
+
+### The straight-line method
+
+$$
+T^{2} = \frac{4\pi^{2}}{g}\,L \quad\Rightarrow\quad g = \frac{4\pi^{2}}{\text{gradient of } T^{2} \text{ against } L}
+$$
+
+## Worked examples
+
+<Example n={1} title="Grace's first measurement" book>
+The table's underside is 0.91 m above the floor, and the drop takes 0.348 s. Find $g$, and express it as a multiple of Earth's $9.81\ \text{m/s}^{2}$.
+
+$$
+g = \frac{2 \times 0.91\ \text{m}}{(0.348\ \text{s})^{2}} = \frac{1.82\ \text{m}}{0.1211\ \text{s}^{2}} = 15.0\ \text{m/s}^{2}
+$$
+
+$$
+\frac{15.0}{9.81} = 1.53
+$$
+
+About one and a half times Earth's gravity.
+</Example>
+
+<Example n={2} title="How sure can he be?" book>
+Suppose the height is known to $\pm 0.005$ m and the time to $\pm 0.05$ s. Estimate the uncertainty in Grace's $g$. Does it rule out Earth?
+
+$$
+\frac{\Delta g}{g} \approx \frac{0.005}{0.91} + 2 \times \frac{0.05}{0.348} = 0.0055 + 0.287 = 0.293
+$$
+
+$$
+\Delta g \approx 0.293 \times 15.0 = 4.4\ \text{m/s}^{2}, \qquad g = 15.0 \pm 4.4\ \text{m/s}^{2}
+$$
+
+The range runs from 10.6 to 19.4, which just excludes 9.81. Nearly all of the uncertainty comes from the timing. One drop is suggestive, not conclusive, which is exactly why Grace doesn't stop there.
+</Example>
+
+<Example n={3} title="Averaging five drops">
+Five timings of the 0.91 m drop give 0.33, 0.37, 0.35, 0.32 and 0.36 s. Find the mean time, the standard deviation, the uncertainty of the mean, and the resulting $g$.
+
+$$
+\bar{t} = \frac{0.33 + 0.37 + 0.35 + 0.32 + 0.36}{5} = \frac{1.73}{5} = 0.346\ \text{s}
+$$
+
+The deviations from the mean are $-0.016$, $+0.024$, $+0.004$, $-0.026$ and $+0.014$ s. Their squares add to $0.001\,72\ \text{s}^{2}$, so
+
+$$
+s = \sqrt{\frac{0.001\,72}{4}} = 0.0207\ \text{s}, \qquad \Delta\bar{t} = \frac{0.0207}{\sqrt{5}} = 0.0093\ \text{s}.
+$$
+
+$$
+g = \frac{2 \times 0.91}{0.346^{2}} = 15.2\ \text{m/s}^{2}, \qquad \frac{\Delta g}{g} = 2 \times \frac{0.0093}{0.346} = 5.4\%, \qquad g = 15.2 \pm 0.8\ \text{m/s}^{2}.
+$$
+
+Five drops shrink the uncertainty more than five-fold, and Earth is now ruled out decisively.
+</Example>
+
+<Example n={4} title="The pendulum count" book>
+Grace's pendulum makes 346 complete swings in 600 s. Find its period. If the 600 s is uncertain by $\pm 0.2$ s, how precisely is $T$ known? Assuming a string length of $1.12 \pm 0.001$ m (our assumption; the novel's length isn't used here), find $g$.
+
+$$
+T = \frac{600\ \text{s}}{346} = 1.734\ \text{s}, \qquad \Delta T = \frac{0.2\ \text{s}}{346} = 0.000\,58\ \text{s}\ (0.033\%)
+$$
+
+$$
+g = \frac{4\pi^{2} \times 1.12\ \text{m}}{(1.734\ \text{s})^{2}} = \frac{44.22}{3.007}\ \text{m/s}^{2} = 14.70\ \text{m/s}^{2}
+$$
+
+$$
+\frac{\Delta g}{g} \approx \frac{0.001}{1.12} + 2 \times 0.000\,33 = 0.000\,89 + 0.000\,67 = 0.16\%, \qquad \Delta g \approx 0.02\ \text{m/s}^{2}
+$$
+
+The timing now contributes less uncertainty than the ruler does, the reverse of the drop. Counting many swings has beaten reaction time.
+</Example>
+
+<Example n={5} title="g from a straight-line graph">
+Pendulums of four lengths are timed aboard the ship:
+
+| $L$ (m) | 0.50 | 0.75 | 1.00 | 1.25 |
+|---|---|---|---|---|
+| $T$ (s) | 1.159 | 1.419 | 1.639 | 1.832 |
+
+Plot $T^{2}$ against $L$ and use the gradient to find $g$.
+
+The squared periods are $1.343$, $2.014$, $2.686$ and $3.356\ \text{s}^{2}$. They lie on a straight line through the origin (see the figure above). Using the first and last points:
+
+$$
+\text{gradient} = \frac{3.356 - 1.343}{1.25 - 0.50}\ \frac{\text{s}^{2}}{\text{m}} = \frac{2.013}{0.75} = 2.684\ \text{s}^{2}/\text{m}
+$$
+
+$$
+g = \frac{4\pi^{2}}{2.684\ \text{s}^{2}/\text{m}} = \frac{39.48}{2.684}\ \text{m/s}^{2} = 14.7\ \text{m/s}^{2}
+$$
+
+Exactly 1.5 g. That the line passes through the origin is itself a check that the law $T \propto \sqrt{L}$ holds.
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** Pendulums were the standard instruments for measuring gravity for centuries, and the methods here are what physics students still do in their first labs: timing many swings, propagating uncertainties, averaging repeated readings and fitting straight lines. Simple human reaction times are typically 0.2 to 0.3 s in published studies.
+
+**Weir's inventions.** The figures (0.91 m, 0.348 s, and 346 swings in 10 minutes) are the novel's, as summarised by readers. The 1.12 m string length in Worked example 4 is our own assumption, chosen to be consistent with 1.5 g. The novel goes on to use the pendulum to tell an accelerating ship from a spinning one. On a lower deck, 4.5 m away, the count is still 346, so gravity is the same there to within about half a percent. In a spinning ship, "gravity" changes with distance from the centre, so this rules out all but an enormous spinning ship. Part 3 does that calculation.
+
+**How realistic are the numbers?** All of them fit 1.5 g. A single drop gives a range wide enough to make anyone cautious. The pendulum gives a precision of about 0.1%, which is easily good enough to tell 14.7 from 9.81.
+</RealVsBook>
+
+## Interactive simulation
+
+<GLab />
+
+Things to try: with the drop method, set 1 trial and change the timing scatter. A single result can land almost anywhere. Raise the number of trials to 30 and watch the uncertainty of the mean shrink. Switch to the pendulum: even 1 trial of 20 swings beats 30 drops, and 300 swings pins $g$ down almost exactly.
+
+## Practice set
+
+<Problem n={1} level="easy">
+An object dropped from 1.50 m takes 0.55 s to land. Estimate $g$.
+
+<Solution>
+$g = \dfrac{2 \times 1.50}{0.55^{2}} = \dfrac{3.00}{0.3025} = 9.9\ \text{m/s}^{2}$: Earth, within the timing uncertainty.
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy">
+A pendulum 1.00 m long makes 20 swings in 40.2 s. Find its period and $g$.
+
+<Solution>
+$T = \dfrac{40.2}{20} = 2.01$ s. $g = \dfrac{4\pi^{2} \times 1.00}{2.01^{2}} = \dfrac{39.48}{4.040} = 9.77\ \text{m/s}^{2}$.
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy">
+Is each error random or systematic? (a) The stopwatch button sticks, adding the same 0.05 s to every reading. (b) Your reaction time varies from one drop to the next. (c) The tape measure has stretched by 1%.
+
+<Solution>
+(a) Systematic: every reading is too long by the same amount. (b) Random: it scatters both ways. (c) Systematic: every length reads 1% short.
+</Solution>
+</Problem>
+
+<Problem n={4} level="easy">
+Explain why timing 20 swings and dividing by 20 gives a better period than timing a single swing.
+
+<Solution>
+The reaction-time error happens once at the start and once at the end, however many swings are timed. Dividing by 20 shares that error out, so the uncertainty in the period is 20 times smaller.
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium">
+A drop from $h = 2.00 \pm 0.01$ m takes $t = 0.64 \pm 0.02$ s. Find $g$ and its uncertainty.
+
+<Solution>
+$g = \dfrac{4.00}{0.4096} = 9.77\ \text{m/s}^{2}$.
+
+$\dfrac{\Delta g}{g} \approx \dfrac{0.01}{2.00} + 2 \times \dfrac{0.02}{0.64} = 0.005 + 0.0625 = 0.0675$, so $\Delta g \approx 0.66$ and $g = 9.8 \pm 0.7\ \text{m/s}^{2}$.
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium">
+Five timings are 0.45, 0.43, 0.47, 0.44 and 0.46 s. Find the mean, the standard deviation and the uncertainty of the mean.
+
+<Solution>
+Mean $= \dfrac{2.25}{5} = 0.450$ s. The deviations are $0, -0.02, +0.02, -0.01, +0.01$, and their squares add to $0.0010$.
+
+$s = \sqrt{\dfrac{0.0010}{4}} = 0.0158$ s, and the uncertainty of the mean is $\dfrac{0.0158}{\sqrt{5}} = 0.0071$ s.
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium" book>
+Grace's pendulum has a period of 1.734 s, and he can start and stop his count to within ±0.2 s. How many swings must he count to know the period to within 0.1%?
+
+<Solution>
+$\dfrac{\Delta T}{T} = \dfrac{0.2}{N \times 1.734} \le 0.001$ gives $N \ge \dfrac{0.2}{0.001 \times 1.734} = 115.3$. So he must count at least 116 swings, about 3 minutes' worth. His 346 is comfortably enough.
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium" book>
+What string length gives exactly 346 swings in 600 s at 1.5 g ($14.7\ \text{m/s}^{2}$)? How many swings would the same pendulum make in 600 s on Earth?
+
+<Solution>
+$L = \dfrac{gT^{2}}{4\pi^{2}} = \dfrac{14.7 \times 1.734^{2}}{39.48} = 1.12$ m.
+
+On Earth: $T = 2\pi\sqrt{\dfrac{1.12}{9.81}} = 2.123$ s, so $\dfrac{600}{2.123} = 283$ swings, a difference no one could miss.
+</Solution>
+</Problem>
+
+<Problem n={9} level="medium">
+Use dimensional analysis to explain why a pendulum's period can't depend on the mass $m$ of its weight, if the only other quantities are $L$ and $g$.
+
+<Solution>
+The period is in seconds. $L$ is in metres and $g$ in $\text{m/s}^{2}$, and neither contains kilograms. Any formula that includes $m$ would leave a "kg" in its units, with nothing to cancel it, so it couldn't come out in seconds. The mass can't appear.
+</Solution>
+</Problem>
+
+<Problem n={10} level="challenging">
+A simple reaction-time test: a friend lets go of a ruler held between your fingers, and you catch it after it has fallen 18 cm. What is your reaction time? (Use $g = 9.81\ \text{m/s}^{2}$.)
+
+<Solution>
+The ruler falls freely until you catch it: $t = \sqrt{\dfrac{2 \times 0.18}{9.81}} = 0.19$ s. That is a fairly quick but typical reaction time, and much larger than the scatter assumed for timing.
+</Solution>
+</Problem>
+
+<Problem n={11} level="challenging" book>
+On a lower deck, 4.5 m from the first, Grace's pendulum again makes 346 swings in 600 s. If he could have miscounted by one swing, by roughly what fraction could $g$ differ between the two decks without his noticing?
+
+<Solution>
+$g \propto 1/T^{2}$, and $T = 600/N$, so $g \propto N^{2}$. One extra swing changes $g$ by a factor $\left(\dfrac{347}{346}\right)^{2} = 1.0058$, about 0.58%. Gravity is the same on both decks to within about half a percent.
+</Solution>
+</Problem>
+
+<Problem n={12} level="challenging">
+Using $\dfrac{\Delta y}{y} \approx n\dfrac{\Delta x}{x}$, show that for $g = 4\pi^{2}LT^{-2}$ the fractional uncertainty is about $\dfrac{\Delta L}{L} + 2\dfrac{\Delta T}{T}$. If $L$ is known to 0.5% and you want $g$ to 1%, how precisely must you know $T$?
+
+<Solution>
+$L$ appears to the power 1, contributing $\dfrac{\Delta L}{L}$. $T$ appears to the power $-2$, contributing a fractional uncertainty of size $2\dfrac{\Delta T}{T}$. Adding the sizes gives the result.
+
+$1\% = 0.5\% + 2\dfrac{\Delta T}{T}$, so $\dfrac{\Delta T}{T} = 0.25\%$.
+</Solution>
+</Problem>
+
+## Summary
+
+- Timing a drop gives $g = 2h/t^{2}$. Hand timing over a fraction of a second carries a large uncertainty.
+- Report measurements as value ± uncertainty. For a power law $y \propto x^{n}$, fractional uncertainties are multiplied by $n$. Squared times count double.
+- Random errors scatter both ways and shrink with averaging, the uncertainty of a mean falling as $1/\sqrt{N}$. Systematic errors push one way and don't average out.
+- A pendulum's period, $T = 2\pi\sqrt{L/g}$, doesn't depend on the swing's width or the mass. Timing $N$ swings divides the timing error by $N$.
+- Plotting $T^{2}$ against $L$ gives a straight line with gradient $4\pi^{2}/g$.
+- Grace's measurements give about 1.5 g, which rules out Earth decisively.
+
+**Formulas from this chapter**
+
+$$
+g = \frac{2h}{t^{2}} \qquad \frac{\Delta y}{y} \approx n\,\frac{\Delta x}{x} \qquad \bar{x} = \frac{1}{N}\sum x_{k} \qquad \Delta\bar{x} \approx \frac{s}{\sqrt{N}}
+$$
+
+$$
+T = 2\pi\sqrt{\frac{L}{g}} \qquad g = \frac{4\pi^{2}L}{T^{2}} \qquad \Delta T = \frac{\Delta t_{\text{total}}}{N}
+$$
+
+## Sources
+
+- OpenStax, *University Physics Volume 1*, §15.4 "Pendulums" (the period of a simple pendulum, and measuring g with it). [§15.4](https://openstax.org/books/university-physics-volume-1/pages/15-4-pendulums)
+- OpenStax, *College Physics 2e*, §1.3 "Accuracy, Precision, and Significant Figures" (uncertainty and percent uncertainty). [§1.3](https://openstax.org/books/college-physics-2e/pages/1-3-accuracy-precision-and-significant-figures)
+- OpenStax, *University Physics Volume 1*, §3.5 "Free Fall". [§3.5](https://openstax.org/books/university-physics-volume-1/pages/3-5-free-fall)
+- Simple visual reaction times of about 0.2 to 0.3 s: a 2014 study of medical students (around 0.21 to 0.22 s), [JKIMSU 3(1), 96–98 (PDF)](https://www.jkimsu.com/jkimsu-vol3no1/JKIMSU.%20Vol.%203,%20No.%201,%20Jan-June%202014,Page%2096-98.pdf); and a study at Kathmandu University (about 0.30 s), [NepMed record](https://nepmed.nhrc.gov.np/entities/publication/de7e17e9-dfa8-437f-ac85-f826fb22e672).
+- The table height (0.91 m), the fall time (0.348 s) and the pendulum count (346 swings in 10 minutes, unchanged on a lower deck 4.5 m away) are the novel's figures (Andy Weir, *Project Hail Mary*, 2021), as summarised by readers. [Reader summary](https://trangnkp.substack.com/p/project-hail-mary). Approximate.

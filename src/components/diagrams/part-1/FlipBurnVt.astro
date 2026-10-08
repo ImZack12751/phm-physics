@@ -1,0 +1,26 @@
+---
+// Flip-and-burn to Tau Ceti with Newton's equations: accelerate at 1.5 g for half the trip, flip, decelerate.
+// Peak speed 4.29 c, far above the speed of light: the naive calculation breaks.
+const O = { x: 80, y: 270 }, W = 440, H = 220;
+const TT = 5.55, VPK = 4.29; // total years, peak speed in units of c
+const px = (t: number) => O.x + (t / TT) * W, py = (v: number) => O.y - (v / 4.6) * H;
+---
+
+<svg class="dg" viewBox="0 0 600 330" xmlns="http://www.w3.org/2000/svg">
+	<path d={`M${px(0)},${py(0)} L${px(TT / 2)},${py(VPK)} L${px(TT)},${py(0)} Z`} class="f-amber-soft" />
+	<path d={`M${px(0)},${py(0)} L${px(TT / 2)},${py(VPK)} L${px(TT)},${py(0)}`} class="s-amber w3" />
+	<line x1={px(0)} y1={py(1)} x2={px(TT) + 20} y2={py(1)} class="s-rose w2 dash" />
+	<text x={px(TT) + 22} y={py(1) + 4} class="t-sm t-b f-rose">c</text>
+	<text x={px(TT / 2)} y={py(1) + 18} class="t-mid t-sm f-rose halo">speed of light: nothing can go faster</text>
+	{[0, 1, 2, 3, 4].map((v) => <text x={O.x - 8} y={py(v) + 4} class="t-end t-sm f-muted">{v}c</text>)}
+	{[0, 1, 2, 3, 4, 5].map((t) => <text x={px(t)} y={O.y + 20} class="t-mid t-sm f-muted">{t}</text>)}
+	<line x1={O.x} y1={O.y} x2={px(TT) + 20} y2={O.y} class="s-fg w2" />
+	<line x1={O.x} y1={O.y} x2={O.x} y2={py(4.6)} class="s-fg w2" />
+	<text x={px(TT / 2)} y={O.y + 42} class="t-mid t-sm">time (years)</text>
+	<text x="24" y={py(2.3)} class="t-mid t-sm" transform={`rotate(-90 24 ${py(2.3)})`}>speed</text>
+	<circle cx={px(TT / 2)} cy={py(VPK)} r="5" class="f-amber" />
+	<text x={px(TT / 2) + 12} y={py(VPK) + 4} class="t-sm t-b f-amber">peak 4.29c?!</text>
+	<text x={px(TT / 4) - 20} y={py(2.6)} class="t-end t-sm f-amber">+1.5 g</text>
+	<text x={px((3 * TT) / 4) + 20} y={py(2.6)} class="t-sm f-amber">flip: −1.5 g</text>
+	<text x={px(TT / 2)} y={py(0.22)} class="t-mid t-sm halo">area = 11.9 light-years</text>
+</svg>

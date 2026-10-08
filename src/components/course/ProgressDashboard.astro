@@ -19,6 +19,9 @@ const rows = publishedChapters.map((c) => ({ ...c, href: chapterUrl(c), problems
 
 <div class="dashboard no-raw" data-rows={JSON.stringify(rows.map((r) => ({ slug: r.slug, problems: r.problems })))}>
 	<p class="dash-summary" aria-live="polite">Loading your progress…</p>
+	<p class="dash-jump"><a href="#roadmap">Skip to the course roadmap ↓</a></p>
+	<details class="dash-details">
+		<summary>Chapter-by-chapter progress</summary>
 	<div class="table-scroll">
 		<table class="dash-table">
 			<thead>
@@ -45,6 +48,7 @@ const rows = publishedChapters.map((c) => ({ ...c, href: chapterUrl(c), problems
 			<button type="button" class="dash-no">Cancel</button>
 		</span>
 	</div>
+	</details>
 </div>
 
 <h2 id="roadmap">Course roadmap</h2>
@@ -114,5 +118,16 @@ const rows = publishedChapters.map((c) => ({ ...c, href: chapterUrl(c), problems
 			close();
 		});
 		dash.querySelector('.dash-no')!.addEventListener('click', close);
+		// Collapsed by default; remember the reader's choice in this browser.
+		const details = dash.querySelector<HTMLDetailsElement>('.dash-details')!;
+		const KEY = 'phm-dash-open';
+		try {
+			details.open = localStorage.getItem(KEY) === '1';
+		} catch {}
+		details.addEventListener('toggle', () => {
+			try {
+				localStorage.setItem(KEY, details.open ? '1' : '0');
+			} catch {}
+		});
 	}
 </script>

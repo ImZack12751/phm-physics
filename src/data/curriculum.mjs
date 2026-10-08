@@ -49,10 +49,10 @@ export const parts = [
 		id: 'part-1', icon: 'v', dir: 'part-1', code: '1', label: 'Part 1 · Motion',
 		blurb: 'Describing motion precisely, and Grace’s first experiment: measuring g.',
 		chapters: [
-			{ slug: 'kinematics', title: 'Position, velocity and acceleration', prereqs: [], status: 'planned' },
-			{ slug: 'equations-of-motion', title: 'The equations of motion', prereqs: [], status: 'planned' },
-			{ slug: 'free-fall', title: 'Free fall', prereqs: [], status: 'planned' },
-			{ slug: 'measuring-g', title: 'Measuring g', prereqs: [], status: 'planned' },
+			{ slug: 'kinematics', title: 'Position, velocity and acceleration', prereqs: ['derivatives', 'fundamental-theorem', 'vectors'], status: 'review' },
+			{ slug: 'equations-of-motion', title: 'The equations of motion', prereqs: ['kinematics', 'integrals'], status: 'review' },
+			{ slug: 'free-fall', title: 'Free fall', prereqs: ['equations-of-motion'], status: 'review' },
+			{ slug: 'measuring-g', title: 'Measuring g', prereqs: ['free-fall', 'graphs', 'unit-handling', 'derivatives'], status: 'review' },
 		],
 	},
 	{

@@ -1,0 +1,369 @@
+---
+title: The equations of motion
+description: The five constant-acceleration equations, derived from areas under a velocity–time graph and from integrals, a recipe for choosing the right one, and what they say (and get wrong) about a flip-and-burn trip to Tau Ceti.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import VtArea from '../../../components/diagrams/part-1/VtArea.astro';
+import FlipBurnVt from '../../../components/diagrams/part-1/FlipBurnVt.astro';
+import FlipBurnPlanner from '../../../components/sims/FlipBurnPlanner.astro';
+
+## The scene
+
+The *Hail Mary* was designed around one simple plan: push at a steady 1.5 g for the first half of the trip, turn round, and push at 1.5 g the other way to arrive at rest. A huge range of real problems has the same shape. A probe brakes to dock, a dropped tool falls to the floor, a ship accelerates out of orbit. In each, the acceleration is constant, or nearly so.
+
+When the acceleration is constant, motion obeys a small set of equations, the **equations of motion**. With them you can answer "how far?", "how fast?" and "how long?" in a line or two. This chapter derives all five, shows how to pick the right one, and then uses them to plan the trip to Tau Ceti. The answer they give is impossible, and seeing *why* is the first step towards relativity.
+
+## Prerequisites
+
+<Prereqs notes={{ kinematics: 'position, displacement, velocity and acceleration, and the slope and area links between motion graphs', integrals: 'integrating a constant acceleration twice to get v = v₀ + at and x = x₀ + v₀t + ½at²' }} />
+
+## The concept
+
+### Uniform acceleration
+
+<Term id="uniform-acceleration">Uniform acceleration</Term> means the acceleration stays the same, in size and direction, the whole time. Then the velocity changes by the same amount every second, and the velocity–time graph is a straight line. Everything in this chapter assumes this. If the acceleration changes, you need the general tools of calculus from Chapter 1.1 instead.
+
+### The five quantities
+
+Constant-acceleration problems involve five quantities. The traditional letters are:
+
+| Symbol | Meaning |
+|---|---|
+| $s$ | displacement (change in position) |
+| $u$ | initial velocity, at the start |
+| $v$ | final velocity, at the end |
+| $a$ | acceleration (constant) |
+| $t$ | time taken |
+
+Each equation of motion links four of the five. So if you know any **three**, you can find the other two.
+
+### Reading the velocity–time graph
+
+The whole chapter comes from one picture. The velocity starts at $u$ and grows in a straight line (slope $a$) to $v$ at time $t$. The displacement is the area underneath.
+
+<Figure caption="Under uniform acceleration the velocity–time graph is a straight line from u to v. Its slope is a, so v − u = at. The area under it (a rectangle plus a triangle) is the displacement, s = ut + ½at²." alt="A velocity–time graph. A straight line rises from velocity u at time 0 to velocity v at time t. The area under it is split into a blue rectangle of height u and width t, labelled 'rectangle: u × t', and an amber triangle on top, labelled 'triangle: ½ × t × at'. A bracket at the right shows the rise v − u = at, and the line's slope is labelled a. The title reads: area = displacement s = ut + ½at².">
+	<VtArea />
+</Figure>
+
+### A recipe for solving problems
+
+1. **Choose a positive direction**, and give every vector quantity ($s$, $u$, $v$, $a$) its sign.
+2. **List the five quantities**: write down the three you know and the one you want.
+3. **Pick the equation** that leaves out the fifth one, the quantity you neither know nor want.
+4. **Solve, then check**: are the units right? Is the size sensible? Does the sign make sense?
+
+| Equation | Leaves out |
+|---|---|
+| $v = u + at$ | $s$ |
+| $s = ut + \tfrac{1}{2}at^{2}$ | $v$ |
+| $s = \tfrac{1}{2}(u + v)t$ | $a$ |
+| $v^{2} = u^{2} + 2as$ | $t$ |
+| $s = vt - \tfrac{1}{2}at^{2}$ | $u$ |
+
+These five are often called the <Term id="kinematic-equations">kinematic equations</Term> (or, from their letters, the "suvat" equations).
+
+## Formulas
+
+### Velocity: v = u + at
+
+Constant acceleration means the velocity–time graph has constant slope $a$. Over time $t$ the velocity rises by $at$:
+
+$$
+\boxed{v = u + at}
+$$
+
+(Chapter C.5 got the same result by integrating: $v = \int a\,dt = at + C$, with $C = u$.)
+
+### Displacement: s = ut + ½at²
+
+The area under the graph is a rectangle of height $u$ and width $t$, plus a triangle of base $t$ and height $v - u = at$:
+
+$$
+s = ut + \tfrac{1}{2} \cdot t \cdot at \quad\Rightarrow\quad \boxed{s = ut + \tfrac{1}{2}at^{2}}
+$$
+
+### The average-velocity form
+
+The area is also a trapezoid with parallel sides $u$ and $v$:
+
+$$
+\boxed{s = \tfrac{1}{2}(u + v)\,t}
+$$
+
+So under constant acceleration the average velocity is exactly halfway between the start and end velocities. This is true *only* for constant acceleration, when the graph is a straight line.
+
+### Leaving out time: v² = u² + 2as
+
+From $v = u + at$, $t = \dfrac{v - u}{a}$. Substitute into the average-velocity form:
+
+$$
+s = \tfrac{1}{2}(u + v) \cdot \frac{v - u}{a} = \frac{v^{2} - u^{2}}{2a} \quad\Rightarrow\quad \boxed{v^{2} = u^{2} + 2as}
+$$
+
+(The middle step uses $(v + u)(v - u) = v^{2} - u^{2}$.) This is the equation for braking and launch distances, where nobody has timed anything.
+
+### Leaving out the initial velocity
+
+Substitute $u = v - at$ into $s = ut + \tfrac{1}{2}at^{2}$:
+
+$$
+s = (v - at)t + \tfrac{1}{2}at^{2} \quad\Rightarrow\quad \boxed{s = vt - \tfrac{1}{2}at^{2}}
+$$
+
+### A flip-and-burn trip
+
+To cover a distance $d$ starting and ending at rest, accelerate at $a$ for the first half, then decelerate at $a$ for the second half. The <Term id="flip-and-burn">flip-and-burn</Term> profile is symmetric, so each half takes the same time. For the first half, $u = 0$ and $s = d/2$:
+
+$$
+\frac{d}{2} = \tfrac{1}{2}a\,t_{\text{half}}^{2} \quad\Rightarrow\quad t_{\text{half}} = \sqrt{\frac{d}{a}}, \qquad \boxed{t_{\text{trip}} = 2\sqrt{\frac{d}{a}}, \qquad v_{\text{peak}} = a\,t_{\text{half}} = \sqrt{ad}}
+$$
+
+## Worked examples
+
+<Example n={1} title="Braking to dock" book>
+The *Hail Mary* approaches Rocky's ship at 50 m/s and must stop in exactly 200 m. What constant deceleration does it need, and how long does the braking take? (Our own illustration.)
+
+Take the direction of travel as positive. Known: $u = 50$ m/s, $v = 0$, $s = 200$ m. Wanted: $a$. Not needed: $t$, so use $v^{2} = u^{2} + 2as$:
+
+$$
+0 = 50^{2} + 2a(200) \quad\Rightarrow\quad a = -\frac{2500\ \text{m}^{2}/\text{s}^{2}}{400\ \text{m}} = -6.25\ \text{m/s}^{2}
+$$
+
+The minus sign says the acceleration points backwards, as braking should. The time, from $v = u + at$:
+
+$$
+t = \frac{v - u}{a} = \frac{0 - 50\ \text{m/s}}{-6.25\ \text{m/s}^{2}} = 8.0\ \text{s}
+$$
+
+Check with the average-velocity form: $\tfrac{1}{2}(50 + 0) \times 8 = 200$ m ✓.
+</Example>
+
+<Example n={2} title="A launch run">
+A craft on a launch track starts from rest and accelerates at $2.5\ \text{m/s}^{2}$ until it reaches 80 m/s. How long must the track be, and how long does the run take?
+
+Known: $u = 0$, $v = 80$ m/s, $a = 2.5\ \text{m/s}^{2}$.
+
+$$
+s = \frac{v^{2} - u^{2}}{2a} = \frac{6400\ \text{m}^{2}/\text{s}^{2}}{5\ \text{m/s}^{2}} = 1280\ \text{m}
+$$
+
+$$
+t = \frac{v - u}{a} = \frac{80\ \text{m/s}}{2.5\ \text{m/s}^{2}} = 32\ \text{s}
+$$
+</Example>
+
+<Example n={3} title="Catching a drifting container">
+A cargo container drifts past a shuttle at a steady 6 m/s. At that moment the shuttle starts from rest and accelerates at $2\ \text{m/s}^{2}$ in the same direction. When and where does it catch up, and how fast is it going then?
+
+Measure positions from the meeting point. The container: $x_{\text{c}} = 6t$. The shuttle: $x_{\text{s}} = \tfrac{1}{2}(2)t^{2} = t^{2}$. They meet when
+
+$$
+t^{2} = 6t \quad\Rightarrow\quad t(t - 6) = 0 \quad\Rightarrow\quad t = 6\ \text{s}
+$$
+
+(The other solution, $t = 0$, is the moment they start side by side.) The position is $x = 36$ m, and the shuttle's speed is $v = 2 \times 6 = 12$ m/s, twice the container's. That makes sense: to cover the same distance in the same time from a standing start, its *average* speed must equal the container's 6 m/s, so it ends at double that.
+</Example>
+
+<Example n={4} title="Reaction distance plus braking distance">
+A pilot moving at 30 m/s sees an obstacle, takes 0.8 s to react, then brakes at $5\ \text{m/s}^{2}$. How far does the craft travel from the moment the obstacle is seen?
+
+Two stages, so treat them separately.
+
+Reaction: constant velocity, $s_{1} = 30\ \text{m/s} \times 0.8\ \text{s} = 24$ m.
+
+Braking: $u = 30$ m/s, $v = 0$, $a = -5\ \text{m/s}^{2}$:
+
+$$
+s_{2} = \frac{0 - 30^{2}}{2(-5)} = 90\ \text{m}
+$$
+
+Total: $24 + 90 = 114$ m. Notice that the braking distance grows with the *square* of the speed: at 60 m/s it would be 360 m.
+</Example>
+
+<Example n={5} title="To Tau Ceti by Newton's rules" book>
+Plan a flip-and-burn trip to Tau Ceti, $d = 11.912$ light-years $= 1.127 \times 10^{17}$ m, at 1.5 g ($14.7\ \text{m/s}^{2}$), using the equations of motion. Find the trip time and the peak speed.
+
+$$
+t_{\text{half}} = \sqrt{\frac{d}{a}} = \sqrt{\frac{1.127 \times 10^{17}\ \text{m}}{14.7\ \text{m/s}^{2}}} = 8.756 \times 10^{7}\ \text{s} = 2.77\ \text{years}
+$$
+
+$$
+t_{\text{trip}} = 5.55\ \text{years}, \qquad v_{\text{peak}} = a\,t_{\text{half}} = 14.7 \times 8.756 \times 10^{7} = 1.287 \times 10^{9}\ \text{m/s}
+$$
+
+<Figure caption="The flip-and-burn trip to Tau Ceti worked out with Newton's equations. The peak speed comes out at 4.29 times the speed of light, which is impossible." alt="A speed–time graph shaped like a triangle. Speed rises in a straight line at plus 1.5 g from 0 to a peak at about 2.8 years, labelled 'peak 4.29c?!', then falls at minus 1.5 g after a flip, reaching 0 at 5.55 years. The area under the triangle is labelled 11.9 light-years. A red dashed horizontal line at 1c is labelled 'speed of light: nothing can go faster'. Most of the triangle lies above that line.">
+	<FlipBurnVt />
+</Figure>
+
+That peak is $\dfrac{1.287 \times 10^{9}}{2.998 \times 10^{8}} = 4.29$ times the speed of light. Worse, the whole trip would take 5.55 years, less than the 11.9 years light itself needs. Both are impossible. Nothing in this chapter is wrong as mathematics. The physics breaks: Newton's equations stop working near light speed. Part 10 redoes this trip with relativity and recovers the novel's figures of about 3.75 years for the crew and about 13 years on Earth.
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** The constant-acceleration equations are exact whenever the acceleration is constant and speeds are far below light speed. They are used every day for vehicle stopping distances, launch tracks and spacecraft burns. Real spacecraft engines have also been designed around the flip-and-burn idea: accelerate, turn round, decelerate.
+
+**Weir's inventions.** A drive that holds 1.5 g for years is fiction. Real rocket engines either push hard for minutes (chemical rockets) or very gently for years (ion drives, which push with a tiny fraction of 1 g). The docking approach and the launch run are our own illustrations.
+
+**How realistic are the numbers?** Example 5 shows the limit of this chapter: applied naively to an interstellar trip, the equations predict 4.29 times light speed. The novel gets this right. Its timeline (about 13 years on Earth and about 3.75 years aboard) only makes sense with special relativity, which Part 10 covers.
+</RealVsBook>
+
+## Interactive simulation
+
+<FlipBurnPlanner />
+
+Things to try: a trip to the Moon at 1.5 g takes under 3 hours with a peak speed of about 75 km/s. Even 5.2 au at 1.5 g stays well below light speed. Now pick Tau Ceti and lower the acceleration to 0.1 g: the Newtonian answer still breaks light speed. Interstellar trips need relativity.
+
+## Practice set
+
+<Problem n={1} level="easy">
+A craft starts from rest and accelerates at $3\ \text{m/s}^{2}$ for 5 s. Find its final velocity and the distance covered.
+
+<Solution>
+$v = 0 + 3 \times 5 = 15$ m/s. $s = 0 + \tfrac{1}{2} \times 3 \times 25 = 37.5$ m.
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy">
+A rover moving at 20 m/s brakes at $4\ \text{m/s}^{2}$ to a stop. How long does it take to stop, and how far does it go?
+
+<Solution>
+$t = \dfrac{0 - 20}{-4} = 5$ s. $s = \tfrac{1}{2}(20 + 0) \times 5 = 50$ m.
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy">
+Which equation would you use in each case? (a) You know $u$, $a$ and $s$, and want $v$. (b) You know $u$, $v$ and $t$, and want $s$. (c) You know $v$, $a$ and $t$, and want $s$.
+
+<Solution>
+(a) Time isn't involved: $v^{2} = u^{2} + 2as$.
+
+(b) Acceleration isn't involved: $s = \tfrac{1}{2}(u + v)t$.
+
+(c) The initial velocity isn't involved: $s = vt - \tfrac{1}{2}at^{2}$.
+</Solution>
+</Problem>
+
+<Problem n={4} level="medium" book>
+Starting from rest at 1.5 g ($14.7\ \text{m/s}^{2}$), how long does the ship take to reach 1% of the speed of light, and how far has it gone by then, in au?
+
+<Solution>
+$v = 0.01 \times 2.998 \times 10^{8} = 2.998 \times 10^{6}$ m/s.
+
+$t = \dfrac{v}{a} = \dfrac{2.998 \times 10^{6}}{14.7} = 2.04 \times 10^{5}$ s $= 2.36$ days.
+
+$s = \dfrac{v^{2}}{2a} = \dfrac{(2.998 \times 10^{6})^{2}}{29.4} = 3.06 \times 10^{11}$ m $= 2.04$ au.
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium">
+An object starts with $u = 12$ m/s and has $a = -3\ \text{m/s}^{2}$. At what times is its displacement $+18$ m? Explain why there are two answers.
+
+<Solution>
+$18 = 12t - 1.5t^{2}$, so $1.5t^{2} - 12t + 18 = 0$, or $t^{2} - 8t + 12 = 0$, which gives $(t - 2)(t - 6) = 0$.
+
+$t = 2$ s and $t = 6$ s. It passes the 18 m mark on the way out ($v = +6$ m/s), stops at $t = 4$ s (at 24 m), and passes 18 m again on the way back ($v = -6$ m/s).
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium">
+A craft moving at 6 m/s speeds up steadily and covers 30 m in the next 3 s. Find its acceleration and its final velocity.
+
+<Solution>
+$s = ut + \tfrac{1}{2}at^{2}$: $30 = 18 + 4.5a$, so $a = 2.67\ \text{m/s}^{2}$.
+
+$v = 6 + 2.67 \times 3 = 14$ m/s. (Check: $\tfrac{1}{2}(6 + 14) \times 3 = 30$ m ✓.)
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium" book>
+The ship closes on a target at 40 m/s and can brake at most at 0.5 g ($4.9\ \text{m/s}^{2}$). What is the shortest distance in which it can stop, and how long does that take?
+
+<Solution>
+$s = \dfrac{0 - 40^{2}}{2(-4.9)} = \dfrac{1600}{9.8} = 163$ m. $t = \dfrac{40}{4.9} = 8.2$ s.
+
+The braking must start at least 163 m out.
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium">
+A craft accelerates from rest at $3\ \text{m/s}^{2}$ for 10 s, then brakes at $2\ \text{m/s}^{2}$ until it stops. Find the top speed, the total time and the total distance.
+
+<Solution>
+Top speed: $3 \times 10 = 30$ m/s. Stage 1: $s_{1} = \tfrac{1}{2}(3)(100) = 150$ m.
+
+Stage 2: $t_{2} = \dfrac{30}{2} = 15$ s, and $s_{2} = \tfrac{1}{2}(30 + 0)(15) = 225$ m.
+
+Total: 25 s and 375 m.
+</Solution>
+</Problem>
+
+<Problem n={9} level="challenging">
+Probe A leaves a station from rest at $2\ \text{m/s}^{2}$. Probe B leaves the same point 4 s later, from rest at $3\ \text{m/s}^{2}$, in the same direction. When (measured from A's start) does B catch A, and how far out?
+
+<Solution>
+$x_{\text{A}} = t^{2}$ and $x_{\text{B}} = 1.5(t - 4)^{2}$ for $t \ge 4$ s.
+
+Setting them equal and taking square roots (both positive): $t = \sqrt{1.5}\,(t - 4)$, so $t = \dfrac{4\sqrt{1.5}}{\sqrt{1.5} - 1} = 21.8$ s.
+
+Position: $x = 21.8^{2} = 475$ m.
+</Solution>
+</Problem>
+
+<Problem n={10} level="challenging" book>
+Use the flip-and-burn formulas to find the trip time and peak speed for a trip from Earth to the Moon (384 400 km) at 1.5 g. Is Newton's description safe here?
+
+<Solution>
+$t_{\text{half}} = \sqrt{\dfrac{3.844 \times 10^{8}}{14.7}} = 5114$ s, so $t_{\text{trip}} = 10\,227$ s $= 2.84$ hours.
+
+$v_{\text{peak}} = 14.7 \times 5114 = 75\,200$ m/s $= 75.2$ km/s, about 0.025% of light speed. Newton's equations are excellent here.
+</Solution>
+</Problem>
+
+<Problem n={11} level="challenging">
+A craft brakes at $2\ \text{m/s}^{2}$ for 15 s and ends at rest. Use $s = vt - \tfrac{1}{2}at^{2}$ to find the braking distance without first finding its initial speed. Then check by finding $u$.
+
+<Solution>
+With the motion positive, $a = -2\ \text{m/s}^{2}$ and $v = 0$: $s = 0 - \tfrac{1}{2}(-2)(15^{2}) = 225$ m.
+
+Check: $u = v - at = 0 + 30 = 30$ m/s, and $s = \tfrac{1}{2}(30 + 0)(15) = 225$ m ✓.
+</Solution>
+</Problem>
+
+<Problem n={12} level="challenging">
+The formula "average velocity $= \tfrac{1}{2}(u + v)$" holds only for constant acceleration. Show this with $v = t^{2}$ m/s from $t = 0$ to $3$ s: find the true average velocity and compare it with $\tfrac{1}{2}(u + v)$.
+
+<Solution>
+True average: $\dfrac{1}{3}\displaystyle\int_{0}^{3} t^{2}\,dt = \dfrac{1}{3} \times 9 = 3$ m/s.
+
+$\tfrac{1}{2}(u + v) = \tfrac{1}{2}(0 + 9) = 4.5$ m/s, which is wrong. The acceleration $2t$ isn't constant: the craft spends most of its time going slowly and only speeds up near the end.
+</Solution>
+</Problem>
+
+## Summary
+
+- With uniform (constant) acceleration, the velocity–time graph is a straight line, and five quantities ($s$, $u$, $v$, $a$, $t$) are linked by five equations.
+- Each equation leaves out one quantity. Pick the one that leaves out what you neither know nor want.
+- They follow from the velocity–time graph: slope $= a$ and area $= s$.
+- Under constant acceleration, the average velocity is $\tfrac{1}{2}(u + v)$. Braking distance grows with the square of the speed.
+- Flip-and-burn: $t_{\text{trip}} = 2\sqrt{d/a}$ and $v_{\text{peak}} = \sqrt{ad}$.
+- Applied to an interstellar trip at 1.5 g, these equations predict faster-than-light speeds. They fail near light speed, and relativity takes over.
+
+**Formulas from this chapter**
+
+$$
+v = u + at \qquad s = ut + \tfrac{1}{2}at^{2} \qquad s = \tfrac{1}{2}(u + v)t \qquad v^{2} = u^{2} + 2as \qquad s = vt - \tfrac{1}{2}at^{2}
+$$
+
+$$
+t_{\text{trip}} = 2\sqrt{\frac{d}{a}} \qquad v_{\text{peak}} = \sqrt{ad}
+$$
+
+## Sources
+
+- OpenStax, *University Physics Volume 1*, §3.4 "Motion with Constant Acceleration". [§3.4](https://openstax.org/books/university-physics-volume-1/pages/3-4-motion-with-constant-acceleration)
+- Speed of light (exact): NIST CODATA. [NIST](https://physics.nist.gov/cgi-bin/cuu/Value?c)
+- Tau Ceti's distance, 11.912 light-years from a parallax of 273.81 mas: SIMBAD/Gaia, as in Chapter 0.6 and `constants.mjs`.
+- Earth–Moon distance (384 400 km): NASA NSSDCA [Moon fact sheet](https://nssdc.gsfc.nasa.gov/planetary/factsheet/moonfact.html).
+- The 1.5 g acceleration and the trip times (about 3.75 years for the crew and about 13 years on Earth) are the novel's figures (Andy Weir, *Project Hail Mary*, 2021), as summarised by readers. Approximate.

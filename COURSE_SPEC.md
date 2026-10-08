@@ -44,6 +44,7 @@ A free, permanently online course that teaches physics from absolute zero, using
 
 - A rich "Project Hail Mary mission console" look. It has a living backdrop: coloured nebulae, a parallax starfield with spiked bright stars, Tau Ceti glowing in the corner, and the red Petrova line with Astrophage drifting along it. Panels are HUD-style with corner brackets. Chapter sections get glowing numbered badges (01–10). Accents are Tau Ceti gold (`--gold`), Eridian teal (`--teal`), Astrophage infrared (`--infra`) and violet (`--violet`). Examples are teal, problems gold, and fact-check boxes violet. Text must always sit on a dark veil (no light-on-light or dark-on-dark), including inside diagrams. The light theme and print are plain and high-contrast.
 - Fonts: Michroma (site title, hero), Exo 2 (headings, buttons), Inter (body), IBM Plex Mono (labels, readouts), self-hosted via @fontsource.
+- Home page: the per-chapter progress table sits in a collapsible panel (closed by default, state in localStorage `phm-dash-open`), with a skip link to the roadmap. The hero ship's position and angle are computed from the route's Bézier curve in `overrides/Hero.astro` (`SHIP_T`), so it always sits on the line to Tau Ceti.
 - Fun touches: an animated *Hail Mary* on the home page, and a star-burst with a "mission log" toast when a chapter is marked complete (`scripts/problems.ts`).
 - Collapsible sidebars: header buttons and the keys `[` `]` `\` hide navigation, page contents, or both (focus mode). The state is stored on `<html data-nav data-toc>` and restored before paint (`overrides/ThemeProvider.astro`, `overrides/SocialIcons.astro`, `scripts/layout.ts`, edge tabs in `overrides/SkipLink.astro`).
 - Every animation stops under `prefers-reduced-motion`.
@@ -138,10 +139,10 @@ Teaching order follows logical dependency, not plot order. Planned chapters have
 
 | # | Chapter | Path | Prerequisites | Status |
 |---|---|---|---|---|
-| 1.1 | Position, velocity and acceleration | `part-1/kinematics` | – | planned |
-| 1.2 | The equations of motion | `part-1/equations-of-motion` | – | planned |
-| 1.3 | Free fall | `part-1/free-fall` | – | planned |
-| 1.4 | Measuring g | `part-1/measuring-g` | – | planned |
+| 1.1 | Position, velocity and acceleration | `part-1/kinematics` | C.3, C.6, 0.7 | written, awaiting review |
+| 1.2 | The equations of motion | `part-1/equations-of-motion` | 1.1, C.5 | written, awaiting review |
+| 1.3 | Free fall | `part-1/free-fall` | 1.2 | written, awaiting review |
+| 1.4 | Measuring g | `part-1/measuring-g` | 1.3, 0.9, 0.3, C.3 | written, awaiting review |
 
 **Part 2 · Forces**
 
@@ -281,7 +282,7 @@ Brief biology and chemistry sidebars are added only where the plot's physics dep
 Source of truth: `src/data/glossary.mjs`.
 
 <!-- AUTO:glossary -->
-101 terms.
+120 terms.
 
 | Term | id | First chapter |
 |---|---|---|
@@ -386,6 +387,25 @@ Source of truth: `src/data/glossary.mjs`.
 | Accumulation function | `accumulation-function` | C.6 |
 | Fundamental theorem of calculus | `fundamental-theorem` | C.6 |
 | Average value (of a function) | `average-value` | C.6 |
+| Reference frame | `reference-frame` | 1.1 |
+| Position (x) | `position` | 1.1 |
+| Instantaneous velocity | `instantaneous-velocity` | 1.1 |
+| Speed | `speed` | 1.1 |
+| Uniform acceleration | `uniform-acceleration` | 1.2 |
+| Kinematic equations ("suvat") | `kinematic-equations` | 1.2 |
+| Flip-and-burn | `flip-and-burn` | 1.2 |
+| Free fall | `free-fall` | 1.3 |
+| Acceleration due to gravity (g) | `acceleration-due-to-gravity` | 1.3 |
+| Air resistance | `air-resistance` | 1.3 |
+| Terminal velocity | `terminal-velocity` | 1.3 |
+| Projectile | `projectile` | 1.3 |
+| Uncertainty | `uncertainty` | 1.4 |
+| Fractional uncertainty | `fractional-uncertainty` | 1.4 |
+| Random error | `random-error` | 1.4 |
+| Systematic error | `systematic-error` | 1.4 |
+| Mean | `mean` | 1.4 |
+| Standard deviation | `standard-deviation` | 1.4 |
+| Period (T) | `period` | 1.4 |
 <!-- /AUTO:glossary -->
 
 ---
@@ -395,7 +415,7 @@ Source of truth: `src/data/glossary.mjs`.
 Source of truth: `src/data/formulas.mjs`.
 
 <!-- AUTO:formulas -->
-65 formulas.
+75 formulas.
 
 | Formula | id | First chapter | LaTeX |
 |---|---|---|---|
@@ -464,6 +484,16 @@ Source of truth: `src/data/formulas.mjs`.
 | The fundamental theorem of calculus | `ftc` | C.6 | `\dfrac{d}{dx}\int_{a}^{x} f(t)\,dt = f(x) \qquad \int_{a}^{b} f(x)\,dx = \Big[F(x)\Big]_{a}^{b} = F(b) - F(a)` |
 | Net change from a rate | `net-change` | C.6 | `\int_{a}^{b} \dfrac{dQ}{dt}\,dt = Q(b) - Q(a) \qquad \Delta x = \int_{t_{1}}^{t_{2}} v\,dt \qquad \Delta v = \int_{t_{1}}^{t_{2}} a\,dt` |
 | Average value of a function | `average-value` | C.6 | `\bar{f} = \dfrac{1}{b - a}\int_{a}^{b} f(x)\,dx` |
+| Displacement, velocity, speed and acceleration | `kinematics-definitions` | 1.1 | `\Delta x = x_{2} - x_{1} \qquad v = \dfrac{dx}{dt} \qquad \text{speed} = \|v\| \qquad a = \dfrac{dv}{dt}` |
+| Velocity in two dimensions | `velocity-2d` | 1.1 | `\mathbf{v} = \left(\dfrac{dx}{dt}, \dfrac{dy}{dt}\right) \qquad \|\mathbf{v}\| = \sqrt{v_{x}^{2} + v_{y}^{2}}` |
+| The equations of motion (constant acceleration) | `suvat` | 1.2 | `v = u + at \qquad s = ut + \tfrac{1}{2}at^{2} \qquad s = \tfrac{1}{2}(u + v)t \qquad v^{2} = u^{2} + 2as \qquad s = vt - \tfrac{1}{2}at^{2}` |
+| Flip-and-burn trip | `flip-and-burn` | 1.2 | `t_{\text{trip}} = 2\sqrt{\dfrac{d}{a}} \qquad v_{\text{peak}} = \sqrt{ad}` |
+| Free fall | `free-fall` | 1.3 | `t = \sqrt{\dfrac{2h}{g}} \qquad v = \sqrt{2gh} \qquad t_{\text{top}} = \dfrac{u}{g} \qquad h_{\text{max}} = \dfrac{u^{2}}{2g}` |
+| Horizontal launch | `horizontal-launch` | 1.3 | `x = ut \qquad y = h - \tfrac{1}{2}gt^{2} \qquad \text{range} = u\sqrt{\dfrac{2h}{g}}` |
+| g from a timed drop | `g-from-drop` | 1.4 | `g = \dfrac{2h}{t^{2}} \qquad \dfrac{\Delta g}{g} \approx \dfrac{\Delta h}{h} + 2\,\dfrac{\Delta t}{t}` |
+| Uncertainty of a power law | `uncertainty-power` | 1.4 | `y = kx^{n} \;\Rightarrow\; \dfrac{\Delta y}{y} \approx n\,\dfrac{\Delta x}{x}` |
+| Mean and its uncertainty | `mean-standard-error` | 1.4 | `\bar{x} = \dfrac{1}{N}\sum_{k=1}^{N} x_{k} \qquad s = \sqrt{\dfrac{1}{N - 1}\sum_{k=1}^{N}(x_{k} - \bar{x})^{2}} \qquad \Delta\bar{x} \approx \dfrac{s}{\sqrt{N}}` |
+| Period of a pendulum | `pendulum-period` | 1.4 | `T = 2\pi\sqrt{\dfrac{L}{g}} \qquad g = \dfrac{4\pi^{2}L}{T^{2}}` |
 <!-- /AUTO:formulas -->
 
 ---
@@ -480,6 +510,7 @@ All constants and book figures used so far, each with its source, are in `script
 - **Book figures (approximate, from the novel via reader guides and the Royal Institution article):** Astrophage 10 µm across, held at 96.415 °C. The *Hail Mary* accelerates at 1.5 g. Ship time about 3.75 yr, Earth time about 13 yr. Fuel about 2 × 10⁶ kg. Engines burn about 6 g/s. Dimming forecast: about 1% in about 9 yr and 5% in about 20 yr.
 - Calculus examples reuse the ship at 1.5 g as d = 7.35t² m (v = 14.7t m/s) and the dimming model D = 2^((t−9)/4.737) %, with dD/dt = 0.1463·D per year.
 - Integral results to reuse: ∫₉²⁰ D dt = 27.34 %·yr (average dimming 2.49%); the ship's first day at 1.5 g gives 1.270 × 10⁶ m/s (0.42% c) and 0.367 au; the probe v = 0.6t² covers 200 m in 10 s. C.5 already derives v = v₀ + at and x = x₀ + v₀t + ½at² (formula `constant-acceleration`), so Part 1.2 should build on it rather than re-derive it from scratch.
+- Part 1 book figures (reader summary, trangnkp.substack.com): table drop 0.91 m in 0.348 s → 15.0 m/s²; pendulum 346 swings in 10 min (T = 1.734 s), unchanged on a deck 4.5 m lower. The novel's string length isn't used; 1.12 m is our assumption consistent with 1.5 g. Moon g 1.62, Mars 3.73 (NASA). Reaction times 0.2–0.3 s (two cited studies). Newtonian flip-and-burn to Tau Ceti at 1.5 g: 5.55 yr, peak 4.29c (set up for Part 10).
 - Open question for Part 5: is 2 × 10⁶ kg of fuel at 6 g/s consistent with the trip's duration (2 × 10⁶ / 0.006 s ≈ 10.6 yr of continuous burn, compared with about 3.75 yr of ship time)? Check against the novel, which may have several drives, before relying on it.
 
 ---
@@ -490,3 +521,4 @@ All constants and book figures used so far, each with its source, are in `script
 - **Session 1b (2026-10-05).** Redesigned the UI to be more mature and formal: serif display type, one gold accent, hairline panels, numbered sections, a navigation-chart hero and a calmer starfield. Added collapsible sidebars and focus mode. Pushed to GitHub.
 - **Session 2 (2026-10-05).** Found a deploy bug: re-running an *old* Actions run redeployed old code over newer code. The workflow now refuses to deploy any commit that isn't the tip of `main`. Wrote the first half of Part 0.5: C.1 Rates of change, C.2 Slopes of curves and limits, C.3 Derivatives and simple rules (33 practice problems, 3 simulations, 6 diagrams). They define velocity and acceleration as derivatives, ready for Part 1. Diagram labels that sit over lines use the `halo` class. Redesigned the UI again at the author's request (more detailed, space-themed and fun; see Style rules). **Next:** C.4 Area under curves, C.5 Integrals, C.6 The fundamental theorem.
 - **Session 3 (2026-10-07).** Finished Part 0.5: C.4 Area under curves (Riemann sums, sigma notation, trapezoid rule, signed area, exact parabola area via the sum of squares), C.5 Integrals (notation and properties, antiderivatives and + C, initial conditions, d/dx ln x = 1/x, constant-acceleration equations), C.6 The fundamental theorem (area-so-far function, both parts, net change, average value). 36 practice problems, 3 simulations (RiemannSum, AntiderivativeFamily, AccumulationSim) and 6 diagrams. **Next:** Part 1, starting with 1.1 Position, velocity and acceleration.
+- **Session 4 (2026-10-08).** Wrote Part 1: 1.1 Position, velocity and acceleration, 1.2 The equations of motion, 1.3 Free fall, 1.4 Measuring g (48 practice problems, 4 simulations: MotionGraphs, FlipBurnPlanner, DropLab, GLab; 8 diagrams). Made the home-page progress table collapsible and put the hero ship exactly on its route. **Next:** Part 2, starting with 2.1 Newton's laws (equivalence of the 1.5 g ship and gravity is set up in 1.1 Example 5; the pendulum's 2π is promised in 2.4).

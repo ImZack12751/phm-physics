@@ -1,0 +1,31 @@
+import { check, report } from './lib.mjs';
+const P = 4 * Math.PI ** 2;
+export default function () {
+	check('WE1 g', 1.82 / 0.348 ** 2, 15.0, 0.003); check('WE1 t²', 0.348 ** 2, 0.1211, 0.001); check('WE1 ratio', 15.0 / 9.81, 1.53, 0.003);
+	const f2 = 0.005 / 0.91 + (2 * 0.05) / 0.348;
+	check('WE2 h frac', 0.005 / 0.91, 0.0055, 0.01); check('WE2 t frac', 0.1 / 0.348, 0.287, 0.002); check('WE2 frac', f2, 0.293, 0.002);
+	check('WE2 dg', f2 * 15.0, 4.4, 0.002); check('WE2 lo', 15.0 - 4.4, 10.6, 1e-9); check('WE2 hi', 15.0 + 4.4, 19.4, 1e-9);
+	const ts = [0.33, 0.37, 0.35, 0.32, 0.36], m = ts.reduce((a, b) => a + b) / 5;
+	const ss = ts.reduce((a, b) => a + (b - m) ** 2, 0), sd = Math.sqrt(ss / 4), se = sd / Math.sqrt(5);
+	check('WE3 mean', m, 0.346, 1e-9); check('WE3 ss', ss, 0.00172, 0.001); check('WE3 sd', sd, 0.0207, 0.002); check('WE3 se', se, 0.0093, 0.003);
+	check('WE3 g', 1.82 / m ** 2, 15.2, 0.002); check('WE3 frac', (2 * 0.0093) / 0.346, 0.054, 0.005); check('WE3 dg', 15.2 * 0.054, 0.8, 0.03);
+	const T = 600 / 346;
+	check('WE4 T', T, 1.734, 0.001); check('WE4 dT', 0.2 / 346, 0.00058, 0.005); check('WE4 dT frac', 0.2 / 600, 0.00033, 0.02);
+	check('WE4 g', (P * 1.12) / T ** 2, 14.7, 0.001); check('WE4 num', P * 1.12, 44.22, 0.001); check('WE4 T²', T * T, 3.007, 0.001);
+	check('WE4 L frac', 0.001 / 1.12, 0.00089, 0.005); check('WE4 frac', 0.00089 + 0.00067, 0.0016, 0.03); check('WE4 dg', 14.7 * 0.00156, 0.02, 0.15);
+	const Ts = [1.159, 1.419, 1.639, 1.832];
+	[0.5, 0.75, 1, 1.25].forEach((L, i) => check(`WE5 T(${L})`, 2 * Math.PI * Math.sqrt(L / 14.7), Ts[i], 0.001));
+	[1.343, 2.014, 2.686, 3.356].forEach((t2, i) => check(`WE5 T² ${i}`, Ts[i] ** 2, t2, 0.001));
+	check('WE5 dT²', 3.356 - 1.343, 2.013, 1e-6); check('WE5 slope', 2.013 / 0.75, 2.684, 0.001); check('WE5 g', P / 2.684, 14.7, 0.002); check('4π²', P, 39.48, 1e-4);
+	check('P1', 3 / 0.55 ** 2, 9.9, 0.005); check('P1 t²', 0.55 ** 2, 0.3025, 1e-6);
+	check('P2 T', 40.2 / 20, 2.01); check('P2 g', P / 2.01 ** 2, 9.77, 0.002); check('P2 T²', 2.01 ** 2, 4.04, 0.001);
+	check('P5 g', 4 / 0.64 ** 2, 9.77, 0.002); check('P5 frac', 0.005 + 0.0625, 0.0675); check('P5 dg', (4 / 0.64 ** 2) * 0.0675, 0.66, 0.003);
+	const t6 = [0.45, 0.43, 0.47, 0.44, 0.46], m6 = t6.reduce((a, b) => a + b) / 5, s6 = Math.sqrt(t6.reduce((a, b) => a + (b - m6) ** 2, 0) / 4);
+	check('P6 mean', m6, 0.45, 1e-9); check('P6 sd', s6, 0.0158, 0.002); check('P6 se', s6 / Math.sqrt(5), 0.0071, 0.005);
+	check('P7', 0.2 / (0.001 * 1.734), 115.3, 0.001);
+	check('P8 L', (14.7 * 1.734 ** 2) / P, 1.12, 0.002); check('P8 T', 2 * Math.PI * Math.sqrt(1.12 / 9.81), 2.123, 0.001); check('P8 N', 600 / 2.123, 283, 0.002);
+	check('P10', Math.sqrt(0.36 / 9.81), 0.19, 0.01);
+	check('P11', (347 / 346) ** 2, 1.0058, 1e-4);
+	check('P12', (1 - 0.5) / 2, 0.25);
+	return report('1.4 Measuring g');
+}

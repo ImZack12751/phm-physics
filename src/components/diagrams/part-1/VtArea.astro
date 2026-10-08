@@ -1,0 +1,30 @@
+---
+// Velocity–time graph for constant acceleration: v rises in a straight line from u to v over time t.
+// The area under it splits into a rectangle (ut) and a triangle (½at²).
+const O = { x: 90, y: 270 }, W = 380, H = 210;
+const u = 0.35, vEnd = 0.95; // fractions of H
+const X1 = O.x + W, Yu = O.y - u * H, Yv = O.y - vEnd * H;
+---
+
+<svg class="dg" viewBox="0 0 600 320" xmlns="http://www.w3.org/2000/svg">
+	<rect x={O.x} y={Yu} width={W} height={O.y - Yu} class="f-sky-soft" />
+	<path d={`M${O.x},${Yu} L${X1},${Yv} L${X1},${Yu} Z`} class="f-amber-soft" />
+	<line x1={O.x} y1={Yu} x2={X1} y2={Yv} class="s-fg w3" />
+	<line x1={O.x} y1={O.y} x2={X1 + 30} y2={O.y} class="s-fg w2" />
+	<line x1={O.x} y1={O.y} x2={O.x} y2={Yv - 20} class="s-fg w2" />
+	<line x1={O.x - 5} y1={Yu} x2={O.x} y2={Yu} class="s-fg w2" />
+	<line x1={O.x - 5} y1={Yv} x2={X1} y2={Yv} class="s-muted w1 dash" />
+	<text x={O.x - 10} y={Yu + 5} class="t-end t-it">u</text>
+	<text x={O.x - 10} y={Yv + 5} class="t-end t-it">v</text>
+	<text x={O.x - 10} y={O.y + 5} class="t-end t-sm f-muted">0</text>
+	<text x={O.x} y={O.y + 20} class="t-mid t-sm f-muted">0</text>
+	<text x={X1} y={O.y + 20} class="t-mid t-it">t</text>
+	<text x={O.x + W / 2} y={O.y + 40} class="t-mid t-sm">time</text>
+	<text x="24" y={O.y - H / 2} class="t-mid t-sm" transform={`rotate(-90 24 ${O.y - H / 2})`}>velocity</text>
+	<text x={O.x + W / 2} y={(Yu + O.y) / 2} class="t-mid t-b f-sky">rectangle: u × t</text>
+	<text x={O.x + W * 0.68} y={Yu - 22} class="t-mid t-b f-amber halo">triangle: ½ × t × at</text>
+	<line x1={X1 + 14} y1={Yu} x2={X1 + 14} y2={Yv} class="s-amber w2" />
+	<text x={X1 + 22} y={(Yu + Yv) / 2 + 5} class="t-sm f-amber">v − u = at</text>
+	<text x={O.x + W * 0.3} y={Yu - (Yu - Yv) * 0.3 - 14} class="t-mid t-sm halo">slope = a</text>
+	<text x="300" y="24" class="t-mid t-b">area = displacement s = ut + ½at²</text>
+</svg>

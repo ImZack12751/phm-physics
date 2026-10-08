@@ -1,0 +1,384 @@
+---
+title: Position, velocity and acceleration
+description: Describing motion precisely, with positions measured from an origin, displacement versus distance, velocity and speed, acceleration and its sign, and motion graphs read through slopes and areas.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import PositionLine from '../../../components/diagrams/part-1/PositionLine.astro';
+import MotionTrio from '../../../components/diagrams/part-1/MotionTrio.astro';
+import MotionGraphs from '../../../components/sims/MotionGraphs.astro';
+
+## The scene
+
+Grace wakes up with no memory of who he is or where he is. Before he can work out anything else, he needs the most basic tools of physics: a way to say **where** something is, **how fast** it is moving, and **how its motion is changing**. Soon he is dropping things and timing them, and the answers tell him something astonishing about where he is.
+
+That first experiment comes in Chapter 1.4. This chapter builds the language it needs. Position, velocity and acceleration are the three quantities that describe any motion, from a spanner falling to the floor to a starship crossing 12 light-years. Calculus has already given us the key link between them: each is the rate of change of the one before.
+
+## Prerequisites
+
+<Prereqs notes={{ derivatives: 'velocity as the derivative of position, and acceleration as the derivative of velocity', 'fundamental-theorem': 'the area under a velocity graph as a displacement', vectors: 'vectors, components and magnitudes, for motion in two dimensions' }} />
+
+## The concept
+
+### Where is it? Position needs an origin
+
+"The spanner is 3 metres away" means nothing until you say *from what* and *in which direction*. To describe a position you choose a <Term id="reference-frame">reference frame</Term>: an origin (the zero point), a direction counted as positive, and a clock. Along a straight line, a single signed number $x$ then gives the <Term id="position">position</Term>. Negative positions are simply on the other side of the origin.
+
+The choice is yours. Any sensible frame gives correct physics, but a clever choice can make a problem much easier. For a ship crossing space, the origin might be Earth. For someone moving about inside the ship, it is the ship itself.
+
+### Displacement and distance
+
+Suppose Grace, out on a spacewalk, moves along the hull. Measure positions from the airlock. He starts at $x = -30$ m, goes out to $+50$ m, then comes back to $+20$ m.
+
+<Figure caption="Positions are measured from an origin (here, the airlock). Going from −30 m out to +50 m and back to +20 m is 110 m of travel, but the displacement, the change in position, is only +50 m." alt="A horizontal number line labelled x in metres from −40 to 50, with the origin at 0 marked 'origin (airlock)'. A start point is at −30. An amber arrow above the line runs from −30 to +50, labelled 'leg 1: out 80 m'. A blue arrow above it runs back from +50 to +20, labelled 'leg 2: back 30 m'. A green arrow below the line runs from −30 to +20, labelled 'displacement = +20 − (−30) = +50 m'. Text at the bottom: distance travelled = 80 m + 30 m = 110 m.">
+	<PositionLine />
+</Figure>
+
+Two different questions have two different answers:
+
+- The <Term id="displacement">displacement</Term> is the change in position, $\Delta x = x_{\text{end}} - x_{\text{start}} = 20 - (-30) = +50$ m. It is a vector: it has a size and a direction (here, the positive direction).
+- The **distance travelled** is the total length of path covered, $80 + 30 = 110$ m. It is a scalar, and it can never be negative.
+
+They agree only when the motion never reverses.
+
+### How fast? Velocity and speed
+
+Chapter C.1 defined the **average velocity** as displacement divided by time, $\Delta x / \Delta t$. Chapter C.3 shrank the time interval to zero to get the velocity at an instant, the <Term id="instantaneous-velocity">instantaneous velocity</Term>:
+
+$$
+v = \frac{dx}{dt}.
+$$
+
+It is the slope of the position–time graph. Its sign tells you the direction of motion: positive means moving in the positive direction, negative means moving the other way.
+
+The <Term id="speed">speed</Term> is the size of the velocity, $|v|$, with no direction. A craft moving at $-6$ m/s and one moving at $+6$ m/s have the same speed. A speedometer shows speed. A navigator needs velocity.
+
+### How is the motion changing? Acceleration
+
+The <Term id="acceleration">acceleration</Term> is the rate of change of velocity:
+
+$$
+a = \frac{dv}{dt} = \frac{d^{2}x}{dt^{2}}.
+$$
+
+Its units are (m/s) per s, written $\text{m/s}^{2}$. An acceleration of $14.7\ \text{m/s}^{2}$, the *Hail Mary*'s 1.5 g, means the velocity grows by 14.7 m/s every second.
+
+The sign of $a$ needs care. A negative acceleration does **not** always mean slowing down:
+
+- If $v$ and $a$ have the **same** sign, the object **speeds up**.
+- If they have **opposite** signs, it **slows down**.
+
+A craft moving in the negative direction ($v < 0$) with $a < 0$ is speeding up, in the negative direction. Everyday "deceleration" just means slowing down, whatever the signs.
+
+### Motion graphs: slopes and areas
+
+The three quantities are linked both ways by calculus:
+
+| From | to | take the… |
+|---|---|---|
+| position–time graph | velocity | slope |
+| velocity–time graph | acceleration | slope |
+| velocity–time graph | displacement | area under it |
+| acceleration–time graph | change in velocity | area under it |
+
+<Figure caption="One trip, three graphs. The craft speeds up at 2 m/s² for 5 s, cruises at 10 m/s for 5 s, then slows at 2.5 m/s² to a stop. The slope of each graph is the graph below it, and the area under each graph is the change in the graph above it." alt="Three graphs stacked with a shared time axis from 0 to 14 s, divided by dashed lines at 5 and 10 s into 'speeding up', 'cruising' and 'slowing down'. Top, amber: position rises in an upward-curving arc from 0 to 25 m, then in a straight line to 75 m (labelled slope = 10 m/s), then in a flattening curve to 95 m. Middle, blue: velocity rises in a straight line from 0 to 10 m/s, stays at 10 m/s (labelled area = 50 m), then falls in a straight line to 0 at 14 s. Bottom, green: acceleration is +2 m/s² for the first 5 s, 0 for the next 5 s, and −2.5 m/s² for the last 4 s.">
+	<MotionTrio />
+</Figure>
+
+Read it like a story. Where the position graph curves upwards, the velocity is growing. Where it is a straight line, the velocity is constant and the acceleration is zero. Where it flattens out, the craft is braking. The area under the velocity graph in the middle section, $10\ \text{m/s} \times 5\ \text{s} = 50$ m, is exactly the rise of the position graph over the same 5 s.
+
+### Motion in two and three dimensions
+
+In space nothing forces motion onto a line. In two dimensions, position is a vector $\mathbf{r} = (x, y)$, and each component is handled just like one-dimensional motion:
+
+$$
+\mathbf{v} = \left(\frac{dx}{dt}, \frac{dy}{dt}\right), \qquad \mathbf{a} = \left(\frac{dv_{x}}{dt}, \frac{dv_{y}}{dt}\right).
+$$
+
+The speed is the magnitude of the velocity vector, $\sqrt{v_{x}^{2} + v_{y}^{2}}$, as in [Vectors](/part-0/vectors/). The $x$ and $y$ motions don't interfere with each other: you can solve each separately and combine them at the end.
+
+## Formulas
+
+### Displacement, average velocity and average speed
+
+$$
+\Delta x = x_{2} - x_{1} \qquad v_{\text{avg}} = \frac{\Delta x}{\Delta t} \qquad \text{average speed} = \frac{\text{distance travelled}}{\Delta t}
+$$
+
+Average speed and the size of the average velocity are equal only if the motion never reverses.
+
+### Instantaneous velocity and acceleration
+
+$$
+v = \frac{dx}{dt} \qquad a = \frac{dv}{dt} = \frac{d^{2}x}{dt^{2}} \qquad \text{speed} = |v|
+$$
+
+### Back from acceleration to position
+
+Running the arrows the other way uses the fundamental theorem of calculus (Chapter C.6):
+
+$$
+\Delta v = \int_{t_{1}}^{t_{2}} a\,dt \qquad \Delta x = \int_{t_{1}}^{t_{2}} v\,dt
+$$
+
+The distance travelled is $\int |v|\,dt$: split the time wherever $v$ changes sign and add the sizes of the pieces.
+
+### Speeding up or slowing down
+
+The speed is $|v|$. While $v > 0$, $\dfrac{d|v|}{dt} = \dfrac{dv}{dt} = a$, so the speed grows when $a > 0$. While $v < 0$, $|v| = -v$, so $\dfrac{d|v|}{dt} = -a$, and the speed grows when $a < 0$. Both cases say the same thing: **the speed increases when $v$ and $a$ have the same sign.**
+
+### Velocity in two dimensions
+
+$$
+\mathbf{v} = (v_{x}, v_{y}) = \left(\frac{dx}{dt}, \frac{dy}{dt}\right) \qquad |\mathbf{v}| = \sqrt{v_{x}^{2} + v_{y}^{2}} \qquad \theta = \tan^{-1}\!\left(\frac{v_{y}}{v_{x}}\right)
+$$
+
+## Worked examples
+
+<Example n={1} title="A spacewalk along the hull" book>
+On a spacewalk, Grace moves from $x = -30$ m (measured from the airlock) out to $+50$ m, then back to $+20$ m, taking 60 s in total. Find his displacement, the distance he travelled, his average velocity and his average speed. (The positions and times are our own illustration.)
+
+$$
+\Delta x = 20\ \text{m} - (-30\ \text{m}) = +50\ \text{m}
+$$
+
+$$
+\text{distance} = 80\ \text{m} + 30\ \text{m} = 110\ \text{m}
+$$
+
+$$
+v_{\text{avg}} = \frac{+50\ \text{m}}{60\ \text{s}} = +0.83\ \text{m/s} \qquad \text{average speed} = \frac{110\ \text{m}}{60\ \text{s}} = 1.83\ \text{m/s}
+$$
+
+The average speed is more than twice the size of the average velocity, because he doubled back.
+</Example>
+
+<Example n={2} title="From a position formula to the full story">
+A craft's position is $x = 4 + 12t - 1.5t^{2}$ (metres, seconds). Find $v(t)$ and $a(t)$. When and where is it momentarily at rest? Is it speeding up or slowing down at $t = 2$ s and at $t = 6$ s?
+
+$$
+v = \frac{dx}{dt} = 12 - 3t\ \text{m/s} \qquad a = \frac{dv}{dt} = -3\ \text{m/s}^{2}
+$$
+
+At rest when $12 - 3t = 0$, so at $t = 4$ s. Then $x = 4 + 48 - 24 = 28$ m, the farthest it gets.
+
+At $t = 2$ s: $v = +6$ m/s and $a = -3\ \text{m/s}^{2}$. They have opposite signs, so it is **slowing down**.
+
+At $t = 6$ s: $v = -6$ m/s and $a = -3\ \text{m/s}^{2}$. They have the same sign, so it is **speeding up**, now moving back towards the start.
+</Example>
+
+<Example n={3} title="Reading three motion graphs" book>
+Use the graphs in the figure above to find the distance covered in each stage of the trip, the total, and the average velocity over the whole 14 s.
+
+Each distance is an area under the velocity graph:
+
+$$
+\text{speeding up: } \tfrac{1}{2} \times 5\ \text{s} \times 10\ \text{m/s} = 25\ \text{m}
+$$
+
+$$
+\text{cruising: } 5\ \text{s} \times 10\ \text{m/s} = 50\ \text{m}
+$$
+
+$$
+\text{slowing down: } \tfrac{1}{2} \times 4\ \text{s} \times 10\ \text{m/s} = 20\ \text{m}
+$$
+
+The total is 95 m, which matches the top graph's final position. The average velocity is $\dfrac{95\ \text{m}}{14\ \text{s}} = 6.79$ m/s. The slopes of the velocity graph give the accelerations: $\dfrac{10}{5} = 2\ \text{m/s}^{2}$, then 0, then $\dfrac{-10}{4} = -2.5\ \text{m/s}^{2}$.
+</Example>
+
+<Example n={4} title="A probe drifting and thrusting sideways">
+A probe drifts at a steady 3 m/s in the $x$ direction while a small thruster pushes it in the $-y$ direction. Its position is $\mathbf{r} = (3t,\ 40 - 0.5t^{2})$ metres. Find its velocity, speed and direction of motion at $t = 4$ s.
+
+Differentiate each component:
+
+$$
+\mathbf{v} = (3,\ -t)\ \text{m/s} \qquad \mathbf{a} = (0,\ -1)\ \text{m/s}^{2}
+$$
+
+At $t = 4$ s, $\mathbf{v} = (3, -4)$ m/s, so
+
+$$
+|\mathbf{v}| = \sqrt{3^{2} + 4^{2}} = 5\ \text{m/s}, \qquad \theta = \tan^{-1}\!\left(\frac{-4}{3}\right) = -53.1°.
+$$
+
+It is moving at 5 m/s, pointed 53.1° below the $x$ direction. Its position then is $(12, 32)$ m.
+</Example>
+
+<Example n={5} title="Two descriptions of a dropped spanner" book>
+Inside the *Hail Mary*, accelerating at 1.5 g, Grace lets go of a spanner 0.91 m above the floor. Describe its motion in two reference frames: (a) the ship's frame; (b) a frame that drifts along at the speed the ship had at the moment of release.
+
+(a) In the ship's frame, the spanner starts at rest and moves towards the floor faster and faster, at $14.7\ \text{m/s}^{2}$. It "falls".
+
+(b) In the drifting frame, nothing pushes the spanner once it is released, so it just stays where it is, at rest. Meanwhile the floor, part of the accelerating ship, moves towards it with $x = \tfrac{1}{2}(14.7)t^{2} = 7.35t^{2}$. The floor reaches it when
+
+$$
+7.35t^{2} = 0.91 \quad\Rightarrow\quad t = \sqrt{\frac{0.91\ \text{m}}{7.35\ \text{m/s}^{2}}} = 0.352\ \text{s}.
+$$
+
+Both frames agree on what is measured: the spanner hits the floor after 0.352 s, just as if it had fallen in gravity of 1.5 g. From the inside, an accelerating ship and a heavy planet look the same. That fact is the heart of Grace's first puzzle, and Part 2 returns to it.
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** Position, displacement, velocity and acceleration, and the slope and area links between their graphs, are the foundation of mechanics, used for everything from car crash tests to spacecraft navigation. That an accelerating room is indistinguishable from gravity, as long as you only look inside, is a real principle of physics (Einstein called it the equivalence principle).
+
+**Weir's inventions.** The 1.5 g acceleration is the novel's figure. The spacewalk positions, the probe and the trip in the graphs are our own illustrations.
+
+**How realistic are the numbers?** A steady acceleration of 1.5 g is gentle by human standards. It feels like carrying half your body weight again, which is tiring over a long time but survivable. What is fiction is keeping it up for years, which would need an extraordinary fuel. Part 9 shows why Astrophage, as Weir imagines it, would be that fuel.
+</RealVsBook>
+
+## Interactive simulation
+
+<MotionGraphs />
+
+Things to try: set $v_{0} = 8$ m/s and $a = -1.5\ \text{m/s}^{2}$ and scrub through time. The craft slows, stops at the top of the position curve, then comes back faster and faster. Set $a = 0$ and the position graph becomes a straight line. Notice that the velocity graph is always a straight line here, because the acceleration is constant.
+
+## Practice set
+
+<Problem n={1} level="easy">
+A crew member walks 12 m forward along a corridor, then 5 m back. Find the displacement and the distance travelled.
+
+<Solution>
+Taking forward as positive: displacement $= +12 - 5 = +7$ m. Distance $= 12 + 5 = 17$ m.
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy">
+An object's position is $x = 3t^{2} - 2t$ (m, s). Find its velocity and acceleration at $t = 2$ s.
+
+<Solution>
+$v = 6t - 2$, so $v(2) = 10$ m/s. $a = 6\ \text{m/s}^{2}$ at all times.
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy" book>
+Starting from rest at 1.5 g ($14.7\ \text{m/s}^{2}$), how fast is the ship moving after one hour, in km/s?
+
+<Solution>
+$v = at = 14.7\ \text{m/s}^{2} \times 3600\ \text{s} = 52\,920\ \text{m/s} \approx 52.9$ km/s.
+</Solution>
+</Problem>
+
+<Problem n={4} level="easy">
+Is each object speeding up or slowing down? (a) $v = -4$ m/s, $a = +2\ \text{m/s}^{2}$ (b) $v = -4$ m/s, $a = -2\ \text{m/s}^{2}$ (c) $v = +3$ m/s, $a = -1\ \text{m/s}^{2}$.
+
+<Solution>
+(a) Opposite signs: slowing down. (b) Same sign: speeding up (in the negative direction). (c) Opposite signs: slowing down.
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium">
+For the trip in the three-graph figure, find the average acceleration over the whole 14 s, and the average velocity over the first 5 s.
+
+<Solution>
+The velocity starts and ends at 0, so the average acceleration is $\dfrac{0 - 0}{14\ \text{s}} = 0$, even though the craft accelerated and braked.
+
+First 5 s: $\dfrac{25\ \text{m}}{5\ \text{s}} = 5$ m/s, half the final speed, as you'd expect for steady acceleration from rest.
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium">
+A craft's position is $x = 20 + 6t - t^{2}$ (m, s). When is it momentarily at rest, and where? Find its displacement and the distance it travels between $t = 0$ and $t = 8$ s.
+
+<Solution>
+$v = 6 - 2t = 0$ at $t = 3$ s, where $x = 20 + 18 - 9 = 29$ m.
+
+$x(0) = 20$ m and $x(8) = 20 + 48 - 64 = 4$ m, so the displacement is $4 - 20 = -16$ m.
+
+Distance: out from 20 to 29 m (9 m), then back from 29 to 4 m (25 m), for 34 m in total.
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium" book>
+A fast car reaches 100 km/h from rest in 8 s. Find its average acceleration in $\text{m/s}^{2}$ and as a multiple of g ($9.81\ \text{m/s}^{2}$). How long would the *Hail Mary*, at 1.5 g, take to reach 100 km/h?
+
+<Solution>
+$100\ \text{km/h} = 27.78$ m/s, so $a = \dfrac{27.78}{8} = 3.47\ \text{m/s}^{2} = 0.35$ g.
+
+The ship: $t = \dfrac{27.78\ \text{m/s}}{14.7\ \text{m/s}^{2}} = 1.89$ s. The ship out-accelerates the car by more than a factor of four, and keeps it up for years.
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium">
+An object's position is $\mathbf{r} = (2t,\ t^{2})$ metres. Find its velocity, speed and direction of motion at $t = 3$ s.
+
+<Solution>
+$\mathbf{v} = (2,\ 2t)$, so at $t = 3$ s, $\mathbf{v} = (2, 6)$ m/s.
+
+Speed: $\sqrt{4 + 36} = \sqrt{40} = 6.32$ m/s. Direction: $\tan^{-1}(6/2) = 71.6°$ above the $x$ direction.
+</Solution>
+</Problem>
+
+<Problem n={9} level="medium">
+A velocity–time graph shows $v = 4$ m/s from $t = 0$ to $3$ s, then a straight line falling to $v = -2$ m/s at $t = 6$ s. Find the displacement and the distance travelled over the 6 s.
+
+<Solution>
+The falling line crosses zero at $t = 5$ s (it drops 6 m/s in 3 s, so 2 m/s per second).
+
+Areas: $4 \times 3 = 12$ m; from 3 to 5 s, a triangle $\tfrac{1}{2} \times 2 \times 4 = 4$ m; from 5 to 6 s, a triangle below the axis $\tfrac{1}{2} \times 1 \times (-2) = -1$ m.
+
+Displacement $= 12 + 4 - 1 = 15$ m. Distance $= 12 + 4 + 1 = 17$ m.
+</Solution>
+</Problem>
+
+<Problem n={10} level="challenging">
+A thruster's push is ramped up and down so that $a = 6 - 2t\ \text{m/s}^{2}$ for $0 \le t \le 6$ s. The craft starts at rest at $x = 0$. Find $v(t)$ and $x(t)$, the greatest velocity, and the position at $t = 6$ s.
+
+<Solution>
+$v = \int (6 - 2t)\,dt = 6t - t^{2}$ (with $v(0) = 0$). $x = \int (6t - t^{2})\,dt = 3t^{2} - \tfrac{1}{3}t^{3}$ (with $x(0) = 0$).
+
+The greatest velocity is where $a = 0$, at $t = 3$ s: $v = 18 - 9 = 9$ m/s.
+
+At $t = 6$ s: $v = 36 - 36 = 0$ and $x = 108 - 72 = 36$ m.
+</Solution>
+</Problem>
+
+<Problem n={11} level="challenging">
+A ship's position is logged as $x = 6.859$ m at $t = 1.9$ s, $x = 8.000$ m at $t = 2.0$ s, and $x = 9.261$ m at $t = 2.1$ s. Estimate its velocity at $t = 2.0$ s using the readings on either side. (The log follows $x = t^{3}$. Check your estimate against the exact derivative.)
+
+<Solution>
+Use the secant across the moment: $v \approx \dfrac{9.261 - 6.859}{2.1 - 1.9} = \dfrac{2.402}{0.2} = 12.01$ m/s.
+
+Exact: $v = 3t^{2} = 12$ m/s. Taking readings on both sides of the moment makes the estimate very accurate.
+</Solution>
+</Problem>
+
+<Problem n={12} level="challenging">
+A shuttle flies out to a station at 6 m/s and returns along the same path at 4 m/s. Find its average speed and average velocity for the round trip. Why isn't the average speed 5 m/s?
+
+<Solution>
+Let the one-way distance be $d$. Time out $= d/6$, time back $= d/4$, total $= \tfrac{5d}{12}$.
+
+Average speed $= \dfrac{2d}{5d/12} = \dfrac{24}{5} = 4.8$ m/s. Average velocity $= 0$, since it ends where it started.
+
+It isn't 5 m/s because the shuttle spends *longer* at the slower speed (1.5 times as long), so the slower speed counts for more in the average.
+</Solution>
+</Problem>
+
+## Summary
+
+- Position is measured from an origin in a chosen reference frame. Displacement is the change in position (a vector). Distance travelled is the total path length (a scalar).
+- Velocity is $\dfrac{dx}{dt}$, the slope of the position–time graph. Speed is its size, $|v|$.
+- Acceleration is $\dfrac{dv}{dt}$, the slope of the velocity–time graph. An object speeds up when $v$ and $a$ have the same sign and slows down when they have opposite signs.
+- The area under a velocity–time graph is the displacement. The area under an acceleration–time graph is the change in velocity.
+- In two or three dimensions, treat each component separately. The speed is the magnitude of the velocity vector.
+- Inside an accelerating ship, a released object behaves exactly as if it were falling in gravity.
+
+**Formulas from this chapter**
+
+$$
+\Delta x = x_{2} - x_{1} \qquad v_{\text{avg}} = \frac{\Delta x}{\Delta t} \qquad v = \frac{dx}{dt} \qquad a = \frac{dv}{dt} \qquad \text{speed} = |v|
+$$
+
+$$
+\Delta x = \int v\,dt \qquad \Delta v = \int a\,dt \qquad |\mathbf{v}| = \sqrt{v_{x}^{2} + v_{y}^{2}}
+$$
+
+## Sources
+
+- OpenStax, *University Physics Volume 1*, §3.1 "Position, Displacement, and Average Velocity", §3.2 "Instantaneous Velocity and Speed" and §3.3 "Average and Instantaneous Acceleration". [§3.1](https://openstax.org/books/university-physics-volume-1/pages/3-1-position-displacement-and-average-velocity), [§3.2](https://openstax.org/books/university-physics-volume-1/pages/3-2-instantaneous-velocity-and-speed), [§3.3](https://openstax.org/books/university-physics-volume-1/pages/3-3-average-and-instantaneous-acceleration)
+- OpenStax, *University Physics Volume 1*, §4.3 "Projectile Motion" (independence of the x and y motions). [§4.3](https://openstax.org/books/university-physics-volume-1/pages/4-3-projectile-motion)
+- Standard gravity, 9.806 65 m/s² (exact by convention): NIST. [NIST](https://physics.nist.gov/cgi-bin/cuu/Value?gn)
+- The 1.5 g acceleration and the 0.91 m table height are the novel's figures (Andy Weir, *Project Hail Mary*, 2021), as summarised by readers. Approximate.
