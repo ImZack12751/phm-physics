@@ -1,0 +1,38 @@
+---
+// Effective gravity in a train accelerating forwards at 3.0 m/s² on Earth: g_eff = g − a.
+// A hanging plumb line lines up with g_eff, tilted back by 17.0°.
+const head = (x1: number, y1: number, x2: number, y2: number) => {
+	const L = Math.hypot(x2 - x1, y2 - y1), ux = (x2 - x1) / L, uy = (y2 - y1) / L;
+	return `${x2},${y2} ${x2 - 12 * ux + 6 * uy},${y2 - 12 * uy - 6 * ux} ${x2 - 12 * ux - 6 * uy},${y2 - 12 * uy + 6 * ux}`;
+};
+const S = 16; // px per m/s²
+const O = { x: 360, y: 70 };
+const g = 9.81, a = 3.0;
+const G = { x: O.x, y: O.y + g * S }; // tip of g
+const E = { x: O.x - a * S, y: O.y + g * S }; // tip of g_eff = g − a (a points right, so −a points left)
+const shorten = (P: { x: number; y: number }, by = 12) => {
+	const L = Math.hypot(P.x - O.x, P.y - O.y);
+	return { x: P.x - ((P.x - O.x) / L) * by, y: P.y - ((P.y - O.y) / L) * by };
+};
+const gS = shorten(G), eS = shorten(E);
+---
+
+<svg class="dg" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+	<text x="40" y="34" class="t-b">train accelerating →</text>
+	<line x1="40" y1="56" x2={40 + a * S * 2 - 12} y2="56" class="s-amber w3" />
+	<polygon points={head(40, 56, 40 + a * S * 2, 56)} class="f-amber" />
+	<text x="40" y="80" class="t-sm f-amber">a = 3.0 m/s²</text>
+	<circle cx={O.x} cy={O.y} r="4" class="f-fg" />
+	<line x1={O.x} y1={O.y} x2={gS.x} y2={gS.y} class="s-rose w3" />
+	<polygon points={head(O.x, O.y, G.x, G.y)} class="f-rose" />
+	<text x={G.x + 10} y={O.y + (g * S) / 2} class="t-sm f-rose">g = 9.81 m/s² (down)</text>
+	<line x1={G.x} y1={G.y} x2={E.x + 12} y2={E.y} class="s-amber w2 dash" />
+	<polygon points={head(G.x, G.y, E.x, E.y)} class="f-amber" />
+	<text x={(G.x + E.x) / 2} y={G.y + 22} class="t-mid t-sm f-amber">−a</text>
+	<line x1={O.x} y1={O.y} x2={eS.x} y2={eS.y} class="s-green w3" />
+	<polygon points={head(O.x, O.y, E.x, E.y)} class="f-green" />
+	<text x={E.x - 10} y={O.y + (g * S) * 0.62} class="t-end t-sm f-green">g_eff = g − a</text>
+	<text x={E.x - 10} y={O.y + (g * S) * 0.62 + 18} class="t-end t-sm f-green">10.26 m/s², 17.0° back</text>
+	<path d={`M${O.x},${O.y + 50} A50,50 0 0,1 ${O.x - 50 * Math.sin(Math.atan(a / g))},${O.y + 50 * Math.cos(Math.atan(a / g))}`} class="s-fg w1" fill="none" />
+	<text x="300" y="290" class="t-mid t-sm f-muted">A hanging plumb line, or a pendulum at rest, lines up with g_eff: it leans backwards.</text>
+</svg>

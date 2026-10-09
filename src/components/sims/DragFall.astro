@@ -1,0 +1,86 @@
+---
+// Simulation: a fall through air, computed by applying F = ma in small time steps. Shows the speed levelling off at terminal velocity.
+---
+
+<div
+	class="sim df"
+	data-title="Falling through air"
+	data-description="An object falls from rest through air, either on Earth (9.81 m/s²) or aboard the Hail Mary at 1.5 g (14.7 m/s²). Sliders set its mass (0.001 to 1 kg) and its drag constant b (0.0005 to 0.01 kg/m), where the drag force is b v². The program applies Newton's second law, a = (mg − bv²)/m, in steps of 1 ms. The graph plots speed against time for 6 s, alongside the no-air line v = gt and a dashed line at the terminal velocity √(mg/b). The readout gives the terminal velocity and the times to reach 50%, 90% and 99% of it."
+>
+	<p class="sim-title">Simulation: falling through air</p>
+	<p class="sim-help">The program uses nothing but Newton's second law. Every millisecond it works out the net force (weight minus drag), divides by the mass to get the acceleration, and updates the speed. Watch the curve bend over towards the terminal velocity.</p>
+	<div class="sim-controls">
+		<label>Where
+			<select class="df-g">
+				<option value="14.7" selected>Hail Mary at 1.5 g (14.7 m/s²)</option>
+				<option value="9.81">Earth (9.81 m/s²)</option>
+			</select>
+		</label>
+		<label>Mass m <input type="range" class="df-m" min="-3" max="0" step="0.05" value="-2.3" /> <output class="df-mv"></output></label>
+		<label>Drag constant b <input type="range" class="df-b" min="0.0005" max="0.01" step="0.0005" value="0.002" /> <output class="df-bv"></output></label>
+	</div>
+	<svg class="dg df-svg" viewBox="0 0 600 320" role="img" aria-label="Speed of the falling object against time"></svg>
+	<div class="readout df-out" aria-live="polite"></div>
+</div>
+
+<script>
+	document.querySelectorAll<HTMLElement>('.sim.df').forEach((root) => {
+		const svg = root.querySelector<SVGSVGElement>('.df-svg')!;
+		const G = root.querySelector<HTMLSelectElement>('.df-g')!;
+		const M = root.querySelector<HTMLInputElement>('.df-m')!, B = root.querySelector<HTMLInputElement>('.df-b')!;
+		const out = root.querySelector<HTMLElement>('.df-out')!;
+		const NS = 'http://www.w3.org/2000/svg';
+		const el = (tag: string, at: Record<string, string | number>, text?: string) => {
+			const e = document.createElementNS(NS, tag);
+			Object.entries(at).forEach(([k, v]) => e.setAttribute(k, String(v)));
+			if (text !== undefined) e.textContent = text;
+			svg.append(e);
+			return e;
+		};
+		function draw() {
+			const g = +G.value, m = 10 ** +M.value, b = +B.value;
+			root.querySelector('.df-mv')!.textContent = m < 0.1 ? `${(m * 1000).toFixed(1)} g` : `${m.toFixed(2)} kg`;
+			root.querySelector('.df-bv')!.textContent = `${b.toFixed(4)} kg/m`;
+			const vt = Math.sqrt((m * g) / b), TMAX = 6, dt = 0.001;
+			// Newton's second law, one millisecond at a time.
+			const pts: [number, number][] = [[0, 0]];
+			const hit: Record<number, number> = {};
+			let v = 0;
+			for (let i = 1; i <= TMAX / dt; i++) {
+				const a = (m * g - b * v * v) / m;
+				v += a * dt;
+				const t = i * dt;
+				for (const f of [0.5, 0.9, 0.99]) if (!(f in hit) && v >= f * vt) hit[f] = t;
+				if (i % 20 === 0) pts.push([t, v]);
+			}
+			const vMax = Math.max(vt * 1.25, 5);
+			const L = 70, R = 570, T = 20, Bt = 270;
+			const px = (t: number) => L + (t / TMAX) * (R - L), py = (s: number) => Bt - (Math.min(s, vMax) / vMax) * (Bt - T);
+			svg.replaceChildren();
+			for (let i = 0; i <= 4; i++) {
+				const s = (vMax * i) / 4;
+				el('line', { x1: L, y1: py(s), x2: R, y2: py(s), class: 's-grid w1' });
+				el('text', { x: L - 8, y: py(s) + 4, class: 't-end t-sm f-muted' }, s.toFixed(s < 10 ? 1 : 0));
+			}
+			for (let t = 0; t <= TMAX; t++) el('text', { x: px(t), y: Bt + 18, class: 't-mid t-sm f-muted' }, String(t));
+			el('text', { x: (L + R) / 2, y: Bt + 38, class: 't-mid t-sm' }, 'time, t (s)');
+			el('text', { x: 16, y: (T + Bt) / 2, class: 't-mid t-sm', transform: `rotate(-90 16 ${(T + Bt) / 2})` }, 'speed (m/s)');
+			const tNoAir = Math.min(TMAX, vMax / g);
+			el('line', { x1: px(0), y1: py(0), x2: px(tNoAir), y2: py(g * tNoAir), class: 's-muted w2 dash' });
+			el('text', { x: px(tNoAir) + 8, y: py(g * tNoAir) + 14, class: 't-sm f-muted halo' }, 'no air: v = gt');
+			el('line', { x1: L, y1: py(vt), x2: R, y2: py(vt), class: 's-rose w1 dash' });
+			el('text', { x: R - 4, y: py(vt) - 8, class: 't-end t-sm f-rose halo' }, `terminal ${vt.toFixed(2)} m/s`);
+			el('path', { d: pts.map(([t, s], i) => `${i ? 'L' : 'M'}${px(t).toFixed(1)},${py(s).toFixed(1)}`).join(' '), class: 's-amber w3' });
+			el('line', { x1: L, y1: Bt, x2: R, y2: Bt, class: 's-fg w2' });
+			el('line', { x1: L, y1: Bt, x2: L, y2: T, class: 's-fg w2' });
+			const fmt = (f: number) => (f in hit ? `${hit[f].toFixed(2)} s` : 'more than 6 s');
+			out.innerHTML =
+				`<span class="k">weight mg</span> = ${(m * g).toFixed(4)} N &nbsp; <span class="k">terminal velocity √(mg/b)</span> = <b>${vt.toFixed(2)} m/s</b><br>` +
+				`<span class="k">time to reach 50% / 90% / 99% of it</span>: ${fmt(0.5)} / ${fmt(0.9)} / ${fmt(0.99)}<br>` +
+				`<span class="k">speed after 6 s</span> = ${v.toFixed(2)} m/s (without air it would be ${(g * TMAX).toFixed(1)} m/s)`;
+		}
+		G.addEventListener('change', draw);
+		[M, B].forEach((i) => i.addEventListener('input', draw));
+		draw();
+	});
+</script>

@@ -557,4 +557,92 @@ export const formulas = [
 		where: 'Small swings; length L. Derived in Chapter 2.4.',
 		chapter: 'measuring-g',
 	},
+	// ---- 2.1 Newton's laws ----
+	{
+		id: 'newtons-second-law',
+		name: 'Newton’s second law',
+		tex: '\\mathbf{F}_{\\text{net}} = m\\mathbf{a} \\qquad 1\\ \\text{N} = 1\\ \\text{kg·m/s}^{2}',
+		where: 'Net force on an object of mass m; a points along the net force.',
+		chapter: 'newtons-laws',
+	},
+	{
+		id: 'newtons-third-law',
+		name: 'Newton’s third law',
+		tex: '\\mathbf{F}_{\\text{A on B}} = -\\mathbf{F}_{\\text{B on A}}',
+		where: 'The two forces act on different objects, so they never cancel.',
+		chapter: 'newtons-laws',
+	},
+	{
+		id: 'terminal-velocity',
+		name: 'Terminal velocity (drag ∝ v²)',
+		tex: 'ma = mg - bv^{2} \\qquad v_{\\text{t}} = \\sqrt{\\dfrac{mg}{b}}',
+		where: 'Drag force bv²; b is the drag constant in kg/m.',
+		chapter: 'newtons-laws',
+	},
+	// ---- 2.2 Mass vs weight ----
+	{
+		id: 'weight',
+		name: 'Weight',
+		tex: 'W = mg \\qquad \\dfrac{W_{2}}{W_{1}} = \\dfrac{g_{2}}{g_{1}} \\qquad 1\\ \\text{N/kg} = 1\\ \\text{m/s}^{2}',
+		where: 'Mass m, gravitational field strength g; the same mass in two places.',
+		chapter: 'mass-and-weight',
+	},
+	{
+		id: 'mass-from-push',
+		name: 'Mass from a push',
+		tex: 'm = \\dfrac{F}{a}',
+		where: 'Works with no gravity at all: how astronauts measure their mass in orbit.',
+		chapter: 'mass-and-weight',
+	},
+	// ---- 2.3 Apparent weight ----
+	{
+		id: 'apparent-weight',
+		name: 'Apparent weight and apparent gravity',
+		tex: 'N = m(g + a) \\qquad g_{\\text{eff}} = g + a \\qquad \\mathbf{g}_{\\text{eff}} = \\mathbf{g} - \\mathbf{a}',
+		where: 'Cabin accelerating upwards at a (up positive); vector form for any direction.',
+		chapter: 'apparent-weight',
+	},
+	{
+		id: 'g-force',
+		name: 'G-force',
+		tex: 'n = \\dfrac{g_{\\text{eff}}}{9.81\\ \\text{m/s}^{2}} = \\dfrac{N}{m \\times 9.81\\ \\text{m/s}^{2}}',
+		where: 'Apparent gravity in units of Earth’s g.',
+		chapter: 'apparent-weight',
+	},
+	// ---- 2.4 Pendulums and SHM ----
+	{
+		id: 'hookes-law',
+		name: 'Hooke’s law',
+		tex: 'F = -kx',
+		where: 'Spring constant k in N/m; x is the stretch from equilibrium.',
+		chapter: 'pendulums-shm',
+	},
+	{
+		id: 'shm',
+		name: 'Simple harmonic motion',
+		tex: 'a = -\\omega^{2}x \\;\\Rightarrow\\; x = A\\cos(\\omega t) \\qquad v_{\\text{max}} = A\\omega \\qquad a_{\\text{max}} = A\\omega^{2}',
+		where: 'Amplitude A, angular frequency ω in rad/s.',
+		chapter: 'pendulums-shm',
+	},
+	{
+		id: 'shm-period',
+		name: 'Period, frequency and angular frequency',
+		tex: 'T = \\dfrac{2\\pi}{\\omega} \\qquad f = \\dfrac{1}{T} \\qquad \\omega = 2\\pi f',
+		where: 'f in hertz (cycles per second).',
+		chapter: 'pendulums-shm',
+	},
+	{
+		id: 'mass-spring',
+		name: 'Mass on a spring',
+		tex: 'T = 2\\pi\\sqrt{\\dfrac{m}{k}} \\qquad m = \\dfrac{kT^{2}}{4\\pi^{2}}',
+		where: 'Independent of gravity, so it can measure mass in orbit.',
+		chapter: 'pendulums-shm',
+	},
+	{
+		id: 'pendulum-large-swing',
+		name: 'Pendulum period for wider swings',
+		tex: 'T \\approx 2\\pi\\sqrt{\\dfrac{L}{g}}\\left(1 + \\dfrac{\\theta_{0}^{2}}{16}\\right)',
+		where: 'Released from angle θ₀ in radians; within 0.1% up to about 40°.',
+		chapter: 'pendulums-shm',
+	},
 ];

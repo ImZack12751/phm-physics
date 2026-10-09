@@ -643,4 +643,133 @@ export const glossary = {
 		def: 'The time for one complete cycle of a repeating motion, such as one full swing of a pendulum, out and back.',
 		chapter: 'measuring-g',
 	},
+	// ---- 2.1 Newton's laws ----
+	force: {
+		term: 'Force',
+		def: 'A push or a pull on an object, with a size and a direction (a vector). Measured in newtons.',
+		chapter: 'newtons-laws',
+	},
+	newton: {
+		term: 'Newton (N)',
+		def: 'The SI unit of force: the force that gives a 1 kg mass an acceleration of 1 m/s². 1 N = 1 kg·m/s².',
+		chapter: 'newtons-laws',
+	},
+	'net-force': {
+		term: 'Net force',
+		def: 'The vector sum of all the forces acting on an object. Only the net force affects its motion.',
+		chapter: 'newtons-laws',
+	},
+	inertia: {
+		term: 'Inertia',
+		def: 'The tendency of every object to keep its velocity unless a net force acts on it. Mass measures how much inertia an object has.',
+		chapter: 'newtons-laws',
+	},
+	'free-body-diagram': {
+		term: 'Free-body diagram',
+		def: 'A sketch of one object on its own, with an arrow for every force acting on it (and none for the forces it exerts on other things).',
+		chapter: 'newtons-laws',
+	},
+	weight: {
+		term: 'Weight (W)',
+		def: 'The force with which a planet’s gravity pulls on an object: W = mg, pointing down, measured in newtons. It depends on where you are; mass does not.',
+		chapter: 'newtons-laws',
+	},
+	'normal-force': {
+		term: 'Normal force (N)',
+		def: 'The push of a surface on an object touching it, at right angles to the surface. A floor holding you up exerts a normal force.',
+		chapter: 'newtons-laws',
+	},
+	tension: {
+		term: 'Tension (T)',
+		def: 'The pulling force exerted by a stretched rope, string or cable, directed along it.',
+		chapter: 'newtons-laws',
+	},
+	equilibrium: {
+		term: 'Equilibrium',
+		def: 'The state of an object whose net force is zero, so it has no acceleration: it is at rest or moves at constant velocity.',
+		chapter: 'newtons-laws',
+	},
+	// ---- 2.2 Mass vs weight ----
+	mass: {
+		term: 'Mass (m)',
+		def: 'How much matter an object contains, measured in kilograms. It measures both how hard the object is to accelerate and how strongly gravity pulls on it, and it is the same everywhere.',
+		chapter: 'mass-and-weight',
+	},
+	'inertial-mass': {
+		term: 'Inertial mass',
+		def: 'Mass as resistance to acceleration: the m in F = ma.',
+		chapter: 'mass-and-weight',
+	},
+	'gravitational-mass': {
+		term: 'Gravitational mass',
+		def: 'Mass as the thing gravity pulls on: the m in W = mg. Experiments show it equals inertial mass to about one part in 10¹⁵.',
+		chapter: 'mass-and-weight',
+	},
+	'gravitational-field-strength': {
+		term: 'Gravitational field strength (g)',
+		def: 'The gravitational force per kilogram at a place, in N/kg: 9.81 N/kg at Earth’s surface. 1 N/kg is the same as 1 m/s², so it equals the free-fall acceleration.',
+		chapter: 'mass-and-weight',
+	},
+	// ---- 2.3 Apparent weight ----
+	'apparent-weight': {
+		term: 'Apparent weight',
+		def: 'The force with which a floor, seat or scale pushes on you: what you actually feel as weight. In a cabin accelerating upwards at a, it is m(g + a).',
+		chapter: 'apparent-weight',
+	},
+	weightlessness: {
+		term: 'Weightlessness',
+		def: 'The state of feeling no weight because you and your surroundings are in free fall together, so nothing needs to push on you. Gravity has not vanished.',
+		chapter: 'apparent-weight',
+	},
+	'equivalence-principle': {
+		term: 'Equivalence principle',
+		def: 'In a small closed room, no experiment can tell uniform gravity g apart from an acceleration a = g with no gravity. The starting point of Einstein’s general relativity.',
+		chapter: 'apparent-weight',
+	},
+	'g-force': {
+		term: 'G-force',
+		def: 'Apparent gravity measured in units of Earth’s 9.81 m/s². Standing on Earth is 1 g; the Hail Mary gives 1.5 g; orbit is 0 g.',
+		chapter: 'apparent-weight',
+	},
+	// ---- 2.4 Pendulums and SHM ----
+	'restoring-force': {
+		term: 'Restoring force',
+		def: 'A force that always points back towards an object’s equilibrium position. Every oscillation is driven by one.',
+		chapter: 'pendulums-shm',
+	},
+	'hookes-law': {
+		term: 'Hooke’s law',
+		def: 'A stretched or squashed spring pulls back with a force proportional to the stretch: F = −kx.',
+		chapter: 'pendulums-shm',
+	},
+	'spring-constant': {
+		term: 'Spring constant (k)',
+		def: 'The stiffness of a spring: the force per metre of stretch, in N/m.',
+		chapter: 'pendulums-shm',
+	},
+	'simple-harmonic-motion': {
+		term: 'Simple harmonic motion (SHM)',
+		def: 'Oscillation in which the acceleration is proportional to the displacement and opposite to it, a = −ω²x. Its motion is a sine or cosine wave, and its period does not depend on the amplitude.',
+		chapter: 'pendulums-shm',
+	},
+	amplitude: {
+		term: 'Amplitude (A)',
+		def: 'The largest displacement of an oscillation from its equilibrium position.',
+		chapter: 'pendulums-shm',
+	},
+	'angular-frequency': {
+		term: 'Angular frequency (ω)',
+		def: 'The rate at which the angle inside the sine or cosine of an oscillation grows, in radians per second: ω = 2π/T = 2πf.',
+		chapter: 'pendulums-shm',
+	},
+	frequency: {
+		term: 'Frequency (f)',
+		def: 'The number of complete cycles per second: f = 1/T, measured in hertz.',
+		chapter: 'pendulums-shm',
+	},
+	hertz: {
+		term: 'Hertz (Hz)',
+		def: 'The SI unit of frequency: one cycle per second. 1 Hz = 1 s⁻¹.',
+		chapter: 'pendulums-shm',
+	},
 };

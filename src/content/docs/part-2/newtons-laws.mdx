@@ -1,0 +1,370 @@
+---
+title: Newton’s laws
+description: What a force is, Newton's three laws of motion, free-body diagrams, and terminal velocity, applied to a ship that must keep its engines burning, a crate pushed in zero g, and the first Astrophage thrust test.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import ThirdLawPush from '../../../components/diagrams/part-2/ThirdLawPush.astro';
+import DragBalance from '../../../components/diagrams/part-2/DragBalance.astro';
+import DragFall from '../../../components/sims/DragFall.astro';
+
+## The scene
+
+Part 1 described motion: where things are, how fast they go, how quickly they speed up. It never asked **why** anything speeds up. Two moments in the novel make that question unavoidable.
+
+In a flashback, the scientist Dimitri fires a burst of light from a sample of Astrophage and measures the push it produces: about 60,000 newtons, lasting a ten-thousandth of a second. That push is the whole reason the *Hail Mary* can fly. Much later, when the ship reaches Tau Ceti and its engines shut down, everything aboard floats. Nothing pulls Grace to the floor any more, yet the ship carries on through space without slowing.
+
+Why does the ship need its engines running to keep accelerating, but not to keep moving? Isaac Newton's three laws of motion, published in 1687, answer that and much more. They are the foundation of everything in Parts 2 to 5.
+
+## Prerequisites
+
+<Prereqs notes={{ kinematics: 'velocity and acceleration as vectors and derivatives', 'equations-of-motion': 'the constant-acceleration equations, used after finding a', 'free-fall': 'falling at g, and air resistance described in words', vectors: 'adding forces that point in different directions' }} />
+
+## The concept
+
+### What is a force?
+
+A <Term id="force">force</Term> is a push or a pull. Your hand on a door, the floor under your feet, a rope holding a load, and the air pushing on a falling feather all exert forces. A force always has a size and a direction, so it is a <Term id="vector">vector</Term>, and forces add like vectors.
+
+The SI unit of force is the <Term id="newton">newton</Term> (N). As this chapter shows, one newton is the force that gives a 1 kg object an acceleration of $1\ \text{m/s}^{2}$. For a feel of the size: holding up an apple takes about 1 N, and standing on Earth, an 80 kg person presses on the floor with about 800 N.
+
+Usually several forces act on an object at once. What matters for its motion is their vector sum, the <Term id="net-force">net force</Term>. A tug of war with equal teams pulling hard has a net force of zero on the rope.
+
+### The first law: nothing changes without a reason
+
+> **Newton's first law.** An object keeps moving at a constant velocity (which may be zero) unless a net force acts on it.
+
+This sounds wrong at first. Push a book across a table and it stops. But it stops because of friction, a force from the table. Take friction away, as on ice, and the book glides much further. Take everything away, as in deep space, and it would glide forever.
+
+The tendency of every object to keep its velocity is called <Term id="inertia">inertia</Term>. The first law is also called the law of inertia. It applies to the *Hail Mary* directly. When the engines stop, the ship doesn't slow down. It coasts at whatever velocity it has, forever, until some force changes it. The engines aren't needed to keep moving. They are needed to **change** the velocity: to speed up, slow down or turn.
+
+The first law also says something about reference frames (Chapter 1.1). It only holds in frames that are not themselves accelerating, and these are called *inertial frames*. Inside the accelerating ship, a dropped spanner speeds up towards the floor although nothing touches it. That apparent breach of the first law is a clue that the ship's frame is accelerating, and Chapter 2.3 takes it up.
+
+### The second law: force causes acceleration
+
+If a net force does act, the velocity changes. Experiments show two simple facts:
+
+- Double the net force on an object and its acceleration doubles: $a \propto F$.
+- Apply the same force to twice the mass and the acceleration halves: $a \propto 1/m$.
+
+Together:
+
+> **Newton's second law.** $\mathbf{F}_{\text{net}} = m\mathbf{a}$. The acceleration points the same way as the net force.
+
+Mass here measures how hard it is to change an object's velocity. A loaded supermarket trolley is harder to start and harder to stop than an empty one, because it has more mass. That resistance to acceleration has nothing to do with gravity, and it works just the same in zero g. Chapter 2.2 develops this.
+
+### The third law: forces come in pairs
+
+> **Newton's third law.** If object A pushes on object B, then B pushes back on A with a force of the same size in the opposite direction.
+
+Floating in zero g, Grace pushes a crate away. The crate pushes back on him just as hard, so he drifts off the other way. The two forces never cancel each other, because they act on **different** objects: one on the crate, one on Grace. Each object responds only to the forces on itself.
+
+<Figure caption="Newton's third law in zero g. Grace pushes the crate with 100 N, and the crate pushes Grace with 100 N the other way. The forces are equal, but the 20 kg crate accelerates four times faster than 80 kg Grace." alt="Grace, a blue rounded shape labelled 80 kg, presses against a gold box labelled crate, 20 kg. Under the crate, a gold arrow points right, labelled 100 N on the crate, from Grace. Under Grace, a blue arrow points left, labelled 100 N on Grace, from the crate. Above the crate: a equals 100 divided by 20 equals 5 m/s², to the right. Above Grace: a equals 100 divided by 80 equals 1.25 m/s², to the left. Footer: same size, opposite directions, acting on different objects, so they never cancel each other.">
+	<ThirdLawPush />
+</Figure>
+
+The third law is how every rocket works. A rocket has nothing to push against in space, so it pushes on its own exhaust, throwing it out of the back at high speed. The exhaust pushes the rocket forward with an equal force, called the *thrust*. In the novel, the *Hail Mary*'s exhaust is light: Astrophage turns stored energy into infrared light, fired out of the back of the ship, and the light pushes back on the ship. (Light carries momentum. Part 7 explains how.)
+
+### Free-body diagrams
+
+To use the second law you must know every force on the object. The standard tool is a <Term id="free-body-diagram">free-body diagram</Term>: draw the object alone, as a dot or a simple shape, and draw an arrow for each force acting **on it**, starting from the object. Forces it exerts on other things are left out. The forces you will meet most often are:
+
+- <Term id="weight">Weight</Term>, $W = mg$: the pull of a planet's gravity, pointing down. (In free fall it is the only force, so $mg = ma$ and $a = g$, exactly as in Chapter 1.3. Chapter 2.2 explains why weight is $mg$.)
+- The <Term id="normal-force">normal force</Term>: the push of a surface on an object resting on it, at right angles to the surface. ("Normal" means perpendicular.)
+- <Term id="tension">Tension</Term>: the pull of a rope, string or cable, along its length.
+- <Term id="air-resistance">Air resistance</Term> (drag): the push of the air, opposite to the motion.
+- Thrust: the push of an engine.
+
+When the net force is zero, the object has no acceleration. It is then in <Term id="equilibrium">equilibrium</Term>: at rest, or moving at a constant velocity. A book on a table is in equilibrium: its weight pulls down, the table's normal force pushes up, and the two are equal.
+
+### Terminal velocity, explained with forces
+
+Chapter 1.3 described a falling feather reaching a steady terminal velocity. Now we can explain it. Two forces act on a falling object: its weight, which stays the same, and air resistance, which grows with speed.
+
+- At the moment of release the speed is zero, so there is no drag. The net force is the weight alone, and the object accelerates at $g$.
+- As it speeds up, the drag grows, the net force shrinks, and the acceleration falls.
+- Eventually the drag equals the weight. The net force is zero, so the acceleration is zero. The speed stays constant: that is the <Term id="terminal-velocity">terminal velocity</Term>.
+
+<Figure caption="Forces on a ball falling through air. The weight stays the same. Drag grows with speed until it matches the weight, and then the ball stops speeding up." alt="Three snapshots of a falling ball. First, just released, v equals 0: a red arrow labelled weight points down, with no drag, and the note net force equals weight, a equals g. Second, speeding up, v about 0.7 times terminal: the same red weight arrow down, and a green drag arrow up half as long, with the note net force smaller, a equals g over 2. Third, terminal velocity: the red weight arrow down and an equally long green drag arrow up, with the note net force zero, a equals 0.">
+	<DragBalance />
+</Figure>
+
+## Formulas
+
+### The newton
+
+The second law defines the unit of force. Set $m = 1\ \text{kg}$ and $a = 1\ \text{m/s}^{2}$:
+
+$$
+\boxed{1\ \text{N} = 1\ \text{kg} \times 1\ \text{m/s}^{2} = 1\ \text{kg·m/s}^{2}}
+$$
+
+So a newton is not a new kind of quantity. It is shorthand for kilogram metres per second squared, and units in force calculations cancel just as they did in Chapter 0.3.
+
+### The second law, three ways
+
+$$
+\boxed{\mathbf{F}_{\text{net}} = m\mathbf{a}} \qquad a = \frac{F_{\text{net}}}{m} \qquad m = \frac{F_{\text{net}}}{a}
+$$
+
+With several forces, add them as vectors first. In components (Chapter 0.7) the law splits into one equation per direction:
+
+$$
+F_{\text{net},x} = ma_{x} \qquad F_{\text{net},y} = ma_{y}
+$$
+
+Once you know $a$, and if it is constant, the equations of motion from Chapter 1.2 give the velocity and position at any time.
+
+### The third law
+
+$$
+\boxed{\mathbf{F}_{\text{A on B}} = -\mathbf{F}_{\text{B on A}}}
+$$
+
+### Terminal velocity
+
+For a fast-moving object, drag is close to proportional to the square of the speed, $F_{\text{drag}} = bv^{2}$, where the *drag constant* $b$ (in kg/m) depends on the object's size and shape and on the air. For a falling object, take down as positive. The net force is the weight minus the drag:
+
+$$
+ma = mg - bv^{2}
+$$
+
+At terminal velocity the acceleration is zero:
+
+$$
+0 = mg - bv_{\text{t}}^{2} \quad\Rightarrow\quad \boxed{v_{\text{t}} = \sqrt{\frac{mg}{b}}}
+$$
+
+Before then, $a = g\left(1 - \dfrac{v^{2}}{v_{\text{t}}^{2}}\right)$. At half the terminal speed, for instance, $a = g(1 - \tfrac{1}{4}) = 0.75g$. A heavier object of the same shape has a higher terminal velocity, which is why the hammer beats the feather in air but not in a vacuum.
+
+## Worked examples
+
+<Example n={1} title="Dimitri's thrust test" book>
+In the novel, Dimitri's Astrophage sample produces about 60,000 N of thrust for 100 µs. Suppose that force pushed a 500 kg test sled (our assumed mass) from rest. Find the sled's acceleration and its final speed.
+
+$$
+a = \frac{F}{m} = \frac{60\,000\ \text{N}}{500\ \text{kg}} = 120\ \text{m/s}^{2}
+$$
+
+That is about 12 g, but it lasts only $100\ \text{µs} = 1.00 \times 10^{-4}$ s:
+
+$$
+v = at = 120\ \text{m/s}^{2} \times 1.00 \times 10^{-4}\ \text{s} = 0.012\ \text{m/s}
+$$
+
+The sled ends up moving at just over a centimetre per second. What astonished Dimitri was not this speed but how little Astrophage produced the push: about 20 micrograms. Part 9 shows why that is an enormous amount of energy for so little mass.
+</Example>
+
+<Example n={2} title="What the floor does for Grace" book>
+Grace (take his mass as 80 kg, our assumption) stands on the floor of the *Hail Mary* as it accelerates at 1.5 g ($14.7\ \text{m/s}^{2}$) in deep space, far from any planet. What force does the floor exert on him? Compare with standing still on Earth.
+
+In deep space there is no weight. The only force on Grace is the floor's push, and it must give him the ship's acceleration:
+
+$$
+N = ma = 80\ \text{kg} \times 14.7\ \text{m/s}^{2} = 1176\ \text{N} \approx 1180\ \text{N}
+$$
+
+On Earth, standing still, he is in equilibrium. The floor's push balances his weight:
+
+$$
+N = mg = 80\ \text{kg} \times 9.81\ \text{m/s}^{2} = 785\ \text{N}
+$$
+
+The floor pushes 1.5 times harder on the ship. What Grace feels as "heaviness" is this push, which is why the ship feels like a heavy planet. Chapter 2.3 builds on this.
+</Example>
+
+<Example n={3} title="Pushing a crate in zero g" book>
+With the engines off at Tau Ceti, Grace (80 kg) floats beside a 20 kg crate, both at rest. He pushes it with a steady 100 N for 0.50 s. What are their speeds afterwards, and how far apart are they 3.0 s after the push ends?
+
+Third law: the crate pushes Grace with 100 N the other way. Second law for each:
+
+$$
+a_{\text{crate}} = \frac{100\ \text{N}}{20\ \text{kg}} = 5.0\ \text{m/s}^{2} \qquad a_{\text{Grace}} = \frac{100\ \text{N}}{80\ \text{kg}} = 1.25\ \text{m/s}^{2}
+$$
+
+After 0.50 s, from $v = at$:
+
+$$
+v_{\text{crate}} = 5.0 \times 0.50 = 2.5\ \text{m/s} \qquad v_{\text{Grace}} = 1.25 \times 0.50 = 0.625\ \text{m/s}
+$$
+
+in opposite directions. Then no force acts, so by the first law both coast at these speeds. They separate at $2.5 + 0.625 = 3.125$ m/s, so after a further 3.0 s they have moved $3.125 \times 3.0 = 9.4$ m further apart. (During the push itself they separate by only $\tfrac{1}{2}(5.0 + 1.25)(0.50)^{2} = 0.78$ m.)
+</Example>
+
+<Example n={4} title="The engines' thrust" book>
+Suppose the loaded *Hail Mary* has a mass of $2.5 \times 10^{6}$ kg. (This is our round assumption. The novel's fuel load alone is about $2 \times 10^{6}$ kg.) What thrust gives it an acceleration of 1.5 g in deep space?
+
+$$
+F = ma = 2.5 \times 10^{6}\ \text{kg} \times 14.7\ \text{m/s}^{2} = 3.7 \times 10^{7}\ \text{N}
+$$
+
+That is 37 million newtons, about 600 times Dimitri's test burst, and it must be kept up for years. As fuel burns, the mass falls, so the same thrust would give a growing acceleration. To hold a steady 1.5 g, the thrust must be turned down in step with the mass. Part 5 deals with rockets whose mass changes.
+</Example>
+
+<Example n={5} title="Foil falling in the ship's air" book>
+Grace drops a 5.0 g ball of crumpled foil in the ship's lab. Its drag constant is $b = 0.0020$ kg/m. Find its terminal velocity at 1.5 g, and on Earth.
+
+$$
+v_{\text{t}} = \sqrt{\frac{mg}{b}} = \sqrt{\frac{0.0050\ \text{kg} \times 14.7\ \text{m/s}^{2}}{0.0020\ \text{kg/m}}} = \sqrt{36.75\ \text{m}^{2}/\text{s}^{2}} = 6.1\ \text{m/s}
+$$
+
+On Earth, with $g = 9.81\ \text{m/s}^{2}$:
+
+$$
+v_{\text{t}} = \sqrt{\frac{0.0050 \times 9.81}{0.0020}}\ \text{m/s} = 4.95\ \text{m/s}
+$$
+
+The stronger effective gravity raises the terminal velocity by a factor of $\sqrt{1.5} = 1.22$. Check the units: $\text{kg} \times \text{m/s}^{2} \div \text{kg/m} = \text{m}^{2}/\text{s}^{2}$, whose square root is m/s.
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** Newton's three laws are among the best-tested statements in physics. They govern everything from falling apples to spacecraft trajectories, and they fail only near the speed of light (Part 10) and at the scale of atoms (Part 13). Rockets really do work by the third law, and light really does carry momentum and push on whatever emits or absorbs it. The rule that drag grows with the square of speed is a good description of fast motion through air, measured in wind tunnels.
+
+**Weir's inventions.** Astrophage, and an engine that turns it into a beam of infrared light, are fiction. The 60,000 N, 100 µs test burst and the roughly 2 million kg of fuel are the novel's figures, as summarised by readers. The 500 kg sled, 80 kg for Grace, and $2.5 \times 10^{6}$ kg for the loaded ship are our assumptions, used to make the examples concrete.
+
+**How realistic are the numbers?** A thrust of tens of millions of newtons is real rocket territory. The difference is duration: a real launch rocket burns for minutes, while the *Hail Mary* would need to keep it up for years. That is only possible with a fuel that stores vastly more energy per kilogram than any chemical, which is the central fiction of the novel (Part 9).
+</RealVsBook>
+
+## Interactive simulation
+
+<DragFall />
+
+Things to try: the default is the 5 g foil ball from Worked example 5, aboard the ship. Switch to Earth and see the terminal velocity drop by a factor of 1.22. Push the mass up to 1 kg and watch how long the object takes to reach its terminal velocity. Raise the drag constant and see how quickly a light, bulky object levels off, as a feather does.
+
+## Practice set
+
+<Problem n={1} level="easy">
+What net force gives a 1200 kg car an acceleration of $3.0\ \text{m/s}^{2}$?
+
+<Solution>
+$F = ma = 1200\ \text{kg} \times 3.0\ \text{m/s}^{2} = 3600$ N.
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy">
+A net force of 1.0 N acts on a 0.25 kg object. What is its acceleration?
+
+<Solution>
+$a = \dfrac{F}{m} = \dfrac{1.0\ \text{N}}{0.25\ \text{kg}} = 4.0\ \text{m/s}^{2}$. (Units: $\text{N/kg} = \text{kg·m/s}^{2} \div \text{kg} = \text{m/s}^{2}$.)
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy" book>
+At Tau Ceti, the *Hail Mary*'s engines shut down. Ignoring the gravity of the star and planets, what happens to the ship's velocity? Which law tells you?
+
+<Solution>
+Nothing happens to it. With no net force, the ship keeps the same speed in the same direction (Newton's first law). The engines are needed to change the velocity, not to keep it.
+</Solution>
+</Problem>
+
+<Problem n={4} level="easy" book>
+Floating in zero g, Grace pushes off a wall. Name the force that sends him across the room, and its third-law partner.
+
+<Solution>
+The force of the wall on Grace sends him off. Its partner is the force of Grace on the wall: equal in size, opposite in direction, acting on the wall (and so on the ship).
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium">
+A 10 kg probe in deep space has two thrusters firing: 30 N towards the east and 40 N towards the north. Find the size and direction of its acceleration.
+
+<Solution>
+Net force: $\sqrt{30^{2} + 40^{2}} = 50$ N, at $\tan^{-1}(40/30) = 53.1°$ north of east.
+
+$a = \dfrac{50\ \text{N}}{10\ \text{kg}} = 5.0\ \text{m/s}^{2}$, in the same direction as the net force.
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium" book>
+Dimitri's test burst was about 60,000 N. What mass would that force accelerate at 1.5 g ($14.7\ \text{m/s}^{2}$)?
+
+<Solution>
+$m = \dfrac{F}{a} = \dfrac{60\,000\ \text{N}}{14.7\ \text{m/s}^{2}} = 4080$ kg, about the mass of a large van.
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium">
+A crane lifts a 50 kg crate on Earth with an upward acceleration of $1.2\ \text{m/s}^{2}$. What is the tension in the cable?
+
+<Solution>
+Up positive. Forces on the crate: tension $T$ up, weight $mg$ down. $T - mg = ma$, so
+
+$T = m(g + a) = 50\ \text{kg} \times (9.81 + 1.2)\ \text{m/s}^{2} = 551$ N.
+
+More than the weight (491 N), because the crate is being accelerated upwards as well as held up.
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium">
+An 80 kg skydiver falls belly-down with a drag constant of $b = 0.25$ kg/m. Find the skydiver's terminal velocity on Earth.
+
+<Solution>
+$v_{\text{t}} = \sqrt{\dfrac{mg}{b}} = \sqrt{\dfrac{80 \times 9.81}{0.25}}\ \text{m/s} = \sqrt{3139}\ \text{m/s} = 56$ m/s, about 200 km/h.
+</Solution>
+</Problem>
+
+<Problem n={9} level="medium">
+Show that a falling object with drag $bv^{2}$ has an acceleration of $0.75g$ at half its terminal velocity. What is this on Earth?
+
+<Solution>
+$a = \dfrac{mg - bv^{2}}{m} = g - \dfrac{b}{m}v^{2}$. Since $v_{\text{t}}^{2} = mg/b$, $\dfrac{b}{m} = \dfrac{g}{v_{\text{t}}^{2}}$, so $a = g\left(1 - \dfrac{v^{2}}{v_{\text{t}}^{2}}\right)$.
+
+At $v = v_{\text{t}}/2$: $a = g\left(1 - \tfrac{1}{4}\right) = 0.75g = 7.36\ \text{m/s}^{2}$ on Earth.
+</Solution>
+</Problem>
+
+<Problem n={10} level="challenging">
+In zero g, a 30 kg crate and a 10 kg crate sit side by side, touching. Grace pushes the 30 kg crate with 80 N, so that it pushes the 10 kg crate ahead of it. Find their acceleration and the force between the crates.
+
+<Solution>
+They move together, so treat them as one 40 kg object: $a = \dfrac{80\ \text{N}}{40\ \text{kg}} = 2.0\ \text{m/s}^{2}$.
+
+The only force on the 10 kg crate is the push $P$ from the 30 kg crate: $P = 10\ \text{kg} \times 2.0\ \text{m/s}^{2} = 20$ N.
+
+Check on the 30 kg crate: 80 N forward and 20 N back (third law), net 60 N, and $60 \div 30 = 2.0\ \text{m/s}^{2}$. ✓
+</Solution>
+</Problem>
+
+<Problem n={11} level="challenging" book>
+Floating in the coasting ship, Grace (80 kg) pushes off a wall and leaves it at 0.50 m/s, after a push lasting 0.40 s. Find the average force of his push. If the ship's mass is $2.5 \times 10^{6}$ kg, what speed does the push give the ship?
+
+<Solution>
+Grace's acceleration: $\dfrac{0.50\ \text{m/s}}{0.40\ \text{s}} = 1.25\ \text{m/s}^{2}$, so the force on him is $80 \times 1.25 = 100$ N.
+
+The ship feels 100 N the other way: $a = \dfrac{100}{2.5 \times 10^{6}} = 4.0 \times 10^{-5}\ \text{m/s}^{2}$, for 0.40 s, giving $1.6 \times 10^{-5}$ m/s. Real, but far too small to notice. (When he hits the far wall, the ship's tiny velocity is given back.)
+</Solution>
+</Problem>
+
+<Problem n={12} level="challenging">
+Two balls have the same size and shape, so the same drag constant, but one has twice the mass of the other. By what factor do their terminal velocities differ? What happens to both terminal velocities if they are dropped in the ship at 1.5 g instead of on Earth?
+
+<Solution>
+$v_{\text{t}} = \sqrt{mg/b}$, so doubling $m$ multiplies $v_{\text{t}}$ by $\sqrt{2} = 1.41$. The heavier ball falls faster through air.
+
+Changing $g$ from 1 g to 1.5 g multiplies both by $\sqrt{1.5} = 1.22$. Their ratio stays $\sqrt{2}$.
+</Solution>
+</Problem>
+
+## Summary
+
+- A force is a push or pull, measured in newtons, and forces add as vectors. Only the net force affects motion.
+- **First law:** with no net force, velocity stays constant. Engines are needed to change a ship's velocity, not to keep it moving.
+- **Second law:** $\mathbf{F}_{\text{net}} = m\mathbf{a}$. Mass measures resistance to acceleration.
+- **Third law:** forces come in equal and opposite pairs acting on different objects. Rockets push on their exhaust (for the *Hail Mary*, on light), and the exhaust pushes back.
+- A free-body diagram shows every force on one object. Zero net force means equilibrium.
+- Drag grows with speed until it balances the weight, giving terminal velocity $v_{\text{t}} = \sqrt{mg/b}$.
+
+**Formulas from this chapter**
+
+$$
+\mathbf{F}_{\text{net}} = m\mathbf{a} \qquad 1\ \text{N} = 1\ \text{kg·m/s}^{2} \qquad \mathbf{F}_{\text{A on B}} = -\mathbf{F}_{\text{B on A}} \qquad v_{\text{t}} = \sqrt{\frac{mg}{b}}
+$$
+
+## Sources
+
+- OpenStax, *University Physics Volume 1*, Chapter 5 "Newton's Laws of Motion": [§5.1 Forces](https://openstax.org/books/university-physics-volume-1/pages/5-1-forces), [§5.2 Newton's First Law](https://openstax.org/books/university-physics-volume-1/pages/5-2-newtons-first-law), [§5.3 Newton's Second Law](https://openstax.org/books/university-physics-volume-1/pages/5-3-newtons-second-law), [§5.5 Newton's Third Law](https://openstax.org/books/university-physics-volume-1/pages/5-5-newtons-third-law), [§5.6 Common Forces](https://openstax.org/books/university-physics-volume-1/pages/5-6-common-forces), [§5.7 Drawing Free-Body Diagrams](https://openstax.org/books/university-physics-volume-1/pages/5-7-drawing-free-body-diagrams).
+- Drag proportional to speed squared, and terminal speed: OpenStax, *University Physics Volume 1*, [§6.4 Drag Force and Terminal Speed](https://openstax.org/books/university-physics-volume-1/pages/6-4-drag-force-and-terminal-speed).
+- The newton as a derived SI unit (1 N = 1 kg·m/s²): BIPM, [*The International System of Units* (SI Brochure, 9th ed.)](https://www.bipm.org/en/publications/si-brochure).
+- Dimitri's test (about 60,000 N for 100 µs, from about 20 micrograms of Astrophage) and the fuel load (about 2 × 10⁶ kg) are the novel's figures (Andy Weir, *Project Hail Mary*, 2021), as summarised by readers. [Reader summary](https://trangnkp.substack.com/p/project-hail-mary). Approximate. The sled, ship and body masses are our assumptions.

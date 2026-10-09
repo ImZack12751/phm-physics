@@ -1,0 +1,335 @@
+---
+title: Mass vs weight
+description: The difference between mass (how much matter, and how hard it is to accelerate) and weight (the pull of gravity, W = mg), why everything falls at the same rate, why bathroom scales lie on other worlds, and how astronauts measure their mass in zero g.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import WeightWorlds from '../../../components/diagrams/part-2/WeightWorlds.astro';
+import ScaleVsBalance from '../../../components/diagrams/part-2/ScaleVsBalance.astro';
+import WeighingLab from '../../../components/sims/WeighingLab.astro';
+
+## The scene
+
+When the *Hail Mary*'s engines shut down at Tau Ceti, Grace and everything around him float. A heavy toolbox hangs in mid-air as if it weighed nothing. And yet, if it drifted towards him, he would not want to stop it with his face. It has lost its weight, but not its mass.
+
+Meanwhile the ship's fuel display reads in kilograms: about 20,862 kg of Astrophage left at one point in the novel. That number doesn't change when the engines switch off and everything floats. And Grace later learns that Rocky's home world, Erid, pulls about twice as hard as Earth: the same body would weigh twice as much there.
+
+In everyday speech, "mass" and "weight" mean the same thing. In physics they are different quantities, with different units, and space is where the difference matters most.
+
+## Prerequisites
+
+<Prereqs notes={{ 'newtons-laws': 'force, the newton, F = ma, and weight as a force in free-body diagrams', 'free-fall': 'the values of g on Earth, the Moon and Mars, and the hammer and feather' }} />
+
+## The concept
+
+### Mass: how much stuff, and how hard to shove
+
+The <Term id="mass">mass</Term> of an object measures how much matter it contains. It is measured in <Term id="kilogram">kilograms</Term>. Mass has two faces, and they turn out to be the same:
+
+- **Inertia.** Mass is what resists acceleration in $F = ma$. The more mass, the harder it is to start, stop or turn. This is called <Term id="inertial-mass">inertial mass</Term>, and it has nothing to do with gravity. A floating toolbox in zero g is just as hard to stop as it would be on a frictionless floor on Earth.
+- **Gravity's handle.** Mass is also what gravity pulls on. Double the mass and gravity pulls twice as hard. This is called <Term id="gravitational-mass">gravitational mass</Term>.
+
+An object's mass is the same everywhere: on Earth, on the Moon, on Erid, or floating between the stars. You can't change it by going somewhere else.
+
+### Weight: the pull of gravity
+
+The <Term id="weight">weight</Term> of an object is the force of gravity on it. Being a force, it is measured in newtons, and it points down, towards the centre of the planet. Near a planet's surface,
+
+$$
+W = mg,
+$$
+
+where $g$ is the planet's <Term id="gravitational-field-strength">gravitational field strength</Term>, measured in newtons per kilogram: how many newtons of pull each kilogram feels. On Earth, $g = 9.81\ \text{N/kg}$, so every kilogram is pulled down with 9.81 N.
+
+You have seen this same $g$ before, as the acceleration of free fall in $\text{m/s}^{2}$. That is no coincidence. $1\ \text{N/kg} = 1\ \text{kg·m/s}^{2} \div \text{kg} = 1\ \text{m/s}^{2}$, so the two units are the same thing.
+
+<Figure caption="An 80 kg person in five places. Their mass is 80 kg everywhere; their weight runs from zero in deep space to about 1570 N on Erid." alt="A horizontal bar chart titled the same 80 kg, five different weights. The axis is weight W = mg in newtons from 0 to 1500. Bars: deep space, no bar, 0 N; Moon, 130 N; Mars, 298 N; Earth, 785 N; Erid, about 2 g, 1570 N. A note in the corner says mass: 80 kg in every row.">
+	<WeightWorlds />
+</Figure>
+
+### Why everything falls at the same rate
+
+Here is where the two faces of mass meet. Drop an object of mass $m$. The only force is its weight, $mg$. Newton's second law gives its acceleration:
+
+$$
+a = \frac{F}{m} = \frac{mg}{m} = g.
+$$
+
+The mass cancels. A heavy object is pulled harder, but it is also harder to accelerate, by exactly the same factor. So everything falls at the same rate, as the hammer and feather showed on the Moon (Chapter 1.3).
+
+This only works because gravitational mass and inertial mass are equal. Nothing in Newton's laws says they must be. It is an experimental fact, and a very precisely tested one: in 2022, the French-led MICROSCOPE satellite found that titanium and platinum fall at the same rate to within about two parts in $10^{15}$. Einstein made this equality the starting point of his theory of gravity, and Chapter 2.3 uses it to explain Grace's first puzzle.
+
+### What scales really measure
+
+A spring scale, or a bathroom scale, measures a **force**: how hard you push down on it. The bathroom scale then divides by Earth's $g$ and shows the result in kilograms, for convenience. On Earth that gives your mass. Anywhere else, it doesn't. On the Moon the scale would show about a sixth of your mass, and on Erid about twice it.
+
+A beam balance works differently. It compares the pull of gravity on an unknown object with the pull on known standard masses. Gravity pulls both pans equally hard per kilogram, so whatever $g$ is, the balance settles when the masses are equal. It gives the right mass on any world. In zero g, though, nothing pulls either pan down, and it gives no answer at all.
+
+<Figure caption="A spring scale measures weight, so its reading changes with g. A beam balance compares masses, so it gives the same answer anywhere there is gravity, but it can't work in zero g." alt="A grid with three columns: Earth, Moon, deep space (0 g), and two rows. Top row, spring scale (measures a force): a 2.0 kg bag of rice hangs from a spring, stretched most on Earth, reading 19.6 N; less on the Moon, reading 3.24 N; barely at all in deep space, reading 0 N. Bottom row, beam balance (compares masses): the rice in one pan and a 2.0 kg standard mass in the other. It reads balances 2.0 kg on Earth and on the Moon, and no pull: no answer in deep space.">
+	<ScaleVsBalance />
+</Figure>
+
+### Weighing yourself in orbit
+
+Astronauts on a space station need to track their mass, because their bodies change during long stays in space. No scale or balance works there. The answer is to use inertia instead of weight: push the astronaut with a known force and measure the acceleration, then $m = F/a$. NASA's device on the International Space Station does exactly this, with springs providing the force. A second device sets the astronaut bouncing on a spring and times the bounces, and Chapter 2.4 shows why that works too.
+
+## Formulas
+
+### Weight
+
+$$
+\boxed{W = mg}
+$$
+
+with $W$ in newtons, $m$ in kilograms and $g$ in N/kg (the same as $\text{m/s}^{2}$).
+
+### Field strength from a weighing
+
+Rearranging, $g = \dfrac{W}{m}$: weigh a known mass with a spring scale and you have measured $g$.
+
+### Weights in two places
+
+The same mass in two places, with field strengths $g_{1}$ and $g_{2}$:
+
+$$
+\frac{W_{2}}{W_{1}} = \frac{mg_{2}}{mg_{1}} = \frac{g_{2}}{g_{1}}
+$$
+
+### What an Earth-calibrated scale shows
+
+The scale measures the force $W = mg$ and divides by $9.81$:
+
+$$
+\text{reading} = \frac{mg}{9.81\ \text{N/kg}} = m \times \frac{g}{9.81\ \text{N/kg}}
+$$
+
+### Mass from a push
+
+From Newton's second law, with no gravity needed:
+
+$$
+\boxed{m = \frac{F}{a}}
+$$
+
+## Worked examples
+
+<Example n={1} title="Grace's weight on four worlds" book>
+Taking Grace's mass as 80 kg (our assumption), find his weight on the Moon, Mars, Earth and Erid. For Erid, use 2.0 g ($19.6\ \text{N/kg}$), our round figure for the novel's "about twice Earth's gravity".
+
+$$
+W_{\text{Moon}} = 80\ \text{kg} \times 1.62\ \text{N/kg} = 130\ \text{N}
+$$
+
+$$
+W_{\text{Mars}} = 80\ \text{kg} \times 3.73\ \text{N/kg} = 298\ \text{N}
+$$
+
+$$
+W_{\text{Earth}} = 80\ \text{kg} \times 9.81\ \text{N/kg} = 785\ \text{N}
+$$
+
+$$
+W_{\text{Erid}} = 80\ \text{kg} \times 19.6\ \text{N/kg} = 1570\ \text{N}
+$$
+
+His mass is 80 kg throughout. On Erid he would feel as if he were carrying a second copy of himself.
+</Example>
+
+<Example n={2} title="A bathroom scale on Mars">
+An 80 kg astronaut takes an ordinary bathroom scale to Mars. What does it show? What would a beam balance show?
+
+The scale measures the force $W = 80 \times 3.73 = 298\ \text{N}$ and divides by 9.81:
+
+$$
+\text{reading} = \frac{298\ \text{N}}{9.81\ \text{N/kg}} = 30.4\ \text{kg}
+$$
+
+The beam balance compares her with standard masses, which are pulled by the same Martian gravity. It balances at 80 kg, the true mass.
+</Example>
+
+<Example n={3} title="The fuel display" book>
+The ship's display shows 20,862 kg of Astrophage. (a) What would this fuel weigh on Earth? (b) With the engines off in deep space, what is its weight? (c) What force would be needed to give that much fuel an acceleration of $0.10\ \text{m/s}^{2}$ in zero g?
+
+(a) $W = mg = 20\,862\ \text{kg} \times 9.81\ \text{N/kg} = 2.05 \times 10^{5}\ \text{N}$.
+
+(b) In deep space, far from any planet or star, there is no gravity to speak of, so the weight is essentially zero. The display still reads 20,862 kg, because the mass hasn't changed.
+
+(c) Inertia doesn't switch off:
+
+$$
+F = ma = 20\,862\ \text{kg} \times 0.10\ \text{m/s}^{2} = 2090\ \text{N}
+$$
+
+Weightless is not massless. Moving anything heavy in zero g still takes a large force, or a long time.
+</Example>
+
+<Example n={4} title="The hammer and the feather, with forces">
+On the Moon ($g = 1.62\ \text{N/kg}$), David Scott dropped a 1.32 kg hammer and a feather. Take the feather's mass as 3.0 g (our assumption). Find the weight and acceleration of each.
+
+Hammer:
+
+$$
+W = 1.32\ \text{kg} \times 1.62\ \text{N/kg} = 2.14\ \text{N} \qquad a = \frac{2.14\ \text{N}}{1.32\ \text{kg}} = 1.62\ \text{m/s}^{2}
+$$
+
+Feather:
+
+$$
+W = 0.0030\ \text{kg} \times 1.62\ \text{N/kg} = 0.004\,86\ \text{N} \qquad a = \frac{0.004\,86\ \text{N}}{0.0030\ \text{kg}} = 1.62\ \text{m/s}^{2}
+$$
+
+The hammer's weight is 440 times the feather's, and so is its inertia. The accelerations are identical.
+</Example>
+
+<Example n={5} title="Weighing an astronaut in orbit">
+On a space station, springs push an astronaut with a steady 50.0 N, and sensors measure an acceleration of $0.625\ \text{m/s}^{2}$. Find the astronaut's mass. If the acceleration could be 1% out, how uncertain is the mass?
+
+$$
+m = \frac{F}{a} = \frac{50.0\ \text{N}}{0.625\ \text{m/s}^{2}} = 80.0\ \text{kg}
+$$
+
+Since $m \propto 1/a$, a 1% error in $a$ gives about a 1% error in $m$ (Chapter 1.4): $\pm 0.8$ kg. Notice that $g$ appears nowhere in this calculation.
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** Mass and weight are distinct, $W = mg$ near a planet's surface, and the values of $g$ for the Moon, Mars and Earth are measured. The equality of gravitational and inertial mass has been tested to about two parts in $10^{15}$ by the MICROSCOPE satellite. Astronauts on the International Space Station really do measure their mass by pushing themselves with springs (and, with a second device, by timing oscillations).
+
+**Weir's inventions.** Erid is fictional. Its gravity of "about twice Earth's" is the novel's figure as summarised in reviews, and 2.0 g is our round value for it. The fuel reading of 20,862 kg is the novel's, as summarised by readers. Grace's 80 kg and the 3.0 g feather are our assumptions.
+
+**How realistic are the numbers?** A planet with twice Earth's surface gravity is entirely possible: astronomers have found many planets several times Earth's mass. Whether creatures could evolve there is a question for biologists, but the physics doesn't forbid it, and Rocky's sturdy build suits a heavy world.
+</RealVsBook>
+
+## Interactive simulation
+
+<WeighingLab />
+
+Things to try: put 80 kg on Mars and check Worked example 2. Move it to Erid and see the bathroom scale show about 160 kg. Then switch to deep space: the weight and the scale reading fall to zero and the balance stops working, but the push test gives exactly the same acceleration as everywhere else.
+
+## Practice set
+
+<Problem n={1} level="easy">
+What is the weight on Earth of a 60 kg person?
+
+<Solution>
+$W = mg = 60\ \text{kg} \times 9.81\ \text{N/kg} = 589$ N.
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy">
+A sack weighs 49 N on Earth. What is its mass?
+
+<Solution>
+$m = \dfrac{W}{g} = \dfrac{49\ \text{N}}{9.81\ \text{N/kg}} = 5.0$ kg.
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy" book>
+At Tau Ceti with the engines off, Grace floats. Has his weight changed? Has his mass changed?
+
+<Solution>
+He feels weightless: nothing presses him against the floor. (Strictly, the star's gravity still pulls on him. Chapter 2.3 explains why he floats anyway.) His mass is unchanged, so he is just as hard to start or stop moving as before.
+</Solution>
+</Problem>
+
+<Problem n={4} level="easy">
+Show that $1\ \text{N/kg}$ is the same as $1\ \text{m/s}^{2}$.
+
+<Solution>
+$1\ \text{N} = 1\ \text{kg·m/s}^{2}$, so $1\ \text{N/kg} = \dfrac{1\ \text{kg·m/s}^{2}}{1\ \text{kg}} = 1\ \text{m/s}^{2}$.
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium">
+On Earth, an astronaut can just lift a 50 kg box. Assuming the same maximum lifting force, what mass could they lift on the Moon? On Erid (take 2.0 g)?
+
+<Solution>
+Maximum force: $50 \times 9.81 = 491$ N.
+
+Moon: $m = \dfrac{491}{1.62} = 303$ kg. Erid: $m = \dfrac{491}{19.62} = 25$ kg.
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium" book>
+If Grace (80 kg) stood on an ordinary bathroom scale on Erid (2.0 g), what would it show?
+
+<Solution>
+Force: $80 \times 19.62 = 1570$ N. Reading: $\dfrac{1570}{9.81} = 160$ kg, twice his true mass.
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium">
+What would a 70 kg person's bathroom scale show on Mars? On the Moon?
+
+<Solution>
+Mars: $70 \times \dfrac{3.73}{9.81} = 26.6$ kg. Moon: $70 \times \dfrac{1.62}{9.81} = 11.6$ kg.
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium">
+A 2.0 kg bag of rice is hung from a spring scale on the Moon, then placed on a beam balance. What does each show?
+
+<Solution>
+Spring scale: $W = 2.0 \times 1.62 = 3.24$ N. Beam balance: 2.0 kg, since the standard masses are pulled by the same lunar gravity.
+</Solution>
+</Problem>
+
+<Problem n={9} level="medium">
+A mass-measuring device in orbit pushes an astronaut with 40.0 N, and the measured acceleration is $0.571\ \text{m/s}^{2}$. Find the astronaut's mass.
+
+<Solution>
+$m = \dfrac{F}{a} = \dfrac{40.0\ \text{N}}{0.571\ \text{m/s}^{2}} = 70.1$ kg.
+</Solution>
+</Problem>
+
+<Problem n={10} level="challenging">
+In such a device, a steady 40 N push moves the astronaut 0.50 m from rest in 1.25 s. (a) Find the acceleration and the mass. (b) If the stopwatch ran 1% slow, so that it read 1.2625 s, what mass would be calculated?
+
+<Solution>
+(a) From $s = \tfrac{1}{2}at^{2}$: $a = \dfrac{2s}{t^{2}} = \dfrac{2 \times 0.50}{1.25^{2}} = 0.64\ \text{m/s}^{2}$. $m = \dfrac{40}{0.64} = 62.5$ kg.
+
+(b) $a = \dfrac{1.0}{1.2625^{2}} = 0.627\ \text{m/s}^{2}$, so $m = \dfrac{40}{0.627} = 63.8$ kg. A 1% timing error became a 2% mass error, because $a \propto 1/t^{2}$ (Chapter 1.4).
+</Solution>
+</Problem>
+
+<Problem n={11} level="challenging">
+Suppose platinum's gravitational mass were larger than its inertial mass by one part in $10^{15}$, the level MICROSCOPE could detect. By how much would a dropped platinum ball's acceleration on Earth differ from $g$?
+
+<Solution>
+$a = \dfrac{m_{\text{grav}}g}{m_{\text{inert}}} = (1 + 10^{-15})g$, so the difference is $10^{-15} \times 9.81 = 9.8 \times 10^{-15}\ \text{m/s}^{2}$. That is why such tests need a satellite in quiet free fall rather than a lab on the ground.
+</Solution>
+</Problem>
+
+<Problem n={12} level="challenging" book>
+In zero g, a 20 kg crate drifts towards Grace at 0.50 m/s. He wants to stop it within 0.25 s. What average force must he apply? Would it matter whether the crate "weighed" anything?
+
+<Solution>
+$a = \dfrac{0.50\ \text{m/s}}{0.25\ \text{s}} = 2.0\ \text{m/s}^{2}$, so $F = 20 \times 2.0 = 40$ N.
+
+The crate has no weight here, but the force needed depends only on its mass. On a frictionless floor on Earth, stopping it would take exactly the same 40 N.
+</Solution>
+</Problem>
+
+## Summary
+
+- **Mass** (kg) measures the amount of matter and the resistance to acceleration. It is the same everywhere.
+- **Weight** (N) is the force of gravity: $W = mg$. It depends on where you are, and is zero in deep space.
+- The gravitational field strength $g$ in N/kg is the same as the free-fall acceleration in $\text{m/s}^{2}$.
+- Because gravitational and inertial mass are equal (tested to about $10^{-15}$), mass cancels and everything falls at the same rate.
+- Spring and bathroom scales measure force, so they read wrongly away from Earth. Beam balances compare masses but fail in zero g. In orbit, mass is found from $m = F/a$.
+
+**Formulas from this chapter**
+
+$$
+W = mg \qquad \frac{W_{2}}{W_{1}} = \frac{g_{2}}{g_{1}} \qquad m = \frac{F}{a} \qquad 1\ \text{N/kg} = 1\ \text{m/s}^{2}
+$$
+
+## Sources
+
+- OpenStax, *University Physics Volume 1*, [§5.4 Mass and Weight](https://openstax.org/books/university-physics-volume-1/pages/5-4-mass-and-weight).
+- Surface gravity of the Moon (1.62 m/s²) and Mars (3.73 m/s²): NASA NSSDCA [Moon fact sheet](https://nssdc.gsfc.nasa.gov/planetary/factsheet/moonfact.html), [Mars fact sheet](https://nssdc.gsfc.nasa.gov/planetary/factsheet/marsfact.html).
+- The Apollo 15 hammer (1.32 kg): NASA NSSDCA. [Apollo 15 Hammer-Feather Drop](https://nssdc.gsfc.nasa.gov/planetary/lunar/apollo_15_feather_drop.html)
+- Equivalence of gravitational and inertial mass to about 10⁻¹⁵: P. Touboul et al. (MICROSCOPE Collaboration), "MICROSCOPE Mission: Final Results of the Test of the Equivalence Principle", *Physical Review Letters* 129, 121102 (2022). [doi:10.1103/PhysRevLett.129.121102](https://doi.org/10.1103/PhysRevLett.129.121102)
+- Measuring astronauts' mass in orbit with springs (by acceleration, and by timing oscillations): C. Crockett, "Old-school contraptions still work for weighing astronauts", *Science News* (2016). [sciencenews.org](https://www.sciencenews.org/article/old-school-contraptions-still-work-weighing-astronauts)
+- Erid's gravity, about twice Earth's: [/Film, "Project Hail Mary: Why Rocky and Grace can't be in the same space"](https://www.slashfilm.com/2125069/project-hail-mary-why-rocky-grace-not-same-space/). The fuel reading of 20,862 kg is the novel's figure (Andy Weir, *Project Hail Mary*, 2021), as summarised by readers. [Reader summary](https://trangnkp.substack.com/p/project-hail-mary). Approximate.

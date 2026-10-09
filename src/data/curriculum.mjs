@@ -59,10 +59,10 @@ export const parts = [
 		id: 'part-2', icon: 'F', dir: 'part-2', code: '2', label: 'Part 2 · Forces',
 		blurb: 'Newton’s laws, weight, and what you feel inside an accelerating ship.',
 		chapters: [
-			{ slug: 'newtons-laws', title: 'Newton’s laws', prereqs: [], status: 'planned' },
-			{ slug: 'mass-and-weight', title: 'Mass vs weight', prereqs: [], status: 'planned' },
-			{ slug: 'apparent-weight', title: 'Apparent weight in accelerating ships', prereqs: [], status: 'planned' },
-			{ slug: 'pendulums-shm', title: 'Pendulums and simple harmonic motion', prereqs: [], status: 'planned' },
+			{ slug: 'newtons-laws', title: 'Newton’s laws', prereqs: ['kinematics', 'equations-of-motion', 'free-fall', 'vectors'], status: 'review' },
+			{ slug: 'mass-and-weight', title: 'Mass vs weight', prereqs: ['newtons-laws', 'free-fall'], status: 'review' },
+			{ slug: 'apparent-weight', title: 'Apparent weight in accelerating ships', prereqs: ['mass-and-weight', 'newtons-laws', 'kinematics'], status: 'review' },
+			{ slug: 'pendulums-shm', title: 'Pendulums and simple harmonic motion', prereqs: ['newtons-laws', 'apparent-weight', 'derivatives', 'trigonometry', 'measuring-g'], status: 'review' },
 		],
 	},
 	{

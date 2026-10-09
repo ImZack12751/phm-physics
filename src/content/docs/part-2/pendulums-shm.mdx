@@ -1,0 +1,418 @@
+---
+title: Pendulums and simple harmonic motion
+description: Restoring forces, springs and Hooke's law, simple harmonic motion and where the 2π comes from, a derivation of the pendulum's period T = 2π√(L/g), why it ignores the mass and the size of the swing, and how astronauts weigh themselves by bouncing on a spring.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import ShmGraphs from '../../../components/diagrams/part-2/ShmGraphs.astro';
+import PendulumForces from '../../../components/diagrams/part-2/PendulumForces.astro';
+import PendulumLab from '../../../components/sims/PendulumLab.astro';
+
+## The scene
+
+Grace's most trusted instrument in his first hours aboard is a weight on a string. He counts 346 swings in ten minutes and gets the ship's gravity to within a fraction of a percent (Chapter 1.4). That chapter used the formula $T = 2\pi\sqrt{L/g}$ and promised to explain it. Dimensional analysis showed it had to be some number times $\sqrt{L/g}$, but not why the number is $2\pi$, nor why the period ignores the mass of the weight and the width of the swing.
+
+This chapter keeps that promise, using Newton's second law and the calculus of Part 0.5. The same mathematics describes a mass bouncing on a spring, and that leads to a neat trick: in zero g, where no scale works, you can find an astronaut's mass by timing how fast they bounce.
+
+## Prerequisites
+
+<Prereqs notes={{ 'newtons-laws': 'F = ma, applied to a force that changes as the object moves', 'apparent-weight': 'a pendulum in an accelerating ship uses the apparent gravity', derivatives: 'differentiating sin and cos, and the scaling rule', trigonometry: 'radians and the small-angle approximation', 'measuring-g': 'the pendulum formula and Grace’s count of 346 swings' }} />
+
+## The concept
+
+### Restoring forces
+
+A pendulum hanging straight down is in <Term id="equilibrium">equilibrium</Term>: the forces on it balance. Pull it aside and let go, and a force pulls it back towards the middle. It overshoots, because its inertia carries it through, and is pulled back again from the other side. The result is an oscillation: a motion that repeats.
+
+A force that always points back towards equilibrium is called a <Term id="restoring-force">restoring force</Term>. Every oscillation, from a guitar string to a vibrating atom, is driven by one.
+
+### Springs and Hooke's law
+
+The simplest restoring force is a spring's. Stretch a spring by a distance $x$ and it pulls back. Squash it and it pushes back. For moderate stretches, the force is proportional to the stretch:
+
+$$
+F = -kx.
+$$
+
+This is <Term id="hookes-law">Hooke's law</Term>. The minus sign says the force points opposite to the displacement, back towards equilibrium. The <Term id="spring-constant">spring constant</Term> $k$, in N/m, measures stiffness: a stiff spring has a large $k$.
+
+### Simple harmonic motion
+
+Put a mass $m$ on a spring, on a smooth surface or floating in zero g. Newton's second law gives
+
+$$
+ma = -kx \quad\Rightarrow\quad a = -\frac{k}{m}x.
+$$
+
+The acceleration is proportional to the displacement and points the other way. Any motion with this property is called <Term id="simple-harmonic-motion">simple harmonic motion</Term> (SHM). It is usual to write the constant $k/m$ as $\omega^{2}$, so that
+
+$$
+a = -\omega^{2}x.
+$$
+
+You met exactly this in Chapter C.3, Worked example 4, where a vibrating sample had $a = -4.0 \times x$. That chapter promised it was the signature of all simple oscillations. Here is why.
+
+### The solution is a cosine
+
+Which function, differentiated twice, gives itself back times a negative number? From Chapter C.3, cosine does. Try $x = A\cos(\omega t)$, where the <Term id="amplitude">amplitude</Term> $A$ is the largest displacement. By the scaling rule:
+
+$$
+v = \frac{dx}{dt} = -A\omega\sin(\omega t) \qquad a = \frac{dv}{dt} = -A\omega^{2}\cos(\omega t) = -\omega^{2}x.
+$$
+
+It works, for any amplitude $A$. The constant $\omega$ is called the <Term id="angular-frequency">angular frequency</Term>, in radians per second.
+
+<Figure caption="One cycle of simple harmonic motion, x = A cos ωt. The velocity is greatest when passing through the middle, and zero at the ends. The acceleration is always the mirror image of the position: largest at the ends, and pointing back towards the middle." alt="Three stacked graphs against time, from 0 to one period T, with grid lines at T/4, T/2 and 3T/4. Position x (blue) is a cosine from +A at time 0, through 0 at T/4, to −A at T/2, and back to +A at T. Velocity v (green) is a negative sine between plus and minus A omega: 0 at the start, −Aω at T/4, 0 at T/2, +Aω at 3T/4. Acceleration a (red) is the upside-down cosine between plus and minus A omega squared: −Aω² at the start, +Aω² at T/2. A note reads a = −ω²x: always pointing back to the middle.">
+	<ShmGraphs />
+</Figure>
+
+### Where the 2π comes from
+
+The cosine repeats every time its angle grows by $2\pi$ radians, one full turn. So the motion repeats when $\omega T = 2\pi$:
+
+$$
+T = \frac{2\pi}{\omega}.
+$$
+
+That's the $2\pi$ in the pendulum formula. It comes from measuring angles in radians: a full cycle of any oscillation is a full turn of $2\pi$.
+
+The <Term id="frequency">frequency</Term> $f$ is the number of cycles per second, $f = 1/T$, measured in <Term id="hertz">hertz</Term> (Hz). Then $\omega = 2\pi f$.
+
+Notice what is missing from $T = 2\pi/\omega$: the amplitude. A big swing travels further but moves faster, and the two effects cancel exactly. This is why the period doesn't depend on the size of the swing, as long as the restoring force really is proportional to the displacement.
+
+### The pendulum
+
+Now the pendulum: a bob of mass $m$ on a string of length $L$, pulled aside by an angle $\theta$. Two forces act on the bob: its weight $mg$ straight down, and the <Term id="tension">tension</Term> along the string. Split the weight into two parts. Along the string, $mg\cos\theta$ is balanced by the tension. Along the arc, the part $mg\sin\theta$ pulls the bob back towards the bottom. That is the restoring force.
+
+<Figure caption="Forces on a pendulum bob pulled aside by θ. The tension acts along the string. The weight mg splits into mg cos θ along the string and mg sin θ along the arc, back towards the bottom: the restoring force." alt="A pendulum hanging from a bar, pulled 25 degrees to the right of a dashed vertical line, with the angle theta marked at the pivot and the string labelled L. A violet dashed arc from the lowest point to the bob is labelled s = L theta along the arc. From the blue bob: a green arrow up along the string labelled tension; a red arrow straight down labelled weight mg; a dashed grey arrow continuing the string's line outwards labelled mg cos theta along the string; and an amber arrow along the arc, down and to the left towards the bottom, labelled mg sin theta: restoring force. Note: pulled aside by theta = 25 degrees.">
+	<PendulumForces />
+</Figure>
+
+The bob moves along the arc. Its distance from the bottom, measured along the arc, is $s = L\theta$ (Chapter 0.6). Newton's second law along the arc:
+
+$$
+ma = -mg\sin\theta.
+$$
+
+For small swings, the <Term id="small-angle-approximation">small-angle approximation</Term> gives $\sin\theta \approx \theta = s/L$. So
+
+$$
+ma \approx -\frac{mg}{L}s \quad\Rightarrow\quad a \approx -\frac{g}{L}s.
+$$
+
+This is simple harmonic motion, with $\omega^{2} = g/L$.
+
+### Why the mass cancels
+
+Look at the step above: the mass appears on both sides and cancels. A heavier bob is pulled back harder, but is harder to accelerate by the same factor. This is the same cancellation that makes everything fall at the same rate (Chapter 2.2). A pendulum's period depends only on its length and on $g$, so it measures $g$ directly.
+
+A mass on a spring is different. There the restoring force comes from the spring, not from gravity, so the mass doesn't cancel: $\omega^{2} = k/m$. Heavier masses bounce more slowly, and gravity plays no part. That's why a spring can measure mass in orbit, where a pendulum wouldn't swing at all.
+
+### Big swings
+
+The approximation $\sin\theta \approx \theta$ gets worse as the swing widens. Since $\sin\theta$ is a little smaller than $\theta$, the restoring force is a little weaker than SHM assumes, and the pendulum takes slightly longer. For a swing out to $\theta_{0}$ (in radians), a good approximation is
+
+$$
+T \approx 2\pi\sqrt{\frac{L}{g}}\left(1 + \frac{\theta_{0}^{2}}{16}\right).
+$$
+
+At 10° the period is 0.19% longer than the simple formula predicts, and at 30° it is 1.7% longer. For careful timing, keep the swings small.
+
+### Pendulums in accelerating ships
+
+The derivation used $g$ as the strength of the pull towards the floor. In an accelerating ship, that is the apparent gravity $g_{\text{eff}}$ (Chapter 2.3). On the *Hail Mary*, Grace's pendulum swings with $g_{\text{eff}} = 14.7\ \text{m/s}^{2}$, exactly as it would on a planet with that gravity.
+
+## Formulas
+
+### Hooke's law
+
+$$
+\boxed{F = -kx}
+$$
+
+### The SHM equation and its solution
+
+$$
+\boxed{a = -\omega^{2}x \quad\Rightarrow\quad x = A\cos(\omega t)}
+$$
+
+Differentiating, as above:
+
+$$
+v = -A\omega\sin(\omega t) \qquad a = -A\omega^{2}\cos(\omega t)
+$$
+
+Since sine and cosine never exceed 1:
+
+$$
+\boxed{v_{\text{max}} = A\omega \qquad a_{\text{max}} = A\omega^{2}}
+$$
+
+The speed is greatest in the middle ($x = 0$), and the acceleration is greatest at the ends ($x = \pm A$).
+
+### Period, frequency and angular frequency
+
+The cosine repeats when $\omega t$ grows by $2\pi$:
+
+$$
+\boxed{T = \frac{2\pi}{\omega} \qquad f = \frac{1}{T} \qquad \omega = 2\pi f}
+$$
+
+### Mass on a spring
+
+From $ma = -kx$, $\omega^{2} = k/m$, so
+
+$$
+\boxed{T = 2\pi\sqrt{\frac{m}{k}}} \qquad \text{and, rearranged,} \qquad m = \frac{kT^{2}}{4\pi^{2}}.
+$$
+
+### Simple pendulum
+
+From $a \approx -\dfrac{g}{L}s$, $\omega^{2} = g/L$, so
+
+$$
+\boxed{T = 2\pi\sqrt{\frac{L}{g}}}
+$$
+
+valid for small swings, with $g$ replaced by $g_{\text{eff}}$ in an accelerating cabin.
+
+### Large-swing correction
+
+$$
+T \approx 2\pi\sqrt{\frac{L}{g}}\left(1 + \frac{\theta_{0}^{2}}{16}\right) \qquad (\theta_{0} \text{ in radians})
+$$
+
+## Worked examples
+
+<Example n={1} title="Grace's pendulum, from the inside" book>
+Grace counts 346 swings in 600 s at an apparent gravity of $14.7\ \text{m/s}^{2}$. Find the period, the angular frequency and the length of the string.
+
+$$
+T = \frac{600\ \text{s}}{346} = 1.734\ \text{s} \qquad \omega = \frac{2\pi}{T} = \frac{6.283}{1.734\ \text{s}} = 3.623\ \text{rad/s}
+$$
+
+Since $\omega^{2} = g/L$:
+
+$$
+L = \frac{g}{\omega^{2}} = \frac{14.7\ \text{m/s}^{2}}{(3.623\ \text{rad/s})^{2}} = \frac{14.7}{13.13}\ \text{m} = 1.12\ \text{m}
+$$
+
+This matches the 1.12 m string assumed in Chapter 1.4. (Radians have no unit, so $\text{m/s}^{2} \div \text{s}^{-2} = \text{m}$.)
+</Example>
+
+<Example n={2} title="The vibrating sample, revisited" book>
+In Chapter C.3, a sample on a spring moved as $x = 0.20\sin(2.0t)$ metres. Find its angular frequency, period and frequency. If the sample's mass is 0.50 kg (our assumption), what is the spring constant? What are its greatest speed and acceleration?
+
+Comparing with SHM, $\omega = 2.0$ rad/s. (A sine is just a cosine shifted in time, so it is SHM too.)
+
+$$
+T = \frac{2\pi}{2.0\ \text{rad/s}} = 3.14\ \text{s} \qquad f = \frac{1}{3.14\ \text{s}} = 0.318\ \text{Hz}
+$$
+
+$$
+k = m\omega^{2} = 0.50\ \text{kg} \times (2.0\ \text{rad/s})^{2} = 2.0\ \text{N/m}
+$$
+
+$$
+v_{\text{max}} = A\omega = 0.20 \times 2.0 = 0.40\ \text{m/s} \qquad a_{\text{max}} = A\omega^{2} = 0.20 \times 4.0 = 0.80\ \text{m/s}^{2}
+$$
+
+These match the results found by differentiation in Chapter C.3.
+</Example>
+
+<Example n={3} title="Weighing an astronaut by bouncing">
+A mass-measuring chair in orbit is mounted on springs with a combined spring constant of 600 N/m (our assumed value). The empty chair has a mass of 12.0 kg. With an astronaut strapped in, the chair oscillates with a period of 2.30 s. Find the astronaut's mass, and the empty chair's period.
+
+$$
+m_{\text{total}} = \frac{kT^{2}}{4\pi^{2}} = \frac{600\ \text{N/m} \times (2.30\ \text{s})^{2}}{39.48} = \frac{600 \times 5.29}{39.48}\ \text{kg} = 80.4\ \text{kg}
+$$
+
+$$
+m_{\text{astronaut}} = 80.4 - 12.0 = 68.4\ \text{kg}
+$$
+
+Empty chair:
+
+$$
+T = 2\pi\sqrt{\frac{12.0\ \text{kg}}{600\ \text{N/m}}} = 0.889\ \text{s}
+$$
+
+(Units: $\text{N/m} \times \text{s}^{2} = \text{kg·m/s}^{2} \div \text{m} \times \text{s}^{2} = \text{kg}$.) No gravity was needed, and the device works the same on Earth, on the Moon or in orbit. Devices of this kind were first built in the 1960s, and one is still used on the International Space Station.
+</Example>
+
+<Example n={4} title="One pendulum, five worlds" book>
+Grace's 1.12 m pendulum is taken to Earth, the Moon, Mars and Erid (take 2.0 g). Find its period in each place, and how many swings it makes in 10 minutes.
+
+$$
+T_{\text{Earth}} = 2\pi\sqrt{\frac{1.12\ \text{m}}{9.81\ \text{m/s}^{2}}} = 2.123\ \text{s} \;\Rightarrow\; \frac{600}{2.123} = 283\ \text{swings}
+$$
+
+Similarly:
+
+| Place | $g$ ($\text{m/s}^{2}$) | $T$ (s) | Swings in 10 min |
+|---|---|---|---|
+| Moon | 1.62 | 5.224 | 115 |
+| Mars | 3.73 | 3.443 | 174 |
+| Earth | 9.81 | 2.123 | 283 |
+| *Hail Mary* | 14.7 | 1.734 | 346 |
+| Erid | 19.6 | 1.501 | 400 |
+
+The count grows as $\sqrt{g}$. Doubling $g$ multiplies the count by $\sqrt{2} = 1.41$: compare Earth's 283 with Erid's 400.
+</Example>
+
+<Example n={5} title="Does the width of Grace's swing matter?" book>
+Suppose Grace started his pendulum swinging out to 10° from the vertical. By how much does that lengthen the period beyond $2\pi\sqrt{L/g}$, and what error would that cause in the value of $g$ he calculates?
+
+In radians, $\theta_{0} = 10 \times \dfrac{\pi}{180} = 0.1745$. The correction:
+
+$$
+\frac{\theta_{0}^{2}}{16} = \frac{0.1745^{2}}{16} = 0.0019
+$$
+
+so the period is 0.19% longer. Since $g = 4\pi^{2}L/T^{2}$, the calculated $g$ comes out low by about twice that, $2 \times 0.19\% = 0.38\%$ (Chapter 1.4):
+
+$$
+g \approx 14.7 \times (1 - 0.0038) = 14.64\ \text{m/s}^{2}
+$$
+
+That's a small systematic error, a bit below the 0.58% his count of whole swings could detect. Smaller swings would make it negligible.
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** Hooke's law, simple harmonic motion and the pendulum formula are standard physics. The large-swing correction is a standard result, accurate to better than 0.1% up to about 40°. Spring-based mass meters were first built in the 1960s, and the International Space Station carries two: one that times the astronaut's bounces, as here, and one that pushes them with springs and measures the acceleration (Chapter 2.2).
+
+**Weir's inventions.** Grace's count (346 swings in 10 minutes) is the novel's figure, as summarised by readers. The 1.12 m string length, the 600 N/m chair, the 12.0 kg chair mass, the 0.50 kg sample and the 10° swing are our assumptions, chosen to be consistent with the book and with real devices.
+
+**How realistic are the numbers?** Counting 346 swings by eye is tedious but entirely doable, and the method is sound: it is how physicists measured $g$ for centuries. The only care needed is to keep the swings small and the count honest.
+</RealVsBook>
+
+## Interactive simulation
+
+<PendulumLab />
+
+Things to try: the default is Grace's 1.12 m pendulum on the ship, pulled aside 10°. Check that it makes about 346 swings in 10 minutes. Move it to Earth (283) and to Erid (400). Now pull it out to 60° and watch the exact curve fall behind the dashed SHM curve; at 90° the period is 18% longer. Finally, find the length that gives exactly 2 s on Earth.
+
+## Practice set
+
+<Problem n={1} level="easy">
+A spring with $k = 200$ N/m is stretched by 5.0 cm. How hard does it pull back?
+
+<Solution>
+$|F| = kx = 200\ \text{N/m} \times 0.050\ \text{m} = 10$ N, pointing back towards equilibrium.
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy">
+An oscillation has a period of 0.50 s. Find its frequency and angular frequency.
+
+<Solution>
+$f = \dfrac{1}{0.50\ \text{s}} = 2.0$ Hz. $\omega = 2\pi f = 12.6$ rad/s.
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy">
+Find the period of a 0.25 m pendulum on Earth.
+
+<Solution>
+$T = 2\pi\sqrt{\dfrac{0.25}{9.81}} = 1.00$ s.
+</Solution>
+</Problem>
+
+<Problem n={4} level="easy" book>
+Grace swaps the weight on his pendulum for one twice as heavy, keeping the same string. What happens to the period? Why?
+
+<Solution>
+Nothing. The restoring force doubles, but so does the mass to be accelerated, so the acceleration (and the period) is unchanged.
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium">
+A 0.40 kg mass oscillates on a spring with $k = 160$ N/m. Find the period.
+
+<Solution>
+$T = 2\pi\sqrt{\dfrac{0.40}{160}} = 2\pi \times 0.050 = 0.314$ s.
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium">
+How long must a pendulum be to have a period of exactly 2.00 s on Earth?
+
+<Solution>
+$L = \dfrac{gT^{2}}{4\pi^{2}} = \dfrac{9.81 \times 4.00}{39.48} = 0.994$ m. This "seconds pendulum" ticks once each second, at each end of its swing.
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium" book>
+Take the 0.994 m pendulum from Problem 6 aboard the *Hail Mary* at 1.5 g. What is its period now?
+
+<Solution>
+$T \propto 1/\sqrt{g}$, so $T = \dfrac{2.00}{\sqrt{1.5}} = 1.63$ s. Directly: $2\pi\sqrt{0.994 / 14.7} = 1.63$ s.
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium">
+An object moves in SHM with amplitude 0.10 m and period 0.50 s. Find its greatest speed and greatest acceleration.
+
+<Solution>
+$\omega = \dfrac{2\pi}{0.50} = 12.57$ rad/s. $v_{\text{max}} = A\omega = 1.26$ m/s. $a_{\text{max}} = A\omega^{2} = 0.10 \times 158 = 15.8\ \text{m/s}^{2}$.
+</Solution>
+</Problem>
+
+<Problem n={9} level="medium" book>
+A mass on a spring bounces with a period of 0.80 s on Earth. When the engines shut off and the ship coasts, what is its period? What happens to a pendulum in the same ship?
+
+<Solution>
+Still 0.80 s: a spring's period $2\pi\sqrt{m/k}$ doesn't involve $g$. The pendulum stops swinging altogether: with $g_{\text{eff}} = 0$ there is no restoring force, and its "period" $2\pi\sqrt{L/0}$ is infinite.
+</Solution>
+</Problem>
+
+<Problem n={10} level="challenging">
+An oscillator moves as $x = 0.050\cos(10t)$ metres. Find its acceleration at $t = 0.10$ s in two ways: by differentiating twice, and from $a = -\omega^{2}x$.
+
+<Solution>
+Differentiating: $v = -0.50\sin(10t)$, $a = -5.0\cos(10t)$. At $t = 0.10$ s: $a = -5.0\cos(1.0) = -2.70\ \text{m/s}^{2}$.
+
+From SHM: $x = 0.050\cos(1.0) = 0.0270$ m, and $a = -10^{2} \times 0.0270 = -2.70\ \text{m/s}^{2}$. ✓
+</Solution>
+</Problem>
+
+<Problem n={11} level="challenging">
+A spring mass meter on the Moon is calibrated with a 5.0 kg mass, which oscillates with a period of 0.574 s. An unknown rock oscillates with a period of 0.812 s on the same springs. What is the rock's mass? (Hint: use the ratio method from Chapter 0.5.)
+
+<Solution>
+$m \propto T^{2}$, so $m = 5.0\ \text{kg} \times \left(\dfrac{0.812}{0.574}\right)^{2} = 5.0 \times 2.00 = 10.0$ kg. The Moon's gravity doesn't enter at all. (The springs' $k$ is about 600 N/m, but it isn't needed.)
+</Solution>
+</Problem>
+
+<Problem n={12} level="challenging">
+A pendulum is released from 30°. Use the large-swing formula to find how much longer its period is than $2\pi\sqrt{L/g}$. The exact answer is 1.74% longer. How good is the approximation?
+
+<Solution>
+$\theta_{0} = 30 \times \dfrac{\pi}{180} = 0.5236$ rad, so $\dfrac{\theta_{0}^{2}}{16} = \dfrac{0.2742}{16} = 0.0171$: 1.71% longer.
+
+The exact value is 1.74%, so the approximation is off by only 0.03 percentage points. (At 90° it predicts 15.4% against the true 18.0%: the approximation fails for wide swings.)
+</Solution>
+</Problem>
+
+## Summary
+
+- A restoring force pulls an object back towards equilibrium. For a spring it obeys Hooke's law, $F = -kx$.
+- Any motion with $a = -\omega^{2}x$ is simple harmonic motion. Its solution is $x = A\cos(\omega t)$, and it repeats when $\omega T = 2\pi$. That's where the $2\pi$ comes from.
+- The period doesn't depend on the amplitude: bigger swings go further but faster.
+- Mass on a spring: $T = 2\pi\sqrt{m/k}$, independent of gravity, so it can measure mass in orbit.
+- Pendulum: the restoring force is $mg\sin\theta \approx mg\theta$, giving $T = 2\pi\sqrt{L/g}$. The mass cancels, so the period measures $g$ (or $g_{\text{eff}}$ in a ship). Wide swings take slightly longer.
+
+**Formulas from this chapter**
+
+$$
+F = -kx \qquad a = -\omega^{2}x \qquad x = A\cos(\omega t) \qquad T = \frac{2\pi}{\omega} \qquad T = 2\pi\sqrt{\frac{m}{k}} \qquad T = 2\pi\sqrt{\frac{L}{g}}
+$$
+
+## Sources
+
+- OpenStax, *University Physics Volume 1*, [§15.1 Simple Harmonic Motion](https://openstax.org/books/university-physics-volume-1/pages/15-1-simple-harmonic-motion) and [§15.4 Pendulums](https://openstax.org/books/university-physics-volume-1/pages/15-4-pendulums).
+- Simple harmonic motion and the pendulum, including the large-amplitude period: HyperPhysics, [Simple harmonic motion](http://hyperphysics.phy-astr.gsu.edu/hbase/shm.html) and [Simple pendulum](http://hyperphysics.phy-astr.gsu.edu/hbase/pend.html) and [Large amplitude pendulum](http://hyperphysics.phy-astr.gsu.edu/hbase/pendl.html).
+- Spring-oscillator mass measurement for spaceflight (William Thornton's 1960s oscillation method, and the two spring-based devices on the International Space Station): C. Crockett, "Old-school contraptions still work for weighing astronauts", *Science News* (2016), [sciencenews.org](https://www.sciencenews.org/article/old-school-contraptions-still-work-weighing-astronauts); B. A. Conway, "An analysis of the operation of a mass measuring system in an orbiting spacecraft", NASA TN D-5039 (1969), [NTRS 19690009777](https://ntrs.nasa.gov/citations/19690009777).
+- Grace's count of 346 swings in 10 minutes is the novel's figure (Andy Weir, *Project Hail Mary*, 2021), as summarised by readers. [Reader summary](https://trangnkp.substack.com/p/project-hail-mary). Approximate. The string length, chair and spring values, sample mass and swing angle are our assumptions.

@@ -1,0 +1,43 @@
+---
+// Free-body diagrams for an 80 kg person in three situations.
+// Standing on Earth: weight down, floor up, net zero. In the ship at 1.5 g in deep space: only the floor's push.
+// In orbit: only weight, no floor push, so they feel weightless.
+const head = (x: number, y: number, dir: number) => `${x},${y} ${x - 7},${y - dir * 12} ${x + 7},${y - dir * 12}`;
+const S = 0.085; // px per newton
+const Y = 175; // centre of the person
+const FEET = Y + 30;
+const panels = [
+	{ x: 105, title: 'standing on Earth', W: 785, N: 785, net: 'net 0: a = 0', feel: 'feels 1 g' },
+	{ x: 300, title: 'ship at 1.5 g, deep space', W: 0, N: 1176, net: 'net 1176 N up: a = 14.7 m/s²', feel: 'feels 1.5 g' },
+	{ x: 495, title: 'in orbit (free fall)', W: 694, N: 0, net: 'net 694 N down: a = 8.67 m/s²', feel: 'feels weightless' },
+];
+---
+
+<svg class="dg" viewBox="0 0 600 360" xmlns="http://www.w3.org/2000/svg">
+	{
+		panels.map((p) => (
+			<>
+				<text x={p.x} y="24" class="t-mid t-b">{p.title}</text>
+				<rect x={p.x - 14} y={Y - 30} width="28" height="60" rx="12" class="f-sky-soft s-sky w2" />
+				{p.N > 0 && (
+					<>
+						<line x1={p.x - 44} y1={FEET} x2={p.x + 14} y2={FEET} class="s-fg w3" />
+						<line x1={p.x - 26} y1={FEET} x2={p.x - 26} y2={FEET - p.N * S + 12} class="s-green w3" />
+						<polygon points={head(p.x - 26, FEET - p.N * S, -1)} class="f-green" />
+						<text x={p.x - 34} y={FEET - p.N * S + 6} class="t-end t-sm f-green">{`floor ${p.N} N`}</text>
+					</>
+				)}
+				{p.W > 0 && (
+					<>
+						<line x1={p.x + 26} y1={Y} x2={p.x + 26} y2={Y + p.W * S - 12} class="s-rose w3" />
+						<polygon points={head(p.x + 26, Y + p.W * S, 1)} class="f-rose" />
+						<text x={p.x + 26} y={Y + p.W * S + 20} class="t-mid t-sm f-rose">{`weight ${p.W} N`}</text>
+					</>
+				)}
+				<text x={p.x} y="300" class="t-mid t-sm">{p.net}</text>
+				<text x={p.x} y="322" class="t-mid t-sm t-b f-amber">{p.feel}</text>
+			</>
+		))
+	}
+	<text x="300" y="350" class="t-mid t-sm f-muted">What you feel is the floor's push, not your weight.</text>
+</svg>

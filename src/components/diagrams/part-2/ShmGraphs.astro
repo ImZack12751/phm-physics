@@ -1,0 +1,35 @@
+---
+// Position, velocity and acceleration through one period of simple harmonic motion, x = A cos ωt.
+// The acceleration is always the mirror image of the position: a = −ω²x.
+const L = 120, R = 560, H = 34;
+const rows = [
+	{ y: 60, name: 'position x', f: (p: number) => Math.cos(p), cls: 's-sky', top: '+A', bot: '−A' },
+	{ y: 160, name: 'velocity v', f: (p: number) => -Math.sin(p), cls: 's-green', top: '+Aω', bot: '−Aω' },
+	{ y: 260, name: 'acceleration a', f: (p: number) => -Math.cos(p), cls: 's-rose', top: '+Aω²', bot: '−Aω²' },
+];
+const px = (p: number) => L + (p / (2 * Math.PI)) * (R - L);
+const path = (f: (p: number) => number, y: number) =>
+	Array.from({ length: 121 }, (_, i) => {
+		const p = (2 * Math.PI * i) / 120;
+		return `${i ? 'L' : 'M'}${px(p).toFixed(1)},${(y - H * f(p)).toFixed(1)}`;
+	}).join(' ');
+const ticks = [0, 0.25, 0.5, 0.75, 1];
+---
+
+<svg class="dg" viewBox="0 0 600 340" xmlns="http://www.w3.org/2000/svg">
+	{ticks.map((t) => <line x1={px(2 * Math.PI * t)} y1="20" x2={px(2 * Math.PI * t)} y2="300" class="s-grid w1" />)}
+	{ticks.map((t, i) => <text x={px(2 * Math.PI * t)} y="318" class="t-mid t-sm f-muted">{['0', 'T/4', 'T/2', '3T/4', 'T'][i]}</text>)}
+	<text x={(L + R) / 2} y="336" class="t-mid t-sm">time</text>
+	{
+		rows.map((r) => (
+			<>
+				<line x1={L} y1={r.y} x2={R} y2={r.y} class="s-fg w1" />
+				<path d={path(r.f, r.y)} class={`${r.cls} w3`} fill="none" />
+				<text x={L - 12} y={r.y + 4} class="t-end t-sm">{r.name}</text>
+				<text x={L - 12} y={r.y - H + 4} class="t-end t-sm f-muted">{r.top}</text>
+				<text x={L - 12} y={r.y + H + 4} class="t-end t-sm f-muted">{r.bot}</text>
+			</>
+		))
+	}
+	<text x={px(Math.PI)} y="214" class="t-mid t-sm f-rose halo">a = −ω²x: always pointing back to the middle</text>
+</svg>

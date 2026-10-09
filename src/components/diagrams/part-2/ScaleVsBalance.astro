@@ -1,0 +1,48 @@
+---
+// A spring scale measures a force (weight), so its reading changes from place to place.
+// A beam balance compares two masses, so it gives the same answer anywhere with gravity, and fails in zero g.
+const cols = [
+	{ x: 230, name: 'Earth', g: 9.81 },
+	{ x: 370, name: 'Moon', g: 1.62 },
+	{ x: 510, name: 'deep space (0 g)', g: 0 },
+];
+const ROW1 = 120, ROW2 = 250;
+const stretch = (g: number) => 8 + g * 4.2; // spring length grows with weight
+const springTop = ROW1 - 70;
+const zigzag = (x: number, s: number) =>
+	[`${x},${springTop}`, ...Array.from({ length: 7 }, (_, i) => `${i % 2 ? x + 7 : x - 7},${springTop + 6 + (i * s) / 6}`), `${x},${springTop + 12 + s}`].join(' ');
+---
+
+<svg class="dg" viewBox="0 0 600 320" xmlns="http://www.w3.org/2000/svg">
+	<text x="20" y="30" class="t-sm f-muted">a 2.0 kg bag of rice</text>
+	{cols.map((c) => <text x={c.x} y="30" class="t-mid t-b">{c.name}</text>)}
+	<text x="20" y={ROW1 - 20} class="t-b">spring scale</text>
+	<text x="20" y={ROW1 - 2} class="t-sm f-muted">measures a force</text>
+	<text x="20" y={ROW2 - 20} class="t-b">beam balance</text>
+	<text x="20" y={ROW2 - 2} class="t-sm f-muted">compares masses</text>
+	{
+		cols.map((c) => {
+			const s = stretch(c.g);
+			return (
+				<>
+					<line x1={c.x - 16} y1={springTop} x2={c.x + 16} y2={springTop} class="s-fg w2" />
+					<polyline points={zigzag(c.x, s)} class="s-sky w2" fill="none" />
+					<rect x={c.x - 14} y={springTop + 12 + s} width="28" height="20" rx="3" class="f-amber-soft s-amber w1" />
+					<text x={c.x} y={ROW1 + 50} class="t-mid t-sm f-sky">{c.g ? `reads ${(2 * c.g).toFixed(c.g > 5 ? 1 : 2)} N` : 'reads 0 N'}</text>
+				</>
+			);
+		})
+	}
+	{
+		cols.map((c) => (
+			<>
+				<polygon points={`${c.x},${ROW2} ${c.x - 8},${ROW2 + 16} ${c.x + 8},${ROW2 + 16}`} class="f-muted" />
+				<line x1={c.x - 50} y1={ROW2} x2={c.x + 50} y2={ROW2} class="s-fg w2" />
+				<rect x={c.x - 58} y={ROW2 - 16} width="16" height="16" rx="2" class="f-amber-soft s-amber w1" />
+				<rect x={c.x + 42} y={ROW2 - 16} width="16" height="16" rx="2" class="f-green-soft s-green w1" />
+				<text x={c.x} y={ROW2 + 40} class="t-mid t-sm f-green">{c.g ? 'balances 2.0 kg' : 'no pull: no answer'}</text>
+			</>
+		))
+	}
+	<text x="300" y="314" class="t-mid t-sm f-muted">Gold: the rice. Green: a 2.0 kg standard mass.</text>
+</svg>

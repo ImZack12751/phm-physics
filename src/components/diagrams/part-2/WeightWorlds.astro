@@ -1,0 +1,35 @@
+---
+// Weight of an 80 kg person in different places: the mass stays 80 kg, the weight W = mg changes.
+const M = 80;
+const worlds = [
+	{ name: 'deep space', g: 0, cls: 'f-muted' },
+	{ name: 'Moon', g: 1.62, cls: 'f-sky' },
+	{ name: 'Mars', g: 3.73, cls: 'f-rose' },
+	{ name: 'Earth', g: 9.81, cls: 'f-green' },
+	{ name: 'Erid (about 2 g)', g: 19.62, cls: 'f-amber' },
+];
+const X0 = 170, SCALE = 0.24; // px per newton
+const rowY = (i: number) => 60 + i * 46;
+---
+
+<svg class="dg" viewBox="0 0 600 320" xmlns="http://www.w3.org/2000/svg">
+	<text x="300" y="26" class="t-mid t-b">The same 80 kg, five different weights</text>
+	{[0, 500, 1000, 1500].map((w) => (
+		<>
+			<line x1={X0 + w * SCALE} y1="44" x2={X0 + w * SCALE} y2={rowY(4) + 22} class="s-grid w1" />
+			<text x={X0 + w * SCALE} y={rowY(4) + 40} class="t-mid t-sm f-muted">{w}</text>
+		</>
+	))}
+	{
+		worlds.map((w, i) => (
+			<>
+				<text x={X0 - 10} y={rowY(i) + 5} class="t-end t-sm">{w.name}</text>
+				{w.g > 0 && <rect x={X0} y={rowY(i) - 12} width={M * w.g * SCALE} height="24" rx="3" class={w.cls} />}
+				<text x={X0 + M * w.g * SCALE + 8} y={rowY(i) + 5} class="t-sm">{`${Math.round(M * w.g)} N`}</text>
+			</>
+		))
+	}
+	<line x1={X0} y1="44" x2={X0} y2={rowY(4) + 22} class="s-fg w2" />
+	<text x={X0 + 750 * SCALE} y={rowY(4) + 58} class="t-mid t-sm">weight, W = mg (newtons)</text>
+	<text x="590" y="62" class="t-end t-sm f-muted">mass: 80 kg in every row</text>
+</svg>

@@ -1,0 +1,69 @@
+---
+// Simulation: mass and weight in different places. Weight in newtons, an Earth-calibrated bathroom scale (kg), a beam balance, and a push test that works even in zero g.
+---
+
+<div
+	class="sim wl"
+	data-title="Weighing lab"
+	data-description="Choose a place (the Moon 1.62 m/s², Mars 3.73 m/s², Earth 9.81 m/s², Erid at about 2 g, 19.6 m/s², or deep space with no gravity) and a mass from 1 to 200 kg. A bar chart compares the object's weight W = mg here with its weight on Earth. The readout gives the weight, what an Earth-calibrated bathroom scale would display (W ÷ 9.81, in kg), whether a beam balance works, and the acceleration a 50 N push would give it (a = 50 ÷ m), which is the same everywhere."
+>
+	<p class="sim-title">Simulation: weighing lab</p>
+	<p class="sim-help">Pick a place and a mass. Weight changes from place to place; mass does not. The last line is the push test astronauts use to find their mass in orbit.</p>
+	<div class="sim-controls">
+		<label>Place
+			<select class="wl-p">
+				<option value="1.62">the Moon (1.62 m/s²)</option>
+				<option value="3.73">Mars (3.73 m/s²)</option>
+				<option value="9.81">Earth (9.81 m/s²)</option>
+				<option value="19.62">Erid, about 2 g (19.6 m/s²)</option>
+				<option value="0">deep space, engines off (0)</option>
+			</select>
+		</label>
+		<label>Mass m <input type="range" class="wl-m" min="1" max="200" step="1" value="80" /> <output class="wl-mv"></output></label>
+	</div>
+	<svg class="dg wl-svg" viewBox="0 0 600 200" role="img" aria-label="Weight here compared with weight on Earth"></svg>
+	<div class="readout wl-out" aria-live="polite"></div>
+</div>
+
+<script>
+	document.querySelectorAll<HTMLElement>('.sim.wl').forEach((root) => {
+		const svg = root.querySelector<SVGSVGElement>('.wl-svg')!;
+		const P = root.querySelector<HTMLSelectElement>('.wl-p')!, M = root.querySelector<HTMLInputElement>('.wl-m')!;
+		const out = root.querySelector<HTMLElement>('.wl-out')!;
+		const NS = 'http://www.w3.org/2000/svg';
+		const el = (tag: string, at: Record<string, string | number>, text?: string) => {
+			const e = document.createElementNS(NS, tag);
+			Object.entries(at).forEach(([k, v]) => e.setAttribute(k, String(v)));
+			if (text !== undefined) e.textContent = text;
+			svg.append(e);
+			return e;
+		};
+		function draw() {
+			const g = +P.value, m = +M.value;
+			root.querySelector('.wl-mv')!.textContent = `${m} kg`;
+			const W = m * g, WE = m * 9.81, WMAX = 200 * 19.62;
+			const L = 100, R = 520, px = (w: number) => L + (w / WMAX) * (R - L);
+			svg.replaceChildren();
+			for (let w = 0; w <= 4000; w += 1000) {
+				el('line', { x1: px(w), y1: 30, x2: px(w), y2: 150, class: 's-grid w1' });
+				el('text', { x: px(w), y: 168, class: 't-mid t-sm f-muted' }, String(w));
+			}
+			el('text', { x: (L + R) / 2, y: 190, class: 't-mid t-sm' }, 'weight (N)');
+			el('text', { x: L - 10, y: 68, class: 't-end t-sm' }, 'here');
+			el('text', { x: L - 10, y: 128, class: 't-end t-sm' }, 'on Earth');
+			if (W > 0) el('rect', { x: L, y: 50, width: px(W) - L, height: 26, rx: 3, class: 'f-amber' });
+			el('rect', { x: L, y: 110, width: px(WE) - L, height: 26, rx: 3, class: 'f-green' });
+			el('text', { x: px(W) + 8, y: 68, class: 't-sm' }, `${W.toFixed(0)} N`);
+			el('text', { x: px(WE) + 8, y: 128, class: 't-sm' }, `${WE.toFixed(0)} N`);
+			el('line', { x1: L, y1: 30, x2: L, y2: 150, class: 's-fg w2' });
+			out.innerHTML =
+				`<span class="k">mass</span> = <b>${m} kg</b> (the same everywhere) &nbsp; <span class="k">weight here, W = mg</span> = <b>${W.toFixed(1)} N</b><br>` +
+				`<span class="k">an Earth-calibrated bathroom scale shows</span> W ÷ 9.81 = <b>${(W / 9.81).toFixed(1)} kg</b>${g === 9.81 ? ' (correct, but only on Earth)' : ' (wrong: it assumes Earth’s gravity)'}<br>` +
+				`<span class="k">beam balance against standard masses</span>: ${g > 0 ? `balances at ${m} kg, the true mass` : 'nothing pulls either pan, so it gives no answer'}<br>` +
+				`<span class="k">push test: a 50 N push gives</span> a = 50 ÷ ${m} = <b>${(50 / m).toFixed(3)} m/s²</b> here and everywhere, so m = 50 ÷ a always works`;
+		}
+		P.addEventListener('change', draw);
+		M.addEventListener('input', draw);
+		draw();
+	});
+</script>

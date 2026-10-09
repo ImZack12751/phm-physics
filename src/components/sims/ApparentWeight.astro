@@ -1,0 +1,96 @@
+---
+// Simulation: a closed cabin (a lift or a ship) in some gravity, accelerating up or down. Shows the apparent gravity g + a and what every in-cabin experiment would measure.
+---
+
+<div
+	class="sim aw"
+	data-title="Apparent weight in a cabin"
+	data-description="A closed cabin, like a lift or a spaceship, sits somewhere with gravitational field strength g (deep space 0, the Moon 1.62, Mars 3.73, Earth 9.81 or Erid about 19.6 m/s²) and accelerates upwards at a, from −20 to +30 m/s² (negative means accelerating downwards). The apparent gravity inside is g + a. A gauge shows it from −2 g to 3 g, and an arrow shows the floor's push on an 80 kg person. The readout gives the floor's push N = m(g + a), what a bathroom scale shows, the g-force, the time for a 0.91 m drop and the period of a 1.12 m pendulum, which are identical to those on a planet with that gravity."
+>
+	<p class="sim-title">Simulation: apparent weight in a closed cabin</p>
+	<p class="sim-help">Choose where the cabin is and how fast it accelerates upwards (negative values accelerate it downwards). Everything measured inside depends only on g + a, so a person inside can't tell which combination produced it.</p>
+	<div class="sim-controls">
+		<label>Where
+			<select class="aw-g">
+				<option value="0" selected>deep space (no gravity)</option>
+				<option value="1.62">the Moon (1.62 m/s²)</option>
+				<option value="3.73">Mars (3.73 m/s²)</option>
+				<option value="9.81">Earth (9.81 m/s²)</option>
+				<option value="19.62">Erid, about 2 g (19.6 m/s²)</option>
+			</select>
+		</label>
+		<label>Upward acceleration a <input type="range" class="aw-a" min="-20" max="30" step="0.1" value="14.7" /> <output class="aw-av"></output></label>
+	</div>
+	<svg class="dg aw-svg" viewBox="0 0 600 260" role="img" aria-label="The cabin, the floor's push and a gauge of apparent gravity"></svg>
+	<div class="readout aw-out" aria-live="polite"></div>
+</div>
+
+<script>
+	const G0 = 9.81, M = 80, H = 0.91, LEN = 1.12;
+	document.querySelectorAll<HTMLElement>('.sim.aw').forEach((root) => {
+		const svg = root.querySelector<SVGSVGElement>('.aw-svg')!;
+		const Gs = root.querySelector<HTMLSelectElement>('.aw-g')!, A = root.querySelector<HTMLInputElement>('.aw-a')!;
+		const out = root.querySelector<HTMLElement>('.aw-out')!;
+		const NS = 'http://www.w3.org/2000/svg';
+		const el = (tag: string, at: Record<string, string | number>, text?: string) => {
+			const e = document.createElementNS(NS, tag);
+			Object.entries(at).forEach(([k, v]) => e.setAttribute(k, String(v)));
+			if (text !== undefined) e.textContent = text;
+			svg.append(e);
+			return e;
+		};
+		const arrow = (x: number, y1: number, y2: number, cls: string) => {
+			const d = Math.sign(y2 - y1) || 1;
+			if (Math.abs(y2 - y1) > 12) el('line', { x1: x, y1, x2: x, y2: y2 - d * 12, class: `s-${cls} w3` });
+			el('polygon', { points: `${x},${y2} ${x - 7},${y2 - d * 12} ${x + 7},${y2 - d * 12}`, class: `f-${cls}` });
+		};
+		function draw() {
+			const g = +Gs.value, a = +A.value, ge = g + a, N = Math.max(0, M * ge);
+			root.querySelector('.aw-av')!.textContent = `${a >= 0 ? '+' : ''}${a.toFixed(1)} m/s²`;
+			svg.replaceChildren();
+			// Cabin
+			const CX = 150, TOP = 30, BOT = 220;
+			el('rect', { x: CX - 80, y: TOP, width: 160, height: BOT - TOP, rx: 6, class: 's-muted w2', fill: 'none' });
+			el('rect', { x: CX - 12, y: ge >= 0 ? BOT - 62 : TOP + 2, width: 24, height: 60, rx: 10, class: 'f-sky-soft s-sky w2' });
+			el('text', { x: CX, y: BOT + 26, class: 't-mid t-sm f-muted' }, 'cabin');
+			if (a !== 0) {
+				const up = a > 0;
+				arrow(CX + 110, up ? 150 : 90, up ? 150 - Math.min(80, Math.abs(a) * 3) : 90 + Math.min(80, Math.abs(a) * 3), 'amber');
+				el('text', { x: CX + 124, y: 124, class: 't-sm f-amber' }, 'a');
+			}
+			if (ge > 0.005) {
+				const len = Math.min(110, N * 0.06);
+				arrow(CX - 40, BOT, BOT - Math.max(14, len), 'green');
+				el('text', { x: CX - 50, y: BOT - Math.max(14, len) / 2, class: 't-end t-sm f-green halo' }, 'floor');
+			} else if (ge < -0.005) {
+				el('text', { x: CX, y: TOP + 82, class: 't-mid t-sm f-rose' }, 'pressed to the ceiling');
+			} else {
+				el('text', { x: CX, y: TOP + 90, class: 't-mid t-sm f-amber' }, 'floating');
+			}
+			// Gauge of apparent gravity in units of Earth g
+			const GX = 380, GY0 = 30, GY1 = 220, gmin = -2, gmax = 3;
+			const gy = (n: number) => GY1 - ((Math.max(gmin, Math.min(gmax, n)) - gmin) / (gmax - gmin)) * (GY1 - GY0);
+			el('line', { x1: GX, y1: GY0, x2: GX, y2: GY1, class: 's-fg w2' });
+			for (let n = gmin; n <= gmax; n++) {
+				el('line', { x1: GX - 6, y1: gy(n), x2: GX + 6, y2: gy(n), class: 's-fg w1' });
+				el('text', { x: GX - 12, y: gy(n) + 4, class: 't-end t-sm f-muted' }, `${n} g`);
+			}
+			el('text', { x: GX + 16, y: gy(1) + 4, class: 't-sm f-muted' }, 'Earth');
+			el('text', { x: GX + 16, y: gy(1.5) + 4, class: 't-sm f-muted' }, 'Hail Mary');
+			el('text', { x: GX + 16, y: gy(2) + 4, class: 't-sm f-muted' }, 'Erid');
+			el('text', { x: GX + 16, y: gy(0) + 4, class: 't-sm f-muted' }, 'weightless');
+			el('polygon', { points: `${GX - 4},${gy(ge / G0)} ${GX - 18},${gy(ge / G0) - 7} ${GX - 18},${gy(ge / G0) + 7}`, class: 'f-amber' });
+			el('text', { x: GX, y: GY1 + 26, class: 't-mid t-sm' }, 'apparent gravity');
+			const fall = ge > 0.005 ? `${Math.sqrt((2 * H) / ge).toFixed(3)} s` : 'never (it floats or rises)';
+			const pend = ge > 0.005 ? `${(2 * Math.PI * Math.sqrt(LEN / ge)).toFixed(3)} s` : 'no swinging';
+			out.innerHTML =
+				`<span class="k">apparent gravity g + a</span> = ${g.toFixed(2)} + (${a.toFixed(1)}) = <b>${ge.toFixed(2)} m/s²</b> = <b>${(ge / G0).toFixed(2)} g</b><br>` +
+				`<span class="k">floor's push on an 80 kg person, N = m(g + a)</span> = <b>${N.toFixed(0)} N</b> &nbsp; <span class="k">bathroom scale shows</span> ${(N / G0).toFixed(1)} kg<br>` +
+				`<span class="k">0.91 m drop takes</span> ${fall} &nbsp; <span class="k">1.12 m pendulum period</span> ${pend}<br>` +
+				`<span class="k">inside, this is indistinguishable from</span> ${ge > 0.005 ? `standing on a world with g = ${ge.toFixed(2)} m/s²` : ge < -0.005 ? 'a world whose gravity points at the ceiling' : 'free fall: weightlessness'}`;
+		}
+		Gs.addEventListener('change', draw);
+		A.addEventListener('input', draw);
+		draw();
+	});
+</script>

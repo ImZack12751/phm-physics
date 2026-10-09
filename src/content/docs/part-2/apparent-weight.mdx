@@ -1,0 +1,336 @@
+---
+title: Apparent weight in accelerating ships
+description: Why what you feel as weight is really the push of the floor, apparent weight in lifts and rockets, weightlessness in orbit, g-forces, and the equivalence principle that left Grace unable to tell a heavy planet from an accelerating ship.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import SameFeeling from '../../../components/diagrams/part-2/SameFeeling.astro';
+import TiltedGravity from '../../../components/diagrams/part-2/TiltedGravity.astro';
+import ApparentWeight from '../../../components/sims/ApparentWeight.astro';
+
+## The scene
+
+Grace's measurements in Part 1 told him that things fall at about $15\ \text{m/s}^{2}$, roughly 1.5 times Earth's gravity. He feels it too: his body is heavy, as if he were wearing a pack half his own weight. But that number alone doesn't tell him **where** he is. He could be on a planet with stronger gravity than Earth's. Or he could be in a spaceship accelerating at 1.5 g, far from any planet. From inside a closed room, these two possibilities look exactly the same.
+
+Later in the novel, the engines shut off near Tau Ceti and the heaviness vanishes: he floats, even though a star's gravity is still pulling on him. And the ship has to stop accelerating, turn round and burn the other way to slow down. What does that feel like?
+
+All of these come down to one idea: what you feel as your weight is not gravity at all. It is the push of whatever is holding you up.
+
+## Prerequisites
+
+<Prereqs notes={{ 'mass-and-weight': 'weight W = mg, and why everything falls at the same rate', 'newtons-laws': 'free-body diagrams, the normal force and F = ma', kinematics: 'reference frames, and the dropped spanner seen from the ship and from outside' }} />
+
+## The concept
+
+### You don't feel gravity, you feel the floor
+
+Gravity pulls on every atom of your body equally, and evenly accelerated atoms don't press on each other. What you actually feel when you stand is the floor pushing up on your feet, that push passed up through your legs and spine, and your organs resting on one another. A bathroom scale measures exactly this push: the <Term id="normal-force">normal force</Term> between you and the floor.
+
+So define your <Term id="apparent-weight">apparent weight</Term> as the force with which the floor (or a seat, or a scale) has to push on you. Standing still on Earth, it equals your true weight, $mg$. Anywhere that you or the floor are accelerating, it doesn't.
+
+### Lifts
+
+Stand on a scale in a lift. Up is positive, and the lift accelerates upwards at $a$. Two forces act on you: your weight $mg$ down and the floor's push $N$ up. Newton's second law:
+
+$$
+N - mg = ma \quad\Rightarrow\quad N = m(g + a).
+$$
+
+- Accelerating upwards (starting up, or stopping on the way down): $N > mg$. You feel heavier.
+- Moving at a steady speed, up or down: $a = 0$, so $N = mg$. You feel normal. Only acceleration matters, never velocity.
+- Accelerating downwards (starting down, or stopping on the way up): $N \lt mg$. You feel lighter.
+- If the cable snaps, the lift and you both fall freely with $a = -g$. Then $N = 0$. The scale reads zero, and you float inside the falling lift.
+
+### Weightlessness is free fall
+
+Feeling no weight at all is called <Term id="weightlessness">weightlessness</Term>, and it happens whenever you and everything around you are in free fall together. Nothing needs to push on you, because everything is accelerating together.
+
+This is why astronauts on the International Space Station float. Gravity at its height, about 400 km up, is still about 88% as strong as at the ground: $8.67\ \text{m/s}^{2}$. The astronauts float not because gravity has vanished, but because the station and everyone in it are falling freely around Earth. (Part 4 explains why that fall never reaches the ground.) The same is true for Grace near Tau Ceti: with the engines off, the ship and everything in it fall together under the star's gravity, so nothing presses him to the floor.
+
+### The ship in deep space
+
+Now take the *Hail Mary* far from any star, with its engines firing at 1.5 g. Here there is essentially no gravity, so the only force on Grace is the floor's push, and it must give him the ship's acceleration: $N = ma$. With $a = 1.5 \times 9.81 = 14.7\ \text{m/s}^{2}$, that is exactly the push a floor would give him on a planet with $g = 14.7\ \text{m/s}^{2}$.
+
+<Figure caption="Free-body diagrams for an 80 kg person. On Earth, the floor's push balances the weight. In the ship at 1.5 g there is no weight at all, but the floor pushes harder than on Earth. In orbit there is weight but no floor push. You feel the floor's push, not your weight." alt="Three panels, each showing a person as a rounded blue shape. Panel 1, standing on Earth: a green arrow labelled floor 785 N points up from the floor, and a red arrow labelled weight 785 N points down; net 0, a = 0; feels 1 g. Panel 2, ship at 1.5 g in deep space: only a longer green arrow, floor 1176 N, pointing up; net 1176 N up, a = 14.7 m/s²; feels 1.5 g. Panel 3, in orbit (free fall): no floor, only a red arrow labelled weight 694 N pointing down; net 694 N down, a = 8.67 m/s²; feels weightless. Footer: what you feel is the floor's push, not your weight.">
+	<SameFeeling />
+</Figure>
+
+"Down" in the ship is towards the engines. The floors are stacked like the storeys of a building, with the engines in the basement. When the ship must slow down, it turns round so the engines point forwards, and the floors are still "down" towards the engines. In between, while the engines are off for the turn, everyone floats.
+
+### The equivalence principle
+
+Every experiment Grace does in a sealed room gives the same results whether the room is resting on a planet with $g = 14.7\ \text{m/s}^{2}$ or accelerating at $14.7\ \text{m/s}^{2}$ in deep space. Dropped objects fall at the same rate. Pendulums swing at the same rate. Scales read the same. Chapter 1.1 showed why for the dropped spanner: in the accelerating ship, it is really the floor that rushes up to meet the spanner.
+
+Einstein turned this observation into a principle, which became the starting point of his general theory of relativity (1916):
+
+> **The equivalence principle.** In a small, closed room, no experiment can tell the difference between being at rest in a uniform gravitational field $g$ and accelerating at $a = g$ with no gravity.
+
+It works only because gravitational mass equals inertial mass (Chapter 2.2). If heavy objects fell faster than light ones on a planet, but everything "fell" together in the ship (which it must, since it's really the floor moving), Grace could tell them apart with two weights. This <Term id="equivalence-principle">equivalence principle</Term> is why Einstein could describe gravity itself as a kind of acceleration.
+
+The words "small" and "closed" matter. Planets and spinning ships can be told apart from straight-line acceleration by measuring how gravity changes from place to place, which is why Grace repeats his pendulum count on a second deck. Part 3 takes this up.
+
+### G-forces
+
+Pilots and astronauts describe their apparent weight as a <Term id="g-force">g-force</Term>: the apparent gravity divided by Earth's $9.81\ \text{m/s}^{2}$. Standing on Earth is 1 g, the *Hail Mary* is 1.5 g, and an orbiting astronaut is at 0 g. NASA throttled the Space Shuttle's engines during launch so that the crew never felt more than 3 g.
+
+### When gravity and acceleration point different ways
+
+In general, both can act at once, and they need not be lined up. The apparent gravity is a vector:
+
+$$
+\mathbf{g}_{\text{eff}} = \mathbf{g} - \mathbf{a}.
+$$
+
+A train accelerating forwards on Earth is a good example. Its passengers feel gravity pointing down and slightly backwards, and a hanging strap leans towards the back of the carriage.
+
+<Figure caption="In a train accelerating forwards at 3.0 m/s², the apparent gravity is g − a: slightly stronger than g, and tilted back by 17.0°. A plumb line inside lines up with it." alt="A vector diagram. An amber arrow at top left shows the train accelerating to the right at a = 3.0 m/s². From a point, a red arrow points straight down, labelled g = 9.81 m/s² down. From its tip, a dashed amber arrow points left, labelled minus a. A green arrow from the starting point to the end of the dashed arrow is labelled g_eff = g − a, 10.26 m/s², 17.0 degrees back, with a small arc marking the angle between it and the vertical. Footer: a hanging plumb line, or a pendulum at rest, lines up with g_eff, so it leans backwards.">
+	<TiltedGravity />
+</Figure>
+
+## Formulas
+
+### Apparent weight in a vertically accelerating cabin
+
+Up positive, cabin acceleration $a$. Forces on the person: $N$ up and $mg$ down. Second law:
+
+$$
+N - mg = ma \quad\Rightarrow\quad \boxed{N = m(g + a)}
+$$
+
+The bathroom scale shows $N \div 9.81$, in "kilograms".
+
+### Apparent gravity
+
+Divide $N$ by $m$ to get the apparent (effective) gravity inside the cabin:
+
+$$
+\boxed{g_{\text{eff}} = g + a}
+$$
+
+Special cases: in deep space ($g = 0$), $g_{\text{eff}} = a$. In free fall ($a = -g$), $g_{\text{eff}} = 0$.
+
+Everything measured inside uses $g_{\text{eff}}$ in place of $g$: a drop from height $h$ takes $\sqrt{2h/g_{\text{eff}}}$, and a pendulum swings with period $2\pi\sqrt{L/g_{\text{eff}}}$.
+
+### The general vector form
+
+For any acceleration $\mathbf{a}$ of the cabin and any gravitational field $\mathbf{g}$:
+
+$$
+\boxed{\mathbf{g}_{\text{eff}} = \mathbf{g} - \mathbf{a}}
+$$
+
+Check: with $\mathbf{g}$ pointing down (magnitude $g$) and $\mathbf{a}$ pointing up (magnitude $a$), subtracting an upward vector adds a downward one, so $g_{\text{eff}} = g + a$ downwards, as before.
+
+### G-force
+
+$$
+\boxed{n = \frac{g_{\text{eff}}}{9.81\ \text{m/s}^{2}} = \frac{N}{m \times 9.81\ \text{m/s}^{2}}}
+$$
+
+## Worked examples
+
+<Example n={1} title="A bathroom scale on the Hail Mary" book>
+Grace (80 kg, our assumption) stands on a bathroom scale while the ship accelerates at 1.5 g in deep space. What force does the scale measure, and what does it display?
+
+With $g = 0$ and $a = 14.7\ \text{m/s}^{2}$:
+
+$$
+N = m(g + a) = 80\ \text{kg} \times (0 + 14.7)\ \text{m/s}^{2} = 1176\ \text{N}
+$$
+
+$$
+\text{display} = \frac{1176\ \text{N}}{9.81\ \text{N/kg}} = 120\ \text{kg}
+$$
+
+The g-force is $14.7 \div 9.81 = 1.5$. He has no weight at all here, yet the scale says he is half as heavy again as on Earth.
+</Example>
+
+<Example n={2} title="Grace in a lift on Earth">
+Before the mission, Grace stands on a scale in a lift. Find the scale's push when the lift accelerates (a) upwards at $1.2\ \text{m/s}^{2}$ and (b) downwards at $1.2\ \text{m/s}^{2}$. (c) What if the cable snapped?
+
+(a) $N = 80\ \text{kg} \times (9.81 + 1.2)\ \text{m/s}^{2} = 881\ \text{N}$, and the scale displays $881 \div 9.81 = 89.8$ kg.
+
+(b) $a = -1.2\ \text{m/s}^{2}$: $N = 80 \times (9.81 - 1.2) = 689\ \text{N}$, displayed as 70.2 kg.
+
+(c) $a = -9.81\ \text{m/s}^{2}$: $N = 80 \times 0 = 0$. He and the scale fall together, and the scale reads zero.
+</Example>
+
+<Example n={3} title="A 3 g launch">
+During a Space Shuttle launch the crew felt up to 3 g. (a) How hard did the seat push on an 80 kg astronaut? (b) If the shuttle had been climbing straight up near the ground, what would its actual acceleration have been?
+
+(a) $n = 3$, so $N = 3 \times 80\ \text{kg} \times 9.81\ \text{m/s}^{2} = 2350\ \text{N}$.
+
+(b) $g_{\text{eff}} = g + a = 3g$, so
+
+$$
+a = 3g - g = 2g = 19.6\ \text{m/s}^{2}.
+$$
+
+Gravity accounts for one of the three g's the crew feel. A rocket standing on its launch pad with the engines off already gives its crew 1 g.
+</Example>
+
+<Example n={4} title="Planet, deep space, or still on Earth?" book>
+Grace measures an apparent gravity of $14.7\ \text{m/s}^{2}$. Show that each of these gives exactly that: (a) resting on a planet with $g = 14.7\ \text{m/s}^{2}$; (b) accelerating at 1.5 g in deep space; (c) a rocket on Earth accelerating straight up at 0.5 g. What would his 0.91 m drop take in each case?
+
+(a) $g_{\text{eff}} = 14.7 + 0 = 14.7\ \text{m/s}^{2}$.
+
+(b) $g_{\text{eff}} = 0 + 14.7 = 14.7\ \text{m/s}^{2}$.
+
+(c) $g_{\text{eff}} = 9.81 + 0.5 \times 9.81 = 14.7\ \text{m/s}^{2}$.
+
+In all three,
+
+$$
+t = \sqrt{\frac{2 \times 0.91\ \text{m}}{14.7\ \text{m/s}^{2}}} = 0.352\ \text{s}.
+$$
+
+No experiment in a small closed room can choose between them. Grace must reason about which is plausible. A rocket can't climb at 0.5 g for long, and he finds no sign of a planet, so the accelerating ship is the best explanation.
+</Example>
+
+<Example n={5} title="Why astronauts float">
+An 80 kg astronaut orbits at 400 km, where $g = 8.67\ \text{m/s}^{2}$. Find the gravitational force on them, and the reading of a scale they stand on.
+
+$$
+W = mg = 80\ \text{kg} \times 8.67\ \text{N/kg} = 694\ \text{N}
+$$
+
+That is 88% of their weight on the ground. But the station and everything in it are in free fall, with acceleration $8.67\ \text{m/s}^{2}$ towards Earth. Taking "down" towards Earth as positive, $g_{\text{eff}} = g - a = 8.67 - 8.67 = 0$, so $N = 0$. The scale reads zero, and the astronaut floats.
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** Apparent weight is the normal force, $N = m(g + a)$, and lifts, rockets and aircraft change it exactly as described. Astronauts in orbit float because they are in free fall, with gravity at the space station's height still about 88% of its value at the ground. The equivalence principle is the foundation of general relativity and has been tested to extraordinary precision (Chapter 2.2). The Space Shuttle's ascent was held to 3 g for its crew.
+
+**Weir's inventions.** The ship's steady 1.5 g for years on end is fiction, made possible by Astrophage. The idea of using it as artificial gravity is sound: a ship that accelerates continuously gives its crew real-feeling weight for free. Grace's reasoning, that his measurements can't by themselves rule out a heavy planet, is exactly what the equivalence principle predicts.
+
+**How realistic are the numbers?** A sustained 1.5 g is tiring but safe; people live for years with heavy packs, and in brief bursts humans tolerate far more. The flip in the middle of the trip would mean a short spell of weightlessness while the ship turns round. Grace's 80 kg is our assumption.
+</RealVsBook>
+
+## Interactive simulation
+
+<ApparentWeight />
+
+Things to try: the default is the *Hail Mary* in deep space at 1.5 g. Now switch to Earth and find the upward acceleration that gives the same 0.352 s drop (it's 4.9 m/s²). Put the cabin on Erid with zero acceleration and compare. Then try $a = -9.81$ on Earth: the cable has snapped. Finally, push $a$ below $-g$ and watch the person get pressed to the ceiling.
+
+## Practice set
+
+<Problem n={1} level="easy">
+A 60 kg person stands on a scale in a lift accelerating upwards at $2.0\ \text{m/s}^{2}$. What force does the scale measure?
+
+<Solution>
+$N = m(g + a) = 60 \times (9.81 + 2.0) = 709$ N.
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy">
+The same lift accelerates downwards at $2.0\ \text{m/s}^{2}$. What force does the scale measure now?
+
+<Solution>
+$N = 60 \times (9.81 - 2.0) = 469$ N.
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy">
+The lift is now rising at a steady 3.0 m/s. What does the scale measure?
+
+<Solution>
+Constant velocity means $a = 0$, so $N = mg = 60 \times 9.81 = 589$ N, the same as standing still. Speed doesn't change apparent weight; only acceleration does.
+</Solution>
+</Problem>
+
+<Problem n={4} level="easy" book>
+Halfway to Tau Ceti, the engines stop while the ship turns round. What does Grace feel during the turn, and why?
+
+<Solution>
+He floats. With no thrust, nothing accelerates the ship, and he and the ship drift together. The floor no longer pushes on him, so his apparent weight is zero.
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium">
+A lift's cable snaps and its safety brakes fail. What does a 70 kg passenger's scale read as the lift falls freely? What would happen to a pen they let go of?
+
+<Solution>
+$a = -g$, so $N = m(g - g) = 0$: the scale reads zero. The pen falls at $g$, exactly as the passenger and the lift do, so it stays where it was released, floating beside them.
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium" book>
+If the *Hail Mary* had accelerated at exactly 1.0 g, how long would Grace's 0.91 m drop have taken? Could he have known he wasn't on Earth?
+
+<Solution>
+$g_{\text{eff}} = 9.81\ \text{m/s}^{2}$, so $t = \sqrt{2 \times 0.91 / 9.81} = 0.431$ s, the Earth value. No drop or pendulum experiment could tell him. He would have needed other clues.
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium" book>
+Suppose Rocky has a mass of 100 kg (our assumption). What force must the floor exert on him aboard the *Hail Mary* at 1.5 g, and on Erid (take 2.0 g)? What is the ratio?
+
+<Solution>
+Ship: $N = 100 \times 14.7 = 1470$ N. Erid: $N = 100 \times 19.62 = 1960$ N. The ratio is $1470 \div 1962 = 0.75$: the ship feels like three-quarters of his home gravity.
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium">
+A 1.12 m pendulum hangs in a lift on Earth that is accelerating upwards at $2.0\ \text{m/s}^{2}$. What is its period? Compare with a lift at rest.
+
+<Solution>
+$g_{\text{eff}} = 9.81 + 2.0 = 11.81\ \text{m/s}^{2}$, so $T = 2\pi\sqrt{1.12 / 11.81} = 1.93$ s. At rest, $T = 2\pi\sqrt{1.12 / 9.81} = 2.12$ s. The pendulum speeds up, just as it would on a heavier planet.
+</Solution>
+</Problem>
+
+<Problem n={9} level="medium">
+A rocket climbs straight up from the launch pad with an acceleration of 2.5 g. What g-force does the crew feel, and how hard does the seat push on an 80 kg astronaut?
+
+<Solution>
+$g_{\text{eff}} = g + 2.5g = 3.5g$, so they feel 3.5 g. $N = 3.5 \times 80 \times 9.81 = 2750$ N.
+</Solution>
+</Problem>
+
+<Problem n={10} level="challenging">
+A ship sits on the surface of Mars ($g = 3.73\ \text{m/s}^{2}$). What upward acceleration must it have at lift-off for its crew to feel 1.5 g?
+
+<Solution>
+$g_{\text{eff}} = g + a = 14.7$, so $a = 14.7 - 3.73 = 11.0\ \text{m/s}^{2}$, about 1.12 g of actual acceleration.
+</Solution>
+</Problem>
+
+<Problem n={11} level="challenging">
+A train on Earth accelerates forwards at $3.0\ \text{m/s}^{2}$. Find the size of the apparent gravity inside and the angle at which a hanging strap leans back from the vertical. What does a bathroom scale on the floor read for an 80 kg passenger?
+
+<Solution>
+$\mathbf{g}_{\text{eff}} = \mathbf{g} - \mathbf{a}$ has components 9.81 down and 3.0 backwards, so $g_{\text{eff}} = \sqrt{9.81^{2} + 3.0^{2}} = 10.26\ \text{m/s}^{2}$, at $\tan^{-1}(3.0 / 9.81) = 17.0°$ back from the vertical.
+
+The scale measures only the floor's vertical push, $mg = 785$ N (displaying 80 kg). The extra backward part is supplied by friction on the shoes or a hand on a pole.
+</Solution>
+</Problem>
+
+<Problem n={12} level="challenging" book>
+Could Grace's two-deck pendulum test tell a planet from a ship accelerating in a straight line? On a planet of Earth's radius (6371 km), gravity weakens with height $h$ by a fraction of about $2h/R$. Compare that fraction for $h = 4.5$ m with the 0.58% his pendulum count could detect.
+
+<Solution>
+$\dfrac{2 \times 4.5}{6.371 \times 10^{6}} = 1.4 \times 10^{-6}$, about 0.00014%: some 4000 times too small to detect. So the test can't distinguish a planet from straight-line acceleration. What it does rule out is a small spinning ship, in which "gravity" changes much faster with distance (Part 3).
+</Solution>
+</Problem>
+
+## Summary
+
+- What you feel as weight is the push of the floor: your apparent weight, $N = m(g + a)$ in a cabin accelerating upwards at $a$.
+- Only acceleration changes apparent weight. Steady motion in any direction feels the same as standing still.
+- In free fall, $N = 0$: weightlessness. Astronauts in orbit float because they are falling, not because gravity is absent.
+- In deep space, a ship accelerating at $a$ gives its crew apparent gravity $a$. The *Hail Mary*'s 1.5 g feels exactly like a planet with $g = 14.7\ \text{m/s}^{2}$.
+- **Equivalence principle:** in a small closed room, uniform gravity and acceleration can't be told apart. In general, $\mathbf{g}_{\text{eff}} = \mathbf{g} - \mathbf{a}$.
+
+**Formulas from this chapter**
+
+$$
+N = m(g + a) \qquad g_{\text{eff}} = g + a \qquad \mathbf{g}_{\text{eff}} = \mathbf{g} - \mathbf{a} \qquad n = \frac{g_{\text{eff}}}{9.81\ \text{m/s}^{2}}
+$$
+
+## Sources
+
+- Apparent weight in a lift (normal force, Example 6.3): OpenStax, *University Physics Volume 1*, [§6.1 Solving Problems with Newton's Laws](https://openstax.org/books/university-physics-volume-1/pages/6-1-solving-problems-with-newtons-laws).
+- Gravity at the space station's height (8.67 m/s² at 400 km, 88% of the surface value) and weightlessness as free fall: OpenStax, *University Physics Volume 1*, [§13.2 Gravitation Near Earth's Surface](https://openstax.org/books/university-physics-volume-1/pages/13-2-gravitation-near-earths-surface).
+- Space Shuttle crew accelerations during ascent, up to 3 g: J. P. Bagian et al., "Reach performance while wearing the Space Shuttle launch and entry suit during exposure to launch accelerations", NASA (1993). [NTRS 19940019731](https://ntrs.nasa.gov/citations/19940019731)
+- The equivalence principle and general relativity (1916): OpenStax, *University Physics Volume 1*, [§13.7 Einstein's Theory of Gravity](https://openstax.org/books/university-physics-volume-1/pages/13-7-einsteins-theory-of-gravity). Its most precise test: P. Touboul et al. (MICROSCOPE Collaboration), *Physical Review Letters* 129, 121102 (2022). [doi:10.1103/PhysRevLett.129.121102](https://doi.org/10.1103/PhysRevLett.129.121102)
+- The 1.5 g acceleration, the drop and pendulum measurements, and the two-deck test are the novel's (Andy Weir, *Project Hail Mary*, 2021), as summarised by readers. [Reader summary](https://trangnkp.substack.com/p/project-hail-mary). Approximate. Grace's 80 kg and Rocky's 100 kg are our assumptions.

@@ -1,0 +1,45 @@
+---
+// Forces on a pendulum bob pulled aside by θ = 25°. The weight splits into mg cos θ along the string
+// and mg sin θ along the arc, back towards the bottom. The tension acts along the string.
+const P = { x: 230, y: 40 }, L = 210, TH = (25 * Math.PI) / 180;
+const B = { x: P.x + L * Math.sin(TH), y: P.y + L * Math.cos(TH) };
+const W = 100; // px for mg
+const arrowHead = (x1: number, y1: number, x2: number, y2: number) => {
+	const d = Math.hypot(x2 - x1, y2 - y1), ux = (x2 - x1) / d, uy = (y2 - y1) / d;
+	return `${x2},${y2} ${x2 - 12 * ux + 6 * uy},${y2 - 12 * uy - 6 * ux} ${x2 - 12 * ux - 6 * uy},${y2 - 12 * uy + 6 * ux}`;
+};
+const tip = (len: number, ux: number, uy: number) => ({ x: B.x + len * ux, y: B.y + len * uy });
+const stop = (len: number, ux: number, uy: number) => ({ x: B.x + (len - 12) * ux, y: B.y + (len - 12) * uy });
+const radial = { ux: Math.sin(TH), uy: Math.cos(TH) }; // away from the pivot
+const tang = { ux: -Math.cos(TH), uy: Math.sin(TH) }; // along the arc, towards the bottom
+const wTip = tip(W, 0, 1), wStop = stop(W, 0, 1);
+const rTip = tip(W * Math.cos(TH), radial.ux, radial.uy), rStop = stop(W * Math.cos(TH), radial.ux, radial.uy);
+const sTip = tip(W * Math.sin(TH), tang.ux, tang.uy), sStop = stop(W * Math.sin(TH), tang.ux, tang.uy);
+const tTip = tip(W * Math.cos(TH), -radial.ux, -radial.uy), tStop = stop(W * Math.cos(TH), -radial.ux, -radial.uy);
+const bottom = { x: P.x, y: P.y + L };
+---
+
+<svg class="dg" viewBox="0 0 600 340" xmlns="http://www.w3.org/2000/svg">
+	<line x1={P.x - 40} y1={P.y} x2={P.x + 40} y2={P.y} class="s-fg w3" />
+	<line x1={P.x} y1={P.y} x2={bottom.x} y2={bottom.y + 20} class="s-muted w1 dash" />
+	<line x1={P.x} y1={P.y} x2={B.x} y2={B.y} class="s-fg w2" />
+	<path d={`M${P.x},${P.y + 50} A50,50 0 0,0 ${P.x + 50 * Math.sin(TH)},${P.y + 50 * Math.cos(TH)}`} class="s-fg w1" fill="none" />
+	<text x={P.x + 12} y={P.y + 72} class="t-sm">θ</text>
+	<text x={(P.x + B.x) / 2 + 10} y={(P.y + B.y) / 2 - 4} class="t-sm">L</text>
+	<path d={`M${bottom.x},${bottom.y} A${L},${L} 0 0,0 ${B.x},${B.y}`} class="s-violet w2 dash" fill="none" />
+	<text x={bottom.x - 6} y={bottom.y + 36} class="t-mid t-sm f-violet">s = Lθ along the arc</text>
+	<line x1={B.x} y1={B.y} x2={tStop.x} y2={tStop.y} class="s-green w3" />
+	<polygon points={arrowHead(B.x, B.y, tTip.x, tTip.y)} class="f-green" />
+	<text x={tTip.x + 12} y={tTip.y + 4} class="t-sm f-green">tension</text>
+	<line x1={B.x} y1={B.y} x2={wStop.x} y2={wStop.y} class="s-rose w3" />
+	<polygon points={arrowHead(B.x, B.y, wTip.x, wTip.y)} class="f-rose" />
+	<text x={wTip.x - 8} y={wTip.y + 18} class="t-end t-sm f-rose">weight mg</text>
+	<line x1={B.x} y1={B.y} x2={rStop.x} y2={rStop.y} class="s-muted w2 dash" />
+	<polygon points={arrowHead(B.x, B.y, rTip.x, rTip.y)} class="f-muted" />
+	<text x={rTip.x + 10} y={rTip.y + 6} class="t-sm f-muted">mg cos θ (along the string)</text>
+	<line x1={B.x} y1={B.y} x2={sStop.x} y2={sStop.y} class="s-amber w3" />
+	<polygon points={arrowHead(B.x, B.y, sTip.x, sTip.y)} class="f-amber" />
+	<text x={sTip.x - 8} y={sTip.y + 22} class="t-end t-sm f-amber">mg sin θ: restoring force</text>
+	<circle cx={B.x} cy={B.y} r="11" class="f-sky s-sky w1" />
+	<text x="580" y="60" class="t-end t-sm f-muted">pulled aside by θ = 25°</text>
+</svg>

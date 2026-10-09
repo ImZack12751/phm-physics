@@ -1,0 +1,29 @@
+---
+// Newton's third law in zero g: Grace (80 kg) pushes a crate (20 kg) with 100 N.
+// Equal and opposite forces act on different objects, so the lighter crate gets the bigger acceleration.
+const head = (x: number, y: number, dir: number) => `${x},${y} ${x - dir * 12},${y - 7} ${x - dir * 12},${y + 7}`;
+const Y = 150, CONTACT = 300;
+const grace = { x: 170, w: 90, h: 130 }, crate = { x: CONTACT, w: 110, h: 90 };
+const L = 120; // arrow length for 100 N
+---
+
+<svg class="dg" viewBox="0 0 600 320" xmlns="http://www.w3.org/2000/svg">
+	<text x="300" y="26" class="t-mid t-b">In zero g, Grace pushes a crate</text>
+	<rect x={CONTACT - grace.w} y={Y - grace.h / 2} width={grace.w} height={grace.h} rx="40" class="f-sky-soft s-sky w2" />
+	<text x={CONTACT - grace.w / 2} y={Y - 4} class="t-mid t-b">Grace</text>
+	<text x={CONTACT - grace.w / 2} y={Y + 16} class="t-mid t-sm">80 kg</text>
+	<rect x={crate.x} y={Y - crate.h / 2} width={crate.w} height={crate.h} rx="4" class="f-amber-soft s-amber w2" />
+	<text x={crate.x + crate.w / 2} y={Y - 4} class="t-mid t-b">crate</text>
+	<text x={crate.x + crate.w / 2} y={Y + 16} class="t-mid t-sm">20 kg</text>
+	<!-- force on the crate, from Grace: to the right -->
+	<line x1={crate.x + crate.w / 2} y1={Y + 72} x2={crate.x + crate.w / 2 + L - 12} y2={Y + 72} class="s-amber w3" />
+	<polygon points={head(crate.x + crate.w / 2 + L, Y + 72, 1)} class="f-amber" />
+	<text x={crate.x + crate.w / 2} y={Y + 96} class="t-sm f-amber">100 N on the crate (from Grace)</text>
+	<!-- force on Grace, from the crate: to the left -->
+	<line x1={CONTACT - grace.w / 2} y1={Y + 72 + 18} x2={CONTACT - grace.w / 2 - L + 12} y2={Y + 72 + 18} class="s-sky w3" />
+	<polygon points={head(CONTACT - grace.w / 2 - L, Y + 72 + 18, -1)} class="f-sky" />
+	<text x={CONTACT - grace.w / 2 + 4} y={Y + 72 + 42} class="t-end t-sm f-sky">100 N on Grace (from the crate)</text>
+	<text x={crate.x + crate.w + 12} y={Y + 4} class="t-sm">a = 100 ÷ 20 = 5 m/s² →</text>
+	<text x={CONTACT - grace.w - 12} y={Y + 4} class="t-end t-sm">← a = 100 ÷ 80 = 1.25 m/s²</text>
+	<text x="300" y="306" class="t-mid t-sm f-muted">Same size, opposite directions, acting on different objects: they never cancel each other.</text>
+</svg>

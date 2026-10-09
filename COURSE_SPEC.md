@@ -148,10 +148,10 @@ Teaching order follows logical dependency, not plot order. Planned chapters have
 
 | # | Chapter | Path | Prerequisites | Status |
 |---|---|---|---|---|
-| 2.1 | Newton’s laws | `part-2/newtons-laws` | – | planned |
-| 2.2 | Mass vs weight | `part-2/mass-and-weight` | – | planned |
-| 2.3 | Apparent weight in accelerating ships | `part-2/apparent-weight` | – | planned |
-| 2.4 | Pendulums and simple harmonic motion | `part-2/pendulums-shm` | – | planned |
+| 2.1 | Newton’s laws | `part-2/newtons-laws` | 1.1, 1.2, 1.3, 0.7 | written, awaiting review |
+| 2.2 | Mass vs weight | `part-2/mass-and-weight` | 2.1, 1.3 | written, awaiting review |
+| 2.3 | Apparent weight in accelerating ships | `part-2/apparent-weight` | 2.2, 2.1, 1.1 | written, awaiting review |
+| 2.4 | Pendulums and simple harmonic motion | `part-2/pendulums-shm` | 2.1, 2.3, C.3, 0.6, 1.4 | written, awaiting review |
 
 **Part 3 · Circular motion and artificial gravity**
 
@@ -282,7 +282,7 @@ Brief biology and chemistry sidebars are added only where the plot's physics dep
 Source of truth: `src/data/glossary.mjs`.
 
 <!-- AUTO:glossary -->
-120 terms.
+145 terms.
 
 | Term | id | First chapter |
 |---|---|---|
@@ -406,6 +406,31 @@ Source of truth: `src/data/glossary.mjs`.
 | Mean | `mean` | 1.4 |
 | Standard deviation | `standard-deviation` | 1.4 |
 | Period (T) | `period` | 1.4 |
+| Force | `force` | 2.1 |
+| Newton (N) | `newton` | 2.1 |
+| Net force | `net-force` | 2.1 |
+| Inertia | `inertia` | 2.1 |
+| Free-body diagram | `free-body-diagram` | 2.1 |
+| Weight (W) | `weight` | 2.1 |
+| Normal force (N) | `normal-force` | 2.1 |
+| Tension (T) | `tension` | 2.1 |
+| Equilibrium | `equilibrium` | 2.1 |
+| Mass (m) | `mass` | 2.2 |
+| Inertial mass | `inertial-mass` | 2.2 |
+| Gravitational mass | `gravitational-mass` | 2.2 |
+| Gravitational field strength (g) | `gravitational-field-strength` | 2.2 |
+| Apparent weight | `apparent-weight` | 2.3 |
+| Weightlessness | `weightlessness` | 2.3 |
+| Equivalence principle | `equivalence-principle` | 2.3 |
+| G-force | `g-force` | 2.3 |
+| Restoring force | `restoring-force` | 2.4 |
+| Hooke’s law | `hookes-law` | 2.4 |
+| Spring constant (k) | `spring-constant` | 2.4 |
+| Simple harmonic motion (SHM) | `simple-harmonic-motion` | 2.4 |
+| Amplitude (A) | `amplitude` | 2.4 |
+| Angular frequency (ω) | `angular-frequency` | 2.4 |
+| Frequency (f) | `frequency` | 2.4 |
+| Hertz (Hz) | `hertz` | 2.4 |
 <!-- /AUTO:glossary -->
 
 ---
@@ -415,7 +440,7 @@ Source of truth: `src/data/glossary.mjs`.
 Source of truth: `src/data/formulas.mjs`.
 
 <!-- AUTO:formulas -->
-75 formulas.
+87 formulas.
 
 | Formula | id | First chapter | LaTeX |
 |---|---|---|---|
@@ -494,6 +519,18 @@ Source of truth: `src/data/formulas.mjs`.
 | Uncertainty of a power law | `uncertainty-power` | 1.4 | `y = kx^{n} \;\Rightarrow\; \dfrac{\Delta y}{y} \approx n\,\dfrac{\Delta x}{x}` |
 | Mean and its uncertainty | `mean-standard-error` | 1.4 | `\bar{x} = \dfrac{1}{N}\sum_{k=1}^{N} x_{k} \qquad s = \sqrt{\dfrac{1}{N - 1}\sum_{k=1}^{N}(x_{k} - \bar{x})^{2}} \qquad \Delta\bar{x} \approx \dfrac{s}{\sqrt{N}}` |
 | Period of a pendulum | `pendulum-period` | 1.4 | `T = 2\pi\sqrt{\dfrac{L}{g}} \qquad g = \dfrac{4\pi^{2}L}{T^{2}}` |
+| Newton’s second law | `newtons-second-law` | 2.1 | `\mathbf{F}_{\text{net}} = m\mathbf{a} \qquad 1\ \text{N} = 1\ \text{kg·m/s}^{2}` |
+| Newton’s third law | `newtons-third-law` | 2.1 | `\mathbf{F}_{\text{A on B}} = -\mathbf{F}_{\text{B on A}}` |
+| Terminal velocity (drag ∝ v²) | `terminal-velocity` | 2.1 | `ma = mg - bv^{2} \qquad v_{\text{t}} = \sqrt{\dfrac{mg}{b}}` |
+| Weight | `weight` | 2.2 | `W = mg \qquad \dfrac{W_{2}}{W_{1}} = \dfrac{g_{2}}{g_{1}} \qquad 1\ \text{N/kg} = 1\ \text{m/s}^{2}` |
+| Mass from a push | `mass-from-push` | 2.2 | `m = \dfrac{F}{a}` |
+| Apparent weight and apparent gravity | `apparent-weight` | 2.3 | `N = m(g + a) \qquad g_{\text{eff}} = g + a \qquad \mathbf{g}_{\text{eff}} = \mathbf{g} - \mathbf{a}` |
+| G-force | `g-force` | 2.3 | `n = \dfrac{g_{\text{eff}}}{9.81\ \text{m/s}^{2}} = \dfrac{N}{m \times 9.81\ \text{m/s}^{2}}` |
+| Hooke’s law | `hookes-law` | 2.4 | `F = -kx` |
+| Simple harmonic motion | `shm` | 2.4 | `a = -\omega^{2}x \;\Rightarrow\; x = A\cos(\omega t) \qquad v_{\text{max}} = A\omega \qquad a_{\text{max}} = A\omega^{2}` |
+| Period, frequency and angular frequency | `shm-period` | 2.4 | `T = \dfrac{2\pi}{\omega} \qquad f = \dfrac{1}{T} \qquad \omega = 2\pi f` |
+| Mass on a spring | `mass-spring` | 2.4 | `T = 2\pi\sqrt{\dfrac{m}{k}} \qquad m = \dfrac{kT^{2}}{4\pi^{2}}` |
+| Pendulum period for wider swings | `pendulum-large-swing` | 2.4 | `T \approx 2\pi\sqrt{\dfrac{L}{g}}\left(1 + \dfrac{\theta_{0}^{2}}{16}\right)` |
 <!-- /AUTO:formulas -->
 
 ---
@@ -511,6 +548,7 @@ All constants and book figures used so far, each with its source, are in `script
 - Calculus examples reuse the ship at 1.5 g as d = 7.35t² m (v = 14.7t m/s) and the dimming model D = 2^((t−9)/4.737) %, with dD/dt = 0.1463·D per year.
 - Integral results to reuse: ∫₉²⁰ D dt = 27.34 %·yr (average dimming 2.49%); the ship's first day at 1.5 g gives 1.270 × 10⁶ m/s (0.42% c) and 0.367 au; the probe v = 0.6t² covers 200 m in 10 s. C.5 already derives v = v₀ + at and x = x₀ + v₀t + ½at² (formula `constant-acceleration`), so Part 1.2 should build on it rather than re-derive it from scratch.
 - Part 1 book figures (reader summary, trangnkp.substack.com): table drop 0.91 m in 0.348 s → 15.0 m/s²; pendulum 346 swings in 10 min (T = 1.734 s), unchanged on a deck 4.5 m lower. The novel's string length isn't used; 1.12 m is our assumption consistent with 1.5 g. Moon g 1.62, Mars 3.73 (NASA). Reaction times 0.2–0.3 s (two cited studies). Newtonian flip-and-burn to Tau Ceti at 1.5 g: 5.55 yr, peak 4.29c (set up for Part 10).
+- Part 2 figures: Dimitri's Astrophage test about 60,000 N for 100 µs from about 20 µg; fuel display 20,862 kg at 6.043 g/s (reader summary). Erid "just over double" Earth's gravity (/Film) → we use 2.0 g. ISS altitude g = 8.67 m/s², 88% (OpenStax §13.2). Shuttle crew up to 3 g (NASA NTRS 19940019731). MICROSCOPE equivalence test ~10⁻¹⁵ (PRL 129, 121102). Our assumptions, stated in the chapters: Grace 80 kg, loaded ship 2.5 × 10⁶ kg, Rocky 100 kg, mass-meter chair 600 N/m and 12.0 kg. No source found that the oscillating mass meter flew on Skylab, so the chapters don't claim it.
 - Open question for Part 5: is 2 × 10⁶ kg of fuel at 6 g/s consistent with the trip's duration (2 × 10⁶ / 0.006 s ≈ 10.6 yr of continuous burn, compared with about 3.75 yr of ship time)? Check against the novel, which may have several drives, before relying on it.
 
 ---
@@ -522,3 +560,4 @@ All constants and book figures used so far, each with its source, are in `script
 - **Session 2 (2026-10-05).** Found a deploy bug: re-running an *old* Actions run redeployed old code over newer code. The workflow now refuses to deploy any commit that isn't the tip of `main`. Wrote the first half of Part 0.5: C.1 Rates of change, C.2 Slopes of curves and limits, C.3 Derivatives and simple rules (33 practice problems, 3 simulations, 6 diagrams). They define velocity and acceleration as derivatives, ready for Part 1. Diagram labels that sit over lines use the `halo` class. Redesigned the UI again at the author's request (more detailed, space-themed and fun; see Style rules). **Next:** C.4 Area under curves, C.5 Integrals, C.6 The fundamental theorem.
 - **Session 3 (2026-10-07).** Finished Part 0.5: C.4 Area under curves (Riemann sums, sigma notation, trapezoid rule, signed area, exact parabola area via the sum of squares), C.5 Integrals (notation and properties, antiderivatives and + C, initial conditions, d/dx ln x = 1/x, constant-acceleration equations), C.6 The fundamental theorem (area-so-far function, both parts, net change, average value). 36 practice problems, 3 simulations (RiemannSum, AntiderivativeFamily, AccumulationSim) and 6 diagrams. **Next:** Part 1, starting with 1.1 Position, velocity and acceleration.
 - **Session 4 (2026-10-08).** Wrote Part 1: 1.1 Position, velocity and acceleration, 1.2 The equations of motion, 1.3 Free fall, 1.4 Measuring g (48 practice problems, 4 simulations: MotionGraphs, FlipBurnPlanner, DropLab, GLab; 8 diagrams). Made the home-page progress table collapsible and put the hero ship exactly on its route. **Next:** Part 2, starting with 2.1 Newton's laws (equivalence of the 1.5 g ship and gravity is set up in 1.1 Example 5; the pendulum's 2π is promised in 2.4).
+- **Session 5 (2026-10-09).** Wrote Part 2: 2.1 Newton's laws (forces, the three laws, free-body diagrams, terminal velocity with drag bv²), 2.2 Mass vs weight (inertial and gravitational mass, scales vs balances, measuring mass in orbit), 2.3 Apparent weight (N = m(g + a), weightlessness as free fall, the equivalence principle, g-forces, g_eff = g − a), 2.4 Pendulums and SHM (Hooke's law, a = −ω²x, derivation of T = 2π√(L/g), mass on a spring, large-swing correction). 48 practice problems, 4 simulations (DragFall, WeighingLab, ApparentWeight, PendulumLab) and 8 diagrams. All of Part 1's promises to Part 2 are kept. Tooling note: the Bash heredocs in this environment halve backslashes, so write files containing LaTeX with the Write/Edit tools. **Next:** Part 3, starting with 3.1 Angular speed (2.3 Problem 12 and 1.4 set up the two-deck spin test).

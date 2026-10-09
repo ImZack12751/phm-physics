@@ -1,0 +1,129 @@
+---
+// Simulation: a pendulum on different worlds, solved exactly (step by step) and compared with the small-angle formula T = 2π√(L/g).
+---
+
+<div
+	class="sim pl"
+	data-title="Pendulum lab"
+	data-description="A pendulum swings on Earth (9.81 m/s²), the Moon (1.62), Mars (3.73), aboard the Hail Mary at 1.5 g (14.7) or on Erid at about 2 g (19.6). Sliders set its length (0.10 to 3.00 m) and how far it is pulled aside (1° to 90°). The program solves the exact equation of motion, angular acceleration = −(g/L) sin θ, step by step, and plots the angle against time for three swings alongside the small-angle prediction θ₀ cos(ωt). An animated pendulum swings on the left unless reduced motion is requested. The readout compares the small-angle period 2π√(L/g) with the exact period, and gives the number of swings in 10 minutes, to compare with Grace's count of 346."
+>
+	<p class="sim-title">Simulation: pendulum lab</p>
+	<p class="sim-help">The amber curve is the exact motion, worked out step by step from Newton's second law. The dashed curve is the simple-harmonic prediction. For small swings they agree; pull the pendulum far aside and the exact swing falls behind.</p>
+	<div class="sim-controls">
+		<label>Where
+			<select class="pl-g">
+				<option value="14.7" selected>Hail Mary at 1.5 g (14.7 m/s²)</option>
+				<option value="9.81">Earth (9.81 m/s²)</option>
+				<option value="1.62">the Moon (1.62 m/s²)</option>
+				<option value="3.73">Mars (3.73 m/s²)</option>
+				<option value="19.62">Erid, about 2 g (19.6 m/s²)</option>
+			</select>
+		</label>
+		<label>Length L <input type="range" class="pl-l" min="0.1" max="3" step="0.01" value="1.12" /> <output class="pl-lv"></output></label>
+		<label>Pulled aside θ₀ <input type="range" class="pl-a" min="1" max="90" step="1" value="10" /> <output class="pl-av"></output></label>
+	</div>
+	<svg class="dg pl-svg" viewBox="0 0 600 280" role="img" aria-label="The pendulum and a graph of its angle against time"></svg>
+	<div class="readout pl-out" aria-live="polite"></div>
+</div>
+
+<script>
+	const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+	document.querySelectorAll<HTMLElement>('.sim.pl').forEach((root) => {
+		const svg = root.querySelector<SVGSVGElement>('.pl-svg')!;
+		const Gs = root.querySelector<HTMLSelectElement>('.pl-g')!;
+		const Ls = root.querySelector<HTMLInputElement>('.pl-l')!, As = root.querySelector<HTMLInputElement>('.pl-a')!;
+		const out = root.querySelector<HTMLElement>('.pl-out')!;
+		const NS = 'http://www.w3.org/2000/svg';
+		const el = (tag: string, at: Record<string, string | number>, text?: string, parent: Element = svg) => {
+			const e = document.createElementNS(NS, tag);
+			Object.entries(at).forEach(([k, v]) => e.setAttribute(k, String(v)));
+			if (text !== undefined) e.textContent = text;
+			parent.append(e);
+			return e;
+		};
+		let samples: number[] = [], dtS = 0.001, period = 1, rod: SVGLineElement | null = null, bob: SVGCircleElement | null = null, start = 0;
+		const PX = 85, PY = 30, R = 150;
+		function draw() {
+			const g = +Gs.value, L = +Ls.value, a0 = (+As.value * Math.PI) / 180;
+			root.querySelector('.pl-lv')!.textContent = `${L.toFixed(2)} m`;
+			root.querySelector('.pl-av')!.textContent = `${As.value}°`;
+			const w = Math.sqrt(g / L), T0 = (2 * Math.PI) / w;
+			// Exact motion: θ'' = −(g/L) sin θ, solved with small RK4 steps from rest at θ₀.
+			const dt = T0 / 2000;
+			const f = (th: number) => -(g / L) * Math.sin(th);
+			let th = a0, om = 0, t = 0, prevOm = 0, Tex = 0;
+			const tEnd = 3.6 * T0;
+			samples = [th];
+			while (t < tEnd) {
+				const k1t = om, k1o = f(th);
+				const k2t = om + (dt / 2) * k1o, k2o = f(th + (dt / 2) * k1t);
+				const k3t = om + (dt / 2) * k2o, k3o = f(th + (dt / 2) * k2t);
+				const k4t = om + dt * k3o, k4o = f(th + dt * k3t);
+				th += (dt / 6) * (k1t + 2 * k2t + 2 * k3t + k4t);
+				prevOm = om;
+				om += (dt / 6) * (k1o + 2 * k2o + 2 * k3o + k4o);
+				t += dt;
+				samples.push(th);
+				// Released at +θ₀ the angular velocity goes negative, turns positive at −θ₀ (half a period),
+				// and turns negative again back at +θ₀: that moment is one full period.
+				if (prevOm > 0 && om <= 0 && !Tex) Tex = t - (dt * om) / (om - prevOm);
+			}
+			dtS = dt;
+			period = Tex || T0;
+			svg.replaceChildren();
+			// Graph of angle against time
+			const GL = 220, GR = 585, GT = 30, GB = 230, tMax = 3 * Math.max(Tex, T0);
+			const gx = (tt: number) => GL + (tt / tMax) * (GR - GL), gy = (a: number) => (GT + GB) / 2 - (a / a0) * ((GB - GT) / 2) * 0.9;
+			el('line', { x1: GL, y1: (GT + GB) / 2, x2: GR, y2: (GT + GB) / 2, class: 's-fg w1' });
+			el('line', { x1: GL, y1: GT, x2: GL, y2: GB, class: 's-fg w1' });
+			el('text', { x: GL - 6, y: gy(a0) + 4, class: 't-end t-sm f-muted' }, `+${As.value}°`);
+			el('text', { x: GL - 6, y: gy(-a0) + 4, class: 't-end t-sm f-muted' }, `−${As.value}°`);
+			for (let k = 0; k <= 3; k++) el('text', { x: gx(k * Math.max(Tex, T0)), y: GB + 18, class: 't-mid t-sm f-muted' }, `${(k * Math.max(Tex, T0)).toFixed(2)}`);
+			el('text', { x: (GL + GR) / 2, y: GB + 38, class: 't-mid t-sm' }, 'time (s)');
+			const ideal = Array.from({ length: 241 }, (_, i) => {
+				const tt = (tMax * i) / 240;
+				return `${i ? 'L' : 'M'}${gx(tt).toFixed(1)},${gy(a0 * Math.cos(w * tt)).toFixed(1)}`;
+			}).join(' ');
+			el('path', { d: ideal, class: 's-sky w2 dash', fill: 'none' });
+			const step = Math.max(1, Math.floor(samples.length / 400));
+			let d = '';
+			for (let i = 0; i < samples.length; i += step) {
+				const tt = i * dt;
+				if (tt > tMax) break;
+				d += `${d ? 'L' : 'M'}${gx(tt).toFixed(1)},${gy(samples[i]).toFixed(1)}`;
+			}
+			el('path', { d, class: 's-amber w3', fill: 'none' });
+			// The pendulum itself
+			el('line', { x1: PX - 30, y1: PY, x2: PX + 30, y2: PY, class: 's-fg w3' });
+			el('line', { x1: PX, y1: PY, x2: PX, y2: PY + R + 10, class: 's-muted w1 dash' });
+			const bx = PX + R * Math.sin(a0), by = PY + R * Math.cos(a0);
+			if (reduce) el('line', { x1: PX, y1: PY, x2: PX - R * Math.sin(a0), y2: PY + R * Math.cos(a0), class: 's-muted w1', opacity: 0.5 });
+			rod = el('line', { x1: PX, y1: PY, x2: bx, y2: by, class: 's-fg w2' }) as SVGLineElement;
+			bob = el('circle', { cx: bx, cy: by, r: 10, class: 'f-sky' }) as SVGCircleElement;
+			el('text', { x: PX, y: 262, class: 't-mid t-sm f-muted' }, `L = ${L.toFixed(2)} m (drawn to fit)`);
+			start = performance.now();
+			const Tuse = Tex || T0;
+			out.innerHTML =
+				`<span class="k">small-angle period 2π√(L/g)</span> = <b>${T0.toFixed(4)} s</b> &nbsp; <span class="k">exact period</span> = <b>${Tuse.toFixed(4)} s</b> (${(((Tuse - T0) / T0) * 100).toFixed(2)}% longer)<br>` +
+				`<span class="k">swings in 10 minutes</span> = 600 ÷ ${Tuse.toFixed(4)} = <b>${(600 / Tuse).toFixed(1)}</b> &nbsp; (Grace counted 346)<br>` +
+				`<span class="k">g worked out with the small-angle formula</span> = 4π²L ÷ T² = ${((4 * Math.PI * Math.PI * L) / (Tuse * Tuse)).toFixed(3)} m/s² (true ${g} m/s²)`;
+		}
+		function frame(now: number) {
+			if (rod && bob && samples.length) {
+				// Loop over exactly one exact period, so the swing repeats without a jump.
+				const t = ((((now - start) / 1000) % period) + period) % period;
+				const th = samples[Math.min(samples.length - 1, Math.round(t / dtS))];
+				const x = PX + R * Math.sin(th), y = PY + R * Math.cos(th);
+				rod.setAttribute('x2', x.toFixed(1));
+				rod.setAttribute('y2', y.toFixed(1));
+				bob.setAttribute('cx', x.toFixed(1));
+				bob.setAttribute('cy', y.toFixed(1));
+			}
+			requestAnimationFrame(frame);
+		}
+		Gs.addEventListener('change', draw);
+		[Ls, As].forEach((i) => i.addEventListener('input', draw));
+		draw();
+		if (!reduce) requestAnimationFrame(frame);
+	});
+</script>
