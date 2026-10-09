@@ -1,0 +1,45 @@
+---
+// Centripetal force is not a new kind of force: something real must pull or push inwards.
+// A string's tension, Earth's gravity on the Moon, the floor of a centrifuge.
+const head = (x1: number, y1: number, x2: number, y2: number) => {
+	const L = Math.hypot(x2 - x1, y2 - y1), ux = (x2 - x1) / L, uy = (y2 - y1) / L;
+	return `${x2},${y2} ${x2 - 12 * ux + 6 * uy},${y2 - 12 * uy - 6 * ux} ${x2 - 12 * ux - 6 * uy},${y2 - 12 * uy + 6 * ux}`;
+};
+const Y = 165, R = 70;
+const panels = [
+	{ x: 100, title: 'ball on a string', force: 'tension', obj: 'ball' },
+	{ x: 300, title: 'the Moon', force: 'Earth’s gravity', obj: 'Moon' },
+	{ x: 500, title: 'centrifuge crew', force: 'floor’s push', obj: 'person' },
+];
+---
+
+<svg class="dg" viewBox="0 0 600 310" xmlns="http://www.w3.org/2000/svg">
+	{
+		panels.map((p) => {
+			const o = { x: p.x + R, y: Y };
+			return (
+				<>
+					<text x={p.x} y="30" class="t-mid t-b">{p.title}</text>
+					<circle cx={p.x} cy={Y} r={R} class="s-muted w1 dash" fill="none" />
+					{p.obj === 'Moon' ? <circle cx={p.x} cy={Y} r="16" class="f-sky-soft s-sky w1" /> : <circle cx={p.x} cy={Y} r="4" class="f-fg" />}
+					{p.obj === 'Moon' && <text x={p.x} y={Y + 4} class="t-mid t-sm">Earth</text>}
+					{p.obj === 'ball' && <line x1={p.x} y1={Y} x2={o.x} y2={o.y} class="s-fg w1" />}
+					{p.obj === 'person' && <path d={`M${p.x + R + 6},${Y - 40} A${R + 6},${R + 6} 0 0,1 ${p.x + R + 6},${Y + 40}`} class="s-fg w3" fill="none" />}
+					{p.obj === 'person' ? (
+						<rect x={o.x - 22} y={o.y - 6} width="20" height="12" rx="5" class="f-sky-soft s-sky w1" />
+					) : (
+						<circle cx={o.x} cy={o.y} r={p.obj === 'Moon' ? 8 : 7} class="f-amber" />
+					)}
+					<line x1={o.x - (p.obj === 'person' ? 22 : 8)} y1={o.y} x2={o.x - 40} y2={o.y} class="s-rose w3" />
+					<polygon points={head(o.x, o.y, o.x - 52, o.y)} class="f-rose" />
+					<text x={p.x + (p.obj === 'person' ? 14 : 30)} y={Y + 30} class="t-mid t-sm f-rose">{p.force}</text>
+					<line x1={o.x} y1={o.y - 10} x2={o.x} y2={o.y - 46} class="s-green w2" />
+					<polygon points={head(o.x, o.y - 10, o.x, o.y - 58)} class="f-green" />
+					<text x={o.x + 8} y={o.y - 50} class="t-sm f-green">v</text>
+				</>
+			);
+		})
+	}
+	<text x="300" y="270" class="t-mid t-sm">Each needs a real inward force of size mv²/r = mω²r.</text>
+	<text x="300" y="292" class="t-mid t-sm f-muted">Red: the force pulling or pushing towards the centre. Green: the velocity.</text>
+</svg>

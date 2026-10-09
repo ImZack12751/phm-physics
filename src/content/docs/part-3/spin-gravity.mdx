@@ -1,0 +1,356 @@
+---
+title: Designing spin gravity
+description: How spinning makes artificial gravity, the trade-off between radius and spin rate, head-to-foot gravity differences and comfort limits, how two halves of a ship balance on a cable, and how Grace's pendulum ruled out a centrifuge.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import SpinShipModel from '../../../components/diagrams/part-3/SpinShipModel.astro';
+import RadiusRpm from '../../../components/diagrams/part-3/RadiusRpm.astro';
+import SpinGravityDesigner from '../../../components/sims/SpinGravityDesigner.astro';
+
+## The scene
+
+This chapter brings together two moments in the novel.
+
+The first is early on. Grace, newly awake and unsure where he is, wonders whether his weight comes from being inside a huge centrifuge. He knows a centrifuge has a tell-tale sign: its "gravity" gets stronger the further you are from the centre. So he times his pendulum on two decks, 4.5 m apart, and gets the same count, 346 swings in ten minutes, on both. From that he works out that any centrifuge would have to be enormous, and concludes he is in an accelerating ship.
+
+The second comes at Tau Ceti. With the engines off, everyone aboard would float for as long as the ship stayed there, so the *Hail Mary* turns into a centrifuge on purpose: it splits into two sections joined by cables and spins them around each other. How do you design such a thing, and how fast must it turn?
+
+## Prerequisites
+
+<Prereqs notes={{ 'centripetal-acceleration': 'a = ω²r and the inward force a floor must supply', 'apparent-weight': 'what you feel as weight is the push of the floor', 'measuring-g': 'Grace’s pendulum count and its uncertainty', 'pendulums-shm': 'a pendulum’s period depends on the apparent gravity' }} />
+
+## The concept
+
+### How spinning makes gravity
+
+Stand on the inside of the outer wall of a spinning wheel in space. To carry you round in a circle, the wall must push you towards the centre with a force $m\omega^{2}r$ (Chapter 3.2). That push from the floor beneath your feet is exactly what you feel as weight (Chapter 2.3). So the spinning habitat gives you an apparent gravity
+
+$$
+g_{\text{eff}} = \omega^{2}r,
+$$
+
+pointing **outwards**, away from the axis. "Down" is towards the rim, and "up" is towards the centre. Making weight this way is called <Term id="artificial-gravity">artificial gravity</Term>.
+
+From inside, it feels like real gravity: dropped things fall to the floor, pendulums swing, and scales read your weight. But it differs from a planet's gravity in three ways that matter for design and that a careful experimenter can detect:
+
+1. It depends on the distance from the axis, $g_{\text{eff}} \propto r$. Climb towards the centre and you get lighter, until you float at the axis.
+2. Things moving inside the habitat are deflected sideways (the Coriolis effect, Chapter 3.4).
+3. Turning your head while spinning can make you dizzy, and that limits how fast a habitat can comfortably spin.
+
+### Radius against spin rate
+
+To get a chosen gravity $g$ at the floor, you can use a big habitat spinning slowly or a small one spinning fast. Rearranging $g = \omega^{2}r$:
+
+$$
+r = \frac{g}{\omega^{2}}.
+$$
+
+Halving the spin rate needs four times the radius. The rim speed is $v = \omega r = \sqrt{gr}$.
+
+<Figure caption="The radius needed for 1 g at each spin rate, r = g/ω². Slow, comfortable spins need huge structures: 895 m at 1 rpm. The 1970s design studies kept to about 2 rpm or less. A 2017 review argues that up to 4 rpm (56 m) is acceptable after adaptation. Our model of the Hail Mary's centrifuge spins at 3.39 rpm with the crew 78 m out." alt="A graph with spin rate in rpm from 0.5 to 8 along the bottom and the radius needed for 1 g on a logarithmic scale from 10 m to 5000 m up the side. A red curve falls steeply, labelled r = g over omega squared. Points on it: 1 rpm, 895 m; 2 rpm, 224 m; 4 rpm, 56 m; 6 rpm, 25 m; and a blue point, our model, 78 m at 3.39 rpm. A green band covers spin rates up to 2 rpm, labelled 1970s rule: 2 rpm or less. An amber band from 2 to 4 rpm is labelled up to 4 rpm.">
+	<RadiusRpm />
+</Figure>
+
+### Comfort limits
+
+Why not just spin a small habitat fast? Because of the inner ear. Turning your head inside a fast-spinning room confuses the balance organs and can cause motion sickness. The large NASA and Stanford space-settlement studies of the 1970s assumed spin rates of no more than about 1 to 2 rpm, which forces radii of hundreds of metres. A 2017 review of the experimental evidence by Al Globus and Theodore Hall argued that this was too cautious: up to 4 rpm (a 56 m radius for 1 g) should be acceptable after some adaptation, and up to 6 rpm (25 m) for residents who have adapted.
+
+### Head-to-foot differences
+
+Because $g_{\text{eff}} \propto r$, your head, being nearer the axis than your feet, is slightly lighter. This difference across a body is a <Term id="gravity-gradient">gravity gradient</Term>. For a person of height $h$ standing on a floor at radius $r$:
+
+$$
+\frac{g_{\text{feet}} - g_{\text{head}}}{g_{\text{feet}}} = \frac{\omega^{2}r - \omega^{2}(r - h)}{\omega^{2}r} = \frac{h}{r}.
+$$
+
+In a small habitat this becomes noticeable: at $r = 25$ m, a 1.8 m person's head is 7% lighter than their feet. On Earth the equivalent difference is less than a millionth.
+
+### Two halves on a cable
+
+A wheel is not the only way to make spin gravity. Two masses joined by a cable can spin around each other, like a pair of dancers holding hands. That is the *Hail Mary*'s design: the crew section and the heavy rear section, with the engines and fuel, separate and spin on cables.
+
+Both ends must turn at the same $\omega$, since the cable keeps them on opposite sides. The cable pulls each end towards the other with the same tension $T$ (Newton's third law, applied along the cable). That tension is each end's centripetal force:
+
+$$
+T = m_{1}\omega^{2}r_{1} = m_{2}\omega^{2}r_{2} \quad\Rightarrow\quad m_{1}r_{1} = m_{2}r_{2}.
+$$
+
+The pair spins about the point where this balance holds, like a seesaw balancing a heavy child near the pivot against a light one far out. That point is called the <Term id="centre-of-mass">centre of mass</Term>. The heavier section circles close to it, and the lighter one swings far out. With a total cable length $L = r_{1} + r_{2}$:
+
+$$
+r_{1} = L\,\frac{m_{2}}{m_{1} + m_{2}} \qquad r_{2} = L\,\frac{m_{1}}{m_{1} + m_{2}}.
+$$
+
+In our model the crew section is the lighter part, so it gets the larger radius, and so the larger artificial gravity.
+
+One more thing must change. Under thrust, "down" in the ship points towards the engines. In the spin, "down" for the crew section points outwards, away from the rear section, so the opposite way. For the crew's floors to work as floors, the crew section must be turned end for end before the spin starts.
+
+<Figure caption="Our model of the Hail Mary in centrifuge mode. The crew section (2.0 × 10⁵ kg) and the rear section (6.0 × 10⁵ kg) are joined by 104 m of cable and spin about their centre of mass. The lighter crew section swings 78 m out and gets 1 g; the rear section, 26 m out, gets 0.33 g. Each section's floor is on its outer side." alt="A horizontal cable joins a small blue box on the left, labelled crew section, 2.0 times 10 to the 5 kg, to a larger amber box on the right, labelled rear section (engines, fuel), 6.0 times 10 to the 5 kg. The cable is labelled cables, 104 m in all. A dot on the cable, closer to the rear section, is labelled centre of mass. A green curved arrow above shows the rotation, omega = 0.355 rad/s (3.39 rpm). Dimension lines below show r = 78 m from the centre of mass to the crew section and 26 m to the rear section. Red arrows point outwards from each section: down, 1 g at the crew section, and 0.33 g at the rear section. Footer: each section's floor is on its outer side, away from the centre.">
+	<SpinShipModel />
+</Figure>
+
+### Grace's test: is this a centrifuge?
+
+Now return to Grace's first puzzle. In a centrifuge, a deck 4.5 m nearer the axis has gravity smaller by the fraction $4.5/r$. A pendulum's swing count in a fixed time is proportional to $\sqrt{g}$ (Chapter 2.4), so it would change too. Grace counts 346 swings on both decks. If he could have miscounted by one swing, then $g$ could differ by at most $(347/346)^{2} - 1 = 0.58\%$ (Chapter 1.4). So
+
+$$
+\frac{4.5\ \text{m}}{r} \le 0.0058 \quad\Rightarrow\quad r \ge 780\ \text{m}.
+$$
+
+A centrifuge giving 14.7 m/s² at that radius would have a rim moving at about 107 m/s. That is possible in principle, but implausible as a home for one man. Together with no sign of a planet (Chapter 2.3), Grace concludes, correctly, that he is in a ship accelerating at 1.5 g.
+
+## Formulas
+
+### Artificial gravity
+
+From the floor's centripetal push, $N = m\omega^{2}r$, divided by $m$:
+
+$$
+\boxed{g_{\text{eff}} = \omega^{2}r}, \quad \text{pointing away from the axis}
+$$
+
+### Design relations
+
+Rearranging for the radius, spin rate and rim speed needed for a gravity $g$:
+
+$$
+\boxed{r = \frac{g}{\omega^{2}} \qquad \omega = \sqrt{\frac{g}{r}} \qquad v = \sqrt{gr}}
+$$
+
+### Gravity gradient
+
+$$
+\boxed{\frac{\Delta g}{g} = \frac{\Delta r}{r}}
+$$
+
+### Two masses on a cable
+
+From equal tension at both ends, $m_{1}\omega^{2}r_{1} = m_{2}\omega^{2}r_{2}$:
+
+$$
+\boxed{m_{1}r_{1} = m_{2}r_{2} \qquad r_{1} = L\,\frac{m_{2}}{m_{1} + m_{2}}} \qquad T = m_{1}\omega^{2}r_{1}
+$$
+
+## Worked examples
+
+<Example n={1} title="Radius and rim speed for 1 g">
+Find the radius and rim speed for 1 g at 1, 2, 4 and 6 rpm.
+
+At 4 rpm: $\omega = 4 \times \dfrac{2\pi}{60} = 0.419$ rad/s, so
+
+$$
+r = \frac{g}{\omega^{2}} = \frac{9.81\ \text{m/s}^{2}}{(0.419\ \text{rad/s})^{2}} = 55.9\ \text{m} \qquad v = \sqrt{gr} = \sqrt{9.81 \times 55.9}\ \text{m/s} = 23.4\ \text{m/s}
+$$
+
+The same steps give:
+
+| Spin rate | Radius | Rim speed |
+|---|---|---|
+| 1 rpm | 895 m | 93.7 m/s |
+| 2 rpm | 224 m | 46.8 m/s |
+| 4 rpm | 55.9 m | 23.4 m/s |
+| 6 rpm | 24.8 m | 15.6 m/s |
+
+Each halving of the spin rate quadruples the radius and doubles the rim speed.
+</Example>
+
+<Example n={2} title="Our model of the Hail Mary's centrifuge" book>
+Suppose the crew section has a mass of $2.0 \times 10^{5}$ kg and the rear section $6.0 \times 10^{5}$ kg (our assumptions), joined by cables 104 m long in all (a figure from fan summaries of the novel, not confirmed). Find each section's distance from the centre, the spin rate that gives the crew 1 g, the gravity in the rear section, and the cable tension.
+
+$$
+r_{\text{crew}} = 104\ \text{m} \times \frac{6.0 \times 10^{5}}{8.0 \times 10^{5}} = 78\ \text{m} \qquad r_{\text{rear}} = 104 - 78 = 26\ \text{m}
+$$
+
+$$
+\omega = \sqrt{\frac{9.81\ \text{m/s}^{2}}{78\ \text{m}}} = 0.355\ \text{rad/s} = 3.39\ \text{rpm}
+$$
+
+$$
+g_{\text{rear}} = \omega^{2}r_{\text{rear}} = 0.1258\ \text{s}^{-2} \times 26\ \text{m} = 3.27\ \text{m/s}^{2} = 0.33\ \text{g}
+$$
+
+The cable tension equals the crew section's centripetal force:
+
+$$
+T = m\omega^{2}r = 2.0 \times 10^{5}\ \text{kg} \times 9.81\ \text{m/s}^{2} = 1.96 \times 10^{6}\ \text{N}
+$$
+
+That is the weight, on Earth, of 200 tonnes, carried by the cables continuously. Check: $6.0 \times 10^{5} \times 3.27 = 1.96 \times 10^{6}$ N at the other end too. ✓
+</Example>
+
+<Example n={3} title="Head and feet in the crew section" book>
+In our model, how much lighter is a 1.80 m person's head than their feet?
+
+The head is at $r = 78 - 1.8 = 76.2$ m:
+
+$$
+g_{\text{head}} = 9.81 \times \frac{76.2}{78}\ \text{m/s}^{2} = 9.58\ \text{m/s}^{2} \qquad \frac{\Delta g}{g} = \frac{1.8}{78} = 2.3\%
+$$
+
+Small enough not to notice when standing still, but enough that a ball tossed upwards behaves slightly oddly (Chapter 3.4).
+</Example>
+
+<Example n={4} title="Grace's two-deck test" book>
+Grace's pendulum count, 346 swings in 10 minutes, is the same on two decks 4.5 m apart. If he could miscount by one swing, how large would a centrifuge giving 14.7 m/s² have to be? How fast would it turn, and how fast would its rim move?
+
+The largest possible change in $g$ is $(347/346)^{2} - 1 = 0.00579$. In a centrifuge, $\Delta g/g = 4.5/r$, so
+
+$$
+r \ge \frac{4.5\ \text{m}}{0.00579} = 777\ \text{m}
+$$
+
+$$
+\omega = \sqrt{\frac{14.7}{777}} = 0.138\ \text{rad/s} = 1.31\ \text{rpm} \qquad v = \sqrt{14.7 \times 777}\ \text{m/s} = 107\ \text{m/s}
+$$
+
+In the novel, Grace's own estimate is about 700 m (as summarised by readers), which matches to within the roughness of the criterion. Either way, it is a structure well over a kilometre across.
+</Example>
+
+<Example n={5} title="Climbing towards the axis" book>
+In our model, Grace climbs from the crew floor (78 m) along the cable towards the centre of mass. What gravity does he feel halfway? At the centre?
+
+Since $g_{\text{eff}} = \omega^{2}r$ is proportional to $r$, halfway ($r = 39$ m) he feels half the floor's gravity: $0.5$ g, or $4.9\ \text{m/s}^{2}$. At the centre, $r = 0$, he feels nothing and floats. Unlike on a planet, "climbing" in a centrifuge gets easier the higher you go.
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** Artificial gravity by rotation follows directly from $a = \omega^{2}r$. The gravity gradient and the balance of two masses about their centre of mass are standard mechanics. Spinning tethered spacecraft is real: in 1966, Gemini 11 and its target rocket, joined by a 30 m tether, made the first artificial gravity in space, though only a tiny fraction of a g. The comfort limits come from experiments in rotating rooms on Earth, summarised by Globus and Hall (2017).
+
+**Weir's inventions.** A ship that splits into two sections on cables to make gravity is the novel's design, as described in reader guides. The cable length of about 104 m appears only in fan summaries, and the section masses ($2.0 \times 10^{5}$ and $6.0 \times 10^{5}$ kg) are our assumptions, so our 78 m and 3.39 rpm are illustrations, not the book's numbers. Grace's two-deck test and his estimate of about 700 m are the novel's, as summarised by readers.
+
+**How realistic are the numbers?** A spin of about 3 to 4 rpm at a radius of several tens of metres is right in the range that recent studies consider tolerable. A cable tension of about two million newtons, the weight of 200 tonnes on Earth, held for months on end, is a serious engineering demand. Grace's deduction is sound physics: a pendulum on two decks really can distinguish a small spinning habitat from straight-line acceleration.
+</RealVsBook>
+
+## Interactive simulation
+
+<SpinGravityDesigner />
+
+Things to try: the default is our model, 78 m at 3.39 rpm, which gives 1.00 g. Find the radius that gives 1 g at 1.31 rpm (about 520 m), then raise the gravity to Grace's 14.7 m/s² and check the two-deck test. Now try a small 20 m habitat: what spin rate gives 1 g, and what does the comfort rating say?
+
+## Practice set
+
+<Problem n={1} level="easy">
+A habitat with its floor 100 m from the axis spins at 3.0 rpm. What gravity does the floor provide?
+
+<Solution>
+$\omega = 3.0 \times \dfrac{2\pi}{60} = 0.314$ rad/s. $g_{\text{eff}} = \omega^{2}r = 0.0987 \times 100 = 9.87\ \text{m/s}^{2}$, almost exactly 1 g.
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy">
+What radius gives 1 g at 2.0 rpm?
+
+<Solution>
+$\omega = 0.209$ rad/s. $r = \dfrac{9.81}{0.209^{2}} = 224$ m.
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy">
+In a spinning habitat, which direction is "down"? Where would you float?
+
+<Solution>
+Down is outwards, away from the axis, towards the rim. At the axis itself, $r = 0$, so $g_{\text{eff}} = 0$ and you float.
+</Solution>
+</Problem>
+
+<Problem n={4} level="easy" book>
+In our model, at what distance from the centre would Grace feel 0.5 g?
+
+<Solution>
+$g_{\text{eff}} \propto r$, and 1 g is at 78 m, so 0.5 g is at 39 m.
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium">
+Find the rim speed of a 224 m habitat giving 1 g.
+
+<Solution>
+$v = \sqrt{gr} = \sqrt{9.81 \times 224} = 46.9$ m/s.
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium">
+In a 25 m habitat, by what percentage is a 1.8 m person's head lighter than their feet? Compare with our 78 m model.
+
+<Solution>
+$\dfrac{1.8}{25} = 7.2\%$. In the model, $\dfrac{1.8}{78} = 2.3\%$.
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium" book>
+To prepare for a Mars landing, the crew want Mars gravity ($3.73\ \text{m/s}^{2}$) in the crew section of our model (78 m). What spin rate is needed?
+
+<Solution>
+$\omega = \sqrt{\dfrac{3.73}{78}} = 0.219$ rad/s, which is $0.219 \times \dfrac{60}{2\pi} = 2.09$ rpm.
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium" book>
+If our model were spun to give the crew 1.5 g instead, what spin rate would be needed, and what would the cable tension be?
+
+<Solution>
+$\omega = \sqrt{\dfrac{14.7}{78}} = 0.434$ rad/s, or 4.15 rpm. $T = 2.0 \times 10^{5} \times 14.7 = 2.94 \times 10^{6}$ N, 1.5 times as much.
+</Solution>
+</Problem>
+
+<Problem n={9} level="medium">
+Two equal masses on a 104 m cable spin about their centre. Where is the centre, and what spin rate gives each 1 g?
+
+<Solution>
+Equal masses: each is 52 m from the centre. $\omega = \sqrt{\dfrac{9.81}{52}} = 0.434$ rad/s, or 4.15 rpm.
+</Solution>
+</Problem>
+
+<Problem n={10} level="challenging">
+Two masses on a cable are in the ratio 3 : 1. Show that the heavier one circles 3 times closer to the centre, and find the ratio of the gravities felt at the two ends.
+
+<Solution>
+Equal tension: $m_{1}\omega^{2}r_{1} = m_{2}\omega^{2}r_{2}$, so $\dfrac{r_{1}}{r_{2}} = \dfrac{m_{2}}{m_{1}} = \dfrac{1}{3}$ for the heavier mass $m_{1} = 3m_{2}$.
+
+The gravities are $\omega^{2}r$, so they are in the same ratio: the heavy end feels a third of the light end's gravity. (In our model, 0.33 g against 1 g.)
+</Solution>
+</Problem>
+
+<Problem n={11} level="challenging" book>
+Suppose Grace could only be sure of his count to within two swings. What is the smallest centrifuge radius that would then be consistent with identical counts on decks 4.5 m apart?
+
+<Solution>
+$\dfrac{\Delta g}{g} = \left(\dfrac{348}{346}\right)^{2} - 1 = 0.0116$. So $r \ge \dfrac{4.5}{0.0116} = 388$ m. A less precise count rules out only smaller centrifuges, but 388 m is still huge.
+</Solution>
+</Problem>
+
+<Problem n={12} level="challenging">
+A habitat must give at least 0.9 g at the floor, spin at no more than 4 rpm, and keep a 1.8 m person's head within 5% of their feet's gravity. What is the smallest radius that meets all three?
+
+<Solution>
+Gradient: $\dfrac{1.8}{r} \le 0.05$ needs $r \ge 36$ m.
+
+Spin: at 4 rpm ($\omega = 0.419$ rad/s), $0.9g$ needs $r = \dfrac{0.9 \times 9.81}{0.419^{2}} = 50.3$ m, and spinning slower would need a larger radius still.
+
+The spin limit is the stricter condition: $r \ge 50.3$ m.
+</Solution>
+</Problem>
+
+## Summary
+
+- A spinning habitat's floor pushes you inwards with $m\omega^{2}r$, which feels like gravity $g_{\text{eff}} = \omega^{2}r$ pointing outwards.
+- Design: $r = g/\omega^{2}$, rim speed $\sqrt{gr}$. Halving the spin rate quadruples the radius.
+- Gravity grows with distance from the axis, so the head is lighter than the feet by $h/r$, and you float at the axis.
+- Comfort limits spin rates: 1970s studies assumed 2 rpm or less; recent work suggests up to 4 rpm (56 m for 1 g) after adaptation.
+- Two masses on a cable spin about their centre of mass, with $m_{1}r_{1} = m_{2}r_{2}$. The lighter end swings further out and feels more gravity.
+- Grace's identical pendulum counts 4.5 m apart rule out any centrifuge smaller than about 780 m.
+
+**Formulas from this chapter**
+
+$$
+g_{\text{eff}} = \omega^{2}r \qquad r = \frac{g}{\omega^{2}} \qquad v = \sqrt{gr} \qquad \frac{\Delta g}{g} = \frac{\Delta r}{r} \qquad m_{1}r_{1} = m_{2}r_{2}
+$$
+
+## Sources
+
+- OpenStax, *University Physics Volume 1*, [§6.3 Centripetal Force](https://openstax.org/books/university-physics-volume-1/pages/6-3-centripetal-force).
+- Comfort limits on spin rate (the 1970s 1–2 rpm assumption; up to 4 rpm at 56 m and 6 rpm at 25 m): A. Globus and T. Hall, "Space Settlement Population Rotation Tolerance", *NSS Space Settlement Journal* (2017). [nss.org PDF](https://space.nss.org/wp-content/uploads/NSS-JOURNAL-Space-Settlement-Population-Rotation-Tolerance.pdf). The 1970s study: NASA SP-413, *Space Settlements: A Design Study* (1977). [NTRS 19770014162](https://ntrs.nasa.gov/citations/19770014162)
+- Gemini 11's tethered spin, the first artificial gravity in space: NASA, [Gemini XI](https://www.nasa.gov/mission/gemini-xi/).
+- The *Hail Mary*'s centrifuge mode (two sections joined by cables): LitCharts, [*Project Hail Mary*: Centrifuge](https://www.litcharts.com/lit/project-hail-mary/terms/centrifuge). The cable length of up to 104 m appears in fan summaries ([readifyai wiki](https://readifyai.com/en/books/Project%20Hail%20Mary/wiki/Centrifuge)) and is unconfirmed. Grace's two-deck test (346 swings, 4.5 m) and estimate (about 700 m): [Reader summary](https://trangnkp.substack.com/p/project-hail-mary). Approximate. The section masses are our assumptions.

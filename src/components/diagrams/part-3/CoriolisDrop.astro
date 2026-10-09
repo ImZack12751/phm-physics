@@ -1,0 +1,46 @@
+---
+// Top view of a spinning habitat (turning anticlockwise), drawn with an exaggerated drop height.
+// After release the ball moves in a straight line at the speed of its release point, ωr₁,
+// slower than the floor's ωR, so it lands behind the spot that was directly below it.
+const C = { x: 280, y: 180 }, RF = 125, r1 = 0.55 * RF;
+const pt = (r: number, deg: number) => ({ x: C.x + r * Math.cos((deg * Math.PI) / 180), y: C.y - r * Math.sin((deg * Math.PI) / 180) });
+const d = Math.sqrt(RF * RF - r1 * r1);
+const ballDeg = 90 + (Math.atan(d / r1) * 180) / Math.PI; // where the ball meets the floor
+const floorDeg = 90 + ((d / r1) * 180) / Math.PI; // where the "spot below" has moved to (ωt = d/r₁)
+const release = pt(r1, 90), land = pt(RF, ballDeg), spot0 = pt(RF, 90), spot1 = pt(RF, floorDeg);
+const arcPath = (r: number, a: number, b: number) => {
+	const p = pt(r, a), q = pt(r, b);
+	return `M${p.x},${p.y} A${r},${r} 0 0,0 ${q.x},${q.y}`;
+};
+const head = (x1: number, y1: number, x2: number, y2: number) => {
+	const L = Math.hypot(x2 - x1, y2 - y1), ux = (x2 - x1) / L, uy = (y2 - y1) / L;
+	return `${x2},${y2} ${x2 - 12 * ux + 6 * uy},${y2 - 12 * uy - 6 * ux} ${x2 - 12 * ux - 6 * uy},${y2 - 12 * uy + 6 * ux}`;
+};
+const spinA = pt(RF + 18, 20), spinB = pt(RF + 18, 50);
+---
+
+<svg class="dg" viewBox="0 0 600 340" xmlns="http://www.w3.org/2000/svg">
+	<circle cx={C.x} cy={C.y} r={RF} class="s-fg w3" fill="none" />
+	<circle cx={C.x} cy={C.y} r="4" class="f-fg" />
+	<text x={C.x} y={C.y + 20} class="t-mid t-sm f-muted">axis</text>
+	<path d={arcPath(RF + 18, 20, 50)} class="s-green w2" fill="none" />
+	<polygon points={head(pt(RF + 18, 46).x, pt(RF + 18, 46).y, spinB.x, spinB.y)} class="f-green" />
+	<text x={spinA.x + 10} y={spinA.y + 4} class="t-sm f-green">spin</text>
+	<line x1={C.x} y1={C.y} x2={spot0.x} y2={spot0.y} class="s-grid w1 dash" />
+	<path d={arcPath(RF, 90, floorDeg)} class="s-sky w2 dash" fill="none" />
+	<path d={arcPath(RF + 1, ballDeg, floorDeg)} class="s-rose w3" fill="none" />
+	<line x1={release.x} y1={release.y} x2={land.x} y2={land.y} class="s-amber w2 dash" />
+	<circle cx={release.x} cy={release.y} r="7" class="f-amber" />
+	<text x={release.x + 10} y={release.y + 24} class="t-sm f-amber halo">ball released</text>
+	<circle cx={land.x} cy={land.y} r="7" class="f-amber" />
+	<circle cx={spot0.x} cy={spot0.y} r="5" class="f-sky" />
+	<text x={spot0.x + 10} y={spot0.y - 8} class="t-sm f-sky">spot directly below, at release</text>
+	<circle cx={spot1.x} cy={spot1.y} r="6" class="f-sky" />
+	<text x={spot1.x - 12} y={spot1.y + 6} class="t-end t-sm f-sky">same spot when</text>
+	<text x={spot1.x - 12} y={spot1.y + 24} class="t-end t-sm f-sky">the ball lands</text>
+	<text x={land.x - 12} y={land.y - 6} class="t-end t-sm f-amber">ball lands here</text>
+	<text x="420" y="230" class="t-sm f-rose">red arc: the ball lands</text>
+	<text x="420" y="250" class="t-sm f-rose">behind the spot, against</text>
+	<text x="420" y="270" class="t-sm f-rose">the spin (antispinward)</text>
+	<text x="420" y="306" class="t-sm f-muted">drop height exaggerated</text>
+</svg>

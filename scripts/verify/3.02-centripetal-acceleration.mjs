@@ -1,0 +1,30 @@
+import { check, report } from './lib.mjs';
+import { C, SPIN } from './constants.mjs';
+const P = Math.PI, G = 9.81, RPM = (2 * P) / 60;
+export default function () {
+	check('WE1 ω', SPIN.omega, 0.3546, 0.001); check('WE1 v', SPIN.omega * 78, 27.66, 0.001);
+	check('WE1 ω²r', 0.3546 ** 2 * 78, 9.81, 0.002); check('WE1 v²/r', 27.66 ** 2 / 78, 9.81, 0.001);
+	const a2 = C.earthOmega ** 2 * C.earthEqRadius;
+	check('WE2 a', a2, 0.0339, 0.002); check('WE2 %', (a2 / G) * 100, 0.35, 0.02); check('WE2 F', 80 * a2, 2.71, 0.003); check('WE2 N', 80 * G - 2.7, 782, 0.002);
+	const wm = (2 * P) / C.moonSiderealMonth, a3 = wm ** 2 * C.moonDistance;
+	check('WE3 a', a3, 2.72e-3, 0.002); check('WE3 ratio', C.moonDistance / C.earthRadius, 60.3, 0.002); check('WE3 60.3²', 60.3 ** 2, 3640, 0.002);
+	check('WE3 g/3640', G / 60.3 ** 2, 2.69e-3, 0.003); check('WE3 agree', a3 / (G / 60.3 ** 2), 1.01, 0.01);
+	check('WE4 a', 15 ** 2 / 25, 9.0); check('WE4 F', 1200 * 9, 10800); check('WE4 g', 9 / G, 0.92, 0.003); check('WE4 slower', (10 / 15) ** 2, 0.44, 0.02);
+	const w5 = 20 * RPM;
+	check('WE5 ω', w5, 2.09, 0.003); check('WE5 a', w5 ** 2 * 10, 43.9, 0.002); check('WE5 g', (w5 ** 2 * 10) / G, 4.5, 0.01); check('WE5 F', 80 * w5 ** 2 * 10, 3510, 0.001);
+	check('WE5 30rpm', ((30 * RPM) ** 2 * 10) / G, 10, 0.01);
+	check('P1', 16 / 0.5, 32); check('P2', 4 * 3, 12);
+	const w6 = 2 * 2 * P;
+	check('P5 ω', w6, 12.6, 0.003); check('P5 ω²', w6 ** 2, 158, 0.001); check('P5 a', w6 ** 2 * 1.5, 237, 0.001); check('P5 T', 0.2 * w6 ** 2 * 1.5, 47, 0.01);
+	check('P7 a', 88 ** 2 / 700, 11.1, 0.004); check('P7 g', 88 ** 2 / 700 / G, 1.13, 0.003); check('P7 v', Math.sqrt(14.7 * 700), 101, 0.005);
+	const w8 = Math.sqrt((3 * G) / 8);
+	check('P8 ω', w8, 1.92, 0.002); check('P8 rpm', w8 / RPM, 18.3, 0.002);
+	check('P9', (1.99e-7) ** 2 * 1.496e11, 5.93e-3, 0.002);
+	check('P10 ax', -18 * Math.cos(1.5), -1.27, 0.003); check('P10 ay', -18 * Math.sin(1.5), -17.95, 0.001);
+	check('P10 x', 2 * Math.cos(1.5), 0.141, 0.005); check('P10 y', 2 * Math.sin(1.5), 1.995, 0.001); check('P10 size', Math.hypot(1.273, 17.955), 18, 0.001);
+	const w11 = Math.sqrt(G / C.earthEqRadius);
+	check('P11 ω', w11, 1.24e-3, 0.002); check('P11 T', (2 * P) / w11, 5070, 0.002); check('P11 min', (2 * P) / w11 / 60, 84, 0.006);
+	const w12 = Math.sqrt((8 * G) / 10);
+	check('P12 ω', w12, 2.8, 0.001); check('P12 rpm', w12 / RPM, 26.8, 0.002); check('P12 ratio', (w12 / RPM / 20) ** 2, 1.78, 0.01);
+	return report('3.2 Centripetal acceleration');
+}

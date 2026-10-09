@@ -1,0 +1,51 @@
+---
+// A rigid disc turning through angle θ. Points at radius r and 2r turn through the same angle,
+// but the outer one travels twice the arc (s = rθ), so it moves twice as fast (v = ωr).
+const C = { x: 200, y: 175 }, R1 = 70, R2 = 140;
+const TH = (50 * Math.PI) / 180; // angle turned
+const pt = (r: number, a: number) => ({ x: C.x + r * Math.cos(-a), y: C.y + r * Math.sin(-a) });
+const arc = (r: number) => `M${pt(r, 0).x},${pt(r, 0).y} A${r},${r} 0 0,0 ${pt(r, TH).x},${pt(r, TH).y}`;
+const head = (x1: number, y1: number, x2: number, y2: number) => {
+	const L = Math.hypot(x2 - x1, y2 - y1), ux = (x2 - x1) / L, uy = (y2 - y1) / L;
+	return `${x2},${y2} ${x2 - 12 * ux + 6 * uy},${y2 - 12 * uy - 6 * ux} ${x2 - 12 * ux - 6 * uy},${y2 - 12 * uy + 6 * ux}`;
+};
+// velocity arrows at the final positions, tangent to the circle (direction of increasing angle)
+const vArrow = (r: number, len: number) => {
+	const p = pt(r, TH), tx = -Math.sin(TH), ty = -Math.cos(TH);
+	return { x1: p.x, y1: p.y, x2: p.x + len * tx, y2: p.y + len * ty };
+};
+const v1 = vArrow(R1, 40), v2 = vArrow(R2, 80);
+const stop = (a: { x1: number; y1: number; x2: number; y2: number }) => {
+	const L = Math.hypot(a.x2 - a.x1, a.y2 - a.y1);
+	return { x: a.x2 - ((a.x2 - a.x1) / L) * 12, y: a.y2 - ((a.y2 - a.y1) / L) * 12 };
+};
+const s1 = stop(v1), s2 = stop(v2);
+const P1 = pt(R1, TH), P2 = pt(R2, TH);
+---
+
+<svg class="dg" viewBox="0 0 600 330" xmlns="http://www.w3.org/2000/svg">
+	<circle cx={C.x} cy={C.y} r={R2} class="s-grid w1" fill="none" />
+	<circle cx={C.x} cy={C.y} r={R1} class="s-grid w1" fill="none" />
+	<line x1={C.x} y1={C.y} x2={pt(R2, 0).x} y2={pt(R2, 0).y} class="s-muted w1 dash" />
+	<line x1={C.x} y1={C.y} x2={P2.x} y2={P2.y} class="s-fg w2" />
+	<path d={`M${pt(30, 0).x},${pt(30, 0).y} A30,30 0 0,0 ${pt(30, TH).x},${pt(30, TH).y}`} class="s-fg w1" fill="none" />
+	<text x={C.x + 38} y={C.y - 12} class="t-sm">θ</text>
+	<path d={arc(R1)} class="s-sky w3" fill="none" />
+	<path d={arc(R2)} class="s-amber w3" fill="none" />
+	<circle cx={C.x} cy={C.y} r="4" class="f-fg" />
+	<circle cx={P1.x} cy={P1.y} r="6" class="f-sky" />
+	<circle cx={P2.x} cy={P2.y} r="6" class="f-amber" />
+	<line x1={v1.x1} y1={v1.y1} x2={s1.x} y2={s1.y} class="s-sky w2" />
+	<polygon points={head(v1.x1, v1.y1, v1.x2, v1.y2)} class="f-sky" />
+	<line x1={v2.x1} y1={v2.y1} x2={s2.x} y2={s2.y} class="s-amber w2" />
+	<polygon points={head(v2.x1, v2.y1, v2.x2, v2.y2)} class="f-amber" />
+	<text x={pt(R1 + 12, TH / 2).x} y={pt(R1 + 12, TH / 2).y} class="t-sm f-sky halo">s₁ = rθ</text>
+	<text x={pt(R2 + 14, TH / 2).x} y={pt(R2 + 14, TH / 2).y} class="t-sm f-amber halo">s₂ = 2rθ</text>
+	<text x={v1.x2 - 6} y={v1.y2 - 6} class="t-end t-sm f-sky halo">v = ωr</text>
+	<text x={v2.x2 - 6} y={v2.y2 - 4} class="t-end t-sm f-amber halo">v = 2ωr</text>
+	<text x="400" y="110" class="t-sm">Every point turns through</text>
+	<text x="400" y="130" class="t-sm">the same angle θ in the same</text>
+	<text x="400" y="150" class="t-sm">time: the same ω.</text>
+	<text x="400" y="190" class="t-sm">Twice as far out, it covers</text>
+	<text x="400" y="210" class="t-sm">twice the arc: twice the speed.</text>
+</svg>

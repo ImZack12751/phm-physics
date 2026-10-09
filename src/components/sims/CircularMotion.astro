@@ -1,0 +1,90 @@
+---
+// Simulation: uniform circular motion with velocity and acceleration arrows, and the point's shadow on the x axis, which moves in simple harmonic motion.
+---
+
+<div
+	class="sim cm"
+	data-title="Circular motion and centripetal acceleration"
+	data-description="A point moves around a circle of radius r (1 to 100 m) at a chosen spin rate (0.5 to 30 rpm). A green arrow shows its velocity along the tangent and a red arrow its acceleration towards the centre. Its shadow on the horizontal axis moves back and forth in simple harmonic motion. The animation runs at the true rate (it stops if reduced motion is requested). The readout gives ω, the speed v = ωr, the centripetal acceleration ω²r = v²/r in m/s² and in g, and the inward force needed on an 80 kg person."
+>
+	<p class="sim-title">Simulation: circular motion</p>
+	<p class="sim-help">The green arrow (velocity) keeps turning; the red arrow (acceleration) always points to the centre. Watch the shadow on the axis below: it moves exactly like a mass on a spring.</p>
+	<div class="sim-controls">
+		<label>Radius r <input type="range" class="cm-r" min="1" max="100" step="1" value="78" /> <output class="cm-rv"></output></label>
+		<label>Spin rate <input type="range" class="cm-n" min="0.5" max="30" step="0.01" value="3.39" /> <output class="cm-nv"></output></label>
+	</div>
+	<svg class="dg cm-svg" viewBox="0 0 600 300" role="img" aria-label="A point moving in a circle with velocity and acceleration arrows"></svg>
+	<div class="readout cm-out" aria-live="polite"></div>
+</div>
+
+<script>
+	const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+	document.querySelectorAll<HTMLElement>('.sim.cm').forEach((root) => {
+		const svg = root.querySelector<SVGSVGElement>('.cm-svg')!;
+		const Rs = root.querySelector<HTMLInputElement>('.cm-r')!, Ns = root.querySelector<HTMLInputElement>('.cm-n')!;
+		const out = root.querySelector<HTMLElement>('.cm-out')!;
+		const NS = 'http://www.w3.org/2000/svg';
+		const el = (tag: string, at: Record<string, string | number>) => {
+			const e = document.createElementNS(NS, tag);
+			Object.entries(at).forEach(([k, v]) => e.setAttribute(k, String(v)));
+			svg.append(e);
+			return e;
+		};
+		const CX = 300, CY = 125, RD = 95, AXY = 262;
+		// The moving parts are created once per redraw; each animation frame only moves them.
+		let parts: Record<string, SVGElement> | null = null, omega = 0.35, angle = 0.5, last = 0, aLen = 40;
+		function draw() {
+			const r = +Rs.value, n = +Ns.value, w = (2 * Math.PI * n) / 60, v = w * r, a = w * w * r;
+			root.querySelector('.cm-rv')!.textContent = `${r} m`;
+			root.querySelector('.cm-nv')!.textContent = `${n.toFixed(2)} rpm`;
+			omega = w;
+			aLen = Math.max(14, Math.min(85, 14 + 7 * a));
+			svg.replaceChildren();
+			el('circle', { cx: CX, cy: CY, r: RD, class: 's-muted w1 dash', fill: 'none' });
+			el('circle', { cx: CX, cy: CY, r: 4, class: 'f-fg' });
+			el('line', { x1: CX - RD - 20, y1: AXY, x2: CX + RD + 20, y2: AXY, class: 's-fg w1' });
+			const t = el('text', { x: CX - RD - 26, y: AXY + 4, class: 't-end t-sm f-muted' });
+			t.textContent = 'shadow';
+			parts = {
+				drop: el('line', { class: 's-grid w1' }),
+				vLine: el('line', { class: 's-green w3' }),
+				vHead: el('polygon', { class: 'f-green' }),
+				aLine: el('line', { class: 's-rose w3' }),
+				aHead: el('polygon', { class: 'f-rose' }),
+				dot: el('circle', { r: 8, class: 'f-amber' }),
+				shadow: el('circle', { r: 6, cy: AXY, class: 'f-sky' }),
+			};
+			update();
+			out.innerHTML =
+				`<span class="k">ω</span> = ${w.toFixed(3)} rad/s &nbsp; <span class="k">speed v = ωr</span> = <b>${v.toFixed(1)} m/s</b><br>` +
+				`<span class="k">centripetal acceleration ω²r = v²/r</span> = <b>${a.toFixed(2)} m/s²</b> = <b>${(a / 9.81).toFixed(2)} g</b>, towards the centre<br>` +
+				`<span class="k">inward force needed on an 80 kg person, m ω²r</span> = ${(80 * a).toFixed(0)} N`;
+		}
+		function update() {
+			if (!parts) return;
+			const set = (e: SVGElement, at: Record<string, number | string>) => Object.entries(at).forEach(([k, v]) => e.setAttribute(k, String(v)));
+			const px = CX + RD * Math.cos(angle), py = CY - RD * Math.sin(angle);
+			const tx = -Math.sin(angle), ty = -Math.cos(angle); // screen direction of the velocity (anticlockwise)
+			const ux = (CX - px) / RD, uy = (CY - py) / RD; // towards the centre
+			const arrow = (line: SVGElement, headEl: SVGElement, dx: number, dy: number, len: number) => {
+				set(line, { x1: px, y1: py, x2: px + dx * (len - 10), y2: py + dy * (len - 10) });
+				const ex = px + dx * len, ey = py + dy * len;
+				set(headEl, { points: `${ex},${ey} ${ex - 11 * dx + 6 * dy},${ey - 11 * dy - 6 * dx} ${ex - 11 * dx - 6 * dy},${ey - 11 * dy + 6 * dx}` });
+			};
+			arrow(parts.vLine, parts.vHead, tx, ty, 50);
+			arrow(parts.aLine, parts.aHead, ux, uy, aLen);
+			set(parts.drop, { x1: px, y1: py, x2: px, y2: AXY });
+			set(parts.dot, { cx: px, cy: py });
+			set(parts.shadow, { cx: px });
+		}
+		function frame(now: number) {
+			if (last) angle += (omega * (now - last)) / 1000;
+			last = now;
+			update();
+			requestAnimationFrame(frame);
+		}
+		[Rs, Ns].forEach((i) => i.addEventListener('input', draw));
+		draw();
+		if (!reduce) requestAnimationFrame(frame);
+	});
+</script>

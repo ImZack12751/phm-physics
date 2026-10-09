@@ -1,0 +1,348 @@
+---
+title: The Coriolis effect
+description: Why things moving inside a spinning ship seem to swerve, why a dropped object lands behind the spot below it, why running with the spin makes you heavier, and how the same effect turns hurricanes and Foucault's pendulum on the spinning Earth.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import CoriolisDrop from '../../../components/diagrams/part-3/CoriolisDrop.astro';
+import SpinwardRun from '../../../components/diagrams/part-3/SpinwardRun.astro';
+import CoriolisLab from '../../../components/sims/CoriolisLab.astro';
+
+## The scene
+
+Chapter 3.3 found that the *Hail Mary*'s centrifuge gives the crew a convincing 1 g. But spin gravity is not perfect. Living for weeks in a spinning ship, Grace would notice small oddities. A dropped tool doesn't land quite where he expects. Walking one way round the ship feels slightly harder than walking the other way. Turning his head quickly can leave him briefly dizzy.
+
+All of these come from one effect, called the Coriolis effect. It also acts on the spinning Earth, where it steers winds, sets hurricanes turning and slowly rotates the swing of a long pendulum. This chapter explains it with nothing more than straight lines and $v = \omega r$.
+
+## Prerequisites
+
+<Prereqs notes={{ 'spin-gravity': 'apparent gravity ω²r in a spinning habitat, and our model centrifuge', 'centripetal-acceleration': 'a = v²/r for anything moving in a circle', kinematics: 'reference frames: describing the same motion from two viewpoints', integrals: 'integrating an acceleration twice to get a distance' }} />
+
+## The concept
+
+### Two viewpoints
+
+Describe a spinning habitat from two <Term id="reference-frame">reference frames</Term>. From **outside**, in a frame that doesn't rotate, Newton's laws hold exactly as in Chapter 2.1, and anything that isn't being pushed moves in a straight line. From **inside**, standing on the spinning floor, everything is measured relative to walls and floors that are themselves turning. Straight lines from outside look curved from inside.
+
+Two directions are useful inside a habitat: <Term id="spinward">spinward</Term>, the direction the floor is moving, and antispinward, the opposite way.
+
+### A dropped ball lands behind
+
+Hold a ball above the floor and let go. While you held it, it was moving round with you at the speed of its radius, $\omega r_{1}$. The floor, further out at radius $R$, moves faster: $\omega R$. Once released, nothing pushes the ball (there is no real gravity here), so from outside it travels in a straight line, at its release speed, until the floor comes up to meet it.
+
+During the fall, the spot that was directly below the ball moves on at the faster floor speed. The ball can't keep up. So it lands slightly **behind** that spot, antispinward. From inside, it seems to curve as it falls. That sideways swerve is the <Term id="coriolis-effect">Coriolis effect</Term>.
+
+<Figure caption="Top view of a habitat spinning anticlockwise, with the drop height exaggerated. The released ball travels in a straight line at the speed of its release point. The spot that was directly below it moves faster, so by the time the ball reaches the floor, it lands behind that spot, against the spin." alt="A circle representing the floor of a habitat, with its axis at the centre and a green arrow outside showing anticlockwise spin. Near the top, an amber dot inside the circle is labelled ball released. A blue dot on the floor directly above it is labelled spot directly below, at release. A dashed amber straight line runs from the release point down and to the left to the floor, ending at an amber dot labelled ball lands here. A dashed blue arc along the floor runs from the original spot further anticlockwise to a second blue dot, labelled same spot when the ball lands. A short red arc on the floor between the landing point and the moved spot is explained: red arc, the ball lands behind the spot, against the spin (antispinward). Note: drop height exaggerated.">
+	<CoriolisDrop />
+</Figure>
+
+### Running changes your weight
+
+Now run around the floor of the habitat at speed $u$. From outside, you are moving in a circle of radius $r$ at a speed of $\omega r + u$ if you run spinward, or $\omega r - u$ if you run antispinward. The floor must push you inwards with the centripetal force for that speed (Chapter 3.2), so the gravity you feel is
+
+$$
+g_{\text{felt}} = \frac{(\omega r \pm u)^{2}}{r} = \omega^{2}r \pm 2\omega u + \frac{u^{2}}{r}.
+$$
+
+The first term is the habitat's ordinary gravity. The last is usually tiny. The middle term, $\pm 2\omega u$, is the Coriolis effect again: you are heavier running spinward and lighter running antispinward.
+
+<Figure caption="Running at 2.0 m/s in our 78 m model centrifuge. Running with the spin adds to your speed around the axis, so the floor must push harder: you feel 1.15 g. Running against the spin, you feel 0.86 g." alt="Left: a circle with a centre dot and a green arrow showing the spin. A runner stands on the floor at the bottom, with a red arrow labelled spinward pointing in the direction of spin and a blue arrow labelled antispinward pointing the other way. Title: model centrifuge, 78 m, 1 g. Right: a bar chart titled felt gravity, running at 2.0 m/s: running against the spin, 0.86 g, blue; standing still, 1.00 g, green; running with the spin, 1.15 g, red. A dashed line marks 1 g. Footer: omega r plus or minus u, squared, divided by r; the cross term plus or minus 2 omega u is the Coriolis effect.">
+	<SpinwardRun />
+</Figure>
+
+### The general rule
+
+Both examples follow one rule. In a frame spinning at $\omega$, anything moving at speed $v$ at right angles to the spin axis seems to feel a sideways acceleration
+
+$$
+a_{\text{C}} = 2\omega v,
+$$
+
+at right angles to its motion. In a frame spinning anticlockwise (seen from above), moving things are deflected to their **right**; in one spinning clockwise, to their left. Like centrifugal force, this is not a push from anything. It is what straight-line motion looks like from a turning viewpoint.
+
+The rule shows how to design against it: $a_{\text{C}} \propto \omega$. A big, slowly turning habitat has small Coriolis effects; a small, fast one has large effects. This is a main reason for the comfort limits of Chapter 3.3. In a fast spin, moving your head swings the fluid in your inner ear's balance organs sideways, which the brain reads as a tumbling sensation that can cause motion sickness.
+
+### On the spinning Earth
+
+Earth is a habitat too, spinning anticlockwise as seen from above the North Pole, at $\Omega = 7.29 \times 10^{-5}$ rad/s. That is so slow that Coriolis effects are tiny over short times, but over hundreds of kilometres and many hours they dominate the weather. For horizontal motion at latitude $\phi$, the sideways acceleration is $2\Omega v\sin\phi$: largest at the poles, zero at the equator. Moving air in the Northern Hemisphere is deflected to the right, which is why hurricanes there turn anticlockwise; in the Southern Hemisphere they turn clockwise.
+
+The most famous demonstration is <Term id="foucault-pendulum">Foucault's pendulum</Term>. In 1851, Léon Foucault hung a 28 kg bob from a 67 m wire under the dome of the Panthéon in Paris. As it swung, the direction of its swing slowly turned, about 11° per hour. At the North Pole, a pendulum would keep swinging in the same direction relative to the stars while Earth turned beneath it once a day. At lower latitudes only part of Earth's turning, the fraction $\sin\phi$, acts on the swing. At latitude $\phi$, a full turn of the swing direction takes
+
+$$
+T_{\text{F}} = \frac{T_{\text{sidereal}}}{\sin\phi},
+$$
+
+which is 23.9 hours at the poles, and never at the equator.
+
+A popular myth says that the Coriolis effect decides which way a sink drains. It doesn't: for a sink-sized swirl it is more than a thousand times too weak to matter, and currents left over from filling the basin decide the direction (Problem 11).
+
+## Formulas
+
+### Felt gravity when moving spinward or antispinward
+
+At speed $u$ along the floor of a habitat of radius $r$, the speed around the axis is $\omega r \pm u$, so
+
+$$
+\boxed{g_{\text{felt}} = \frac{(\omega r \pm u)^{2}}{r} = \omega^{2}r \pm 2\omega u + \frac{u^{2}}{r}}
+$$
+
+### Coriolis acceleration
+
+$$
+\boxed{a_{\text{C}} = 2\omega v} \qquad (\text{motion at right angles to the axis; } 2\Omega v\sin\phi \text{ for horizontal motion on Earth})
+$$
+
+### Sideways drift of a dropped object
+
+A ball dropped from height $h$ falls with speed $v \approx g_{\text{eff}}t$, so the sideways Coriolis acceleration is $a_{\text{C}} = 2\omega g_{\text{eff}}t$. Integrate twice, starting from zero sideways speed and position (Chapter C.5):
+
+$$
+v_{\text{side}} = \int_{0}^{t} 2\omega g_{\text{eff}}t'\,dt' = \omega g_{\text{eff}}t^{2} \qquad x = \int_{0}^{t} \omega g_{\text{eff}}t'^{2}\,dt' = \tfrac{1}{3}\omega g_{\text{eff}}t^{3}
+$$
+
+Using $h = \tfrac{1}{2}g_{\text{eff}}t^{2}$, so that $g_{\text{eff}}t^{2} = 2h$:
+
+$$
+\boxed{x \approx \tfrac{1}{3}\omega g_{\text{eff}}t^{3} = \tfrac{2}{3}\omega h t}
+$$
+
+This is a good approximation when the drop height is small compared with the radius. On Earth the drift is eastward, multiplied by $\cos\phi$ at latitude $\phi$.
+
+### Foucault's pendulum
+
+$$
+\boxed{T_{\text{F}} = \frac{T_{\text{sidereal}}}{\sin\phi}} \qquad \text{turning rate} = 15.04°\ \text{per hour} \times \sin\phi
+$$
+
+## Worked examples
+
+<Example n={1} title="A dropped tool in the centrifuge" book>
+In our model centrifuge (floor at $R = 78$ m, $\omega = 0.3546$ rad/s), Grace drops a tool from 1.0 m above the floor. Where does it land? Work it out exactly from outside, then check with the approximation.
+
+From outside, the tool starts at $r_{1} = 77$ m and moves in a straight line at its release speed:
+
+$$
+v = \omega r_{1} = 0.3546 \times 77\ \text{m/s} = 27.31\ \text{m/s}
+$$
+
+The straight line meets the floor circle where, by Pythagoras, it has travelled $d = \sqrt{78^{2} - 77^{2}} = 12.45$ m, which takes
+
+$$
+t = \frac{12.45\ \text{m}}{27.31\ \text{m/s}} = 0.456\ \text{s}.
+$$
+
+The landing point is at angle $\tan^{-1}(12.45/77) = 0.1603$ rad from the release direction. Meanwhile the spot below has turned through $\omega t = 0.3546 \times 0.456 = 0.1617$ rad. The difference, measured along the floor:
+
+$$
+x = 78\ \text{m} \times (0.1617 - 0.1603) = 0.108\ \text{m}
+$$
+
+The tool lands 10.8 cm behind the spot below, against the spin. The approximation agrees:
+
+$$
+x \approx \tfrac{2}{3}\omega h t = \tfrac{2}{3} \times 0.3546 \times 1.0 \times 0.456\ \text{m} = 0.108\ \text{m}
+$$
+</Example>
+
+<Example n={2} title="Running laps" book>
+In the model centrifuge, Grace runs at 2.0 m/s, first spinward, then antispinward. What gravity does he feel each way? How fast would he have to run antispinward to float?
+
+The floor moves at $\omega R = 27.66$ m/s.
+
+$$
+g_{\text{spinward}} = \frac{(27.66 + 2.0)^{2}}{78}\ \text{m/s}^{2} = 11.28\ \text{m/s}^{2} = 1.15\ \text{g}
+$$
+
+$$
+g_{\text{antispinward}} = \frac{(27.66 - 2.0)^{2}}{78}\ \text{m/s}^{2} = 8.44\ \text{m/s}^{2} = 0.86\ \text{g}
+$$
+
+The difference from 9.81 is almost exactly $\pm 2\omega u = \pm 1.42\ \text{m/s}^{2}$, plus a tiny $u^{2}/r = 0.05\ \text{m/s}^{2}$. To float, he would need to cancel the floor's speed entirely, running antispinward at 27.7 m/s, about 100 km/h. Then, seen from outside, he would be standing still.
+</Example>
+
+<Example n={3} title="Would Grace's table drop have given it away?" book>
+Suppose Grace had been in the smallest centrifuge consistent with his pendulum test (Chapter 3.3: $R = 777$ m, $\omega = 0.1375$ rad/s, giving 14.7 m/s²). How far sideways would his 0.91 m table drop land? Compare with our 78 m model.
+
+Fall time, from Chapter 1.3, with $g_{\text{eff}} = 14.7\ \text{m/s}^{2}$: $t = 0.352$ s.
+
+$$
+x \approx \tfrac{2}{3}\omega h t = \tfrac{2}{3} \times 0.1375 \times 0.91 \times 0.352\ \text{m} = 0.029\ \text{m}
+$$
+
+About 3 cm, which is hard to notice in a quick drop with no marked target. In our 78 m model at 1 g, the same 0.91 m drop would land 9.4 cm behind: a much easier sign to spot.
+</Example>
+
+<Example n={4} title="A drop on Earth">
+A stone is dropped 100 m down a mine shaft at the equator. How far east of the point directly below does it land? (Ignore air resistance.)
+
+$$
+t = \sqrt{\frac{2 \times 100}{9.81}}\ \text{s} = 4.52\ \text{s}
+$$
+
+$$
+x = \tfrac{1}{3}\Omega g t^{3} = \tfrac{1}{3} \times 7.29 \times 10^{-5} \times 9.81 \times 4.515^{3}\ \text{m} = 0.022\ \text{m}
+$$
+
+About 2 cm east: real, but tiny, because Earth turns nearly 5000 times more slowly than the model centrifuge.
+</Example>
+
+<Example n={5} title="Foucault's pendulum in Paris">
+Paris is at latitude 48.86° N. How long does Foucault's pendulum take to turn its swing through a full circle, and how many degrees per hour is that? His 67 m pendulum swung with what period, and how much did the swing direction turn per swing?
+
+$$
+T_{\text{F}} = \frac{23.93\ \text{h}}{\sin 48.86°} = \frac{23.93}{0.753}\ \text{h} = 31.8\ \text{h} \qquad \frac{360°}{31.8\ \text{h}} = 11.3°\ \text{per hour}
+$$
+
+Its swing period (Chapter 2.4):
+
+$$
+T = 2\pi\sqrt{\frac{67\ \text{m}}{9.81\ \text{m/s}^{2}}} = 16.4\ \text{s}
+$$
+
+so the swing direction turns about $11.3° \times \dfrac{16.4}{3600} = 0.051°$ per swing. Small, but it adds up to a full circle in less than a day and a half.
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** The Coriolis effect follows from Newton's first law viewed from a rotating frame, and its size $2\omega v$ is standard. On Earth it shapes large-scale winds and fixes the turning direction of hurricanes, and Foucault's pendulum, first shown in 1851, is still a classic demonstration.
+
+**Weir's inventions.** The centrifuge is the novel's; the figures used here (78 m, 0.3546 rad/s) come from our model in Chapter 3.3, not from the book. The novel does not dwell on Coriolis effects, so the dropped tool and the running laps are our illustrations of what life aboard would be like.
+
+**How realistic are the numbers?** In a spin of a few rpm, a 10 cm swerve over a 1 m drop and a 15% change in weight while jogging are noticeable but easy to live with. They are exactly why designers prefer large, slow habitats, and why astronauts in a small, fast one would need time to adapt.
+</RealVsBook>
+
+## Interactive simulation
+
+<CoriolisLab />
+
+Things to try: the default is Worked example 1, a 1 m drop in the model centrifuge, landing 10.8 cm behind. Try the small 25 m habitat at 6 rpm with a 1.5 m drop: now the swerve is over a third of a metre, and the simple approximation starts to drift from the exact answer. Then pick the big 895 m habitat at 1 rpm, and Grace's imagined centrifuge.
+
+## Practice set
+
+<Problem n={1} level="easy">
+An object moves at 3.0 m/s at right angles to the axis of a habitat spinning at 0.35 rad/s. Find the size of its Coriolis acceleration.
+
+<Solution>
+$a_{\text{C}} = 2\omega v = 2 \times 0.35 \times 3.0 = 2.1\ \text{m/s}^{2}$.
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy">
+In a spinning habitat, does a dropped ball land spinward or antispinward of the spot directly below it? Why?
+
+<Solution>
+Antispinward. It keeps the speed of its release point, which is slower than the floor further out, so the floor's spot below runs ahead of it.
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy">
+Find the Coriolis acceleration for wind blowing at 10 m/s near the North Pole ($\Omega = 7.29 \times 10^{-5}$ rad/s, $\sin\phi = 1$).
+
+<Solution>
+$a_{\text{C}} = 2 \times 7.29 \times 10^{-5} \times 10 = 1.46 \times 10^{-3}\ \text{m/s}^{2}$: tiny, but it acts on the air for hours over hundreds of kilometres.
+</Solution>
+</Problem>
+
+<Problem n={4} level="easy" book>
+Why do designers prefer a large, slowly spinning habitat to a small, fast one giving the same gravity?
+
+<Solution>
+The Coriolis acceleration is $2\omega v$, proportional to the spin rate. A large habitat spins more slowly for the same $\omega^{2}r$, so moving things (and the fluid in your inner ear) are deflected less.
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium" book>
+In the model centrifuge (floor speed 27.66 m/s, $R = 78$ m), what gravity does Grace feel running at 3.0 m/s spinward? Antispinward?
+
+<Solution>
+Spinward: $\dfrac{30.66^{2}}{78} = 12.05\ \text{m/s}^{2}$ (1.23 g). Antispinward: $\dfrac{24.66^{2}}{78} = 7.80\ \text{m/s}^{2}$ (0.79 g).
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium" book>
+In the model centrifuge, a crew member walks spinward at 1.0 m/s. Using $\pm 2\omega u$, by roughly what percentage does their weight change?
+
+<Solution>
+$2\omega u = 2 \times 0.3546 \times 1.0 = 0.709\ \text{m/s}^{2}$, which is $\dfrac{0.709}{9.81} = 7.2\%$ heavier (plus a negligible $u^{2}/r$).
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium">
+In a 25 m habitat spinning at 6.0 rpm, a ball is dropped from 1.5 m. Estimate its sideways drift with $\tfrac{2}{3}\omega h t$, using $t = \sqrt{2h/g_{\text{eff}}}$.
+
+<Solution>
+$\omega = 0.628$ rad/s and $g_{\text{eff}} = \omega^{2}R = 9.87\ \text{m/s}^{2}$, so $t = \sqrt{3.0/9.87} = 0.551$ s.
+
+$x \approx \tfrac{2}{3} \times 0.628 \times 1.5 \times 0.551 = 0.35$ m. (The exact calculation gives 0.37 m: the approximation weakens when the drop height is a sizeable fraction of the radius.)
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium">
+How long does a Foucault pendulum at latitude 45° take to turn its swing through a full circle?
+
+<Solution>
+$T_{\text{F}} = \dfrac{23.93}{\sin 45°} = 33.8$ hours, about 1.4 days.
+</Solution>
+</Problem>
+
+<Problem n={9} level="medium">
+What happens to a Foucault pendulum's swing direction at the North Pole, and at the equator?
+
+<Solution>
+At the pole ($\sin\phi = 1$) it turns through a full circle once per sidereal day, 23.93 hours: Earth simply turns underneath it. At the equator ($\sin\phi = 0$) it doesn't turn at all.
+</Solution>
+</Problem>
+
+<Problem n={10} level="challenging">
+Starting from a sideways acceleration $a_{\text{C}} = 2\omega g t$, with zero sideways speed and position at $t = 0$, derive $x = \tfrac{1}{3}\omega g t^{3}$, and show that it equals $\tfrac{2}{3}\omega h t$ when $h = \tfrac{1}{2}gt^{2}$.
+
+<Solution>
+Integrate once: $v = \displaystyle\int_{0}^{t} 2\omega g t'\,dt' = \omega g t^{2}$. Integrate again: $x = \displaystyle\int_{0}^{t} \omega g t'^{2}\,dt' = \tfrac{1}{3}\omega g t^{3}$.
+
+Since $gt^{2} = 2h$: $x = \tfrac{1}{3}\omega t \times gt^{2} = \tfrac{1}{3}\omega t \times 2h = \tfrac{2}{3}\omega h t$.
+</Solution>
+</Problem>
+
+<Problem n={11} level="challenging">
+Water swirls into a sink drain at 5 cm/s in a circle of radius 20 cm. Compare the Coriolis acceleration ($2\Omega v$, at most) with the centripetal acceleration of the swirl. What does this say about the sink myth?
+
+<Solution>
+Coriolis: $2 \times 7.29 \times 10^{-5} \times 0.05 = 7.3 \times 10^{-6}\ \text{m/s}^{2}$. Centripetal: $\dfrac{0.05^{2}}{0.20} = 0.0125\ \text{m/s}^{2}$.
+
+The Coriolis effect is less than a thousandth as large (ratio $5.8 \times 10^{-4}$), so any leftover swirl from filling the sink decides the direction.
+</Solution>
+</Problem>
+
+<Problem n={12} level="challenging">
+A designer wants the Coriolis acceleration on a person walking at 1.5 m/s to be no more than 10% of 1 g. What is the fastest allowed spin rate, and what radius does that require for 1 g?
+
+<Solution>
+$2\omega \times 1.5 \le 0.981$, so $\omega \le 0.327$ rad/s, which is $3.12$ rpm.
+
+For 1 g: $r = \dfrac{9.81}{0.327^{2}} = 91.7$ m.
+</Solution>
+</Problem>
+
+## Summary
+
+- Inside a rotating frame, things moving freely seem to swerve sideways: the Coriolis effect. From outside, they are simply moving in straight lines.
+- A dropped object lands antispinward of the spot below it, by about $\tfrac{2}{3}\omega h t$.
+- Moving along the floor changes your felt gravity by about $\pm 2\omega u$: heavier spinward, lighter antispinward.
+- In general, $a_{\text{C}} = 2\omega v$, at right angles to the motion: to the right in an anticlockwise-spinning frame. It grows with spin rate, so large, slow habitats are more comfortable.
+- On Earth ($\Omega = 7.29 \times 10^{-5}$ rad/s), the effect is $2\Omega v\sin\phi$: it steers winds and hurricanes, and turns Foucault's pendulum once every $T_{\text{sidereal}}/\sin\phi$. It does not decide how sinks drain.
+
+**Formulas from this chapter**
+
+$$
+g_{\text{felt}} = \frac{(\omega r \pm u)^{2}}{r} \approx \omega^{2}r \pm 2\omega u \qquad a_{\text{C}} = 2\omega v \qquad x \approx \tfrac{2}{3}\omega h t \qquad T_{\text{F}} = \frac{T_{\text{sidereal}}}{\sin\phi}
+$$
+
+## Sources
+
+- The Coriolis force, fictitious forces in rotating frames, and the turning directions of hurricanes: OpenStax, *University Physics Volume 1*, [§6.3 Centripetal Force](https://openstax.org/books/university-physics-volume-1/pages/6-3-centripetal-force).
+- The Coriolis force: HyperPhysics, [Coriolis force](http://hyperphysics.gsu.edu/hbase/corf.html).
+- Foucault's 1851 Panthéon pendulum (67 m wire, 28 kg bob), the sine-of-latitude law and the Paris rate of about 11.3° per hour: Wikipedia, [Foucault pendulum](https://en.wikipedia.org/wiki/Foucault_pendulum).
+- Earth's sidereal rotation period (23.9345 h): NASA NSSDCA [Earth fact sheet](https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html).
+- Coriolis effects and spin-rate comfort in rotating habitats: A. Globus and T. Hall, "Space Settlement Population Rotation Tolerance", *NSS Space Settlement Journal* (2017). [nss.org PDF](https://space.nss.org/wp-content/uploads/NSS-JOURNAL-Space-Settlement-Population-Rotation-Tolerance.pdf)
+- The centrifuge in the novel: LitCharts, [*Project Hail Mary*: Centrifuge](https://www.litcharts.com/lit/project-hail-mary/terms/centrifuge). The model figures are our assumptions (Chapter 3.3).

@@ -1,0 +1,352 @@
+---
+title: Angular speed
+description: Describing rotation with angles, angular speed ω in radians per second and rpm, period and frequency, and the speed v = ωr of a point on something turning, from Earth's equator to the Hail Mary's centrifuge.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import SpinningDisc from '../../../components/diagrams/part-3/SpinningDisc.astro';
+import TangentFlyOff from '../../../components/diagrams/part-3/TangentFlyOff.astro';
+import SpinRate from '../../../components/sims/SpinRate.astro';
+
+## The scene
+
+Waking up feeling heavy, Grace considers a third explanation besides a heavy planet or an accelerating ship: he might be inside a giant centrifuge, a spinning structure whose rotation presses him against the floor. He does the sums in his head and decides it would have to be enormous, hundreds of metres across, with its rim moving at the speed of a racing car.
+
+He is right to take the idea seriously. Later in the novel, near Tau Ceti, the *Hail Mary* really does turn itself into a centrifuge. The ship separates into two sections joined by long cables, and the pair spins around the point between them to give the crew weight while the engines are off.
+
+Part 3 is about that spinning. This first chapter builds the language for describing rotation: how fast something turns, and how fast each part of it moves.
+
+## Prerequisites
+
+<Prereqs notes={{ trigonometry: 'radians and arc length s = rθ', kinematics: 'velocity as the derivative of position, and velocity as a vector', derivatives: 'differentiating sin and cos with the scaling rule' }} />
+
+## The concept
+
+### Measuring rotation with an angle
+
+Straight-line motion is described by a position $x$. Rotation is described by an angle. As a wheel turns, a line painted on it from the centre to the rim sweeps through an angle $\theta$, its <Term id="angular-displacement">angular displacement</Term>.
+
+Physics measures that angle in <Term id="radian">radians</Term> (Chapter 0.6). One full turn is $2\pi$ radians, about 6.28. Radians are the natural choice because they connect the angle directly to distance. A point at radius $r$ that turns through $\theta$ radians travels an arc of length
+
+$$
+s = r\theta.
+$$
+
+### Angular speed
+
+How fast the angle changes is the <Term id="angular-speed">angular speed</Term>, written $\omega$ (the Greek letter omega):
+
+$$
+\omega = \frac{d\theta}{dt},
+$$
+
+in radians per second (rad/s). If the rotation is steady, $\omega$ is just the angle turned divided by the time taken.
+
+Engineers and everyday speech often use <Term id="revolutions-per-minute">revolutions per minute</Term> (rpm) instead. One revolution is $2\pi$ radians and one minute is 60 seconds, so
+
+$$
+\omega\ (\text{rad/s}) = \text{rpm} \times \frac{2\pi}{60}.
+$$
+
+The time for one full turn is the <Term id="period">period</Term> $T$, and the number of turns per second is the <Term id="frequency">frequency</Term> $f$. These are the same quantities, with the same symbols, as for the oscillations in Chapter 2.4. That is no coincidence: Chapter 3.2 shows that circular motion and simple harmonic motion are closely related.
+
+### Every part turns together
+
+When a rigid object such as a wheel, a disc or a spinning spaceship rotates, every part of it turns through the same angle in the same time. So **every part has the same angular speed**. The hub of a wheel and its rim make exactly one turn each per turn of the wheel.
+
+What differs is the distance travelled. In one turn, a point near the hub moves around a small circle, while a point on the rim moves around a big one in the same time. The rim moves faster.
+
+<Figure caption="A disc turning through an angle θ. Both marked points turn through the same angle, so they share the same angular speed ω. The outer point is twice as far from the centre, so it covers twice the arc and moves twice as fast: v = ωr." alt="A disc centred on the left, with two concentric circles. A dashed line marks the starting direction, and a solid radius line has turned through angle theta. On the inner circle, a blue arc labelled s1 = r theta ends at a blue point with a short blue arrow tangent to the circle labelled v = omega r. On the outer circle, twice the radius, an amber arc labelled s2 = 2r theta ends at an amber point with an amber arrow twice as long labelled v = 2 omega r. Text on the right: every point turns through the same angle theta in the same time, the same omega; twice as far out, it covers twice the arc, so twice the speed.">
+	<SpinningDisc />
+</Figure>
+
+### Speed around the circle
+
+The speed of a point moving around the circle is called its <Term id="tangential-speed">tangential speed</Term>, because its velocity points along the **tangent**, the line that just touches the circle at that point. Since the arc is $s = r\theta$ and $r$ is fixed,
+
+$$
+v = \frac{ds}{dt} = r\frac{d\theta}{dt} = \omega r.
+$$
+
+Motion around a circle at a steady speed is called <Term id="uniform-circular-motion">uniform circular motion</Term>. "Uniform" means steady speed, but not steady velocity: the velocity's direction keeps turning. A changing velocity is an acceleration, so an object in uniform circular motion is accelerating all the time. Chapter 3.2 finds out how much.
+
+The tangent direction also tells you what happens if whatever holds the object in its circle lets go. With no force pulling it round any more, Newton's first law takes over and the object carries straight on along the tangent. It does not fly straight outwards.
+
+<Figure caption="In uniform circular motion the velocity always points along the tangent. Its size stays the same, but its direction keeps turning. Cut the string and the object leaves along the tangent, in a straight line, as Newton's first law says." alt="A dashed circle with a centre dot. At the top and lower left of the circle, blue dots carry blue arrows of equal length pointing along the circle in the anticlockwise direction, each tangent to it. At the lower right, an amber dot labelled string cut here has a dashed amber straight line running up and to the right along the tangent to a second amber dot, labelled flies off in a straight line. Text: turning anticlockwise; velocity: always along the tangent, same size, turning direction.">
+	<TangentFlyOff />
+</Figure>
+
+### The same result from coordinates
+
+Calculus gives the same answer in another way, and it will be useful in Chapter 3.2. Put the centre of the circle at the origin. A point at radius $r$, turning at $\omega$ and starting on the $x$ axis, is at angle $\omega t$ after time $t$. From the unit circle (Chapter 0.6):
+
+$$
+x = r\cos(\omega t) \qquad y = r\sin(\omega t).
+$$
+
+Differentiate each with the scaling rule (Chapter C.3):
+
+$$
+v_{x} = -r\omega\sin(\omega t) \qquad v_{y} = r\omega\cos(\omega t).
+$$
+
+The speed is the magnitude of this velocity vector:
+
+$$
+v = \sqrt{v_{x}^{2} + v_{y}^{2}} = r\omega\sqrt{\sin^{2}(\omega t) + \cos^{2}(\omega t)} = r\omega.
+$$
+
+## Formulas
+
+### Arc length and angular speed
+
+$$
+\boxed{s = r\theta} \qquad \boxed{\omega = \frac{d\theta}{dt}} \quad (\theta \text{ in radians})
+$$
+
+### Converting rpm
+
+One revolution is $2\pi$ rad, and one minute is 60 s:
+
+$$
+\boxed{\omega = \text{rpm} \times \frac{2\pi}{60}} \qquad \text{rpm} = \omega \times \frac{60}{2\pi}
+$$
+
+### Period and frequency
+
+One turn is an angle of $2\pi$, taking time $T$:
+
+$$
+\boxed{T = \frac{2\pi}{\omega} \qquad f = \frac{1}{T} = \frac{\omega}{2\pi}}
+$$
+
+### Tangential speed
+
+Differentiating $s = r\theta$ with $r$ fixed:
+
+$$
+\boxed{v = \omega r} \qquad \text{equivalently} \qquad v = \frac{2\pi r}{T}
+$$
+
+The second form says: one circumference in one period.
+
+## Worked examples
+
+<Example n={1} title="How fast is the ground moving?">
+Earth turns once relative to the stars every 23.9345 hours (a *sidereal* day, slightly shorter than the 24-hour day measured from noon to noon). Its equatorial radius is 6378 km. Find Earth's angular speed and the speed of the ground at the equator. How fast is the ground moving in London, at latitude 51.5° N?
+
+$$
+T = 23.9345 \times 3600\ \text{s} = 86\,164\ \text{s} \qquad \omega = \frac{2\pi}{86\,164\ \text{s}} = 7.29 \times 10^{-5}\ \text{rad/s}
+$$
+
+$$
+v_{\text{equator}} = \omega r = 7.29 \times 10^{-5}\ \text{rad/s} \times 6.378 \times 10^{6}\ \text{m} = 465\ \text{m/s}
+$$
+
+That is about 1670 km/h. In London, the ground goes round a smaller circle, of radius $r\cos(51.5°)$:
+
+$$
+v_{\text{London}} = 465\ \text{m/s} \times \cos 51.5° = 290\ \text{m/s}
+$$
+
+Everyone, the air and the oceans all move along together, so nobody notices.
+</Example>
+
+<Example n={2} title="The Hail Mary's centrifuge" book>
+In our model of the *Hail Mary*'s centrifuge (Chapter 3.3 explains where the numbers come from), the crew section circles 78 m from the centre of rotation, once every 17.7 s. The heavier rear section circles 26 m from the centre, on the opposite side. Find the angular speed in rad/s and rpm, and the speed of each section.
+
+$$
+\omega = \frac{2\pi}{T} = \frac{2\pi}{17.7\ \text{s}} = 0.355\ \text{rad/s}
+$$
+
+$$
+\text{rpm} = 0.355 \times \frac{60}{2\pi} = 3.39\ \text{rpm}
+$$
+
+Both sections share the same $\omega$. Their speeds differ:
+
+$$
+v_{\text{crew}} = 0.355\ \text{rad/s} \times 78\ \text{m} = 27.7\ \text{m/s} \qquad v_{\text{rear}} = 0.355 \times 26\ \text{m/s} = 9.2\ \text{m/s}
+$$
+
+The crew section moves at about 100 km/h, three times faster than the rear section.
+</Example>
+
+<Example n={3} title="Grace's imagined centrifuge" book>
+In the novel, Grace estimates that a centrifuge giving his results would need a radius of about 700 m, with its rim moving at about 88 m/s. Find its angular speed, period and rpm.
+
+$$
+\omega = \frac{v}{r} = \frac{88\ \text{m/s}}{700\ \text{m}} = 0.126\ \text{rad/s}
+$$
+
+$$
+T = \frac{2\pi}{0.126\ \text{rad/s}} = 50\ \text{s} \qquad \text{rpm} = \frac{60\ \text{s}}{50\ \text{s}} = 1.2\ \text{rpm}
+$$
+
+A structure 1.4 km across, turning once every 50 seconds. (Chapter 3.3 checks his numbers and finds that 1.5 g at 700 m actually needs a rim speed of about 101 m/s: the same conclusion, a vast structure.)
+</Example>
+
+<Example n={4} title="A washing machine's spin cycle">
+A washing machine's drum, of radius 0.25 m, spins at 1200 rpm. Find its angular speed and the speed of the clothes against the drum.
+
+$$
+\omega = 1200 \times \frac{2\pi}{60} = 126\ \text{rad/s} \qquad v = \omega r = 126\ \text{rad/s} \times 0.25\ \text{m} = 31.4\ \text{m/s}
+$$
+
+The drum is 300 times smaller than the model centrifuge but spins 350 times faster.
+</Example>
+
+<Example n={5} title="Earth's orbit as a rotation">
+Earth goes round the Sun once every 365.256 days, at an average distance of $1.496 \times 10^{11}$ m. Treating the orbit as a circle, find its angular speed and orbital speed.
+
+$$
+T = 365.256 \times 86\,400\ \text{s} = 3.156 \times 10^{7}\ \text{s} \qquad \omega = \frac{2\pi}{T} = 1.99 \times 10^{-7}\ \text{rad/s}
+$$
+
+$$
+v = \omega r = 1.99 \times 10^{-7}\ \text{rad/s} \times 1.496 \times 10^{11}\ \text{m} = 2.98 \times 10^{4}\ \text{m/s}
+$$
+
+That's 29.8 km/s, in agreement with NASA's measured mean orbital speed of 29.78 km/s.
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** Angular speed, $v = \omega r$ and the tangent direction of circular velocity are exact kinematics. Earth's rotation and orbital speeds are measured. In 1966, the Gemini 11 crew tied their capsule to a rocket stage with a 30 m tether and set the pair slowly spinning, the first demonstration of artificial gravity by rotation in space.
+
+**Weir's inventions.** The *Hail Mary*'s ability to split in two and spin on cables is the novel's invention, as described in reader guides. Grace's estimate of a 700 m radius and 88 m/s rim speed is the novel's, as summarised by readers. The 78 m and 26 m radii and the 17.7 s period are our model, built in Chapter 3.3 from assumed masses and a cable length (about 104 m) that appears only in fan summaries.
+
+**How realistic are the numbers?** A crew section moving at 100 km/h on the end of a cable is well within the strength of modern fibres. Spinning a pair of spacecraft on a tether is real, though so far only at tiny rates. The hard engineering is in the details: spinning up and down smoothly, keeping the cables from tangling, and balancing two unequal masses.
+</RealVsBook>
+
+## Interactive simulation
+
+<SpinRate />
+
+Things to try: start with the model centrifuge, then switch to Grace's 700 m version: slower rotation, much faster rim. Pick Earth's equator and see 465 m/s from a rotation far too slow to watch. Then set your own: what spin rate gives the rim of a 10 m wheel the same speed as Earth's equator?
+
+## Practice set
+
+<Problem n={1} level="easy">
+Convert 3.0 rpm to rad/s.
+
+<Solution>
+$\omega = 3.0 \times \dfrac{2\pi}{60} = 0.314$ rad/s.
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy">
+A wheel turns at 2.0 rad/s. Find its rpm and its period.
+
+<Solution>
+rpm $= 2.0 \times \dfrac{60}{2\pi} = 19.1$ rpm. $T = \dfrac{2\pi}{2.0} = 3.14$ s.
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy">
+Find the angular speed of a clock's minute hand, and the speed of its tip if the hand is 12 cm long.
+
+<Solution>
+One turn per hour: $\omega = \dfrac{2\pi}{3600\ \text{s}} = 1.75 \times 10^{-3}$ rad/s. $v = \omega r = 1.75 \times 10^{-3} \times 0.12 = 2.09 \times 10^{-4}$ m/s, about a fifth of a millimetre per second.
+</Solution>
+</Problem>
+
+<Problem n={4} level="easy" book>
+In the spinning *Hail Mary*, Grace climbs from the crew section towards the centre along the cables. Does his angular speed change? Does his speed?
+
+<Solution>
+His angular speed stays the same: everything attached to the spinning structure turns once per period. His speed falls, because $v = \omega r$ and $r$ shrinks. At the centre his speed would be zero.
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium">
+A vinyl record turns at $33\tfrac{1}{3}$ rpm. Find its angular speed and the speed of a point on its edge, 15 cm from the centre.
+
+<Solution>
+$\omega = 33.33 \times \dfrac{2\pi}{60} = 3.49$ rad/s. $v = 3.49 \times 0.15 = 0.524$ m/s.
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium" book>
+In Grace's imagined centrifuge ($\omega = 0.126$ rad/s), one deck is 700 m from the centre and another is 4.5 m further in. Find the speed of each deck.
+
+<Solution>
+Outer deck: $0.1257 \times 700 = 88.0$ m/s. Inner deck: $0.1257 \times 695.5 = 87.4$ m/s. Moving between them, Grace's speed would change by only about 0.6 m/s.
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium">
+The Moon orbits Earth once every 27.3217 days at a distance of $3.844 \times 10^{8}$ m. Find its angular speed and its orbital speed.
+
+<Solution>
+$T = 27.3217 \times 86\,400 = 2.361 \times 10^{6}$ s, so $\omega = \dfrac{2\pi}{T} = 2.66 \times 10^{-6}$ rad/s.
+
+$v = \omega r = 2.66 \times 10^{-6} \times 3.844 \times 10^{8} = 1020$ m/s, about 1 km/s.
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium">
+A hammer thrower releases the hammer at 27 m/s while it swings in a circle of radius 1.9 m. What is its angular speed just before release, in rad/s and rpm?
+
+<Solution>
+$\omega = \dfrac{v}{r} = \dfrac{27}{1.9} = 14.2$ rad/s, and $14.2 \times \dfrac{60}{2\pi} = 136$ rpm, more than two turns a second.
+</Solution>
+</Problem>
+
+<Problem n={9} level="medium">
+A point moves as $x = 2.0\cos(3.0t)$, $y = 2.0\sin(3.0t)$ (metres, seconds). Find its velocity components at $t = 0.50$ s and show that its speed is $\omega r$.
+
+<Solution>
+$v_{x} = -6.0\sin(1.5) = -5.98$ m/s and $v_{y} = 6.0\cos(1.5) = 0.424$ m/s.
+
+Speed: $\sqrt{5.98^{2} + 0.424^{2}} = 6.0$ m/s $= \omega r = 3.0 \times 2.0$. ✓
+</Solution>
+</Problem>
+
+<Problem n={10} level="challenging">
+A stone is whirled on a 1.0 m string at 2.0 revolutions per second, in a horizontal circle, and the string breaks. Ignoring gravity, how far is the stone from the centre of the circle 0.20 s later?
+
+<Solution>
+Its speed is $v = \omega r = (2.0 \times 2\pi) \times 1.0 = 12.6$ m/s. After release it moves along the tangent, travelling $12.6 \times 0.20 = 2.51$ m.
+
+The tangent is at right angles to the radius, so by Pythagoras its distance from the centre is $\sqrt{1.0^{2} + 2.51^{2}} = 2.70$ m.
+</Solution>
+</Problem>
+
+<Problem n={11} level="challenging">
+At what latitude does the ground move at half the speed of the ground at the equator?
+
+<Solution>
+At latitude $\phi$ the radius of the circle is $R\cos\phi$, so the speed is $v_{\text{eq}}\cos\phi$. Setting $\cos\phi = 0.5$ gives $\phi = 60°$.
+</Solution>
+</Problem>
+
+<Problem n={12} level="challenging" book>
+In our centrifuge model, the crew section moves at 27.7 m/s. If its cables snapped, where would it go, and how far would it travel in 10 s? Would anyone inside feel a jolt "outwards"?
+
+<Solution>
+It would carry straight on along the tangent at 27.7 m/s (first law), travelling $27.7 \times 10 = 277$ m in 10 s. Nobody would be thrown outwards: the floor would simply stop pushing on them, and everyone inside would float, moving along with the section in a straight line.
+</Solution>
+</Problem>
+
+## Summary
+
+- Rotation is measured by an angle in radians. A point at radius $r$ turning through $\theta$ moves an arc $s = r\theta$.
+- Angular speed $\omega = d\theta/dt$, in rad/s; $\omega = \text{rpm} \times 2\pi/60$. Period $T = 2\pi/\omega$ and frequency $f = 1/T$.
+- Every part of a rigid rotating object has the same $\omega$, but its speed grows with distance from the axis: $v = \omega r$.
+- In uniform circular motion the speed is steady but the velocity, always along the tangent, keeps changing direction. So the object is accelerating.
+- Released from its circle, an object leaves along the tangent in a straight line.
+
+**Formulas from this chapter**
+
+$$
+s = r\theta \qquad \omega = \frac{d\theta}{dt} \qquad \omega = \text{rpm} \times \frac{2\pi}{60} \qquad T = \frac{2\pi}{\omega} \qquad v = \omega r = \frac{2\pi r}{T}
+$$
+
+## Sources
+
+- OpenStax, *University Physics Volume 1*, [§4.4 Uniform Circular Motion](https://openstax.org/books/university-physics-volume-1/pages/4-4-uniform-circular-motion) and [§10.1 Rotational Variables](https://openstax.org/books/university-physics-volume-1/pages/10-1-rotational-variables).
+- Earth's sidereal rotation period (23.9345 h), equatorial radius (6378.137 km) and mean orbital speed (29.78 km/s), and the Moon's sidereal orbit period (27.3217 days) and distance: NASA NSSDCA [Earth fact sheet](https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html), [Moon fact sheet](https://nssdc.gsfc.nasa.gov/planetary/factsheet/moonfact.html).
+- Gemini 11's 30 m tether and the first artificial gravity by rotation in space: NASA, [Gemini XI](https://www.nasa.gov/mission/gemini-xi/).
+- The *Hail Mary* as a centrifuge of two sections joined by cables: LitCharts, [*Project Hail Mary*: Centrifuge](https://www.litcharts.com/lit/project-hail-mary/terms/centrifuge). Grace's estimate (700 m radius, 88 m/s) is the novel's figure (Andy Weir, *Project Hail Mary*, 2021), as summarised by readers. [Reader summary](https://trangnkp.substack.com/p/project-hail-mary). Approximate. The model centrifuge's radii and period are our assumptions (Chapter 3.3).

@@ -1,0 +1,41 @@
+---
+// Our model of the Hail Mary in centrifuge mode: crew section (2.0 × 10⁵ kg) and rear section (6.0 × 10⁵ kg)
+// on 104 m of cable, spinning about their centre of mass. Apparent gravity points outwards in each section.
+const CM = { x: 330, y: 150 }, S = 3.0; // px per metre
+const rCrew = 78, rAft = 26;
+const crew = { x: CM.x - rCrew * S, y: CM.y }, aft = { x: CM.x + rAft * S, y: CM.y };
+const head = (x1: number, y1: number, x2: number, y2: number) => {
+	const L = Math.hypot(x2 - x1, y2 - y1), ux = (x2 - x1) / L, uy = (y2 - y1) / L;
+	return `${x2},${y2} ${x2 - 12 * ux + 6 * uy},${y2 - 12 * uy - 6 * ux} ${x2 - 12 * ux - 6 * uy},${y2 - 12 * uy + 6 * ux}`;
+};
+---
+
+<svg class="dg" viewBox="0 0 600 320" xmlns="http://www.w3.org/2000/svg">
+	<line x1={crew.x + 22} y1={CM.y} x2={aft.x - 34} y2={CM.y} class="s-muted w2" />
+	<text x={(crew.x + aft.x) / 2 - 40} y={CM.y - 12} class="t-mid t-sm f-muted">cables, 104 m in all</text>
+	<rect x={crew.x - 22} y={CM.y - 18} width="44" height="36" rx="8" class="f-sky-soft s-sky w2" />
+	<text x={crew.x} y={CM.y + 40} class="t-mid t-sm f-sky">crew section</text>
+	<text x={crew.x} y={CM.y + 58} class="t-mid t-sm f-sky">2.0 × 10⁵ kg</text>
+	<rect x={aft.x - 34} y={CM.y - 24} width="68" height="48" rx="6" class="f-amber-soft s-amber w2" />
+	<text x={aft.x} y={CM.y + 46} class="t-mid t-sm f-amber">rear section (engines, fuel)</text>
+	<text x={aft.x} y={CM.y + 64} class="t-mid t-sm f-amber">6.0 × 10⁵ kg</text>
+	<circle cx={CM.x} cy={CM.y} r="5" class="f-fg" />
+	<text x={CM.x - 10} y={CM.y + 24} class="t-end t-sm">centre of mass</text>
+	<path d={`M${CM.x - 30},${CM.y - 92} A100,100 0 0,1 ${CM.x + 30},${CM.y - 92}`} class="s-green w2" fill="none" />
+	<polygon points={head(CM.x + 10, CM.y - 98, CM.x + 32, CM.y - 92)} class="f-green" />
+	<text x={CM.x} y={CM.y - 108} class="t-mid t-sm f-green">ω = 0.355 rad/s (3.39 rpm)</text>
+	<line x1={crew.x} y1={CM.y + 82} x2={CM.x} y2={CM.y + 82} class="s-fg w1" />
+	<line x1={crew.x} y1={CM.y + 76} x2={crew.x} y2={CM.y + 88} class="s-fg w1" />
+	<line x1={CM.x} y1={CM.y + 76} x2={CM.x} y2={CM.y + 88} class="s-fg w1" />
+	<text x={(crew.x + CM.x) / 2} y={CM.y + 104} class="t-mid t-sm">r = 78 m</text>
+	<line x1={CM.x} y1={CM.y + 82} x2={aft.x} y2={CM.y + 82} class="s-fg w1" />
+	<line x1={aft.x} y1={CM.y + 76} x2={aft.x} y2={CM.y + 88} class="s-fg w1" />
+	<text x={(CM.x + aft.x) / 2} y={CM.y + 104} class="t-mid t-sm">26 m</text>
+	<line x1={crew.x - 24} y1={CM.y - 30} x2={crew.x - 50} y2={CM.y - 30} class="s-rose w2" />
+	<polygon points={head(crew.x - 24, CM.y - 30, crew.x - 60, CM.y - 30)} class="f-rose" />
+	<text x={crew.x - 16} y={CM.y - 40} class="t-sm f-rose">"down": 1 g</text>
+	<line x1={aft.x + 36} y1={CM.y - 34} x2={aft.x + 46} y2={CM.y - 34} class="s-rose w2" />
+	<polygon points={head(aft.x + 36, CM.y - 34, aft.x + 56, CM.y - 34)} class="f-rose" />
+	<text x={aft.x + 60} y={CM.y - 30} class="t-sm f-rose">0.33 g</text>
+	<text x="300" y="300" class="t-mid t-sm f-muted">Each section's floor is on its outer side, away from the centre.</text>
+</svg>

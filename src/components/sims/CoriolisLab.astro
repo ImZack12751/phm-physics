@@ -1,0 +1,86 @@
+---
+// Simulation: drop a ball inside a spinning habitat and see its path as someone standing inside would, computed exactly
+// (a straight line in the non-rotating frame, turned into the rotating frame).
+---
+
+<div
+	class="sim co"
+	data-title="Coriolis drop lab"
+	data-description="Drop a ball inside a spinning habitat. Choose a preset (our model centrifuge, 78 m at 3.39 rpm; a small 25 m habitat at 6 rpm; a 895 m habitat at 1 rpm; Grace's imagined 777 m centrifuge at 1.31 rpm) or set the floor radius (10 to 1000 m), spin rate (0.5 to 10 rpm) and drop height (0.2 to 5 m). The program follows the ball exactly: after release it moves in a straight line at the speed of its release point, which is then turned into the rotating frame. The graph shows the path seen by someone standing inside, height against sideways distance, with the sideways scale stretched so the curve is visible, beside a dashed straight-down line. The readout gives the fall time, the exact sideways landing distance (antispinward), the approximation two-thirds × ω × h × t, and the floor's gravity."
+>
+	<p class="sim-title">Simulation: Coriolis drop lab</p>
+	<p class="sim-help">From outside, the released ball moves in a perfectly straight line. From inside, the floor turns underneath it, so it seems to curve and lands behind the spot directly below, against the spin. The sideways scale is stretched to make the curve visible.</p>
+	<div class="sim-controls">
+		<label>Preset
+			<select class="co-p">
+				<option value="1.892|3.3866|1" selected>model centrifuge (78 m, 3.39 rpm)</option>
+				<option value="1.398|6|1.5">small habitat (25 m, 6 rpm)</option>
+				<option value="2.952|1|1">large habitat (895 m, 1 rpm)</option>
+				<option value="2.890|1.3131|0.91">Grace's imagined centrifuge (777 m, 1.5 g)</option>
+			</select>
+		</label>
+		<label>Floor radius R <input type="range" class="co-r" min="1" max="3" step="0.001" value="1.892" /> <output class="co-rv"></output></label>
+		<label>Spin rate <input type="range" class="co-n" min="0.5" max="10" step="0.0001" value="3.3866" /> <output class="co-nv"></output></label>
+		<label>Drop height h <input type="range" class="co-h" min="0.2" max="5" step="0.01" value="1" /> <output class="co-hv"></output></label>
+	</div>
+	<svg class="dg co-svg" viewBox="0 0 600 240" role="img" aria-label="The ball's path seen from inside the habitat"></svg>
+	<div class="readout co-out" aria-live="polite"></div>
+</div>
+
+<script>
+	document.querySelectorAll<HTMLElement>('.sim.co').forEach((root) => {
+		const svg = root.querySelector<SVGSVGElement>('.co-svg')!;
+		const Ps = root.querySelector<HTMLSelectElement>('.co-p')!;
+		const Rs = root.querySelector<HTMLInputElement>('.co-r')!, Ns = root.querySelector<HTMLInputElement>('.co-n')!, Hs = root.querySelector<HTMLInputElement>('.co-h')!;
+		const out = root.querySelector<HTMLElement>('.co-out')!;
+		const NS = 'http://www.w3.org/2000/svg';
+		const el = (tag: string, at: Record<string, string | number>, text?: string) => {
+			const e = document.createElementNS(NS, tag);
+			Object.entries(at).forEach(([k, v]) => e.setAttribute(k, String(v)));
+			if (text !== undefined) e.textContent = text;
+			svg.append(e);
+			return e;
+		};
+		function draw() {
+			const R = 10 ** +Rs.value, n = +Ns.value, w = (2 * Math.PI * n) / 60, h = Math.min(+Hs.value, R * 0.5);
+			root.querySelector('.co-rv')!.textContent = `${R.toFixed(R < 100 ? 1 : 0)} m`;
+			root.querySelector('.co-nv')!.textContent = `${n.toFixed(2)} rpm`;
+			root.querySelector('.co-hv')!.textContent = `${h.toFixed(2)} m`;
+			// Non-rotating frame: released at radius r1 on the +y axis, moving at ωr1 in the −x direction (anticlockwise spin).
+			const r1 = R - h, d = Math.sqrt(R * R - r1 * r1), v = w * r1, tLand = d / v;
+			const path: [number, number][] = [];
+			for (let i = 0; i <= 120; i++) {
+				const t = (tLand * i) / 120, x = -v * t, y = r1;
+				const rho = Math.hypot(x, y), phi = Math.atan2(y, x) - w * t; // turn into the rotating frame
+				path.push([R * (phi - Math.PI / 2), R - rho]); // sideways distance along the floor (spinward positive), height
+			}
+			const defl = -path[path.length - 1][0], approx = (2 / 3) * w * h * tLand, gFloor = w * w * R;
+			svg.replaceChildren();
+			const L = 70, Rr = 560, T = 24, B = 190, xMax = Math.max(defl * 1.25, 1e-6);
+			const px = (s: number) => Rr - 60 + (s / xMax) * (Rr - 60 - L), py = (z: number) => B - (z / h) * (B - T);
+			el('line', { x1: L, y1: B, x2: Rr, y2: B, class: 's-fg w3' });
+			el('text', { x: Rr, y: B + 18, class: 't-end t-sm f-muted' }, 'floor');
+			el('line', { x1: px(0), y1: py(h), x2: px(0), y2: B, class: 's-sky w1 dash' });
+			el('text', { x: px(0) + 8, y: py(h * 0.5), class: 't-sm f-sky' }, 'straight down');
+			el('path', { d: path.map(([s, z], i) => `${i ? 'L' : 'M'}${px(s).toFixed(1)},${py(z).toFixed(1)}`).join(' '), class: 's-amber w3', fill: 'none' });
+			el('circle', { cx: px(0), cy: py(h), r: 6, class: 'f-amber' });
+			el('circle', { cx: px(-defl), cy: B, r: 6, class: 'f-amber' });
+			el('line', { x1: px(-defl), y1: B + 10, x2: px(0), y2: B + 10, class: 's-rose w2' });
+			el('text', { x: (px(-defl) + px(0)) / 2, y: B + 30, class: 't-mid t-sm f-rose' }, `${(defl * 100).toFixed(1)} cm against the spin`);
+			el('text', { x: L, y: T + 4, class: 't-sm f-muted' }, '← against the spin (sideways scale stretched)');
+			out.innerHTML =
+				`<span class="k">floor gravity ω²R</span> = ${gFloor.toFixed(2)} m/s² (${(gFloor / 9.81).toFixed(2)} g) &nbsp; <span class="k">fall time</span> = ${tLand.toFixed(3)} s<br>` +
+				`<span class="k">lands behind the spot below by</span> <b>${(defl * 100).toFixed(2)} cm</b> (exact) &nbsp; <span class="k">approximation ⅔ωht</span> = ${(approx * 100).toFixed(2)} cm<br>` +
+				`<span class="k">as a fraction of the drop height</span>: ${((defl / h) * 100).toFixed(1)}%`;
+		}
+		Ps.addEventListener('change', () => {
+			const [r, n, h] = Ps.value.split('|').map(Number);
+			Rs.value = String(r);
+			Ns.value = String(n);
+			Hs.value = String(h);
+			draw();
+		});
+		[Rs, Ns, Hs].forEach((i) => i.addEventListener('input', draw));
+		draw();
+	});
+</script>

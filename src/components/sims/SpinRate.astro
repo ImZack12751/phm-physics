@@ -1,0 +1,96 @@
+---
+// Simulation: angular speed and tangential speed. Choose a radius and a rotation rate (or a preset) and see ω, T and v = ωr.
+---
+
+<div
+	class="sim sr"
+	data-title="Spin rate and speed"
+	data-description="Choose a preset (the model Hail Mary centrifuge, 78 m at 3.39 rpm; Grace's imagined 700 m centrifuge at 1.2 rpm; Earth's equator, 6378 km at one turn per sidereal day; a washing-machine drum, 0.25 m at 1200 rpm) or set the radius (0.1 m to 10,000 km) and rotation rate (0.0005 to 2000 rpm) with sliders on logarithmic scales. A disc turns with a marker at the chosen radius and its velocity arrow; the animation runs at the true rate up to one turn per second and is slowed beyond that, and stops if reduced motion is requested. The readout gives the angular speed ω in rad/s, the period, the frequency and the speed v = ωr in m/s and km/h."
+>
+	<p class="sim-title">Simulation: spin rate and speed</p>
+	<p class="sim-help">Pick a preset, or set the radius and the spin rate yourself (both sliders are logarithmic: each step multiplies the value). The marker's speed is v = ωr.</p>
+	<div class="sim-controls">
+		<label>Preset
+			<select class="sr-p">
+				<option value="78|3.3866" selected>model Hail Mary centrifuge (78 m)</option>
+				<option value="700|1.2005">Grace's imagined centrifuge (700 m)</option>
+				<option value="6378137|0.00069634">Earth's equator (6378 km)</option>
+				<option value="0.25|1200">washing-machine drum (0.25 m)</option>
+			</select>
+		</label>
+		<label>Radius r <input type="range" class="sr-r" min="-1" max="7" step="0.001" value="1.892" /> <output class="sr-rv"></output></label>
+		<label>Spin rate <input type="range" class="sr-n" min="-3.3" max="3.3" step="0.0001" value="0.5298" /> <output class="sr-nv"></output></label>
+	</div>
+	<svg class="dg sr-svg" viewBox="0 0 600 260" role="img" aria-label="A turning disc with a marker and its velocity arrow"></svg>
+	<div class="readout sr-out" aria-live="polite"></div>
+</div>
+
+<script>
+	const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+	const fmt = (x: number) => (x >= 1e4 || x < 0.01 ? x.toExponential(2).replace('e+', ' × 10^').replace('e-', ' × 10^-') : x >= 100 ? x.toFixed(0) : x.toPrecision(3));
+	const sup = (s: string) => s.replace(/\^(-?\d+)/, (_, e) => [...e].map((c: string) => '⁻⁰¹²³⁴⁵⁶⁷⁸⁹'['-0123456789'.indexOf(c)]).join(''));
+	document.querySelectorAll<HTMLElement>('.sim.sr').forEach((root) => {
+		const svg = root.querySelector<SVGSVGElement>('.sr-svg')!;
+		const P = root.querySelector<HTMLSelectElement>('.sr-p')!;
+		const Rs = root.querySelector<HTMLInputElement>('.sr-r')!, Ns = root.querySelector<HTMLInputElement>('.sr-n')!;
+		const out = root.querySelector<HTMLElement>('.sr-out')!;
+		const NS = 'http://www.w3.org/2000/svg';
+		const el = (tag: string, at: Record<string, string | number>, text?: string) => {
+			const e = document.createElementNS(NS, tag);
+			Object.entries(at).forEach(([k, v]) => e.setAttribute(k, String(v)));
+			if (text !== undefined) e.textContent = text;
+			svg.append(e);
+			return e;
+		};
+		const CX = 150, CY = 130, RD = 100;
+		let marker: SVGGElement | null = null, shownOmega = 0, angle = 0.6, last = 0;
+		function draw() {
+			const r = 10 ** +Rs.value, n = 10 ** +Ns.value, w = (2 * Math.PI * n) / 60, v = w * r;
+			root.querySelector('.sr-rv')!.textContent = `${sup(fmt(r))} m`;
+			root.querySelector('.sr-nv')!.textContent = `${sup(fmt(n))} rpm`;
+			svg.replaceChildren();
+			el('circle', { cx: CX, cy: CY, r: RD, class: 'f-sky-soft s-sky w2' });
+			el('circle', { cx: CX, cy: CY, r: 4, class: 'f-fg' });
+			el('text', { x: CX, y: CY + RD + 22, class: 't-mid t-sm f-muted' }, `radius ${sup(fmt(r))} m (drawn to fit)`);
+			marker = document.createElementNS(NS, 'g') as SVGGElement;
+			const add = (tag: string, at: Record<string, string | number>) => {
+				const e = document.createElementNS(NS, tag);
+				Object.entries(at).forEach(([k, val]) => e.setAttribute(k, String(val)));
+				marker!.append(e);
+			};
+			add('line', { x1: CX, y1: CY, x2: CX + RD, y2: CY, class: 's-fg w1 dash' });
+			add('line', { x1: CX + RD, y1: CY, x2: CX + RD, y2: CY - 58, class: 's-amber w3' });
+			add('polygon', { points: `${CX + RD},${CY - 70} ${CX + RD - 7},${CY - 56} ${CX + RD + 7},${CY - 56}`, class: 'f-amber' });
+			add('circle', { cx: CX + RD, cy: CY, r: 8, class: 'f-amber' });
+			svg.append(marker);
+			setAngle();
+			el('text', { x: 300, y: 50, class: 't-sm' }, 'angular speed ω = 2π × rpm ÷ 60');
+			el('text', { x: 300, y: 80, class: 't-sm f-amber' }, `v = ωr = ${sup(fmt(w))} rad/s × ${sup(fmt(r))} m`);
+			el('text', { x: 336, y: 104, class: 't-sm f-amber' }, `= ${sup(fmt(v))} m/s`);
+			el('text', { x: 300, y: 140, class: 't-sm f-muted' }, n > 60 ? 'animation slowed: too fast to show' : 'animation at the true rate');
+			shownOmega = Math.min(w, 2 * Math.PI);
+			const T = 60 / n;
+			out.innerHTML =
+				`<span class="k">angular speed ω</span> = <b>${sup(fmt(w))} rad/s</b> &nbsp; <span class="k">period T = 2π/ω</span> = ${T >= 3600 ? `${(T / 3600).toFixed(2)} h` : `${sup(fmt(T))} s`} &nbsp; <span class="k">frequency</span> = ${sup(fmt(n / 60))} Hz<br>` +
+				`<span class="k">speed of the marker, v = ωr</span> = <b>${sup(fmt(v))} m/s</b> = ${sup(fmt(v * 3.6))} km/h`;
+		}
+		function setAngle() {
+			if (marker) marker.setAttribute('transform', `rotate(${(-angle * 180) / Math.PI} ${CX} ${CY})`);
+		}
+		function frame(now: number) {
+			if (last) angle += (shownOmega * (now - last)) / 1000;
+			last = now;
+			setAngle();
+			requestAnimationFrame(frame);
+		}
+		P.addEventListener('change', () => {
+			const [r, n] = P.value.split('|').map(Number);
+			Rs.value = String(Math.log10(r));
+			Ns.value = String(Math.log10(n));
+			draw();
+		});
+		[Rs, Ns].forEach((i) => i.addEventListener('input', draw));
+		draw();
+		if (!reduce) requestAnimationFrame(frame);
+	});
+</script>

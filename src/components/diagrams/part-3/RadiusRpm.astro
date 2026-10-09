@@ -1,0 +1,47 @@
+---
+// Radius needed for 1 g against spin rate: r = g/ω². Log scale for the radius.
+// Marks: traditional 1–2 rpm comfort limit, Globus & Hall's 4 and 6 rpm, and our model.
+const G = 9.81, RPM = (2 * Math.PI) / 60;
+const L = 90, R = 560, T = 30, B = 250;
+const nMin = 0.5, nMax = 8, rMin = 10, rMax = 5000;
+const px = (n: number) => L + ((n - nMin) / (nMax - nMin)) * (R - L);
+const py = (r: number) => B - ((Math.log10(r) - Math.log10(rMin)) / (Math.log10(rMax) - Math.log10(rMin))) * (B - T);
+const radius = (n: number) => G / (n * RPM) ** 2;
+const curve = Array.from({ length: 121 }, (_, i) => {
+	const n = nMin + ((nMax - nMin) * i) / 120;
+	return `${i ? 'L' : 'M'}${px(n).toFixed(1)},${py(Math.min(rMax, radius(n))).toFixed(1)}`;
+}).join(' ');
+const points = [
+	{ n: 1, label: '1 rpm: 895 m', dx: 10, dy: -4 },
+	{ n: 2, label: '2 rpm: 224 m', dx: 10, dy: -6 },
+	{ n: 3.39, label: 'our model: 78 m', dx: -10, dy: 22, cls: 'f-sky t-end' },
+	{ n: 4, label: '4 rpm: 56 m', dx: 10, dy: -8 },
+	{ n: 6, label: '6 rpm: 25 m', dx: 10, dy: -8 },
+];
+---
+
+<svg class="dg" viewBox="0 0 600 320" xmlns="http://www.w3.org/2000/svg">
+	<rect x={px(nMin)} y={T} width={px(2) - px(nMin)} height={B - T} class="f-green-soft" />
+	<text x={(px(nMin) + px(2)) / 2} y={B - 10} class="t-mid t-sm f-green">1970s rule: ≤ 2 rpm</text>
+	<rect x={px(2)} y={T} width={px(4) - px(2)} height={B - T} class="f-amber-soft" />
+	<text x={(px(2) + px(4)) / 2} y={B - 10} class="t-mid t-sm f-amber">up to 4 rpm</text>
+	{[10, 100, 1000].map((r) => (
+		<>
+			<line x1={L} y1={py(r)} x2={R} y2={py(r)} class="s-grid w1" />
+			<text x={L - 8} y={py(r) + 4} class="t-end t-sm f-muted">{r} m</text>
+		</>
+	))}
+	{[1, 2, 3, 4, 5, 6, 7, 8].map((n) => <text x={px(n)} y={B + 18} class="t-mid t-sm f-muted">{n}</text>)}
+	<line x1={L} y1={B} x2={R} y2={B} class="s-fg w2" />
+	<line x1={L} y1={B} x2={L} y2={T} class="s-fg w2" />
+	<path d={curve} class="s-rose w3" fill="none" />
+	{points.map((p) => (
+		<>
+			<circle cx={px(p.n)} cy={py(radius(p.n))} r="5" class={p.cls ?? 'f-rose'} />
+			<text x={px(p.n) + p.dx} y={py(radius(p.n)) + p.dy} class={`t-sm halo ${p.cls ?? ''}`}>{p.label}</text>
+		</>
+	))}
+	<text x={(L + R) / 2} y={B + 40} class="t-mid t-sm">spin rate (rpm)</text>
+	<text x="22" y={(T + B) / 2} class="t-mid t-sm" transform={`rotate(-90 22 ${(T + B) / 2})`}>radius for 1 g</text>
+	<text x={R} y={T + 16} class="t-end t-sm f-rose">r = g / ω²</text>
+</svg>

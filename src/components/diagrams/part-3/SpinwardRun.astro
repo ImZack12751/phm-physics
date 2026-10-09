@@ -1,0 +1,42 @@
+---
+// Running inside our model centrifuge (78 m, 1 g). Running spinward adds to your speed around the axis, so you feel heavier;
+// running antispinward subtracts, so you feel lighter. Values for 2.0 m/s.
+const C = { x: 160, y: 165 }, R = 120;
+const head = (x1: number, y1: number, x2: number, y2: number) => {
+	const L = Math.hypot(x2 - x1, y2 - y1), ux = (x2 - x1) / L, uy = (y2 - y1) / L;
+	return `${x2},${y2} ${x2 - 12 * ux + 6 * uy},${y2 - 12 * uy - 6 * ux} ${x2 - 12 * ux - 6 * uy},${y2 - 12 * uy + 6 * ux}`;
+};
+const bars = [
+	{ name: 'running against the spin', g: 0.86, cls: 'f-sky' },
+	{ name: 'standing still', g: 1.0, cls: 'f-green' },
+	{ name: 'running with the spin', g: 1.15, cls: 'f-rose' },
+];
+const BX = 330, BW = 190;
+---
+
+<svg class="dg" viewBox="0 0 600 345" xmlns="http://www.w3.org/2000/svg">
+	<circle cx={C.x} cy={C.y} r={R} class="s-fg w3" fill="none" />
+	<circle cx={C.x} cy={C.y} r="4" class="f-fg" />
+	<path d={`M${C.x + R + 14},${C.y + 30} A${R + 14},${R + 14} 0 0,0 ${C.x + R + 14},${C.y - 30}`} class="s-green w2" fill="none" />
+	<polygon points={head(C.x + R + 12, C.y - 18, C.x + R + 14, C.y - 32)} class="f-green" />
+	<text x={C.x + R + 22} y={C.y + 4} class="t-sm f-green">spin</text>
+	<rect x={C.x - 6} y={C.y + R - 26} width="12" height="24" rx="5" class="f-amber" />
+	<line x1={C.x + 12} y1={C.y + R - 14} x2={C.x + 54} y2={C.y + R - 14} class="s-rose w2" />
+	<polygon points={head(C.x + 12, C.y + R - 14, C.x + 66, C.y + R - 14)} class="f-rose" />
+	<text x={C.x + 16} y={C.y + R + 22} class="t-sm f-rose">spinward →</text>
+	<line x1={C.x - 12} y1={C.y + R - 14} x2={C.x - 54} y2={C.y + R - 14} class="s-sky w2" />
+	<polygon points={head(C.x - 12, C.y + R - 14, C.x - 66, C.y + R - 14)} class="f-sky" />
+	<text x={C.x - 16} y={C.y + R + 22} class="t-end t-sm f-sky">← antispinward</text>
+	<text x={C.x} y="28" class="t-mid t-sm f-muted">model centrifuge, 78 m, 1 g</text>
+	<text x={BX} y="60" class="t-b">felt gravity, running at 2.0 m/s</text>
+	{
+		bars.map((b, i) => (
+			<>
+				<text x={BX} y={100 + i * 60} class="t-sm">{b.name}</text>
+				<rect x={BX} y={108 + i * 60} width={(b.g / 1.2) * BW} height="20" rx="3" class={b.cls} />
+				<text x={BX + (b.g / 1.2) * BW + 8} y={123 + i * 60} class="t-sm">{`${b.g.toFixed(2)} g`}</text>
+			</>
+		))
+	}
+	<text x="300" y="334" class="t-mid t-sm f-muted">(ωr ± u)² ÷ r: the cross term ±2ωu is the Coriolis effect.</text>
+</svg>

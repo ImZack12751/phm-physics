@@ -1,0 +1,70 @@
+---
+// Simulation: design a spinning habitat. Radius and spin rate give the floor's gravity, the head-to-foot gradient,
+// the rim speed, a comfort rating, and Grace's two-deck pendulum test.
+---
+
+<div
+	class="sim sg"
+	data-title="Spin gravity designer"
+	data-description="Design a spinning habitat by choosing the floor's distance from the axis (10 to 1000 m, logarithmic) and the spin rate (0.5 to 10 rpm). A graph shows apparent gravity growing in a straight line from zero at the axis to the floor, with a 1.8 m person standing on the floor and a second deck 4.5 m further in. The readout gives the floor's gravity ω²r in m/s² and in g, the rim speed, how much lighter the head is than the feet, a comfort rating based on the spin rate (1970s guideline of 2 rpm or less, and Globus and Hall's 4 and 6 rpm), and Grace's two-deck test: the change in gravity and in a pendulum's swing count over 10 minutes, starting from 346 swings on the lower deck."
+>
+	<p class="sim-title">Simulation: spin gravity designer</p>
+	<p class="sim-help">Choose how far the floor is from the axis and how fast the habitat spins. Can you find a design that gives 1 g, keeps the head-to-foot difference small and stays comfortable? Then check whether Grace's pendulum would notice the 4.5 m climb to the upper deck.</p>
+	<div class="sim-controls">
+		<label>Floor radius r <input type="range" class="sg-r" min="1" max="3" step="0.001" value="1.892" /> <output class="sg-rv"></output></label>
+		<label>Spin rate <input type="range" class="sg-n" min="0.5" max="10" step="0.01" value="3.39" /> <output class="sg-nv"></output></label>
+	</div>
+	<svg class="dg sg-svg" viewBox="0 0 600 240" role="img" aria-label="Apparent gravity against distance from the axis"></svg>
+	<div class="readout sg-out" aria-live="polite"></div>
+</div>
+
+<script>
+	const G0 = 9.81, H = 1.8, DECK = 4.5;
+	document.querySelectorAll<HTMLElement>('.sim.sg').forEach((root) => {
+		const svg = root.querySelector<SVGSVGElement>('.sg-svg')!;
+		const Rs = root.querySelector<HTMLInputElement>('.sg-r')!, Ns = root.querySelector<HTMLInputElement>('.sg-n')!;
+		const out = root.querySelector<HTMLElement>('.sg-out')!;
+		const NS = 'http://www.w3.org/2000/svg';
+		const el = (tag: string, at: Record<string, string | number>, text?: string) => {
+			const e = document.createElementNS(NS, tag);
+			Object.entries(at).forEach(([k, v]) => e.setAttribute(k, String(v)));
+			if (text !== undefined) e.textContent = text;
+			svg.append(e);
+			return e;
+		};
+		function draw() {
+			const r = 10 ** +Rs.value, n = +Ns.value, w = (2 * Math.PI * n) / 60;
+			const gFloor = w * w * r, gHead = w * w * (r - H), gDeck = w * w * (r - DECK);
+			root.querySelector('.sg-rv')!.textContent = `${r.toFixed(r < 100 ? 1 : 0)} m`;
+			root.querySelector('.sg-nv')!.textContent = `${n.toFixed(2)} rpm`;
+			svg.replaceChildren();
+			const L = 70, R = 560, T = 20, B = 190;
+			const gMax = Math.max(gFloor * 1.1, G0 * 1.2);
+			const px = (d: number) => L + (d / r) * (R - L), py = (g: number) => B - (g / gMax) * (B - T);
+			for (let k = 0; k <= 3; k++) {
+				const gv = (gMax * k) / 3;
+				el('line', { x1: L, y1: py(gv), x2: R, y2: py(gv), class: 's-grid w1' });
+				el('text', { x: L - 8, y: py(gv) + 4, class: 't-end t-sm f-muted' }, gv.toFixed(1));
+			}
+			el('line', { x1: L, y1: py(G0), x2: R, y2: py(G0), class: 's-green w1 dash' });
+			el('text', { x: L + 6, y: py(G0) - 6, class: 't-sm f-green halo' }, 'Earth, 9.81');
+			el('line', { x1: px(0), y1: py(0), x2: px(r), y2: py(gFloor), class: 's-rose w3' });
+			el('line', { x1: px(r - DECK), y1: B, x2: px(r - DECK), y2: py(gDeck), class: 's-sky w1 dash' });
+			el('text', { x: px(r - DECK) - 6, y: B - 8, class: 't-end t-sm f-sky' }, 'upper deck');
+			el('rect', { x: px(r) - 4, y: py(gFloor) - 6, width: 8, height: 12, class: 'f-amber' });
+			el('line', { x1: L, y1: B, x2: R, y2: B, class: 's-fg w2' });
+			el('text', { x: L, y: B + 18, class: 't-mid t-sm f-muted' }, 'axis');
+			el('text', { x: R, y: B + 18, class: 't-mid t-sm f-muted' }, 'floor');
+			el('text', { x: (L + R) / 2, y: B + 38, class: 't-mid t-sm' }, 'distance from the axis');
+			el('text', { x: 18, y: (T + B) / 2, class: 't-mid t-sm', transform: `rotate(-90 18 ${(T + B) / 2})` }, 'gravity (m/s²)');
+			const comfort = n <= 2 ? 'comfortable for nearly everyone (the 1970s guideline)' : n <= 4 ? 'acceptable after some adaptation (Globus & Hall)' : n <= 6 ? 'possible for adapted residents (Globus & Hall)' : 'likely to cause motion sickness';
+			const swings = 346 * Math.sqrt((r - DECK) / r);
+			out.innerHTML =
+				`<span class="k">floor gravity ω²r</span> = <b>${gFloor.toFixed(2)} m/s²</b> = <b>${(gFloor / G0).toFixed(2)} g</b> &nbsp; <span class="k">rim speed ωr</span> = ${(w * r).toFixed(1)} m/s<br>` +
+				`<span class="k">a 1.8 m person's head is lighter than their feet by</span> ${((H / r) * 100).toFixed(1)}% &nbsp; <span class="k">comfort</span>: ${comfort}<br>` +
+				`<span class="k">two-deck test</span>: 4.5 m up, gravity is ${((DECK / r) * 100).toFixed(2)}% lower; a pendulum making 346 swings in 10 min below makes <b>${swings.toFixed(1)}</b> above ${346 - swings >= 1 ? '(noticeable)' : '(less than one swing different: unnoticeable)'}`;
+		}
+		[Rs, Ns].forEach((i) => i.addEventListener('input', draw));
+		draw();
+	});
+</script>

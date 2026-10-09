@@ -1,0 +1,44 @@
+---
+// Velocity in uniform circular motion is always tangent to the circle: same length, changing direction.
+// Cut the string and the object flies off in a straight line along the tangent (Newton's first law).
+const C = { x: 220, y: 175 }, R = 110, V = 60;
+const angles = [90, 210].map((d) => (d * Math.PI) / 180);
+const pt = (a: number) => ({ x: C.x + R * Math.cos(a), y: C.y - R * Math.sin(a) });
+// anticlockwise motion: tangent direction (−sin a, cos a) in maths axes, y flipped for the screen
+const tan = (a: number) => ({ x: -Math.sin(a), y: -Math.cos(a) });
+const head = (x1: number, y1: number, x2: number, y2: number) => {
+	const L = Math.hypot(x2 - x1, y2 - y1), ux = (x2 - x1) / L, uy = (y2 - y1) / L;
+	return `${x2},${y2} ${x2 - 12 * ux + 6 * uy},${y2 - 12 * uy - 6 * ux} ${x2 - 12 * ux - 6 * uy},${y2 - 12 * uy + 6 * ux}`;
+};
+const REL = (330 * Math.PI) / 180; // release point
+const Pr = pt(REL), Tr = tan(REL);
+const flyEnd = { x: Pr.x + 200 * Tr.x, y: Pr.y + 200 * Tr.y };
+---
+
+<svg class="dg" viewBox="0 0 600 330" xmlns="http://www.w3.org/2000/svg">
+	<circle cx={C.x} cy={C.y} r={R} class="s-muted w1 dash" fill="none" />
+	<circle cx={C.x} cy={C.y} r="4" class="f-fg" />
+	{
+		angles.map((a) => {
+			const p = pt(a), t = tan(a);
+			const e = { x: p.x + V * t.x, y: p.y + V * t.y };
+			return (
+				<>
+					<line x1={C.x} y1={C.y} x2={p.x} y2={p.y} class="s-grid w1" />
+					<line x1={p.x} y1={p.y} x2={e.x - 12 * t.x} y2={e.y - 12 * t.y} class="s-sky w2" />
+					<polygon points={head(p.x, p.y, e.x, e.y)} class="f-sky" />
+					<circle cx={p.x} cy={p.y} r="6" class="f-sky" />
+				</>
+			);
+		})
+	}
+	<line x1={C.x} y1={C.y} x2={Pr.x} y2={Pr.y} class="s-fg w1 dash" />
+	<line x1={Pr.x} y1={Pr.y} x2={flyEnd.x} y2={flyEnd.y} class="s-amber w2 dash" />
+	<circle cx={Pr.x} cy={Pr.y} r="7" class="f-amber" />
+	<circle cx={flyEnd.x} cy={flyEnd.y} r="7" class="f-amber" />
+	<text x={Pr.x + 14} y={Pr.y + 20} class="t-sm f-amber">string cut here</text>
+	<text x={flyEnd.x + 14} y={flyEnd.y + 2} class="t-sm f-amber">flies off in a</text>
+	<text x={flyEnd.x + 14} y={flyEnd.y + 20} class="t-sm f-amber">straight line</text>
+	<text x={C.x} y={C.y + R + 34} class="t-mid t-sm f-sky">velocity: always along the tangent, same size, turning direction</text>
+	<text x="20" y="30" class="t-sm f-muted">turning anticlockwise</text>
+</svg>

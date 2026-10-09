@@ -1,0 +1,53 @@
+---
+// Why circular motion is accelerated: velocities v₁ and v₂ at two nearby points have the same length but
+// different directions. Their difference Δv = v₂ − v₁ points towards the centre, with size ≈ vΔθ.
+const C = { x: 170, y: 190 }, R = 130, V = 90;
+const A1 = (60 * Math.PI) / 180, A2 = (100 * Math.PI) / 180, DTH = A2 - A1;
+const pt = (a: number) => ({ x: C.x + R * Math.cos(a), y: C.y - R * Math.sin(a) });
+const tan = (a: number) => ({ x: -Math.sin(a), y: -Math.cos(a) });
+const head = (x1: number, y1: number, x2: number, y2: number) => {
+	const L = Math.hypot(x2 - x1, y2 - y1), ux = (x2 - x1) / L, uy = (y2 - y1) / L;
+	return `${x2},${y2} ${x2 - 12 * ux + 6 * uy},${y2 - 12 * uy - 6 * ux} ${x2 - 12 * ux - 6 * uy},${y2 - 12 * uy + 6 * ux}`;
+};
+const shaft = (x1: number, y1: number, x2: number, y2: number) => {
+	const L = Math.hypot(x2 - x1, y2 - y1);
+	return { x: x2 - ((x2 - x1) / L) * 12, y: y2 - ((y2 - y1) / L) * 12 };
+};
+const P1 = pt(A1), P2 = pt(A2), T1 = tan(A1), T2 = tan(A2);
+const E1 = { x: P1.x + V * T1.x, y: P1.y + V * T1.y }, E2 = { x: P2.x + V * T2.x, y: P2.y + V * T2.y };
+// Vector triangle on the right, both velocities drawn from one point O
+const O = { x: 470, y: 120 };
+const V1 = { x: O.x + V * T1.x, y: O.y + V * T1.y }, V2 = { x: O.x + V * T2.x, y: O.y + V * T2.y };
+const s1 = shaft(P1.x, P1.y, E1.x, E1.y), s2 = shaft(P2.x, P2.y, E2.x, E2.y);
+const t1 = shaft(O.x, O.y, V1.x, V1.y), t2 = shaft(O.x, O.y, V2.x, V2.y), td = shaft(V1.x, V1.y, V2.x, V2.y);
+const mid = (a: number) => ({ x: C.x + 0.55 * R * Math.cos(a), y: C.y - 0.55 * R * Math.sin(a) });
+---
+
+<svg class="dg" viewBox="0 0 600 340" xmlns="http://www.w3.org/2000/svg">
+	<path d={`M${pt(0.2).x},${pt(0.2).y} A${R},${R} 0 0,0 ${pt(2.0).x},${pt(2.0).y}`} class="s-muted w1 dash" fill="none" />
+	<circle cx={C.x} cy={C.y} r="4" class="f-fg" />
+	<text x={C.x} y={C.y + 22} class="t-mid t-sm f-muted">centre</text>
+	<line x1={C.x} y1={C.y} x2={P1.x} y2={P1.y} class="s-grid w1" />
+	<line x1={C.x} y1={C.y} x2={P2.x} y2={P2.y} class="s-grid w1" />
+	<text x={mid((A1 + A2) / 2).x} y={mid((A1 + A2) / 2).y} class="t-mid t-sm">Δθ</text>
+	<line x1={P1.x} y1={P1.y} x2={s1.x} y2={s1.y} class="s-sky w2" />
+	<polygon points={head(P1.x, P1.y, E1.x, E1.y)} class="f-sky" />
+	<text x={E1.x + 8} y={E1.y - 4} class="t-sm f-sky">v₁</text>
+	<line x1={P2.x} y1={P2.y} x2={s2.x} y2={s2.y} class="s-green w2" />
+	<polygon points={head(P2.x, P2.y, E2.x, E2.y)} class="f-green" />
+	<text x={E2.x - 8} y={E2.y + 18} class="t-end t-sm f-green">v₂</text>
+	<circle cx={P1.x} cy={P1.y} r="5" class="f-sky" />
+	<circle cx={P2.x} cy={P2.y} r="5" class="f-green" />
+	<text x="470" y="34" class="t-mid t-b">the change in velocity</text>
+	<line x1={O.x} y1={O.y} x2={t1.x} y2={t1.y} class="s-sky w2" />
+	<polygon points={head(O.x, O.y, V1.x, V1.y)} class="f-sky" />
+	<line x1={O.x} y1={O.y} x2={t2.x} y2={t2.y} class="s-green w2" />
+	<polygon points={head(O.x, O.y, V2.x, V2.y)} class="f-green" />
+	<line x1={V1.x} y1={V1.y} x2={td.x} y2={td.y} class="s-rose w3" />
+	<polygon points={head(V1.x, V1.y, V2.x, V2.y)} class="f-rose" />
+	<text x={O.x + 10} y={O.y + 6} class="t-sm">same length v</text>
+	<text x={Math.min(V1.x, V2.x) - 12} y={(V1.y + V2.y) / 2 + 4} class="t-end t-sm f-rose">Δv ≈ v Δθ</text>
+	<text x="470" y="270" class="t-mid t-sm">Δv points towards the centre.</text>
+	<text x="470" y="292" class="t-mid t-sm">Divide by Δt (with Δθ = ωΔt):</text>
+	<text x="470" y="316" class="t-mid t-sm t-b f-rose">a = vω = v²/r = ω²r</text>
+</svg>

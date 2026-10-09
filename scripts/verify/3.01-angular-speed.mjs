@@ -1,0 +1,32 @@
+import { check, report } from './lib.mjs';
+import { C, BOOK, SPIN } from './constants.mjs';
+const P = Math.PI, RPM = (2 * P) / 60;
+export default function () {
+	const w = (2 * P) / C.earthSiderealDay;
+	check('WE1 T', C.earthSiderealDay, 86164, 1e-5); check('WE1 ω', w, 7.29e-5, 0.001); check('WE1 v', w * C.earthEqRadius, 465, 0.001);
+	check('WE1 kmh', w * C.earthEqRadius * 3.6, 1670, 0.003); check('WE1 London', 465 * Math.cos((51.5 * P) / 180), 290, 0.002);
+	const w2 = (2 * P) / 17.7;
+	check('WE2 T', (2 * P) / SPIN.omega, 17.7, 0.002); check('WE2 rCrew', SPIN.rCrew, 78); check('WE2 rAft', SPIN.rAft, 26);
+	check('WE2 ω', w2, 0.355, 0.001); check('WE2 rpm', 0.355 / RPM, 3.39, 0.001); check('WE2 rpm model', SPIN.omega / RPM, 3.39, 0.002);
+	check('WE2 vCrew', 0.355 * 78, 27.7, 0.001); check('WE2 vAft', 0.355 * 26, 9.2, 0.004); check('WE2 kmh', 27.7 * 3.6, 100, 0.003); check('WE2 ratio', 78 / 26, 3);
+	const w3 = BOOK.graceCentrifugeSpeed / BOOK.graceCentrifugeRadius;
+	check('WE3 ω', w3, 0.126, 0.003); check('WE3 T', (2 * P) / w3, 50, 0.001); check('WE3 rpm', w3 / RPM, 1.2, 0.001);
+	check('WE3 check v', Math.sqrt(14.7 * 700), 101, 0.005); check('WE3 diameter', 2 * 700, 1400);
+	check('WE4 ω', 1200 * RPM, 126, 0.003); check('WE4 v', 1200 * RPM * 0.25, 31.4, 0.001);
+	check('WE4 size', 78 / 0.25, 300, 0.05); check('WE4 rate', 1200 / 3.39, 350, 0.02);
+	const T5 = 365.256 * 86400;
+	check('WE5 T', T5, 3.156e7, 0.001); check('WE5 ω', (2 * P) / T5, 1.99e-7, 0.002); check('WE5 v', ((2 * P) / T5) * 1.496e11, 2.98e4, 0.002);
+	check('P1', 3 * RPM, 0.314, 0.001); check('P2 rpm', 2 / RPM, 19.1, 0.001); check('P2 T', P, 3.14, 0.001);
+	check('P3 ω', (2 * P) / 3600, 1.75e-3, 0.003); check('P3 v', ((2 * P) / 3600) * 0.12, 2.09e-4, 0.003);
+	check('P5 ω', (100 / 3) * RPM, 3.49, 0.001); check('P5 v', (100 / 3) * RPM * 0.15, 0.524, 0.001);
+	check('P6 out', w3 * 700, 88.0, 1e-6); check('P6 in', w3 * 695.5, 87.4, 0.001);
+	const Tm = C.moonSiderealMonth;
+	check('P7 T', Tm, 2.361e6, 0.001); check('P7 ω', (2 * P) / Tm, 2.66e-6, 0.002); check('P7 v', ((2 * P) / Tm) * C.moonDistance, 1020, 0.005);
+	check('P8 ω', 27 / 1.9, 14.2, 0.001); check('P8 rpm', 27 / 1.9 / RPM, 136, 0.003);
+	check('P9 vx', -6 * Math.sin(1.5), -5.98, 0.002); check('P9 vy', 6 * Math.cos(1.5), 0.424, 0.002); check('P9 v', Math.hypot(6 * Math.sin(1.5), 6 * Math.cos(1.5)), 6);
+	const v10 = 2 * 2 * P;
+	check('P10 v', v10, 12.6, 0.003); check('P10 s', v10 * 0.2, 2.51, 0.002); check('P10 d', Math.hypot(1, v10 * 0.2), 2.7, 0.002);
+	check('P11', (Math.acos(0.5) * 180) / P, 60);
+	check('P12', 27.7 * 10, 277);
+	return report('3.1 Angular speed');
+}

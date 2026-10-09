@@ -645,4 +645,57 @@ export const formulas = [
 		where: 'Released from angle θ₀ in radians; within 0.1% up to about 40°.',
 		chapter: 'pendulums-shm',
 	},
+	// ---- 3.1 Angular speed ----
+	{
+		id: 'angular-speed',
+		name: 'Angular speed, period and rpm',
+		tex: '\\omega = \\dfrac{d\\theta}{dt} \\qquad \\omega = \\text{rpm} \\times \\dfrac{2\\pi}{60} \\qquad T = \\dfrac{2\\pi}{\\omega} \\qquad f = \\dfrac{1}{T}',
+		where: 'Angle θ in radians; ω in rad/s.',
+		chapter: 'angular-speed',
+	},
+	{
+		id: 'tangential-speed',
+		name: 'Speed around a circle',
+		tex: 's = r\\theta \\qquad v = \\omega r = \\dfrac{2\\pi r}{T}',
+		where: 'Radius r; the velocity points along the tangent.',
+		chapter: 'angular-speed',
+	},
+	// ---- 3.2 Centripetal acceleration ----
+	{
+		id: 'centripetal',
+		name: 'Centripetal acceleration and force',
+		tex: 'a = \\dfrac{v^{2}}{r} = \\omega^{2}r \\qquad \\mathbf{a} = -\\omega^{2}\\mathbf{r} \\qquad F = \\dfrac{mv^{2}}{r} = m\\omega^{2}r',
+		where: 'Directed towards the centre of the circle.',
+		chapter: 'centripetal-acceleration',
+	},
+	// ---- 3.3 Designing spin gravity ----
+	{
+		id: 'spin-gravity',
+		name: 'Spin gravity design',
+		tex: 'g_{\\text{eff}} = \\omega^{2}r \\qquad r = \\dfrac{g}{\\omega^{2}} \\qquad v = \\sqrt{gr} \\qquad \\dfrac{\\Delta g}{g} = \\dfrac{\\Delta r}{r}',
+		where: 'Floor at radius r from the axis; gravity points away from the axis.',
+		chapter: 'spin-gravity',
+	},
+	{
+		id: 'two-masses-cable',
+		name: 'Two masses spinning on a cable',
+		tex: 'm_{1}r_{1} = m_{2}r_{2} \\qquad r_{1} = L\\,\\dfrac{m_{2}}{m_{1} + m_{2}} \\qquad T = m_{1}\\omega^{2}r_{1}',
+		where: 'Cable length L; both ends share ω and feel the same tension T.',
+		chapter: 'spin-gravity',
+	},
+	// ---- 3.4 The Coriolis effect ----
+	{
+		id: 'coriolis',
+		name: 'Coriolis effects in a spinning habitat',
+		tex: 'g_{\\text{felt}} = \\dfrac{(\\omega r \\pm u)^{2}}{r} \\approx \\omega^{2}r \\pm 2\\omega u \\qquad a_{\\text{C}} = 2\\omega v \\qquad x \\approx \\tfrac{2}{3}\\omega h t',
+		where: 'u: speed along the floor (+ spinward); x: sideways drift of an object dropped from height h in time t.',
+		chapter: 'coriolis',
+	},
+	{
+		id: 'foucault',
+		name: 'Coriolis on Earth and Foucault’s pendulum',
+		tex: 'a_{\\text{C}} = 2\\Omega v\\sin\\phi \\qquad T_{\\text{F}} = \\dfrac{T_{\\text{sidereal}}}{\\sin\\phi}',
+		where: 'Ω = 7.29 × 10⁻⁵ rad/s; latitude φ.',
+		chapter: 'coriolis',
+	},
 ];

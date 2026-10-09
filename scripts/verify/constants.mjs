@@ -29,7 +29,12 @@ export const C = {
 	earthEqRadius: 6.378137e6, // m
 	earthSemiMajor: 1.49598e11, // m
 	earthGravityMean: 9.82, // m/s² (fact sheet "surface gravity (mean)" 9.820)
+	earthSiderealDay: 23.9345 * 3600, // s (fact sheet "sidereal rotation period" 23.9345 h)
+	get earthOmega() {
+		return (2 * Math.PI) / this.earthSiderealDay; // 7.2921e-5 rad/s
+	},
 	moonDistance: 3.844e8, // m (semimajor axis of orbit)
+	moonSiderealMonth: 27.3217 * 86400, // s (Moon fact sheet "sidereal orbit period" 27.3217 days)
 	moonRadius: 1.7374e6, // m
 	venusSemiMajor: 1.0821e11, // m
 	venusIrradiance: 2601.3, // W/m²
@@ -59,4 +64,26 @@ export const BOOK = {
 	fuelBurnKgPerS: 6e-3, // six grams per second
 	dimming9yr: 0.01, // 1% drop in solar output within about 9 years
 	dimming20yr: 0.05, // 5% within about 20 years
+	// Part 3 (reader summary trangnkp.substack.com): Grace's estimate of the centrifuge he would need
+	graceCentrifugeRadius: 700, // m
+	graceCentrifugeSpeed: 88, // m/s (inconsistent with 1.5 g at 700 m, which needs ~101 m/s; flagged in 3.1)
+	// Centrifuge cables "up to 104 m" appear only in fan wikis (unverified). Our model, used in Part 3:
+	// crew section 2.0e5 kg, aft section 6.0e5 kg (both ASSUMED) on 104 m of cable → crew floor at 78 m, aft at 26 m, 1 g at the crew floor.
+	centrifugeCable: 104,
+};
+
+// Our model centrifuge for Part 3 (assumptions, stated in the chapters).
+export const SPIN = {
+	cable: 104, // m
+	mCrew: 2.0e5, // kg
+	mAft: 6.0e5, // kg
+	get rCrew() {
+		return (this.cable * this.mAft) / (this.mCrew + this.mAft); // 78 m
+	},
+	get rAft() {
+		return (this.cable * this.mCrew) / (this.mCrew + this.mAft); // 26 m
+	},
+	get omega() {
+		return Math.sqrt(9.81 / this.rCrew); // 0.3546 rad/s
+	},
 };

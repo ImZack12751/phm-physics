@@ -772,4 +772,78 @@ export const glossary = {
 		def: 'The SI unit of frequency: one cycle per second. 1 Hz = 1 s⁻¹.',
 		chapter: 'pendulums-shm',
 	},
+	// ---- 3.1 Angular speed ----
+	'angular-displacement': {
+		term: 'Angular displacement (θ)',
+		def: 'The angle through which something has turned, measured in radians.',
+		chapter: 'angular-speed',
+	},
+	'angular-speed': {
+		term: 'Angular speed (ω)',
+		def: 'How fast something turns: the rate of change of its angle, ω = dθ/dt, in radians per second. Every part of a rigid rotating object has the same ω.',
+		chapter: 'angular-speed',
+	},
+	'revolutions-per-minute': {
+		term: 'Revolutions per minute (rpm)',
+		def: 'A common unit of rotation rate: full turns per minute. ω in rad/s = rpm × 2π/60.',
+		chapter: 'angular-speed',
+	},
+	'tangential-speed': {
+		term: 'Tangential speed',
+		def: 'The speed of a point moving around a circle, directed along the tangent: v = ωr.',
+		chapter: 'angular-speed',
+	},
+	'uniform-circular-motion': {
+		term: 'Uniform circular motion',
+		def: 'Motion around a circle at a steady speed. The velocity keeps changing direction, so the object is always accelerating.',
+		chapter: 'angular-speed',
+	},
+	// ---- 3.2 Centripetal acceleration ----
+	'centripetal-acceleration': {
+		term: 'Centripetal acceleration',
+		def: 'The acceleration of anything moving in a circle, pointing towards the centre: a = v²/r = ω²r.',
+		chapter: 'centripetal-acceleration',
+	},
+	'centripetal-force': {
+		term: 'Centripetal force',
+		def: 'The net inward force needed to keep something moving in a circle, mv²/r. It is a role played by a real force such as tension, gravity, friction or a floor’s push, not a new kind of force.',
+		chapter: 'centripetal-acceleration',
+	},
+	'centrifugal-force': {
+		term: 'Centrifugal force',
+		def: 'The outward push you seem to feel inside a rotating frame. It is a fictitious (inertial) force: really, your body tends to go straight while something pushes you inwards.',
+		chapter: 'centripetal-acceleration',
+	},
+	// ---- 3.3 Designing spin gravity ----
+	'artificial-gravity': {
+		term: 'Artificial gravity',
+		def: 'Apparent weight produced by rotation (or acceleration) instead of a planet. In a spinning habitat the floor pushes you inwards, giving g = ω²r pointing away from the axis.',
+		chapter: 'spin-gravity',
+	},
+	'gravity-gradient': {
+		term: 'Gravity gradient',
+		def: 'A change in gravity from one place to another, such as from your feet to your head. In a spinning habitat it is Δg/g = Δr/r.',
+		chapter: 'spin-gravity',
+	},
+	'centre-of-mass': {
+		term: 'Centre of mass',
+		def: 'The balance point of an object or a system of objects. Two masses on a cable spin about the point where m₁r₁ = m₂r₂.',
+		chapter: 'spin-gravity',
+	},
+	// ---- 3.4 The Coriolis effect ----
+	'coriolis-effect': {
+		term: 'Coriolis effect',
+		def: 'The apparent sideways swerve of anything moving inside a rotating frame, with acceleration 2ωv at right angles to the motion. From a non-rotating frame, the object is simply moving in a straight line.',
+		chapter: 'coriolis',
+	},
+	spinward: {
+		term: 'Spinward and antispinward',
+		def: 'Inside a spinning habitat: spinward is the direction the floor is moving; antispinward is the opposite way.',
+		chapter: 'coriolis',
+	},
+	'foucault-pendulum': {
+		term: 'Foucault pendulum',
+		def: 'A long pendulum whose direction of swing slowly turns because Earth rotates beneath it: once every sidereal day ÷ sin(latitude). First shown by Léon Foucault in Paris in 1851.',
+		chapter: 'coriolis',
+	},
 };

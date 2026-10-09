@@ -157,10 +157,10 @@ Teaching order follows logical dependency, not plot order. Planned chapters have
 
 | # | Chapter | Path | Prerequisites | Status |
 |---|---|---|---|---|
-| 3.1 | Angular speed | `part-3/angular-speed` | – | planned |
-| 3.2 | Centripetal acceleration | `part-3/centripetal-acceleration` | – | planned |
-| 3.3 | Designing spin gravity | `part-3/spin-gravity` | – | planned |
-| 3.4 | The Coriolis effect | `part-3/coriolis` | – | planned |
+| 3.1 | Angular speed | `part-3/angular-speed` | 0.6, 1.1, C.3 | written, awaiting review |
+| 3.2 | Centripetal acceleration | `part-3/centripetal-acceleration` | 3.1, 2.1, 0.7, 2.4 | written, awaiting review |
+| 3.3 | Designing spin gravity | `part-3/spin-gravity` | 3.2, 2.3, 1.4, 2.4 | written, awaiting review |
+| 3.4 | The Coriolis effect | `part-3/coriolis` | 3.3, 3.2, 1.1, C.5 | written, awaiting review |
 
 **Part 4 · Gravitation and orbits**
 
@@ -282,7 +282,7 @@ Brief biology and chemistry sidebars are added only where the plot's physics dep
 Source of truth: `src/data/glossary.mjs`.
 
 <!-- AUTO:glossary -->
-145 terms.
+159 terms.
 
 | Term | id | First chapter |
 |---|---|---|
@@ -431,6 +431,20 @@ Source of truth: `src/data/glossary.mjs`.
 | Angular frequency (ω) | `angular-frequency` | 2.4 |
 | Frequency (f) | `frequency` | 2.4 |
 | Hertz (Hz) | `hertz` | 2.4 |
+| Angular displacement (θ) | `angular-displacement` | 3.1 |
+| Angular speed (ω) | `angular-speed` | 3.1 |
+| Revolutions per minute (rpm) | `revolutions-per-minute` | 3.1 |
+| Tangential speed | `tangential-speed` | 3.1 |
+| Uniform circular motion | `uniform-circular-motion` | 3.1 |
+| Centripetal acceleration | `centripetal-acceleration` | 3.2 |
+| Centripetal force | `centripetal-force` | 3.2 |
+| Centrifugal force | `centrifugal-force` | 3.2 |
+| Artificial gravity | `artificial-gravity` | 3.3 |
+| Gravity gradient | `gravity-gradient` | 3.3 |
+| Centre of mass | `centre-of-mass` | 3.3 |
+| Coriolis effect | `coriolis-effect` | 3.4 |
+| Spinward and antispinward | `spinward` | 3.4 |
+| Foucault pendulum | `foucault-pendulum` | 3.4 |
 <!-- /AUTO:glossary -->
 
 ---
@@ -440,7 +454,7 @@ Source of truth: `src/data/glossary.mjs`.
 Source of truth: `src/data/formulas.mjs`.
 
 <!-- AUTO:formulas -->
-87 formulas.
+94 formulas.
 
 | Formula | id | First chapter | LaTeX |
 |---|---|---|---|
@@ -531,6 +545,13 @@ Source of truth: `src/data/formulas.mjs`.
 | Period, frequency and angular frequency | `shm-period` | 2.4 | `T = \dfrac{2\pi}{\omega} \qquad f = \dfrac{1}{T} \qquad \omega = 2\pi f` |
 | Mass on a spring | `mass-spring` | 2.4 | `T = 2\pi\sqrt{\dfrac{m}{k}} \qquad m = \dfrac{kT^{2}}{4\pi^{2}}` |
 | Pendulum period for wider swings | `pendulum-large-swing` | 2.4 | `T \approx 2\pi\sqrt{\dfrac{L}{g}}\left(1 + \dfrac{\theta_{0}^{2}}{16}\right)` |
+| Angular speed, period and rpm | `angular-speed` | 3.1 | `\omega = \dfrac{d\theta}{dt} \qquad \omega = \text{rpm} \times \dfrac{2\pi}{60} \qquad T = \dfrac{2\pi}{\omega} \qquad f = \dfrac{1}{T}` |
+| Speed around a circle | `tangential-speed` | 3.1 | `s = r\theta \qquad v = \omega r = \dfrac{2\pi r}{T}` |
+| Centripetal acceleration and force | `centripetal` | 3.2 | `a = \dfrac{v^{2}}{r} = \omega^{2}r \qquad \mathbf{a} = -\omega^{2}\mathbf{r} \qquad F = \dfrac{mv^{2}}{r} = m\omega^{2}r` |
+| Spin gravity design | `spin-gravity` | 3.3 | `g_{\text{eff}} = \omega^{2}r \qquad r = \dfrac{g}{\omega^{2}} \qquad v = \sqrt{gr} \qquad \dfrac{\Delta g}{g} = \dfrac{\Delta r}{r}` |
+| Two masses spinning on a cable | `two-masses-cable` | 3.3 | `m_{1}r_{1} = m_{2}r_{2} \qquad r_{1} = L\,\dfrac{m_{2}}{m_{1} + m_{2}} \qquad T = m_{1}\omega^{2}r_{1}` |
+| Coriolis effects in a spinning habitat | `coriolis` | 3.4 | `g_{\text{felt}} = \dfrac{(\omega r \pm u)^{2}}{r} \approx \omega^{2}r \pm 2\omega u \qquad a_{\text{C}} = 2\omega v \qquad x \approx \tfrac{2}{3}\omega h t` |
+| Coriolis on Earth and Foucault’s pendulum | `foucault` | 3.4 | `a_{\text{C}} = 2\Omega v\sin\phi \qquad T_{\text{F}} = \dfrac{T_{\text{sidereal}}}{\sin\phi}` |
 <!-- /AUTO:formulas -->
 
 ---
@@ -549,6 +570,7 @@ All constants and book figures used so far, each with its source, are in `script
 - Integral results to reuse: ∫₉²⁰ D dt = 27.34 %·yr (average dimming 2.49%); the ship's first day at 1.5 g gives 1.270 × 10⁶ m/s (0.42% c) and 0.367 au; the probe v = 0.6t² covers 200 m in 10 s. C.5 already derives v = v₀ + at and x = x₀ + v₀t + ½at² (formula `constant-acceleration`), so Part 1.2 should build on it rather than re-derive it from scratch.
 - Part 1 book figures (reader summary, trangnkp.substack.com): table drop 0.91 m in 0.348 s → 15.0 m/s²; pendulum 346 swings in 10 min (T = 1.734 s), unchanged on a deck 4.5 m lower. The novel's string length isn't used; 1.12 m is our assumption consistent with 1.5 g. Moon g 1.62, Mars 3.73 (NASA). Reaction times 0.2–0.3 s (two cited studies). Newtonian flip-and-burn to Tau Ceti at 1.5 g: 5.55 yr, peak 4.29c (set up for Part 10).
 - Part 2 figures: Dimitri's Astrophage test about 60,000 N for 100 µs from about 20 µg; fuel display 20,862 kg at 6.043 g/s (reader summary). Erid "just over double" Earth's gravity (/Film) → we use 2.0 g. ISS altitude g = 8.67 m/s², 88% (OpenStax §13.2). Shuttle crew up to 3 g (NASA NTRS 19940019731). MICROSCOPE equivalence test ~10⁻¹⁵ (PRL 129, 121102). Our assumptions, stated in the chapters: Grace 80 kg, loaded ship 2.5 × 10⁶ kg, Rocky 100 kg, mass-meter chair 600 N/m and 12.0 kg. No source found that the oscillating mass meter flew on Skylab, so the chapters don't claim it.
+- Part 3 figures: Grace's imagined centrifuge 700 m, 88 m/s (reader summary; 88 m/s doesn't match 1.5 g at 700 m, which needs ~101 m/s, and the chapters say so). Our two-deck criterion gives r ≥ 777 m, 1.31 rpm, 107 m/s. Centrifuge structure (two sections on cables, used from ch. 16; runaway spin later) from LitCharts. The cable length "up to 104 m" is fan-wiki only (unconfirmed). **Model centrifuge used throughout Part 3** (`SPIN` in `constants.mjs`): crew section 2.0 × 10⁵ kg and rear 6.0 × 10⁵ kg (assumed) on 104 m → crew floor 78 m, rear 26 m, ω = 0.3546 rad/s (3.39 rpm, T = 17.7 s), crew speed 27.66 m/s, 1 g crew / 0.33 g rear, cable tension 1.96 × 10⁶ N; a 1 m drop lands 10.8 cm antispinward. Comfort: 1970s 1–2 rpm; Globus & Hall (2017) up to 4 rpm (56 m) and 6 rpm (25 m). Gemini 11: 30 m tether (NASA). Earth sidereal day 23.9345 h, Ω = 7.2921 × 10⁻⁵ rad/s. Foucault: 1851, 67 m, 28 kg, Paris 31.8 h (Wikipedia). Runaway spin (10 m, 20 rpm) is our illustration. Physiology g-tolerance numbers were left out because no source could be opened.
 - Open question for Part 5: is 2 × 10⁶ kg of fuel at 6 g/s consistent with the trip's duration (2 × 10⁶ / 0.006 s ≈ 10.6 yr of continuous burn, compared with about 3.75 yr of ship time)? Check against the novel, which may have several drives, before relying on it.
 
 ---
@@ -561,3 +583,4 @@ All constants and book figures used so far, each with its source, are in `script
 - **Session 3 (2026-10-07).** Finished Part 0.5: C.4 Area under curves (Riemann sums, sigma notation, trapezoid rule, signed area, exact parabola area via the sum of squares), C.5 Integrals (notation and properties, antiderivatives and + C, initial conditions, d/dx ln x = 1/x, constant-acceleration equations), C.6 The fundamental theorem (area-so-far function, both parts, net change, average value). 36 practice problems, 3 simulations (RiemannSum, AntiderivativeFamily, AccumulationSim) and 6 diagrams. **Next:** Part 1, starting with 1.1 Position, velocity and acceleration.
 - **Session 4 (2026-10-08).** Wrote Part 1: 1.1 Position, velocity and acceleration, 1.2 The equations of motion, 1.3 Free fall, 1.4 Measuring g (48 practice problems, 4 simulations: MotionGraphs, FlipBurnPlanner, DropLab, GLab; 8 diagrams). Made the home-page progress table collapsible and put the hero ship exactly on its route. **Next:** Part 2, starting with 2.1 Newton's laws (equivalence of the 1.5 g ship and gravity is set up in 1.1 Example 5; the pendulum's 2π is promised in 2.4).
 - **Session 5 (2026-10-09).** Wrote Part 2: 2.1 Newton's laws (forces, the three laws, free-body diagrams, terminal velocity with drag bv²), 2.2 Mass vs weight (inertial and gravitational mass, scales vs balances, measuring mass in orbit), 2.3 Apparent weight (N = m(g + a), weightlessness as free fall, the equivalence principle, g-forces, g_eff = g − a), 2.4 Pendulums and SHM (Hooke's law, a = −ω²x, derivation of T = 2π√(L/g), mass on a spring, large-swing correction). 48 practice problems, 4 simulations (DragFall, WeighingLab, ApparentWeight, PendulumLab) and 8 diagrams. All of Part 1's promises to Part 2 are kept. Tooling note: the Bash heredocs in this environment halve backslashes, so write files containing LaTeX with the Write/Edit tools. **Next:** Part 3, starting with 3.1 Angular speed (2.3 Problem 12 and 1.4 set up the two-deck spin test).
+- **Session 6 (2026-10-09).** Wrote Part 3: 3.1 Angular speed (radians, ω, rpm, period, v = ωr, tangent velocity), 3.2 Centripetal acceleration (a = v²/r = ω²r two ways, the SHM shadow, centripetal force as a role, centrifugal force as fictitious, Newton's Moon test), 3.3 Designing spin gravity (g = ω²r, r = g/ω², gradient h/r, comfort limits, two masses on a cable and the centre of mass, Grace's two-deck test), 3.4 The Coriolis effect (exact drop geometry, running spinward/antispinward, a = 2ωv, drift ⅔ωht by integration, Earth, Foucault, the sink myth). 48 practice problems, 4 simulations (SpinRate, CircularMotion, SpinGravityDesigner, CoriolisLab) and 8 diagrams. Fixed a check-browser hang: an animation that rebuilt SVG elements every frame kept the page from reaching network idle, so animated sims must create elements once and update attributes per frame. If `npm run preview` says a server is already running, use `npx astro preview stop` first. **Next:** Part 4, starting with 4.1 Newton's law of gravitation (3.2 Example 3 sets up the Moon test; 3.2 Problem 11 previews the 84-minute low orbit).

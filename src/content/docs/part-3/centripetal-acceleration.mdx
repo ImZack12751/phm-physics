@@ -1,0 +1,317 @@
+---
+title: Centripetal acceleration
+description: Why moving in a circle at steady speed means accelerating towards the centre, the formula a = v²/r = ω²r derived two ways, the inward force it needs, why "centrifugal force" is not a real force, and what that means for a spinning ship.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import DeltaV from '../../../components/diagrams/part-3/DeltaV.astro';
+import CentripetalSources from '../../../components/diagrams/part-3/CentripetalSources.astro';
+import CircularMotion from '../../../components/sims/CircularMotion.astro';
+
+## The scene
+
+When the *Hail Mary* spins up as a centrifuge, Grace's weight comes back, though there is no planet and no engine thrust. Later in the novel, a spin goes badly wrong: the ship tumbles out of control, and Grace is pinned against a console by forces far stronger than his normal weight, struggling to stay conscious.
+
+Both experiences come from the same physics. Chapter 3.1 showed that anything moving in a circle has a velocity that keeps changing direction. A changing velocity is an acceleration, and by Newton's second law an acceleration needs a force. This chapter finds how big that acceleration is, which way it points, and what supplies the force.
+
+## Prerequisites
+
+<Prereqs notes={{ 'angular-speed': 'ω, v = ωr, and position on a circle as x = r cos ωt, y = r sin ωt', 'newtons-laws': 'F = ma and free-body diagrams', vectors: 'subtracting vectors to find a change', 'pendulums-shm': 'simple harmonic motion, a = −ω²x' }} />
+
+## The concept
+
+### Steady speed, changing velocity
+
+Swing a ball round on a string at a steady speed. Its speed never changes, but its direction does, all the time. Velocity is a <Term id="vector">vector</Term>, so a change of direction is a change of velocity, and that means the ball is accelerating.
+
+Which way? Compare the velocity at two nearby moments. Both arrows have the same length $v$, but the second has turned through a small angle $\Delta\theta$. The change $\Delta\mathbf{v} = \mathbf{v}_{2} - \mathbf{v}_{1}$ is a short arrow joining their tips, and it points towards the **centre** of the circle.
+
+<Figure caption="Velocities at two nearby points on a circle have the same length but different directions. Drawn from a common point, they differ by a short arrow Δv that points towards the centre, of length about vΔθ. Dividing by the time taken gives the centripetal acceleration." alt="Left: part of a dashed circle with its centre marked. Two radii separated by a small angle delta theta lead to two points on the circle, each with a velocity arrow along the tangent: blue v1 and green v2, the same length, pointing in slightly different directions. Right, titled the change in velocity: the blue and green arrows drawn from one common point, same length v. A red arrow joins the tip of v1 to the tip of v2, labelled delta v approximately equal to v delta theta. Text: delta v points towards the centre; divide by delta t (with delta theta = omega delta t): a = v omega = v squared over r = omega squared r.">
+	<DeltaV />
+</Figure>
+
+This acceleration towards the centre is called <Term id="centripetal-acceleration">centripetal acceleration</Term>, from Latin words meaning "centre-seeking".
+
+### How big is it?
+
+From the figure, when the velocity turns through a small angle $\Delta\theta$, its tip moves along a small arc of a circle of radius $v$, so $|\Delta\mathbf{v}| \approx v\,\Delta\theta$ (arc length again, Chapter 0.6). The angle turned in time $\Delta t$ is $\Delta\theta = \omega\,\Delta t$. So
+
+$$
+a = \frac{|\Delta\mathbf{v}|}{\Delta t} \approx \frac{v\,\omega\,\Delta t}{\Delta t} = v\omega.
+$$
+
+As $\Delta t \to 0$ the approximation becomes exact. Using $v = \omega r$ to swap between forms:
+
+$$
+a = v\omega = \frac{v^{2}}{r} = \omega^{2}r.
+$$
+
+Two things stand out. At a fixed radius, the acceleration grows with the **square** of the spin rate: spin twice as fast and it quadruples. And at a fixed speed, a tighter circle means a bigger acceleration, which is why sharp bends are harder to take than gentle ones.
+
+### The calculus derivation, and a link to springs
+
+Chapter 3.1 wrote the position of a point on the circle as $x = r\cos(\omega t)$, $y = r\sin(\omega t)$. Differentiating twice with the scaling rule:
+
+$$
+a_{x} = -\omega^{2}r\cos(\omega t) = -\omega^{2}x \qquad a_{y} = -\omega^{2}r\sin(\omega t) = -\omega^{2}y.
+$$
+
+So $\mathbf{a} = -\omega^{2}\mathbf{r}$: the acceleration is $\omega^{2}$ times the position vector, pointing the opposite way, towards the centre, with size $\omega^{2}r$. The same result.
+
+Look closely at $a_{x} = -\omega^{2}x$. It is exactly the equation of simple harmonic motion from Chapter 2.4. Watch a point going round a circle edge-on, or watch its shadow on a wall, and you see something moving back and forth in simple harmonic motion with the same $\omega$. That is why oscillations and rotations share the same symbols: $\omega$, $T$ and $f$.
+
+### Something must supply the force
+
+By Newton's second law, an acceleration $\omega^{2}r$ towards the centre needs a net force towards the centre:
+
+$$
+F = ma = \frac{mv^{2}}{r} = m\omega^{2}r.
+$$
+
+This is called the <Term id="centripetal-force">centripetal force</Term>. It is not a new kind of force. It is a job that some real force has to do: a string's tension, a planet's gravity, the grip of tyres on a road, or the push of a floor.
+
+<Figure caption="Centripetal force is a role, not a new force. For a ball on a string, the tension pulls it inwards. For the Moon, Earth's gravity does. For the crew of a centrifuge, the floor (the outer wall) pushes them inwards. In every case the inward force is mv²/r." alt="Three panels, each with a dashed circle and a moving object at its right-hand edge with a green upward velocity arrow v and a red arrow pointing left towards the centre. Panel 1, ball on a string: a ball tied by a line to the centre; red arrow labelled tension. Panel 2, the Moon: Earth at the centre, a Moon on the circle; red arrow labelled Earth's gravity. Panel 3, centrifuge crew: a person against a curved outer floor; red arrow labelled floor's push. Footer: each needs a real inward force of size m v squared over r, which equals m omega squared r.">
+	<CentripetalSources />
+</Figure>
+
+If the inward force stops, so does the circular motion. The object leaves along the tangent (Chapter 3.1).
+
+### What about "centrifugal force"?
+
+Sitting in a car going round a bend, you feel thrown towards the outside. It is tempting to call this an outward "centrifugal force". But nothing is pushing you outwards. Your body is trying to carry on in a straight line (Newton's first law), while the car turns underneath you. The door pushes you inwards to make you turn with it, and you feel that push as being pressed outwards.
+
+This is the same idea as apparent weight in Chapter 2.3. Inside an accelerating frame, it **feels** as though a force pushes you the opposite way to the acceleration. Physicists call this an inertial or fictitious force. <Term id="centrifugal-force">Centrifugal force</Term> is the one you feel in a rotating frame. It is a convenient way to describe life inside a spinning ship, and Chapter 3.3 uses it that way, but it is never a real push from anything.
+
+## Formulas
+
+### Centripetal acceleration
+
+From $|\Delta\mathbf{v}| \approx v\,\Delta\theta$ and $\Delta\theta = \omega\,\Delta t$, or by differentiating the position twice:
+
+$$
+\boxed{a = \frac{v^{2}}{r} = \omega^{2}r = v\omega} \qquad \text{directed towards the centre}
+$$
+
+### Vector form
+
+$$
+\boxed{\mathbf{a} = -\omega^{2}\mathbf{r}} \qquad (\mathbf{r} \text{ measured from the centre})
+$$
+
+### Centripetal force
+
+The net inward force needed, from $F = ma$:
+
+$$
+\boxed{F = \frac{mv^{2}}{r} = m\omega^{2}r}
+$$
+
+### Scaling
+
+From $a = \omega^{2}r$ and $a = v^{2}/r$:
+
+$$
+\frac{a_{2}}{a_{1}} = \left(\frac{\omega_{2}}{\omega_{1}}\right)^{2} \ (\text{same } r) \qquad \frac{a_{2}}{a_{1}} = \frac{r_{1}}{r_{2}} \ (\text{same } v)
+$$
+
+## Worked examples
+
+<Example n={1} title="One g from spinning" book>
+In our centrifuge model (Chapter 3.1), the crew floor is 78 m from the centre and turns at $\omega = 0.3546$ rad/s, so it moves at 27.66 m/s. Find the centripetal acceleration both ways.
+
+$$
+a = \omega^{2}r = (0.3546\ \text{rad/s})^{2} \times 78\ \text{m} = 9.81\ \text{m/s}^{2}
+$$
+
+$$
+a = \frac{v^{2}}{r} = \frac{(27.66\ \text{m/s})^{2}}{78\ \text{m}} = 9.81\ \text{m/s}^{2}
+$$
+
+Exactly 1 g. The model was designed that way, as Chapter 3.3 shows. The floor must push each crew member inwards with $m \times 9.81\ \text{m/s}^{2}$: the same push as standing on Earth.
+</Example>
+
+<Example n={2} title="Does Earth's spin make you lighter?">
+Find the centripetal acceleration of a person at the equator ($\omega = 7.29 \times 10^{-5}$ rad/s, $r = 6.378 \times 10^{6}$ m). For an 80 kg person, how much less hard does the ground need to push than if Earth didn't spin?
+
+$$
+a = \omega^{2}r = (7.29 \times 10^{-5})^{2} \times 6.378 \times 10^{6}\ \text{m/s}^{2} = 0.0339\ \text{m/s}^{2}
+$$
+
+That is 0.35% of $g$. Some of gravity's pull goes into keeping the person moving in their daily circle: $80 \times 0.0339 = 2.71$ N. So the ground pushes with $785 - 2.7 = 782$ N instead of 785 N. A scale at the equator reads about 0.35% low.
+</Example>
+
+<Example n={3} title="Newton's Moon test">
+The Moon orbits at $r = 3.844 \times 10^{8}$ m with $\omega = 2.66 \times 10^{-6}$ rad/s (Chapter 3.1). Find its centripetal acceleration. Then compare it with $g$ reduced by the square of the Moon's distance in Earth radii ($r/R = 60.3$), as Newton did.
+
+$$
+a = \omega^{2}r = (2.662 \times 10^{-6})^{2} \times 3.844 \times 10^{8}\ \text{m/s}^{2} = 2.72 \times 10^{-3}\ \text{m/s}^{2}
+$$
+
+$$
+\frac{g}{60.3^{2}} = \frac{9.81}{3640}\ \text{m/s}^{2} = 2.69 \times 10^{-3}\ \text{m/s}^{2}
+$$
+
+They agree to about 1%. The force keeping the Moon in its circle is Earth's gravity, weakened by the inverse-square law (Chapter 0.5). Newton made this comparison himself, and Part 4 builds it into his law of gravitation.
+</Example>
+
+<Example n={4} title="A car on a roundabout">
+A 1200 kg car goes round a roundabout of radius 25 m at 15 m/s. Find its acceleration and the inward force the road must supply through the tyres.
+
+$$
+a = \frac{v^{2}}{r} = \frac{(15\ \text{m/s})^{2}}{25\ \text{m}} = 9.0\ \text{m/s}^{2} \qquad F = ma = 1200\ \text{kg} \times 9.0\ \text{m/s}^{2} = 10\,800\ \text{N}
+$$
+
+That's 0.92 g sideways, which is too much for most road tyres to grip. Taken slower, at 10 m/s, it would need only $(10/15)^{2} = 0.44$ of that.
+</Example>
+
+<Example n={5} title="The runaway spin" book>
+In the novel, the ship at one point spins out of control and crushes Grace against a console. Suppose (our illustrative numbers) he is 10 m from the axis of the spin and the ship is turning at 20 rpm. Find his acceleration in g and the force on his 80 kg body.
+
+$$
+\omega = 20 \times \frac{2\pi}{60} = 2.09\ \text{rad/s} \qquad a = \omega^{2}r = (2.094\ \text{rad/s})^{2} \times 10\ \text{m} = 43.9\ \text{m/s}^{2} = 4.5\ \text{g}
+$$
+
+$$
+F = m\omega^{2}r = 80\ \text{kg} \times 43.9\ \text{m/s}^{2} = 3510\ \text{N}
+$$
+
+Whatever he's pressed against must push him inwards with over 3500 N, about four and a half times his normal weight. Because $a \propto \omega^{2}$, a little faster spin quickly becomes dangerous: 30 rpm would be about 10 g.
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** Centripetal acceleration, $a = v^{2}/r = \omega^{2}r$, is exact for any circular motion, and the need for a real inward force follows from Newton's laws. Centrifugal force is described as a fictitious (inertial) force in standard textbooks. Earth's spin really does reduce a scale reading at the equator, and Newton's Moon test is a famous step towards his law of gravitation.
+
+**Weir's inventions.** The centrifuge and the runaway spin are the novel's, as described in reader guides. The 10 m radius and 20 rpm of the runaway spin are our illustrative assumptions, not the book's figures; the 78 m crew radius comes from our model (Chapter 3.3).
+
+**How realistic are the numbers?** At 4.5 g, every part of the body weighs four and a half times its normal weight: arms are hard to lift and breathing takes effort. Because the acceleration grows as the square of the spin rate, a spin only a few times faster than a centrifuge's design rate becomes many times more severe. That makes an uncontrolled spin genuinely dangerous, as the novel portrays it.
+</RealVsBook>
+
+## Interactive simulation
+
+<CircularMotion />
+
+Things to try: the default is the model centrifuge, giving 1.00 g. Double the spin rate and watch the acceleration quadruple. Halve the radius at a fixed spin rate: the acceleration halves. Then set 10 m and 20 rpm for the runaway spin. Throughout, keep an eye on the blue shadow moving in simple harmonic motion.
+
+## Practice set
+
+<Problem n={1} level="easy">
+A ball moves in a circle of radius 0.50 m at 4.0 m/s. Find its centripetal acceleration.
+
+<Solution>
+$a = \dfrac{v^{2}}{r} = \dfrac{16}{0.50} = 32\ \text{m/s}^{2}$, towards the centre.
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy">
+A point turns at 2.0 rad/s at a radius of 3.0 m. Find its centripetal acceleration.
+
+<Solution>
+$a = \omega^{2}r = 4.0 \times 3.0 = 12\ \text{m/s}^{2}$.
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy">
+A car goes round a bend at a steady 20 m/s. Is it accelerating? If so, which way?
+
+<Solution>
+Yes. Its direction is changing, so its velocity is changing. The acceleration points towards the centre of the bend.
+</Solution>
+</Problem>
+
+<Problem n={4} level="easy" book>
+In the spinning centrifuge, Grace feels pressed against the floor. Is a "centrifugal force" pushing him outwards? What real force acts on him?
+
+<Solution>
+No real force pushes him outwards. His body tends to move in a straight line, and the floor (on the outside of the circle) pushes him inwards to keep him going round. He feels that inward push as weight, just as he feels the floor's push on a planet.
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium">
+A 0.20 kg ball is whirled in a horizontal circle of radius 1.5 m at 2.0 revolutions per second. Ignoring gravity, find the tension in the string.
+
+<Solution>
+$\omega = 2.0 \times 2\pi = 12.6$ rad/s. $a = \omega^{2}r = 158 \times 1.5 = 237\ \text{m/s}^{2}$. $T = ma = 0.20 \times 237 = 47$ N.
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium">
+By what factor does the centripetal acceleration change if (a) the spin rate doubles at the same radius; (b) the radius halves at the same spin rate; (c) the radius halves at the same speed?
+
+<Solution>
+(a) $a = \omega^{2}r$: four times. (b) $a = \omega^{2}r$: half. (c) $a = v^{2}/r$: twice.
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium" book>
+Using the reader summary's figures for Grace's imagined centrifuge (radius 700 m, rim speed 88 m/s), find the centripetal acceleration. What rim speed would give the 14.7 m/s² he measured?
+
+<Solution>
+$a = \dfrac{88^{2}}{700} = 11.1\ \text{m/s}^{2}$, about 1.13 g. For 14.7 m/s²: $v = \sqrt{ar} = \sqrt{14.7 \times 700} = 101$ m/s.
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium">
+An astronaut-training centrifuge has an arm 8.0 m long. At what rpm does it give 3.0 g?
+
+<Solution>
+$\omega = \sqrt{\dfrac{3 \times 9.81}{8.0}} = 1.92$ rad/s, which is $1.92 \times \dfrac{60}{2\pi} = 18.3$ rpm.
+</Solution>
+</Problem>
+
+<Problem n={9} level="medium">
+Find Earth's centripetal acceleration as it orbits the Sun ($\omega = 1.99 \times 10^{-7}$ rad/s, $r = 1.496 \times 10^{11}$ m). What provides the force?
+
+<Solution>
+$a = \omega^{2}r = (1.99 \times 10^{-7})^{2} \times 1.496 \times 10^{11} = 5.93 \times 10^{-3}\ \text{m/s}^{2}$. The Sun's gravity provides it.
+</Solution>
+</Problem>
+
+<Problem n={10} level="challenging">
+A point moves as $x = 2.0\cos(3.0t)$, $y = 2.0\sin(3.0t)$ (metres, seconds). Find its acceleration components at $t = 0.50$ s by differentiating, and show that they equal $-\omega^{2}$ times the position.
+
+<Solution>
+$a_{x} = -18\cos(1.5) = -1.27\ \text{m/s}^{2}$ and $a_{y} = -18\sin(1.5) = -17.95\ \text{m/s}^{2}$.
+
+Position: $x = 2.0\cos(1.5) = 0.141$ m and $y = 2.0\sin(1.5) = 1.995$ m. Then $-9 \times 0.141 = -1.27$ and $-9 \times 1.995 = -17.95$. ✓ The size is $\sqrt{1.27^{2} + 17.95^{2}} = 18 = \omega^{2}r$.
+</Solution>
+</Problem>
+
+<Problem n={11} level="challenging">
+How short would Earth's day have to be for people at the equator to float, with all of gravity used up as centripetal acceleration? (Use $r = 6.378 \times 10^{6}$ m and $g = 9.81\ \text{m/s}^{2}$.)
+
+<Solution>
+Set $\omega^{2}r = g$: $\omega = \sqrt{\dfrac{9.81}{6.378 \times 10^{6}}} = 1.24 \times 10^{-3}$ rad/s, so $T = \dfrac{2\pi}{\omega} = 5070$ s, about 84 minutes. (Part 4 shows that this is also the time a satellite takes to orbit just above the ground.)
+</Solution>
+</Problem>
+
+<Problem n={12} level="challenging" book>
+In the runaway spin of Worked example 5 (radius 10 m), what spin rate would subject Grace to 8 g?
+
+<Solution>
+$\omega = \sqrt{\dfrac{8 \times 9.81}{10}} = 2.80$ rad/s, which is $2.80 \times \dfrac{60}{2\pi} = 26.8$ rpm. Going from 20 rpm to 27 rpm, only a third faster, nearly doubles the acceleration.
+</Solution>
+</Problem>
+
+## Summary
+
+- Moving in a circle at steady speed is accelerated motion: the velocity keeps changing direction.
+- The acceleration points towards the centre and has size $a = v^{2}/r = \omega^{2}r$. In vector form, $\mathbf{a} = -\omega^{2}\mathbf{r}$, so each coordinate does simple harmonic motion.
+- It needs a real net inward force, $F = mv^{2}/r$, supplied by tension, gravity, friction or a floor's push.
+- "Centrifugal force" is what an inward acceleration feels like from inside a rotating frame. It is not a real force.
+- At fixed radius, acceleration grows as the square of the spin rate.
+
+**Formulas from this chapter**
+
+$$
+a = \frac{v^{2}}{r} = \omega^{2}r \qquad \mathbf{a} = -\omega^{2}\mathbf{r} \qquad F = \frac{mv^{2}}{r} = m\omega^{2}r
+$$
+
+## Sources
+
+- OpenStax, *University Physics Volume 1*, [§4.4 Uniform Circular Motion](https://openstax.org/books/university-physics-volume-1/pages/4-4-uniform-circular-motion) and [§6.3 Centripetal Force](https://openstax.org/books/university-physics-volume-1/pages/6-3-centripetal-force) (including centrifugal force as a fictitious force in a rotating frame).
+- Centripetal acceleration and force: HyperPhysics, [Centripetal force](http://hyperphysics.gsu.edu/hbase/cf.html).
+- Newton's comparison of the Moon's fall with an apple's: *The Feynman Lectures on Physics*, Vol. I, [Ch. 7 "The Theory of Gravitation"](https://www.feynmanlectures.caltech.edu/I_07.html).
+- Earth's rotation and radius, the Moon's orbit: NASA NSSDCA [Earth fact sheet](https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html), [Moon fact sheet](https://nssdc.gsfc.nasa.gov/planetary/factsheet/moonfact.html).
+- The centrifuge and the runaway spin in the novel: LitCharts, [*Project Hail Mary*: Centrifuge](https://www.litcharts.com/lit/project-hail-mary/terms/centrifuge). Grace's 700 m and 88 m/s estimate: [Reader summary](https://trangnkp.substack.com/p/project-hail-mary). Approximate. The runaway spin's radius and rate are our assumptions.

@@ -69,10 +69,10 @@ export const parts = [
 		id: 'part-3', icon: 'ω', dir: 'part-3', code: '3', label: 'Part 3 · Circular motion and artificial gravity',
 		blurb: 'Spinning a ship to make gravity, and the strange sideways pushes that come with it.',
 		chapters: [
-			{ slug: 'angular-speed', title: 'Angular speed', prereqs: [], status: 'planned' },
-			{ slug: 'centripetal-acceleration', title: 'Centripetal acceleration', prereqs: [], status: 'planned' },
-			{ slug: 'spin-gravity', title: 'Designing spin gravity', prereqs: [], status: 'planned' },
-			{ slug: 'coriolis', title: 'The Coriolis effect', prereqs: [], status: 'planned' },
+			{ slug: 'angular-speed', title: 'Angular speed', prereqs: ['trigonometry', 'kinematics', 'derivatives'], status: 'review' },
+			{ slug: 'centripetal-acceleration', title: 'Centripetal acceleration', prereqs: ['angular-speed', 'newtons-laws', 'vectors', 'pendulums-shm'], status: 'review' },
+			{ slug: 'spin-gravity', title: 'Designing spin gravity', prereqs: ['centripetal-acceleration', 'apparent-weight', 'measuring-g', 'pendulums-shm'], status: 'review' },
+			{ slug: 'coriolis', title: 'The Coriolis effect', prereqs: ['spin-gravity', 'centripetal-acceleration', 'kinematics', 'integrals'], status: 'review' },
 		],
 	},
 	{
