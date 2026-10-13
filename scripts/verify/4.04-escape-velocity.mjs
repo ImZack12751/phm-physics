@@ -1,0 +1,33 @@
+import { check, report } from './lib.mjs';
+import { C, GRAV, ADRIAN } from './constants.mjs';
+const GM = GRAV.earthGM, Re = C.earthRadius, G = GRAV.G;
+const ve = (gm, r) => Math.sqrt((2 * gm) / r);
+const rmax = (gm, R, v) => 1 / (1 / R - (v * v) / (2 * gm));
+export default function () {
+	check('WE1', ve(GM, Re), 11190, 0.0005); check('WE1 NASA', GRAV.earthEscape, 11186, 0.0001); check('WE1 km/h', ve(GM, Re) * 3.6, 40000, 0.01);
+	const r2 = rmax(GM, Re, 5000);
+	check('WE2 1/r', 1 / r2, 1.256e-7, 0.0005); check('WE2 r', r2, 7.962e6, 0.0005); check('WE2 h', (r2 - Re) / 1000, 1591, 0.001);
+	check('WE2 flat', 5000 ** 2 / (2 * 9.82) / 1000, 1273, 0.001); check('WE2 25%', (r2 - Re) / (5000 ** 2 / (2 * 9.82)), 1.25, 0.005);
+	const GMA = G * ADRIAN.mass;
+	check('WE3 GM', GMA, 1.567e15, 0.001); check('WE3 R', ADRIAN.radius, 9.557e6, 0.0001); check('WE3 ve', ve(GMA, ADRIAN.radius) / 1000, 18.1, 0.002);
+	check('WE3 vc', ve(GMA, ADRIAN.radius) / Math.SQRT2 / 1000, 12.8, 0.003); check('WE3 vs Earth', 18.1 / 11.19, 1.62, 0.003);
+	const GMT = G * 0.8 * C.sunMass, a = 0.552 * C.au, vo = Math.sqrt(GMT / a);
+	check('WE4 GM', GMT, 1.062e20, 0.001); check('WE4 r', a, 8.258e10, 0.0005); check('WE4 ve', ve(GMT, a) / 1000, 50.7, 0.002);
+	check('WE4 vo', vo / 1000, 35.9, 0.002); check('WE4 Δv', 50.7 - 35.9, 14.8, 0.001); check('WE4 Δv exact', (ve(GMT, a) - vo) / 1000, 14.8, 0.005);
+	const GMS = 1.32712e20;
+	check('WE5 R', (2 * GMS) / C.c ** 2, 2950, 0.002);
+	check('fig Moon', GRAV.moonEscape / 1000, 2.38); check('fig Mars', GRAV.marsEscape / 1000, 5.03); check('fig Venus', GRAV.venusEscape / 1000, 10.36);
+	check('fig Venus calc', ve(G * GRAV.venusMass, GRAV.venusRadius) / 1000, 10.36, 0.001);
+	check('fig h=R at', Math.SQRT1_2, 0.71, 0.005); check('fig top', Math.sqrt(5 / 6), 0.91, 0.005);
+	check('P1', ve(4.9e12, C.moonRadius), 2375, 0.001); check('P2', Math.SQRT2 * 7, 9.9, 0.001);
+	check('P5', ve(4.2828e13, GRAV.marsRadius), 5030, 0.001);
+	const r7 = Re + GRAV.issAltitude;
+	check('P7 ve', ve(GM, r7) / 1000, 10.85, 0.001); check('P7 extra', 10.85 - 7.67, 3.18, 0.001); check('P7 exact', (ve(GM, r7) - Math.sqrt(GM / r7)) / 1000, 3.18, 0.002);
+	const r8 = rmax(GM, Re, 1e4);
+	check('P8 2GM', 2 * GM, 7.972e14, 0.0001); check('P8 1/r', 1 / r8, 3.152e-8, 0.001); check('P8 r', r8, 3.17e7, 0.002); check('P8 R', r8 / Re, 4.98, 0.001); check('P8 h', (r8 - Re) / 1000, 25400, 0.003);
+	check('P9 2g', 2 * 9.82, 19.64); check('P9 2R', 2 * Re, 1.274e7, 0.0005); check('P9', Math.sqrt(2 * 19.64 * 1.274e7) / 1000, 22.4, 0.002);
+	check('P10', ve(GMS, 1.496e11) / 1000, 42.1, 0.002); check('P10 extra', (ve(GMS, 1.496e11) - 29780) / 1000, 12.3, 0.004);
+	check('P11', (2 * GM) / C.c ** 2, 8.87e-3, 0.002);
+	check('RvB 180000 yr', (12 * C.lightYear) / 2e4 / C.julianYear, 180000, 0.01);
+	return report('4.4 Escape velocity');
+}

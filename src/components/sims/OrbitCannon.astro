@@ -1,0 +1,87 @@
+---
+// Simulation: Newton's cannon. Launch horizontally from a chosen height above Earth at a chosen speed.
+// The trajectory is integrated numerically under g = GM/r²; a dot then moves along it.
+---
+
+<div
+	class="sim oc"
+	data-title="Newton's cannon"
+	data-description="A projectile is launched horizontally from a height of 100 to 2000 km above Earth at 1 to 12 km/s. Its path under Earth's gravity (GM = 3.986 × 10¹⁴ m³/s²) is computed step by step and drawn, and a dot travels along it (sped up). The readout gives the circular-orbit speed √(GM/r) and the escape speed √(2GM/r) at the launch height, and the outcome: where it hits the ground, the period of the orbit, or that it escapes."
+>
+	<p class="sim-title">Simulation: Newton’s cannon</p>
+	<p class="sim-help">Too slow and the shot hits the ground. At exactly the circular speed it falls all the way round and never lands. Faster still and the orbit stretches into an ellipse, until it escapes.</p>
+	<div class="sim-controls">
+		<label>Launch speed <input type="range" class="oc-v" min="1" max="12" step="0.01" value="7.3" /> <output class="oc-vv"></output></label>
+		<label>Launch height <input type="range" class="oc-h" min="100" max="2000" step="10" value="400" /> <output class="oc-hv"></output></label>
+	</div>
+	<svg class="dg oc-svg" viewBox="0 0 600 400" role="img" aria-label="Earth with the path of a projectile launched horizontally from above its surface"></svg>
+	<div class="readout oc-out" aria-live="polite"></div>
+</div>
+
+<script>
+	const GM = 3.986e14, RE = 6.371e6;
+	const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+	document.querySelectorAll<HTMLElement>('.sim.oc').forEach((root) => {
+		const svg = root.querySelector<SVGSVGElement>('.oc-svg')!;
+		const Vs = root.querySelector<HTMLInputElement>('.oc-v')!, Hs = root.querySelector<HTMLInputElement>('.oc-h')!;
+		const out = root.querySelector<HTMLElement>('.oc-out')!;
+		const NS = 'http://www.w3.org/2000/svg';
+		const el = (tag: string, at: Record<string, string | number>, text?: string) => {
+			const e = document.createElementNS(NS, tag);
+			Object.entries(at).forEach(([k, v]) => e.setAttribute(k, String(v)));
+			if (text) e.textContent = text;
+			svg.append(e);
+			return e;
+		};
+		const CX = 300, CY = 200, SC = 95 / RE; // Earth drawn with radius 95 px
+		el('circle', { cx: CX, cy: CY, r: RE * SC, class: 'f-sky-soft s-sky w2' });
+		el('text', { x: CX, y: CY + 5, class: 't-mid t-sm f-sky' }, 'Earth');
+		const path = el('path', { class: 's-amber w2', fill: 'none' });
+		const tower = el('line', { class: 's-muted w2' });
+		const dot = el('circle', { r: 6, class: 'f-amber' });
+		let pts: { x: number; y: number }[] = [], k = 0;
+		function simulate() {
+			const v0 = +Vs.value * 1000, h = +Hs.value * 1000, r0 = RE + h;
+			root.querySelector('.oc-vv')!.textContent = `${(+Vs.value).toFixed(2)} km/s`;
+			root.querySelector('.oc-hv')!.textContent = `${Hs.value} km`;
+			const vc = Math.sqrt(GM / r0), ve = Math.sqrt((2 * GM) / r0);
+			let x = 0, y = r0, vx = v0, vy = 0, t = 0, ang = 0, prev = 0, outcome = '';
+			const dt = 2;
+			pts = [];
+			// velocity Verlet steps of 2 s; stop on impact, after one full turn, or far away
+			let ax = (-GM * x) / r0 ** 3, ay = (-GM * y) / r0 ** 3;
+			for (let i = 0; i < 400000; i++) {
+				x += vx * dt + 0.5 * ax * dt * dt; y += vy * dt + 0.5 * ay * dt * dt;
+				const r = Math.hypot(x, y), nax = (-GM * x) / r ** 3, nay = (-GM * y) / r ** 3;
+				vx += 0.5 * (ax + nax) * dt; vy += 0.5 * (ay + nay) * dt; ax = nax; ay = nay; t += dt;
+				if (i % 15 === 0) pts.push({ x: CX + x * SC, y: CY - y * SC });
+				const th = Math.atan2(x, y); let d = th - prev; if (d < -Math.PI) d += 2 * Math.PI; if (d > Math.PI) d -= 2 * Math.PI; prev = th; ang += d;
+				if (r < RE) { outcome = `hits the ground <b>${((ang * RE) / 1000).toFixed(0)} km</b> round the surface, after ${(t / 60).toFixed(1)} min`; break; }
+				if (ang >= 2 * Math.PI) { outcome = `<b>in orbit</b>: once round in <b>${(t / 60).toFixed(1)} min</b>`; break; }
+				if (r * SC > 900 && vx * vx + vy * vy > (2 * GM) / r) { outcome = '<b>escapes</b>: it never comes back'; break; }
+			}
+			if (!outcome) outcome = 'still travelling outwards (a very long orbit)';
+			pts.push({ x: CX + x * SC, y: CY - y * SC });
+			path.setAttribute('d', 'M' + pts.map((p) => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' L'));
+			tower.setAttribute('x1', String(CX)); tower.setAttribute('y1', String(CY - RE * SC));
+			tower.setAttribute('x2', String(CX)); tower.setAttribute('y2', String(CY - r0 * SC));
+			k = reduce ? pts.length - 1 : 0;
+			place();
+			out.innerHTML =
+				`<span class="k">circular speed √(GM/r)</span> = <b>${(vc / 1000).toFixed(2)} km/s</b> &nbsp; <span class="k">escape speed √(2GM/r)</span> = ${(ve / 1000).toFixed(2)} km/s<br>` +
+				`<span class="k">launch speed</span> = ${(v0 / vc).toFixed(2)} × circular speed → ${outcome}`;
+		}
+		function place() {
+			const p = pts[Math.min(k, pts.length - 1)];
+			dot.setAttribute('cx', String(p.x)); dot.setAttribute('cy', String(p.y));
+		}
+		function frame() {
+			k = (k + 1) % (pts.length + 40);
+			place();
+			requestAnimationFrame(frame);
+		}
+		[Vs, Hs].forEach((i) => i.addEventListener('input', simulate));
+		simulate();
+		if (!reduce) requestAnimationFrame(frame);
+	});
+</script>

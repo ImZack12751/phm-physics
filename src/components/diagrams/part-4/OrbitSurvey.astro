@@ -1,0 +1,45 @@
+---
+// What a ship in orbit can measure: the period T (by timing laps), its height h above the surface (radar),
+// and the angle θ the planet fills in its view. sin(θ/2) = R/r gives the planet's radius; r = R + h.
+const CX = 180, CY = 200, R = 120, H = 55, r = R + H;
+const S = { x: CX + r, y: CY }; // ship on the right
+const half = Math.asin(R / r);
+// tangent points from the ship to the planet
+const tp = (sgn: number) => {
+	const a = Math.PI - (Math.PI / 2 - half) * sgn; // angle at centre of the tangent point, seen from +x axis
+	const ang = sgn > 0 ? Math.PI / 2 - half : -(Math.PI / 2 - half);
+	return { x: CX + R * Math.cos(ang), y: CY - R * Math.sin(ang), a };
+};
+const T1 = tp(1), T2 = tp(-1);
+const arcR = 46;
+const arc = (s: number) => ({ x: S.x - arcR * Math.cos(half), y: CY - s * arcR * Math.sin(half) });
+---
+
+<svg class="dg" viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg">
+	<circle cx={CX} cy={CY} r={r} class="s-green w2 dash" fill="none" />
+	<text x={CX} y={CY - r - 10} class="t-mid t-sm f-green">orbit: time one lap, T</text>
+	<circle cx={CX} cy={CY} r={R} class="f-sky-soft s-sky w2" />
+	<text x={CX - 40} y={CY + 50} class="t-mid t-sm f-sky">planet</text>
+	<line x1={S.x} y1={S.y} x2={T1.x} y2={T1.y} class="s-amber w1" />
+	<line x1={S.x} y1={S.y} x2={T2.x} y2={T2.y} class="s-amber w1" />
+	<path d={`M${arc(1).x},${arc(1).y} A${arcR},${arcR} 0 0,0 ${arc(-1).x},${arc(-1).y}`} class="s-amber w2" fill="none" />
+	<text x={S.x - arcR - 8} y={CY - 8} class="t-end t-sm f-amber halo">θ</text>
+	<line x1={CX} y1={CY} x2={T1.x} y2={T1.y} class="s-fg w1" />
+	<text x={(CX + T1.x) / 2 - 8} y={(CY + T1.y) / 2} class="t-end t-sm halo">R</text>
+	<line x1={CX} y1={CY} x2={CX + R} y2={CY} class="s-grid w1 dash" />
+	<line x1={CX + R} y1={CY + 18} x2={S.x} y2={CY + 18} class="s-rose w2" />
+	<text x={S.x + 14} y={CY + 24} class="t-sm f-rose">h (radar)</text>
+	<circle cx={CX} cy={CY} r="3" class="f-fg" />
+	<polygon points={`${S.x - 8},${S.y + 8} ${S.x + 10},${S.y} ${S.x - 8},${S.y - 8}`} class="f-amber" />
+	<text x={S.x + 14} y={S.y + 4} class="t-sm f-amber">ship</text>
+	<text x="410" y="90" class="t-sm t-b">From orbit you can measure:</text>
+	<text x="410" y="114" class="t-sm">• the period T (a stopwatch)</text>
+	<text x="410" y="134" class="t-sm f-rose">• the height h (radar)</text>
+	<text x="410" y="154" class="t-sm f-amber">• the planet’s width in view, θ</text>
+	<text x="410" y="190" class="t-sm">Then:</text>
+	<text x="410" y="212" class="t-sm">sin(θ/2) = R / (R + h) → R</text>
+	<text x="410" y="232" class="t-sm">r = R + h</text>
+	<text x="410" y="252" class="t-sm t-b">M = 4π²r³ / GT²</text>
+	<text x="410" y="276" class="t-sm">ρ = M / (4/3 πR³)</text>
+	<text x="410" y="296" class="t-sm">g = GM / R²</text>
+</svg>

@@ -1,0 +1,96 @@
+---
+// Simulation: launching straight up from a chosen body. Plots speed against distance from the centre using
+// v² = v₀² − 2GM(1/R − 1/r), alongside the local escape speed √(2GM/r).
+---
+
+<div
+	class="sim el"
+	data-title="Escape launcher"
+	data-description="Launch something straight up (no air) from Earth, the Moon, Mars, Venus or our model of Adrian at 0 to 25 km/s. A graph plots its speed against distance from the centre (1 to 10 radii) using v² = v₀² − 2GM(1/R − 1/r), together with the local escape speed √(2GM/r) as a dashed curve. The readout gives the escape speed from the surface and either the greatest distance reached, compared with the constant-g estimate v₀²/2g, or, if it escapes, the speed it keeps when very far away, √(v₀² − v_esc²)."
+>
+	<p class="sim-title">Simulation: escape launcher</p>
+	<p class="sim-help">The amber curve is the speed of something thrown straight up. If it touches zero, the object stops and falls back. If it stays above zero all the way out, the object escapes.</p>
+	<div class="sim-controls">
+		<label>Launch speed <input type="range" class="el-v" min="0" max="25" step="0.05" value="10" /> <output class="el-vv"></output></label>
+		<label>Body <select class="el-b">
+			<option value="0">Earth</option>
+			<option value="1">Moon</option>
+			<option value="2">Mars</option>
+			<option value="3">Venus</option>
+			<option value="4">Adrian (our model)</option>
+		</select></label>
+	</div>
+	<svg class="dg el-svg" viewBox="0 0 600 280" role="img" aria-label="Graph of the speed of a vertically launched object against distance from the centre of the planet"></svg>
+	<div class="readout el-out" aria-live="polite"></div>
+</div>
+
+<script>
+	// GM (m³/s²) and radius (m): NASA NSSDCA fact sheets; Adrian is our model (3.93 Earth masses, 1.5 Earth radii).
+	const BODIES = [
+		{ n: 'Earth', GM: 3.986e14, R: 6.371e6 },
+		{ n: 'the Moon', GM: 4.9e12, R: 1.7374e6 },
+		{ n: 'Mars', GM: 4.2828e13, R: 3.3895e6 },
+		{ n: 'Venus', GM: 3.2486e14, R: 6.0518e6 },
+		{ n: 'Adrian (model)', GM: 1.5665e15, R: 9.5565e6 },
+	];
+	document.querySelectorAll<HTMLElement>('.sim.el').forEach((root) => {
+		const svg = root.querySelector<SVGSVGElement>('.el-svg')!;
+		const Vs = root.querySelector<HTMLInputElement>('.el-v')!, Bs = root.querySelector<HTMLSelectElement>('.el-b')!;
+		const out = root.querySelector<HTMLElement>('.el-out')!;
+		const NS = 'http://www.w3.org/2000/svg';
+		const el = (tag: string, at: Record<string, string | number>, text?: string) => {
+			const e = document.createElementNS(NS, tag);
+			Object.entries(at).forEach(([k, v]) => e.setAttribute(k, String(v)));
+			if (text) e.textContent = text;
+			svg.append(e);
+			return e;
+		};
+		const L = 70, Rt = 575, T = 20, B = 220;
+		function draw() {
+			const v0 = +Vs.value * 1000, b = BODIES[+Bs.value];
+			root.querySelector('.el-vv')!.textContent = `${(+Vs.value).toFixed(2)} km/s`;
+			const ve = Math.sqrt((2 * b.GM) / b.R), g = b.GM / b.R ** 2;
+			const vTop = Math.max(v0, ve) * 1.1;
+			const px = (u: number) => L + ((u - 1) / 9) * (Rt - L);
+			const py = (v: number) => B - (v / vTop) * (B - T);
+			svg.replaceChildren();
+			const step = vTop > 20000 ? 5 : vTop > 8000 ? 2 : 1;
+			for (let k = 0; k * step * 1000 <= vTop; k++) {
+				el('line', { x1: L, y1: py(k * step * 1000), x2: Rt, y2: py(k * step * 1000), class: 's-grid w1' });
+				el('text', { x: L - 8, y: py(k * step * 1000) + 4, class: 't-end t-sm f-muted' }, String(k * step));
+			}
+			[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].forEach((u) => el('text', { x: px(u), y: B + 18, class: 't-mid t-sm f-muted' }, String(u)));
+			el('line', { x1: L, y1: B, x2: Rt, y2: B, class: 's-fg w2' });
+			el('line', { x1: L, y1: B, x2: L, y2: T, class: 's-fg w2' });
+			let de = '', dv = '', top = 10;
+			for (let i = 0; i <= 300; i++) {
+				const u = 1 + (9 * i) / 300;
+				de += `${i ? 'L' : 'M'}${px(u).toFixed(1)},${py(Math.sqrt((2 * b.GM) / (u * b.R))).toFixed(1)}`;
+			}
+			for (let i = 0; i <= 300; i++) {
+				const u = 1 + (9 * i) / 300, r = u * b.R;
+				const v2 = v0 * v0 - 2 * b.GM * (1 / b.R - 1 / r);
+				if (v2 < 0) { top = u; break; }
+				dv += `${i ? 'L' : 'M'}${px(u).toFixed(1)},${py(Math.sqrt(v2)).toFixed(1)}`;
+			}
+			el('path', { d: de, class: 's-muted w2 dash', fill: 'none' });
+			if (dv) el('path', { d: dv, class: 's-amber w3', fill: 'none' });
+			el('text', { x: Rt, y: T + 14, class: 't-end t-sm f-muted' }, 'dashed: escape speed √(2GM/r) at that distance');
+			el('text', { x: (L + Rt) / 2, y: B + 42, class: 't-mid t-sm' }, `distance from the centre of ${b.n}, in radii (r / R)`);
+			el('text', { x: 22, y: (T + B) / 2, class: 't-mid t-sm', transform: `rotate(-90 22 ${(T + B) / 2})` }, 'speed (km/s)');
+			let result: string;
+			if (v0 >= ve) {
+				result = `<b>escapes</b>. Far away it is still moving at √(v₀² − v<sub>esc</sub>²) = <b>${(Math.sqrt(v0 * v0 - ve * ve) / 1000).toFixed(2)} km/s</b>`;
+			} else {
+				const rMax = 1 / (1 / b.R - (v0 * v0) / (2 * b.GM));
+				result = `rises to <b>${((rMax - b.R) / 1000).toLocaleString('en-GB', { maximumFractionDigits: 0 })} km</b> above the surface (${(rMax / b.R).toFixed(2)} R from the centre), then falls back. A constant-g estimate v₀²/2g would say ${((v0 * v0) / (2 * g) / 1000).toLocaleString('en-GB', { maximumFractionDigits: 0 })} km`;
+				if (top <= 10) el('circle', { cx: px(top), cy: B, r: 6, class: 'f-rose' });
+			}
+			out.innerHTML =
+				`<span class="k">escape speed from ${b.n}, √(2GM/R)</span> = <b>${(ve / 1000).toFixed(2)} km/s</b> &nbsp; <span class="k">launch</span> = ${(v0 / ve).toFixed(2)} × escape speed<br>` +
+				`<span class="k">result</span>: ${result}`;
+		}
+		[Vs, Bs].forEach((i) => i.addEventListener('input', draw));
+		draw();
+	});
+</script>

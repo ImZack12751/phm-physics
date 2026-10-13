@@ -1,0 +1,342 @@
+---
+title: Newton’s law of gravitation
+description: How Newton turned the Moon test into one law for every pair of masses, F = GMm/r², what the tiny constant G means, how it lets us weigh the Earth, and how gravity weakens with height.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import TwoBodies from '../../../components/diagrams/part-4/TwoBodies.astro';
+import GravityFalloff from '../../../components/diagrams/part-4/GravityFalloff.astro';
+import GravityExplorer from '../../../components/sims/GravityExplorer.astro';
+
+## The scene
+
+When the *Hail Mary* reaches Tau Ceti, Grace finds a planet that plays the same part as Venus does for the Sun: the far end of Tau Ceti's own Petrova line. He names it Adrian. He never lands there, but almost everything he does next depends on its gravity. He has to park the ship in orbit around it, lower a sampling probe into its air on a 10 km chain, and later fight to stay in orbit at all.
+
+Parts 1 to 3 treated gravity as a given number, $g$. That works on a ship's deck, but not for a planet nobody has measured. This chapter finds where $g$ comes from. One law covers the apple, the Moon and Adrian, and it is the foundation of the rest of Part 4.
+
+## Prerequisites
+
+<Prereqs notes={{ 'centripetal-acceleration': 'the Moon test: the Moon accelerates towards Earth at ω²r', 'ratios-proportionality': 'the inverse-square law and the ratio method', 'mass-and-weight': 'gravitational mass, W = mg, and g as newtons per kilogram', 'newtons-laws': 'F = ma and the third law' }} />
+
+## The concept
+
+### From the Moon test to a law
+
+Chapter 3.2 ended with Newton's Moon test. The Moon's centripetal acceleration, $2.72 \times 10^{-3}\ \text{m/s}^{2}$, is almost exactly $g$ divided by $60.3^{2}$, where 60.3 is the Moon's distance in Earth radii. Whatever pulls the apple down also holds the Moon in its orbit, and it gets weaker as the <Term id="inverse-square-law">inverse square</Term> of distance from Earth's centre.
+
+Newton then asked what the pull depends on besides distance.
+
+- **The mass being pulled, $m$.** Everything falls at the same rate (Chapter 2.2). For the acceleration $F/m$ to be the same for a feather and a hammer, the force must be proportional to $m$.
+- **The mass doing the pulling, $M$.** By Newton's third law, if Earth pulls the Moon, the Moon pulls Earth just as hard. The formula has to treat the two bodies alike, so if it contains $m$ it must contain $M$ too.
+
+Put together: $F \propto Mm/r^{2}$. A constant of proportionality turns this into an equation, Newton's <Term id="law-of-gravitation">law of universal gravitation</Term>:
+
+$$
+F = \frac{GMm}{r^{2}}.
+$$
+
+"Universal" means it applies to every pair of masses in the universe: you and this screen, Earth and the Moon, Tau Ceti and Adrian. The force is always attractive and always acts along the line joining the two bodies.
+
+<Figure caption="Two masses attract each other with forces of the same size, F = GMm/r², pointing towards each other. The distance r is measured between their centres. The small mass feels exactly as much force as the big one, but because it has less inertia it accelerates much more." alt="A large blue sphere labelled mass M on the left and a small amber sphere labelled mass m on the right. A red arrow from the small sphere points left, labelled F on m. A red arrow from the large sphere points right, labelled F on M. The arrows are the same length. Dashed lines drop from the two centres to a bracket labelled r, measured between the centres. Title: F = G M m over r squared; same size on each body, opposite directions (Newton's third law).">
+	<TwoBodies />
+</Figure>
+
+### The constant G
+
+$G$ is the <Term id="gravitational-constant">gravitational constant</Term>:
+
+$$
+G = 6.674\,30 \times 10^{-11}\ \text{N·m}^{2}/\text{kg}^{2}.
+$$
+
+Its units make the equation balance: $\text{N·m}^{2}/\text{kg}^{2} \times \text{kg} \times \text{kg} / \text{m}^{2} = \text{N}$. Written in base units it is $\text{m}^{3}\,\text{kg}^{-1}\,\text{s}^{-2}$.
+
+$G$ is tiny. Two people standing a metre apart attract each other with less than a millionth of a newton. Gravity only becomes noticeable when at least one of the masses is enormous, like a planet. That is why Newton could not measure $G$ himself. The first measurement came in 1797–98, when Henry Cavendish used a **torsion balance**: two small lead balls on a rod hung from a thin wire, with two large lead balls placed nearby. Their pull twisted the wire very slightly, and the size of the twist gave the force.
+
+### Weighing the Earth
+
+At Earth's surface, the force on a mass $m$ is its weight, $mg$. By the law of gravitation the same force is $GM_{\text{E}}m/R^{2}$, where $R$ is Earth's radius. (Newton proved that a uniform sphere, or one built of uniform layers, pulls on things outside it as if all its mass were at its centre. This is the <Term id="shell-theorem">shell theorem</Term>, and it is why $r$ is measured from the centre.) So
+
+$$
+mg = \frac{GM_{\text{E}}m}{R^{2}} \quad\Rightarrow\quad g = \frac{GM_{\text{E}}}{R^{2}}.
+$$
+
+The mass $m$ cancels, which is the law's version of "everything falls at the same rate". Rearranged, $M_{\text{E}} = gR^{2}/G$. The values of $g$ and $R$ were already known, so once $G$ was measured Earth's mass followed. That is why Cavendish's experiment is often described as weighing the Earth.
+
+### Field strength around any body
+
+Chapter 2.2 described $g$ as the <Term id="gravitational-field-strength">gravitational field strength</Term>: the force per kilogram, in N/kg. The law of gravitation now gives it at any distance $r$ from the centre of a body of mass $M$:
+
+$$
+g = \frac{F}{m} = \frac{GM}{r^{2}}.
+$$
+
+At the surface ($r = R$) this is the familiar surface gravity. Further out, $g$ falls as $1/r^{2}$. Dividing the two:
+
+$$
+\frac{g(r)}{g_{\text{surface}}} = \left(\frac{R}{r}\right)^{2}.
+$$
+
+<Figure caption="Earth's gravitational field strength against distance from its centre, in Earth radii. At the International Space Station's height (400 km, only 6% further from the centre) gravity is still 89% of its surface value. It falls to half at √2 Earth radii, and at the geostationary orbit, 6.6 Earth radii out, it is about 2% of its surface value." alt="A graph. Horizontal axis: distance from Earth's centre in Earth radii, 0 to 8. Vertical axis: g in metres per second squared, 0 to 10. A shaded band from 0 to 1 is labelled Earth. A red curve starts at 9.82 at r = 1 and falls steeply, then levels off towards zero, labelled g = 9.82 (R/r) squared. Marked points: surface 9.82; ISS, 400 km up, 8.69; half strength at r = root 2 R; geostationary 0.224 at 6.62 Earth radii.">
+	<GravityFalloff />
+</Figure>
+
+Two things follow.
+
+1. **Astronauts in orbit are not beyond gravity.** At the ISS's height gravity is still nearly 90% as strong as on the ground. Why they float anyway is the subject of Chapter 4.2.
+2. **Surface gravity depends on mass and radius together.** A planet four times as massive as Earth but one and a half times as wide has $g$ larger by $4/1.5^{2} \approx 1.8$, not by 4.
+
+### Several bodies at once
+
+Gravity from different bodies simply adds, as vectors (Chapter 0.7). On the line between Earth and the Moon there is a point where their pulls are equal and opposite and the net force is zero. Because Earth is 81 times as massive as the Moon, that point is much closer to the Moon (Problem 8).
+
+## Formulas
+
+### The law of gravitation
+
+From $F \propto m$ (all bodies fall alike), $F \propto M$ (third law) and $F \propto 1/r^{2}$ (the Moon test):
+
+$$
+\boxed{F = \frac{GMm}{r^{2}}} \qquad G = 6.674\,30 \times 10^{-11}\ \text{N·m}^{2}/\text{kg}^{2}
+$$
+
+### Field strength and surface gravity
+
+Dividing the force by $m$:
+
+$$
+\boxed{g = \frac{GM}{r^{2}}} \qquad g_{\text{surface}} = \frac{GM}{R^{2}} \qquad \boxed{M = \frac{gR^{2}}{G}}
+$$
+
+### Gravity at a height
+
+Taking the ratio of $g$ at radius $r$ to $g$ at the surface, the $GM$ cancels:
+
+$$
+\boxed{g(r) = g_{\text{surface}}\left(\frac{R}{r}\right)^{2}} \qquad r = R + h
+$$
+
+### Surface gravity from density
+
+A uniform sphere of density $\rho$ (Chapter 0.4) has mass $M = \rho \cdot \tfrac{4}{3}\pi R^{3}$. Substituting into $g = GM/R^{2}$:
+
+$$
+\boxed{g = \tfrac{4}{3}\pi G\rho R}
+$$
+
+So for planets of the same density, surface gravity is proportional to radius.
+
+### Small changes in height
+
+Differentiating $g = GMr^{-2}$ with the power rule (Chapter C.3) gives $dg/dr = -2GMr^{-3} = -2g/r$. For a small rise $\Delta r$:
+
+$$
+\boxed{\frac{\Delta g}{g} \approx -2\,\frac{\Delta r}{r}}
+$$
+
+This is the power-law rule from Chapter 1.4 with $n = -2$.
+
+## Worked examples
+
+<Example n={1} title="Grace and Rocky attract each other" book>
+Grace (80 kg, our assumption) and Rocky (100 kg, our assumption, as in Part 2) stand with their centres 1.0 m apart. Find the gravitational force between them, and compare it with Grace's weight on Earth.
+
+$$
+F = \frac{GMm}{r^{2}} = \frac{6.674 \times 10^{-11}\ \text{N·m}^{2}/\text{kg}^{2} \times 100\ \text{kg} \times 80\ \text{kg}}{(1.0\ \text{m})^{2}} = 5.34 \times 10^{-7}\ \text{N}
+$$
+
+$$
+\frac{F}{W} = \frac{5.34 \times 10^{-7}\ \text{N}}{80\ \text{kg} \times 9.81\ \text{m/s}^{2}} = 6.8 \times 10^{-10}
+$$
+
+Less than a billionth of his weight. The pull between people is real but far too small to notice.
+</Example>
+
+<Example n={2} title="Weighing the Earth">
+Use $g = 9.82\ \text{m/s}^{2}$ and $R = 6.371 \times 10^{6}$ m to find Earth's mass, then its average density.
+
+$$
+M = \frac{gR^{2}}{G} = \frac{9.82\ \text{m/s}^{2} \times (6.371 \times 10^{6}\ \text{m})^{2}}{6.674 \times 10^{-11}\ \text{m}^{3}\,\text{kg}^{-1}\,\text{s}^{-2}} = 5.97 \times 10^{24}\ \text{kg}
+$$
+
+$$
+\rho = \frac{M}{\tfrac{4}{3}\pi R^{3}} = \frac{5.97 \times 10^{24}\ \text{kg}}{\tfrac{4}{3}\pi\,(6.371 \times 10^{6}\ \text{m})^{3}} = 5510\ \text{kg/m}^{3}
+$$
+
+This matches NASA's value of 5513 kg/m³. Surface rocks are only about half as dense, so Earth's interior must be much denser than its crust.
+</Example>
+
+<Example n={3} title="The Moon test, with G">
+Find Earth's field strength at the Moon's distance, $r = 3.844 \times 10^{8}$ m, using $GM_{\text{E}} = 3.986 \times 10^{14}\ \text{m}^{3}/\text{s}^{2}$. Compare it with the Moon's centripetal acceleration, $2.72 \times 10^{-3}\ \text{m/s}^{2}$ (Chapter 3.2).
+
+$$
+g = \frac{GM_{\text{E}}}{r^{2}} = \frac{3.986 \times 10^{14}\ \text{m}^{3}/\text{s}^{2}}{(3.844 \times 10^{8}\ \text{m})^{2}} = 2.70 \times 10^{-3}\ \text{m/s}^{2}
+$$
+
+The two agree within 1%. The pull of Earth's gravity at that distance is exactly what the Moon needs to keep going round. (The small difference is because the Moon and Earth both circle their shared centre of mass, Chapter 3.3, and the orbit is slightly elliptical.)
+</Example>
+
+<Example n={4} title="Gravity on Adrian" book>
+The real planet candidate that the novel's Adrian is based on, Tau Ceti e, has at least 3.93 times Earth's mass. Its size is unknown. Our model assumes it is 1.5 times as wide as Earth. Find the surface gravity and Grace's weight there.
+
+Using the ratio method, $g \propto M/R^{2}$:
+
+$$
+g_{\text{A}} = 9.82\ \text{m/s}^{2} \times \frac{3.93}{1.5^{2}} = 9.82\ \text{m/s}^{2} \times 1.747 = 17.2\ \text{m/s}^{2} \approx 1.75\ \text{g}
+$$
+
+$$
+W = mg_{\text{A}} = 80\ \text{kg} \times 17.15\ \text{m/s}^{2} = 1370\ \text{N}
+$$
+
+Nearly four times the mass, but less than twice the gravity, because the surface is further from the centre. The same model planet is used throughout Part 4.
+</Example>
+
+<Example n={5} title="Gravity at the space station">
+The ISS orbits about 400 km above the ground. Find $g$ there.
+
+$$
+r = 6371\ \text{km} + 400\ \text{km} = 6771\ \text{km} \qquad g = 9.82\ \text{m/s}^{2} \times \left(\frac{6371}{6771}\right)^{2} = 9.82 \times 0.885 = 8.69\ \text{m/s}^{2}
+$$
+
+Gravity there is 89% as strong as on the ground. The astronauts float for another reason, which Chapter 4.2 explains.
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** Newton's law of gravitation describes the motions of the planets, moons and spacecraft extremely well. General relativity refines it only where gravity is very strong or speeds approach that of light. $G$ is the least precisely known of the fundamental constants, with a relative uncertainty of about 2 parts in 100 000 (CODATA 2022). That is much less precise than other constants because gravitational forces in the lab are so weak. The shell theorem and $g = GM/R^{2}$ are standard results.
+
+**Weir's inventions.** Adrian is the novel's name for Tau Ceti e, a planet candidate reported in 2017 from tiny wobbles in the star's motion. That method gives only a minimum mass (3.93 Earth masses) and no radius. Our 1.5 Earth radii is an assumption, chosen to fit a rocky planet of that mass. Later studies suggest the signal may not be a planet at all, so in reality Adrian may not exist. The novel's Erid at about 2 g (Chapter 2.2) is likewise fiction built on a real star, 40 Eridani A.
+
+**How realistic are the numbers?** A rocky planet of about 4 Earth masses would have surface gravity of roughly 1.5 to 2 g, depending on its composition. A planet like that is one people could stand on but not live on comfortably. Grace never lands, so the novel never needs the number. What he does need is Adrian's mass, which controls every orbit around it (Chapters 4.2 and 4.5).
+</RealVsBook>
+
+## Interactive simulation
+
+<GravityExplorer />
+
+Things to try: start at Earth's surface and move to 2.00 R: $g$ drops to a quarter. Find where Earth's gravity is half its surface value (1.41 R). Switch to the Moon and then to our model Adrian and compare an 80 kg person's weight. Finally choose the Sun: its surface gravity is 28 times Earth's.
+
+## Practice set
+
+<Problem n={1} level="easy">
+Find the gravitational force between a 1000 kg car and a 2000 kg van whose centres are 10 m apart.
+
+<Solution>
+$F = \dfrac{6.674 \times 10^{-11} \times 1000 \times 2000}{10^{2}} = 1.33 \times 10^{-6}$ N.
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy">
+Two asteroids drift until the distance between their centres is three times as large. By what factor does the gravitational force between them change?
+
+<Solution>
+$F \propto 1/r^{2}$, so it becomes $1/3^{2} = 1/9$ as large.
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy">
+Both masses are doubled and the distance stays the same. What happens to the force?
+
+<Solution>
+$F \propto Mm$, so it is multiplied by $2 \times 2 = 4$.
+</Solution>
+</Problem>
+
+<Problem n={4} level="easy" book>
+Using our model Adrian's surface gravity of $17.15\ \text{m/s}^{2}$, find the weight of an 80 kg astronaut there, and what a bathroom scale calibrated on Earth would read in "kilograms".
+
+<Solution>
+$W = 80 \times 17.15 = 1372$ N. The scale divides by 9.81, so it reads $1372/9.81 = 140$ "kg".
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium">
+Mars has mass $6.417 \times 10^{23}$ kg and radius 3390 km. Find its surface gravity and compare it with NASA's value of $3.73\ \text{m/s}^{2}$.
+
+<Solution>
+$g = \dfrac{6.674 \times 10^{-11} \times 6.417 \times 10^{23}}{(3.3895 \times 10^{6})^{2}} = 3.73\ \text{m/s}^{2}$. They agree.
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium">
+How high above Earth's surface is gravity half as strong as at the surface?
+
+<Solution>
+$(R/r)^{2} = \tfrac{1}{2}$, so $r = \sqrt{2}\,R = 1.414 \times 6371 = 9010$ km. The height is $r - R = 0.414 \times 6371 = 2640$ km.
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium">
+Find the gravitational force between the Sun ($1.988 \times 10^{30}$ kg) and Earth ($5.972 \times 10^{24}$ kg) at $1.496 \times 10^{11}$ m. Check it equals Earth's mass times its centripetal acceleration, with $\omega = 2\pi/(365.256\ \text{days})$.
+
+<Solution>
+$F = \dfrac{6.674 \times 10^{-11} \times 1.988 \times 10^{30} \times 5.972 \times 10^{24}}{(1.496 \times 10^{11})^{2}} = 3.54 \times 10^{22}$ N.
+
+$\omega = \dfrac{2\pi}{365.256 \times 86\,400\ \text{s}} = 1.991 \times 10^{-7}$ rad/s, and $m\omega^{2}r = 5.972 \times 10^{24} \times (1.991 \times 10^{-7})^{2} \times 1.496 \times 10^{11} = 3.54 \times 10^{22}$ N. ✓
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium">
+Earth's mass is 81.3 times the Moon's, and their centres are $3.844 \times 10^{8}$ m apart. How far from Earth's centre do their pulls cancel?
+
+<Solution>
+At distance $x$ from Earth: $\dfrac{GM_{\text{E}}}{x^{2}} = \dfrac{GM_{\text{M}}}{(D - x)^{2}}$, so $\dfrac{x}{D - x} = \sqrt{81.3} = 9.017$. Then $x = \dfrac{9.017}{10.017}D = 0.900 \times 3.844 \times 10^{8} = 3.46 \times 10^{8}$ m, about 346 000 km from Earth, or 38 000 km from the Moon.
+</Solution>
+</Problem>
+
+<Problem n={9} level="medium" book>
+The novel's Erid has about twice Earth's surface gravity (Chapter 2.2). If Erid had the same average density as Earth, how large would its radius and its mass be compared with Earth's?
+
+<Solution>
+With the same density, $g = \tfrac{4}{3}\pi G\rho R \propto R$. Twice the gravity means $R = 2R_{\text{E}}$. Mass scales as $\rho R^{3}$, so $M = 2^{3} = 8$ Earth masses.
+</Solution>
+</Problem>
+
+<Problem n={10} level="challenging">
+A school torsion balance uses a 1.5 kg lead ball and a 15 g lead ball with their centres 4.5 cm apart. Find the force between them and compare it with the small ball's weight.
+
+<Solution>
+$F = \dfrac{6.674 \times 10^{-11} \times 1.5 \times 0.015}{0.045^{2}} = 7.4 \times 10^{-10}$ N. The weight is $0.015 \times 9.81 = 0.147$ N, so the force is about $5 \times 10^{-9}$ of it. That is why the balance must hang from a very thin wire inside a draught-proof case.
+</Solution>
+</Problem>
+
+<Problem n={11} level="challenging">
+Use $\Delta g/g \approx -2\Delta r/r$ to find how much weaker gravity is at the top of Mount Everest, 8849 m above sea level, than at sea level.
+
+<Solution>
+$\dfrac{\Delta g}{g} \approx -2 \times \dfrac{8849}{6.371 \times 10^{6}} = -0.278\%$. So $g \approx 9.82 \times (1 - 0.00278) = 9.79\ \text{m/s}^{2}$. A climber weighs about 0.3% less at the summit, ignoring the small effects of rock beneath them and Earth's spin.
+</Solution>
+</Problem>
+
+<Problem n={12} level="challenging" book>
+In Chapter 1.4, Grace found his pendulum's period unchanged on a deck 4.5 m lower. If he had really been on an Earth-sized planet, by what fraction would $g$ differ between the decks, and by what fraction would the period change? Could he have detected it?
+
+<Solution>
+$\dfrac{\Delta g}{g} \approx 2 \times \dfrac{4.5}{6.371 \times 10^{6}} = 1.4 \times 10^{-6}$. Since $T \propto g^{-1/2}$, $\dfrac{\Delta T}{T} \approx \tfrac{1}{2} \times 1.4 \times 10^{-6} = 7 \times 10^{-7}$. Over 346 swings in 10 minutes that is 0.4 ms, far below what he could measure. So "unchanged" is what he would see on a planet **and** under thrust. Only a centrifuge, where $g$ changes by $h/r$ (Chapter 3.3), gives a measurable difference.
+</Solution>
+</Problem>
+
+## Summary
+
+- Every pair of masses attracts with $F = GMm/r^{2}$, along the line joining their centres. The forces on the two bodies are equal and opposite.
+- $G = 6.674 \times 10^{-11}\ \text{N·m}^{2}/\text{kg}^{2}$ is tiny, so gravity matters only when at least one mass is enormous. Cavendish first measured it, in 1797–98, with a torsion balance.
+- A spherical body pulls as if all its mass were at its centre (the shell theorem).
+- The field strength around a body is $g = GM/r^{2}$. It falls as $(R/r)^{2}$ with distance from the centre, and $g = GM/R^{2}$ gives a planet's mass from its surface gravity and radius.
+- Gravity from several bodies adds as vectors.
+
+**Formulas from this chapter**
+
+$$
+F = \frac{GMm}{r^{2}} \qquad g = \frac{GM}{r^{2}} \qquad M = \frac{gR^{2}}{G} \qquad g(r) = g_{\text{surface}}\left(\frac{R}{r}\right)^{2} \qquad g = \tfrac{4}{3}\pi G\rho R \qquad \frac{\Delta g}{g} \approx -2\,\frac{\Delta r}{r}
+$$
+
+## Sources
+
+- The law of gravitation, the shell theorem and Cavendish's experiment: OpenStax, *University Physics Volume 1*, [§13.1 Newton's Law of Universal Gravitation](https://openstax.org/books/university-physics-volume-1/pages/13-1-newtons-law-of-universal-gravitation) and [§13.2 Gravitation Near Earth's Surface](https://openstax.org/books/university-physics-volume-1/pages/13-2-gravitation-near-earths-surface); *The Feynman Lectures on Physics*, Vol. I, [Ch. 7 "The Theory of Gravitation"](https://www.feynmanlectures.caltech.edu/I_07.html).
+- $G = 6.674\,30(15) \times 10^{-11}\ \text{m}^{3}\,\text{kg}^{-1}\,\text{s}^{-2}$: NIST CODATA 2022, [Newtonian constant of gravitation](https://physics.nist.gov/cgi-bin/cuu/Value?bg).
+- Cavendish's 1797–98 measurement: Wikipedia, [Cavendish experiment](https://en.wikipedia.org/wiki/Cavendish_experiment).
+- Masses, radii, surface gravity, $GM$, density and the Moon's distance: NASA NSSDCA fact sheets for [Earth](https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html), [the Moon](https://nssdc.gsfc.nasa.gov/planetary/factsheet/moonfact.html), [Mars](https://nssdc.gsfc.nasa.gov/planetary/factsheet/marsfact.html), [Venus](https://nssdc.gsfc.nasa.gov/planetary/factsheet/venusfact.html) and [the Sun](https://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html).
+- ISS altitude (370 to 460 km): NASA, [International Space Station reference guide](https://www.nasa.gov/reference/international-space-station/). Geostationary radius 42 164 km: Wikipedia, [Geostationary orbit](https://en.wikipedia.org/wiki/Geostationary_orbit). Mount Everest 8849 m: Wikipedia, [Mount Everest](https://en.wikipedia.org/wiki/Mount_Everest).
+- Adrian as Tau Ceti e (minimum mass 3.93 Earth masses, doubts about whether it exists): Wikipedia, [Tau Ceti e](https://en.wikipedia.org/wiki/Tau_Ceti_e), citing Feng et al. 2017, *AJ* 154, 135; NASA Science, [The Science Behind *Project Hail Mary*](https://science.nasa.gov/the-science-behind-project-hail-mary/). The plot (Adrian, the 10 km chain): Wikipedia, [*Project Hail Mary*](https://en.wikipedia.org/wiki/Project_Hail_Mary). Adrian's radius is our assumption.

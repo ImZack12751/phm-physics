@@ -1,0 +1,44 @@
+---
+// Hohmann transfer between two circular orbits: a forward burn Δv₁ at the inner orbit starts half an ellipse
+// that just touches the outer orbit; a second forward burn Δv₂ there makes the orbit circular again.
+const CX = 230, CY = 175, R1 = 70, R2 = 150;
+const A = (R1 + R2) / 2, C = A - R1; // ellipse centre offset from the star (star at the right-hand focus)
+const E = C / A, B = A * Math.sqrt(1 - E * E);
+const ecx = CX - C; // ellipse centre (perihelion on the right at CX + R1, aphelion on the left at CX − R2)
+const half = Array.from({ length: 61 }, (_, i) => {
+	const t = (Math.PI * i) / 60; // eccentric anomaly from perihelion, going anticlockwise (upwards on screen)
+	return `${i ? 'L' : 'M'}${(ecx + A * Math.cos(t)).toFixed(1)},${(CY - B * Math.sin(t)).toFixed(1)}`;
+}).join(' ');
+const P1 = { x: CX + R1, y: CY }, P2 = { x: CX - R2, y: CY };
+---
+
+<svg class="dg" viewBox="0 0 600 350" xmlns="http://www.w3.org/2000/svg">
+	<circle cx={CX} cy={CY} r={R1} class="s-sky w2" fill="none" />
+	<circle cx={CX} cy={CY} r={R2} class="s-green w2" fill="none" />
+	<path d={half} class="s-amber w3 dash" fill="none" />
+	<circle cx={CX} cy={CY} r="10" class="f-amber" />
+	<text x={CX} y={CY + 28} class="t-mid t-sm f-amber">star or planet</text>
+	<text x={CX + R1 * 0.5} y={CY - R1 * 0.95} class="t-sm f-sky halo">inner orbit</text>
+	<text x={CX + R2 * 0.62} y={CY + R2 * 0.9} class="t-sm f-green halo">outer orbit</text>
+	<text x={ecx} y={CY - B - 10} class="t-mid t-sm f-amber halo">transfer: half an ellipse</text>
+	<!-- burn 1 at perihelion, pointing up (direction of motion) -->
+	<circle cx={P1.x} cy={P1.y} r="6" class="f-rose" />
+	<line x1={P1.x} y1={P1.y} x2={P1.x} y2={P1.y - 34} class="s-rose w3" />
+	<polygon points={`${P1.x},${P1.y - 46} ${P1.x - 6},${P1.y - 34} ${P1.x + 6},${P1.y - 34}`} class="f-rose" />
+	<text x={P1.x + 10} y={P1.y - 26} class="t-sm f-rose halo">burn 1: Δv₁ forward</text>
+	<!-- burn 2 at aphelion, pointing down (direction of motion there) -->
+	<circle cx={P2.x} cy={P2.y} r="6" class="f-rose" />
+	<line x1={P2.x} y1={P2.y} x2={P2.x} y2={P2.y + 34} class="s-rose w3" />
+	<polygon points={`${P2.x},${P2.y + 46} ${P2.x - 6},${P2.y + 34} ${P2.x + 6},${P2.y + 34}`} class="f-rose" />
+	<text x={P2.x + 10} y={P2.y + 40} class="t-sm f-rose halo">burn 2: Δv₂ forward</text>
+	<text x="420" y="70" class="t-sm t-b">Hohmann transfer</text>
+	<text x="420" y="94" class="t-sm">1. Speed up: the orbit</text>
+	<text x="432" y="112" class="t-sm">stretches out to r₂.</text>
+	<text x="420" y="136" class="t-sm">2. Coast half an ellipse,</text>
+	<text x="432" y="154" class="t-sm">slowing as it climbs.</text>
+	<text x="420" y="178" class="t-sm">3. Speed up again to</text>
+	<text x="432" y="196" class="t-sm">circularise at r₂.</text>
+	<text x="420" y="226" class="t-sm">Time: half the period</text>
+	<text x="432" y="244" class="t-sm">of the transfer ellipse,</text>
+	<text x="432" y="262" class="t-sm">a = (r₁ + r₂)/2.</text>
+</svg>

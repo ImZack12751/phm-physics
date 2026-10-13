@@ -1,0 +1,40 @@
+---
+// Anatomy of an elliptical orbit (eccentricity exaggerated to 0.6): centre, the two foci, the star at one focus,
+// semi-major axis a, semi-minor axis b, focus offset ae, perihelion a(1 − e) and aphelion a(1 + e).
+// A planet on the ellipse is joined to both foci: the two distances always add up to 2a.
+const CX = 300, CY = 200, A = 190, E = 0.6, B = A * Math.sqrt(1 - E * E);
+const F1 = { x: CX - A * E, y: CY }, F2 = { x: CX + A * E, y: CY }; // star at F1 (left)
+const th = 1.15; // planet position parameter
+const Pl = { x: CX + A * Math.cos(th), y: CY - B * Math.sin(th) };
+---
+
+<svg class="dg" viewBox="0 0 600 420" xmlns="http://www.w3.org/2000/svg">
+	<ellipse cx={CX} cy={CY} rx={A} ry={B} class="s-green w2" fill="none" />
+	<line x1={CX - A} y1={CY} x2={CX + A} y2={CY} class="s-grid w1" />
+	<line x1={CX} y1={CY - B} x2={CX} y2={CY + B} class="s-grid w1" />
+	<line x1={F1.x} y1={F1.y} x2={Pl.x} y2={Pl.y} class="s-violet w2 dash" />
+	<line x1={F2.x} y1={F2.y} x2={Pl.x} y2={Pl.y} class="s-violet w2 dash" />
+	<text x={Pl.x + 12} y={Pl.y - 8} class="t-sm f-violet halo">r₁ + r₂ = 2a</text>
+	<circle cx={Pl.x} cy={Pl.y} r="7" class="f-sky" />
+	<text x={Pl.x - 10} y={Pl.y - 12} class="t-end t-sm f-sky halo">planet</text>
+	<circle cx={F1.x} cy={F1.y} r="11" class="f-amber" />
+	<text x={F1.x} y={F1.y + 30} class="t-mid t-sm f-amber">star (a focus)</text>
+	<circle cx={F2.x} cy={F2.y} r="4" class="f-muted" />
+	<text x={F2.x} y={F2.y + 22} class="t-mid t-sm f-muted">empty focus</text>
+	<circle cx={CX} cy={CY} r="3" class="f-fg" />
+	<!-- a and b brackets -->
+	<line x1={CX} y1={CY - B - 18} x2={CX + A} y2={CY - B - 18} class="s-fg w1" />
+	<line x1={CX} y1={CY - B - 24} x2={CX} y2={CY - B - 12} class="s-fg w1" />
+	<line x1={CX + A} y1={CY - B - 24} x2={CX + A} y2={CY - B - 12} class="s-fg w1" />
+	<text x={CX + A / 2} y={CY - B - 26} class="t-mid t-sm">a (semi-major axis)</text>
+	<text x={CX - 8} y={CY + B / 2} class="t-end t-sm halo">b</text>
+	<line x1={F1.x} y1={CY - 16} x2={CX} y2={CY - 16} class="s-rose w1" />
+	<text x={(F1.x + CX) / 2} y={CY - 22} class="t-mid t-sm f-rose halo">ae</text>
+	<!-- perihelion and aphelion -->
+	<circle cx={CX - A} cy={CY} r="4" class="f-fg" />
+	<text x={CX - A + 6} y={CY + B + 28} class="t-sm">perihelion: closest, r = a(1 − e)</text>
+	<line x1={CX - A} y1={CY + 6} x2={CX - A} y2={CY + B + 14} class="s-grid w1 dash" />
+	<circle cx={CX + A} cy={CY} r="4" class="f-fg" />
+	<text x={CX + A} y={CY + B + 50} class="t-end t-sm">aphelion: furthest, r = a(1 + e)</text>
+	<line x1={CX + A} y1={CY + 6} x2={CX + A} y2={CY + B + 36} class="s-grid w1 dash" />
+</svg>

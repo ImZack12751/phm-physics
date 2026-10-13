@@ -1,0 +1,35 @@
+---
+// Kepler's second law: in equal times, the line from the star sweeps out equal areas.
+// Positions found from Kepler's equation M = E − e sin E for equal steps of time (eccentricity 0.6, exaggerated).
+const CX = 330, CY = 185, A = 200, E = 0.6, B = A * Math.sqrt(1 - E * E);
+const S = { x: CX - A * E, y: CY }; // star at the left focus; perihelion on the left
+function pos(M: number) {
+	let Ea = M;
+	for (let i = 0; i < 50; i++) Ea = Ea - (Ea - E * Math.sin(Ea) - M) / (1 - E * Math.cos(Ea));
+	// eccentric anomaly measured from perihelion (left), going anticlockwise on screen
+	return { x: CX - A * Math.cos(Ea), y: CY + B * Math.sin(Ea) };
+}
+const sector = (m1: number, m2: number) => {
+	const pts = Array.from({ length: 31 }, (_, i) => pos(m1 + ((m2 - m1) * i) / 30));
+	return `M${S.x},${S.y} ` + pts.map((p) => `L${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ') + ' Z';
+};
+const dM = 0.55;
+const near = sector(-dM / 2, dM / 2), far = sector(Math.PI - dM / 2, Math.PI + dM / 2);
+const n1 = pos(-dM / 2), n2 = pos(dM / 2), f1 = pos(Math.PI - dM / 2), f2 = pos(Math.PI + dM / 2);
+---
+
+<svg class="dg" viewBox="0 0 600 380" xmlns="http://www.w3.org/2000/svg">
+	<path d={near} class="f-amber-soft s-amber w1" />
+	<path d={far} class="f-amber-soft s-amber w1" />
+	<ellipse cx={CX} cy={CY} rx={A} ry={B} class="s-green w2" fill="none" />
+	<circle cx={S.x} cy={S.y} r="10" class="f-amber" />
+	<text x={S.x} y={S.y + 30} class="t-mid t-sm f-amber halo">star</text>
+	{[n1, n2, f1, f2].map((p) => <circle cx={p.x} cy={p.y} r="5" class="f-sky" />)}
+	<text x="118" y={CY - 8} class="t-end t-sm halo">fast near</text>
+	<text x="118" y={CY + 10} class="t-end t-sm halo">the star:</text>
+	<text x="118" y={CY + 28} class="t-end t-sm halo">short, wide</text>
+	<text x="118" y={CY + 46} class="t-end t-sm halo">slice</text>
+	<text x="505" y={CY - 70} class="t-end t-sm halo">slow far away:</text>
+	<text x="505" y={CY - 52} class="t-end t-sm halo">long, thin slice</text>
+	<text x="300" y="370" class="t-mid t-sm">Both shaded slices take the same time, and have the same area.</text>
+</svg>

@@ -1,0 +1,32 @@
+---
+// Newton's proof of the equal-area law. With no force, a body goes A → B → c in equal times, and triangles SAB and SBc
+// have equal areas (equal bases, same height from S). A sudden pull towards S at B changes the path to B → C,
+// with cC parallel to SB, so triangle SBC has the same base SB and the same height as SBc: equal area again.
+const S = { x: 130, y: 250 };
+const A = { x: 180, y: 70 }, B = { x: 330, y: 90 };
+const c = { x: 2 * B.x - A.x, y: 2 * B.y - A.y }; // straight on: B + (B − A)
+const k = 0.42; // size of the kick towards S
+const C = { x: c.x + k * (S.x - B.x), y: c.y + k * (S.y - B.y) };
+const tri = (p: { x: number; y: number }, q: { x: number; y: number }) => `${S.x},${S.y} ${p.x},${p.y} ${q.x},${q.y}`;
+---
+
+<svg class="dg" viewBox="0 0 600 330" xmlns="http://www.w3.org/2000/svg">
+	<polygon points={tri(A, B)} class="f-sky-soft s-sky w1" />
+	<polygon points={tri(B, C)} class="f-amber-soft s-amber w1" />
+	<polygon points={tri(B, c)} class="s-muted w1 dash" fill="none" />
+	<line x1={A.x} y1={A.y} x2={B.x} y2={B.y} class="s-fg w2" />
+	<line x1={B.x} y1={B.y} x2={c.x} y2={c.y} class="s-muted w2 dash" />
+	<line x1={B.x} y1={B.y} x2={C.x} y2={C.y} class="s-fg w2" />
+	<line x1={c.x} y1={c.y} x2={C.x} y2={C.y} class="s-rose w2" />
+	<text x={C.x + 14} y={C.y + 22} class="t-sm f-rose halo">kick towards S, parallel to SB</text>
+	<circle cx={S.x} cy={S.y} r="9" class="f-amber" />
+	<text x={S.x - 14} y={S.y + 5} class="t-end t-sm f-amber">S</text>
+	{[[A, 'A'], [B, 'B'], [c, 'c'], [C, 'C']].map(([p, l]) => (
+		<>
+			<circle cx={(p as any).x} cy={(p as any).y} r="5" class="f-fg" />
+			<text x={(p as any).x} y={(p as any).y - 12} class="t-mid t-sm t-b">{l as string}</text>
+		</>
+	))}
+	<text x="300" y="296" class="t-mid t-sm">Area SAB = area SBc (same base, same height) = area SBC (same base SB, cC parallel to SB)</text>
+	<text x="300" y="316" class="t-mid t-sm">So a force aimed at S never changes the rate of sweeping out area.</text>
+</svg>

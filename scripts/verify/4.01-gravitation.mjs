@@ -1,0 +1,32 @@
+import { check, report } from './lib.mjs';
+import { C, GRAV, ADRIAN } from './constants.mjs';
+const G = GRAV.G, Me = C.earthMass, Re = C.earthRadius, g0 = C.earthGravityMean;
+export default function () {
+	const F1 = (G * 100 * 80) / 1;
+	check('WE1 F', F1, 5.34e-7, 0.002); check('WE1 F/W', F1 / (80 * 9.81), 6.8e-10, 0.01);
+	const M2 = (g0 * Re ** 2) / G;
+	check('WE2 M', M2, 5.97e24, 0.002); check('WE2 ρ', M2 / ((4 / 3) * Math.PI * Re ** 3), 5510, 0.002); check('WE2 vs NASA', Me / ((4 / 3) * Math.PI * Re ** 3), 5513, 0.001);
+	check('WE3 g', GRAV.earthGM / C.moonDistance ** 2, 2.7e-3, 0.002);
+	const gA = (G * ADRIAN.mass) / ADRIAN.radius ** 2;
+	check('WE4 ratio', 3.93 / 1.5 ** 2, 1.747, 0.001); check('WE4 g', gA, 17.2, 0.003); check('WE4 g 17.15', gA, 17.15, 0.001); check('WE4 in g', gA / 9.81, 1.75, 0.003);
+	check('WE4 W', 80 * 17.15, 1370, 0.002);
+	check('WE5 ratio', (6371 / 6771) ** 2, 0.885, 0.001); check('WE5 g', g0 * (6371 / 6771) ** 2, 8.69, 0.001); check('WE5 %', (6371 / 6771) ** 2 * 100, 89, 0.01);
+	check('fig half', Math.SQRT2, 1.414, 0.001); check('fig geo r', GRAV.geoRadius / Re, 6.62, 0.002); check('fig geo g', g0 * (Re / GRAV.geoRadius) ** 2, 0.224, 0.003);
+	check('concept 4/1.5²', 4 / 1.5 ** 2, 1.8, 0.02); check('concept Me/Mm', Me / GRAV.moonMass, 81, 0.005);
+	check('sim sun', GRAV.sunGravity / g0, 28, 0.01);
+	check('P1', (G * 1000 * 2000) / 100, 1.33e-6, 0.005);
+	check('P4 W', 80 * 17.15, 1372); check('P4 kg', 1372 / 9.81, 140, 0.002);
+	check('P5', (G * GRAV.marsMass) / GRAV.marsRadius ** 2, 3.73, 0.002);
+	check('P6 r', Math.SQRT2 * 6371, 9010, 0.001); check('P6 h', (Math.SQRT2 - 1) * 6371, 2640, 0.001);
+	const F7 = (G * C.sunMass * Me) / 1.496e11 ** 2, w7 = (2 * Math.PI) / (GRAV.earthSiderealYear * 86400);
+	check('P7 F', F7, 3.54e22, 0.002); check('P7 ω', w7, 1.991e-7, 0.001); check('P7 mω²r', Me * w7 ** 2 * 1.496e11, 3.54e22, 0.002);
+	const s8 = Math.sqrt(81.3), x8 = (s8 / (1 + s8)) * C.moonDistance;
+	check('P8 √81.3', s8, 9.017, 0.001); check('P8 frac', s8 / (1 + s8), 0.9, 0.001); check('P8 x', x8, 3.46e8, 0.002); check('P8 from Moon', C.moonDistance - x8, 3.8e7, 0.01);
+	check('P9 M', 2 ** 3, 8);
+	const F10 = (G * 1.5 * 0.015) / 0.045 ** 2;
+	check('P10 F', F10, 7.4e-10, 0.003); check('P10 W', 0.015 * 9.81, 0.147, 0.002); check('P10 ratio', F10 / 0.147, 5e-9, 0.01);
+	check('P11 %', ((2 * 8849) / Re) * 100, 0.278, 0.002); check('P11 g', g0 * (1 - 0.00278), 9.79, 0.001);
+	const d12 = (2 * 4.5) / Re;
+	check('P12 Δg/g', d12, 1.4e-6, 0.01); check('P12 ΔT/T', d12 / 2, 7e-7, 0.01); check('P12 ms', 600 * (d12 / 2) * 1000, 0.4, 0.06);
+	return report('4.1 Newton’s law of gravitation');
+}

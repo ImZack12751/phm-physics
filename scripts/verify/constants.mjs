@@ -52,6 +52,62 @@ export const C = {
 	humanHair: [20e-6, 200e-6], // m
 };
 
+// Part 4 (gravitation and orbits).
+// NIST CODATA 2022 (https://physics.nist.gov/cgi-bin/cuu/Value?bg): G = 6.674 30(15) × 10⁻¹¹ m³ kg⁻¹ s⁻².
+// NASA NSSDCA fact sheets (checked Oct 2026): masses, radii, GM, orbits, escape velocities.
+export const GRAV = {
+	G: 6.6743e-11,
+	earthGM: 3.986e14, // m³/s² (fact sheet 0.39860 × 10⁶ km³/s²)
+	earthEscape: 11.186e3, // m/s
+	earthSiderealYear: 365.256, // days
+	earthPerihelion: 147.095e9, // m
+	earthAphelion: 152.1e9, // m
+	earthEcc: 0.0167,
+	moonMass: 7.346e22, // kg
+	moonGravity: 1.62, // m/s²
+	moonEscape: 2.38e3, // m/s
+	moonOrbitSpeed: 1.022e3, // m/s
+	marsMass: 6.4169e23, // kg
+	marsRadius: 3.3895e6, // m
+	marsGravity: 3.73,
+	marsEscape: 5.03e3,
+	marsSemiMajor: 227.956e9, // m
+	marsPeriod: 686.98, // days
+	venusMass: 4.8673e24, // kg
+	venusRadius: 6.0518e6, // m
+	venusGravity: 8.87,
+	venusEscape: 10.36e3,
+	venusSemiMajor: 108.21e9, // m
+	venusPeriod: 224.701, // days
+	jupiterMass: 1.89813e27, // kg
+	jupiterSemiMajor: 778.479e9, // m
+	jupiterPeriod: 4332.589, // days
+	sunGravity: 274.0,
+	sunEscape: 617.6e3,
+	// ISS altitude 370–460 km (NASA ISS reference guide). Our examples use 400 km.
+	issAltitude: 400e3,
+	// Geostationary orbit radius 42,164 km (Wikipedia "Geostationary orbit"); sidereal day from the Earth fact sheet.
+	geoRadius: 42_164e3,
+	// Tau Ceti mass 0.800 ± 0.008 M☉ (Korolik et al. 2023, via Wikipedia "Tau Ceti").
+	tauCetiMassSun: 0.8,
+	// Tau Ceti e, the candidate planet the novel calls Adrian (Feng et al. 2017, AJ 154, 135; via Wikipedia "Tau Ceti e"):
+	// period ≈ 168 d, a ≈ 0.552 au, minimum mass 3.93 M⊕. Later studies (2024–25) suggest it may not exist.
+	adrianPeriodDays: 168,
+	adrianSemiMajorAu: 0.552,
+	adrianMassEarths: 3.93,
+};
+
+// Our model Adrian for Part 4 (ASSUMED radius, stated in the chapters): mass 3.93 M⊕, radius 1.5 R⊕,
+// Hail Mary parked in a circular orbit 300 km up.
+export const ADRIAN = {
+	mass: 3.93 * 5.9722e24, // 2.347e25 kg
+	radius: 1.5 * 6.371e6, // 9.5565e6 m
+	parkAlt: 300e3,
+	get parkR() {
+		return this.radius + this.parkAlt; // 9.8565e6 m
+	},
+};
+
 // BOOK: figures as given in the novel (Weir 2021), cross-checked against Royal Institution
 // article "Project Hail Mary: the science behind the fiction" and fan summaries. Treat as approximate.
 export const BOOK = {

@@ -1,0 +1,350 @@
+---
+title: Orbital manoeuvring
+description: How burns reshape an orbit, the vis-viva equation v² = GM(2/r − 1/a), the Hohmann transfer between two orbits, why you speed up to end up slower, and how to catch a ship that is ahead of you by first braking.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import HohmannTransfer from '../../../components/diagrams/part-4/HohmannTransfer.astro';
+import PhasingOrbit from '../../../components/diagrams/part-4/PhasingOrbit.astro';
+import HohmannPlanner from '../../../components/sims/HohmannPlanner.astro';
+
+## The scene
+
+In orbit around Adrian, Grace has to move the *Hail Mary* to the right place: down towards the atmosphere for the sampling run, and later, after the Taumoeba crisis, back to Rocky's ship, the *Blip-A*, which has been left stranded. Nothing in space stays put. Every object is falling round something, so "going over there" means changing one orbit into another.
+
+Orbital manoeuvres are counter-intuitive. To catch a ship ahead of you, you slow down. To reach a higher orbit, you speed up, and arrive going slower than when you started. This chapter shows why, using everything from Chapters 4.1 to 4.5.
+
+## Prerequisites
+
+<Prereqs notes={{ 'escape-velocity': 'v² − 2GM/r stays the same while coasting outwards', 'keplers-laws': 'ellipses, r_p v_p = r_a v_a, and transfer time as half a period', vectors: 'components of a vector along a direction' }} />
+
+## The concept
+
+### A burn changes the whole orbit
+
+A spacecraft's orbit is set entirely by its position and its velocity at any one moment. A short engine firing, a <Term id="burn">burn</Term>, changes the velocity by an amount $\Delta v$ ("delta-v") while barely moving the ship. So the ship's new orbit still passes through the point where it burned, but its shape changes everywhere else.
+
+- **Burning forward** (in the direction of motion, called prograde) adds speed. The ship now has more than circular speed, so it swings outwards. The **opposite side** of the orbit rises, while the burn point becomes the lowest point.
+- **Burning backward** (retrograde) does the reverse. The opposite side drops, and the burn point becomes the highest point.
+
+<Term id="delta-v">Delta-v</Term> is the currency of spaceflight. Each manoeuvre costs a certain $\Delta v$, and a ship's fuel determines how much $\Delta v$ it can spend in total (Part 5 shows how).
+
+### The speed anywhere on an orbit
+
+Chapter 4.4 found that a projectile climbing straight up keeps $v^{2} - 2GM/r$ constant. In fact this holds along **any** coasting path, curved or not. In a short step $\Delta s$ along the path, only the component of gravity along the direction of motion changes the speed (Chapter 0.7). If the path makes an angle $\phi$ with the radial direction, that component is $(GM/r^{2})\cos\phi$, and the radial part of the step is $\Delta r = \Delta s\cos\phi$. So
+
+$$
+\Delta(v^{2}) = -2\,\frac{GM}{r^{2}}\cos\phi\,\Delta s = -2\,\frac{GM}{r^{2}}\,\Delta r,
+$$
+
+exactly as in Chapter 4.4. Adding up the steps gives $v^{2} - 2GM/r = \text{constant}$ all the way round any orbit. Part 5 calls this conservation of energy.
+
+Combine it with Kepler's second law, $r_{\text{p}}v_{\text{p}} = r_{\text{a}}v_{\text{a}}$ (Chapter 4.3), and the constant can be found (see Formulas). The result is the <Term id="vis-viva">vis-viva equation</Term>:
+
+$$
+v^{2} = GM\left(\frac{2}{r} - \frac{1}{a}\right).
+$$
+
+It gives the speed at any distance $r$ on an orbit of semi-major axis $a$. Check it: for a circle ($r = a$) it gives $v^{2} = GM/r$, as in Chapter 4.2. For an orbit that never comes back ($a \to \infty$) it gives $v^{2} = 2GM/r$, the escape speed of Chapter 4.4.
+
+### The Hohmann transfer
+
+What is the cheapest way to go from a circular orbit of radius $r_{1}$ to a larger one of radius $r_{2}$? In 1925, Walter Hohmann showed it is to use half of an ellipse that just touches both circles. This is the <Term id="hohmann-transfer">Hohmann transfer</Term>.
+
+<Figure caption="A Hohmann transfer. A forward burn on the inner orbit stretches the orbit into an ellipse whose far end just reaches the outer orbit. The ship coasts halfway round it, slowing as it climbs. A second forward burn there makes the orbit circular again. The trip takes half the transfer ellipse's period." alt="A star or planet at the centre, with a blue inner circular orbit and a green outer circular orbit. An amber dashed half-ellipse runs from the right-hand side of the inner orbit, over the top, to the left-hand side of the outer orbit, labelled transfer: half an ellipse. At the start point a red arrow points upwards, labelled burn 1: delta v1 forward. At the end point a red arrow points downwards, labelled burn 2: delta v2 forward. Text on the right: Hohmann transfer. 1. Speed up: the orbit stretches out to r2. 2. Coast half an ellipse, slowing as it climbs. 3. Speed up again to circularise at r2. Time: half the period of the transfer ellipse, a = (r1 + r2)/2.">
+	<HohmannTransfer />
+</Figure>
+
+1. **First burn,** at $r_{1}$: speed up from the circular speed to the transfer ellipse's perihelion speed. The transfer ellipse has $a = (r_{1} + r_{2})/2$.
+2. **Coast** half an orbit, which takes half the ellipse's period (Chapter 4.3). The ship slows as it climbs.
+3. **Second burn,** at $r_{2}$: the ship arrives slower than the circular speed there, so it speeds up again to stay.
+
+**Speed up to end up slower.** Both burns are forward, yet the final circular speed at $r_{2}$ is lower than the starting speed at $r_{1}$, because higher orbits are slower (Chapter 4.2). The climb itself takes away more speed than the two burns added. Going inwards works the other way round: two backward burns, ending faster than you started.
+
+**Timing matters.** The ship arrives at a point in space after a fixed time. If the target is a planet or another ship, it must be there at the same moment. So the target must be a certain angle ahead at departure. Missions to Mars wait for this alignment, which comes round about every 26 months.
+
+### Catching up by slowing down
+
+Suppose another ship is ahead of you in the **same** circular orbit. Burning forward to chase it would raise your orbit, making your period longer, and you would fall further behind. Instead:
+
+<Figure caption="Catching a ship ahead in the same orbit. A backward burn drops you into a smaller ellipse with a shorter period. You keep coming back to the burn point a little sooner than the target each lap. When you arrive just as it does, a forward burn puts you back in the circle beside it." alt="A planet at the centre with a green circle labelled shared circular orbit. At the top of the circle an amber dot labelled you, with a red arrow pointing backwards labelled 1. brake. A violet dot further round clockwise is labelled target, ahead. An amber dashed ellipse touches the circle at the top and dips closer to the planet at the bottom, labelled 2. smaller, faster phasing orbit. Text on the right: Catching up. 1. Brake: drop into a smaller orbit with a shorter period. 2. Each lap gains on the target. 3. Back at the burn point as the target arrives, speed up to rejoin the circle beside it. Motion is clockwise. Sizes exaggerated.">
+	<PhasingOrbit />
+</Figure>
+
+The temporary orbit is called a **phasing orbit**. Its period is chosen so that after a whole number of laps, you reach the burn point just as the target does. This is how spacecraft dock with the ISS, and how Grace would have to approach a ship drifting ahead of him.
+
+### Air drag does the same
+
+Thin upper air drags on low satellites, which is like a continuous small backward burn. The satellite sinks to a lower orbit, and because lower orbits are faster, it actually **speeds up** as it loses height. The ISS has to be boosted back up regularly with small engine burns, called reboosts.
+
+## Formulas
+
+### Speed along any coasting path
+
+From $\Delta(v^{2}) = -2(GM/r^{2})\Delta r$ for any direction of motion:
+
+$$
+\boxed{v^{2} - \frac{2GM}{r} = \text{constant along an orbit}}
+$$
+
+### The vis-viva equation
+
+Apply the constant at perihelion and aphelion, and use $v_{\text{a}} = v_{\text{p}}r_{\text{p}}/r_{\text{a}}$:
+
+$$
+v_{\text{p}}^{2} - v_{\text{p}}^{2}\frac{r_{\text{p}}^{2}}{r_{\text{a}}^{2}} = 2GM\left(\frac{1}{r_{\text{p}}} - \frac{1}{r_{\text{a}}}\right) \quad\Rightarrow\quad v_{\text{p}}^{2}\,\frac{(r_{\text{a}} - r_{\text{p}})(r_{\text{a}} + r_{\text{p}})}{r_{\text{a}}^{2}} = 2GM\,\frac{r_{\text{a}} - r_{\text{p}}}{r_{\text{p}}r_{\text{a}}}
+$$
+
+$$
+v_{\text{p}}^{2} = \frac{2GM\,r_{\text{a}}}{r_{\text{p}}(r_{\text{p}} + r_{\text{a}})} = GM\left(\frac{2}{r_{\text{p}}} - \frac{1}{a}\right) \qquad (\text{using } r_{\text{p}} + r_{\text{a}} = 2a)
+$$
+
+So the constant is $v_{\text{p}}^{2} - 2GM/r_{\text{p}} = -GM/a$, and at any point:
+
+$$
+\boxed{v^{2} = GM\left(\frac{2}{r} - \frac{1}{a}\right)}
+$$
+
+### Hohmann transfer
+
+With $a_{\text{t}} = (r_{1} + r_{2})/2$ and circular speeds $v_{1} = \sqrt{GM/r_{1}}$, $v_{2} = \sqrt{GM/r_{2}}$, vis-viva gives the speeds on the transfer ellipse, and:
+
+$$
+\boxed{\Delta v_{1} = v_{1}\left(\sqrt{\frac{2r_{2}}{r_{1} + r_{2}}} - 1\right) \qquad \Delta v_{2} = v_{2}\left(1 - \sqrt{\frac{2r_{1}}{r_{1} + r_{2}}}\right) \qquad t = \pi\sqrt{\frac{a_{\text{t}}^{3}}{GM}}}
+$$
+
+### Lead angle
+
+During the transfer time $t$, a target on the outer orbit moves through an angle $\omega_{2}t$. To meet the ship at the far side (180° from the start), it must start ahead by
+
+$$
+\boxed{\phi = 180° - \omega_{2}t}
+$$
+
+### Phasing orbit
+
+To gain an angle $\Delta\phi$ on a target in $n$ laps, the phasing orbit's period must be $T_{\text{p}} = T\left(1 - \dfrac{\Delta\phi}{360° \times n}\right)$. Its semi-major axis follows from Kepler's third law, $a_{\text{p}} = \left(GMT_{\text{p}}^{2}/4\pi^{2}\right)^{1/3}$.
+
+## Worked examples
+
+<Example n={1} title="From low orbit to geostationary">
+A satellite moves from a 400 km circular orbit ($r_{1} = 6771$ km) to geostationary orbit ($r_{2} = 42\,164$ km). Find both burns and the trip time. $GM = 3.986 \times 10^{14}\ \text{m}^{3}/\text{s}^{2}$.
+
+$$
+v_{1} = 7.673\ \text{km/s} \qquad v_{2} = 3.075\ \text{km/s} \qquad a_{\text{t}} = \frac{6771 + 42\,164}{2}\ \text{km} = 24\,468\ \text{km}
+$$
+
+$$
+\Delta v_{1} = 7.673\ \text{km/s} \times \left(\sqrt{\frac{2 \times 42\,164}{48\,935}} - 1\right) = 7.673 \times 0.3127\ \text{km/s} = 2.40\ \text{km/s}
+$$
+
+$$
+\Delta v_{2} = 3.075\ \text{km/s} \times \left(1 - \sqrt{\frac{2 \times 6771}{48\,935}}\right) = 3.075 \times 0.4739\ \text{km/s} = 1.46\ \text{km/s}
+$$
+
+Total 3.86 km/s, both forward. Yet the satellite ends at 3.07 km/s, having started at 7.67 km/s.
+
+$$
+t = \pi\sqrt{\frac{(2.4468 \times 10^{7}\ \text{m})^{3}}{3.986 \times 10^{14}\ \text{m}^{3}/\text{s}^{2}}} = 19\,040\ \text{s} = 5.29\ \text{hours}
+$$
+</Example>
+
+<Example n={2} title="The probe to Venus" book>
+The novel's Venus probe leaves Earth's orbit (1 au, 29.78 km/s) for Venus's (0.7233 au, 35.02 km/s). Find the two burns relative to the Sun. $GM_{\odot} = 1.327 \times 10^{20}\ \text{m}^{3}/\text{s}^{2}$.
+
+Going inwards, the departure point is the transfer ellipse's aphelion. With $a_{\text{t}} = 0.8617$ au $= 1.289 \times 10^{11}$ m and vis-viva:
+
+$$
+v_{\text{depart}} = \sqrt{GM\left(\frac{2}{1.496 \times 10^{11}} - \frac{1}{1.289 \times 10^{11}}\right)} = 27.29\ \text{km/s} \qquad \Delta v_{1} = 27.29 - 29.78 = -2.50\ \text{km/s}
+$$
+
+$$
+v_{\text{arrive}} = \sqrt{GM\left(\frac{2}{1.082 \times 10^{11}} - \frac{1}{1.289 \times 10^{11}}\right)} = 37.73\ \text{km/s} \qquad \Delta v_{2} = 35.02 - 37.73 = -2.71\ \text{km/s}
+$$
+
+Both burns are backward: to fall towards the Sun, the probe slows down. It arrives faster than Venus and has to brake again. The trip takes 146 days (Chapter 4.3).
+</Example>
+
+<Example n={3} title="When to leave for Mars">
+For a Hohmann transfer from Earth (1 au) to Mars (1.5238 au, period 686.98 days), the trip takes 258.9 days. How far ahead of Earth must Mars be at departure?
+
+$$
+\omega_{2}t = 360° \times \frac{258.9\ \text{days}}{686.98\ \text{days}} = 135.7° \qquad \phi = 180° - 135.7° = 44.3°
+$$
+
+Mars must be 44° ahead of Earth when the probe leaves. The burns, by the same method as Example 1, are 2.95 km/s and 2.65 km/s forward.
+</Example>
+
+<Example n={4} title="Lowering the parking orbit" book>
+Before the sampling run, suppose Grace drops the *Hail Mary* from its 300 km parking orbit at our model Adrian ($r_{1} = 9857$ km) to 200 km ($r_{2} = 9757$ km). $GM = 1.567 \times 10^{15}\ \text{m}^{3}/\text{s}^{2}$. Find the burns and the time.
+
+$$
+v_{1} = \sqrt{\frac{GM}{r_{1}}} = 12\,607\ \text{m/s} \qquad a_{\text{t}} = 9807\ \text{km}
+$$
+
+$$
+\Delta v_{1} = 12\,607 \times \left(\sqrt{\frac{2 \times 9757}{19\,614}} - 1\right)\ \text{m/s} = -32.2\ \text{m/s} \qquad \Delta v_{2} = -32.3\ \text{m/s}
+$$
+
+$$
+t = \pi\sqrt{\frac{(9.807 \times 10^{6})^{3}}{1.567 \times 10^{15}}}\ \text{s} = 2440\ \text{s} = 40.6\ \text{min}
+$$
+
+Two gentle backward burns of about 32 m/s each, 40 minutes apart. Small orbit changes cost little, while large ones (Example 1) cost kilometres per second.
+</Example>
+
+<Example n={5} title="Catching up with Rocky's ship" book>
+Our illustrative scenario: the *Blip-A* is 10° ahead of the *Hail Mary* in the same 300 km circular orbit at Adrian (period 81.87 min). Grace plans to catch up in three laps of a phasing orbit. Find its period, its lowest height, and the cost.
+
+$$
+T_{\text{p}} = 81.87\ \text{min} \times \left(1 - \frac{10°}{3 \times 360°}\right) = 81.12\ \text{min} = 4867\ \text{s}
+$$
+
+$$
+a_{\text{p}} = \left(\frac{GMT_{\text{p}}^{2}}{4\pi^{2}}\right)^{1/3} = \left(\frac{1.567 \times 10^{15} \times 4867^{2}}{4\pi^{2}}\right)^{1/3}\ \text{m} = 9796\ \text{km}
+$$
+
+The burn point is the high point, at 9857 km, so the low point is $2 \times 9796 - 9857 = 9735$ km from the centre, 178 km above the clouds. At the high point, vis-viva gives:
+
+$$
+v = \sqrt{GM\left(\frac{2}{9.857 \times 10^{6}} - \frac{1}{9.796 \times 10^{6}}\right)} = 12\,568\ \text{m/s} \qquad \Delta v = 12\,568 - 12\,607 = -39\ \text{m/s}
+$$
+
+Brake by 39 m/s, coast three laps (4 hours), then burn 39 m/s forward to match orbits with the *Blip-A*: 79 m/s in all. (Doing it in one lap would need a low point below the cloud tops.)
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** The vis-viva equation and the Hohmann transfer are the basis of mission planning. Real missions follow them closely, with refinements: the planets' own gravity at each end, small correction burns, and sometimes slower but cheaper or faster but costlier paths. Spacecraft rendezvous, including every docking with the ISS, use phasing orbits like the one in Example 5. Low satellites do speed up as drag lowers them.
+
+**Weir's inventions.** Grace's journeys around Adrian and his return to the *Blip-A* are the novel's. The numbers here (the 200 km lowering, the 10° gap, three phasing laps) are our illustrations, chosen to show the method, not figures from the book. Astrophage engines give the *Hail Mary* far more delta-v than any chemical rocket, so for Grace the challenge is precision, not fuel, until the fuel is lost.
+
+**How realistic are the numbers?** The costs are realistic: tens of metres per second for small adjustments in low orbit, 2 to 4 km/s to change orbits around Earth by a lot, and about 2.5 to 3 km/s at each end for transfers to Venus or Mars. Everyday experience says "to catch something, go faster". In orbit that instinct is wrong, and the calculation has to replace it.
+</RealVsBook>
+
+## Interactive simulation
+
+<HohmannPlanner />
+
+Things to try: the default is Earth to Mars. Read the 259-day trip and the 44° lead angle, and watch Mars arrive at the meeting point with the ship. Swap to Earth (1 au) to Venus (0.72 au): both burns become negative and the lead angle goes negative too (Venus must be **behind** Earth). Push $r_{2}$ out to 10 au and compare the total delta-v with the escape speed of Chapter 4.4.
+
+## Practice set
+
+<Problem n={1} level="easy">
+A ship in a circular orbit makes a short forward burn. Which part of its new orbit is highest, and which is lowest?
+
+<Solution>
+The burn point becomes the lowest point. The opposite side of the orbit, half a lap later, becomes the highest.
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy">
+After a burn, will a coasting ship ever pass through the burn point again?
+
+<Solution>
+Yes. The new orbit is a closed ellipse that passes through the point where the burn happened (unless the burn gave it escape speed).
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy">
+How does the length of a Hohmann transfer compare with the period of the transfer ellipse?
+
+<Solution>
+It is half the period: the ship goes from one end of the ellipse to the other.
+</Solution>
+</Problem>
+
+<Problem n={4} level="easy" book>
+Rocky's ship is ahead of the *Hail Mary* in the same orbit. Should Grace burn forward or backward to catch up? Why?
+
+<Solution>
+Backward. That drops him into a smaller orbit with a shorter period, so he gains on the *Blip-A* each lap. A forward burn would raise his orbit, lengthen his period and make him fall further behind.
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium">
+Use the vis-viva equation to find the ISS's speed (circular, $r = a = 6771$ km). Check it against Chapter 4.2.
+
+<Solution>
+$v^{2} = GM\left(\dfrac{2}{r} - \dfrac{1}{r}\right) = \dfrac{GM}{r}$, so $v = \sqrt{\dfrac{3.986 \times 10^{14}}{6.771 \times 10^{6}}} = 7.67$ km/s. ✓
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium">
+A comet has perihelion 0.6 au and aphelion 35 au ($a = 17.8$ au). Use vis-viva to find its speeds at perihelion and aphelion, and check their ratio against Kepler's second law.
+
+<Solution>
+$v_{\text{p}} = \sqrt{1.327 \times 10^{20}\left(\dfrac{2}{0.6\ \text{au}} - \dfrac{1}{17.8\ \text{au}}\right)} = 53.9$ km/s. $v_{\text{a}} = \sqrt{1.327 \times 10^{20}\left(\dfrac{2}{35\ \text{au}} - \dfrac{1}{17.8\ \text{au}}\right)} = 0.924$ km/s. Ratio $= 58.3 = 35/0.6$. ✓
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium">
+How long would a Hohmann transfer from a 400 km Earth orbit out to the Moon's distance (384 400 km) take, and how big is the first burn?
+
+<Solution>
+$a_{\text{t}} = (6771 + 384\,400)/2 = 195\,586$ km. $t = \pi\sqrt{\dfrac{(1.956 \times 10^{8})^{3}}{3.986 \times 10^{14}}} = 4.30 \times 10^{5}$ s, about 5.0 days. $\Delta v_{1} = 7.673 \times \left(\sqrt{\dfrac{768\,800}{391\,171}} - 1\right) = 3.08$ km/s. (Real Moon trips are a bit faster and use the Moon's gravity at the far end.)
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium" book>
+In Example 2 the probe reaches Venus's orbit at 37.73 km/s. Venus moves at 35.02 km/s. Explain why the probe must brake, and by how much.
+
+<Solution>
+At 37.73 km/s it is faster than the circular speed there, so without a burn it would swing back out towards Earth's orbit on its ellipse. To stay with Venus it must lose $37.73 - 35.02 = 2.71$ km/s.
+</Solution>
+</Problem>
+
+<Problem n={9} level="medium">
+Show that Mars must lead Earth by about 44° at departure for a Hohmann transfer (trip 258.9 days, Mars's period 686.98 days).
+
+<Solution>
+In 258.9 days Mars moves $360° \times 258.9/686.98 = 135.7°$. It must arrive at the point opposite the departure, 180° round, so it starts $180° - 135.7° = 44.3°$ ahead.
+</Solution>
+</Problem>
+
+<Problem n={10} level="challenging">
+Starting from $v^{2} - 2GM/r = \text{constant}$ and $r_{\text{p}}v_{\text{p}} = r_{\text{a}}v_{\text{a}}$, derive the vis-viva equation.
+
+<Solution>
+At perihelion and aphelion: $v_{\text{p}}^{2} - v_{\text{a}}^{2} = 2GM\left(\dfrac{1}{r_{\text{p}}} - \dfrac{1}{r_{\text{a}}}\right)$. Substitute $v_{\text{a}} = v_{\text{p}}r_{\text{p}}/r_{\text{a}}$ and factorise: $v_{\text{p}}^{2}\dfrac{(r_{\text{a}} - r_{\text{p}})(r_{\text{a}} + r_{\text{p}})}{r_{\text{a}}^{2}} = 2GM\dfrac{r_{\text{a}} - r_{\text{p}}}{r_{\text{p}}r_{\text{a}}}$, so $v_{\text{p}}^{2} = \dfrac{2GMr_{\text{a}}}{r_{\text{p}} \cdot 2a} = GM\left(\dfrac{2}{r_{\text{p}}} - \dfrac{1}{a}\right)$. The constant is $v_{\text{p}}^{2} - \dfrac{2GM}{r_{\text{p}}} = -\dfrac{GM}{a}$. So everywhere, $v^{2} = \dfrac{2GM}{r} - \dfrac{GM}{a}$.
+</Solution>
+</Problem>
+
+<Problem n={11} level="challenging">
+Let the target orbit $r_{2}$ become enormous in the Hohmann formula for $\Delta v_{1}$. What does $\Delta v_{1}$ approach, and why does that make sense?
+
+<Solution>
+$\sqrt{\dfrac{2r_{2}}{r_{1} + r_{2}}} \to \sqrt{2}$, so $\Delta v_{1} \to (\sqrt{2} - 1)v_{1} = 0.414\,v_{1}$. The ship then leaves at $\sqrt{2}\,v_{1}$, which is the escape speed (Chapter 4.4). Reaching an infinitely distant orbit is the same as escaping.
+</Solution>
+</Problem>
+
+<Problem n={12} level="challenging">
+Air drag lowers the ISS from 400 km to 399 km. Does it end up faster or slower, and by how much?
+
+<Solution>
+Faster. $v = \sqrt{GM/r}$: $\sqrt{\dfrac{3.986 \times 10^{14}}{6.770 \times 10^{6}}} - \sqrt{\dfrac{3.986 \times 10^{14}}{6.771 \times 10^{6}}} = 0.57$ m/s faster. Drag takes energy away, but the fall to a lower orbit gives back more speed than drag removed.
+</Solution>
+</Problem>
+
+## Summary
+
+- A burn changes the velocity at one point. The new orbit still passes through that point, but its other side rises (forward burn) or falls (backward burn).
+- Along any coasting orbit, $v^{2} - 2GM/r$ is constant. With equal areas, this gives the vis-viva equation $v^{2} = GM(2/r - 1/a)$.
+- A Hohmann transfer uses half an ellipse touching both orbits. It takes two burns and half the ellipse's period, and the target must start at the right lead angle.
+- To climb, speed up, and you arrive slower. To catch something ahead in your orbit, slow down into a smaller, faster phasing orbit.
+- Delta-v is the cost of a manoeuvre: metres per second for small adjustments, kilometres per second for big orbit changes.
+
+**Formulas from this chapter**
+
+$$
+v^{2} = GM\left(\frac{2}{r} - \frac{1}{a}\right) \qquad \Delta v_{1} = v_{1}\left(\sqrt{\frac{2r_{2}}{r_{1} + r_{2}}} - 1\right) \qquad \Delta v_{2} = v_{2}\left(1 - \sqrt{\frac{2r_{1}}{r_{1} + r_{2}}}\right) \qquad t = \pi\sqrt{\frac{a_{\text{t}}^{3}}{GM}} \qquad \phi = 180° - \omega_{2}t
+$$
+
+## Sources
+
+- The vis-viva equation and Hohmann transfers: OpenStax, *University Physics Volume 1*, [§13.4 Satellite Orbits and Energy](https://openstax.org/books/university-physics-volume-1/pages/13-4-satellite-orbits-and-energy) and [§13.5 Kepler's Laws of Planetary Motion](https://openstax.org/books/university-physics-volume-1/pages/13-5-keplers-laws-of-planetary-motion); Wikipedia, [Hohmann transfer orbit](https://en.wikipedia.org/wiki/Hohmann_transfer_orbit) (Walter Hohmann, 1925) and [Vis-viva equation](https://en.wikipedia.org/wiki/Vis-viva_equation).
+- Hohmann transfers for interplanetary travel: NASA, [Basics of Space Flight, Chapter 4: Trajectories](https://science.nasa.gov/learn/basics-of-space-flight/chapter4-1/). Mars launch windows every 26 months: Wikipedia, [Hohmann transfer orbit](https://en.wikipedia.org/wiki/Hohmann_transfer_orbit). Orbit phasing for rendezvous: Wikipedia, [Orbit phasing](https://en.wikipedia.org/wiki/Orbit_phasing).
+- ISS reboosts against drag: Wikipedia, [International Space Station](https://en.wikipedia.org/wiki/International_Space_Station).
+- Planetary orbits and $GM$: NASA NSSDCA fact sheets for [Earth](https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html), [Venus](https://nssdc.gsfc.nasa.gov/planetary/factsheet/venusfact.html), [Mars](https://nssdc.gsfc.nasa.gov/planetary/factsheet/marsfact.html) and [the Sun](https://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html).
+- Grace's rescue of Rocky and the *Blip-A*: Wikipedia, [*Project Hail Mary*](https://en.wikipedia.org/wiki/Project_Hail_Mary). All manoeuvre numbers at Adrian are our illustrations.

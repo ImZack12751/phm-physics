@@ -1,0 +1,80 @@
+---
+// Simulation: weigh a body from an orbit around it. M = 4π²r³/(GT²), with the uncertainty ΔM/M = 3Δr/r + 2ΔT/T.
+---
+
+<div
+	class="sim wp"
+	data-title="Weigh a planet"
+	data-description="Choose the radius of an orbit (1000 to 1 000 000 km, from the centre of the body) and its period (10 minutes to 40 days), plus the percentage uncertainties in each. The readout gives the central mass M = 4π²r³/(GT²) in kilograms and in Earth masses, the nearest of several known bodies (Moon, Mars, Venus, Earth, our model Adrian, Jupiter), and the uncertainty ΔM/M ≈ 3Δr/r + 2ΔT/T. A bar shows the result with its uncertainty on a logarithmic mass scale against the known bodies."
+>
+	<p class="sim-title">Simulation: weigh a planet</p>
+	<p class="sim-help">Set an orbit's size and period and read off the mass it implies. Try the preset values in the text, then see how much a 1% error in the radius matters compared with a 1% error in the period.</p>
+	<div class="sim-controls">
+		<label>Orbit radius r <input type="range" class="wp-r" min="3" max="6" step="0.001" value="3.994" /> <output class="wp-rv"></output></label>
+		<label>Period T <input type="range" class="wp-t" min="-0.778" max="2.982" step="0.001" value="0.135" /> <output class="wp-tv"></output></label>
+		<label>Uncertainty in r <input type="range" class="wp-dr" min="0" max="5" step="0.1" value="1" /> <output class="wp-drv"></output></label>
+		<label>Uncertainty in T <input type="range" class="wp-dt" min="0" max="5" step="0.1" value="0.1" /> <output class="wp-dtv"></output></label>
+	</div>
+	<svg class="dg wp-svg" viewBox="0 0 600 170" role="img" aria-label="A logarithmic mass scale with known bodies marked and the measured mass shown as a bar"></svg>
+	<div class="readout wp-out" aria-live="polite"></div>
+</div>
+
+<script>
+	const G = 6.6743e-11, ME = 5.9722e24;
+	// NASA NSSDCA fact sheets; Adrian: our model.
+	const KNOWN = [
+		{ n: 'Moon', M: 7.346e22, up: true, dx: 0, anchor: 't-mid' },
+		{ n: 'Mars', M: 6.4169e23, up: false, dx: 0, anchor: 't-mid' },
+		{ n: 'Venus', M: 4.8673e24, up: true, dx: -4, anchor: 't-end' },
+		{ n: 'Earth', M: 5.9722e24, up: false, dx: 0, anchor: 't-mid' },
+		{ n: 'Adrian (model)', M: 2.347e25, up: true, dx: 4, anchor: '' },
+		{ n: 'Jupiter', M: 1.89813e27, up: false, dx: 0, anchor: 't-mid' },
+	];
+	const sci = (x: number) => {
+		const e = Math.floor(Math.log10(x));
+		return `${(x / 10 ** e).toFixed(2)} × 10<sup>${e}</sup>`;
+	};
+	document.querySelectorAll<HTMLElement>('.sim.wp').forEach((root) => {
+		const svg = root.querySelector<SVGSVGElement>('.wp-svg')!;
+		const q = <T extends Element>(s: string) => root.querySelector<T>(s)!;
+		const Rs = q<HTMLInputElement>('.wp-r'), Ts = q<HTMLInputElement>('.wp-t'), DRs = q<HTMLInputElement>('.wp-dr'), DTs = q<HTMLInputElement>('.wp-dt');
+		const out = q<HTMLElement>('.wp-out');
+		const NS = 'http://www.w3.org/2000/svg';
+		const el = (tag: string, at: Record<string, string | number>, text?: string) => {
+			const e = document.createElementNS(NS, tag);
+			Object.entries(at).forEach(([k, v]) => e.setAttribute(k, String(v)));
+			if (text) e.textContent = text;
+			svg.append(e);
+			return e;
+		};
+		const L = 30, Rt = 570, Y = 90, lo = 21, hi = 30;
+		const px = (M: number) => L + ((Math.log10(M) - lo) / (hi - lo)) * (Rt - L);
+		function draw() {
+			const rKm = 10 ** +Rs.value, tH = 10 ** +Ts.value, dr = +DRs.value, dt = +DTs.value;
+			const r = rKm * 1000, T = tH * 3600;
+			q('.wp-rv').textContent = `${rKm.toLocaleString('en-GB', { maximumFractionDigits: 0 })} km`;
+			q('.wp-tv').textContent = tH < 48 ? `${(tH * 60).toFixed(1)} min` : `${(tH / 24).toFixed(2)} days`;
+			q('.wp-drv').textContent = `${dr.toFixed(1)}%`;
+			q('.wp-dtv').textContent = `${dt.toFixed(1)}%`;
+			const M = (4 * Math.PI ** 2 * r ** 3) / (G * T * T), f = (3 * dr + 2 * dt) / 100;
+			svg.replaceChildren();
+			el('line', { x1: L, y1: Y, x2: Rt, y2: Y, class: 's-fg w2' });
+			for (let e = lo; e <= hi; e++) el('text', { x: px(10 ** e), y: Y + 40, class: 't-mid t-sm f-muted' }, `10${'⁰¹²³⁴⁵⁶⁷⁸⁹'[Math.floor(e / 10)]}${'⁰¹²³⁴⁵⁶⁷⁸⁹'[e % 10]}`);
+			KNOWN.forEach((k) => {
+				el('line', { x1: px(k.M), y1: Y - 8, x2: px(k.M), y2: Y + 8, class: 's-sky w2' });
+				el('text', { x: px(k.M) + k.dx, y: k.up ? Y - 14 : Y + 24, class: `${k.anchor} t-sm f-sky` }, k.n);
+			});
+			const x1 = px(Math.max(1e21, M * (1 - Math.min(f, 0.9)))), x2 = px(Math.min(1e30, M * (1 + f)));
+			if (M > 1e21 && M < 1e30) {
+				el('rect', { x: Math.min(x1, x2), y: Y - 46, width: Math.max(3, Math.abs(x2 - x1)), height: 8, class: 'f-amber' });
+				el('text', { x: px(M), y: Y - 54, class: 't-mid t-sm f-amber t-b' }, 'measured');
+			}
+			const near = KNOWN.reduce((a, b) => (Math.abs(Math.log(b.M / M)) < Math.abs(Math.log(a.M / M)) ? b : a));
+			out.innerHTML =
+				`<span class="k">M = 4π²r³ / GT²</span> = <b>${sci(M)} kg</b> = ${(M / ME).toPrecision(3)} Earth masses &nbsp; <span class="k">closest known body</span>: ${near.n} (${(M / near.M).toPrecision(3)} × its mass)<br>` +
+				`<span class="k">uncertainty ΔM/M ≈ 3Δr/r + 2ΔT/T</span> = 3 × ${dr.toFixed(1)}% + 2 × ${dt.toFixed(1)}% = <b>${(f * 100).toFixed(1)}%</b>`;
+		}
+		[Rs, Ts, DRs, DTs].forEach((i) => i.addEventListener('input', draw));
+		draw();
+	});
+</script>

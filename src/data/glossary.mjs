@@ -846,4 +846,84 @@ export const glossary = {
 		def: 'A long pendulum whose direction of swing slowly turns because Earth rotates beneath it: once every sidereal day ÷ sin(latitude). First shown by Léon Foucault in Paris in 1851.',
 		chapter: 'coriolis',
 	},
+	// ---- 4.1 Newton’s law of gravitation ----
+	'law-of-gravitation': {
+		term: 'Law of universal gravitation',
+		def: 'Newton’s law: every pair of masses attracts with a force F = GMm/r², along the line joining their centres, where r is the distance between the centres.',
+		chapter: 'gravitation',
+	},
+	'gravitational-constant': {
+		term: 'Gravitational constant (G)',
+		def: 'The constant in Newton’s law of gravitation: G = 6.674 × 10⁻¹¹ N·m²/kg². First measured by Henry Cavendish in 1797–98 with a torsion balance.',
+		chapter: 'gravitation',
+	},
+	'shell-theorem': {
+		term: 'Shell theorem',
+		def: 'Newton’s result that a spherical body (uniform, or built of uniform layers) pulls on anything outside it as if all its mass were concentrated at its centre.',
+		chapter: 'gravitation',
+	},
+	// ---- 4.2 Orbital speed ----
+	orbit: {
+		term: 'Orbit',
+		def: 'The path of a body moving freely under the gravity of another: free fall in which the body moves sideways fast enough that it keeps missing the surface. Orbits are circles or ellipses.',
+		chapter: 'orbital-speed',
+	},
+	'geostationary-orbit': {
+		term: 'Geostationary orbit',
+		def: 'A circular orbit above the equator with a period of one sidereal day, so the satellite stays above the same spot on the ground. Radius 42 164 km (35 786 km up).',
+		chapter: 'orbital-speed',
+	},
+	'tidal-effect': {
+		term: 'Tidal effect',
+		def: 'A stretching caused by gravity being stronger on the near side of an object than on its far side. It raises the ocean tides and pulls on anything hanging below an orbiting ship.',
+		chapter: 'orbital-speed',
+	},
+	// ---- 4.3 Kepler’s laws ----
+	ellipse: {
+		term: 'Ellipse',
+		def: 'A stretched circle: the set of points whose distances from two fixed points (the foci) add up to the same total, 2a. Orbits are ellipses with the central body at one focus.',
+		chapter: 'keplers-laws',
+	},
+	'semi-major-axis': {
+		term: 'Semi-major axis (a)',
+		def: 'Half the longest width of an ellipse; for an orbit, the average of the closest and furthest distances from the central body. It sets the period through T² ∝ a³.',
+		chapter: 'keplers-laws',
+	},
+	eccentricity: {
+		term: 'Eccentricity (e)',
+		def: 'How stretched an ellipse is, from 0 (a circle) towards 1 (very long and thin). Each focus lies a distance ae from the centre. Earth’s orbit has e = 0.0167.',
+		chapter: 'keplers-laws',
+	},
+	perihelion: {
+		term: 'Perihelion and aphelion',
+		def: 'The closest (perihelion, r = a(1 − e)) and furthest (aphelion, r = a(1 + e)) points of an orbit around the Sun or another star. Around Earth the words are perigee and apogee.',
+		chapter: 'keplers-laws',
+	},
+	// ---- 4.4 Escape velocity ----
+	'escape-velocity': {
+		term: 'Escape velocity',
+		def: 'The smallest speed at which a coasting object leaves a body’s gravity for good: v = √(2GM/r), which is √2 times the circular orbit speed at the same distance. 11.2 km/s from Earth’s surface.',
+		chapter: 'escape-velocity',
+	},
+	// ---- 4.6 Orbital manoeuvring ----
+	burn: {
+		term: 'Burn',
+		def: 'A firing of a spacecraft’s engine to change its velocity. A forward (prograde) burn raises the opposite side of the orbit; a backward (retrograde) burn lowers it.',
+		chapter: 'orbital-manoeuvring',
+	},
+	'delta-v': {
+		term: 'Delta-v (Δv)',
+		def: 'The change in velocity a manoeuvre needs. It is the “cost” of moving between orbits, paid for with fuel.',
+		chapter: 'orbital-manoeuvring',
+	},
+	'vis-viva': {
+		term: 'Vis-viva equation',
+		def: 'The speed at any point of an orbit: v² = GM(2/r − 1/a), where r is the current distance and a the semi-major axis.',
+		chapter: 'orbital-manoeuvring',
+	},
+	'hohmann-transfer': {
+		term: 'Hohmann transfer',
+		def: 'The cheapest two-burn route between two circular orbits: half an ellipse that just touches both. Described by Walter Hohmann in 1925.',
+		chapter: 'orbital-manoeuvring',
+	},
 };

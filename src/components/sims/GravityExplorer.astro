@@ -1,0 +1,87 @@
+---
+// Simulation: gravitational field strength g = GM/r² around a chosen body, from its surface outwards.
+---
+
+<div
+	class="sim gx"
+	data-title="Gravity explorer"
+	data-description="Choose a body (Earth, the Moon, Mars, Venus, our model of the planet Adrian, or the Sun) and a distance from its centre, from 1 to 10 times its radius. A graph shows g = GM/r² falling off with distance, with a marker at the chosen point. The readout gives the body's mass and radius, g at the surface and at the chosen distance (in m/s² and in Earth g), the weight of an 80 kg person there, and how much weaker gravity is than at the surface, which equals (R/r)²."
+>
+	<p class="sim-title">Simulation: gravity explorer</p>
+	<p class="sim-help">Pick a world, then move away from it. Doubling the distance from the centre always quarters g, whatever the body.</p>
+	<div class="sim-controls">
+		<label>Distance from centre <input type="range" class="gx-r" min="1" max="10" step="0.01" value="1" /> <output class="gx-rv"></output></label>
+		<label>Body <select class="gx-b">
+			<option value="0">Earth</option>
+			<option value="1">Moon</option>
+			<option value="2">Mars</option>
+			<option value="3">Venus</option>
+			<option value="4">Adrian (our model)</option>
+			<option value="5">Sun</option>
+		</select></label>
+	</div>
+	<svg class="dg gx-svg" viewBox="0 0 600 270" role="img" aria-label="Graph of gravitational field strength against distance from the centre of the chosen body"></svg>
+	<div class="readout gx-out" aria-live="polite"></div>
+</div>
+
+<script>
+	const G = 6.6743e-11;
+	// NASA NSSDCA fact sheets; Adrian is our model (3.93 Earth masses, radius 1.5 Earth radii assumed).
+	const BODIES = [
+		{ name: 'Earth', M: 5.9722e24, R: 6.371e6 },
+		{ name: 'the Moon', M: 7.346e22, R: 1.7374e6 },
+		{ name: 'Mars', M: 6.4169e23, R: 3.3895e6 },
+		{ name: 'Venus', M: 4.8673e24, R: 6.0518e6 },
+		{ name: 'Adrian (model)', M: 3.93 * 5.9722e24, R: 1.5 * 6.371e6 },
+		{ name: 'the Sun', M: 1.9884e30, R: 6.957e8 },
+	];
+	const sci = (x: number, d = 3) => {
+		const e = Math.floor(Math.log10(Math.abs(x)));
+		return `${(x / 10 ** e).toFixed(d - 1)} × 10<sup>${e}</sup>`;
+	};
+	document.querySelectorAll<HTMLElement>('.sim.gx').forEach((root) => {
+		const svg = root.querySelector<SVGSVGElement>('.gx-svg')!;
+		const Rs = root.querySelector<HTMLInputElement>('.gx-r')!, Bs = root.querySelector<HTMLSelectElement>('.gx-b')!;
+		const out = root.querySelector<HTMLElement>('.gx-out')!;
+		const NS = 'http://www.w3.org/2000/svg';
+		const el = (tag: string, at: Record<string, string | number>, text?: string) => {
+			const e = document.createElementNS(NS, tag);
+			Object.entries(at).forEach(([k, v]) => e.setAttribute(k, String(v)));
+			if (text) e.textContent = text;
+			svg.append(e);
+			return e;
+		};
+		const L = 70, Rt = 575, T = 20, B = 220;
+		function draw() {
+			const x = +Rs.value, b = BODIES[+Bs.value];
+			const r = x * b.R, gs = (G * b.M) / b.R ** 2, g = (G * b.M) / r ** 2;
+			root.querySelector('.gx-rv')!.textContent = `${x.toFixed(2)} R`;
+			const px = (u: number) => L + ((u - 1) / 9) * (Rt - L);
+			const py = (v: number) => B - (v / gs) * (B - T);
+			svg.replaceChildren();
+			[0, 0.25, 0.5, 0.75, 1].forEach((f) => {
+				el('line', { x1: L, y1: py(f * gs), x2: Rt, y2: py(f * gs), class: 's-grid w1' });
+				el('text', { x: L - 8, y: py(f * gs) + 4, class: 't-end t-sm f-muted' }, (f * gs).toPrecision(3));
+			});
+			[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].forEach((u) => el('text', { x: px(u), y: B + 18, class: 't-mid t-sm f-muted' }, String(u)));
+			el('line', { x1: L, y1: B, x2: Rt, y2: B, class: 's-fg w2' });
+			el('line', { x1: L, y1: B, x2: L, y2: T, class: 's-fg w2' });
+			let d = '';
+			for (let i = 0; i <= 180; i++) {
+				const u = 1 + (9 * i) / 180;
+				d += `${i ? 'L' : 'M'}${px(u).toFixed(1)},${py(gs / u ** 2).toFixed(1)}`;
+			}
+			el('path', { d, class: 's-rose w3', fill: 'none' });
+			el('line', { x1: px(x), y1: B, x2: px(x), y2: py(g), class: 's-amber w1 dash' });
+			el('circle', { cx: px(x), cy: py(g), r: 7, class: 'f-amber' });
+			el('text', { x: (L + Rt) / 2, y: B + 40, class: 't-mid t-sm' }, `distance from the centre of ${b.name}, in radii (r / R)`);
+			el('text', { x: Rt, y: T + 14, class: 't-end t-sm f-rose' }, 'g = GM / r²  (m/s²)');
+			out.innerHTML =
+				`<span class="k">${b.name}</span>: M = ${sci(b.M)} kg, R = ${(b.R / 1000).toLocaleString('en-GB', { maximumFractionDigits: 0 })} km, surface g = <b>${gs.toFixed(2)} m/s²</b><br>` +
+				`<span class="k">at r = ${x.toFixed(2)} R</span> (${((r - b.R) / 1000).toLocaleString('en-GB', { maximumFractionDigits: 0 })} km up): g = <b>${g < 0.1 ? g.toPrecision(3) : g.toFixed(2)} m/s²</b> = ${(g / 9.81).toPrecision(3)} Earth g<br>` +
+				`<span class="k">weight of an 80 kg person there</span> = ${(80 * g).toPrecision(3)} N &nbsp; <span class="k">compared with the surface, (R/r)²</span> = ${(1 / x ** 2).toFixed(3)}`;
+		}
+		[Rs, Bs].forEach((i) => i.addEventListener('input', draw));
+		draw();
+	});
+</script>

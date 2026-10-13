@@ -1,0 +1,32 @@
+---
+// Why an orbit is free fall: in one second the ISS would travel s = vt along a straight line, but it falls ½gt².
+// The ground curves away below the straight line by s²/2r. When the two are equal, the height never changes.
+// Drawn hugely exaggerated (a small circle) so the gap is visible.
+const CX = 300, CY = 470, R = 360; // orbit circle (exaggerated)
+const th = 0.42; // angle travelled (exaggerated)
+const P = { x: CX, y: CY - R };
+const S = R * Math.tan(th); // tangent length to the point above the new position
+const T = { x: P.x + S, y: P.y };
+const Q = { x: CX + R * Math.sin(th), y: CY - R * Math.cos(th) };
+const arc = Array.from({ length: 41 }, (_, i) => {
+	const a = -0.75 + (1.5 * i) / 40;
+	return `${i ? 'L' : 'M'}${(CX + R * Math.sin(a)).toFixed(1)},${(CY - R * Math.cos(a)).toFixed(1)}`;
+}).join(' ');
+---
+
+<svg class="dg" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+	<path d={arc} class="s-green w3" fill="none" />
+	<text x={CX - 180} y={CY - R * Math.cos(0.55) + 26} class="t-sm f-green">the orbit (and the curve of the planet)</text>
+	<line x1={P.x} y1={P.y} x2={T.x - 10} y2={T.y} class="s-muted w2 dash" />
+	<polygon points={`${T.x},${T.y} ${T.x - 12},${T.y - 6} ${T.x - 12},${T.y + 6}`} class="f-muted" />
+	<text x={P.x + 22} y={P.y - 12} class="t-sm">without gravity: straight on, s = vt</text>
+	<line x1={T.x} y1={T.y + 4} x2={Q.x} y2={Q.y - 10} class="s-rose w3" />
+	<polygon points={`${Q.x},${Q.y} ${Q.x - 6},${Q.y - 12} ${Q.x + 6},${Q.y - 12}`} class="f-rose" />
+	<text x={T.x + 12} y={(T.y + Q.y) / 2 - 4} class="t-sm f-rose">falls ½gt²</text>
+	<text x={T.x + 12} y={(T.y + Q.y) / 2 + 14} class="t-sm f-rose">= ground drops s²/2r</text>
+	<circle cx={P.x} cy={P.y} r="7" class="f-amber" />
+	<text x={P.x - 12} y={P.y - 10} class="t-end t-sm f-amber">ship now</text>
+	<circle cx={Q.x} cy={Q.y} r="7" class="f-amber" />
+	<text x={Q.x - 12} y={Q.y + 22} class="t-end t-sm f-amber">ship 1 s later</text>
+	<text x="300" y="286" class="t-mid t-sm">½gt² = (vt)²/2r  ⇒  v² = gr (gap hugely exaggerated)</text>
+</svg>

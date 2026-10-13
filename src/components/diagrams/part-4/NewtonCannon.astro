@@ -1,0 +1,49 @@
+---
+// Newton's cannonball: shots fired horizontally from a very high mountain at increasing speeds.
+// Trajectories are integrated in screen units with GM chosen so that the circular speed at the launch point is 1.
+const CX = 300, CY = 208, RP = 105, R0 = 128; // planet radius and launch radius (px)
+const GM = R0; // circular speed √(GM/R0) = 1
+function path(f: number) {
+	let x = 0, y = R0, vx = f, vy = 0; // launch at the top, moving right (screen y upward here)
+	const dt = 0.05, pts: string[] = [];
+	let ang = 0, prev = Math.atan2(x, y);
+	for (let i = 0; i < 40000; i++) {
+		const r = Math.hypot(x, y), a = -GM / r ** 3;
+		vx += a * x * dt; vy += a * y * dt; x += vx * dt; y += vy * dt;
+		if (i % 4 === 0) pts.push(`${(CX + x).toFixed(1)},${(CY - y).toFixed(1)}`);
+		const th = Math.atan2(x, y); let d = th - prev; if (d < -Math.PI) d += 2 * Math.PI; prev = th; ang += d;
+		if (Math.hypot(x, y) < RP) break;
+		if (ang > 2 * Math.PI - 0.02) break;
+	}
+	return { d: 'M' + pts.join(' L'), end: { x: CX + x, y: CY - y } };
+}
+const shots = [
+	{ f: 0.5, k: 'A', cls: 's-muted', fc: 'f-muted' },
+	{ f: 0.75, k: 'B', cls: 's-amber', fc: 'f-amber' },
+	{ f: 1.0, k: 'C', cls: 's-green', fc: 'f-green' },
+	{ f: 1.1, k: 'D', cls: 's-sky', fc: 'f-sky' },
+].map((s) => ({ ...s, ...path(s.f) }));
+const legend = [
+	'A: too slow: lands nearby',
+	'B: faster: lands further round',
+	'C: just fast enough: falls all the way round (circular orbit)',
+	'D: faster still: an elongated orbit (an ellipse)',
+];
+---
+
+<svg class="dg" viewBox="0 0 600 490" xmlns="http://www.w3.org/2000/svg">
+	<circle cx={CX} cy={CY} r={RP} class="f-sky-soft s-sky w2" />
+	<text x={CX} y={CY + 5} class="t-mid t-sm f-sky">planet</text>
+	<polygon points={`${CX - 22},${CY - RP + 3} ${CX},${CY - R0} ${CX + 22},${CY - RP + 3}`} class="f-muted" />
+	{shots.map((s) => (
+		<>
+			<path d={s.d} class={`${s.cls} w2 ${s.k === 'A' || s.k === 'B' ? '' : 'dash'}`} fill="none" />
+		</>
+	))}
+	<text x={shots[0].end.x + 8} y={shots[0].end.y - 4} class="t-sm t-b f-muted halo">A</text>
+	<text x={shots[1].end.x + 10} y={shots[1].end.y + 4} class="t-sm t-b f-amber halo">B</text>
+	<text x={CX + R0 * 0.72 + 8} y={CY + R0 * 0.72 + 8} class="t-sm t-b f-green halo">C</text>
+	<text x={CX - 4} y={CY + 186} class="t-sm t-b f-sky halo">D</text>
+	<text x={CX} y={CY - R0 - 10} class="t-mid t-sm">launch</text>
+	{legend.map((l, i) => <text x="20" y={424 + i * 18} class={`t-sm ${['f-muted', 'f-amber', 'f-green', 'f-sky'][i]}`}>{l}</text>)}
+</svg>

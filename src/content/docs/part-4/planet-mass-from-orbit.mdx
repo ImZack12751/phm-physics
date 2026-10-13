@@ -1,0 +1,319 @@
+---
+title: Finding a planet’s mass from an orbit
+description: Weighing a world without touching it, M = 4π²r³/GT², from the Moon, Earth's year, Jupiter's moons and a ship parked around Adrian. Also how to find a planet's radius, density and surface gravity from orbit, and how errors in r and T affect the result.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import OrbitSurvey from '../../../components/diagrams/part-4/OrbitSurvey.astro';
+import DensityClock from '../../../components/diagrams/part-4/DensityClock.astro';
+import WeighPlanet from '../../../components/sims/WeighPlanet.astro';
+
+## The scene
+
+Adrian is a world nobody from Earth has ever seen up close. Grace can't land on it or put it on a scale, but he needs to know how heavy it is. Its mass sets the speed of every orbit around it (Chapter 4.2), the gravity that would pull on the sampling chain, and how hard it would be to climb away again (Chapter 4.4).
+
+A ship in orbit carries the answer with it. The time it takes to go round, together with the size of its orbit, is enough to weigh the planet. Astronomers have weighed the Sun, the planets and distant stars this way, and Grace could do the same from the *Hail Mary*'s windows.
+
+## Prerequisites
+
+<Prereqs notes={{ 'keplers-laws': 'T² = 4π²a³/GM, which depends only on the central mass', 'measuring-g': 'how fractional uncertainties combine for a power law', 'rearranging-formulas': 'making a different quantity the subject' }} />
+
+## The concept
+
+### Turning the third law round
+
+Kepler's third law (Chapter 4.3) links an orbit's period and size to the mass at the centre:
+
+$$
+T^{2} = \frac{4\pi^{2}a^{3}}{GM}.
+$$
+
+Make $M$ the subject:
+
+$$
+M = \frac{4\pi^{2}a^{3}}{GT^{2}}.
+$$
+
+Measure how big an orbit is and how long it takes, and you have the mass of whatever is being orbited. The orbiting object's own mass doesn't appear, so a moon, a spacecraft or a speck of dust would all give the same answer. For a circular orbit, $a$ is simply the radius $r$.
+
+Strictly, an orbit measures the **total** mass of the pair, $M + m$, because both bodies circle their shared centre of mass (Chapter 3.3). For a spacecraft that difference is negligible. For Earth and the Moon it is about 1%.
+
+### Measuring an orbit from inside it
+
+Timing the period is easy: note when a landmark or a star passes, and wait for it to come round again.
+
+The radius is harder. You need the distance to the planet's **centre**, which you can't see. A ship can do it in two steps:
+
+1. **Height above the surface, $h$,** by radar: send a pulse down and time the echo. (On a planet with thick air or clouds, the radar sees the cloud tops, so that is the "surface" that gets measured.)
+2. **The planet's radius, $R$,** from how wide it looks. If the planet fills an angle $\theta$ of the view, the line from the ship to the planet's edge just touches it, and the radius to that point is at right angles to it. That makes a right-angled triangle, so $\sin(\theta/2) = R/r$ (Chapter 0.6), with $r = R + h$.
+
+<Figure caption="Surveying a planet from orbit. Time one lap (T), measure the height above the surface by radar (h), and measure the angle θ the planet fills in the view. Then sin(θ/2) = R/(R + h) gives the planet's radius, r = R + h is the orbit's radius, and M = 4π²r³/GT² is the mass." alt="A blue planet with radius R drawn from its centre to a point on its edge. A dashed green circle around it is the orbit, labelled orbit: time one lap, T. An amber ship sits on the orbit at the right. Two amber lines from the ship touch the top and bottom edges of the planet, with an arc between them labelled theta. A red bar between the planet's surface and the ship is labelled h (radar). Text on the right: From orbit you can measure: the period T (a stopwatch); the height h (radar); the planet's width in view, theta. Then: sin(theta/2) = R / (R + h) gives R; r = R + h; M = 4 pi squared r cubed over G T squared; rho = M over (4/3 pi R cubed); g = G M over R squared.">
+	<OrbitSurvey />
+</Figure>
+
+Once $M$ and $R$ are known, everything else follows: average density $\rho = M/(\tfrac{4}{3}\pi R^{3})$, surface gravity $g = GM/R^{2}$ (Chapter 4.1), and escape velocity $\sqrt{2GM/R}$ (Chapter 4.4).
+
+### A density clock
+
+There is a neat shortcut for an orbit that just skims the surface ($r \approx R$). Substitute $M = \rho \cdot \tfrac{4}{3}\pi R^{3}$ into $T^{2} = 4\pi^{2}R^{3}/GM$:
+
+$$
+T^{2} = \frac{4\pi^{2}R^{3}}{G\rho \cdot \tfrac{4}{3}\pi R^{3}} = \frac{3\pi}{G\rho}.
+$$
+
+The radius cancels completely. The period of a skimming orbit depends **only on the planet's average density**. Every rocky planet has a lowest-orbit period of roughly an hour and a half, whatever its size. A low-density gas giant like Jupiter takes about three hours.
+
+<Figure caption="The period of an orbit skimming a planet's surface depends only on its average density: T = √(3π/Gρ). Dense rocky worlds all come in at 80 to 110 minutes; low-density Jupiter takes almost 3 hours. Our model Adrian, denser than Earth, would be quickest." alt="A graph. Horizontal axis: average density in kilograms per cubic metre, 1000 to 7000. Vertical axis: skimming-orbit period in minutes, 60 to 180. A red curve, labelled T = square root of (3 pi over G rho), falls from upper left to lower right. Amber points: Jupiter 172 min at 1326; Moon 108 min at 3340; Mars 100 min at 3934; Venus 86 min at 5243; Earth 84 min at 5514; Adrian (model) 78 min at 6420.">
+	<DensityClock />
+</Figure>
+
+### How good is the answer?
+
+$M \propto r^{3}T^{-2}$ is a power law, so the rule from Chapter 1.4 applies: fractional uncertainties are multiplied by the powers.
+
+$$
+\frac{\Delta M}{M} \approx 3\,\frac{\Delta r}{r} + 2\,\frac{\Delta T}{T}.
+$$
+
+The radius is cubed, so it matters most. Timing is usually very precise, so the radius sets the accuracy. And $G$ itself is uncertain by about 2 parts in 100 000 (Chapter 4.1). Astronomers can often measure the product $GM$ far more precisely than either $G$ or $M$ alone. That is why NASA's fact sheets list $GM$ for each planet.
+
+## Formulas
+
+### Mass from an orbit
+
+Making $M$ the subject of Kepler's third law:
+
+$$
+\boxed{M = \frac{4\pi^{2}a^{3}}{GT^{2}}} \qquad \text{(circular: } a = r\text{)}
+$$
+
+Or, from $v = \sqrt{GM/r}$ (Chapter 4.2), if the speed is known instead of the period:
+
+$$
+\boxed{M = \frac{v^{2}r}{G}}
+$$
+
+### Radius from the view
+
+From the right-angled triangle formed by the ship, the planet's centre and the edge of the planet:
+
+$$
+\boxed{\sin\frac{\theta}{2} = \frac{R}{R + h}} \quad\Rightarrow\quad R = \frac{h\sin(\theta/2)}{1 - \sin(\theta/2)}
+$$
+
+### Density from a skimming orbit
+
+Substituting $M = \tfrac{4}{3}\pi R^{3}\rho$ into the third law with $a = R$:
+
+$$
+\boxed{T_{\text{low}} = \sqrt{\frac{3\pi}{G\rho}}} \qquad \rho = \frac{3\pi}{GT_{\text{low}}^{2}}
+$$
+
+### Uncertainty
+
+From $M \propto r^{3}T^{-2}$ and the power-law rule:
+
+$$
+\boxed{\frac{\Delta M}{M} \approx 3\,\frac{\Delta r}{r} + 2\,\frac{\Delta T}{T}}
+$$
+
+## Worked examples
+
+<Example n={1} title="Weighing Earth with the Moon">
+The Moon orbits at $a = 3.844 \times 10^{8}$ m with a period of 27.3217 days. Find the mass it implies for Earth.
+
+$$
+T = 27.3217 \times 86\,400\ \text{s} = 2.3606 \times 10^{6}\ \text{s}
+$$
+
+$$
+M = \frac{4\pi^{2}a^{3}}{GT^{2}} = \frac{4\pi^{2} \times (3.844 \times 10^{8}\ \text{m})^{3}}{6.674 \times 10^{-11}\ \text{m}^{3}\,\text{kg}^{-1}\,\text{s}^{-2} \times (2.3606 \times 10^{6}\ \text{s})^{2}} = 6.03 \times 10^{24}\ \text{kg}
+$$
+
+That is 1% more than Earth's mass from its surface gravity (Chapter 4.1), $5.97 \times 10^{24}$ kg. The orbit weighs Earth and Moon together, and the Moon is about 1% of the pair.
+</Example>
+
+<Example n={2} title="Weighing the Sun with Earth's year">
+Earth orbits the Sun at $1.496 \times 10^{11}$ m in 365.256 days ($3.1558 \times 10^{7}$ s). Find the Sun's mass.
+
+$$
+M_{\odot} = \frac{4\pi^{2} \times (1.496 \times 10^{11}\ \text{m})^{3}}{6.674 \times 10^{-11} \times (3.1558 \times 10^{7}\ \text{s})^{2}} = 1.99 \times 10^{30}\ \text{kg}
+$$
+
+NASA gives $1.9884 \times 10^{30}$ kg. A year and a distance are enough to weigh a star 333 000 times as heavy as Earth.
+</Example>
+
+<Example n={3} title="Weighing Jupiter with Io">
+Galileo found Jupiter's four large moons in 1610. The innermost, Io, orbits at 421 800 km in 1.769 days. Find Jupiter's mass.
+
+$$
+M = \frac{4\pi^{2} \times (4.218 \times 10^{8}\ \text{m})^{3}}{6.674 \times 10^{-11} \times (1.769138 \times 86\,400\ \text{s})^{2}} = 1.90 \times 10^{27}\ \text{kg}
+$$
+
+That is 318 Earth masses. NASA's value is $1.898 \times 10^{27}$ kg.
+</Example>
+
+<Example n={4} title="Weighing Adrian" book>
+In our model, Grace parks 300 km above Adrian's cloud tops (by radar). He times a lap at 81.87 minutes and sees Adrian fill $151.7°$ of his view. Find Adrian's radius, mass, density and surface gravity.
+
+$$
+\sin\frac{\theta}{2} = \sin 75.83° = 0.9696 \qquad R = \frac{h\sin(\theta/2)}{1 - \sin(\theta/2)} = \frac{300\ \text{km} \times 0.9696}{0.0304} = 9570\ \text{km}
+$$
+
+The angle is so sensitive here that a reading good to $0.1°$ gives $R$ to only about 1%. With the more precise $R = 9557$ km, $r = 9857$ km:
+
+$$
+M = \frac{4\pi^{2} \times (9.857 \times 10^{6}\ \text{m})^{3}}{6.674 \times 10^{-11} \times (4912\ \text{s})^{2}} = 2.35 \times 10^{25}\ \text{kg} = 3.93\ M_{\text{E}}
+$$
+
+$$
+\rho = \frac{2.347 \times 10^{25}\ \text{kg}}{\tfrac{4}{3}\pi\,(9.557 \times 10^{6}\ \text{m})^{3}} = 6420\ \text{kg/m}^{3} \qquad g = \frac{GM}{R^{2}} = 17.2\ \text{m/s}^{2}
+$$
+
+Denser than Earth: a rocky, iron-rich world, if our model is right.
+</Example>
+
+<Example n={5} title="Earth's density from a stopwatch">
+A satellite skimming Earth would take 84.3 minutes per orbit (Chapter 4.2). Find Earth's average density from that alone.
+
+$$
+\rho = \frac{3\pi}{GT^{2}} = \frac{3\pi}{6.674 \times 10^{-11}\ \text{m}^{3}\,\text{kg}^{-1}\,\text{s}^{-2} \times (5058\ \text{s})^{2}} = 5520\ \text{kg/m}^{3}
+$$
+
+NASA gives 5514 kg/m³. No ruler was needed, just a clock.
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** Every planet's mass in NASA's tables comes from orbits: of its moons, or of spacecraft flying past or around it. Stars' masses come the same way, from planets or from a companion star. The combination $GM$ is known far more precisely than $G$ or $M$ separately. For a planet around another star, the star's wobble gives only a minimum mass for the planet (which is why Tau Ceti e's 3.93 Earth masses is a lower limit), unless the orbit is seen exactly edge-on.
+
+**Weir's inventions.** We have shown how Grace *could* weigh Adrian. The numbers here (300 km parking height, 81.87 minutes, 151.7°) all come from our model, chosen to match the candidate's minimum mass and an assumed radius of 1.5 Earth radii. They are not figures from the novel.
+
+**How realistic are the numbers?** A ship with a stopwatch, a radar and a camera really can find a planet's mass to a percent or better in a single orbit. Real missions do far better by tracking the spacecraft's radio signal from Earth. The weak point is measuring the radius by eye from close to the planet (Worked example 4). Measuring from further out, or using several orbits of different heights, does better.
+</RealVsBook>
+
+## Interactive simulation
+
+<WeighPlanet />
+
+Things to try: the default is Grace's parking orbit at Adrian (about 9860 km and 82 minutes). Then try the Moon's orbit (384 400 km, 27.32 days) to weigh Earth, and Io's (421 800 km, 1.77 days) to weigh Jupiter. Set the radius uncertainty to 1% and the period's to 1%: the radius contributes 3%, the period only 2%.
+
+## Practice set
+
+<Problem n={1} level="easy">
+Two spacecraft, one of 100 kg and one of 10 000 kg, orbit Mars at the same radius. Which gives the larger estimate of Mars's mass?
+
+<Solution>
+Neither. $M = 4\pi^{2}r^{3}/GT^{2}$ doesn't contain the spacecraft's mass, and both have the same period.
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy">
+A moon has the same orbital radius as another moon around a different planet, but twice the period. How do the two planets' masses compare?
+
+<Solution>
+$M \propto 1/T^{2}$: the first planet has $1/4$ of the other's mass.
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy">
+An orbit's radius is measured 2% too large. By roughly how much is the mass overestimated?
+
+<Solution>
+$3 \times 2\% = 6\%$.
+</Solution>
+</Problem>
+
+<Problem n={4} level="medium">
+Mars's moon Phobos orbits at 9378 km in 0.31891 days. Find Mars's mass and compare with NASA's $6.417 \times 10^{23}$ kg.
+
+<Solution>
+$T = 0.31891 \times 86\,400 = 27\,554$ s. $M = \dfrac{4\pi^{2} \times (9.378 \times 10^{6})^{3}}{6.674 \times 10^{-11} \times 27\,554^{2}} = 6.43 \times 10^{23}$ kg, within 0.2%.
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium" book>
+Adrian (Tau Ceti e) orbits at 0.552 au in about 168 days. What mass does that give for Tau Ceti, in solar masses?
+
+<Solution>
+$M = \dfrac{4\pi^{2} \times (0.552 \times 1.496 \times 10^{11})^{3}}{6.674 \times 10^{-11} \times (168 \times 86\,400)^{2}} = 1.58 \times 10^{30}$ kg $= 0.795\ M_{\odot}$. This agrees with the 0.80 from studies of the star itself.
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium">
+A spacecraft 100 km above the Moon's surface (radius 1737 km) takes 118 minutes per orbit. Find the Moon's mass.
+
+<Solution>
+$r = 1837$ km. $M = \dfrac{4\pi^{2} \times (1.837 \times 10^{6})^{3}}{6.674 \times 10^{-11} \times (7080)^{2}} = 7.32 \times 10^{22}$ kg. NASA: $7.346 \times 10^{22}$ kg.
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium" book>
+Rocky's ship orbits our model Adrian 1000 km above the cloud tops ($r = 10\,557$ km) and takes 90.75 minutes per lap. Does it give the same mass as Grace's orbit?
+
+<Solution>
+$M = \dfrac{4\pi^{2} \times (1.0557 \times 10^{7})^{3}}{6.674 \times 10^{-11} \times (5445)^{2}} = 2.35 \times 10^{25}$ kg. Yes: different orbits around the same planet always give the same mass.
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium">
+Use the density clock to find the period of an orbit skimming the Moon (average density 3340 kg/m³).
+
+<Solution>
+$T = \sqrt{\dfrac{3\pi}{6.674 \times 10^{-11} \times 3340}} = 6500$ s $= 108$ minutes.
+</Solution>
+</Problem>
+
+<Problem n={9} level="medium">
+The period of an orbit is known to 0.1% and its radius to 1%. Estimate the uncertainty in the mass.
+
+<Solution>
+$3 \times 1\% + 2 \times 0.1\% = 3.2\%$. The radius dominates.
+</Solution>
+</Problem>
+
+<Problem n={10} level="challenging">
+Show that the period of a skimming orbit is $\sqrt{3\pi/G\rho}$, and explain why a planet twice as wide, with the same density, has the same skimming period.
+
+<Solution>
+$T^{2} = \dfrac{4\pi^{2}R^{3}}{GM}$ and $M = \tfrac{4}{3}\pi R^{3}\rho$, so $T^{2} = \dfrac{4\pi^{2}R^{3}}{\tfrac{4}{3}\pi G\rho R^{3}} = \dfrac{3\pi}{G\rho}$. Doubling $R$ at the same density multiplies the mass by 8 and the orbit's circumference by 2. The speed $\sqrt{GM/R}$ doubles, so the lap time is unchanged.
+</Solution>
+</Problem>
+
+<Problem n={11} level="challenging">
+Show that $M = v^{2}r/G$ and $M = 4\pi^{2}r^{3}/GT^{2}$ agree for a circular orbit. Then use the first to find the Sun's mass from Earth's orbital speed, 29.78 km/s.
+
+<Solution>
+With $v = 2\pi r/T$: $\dfrac{v^{2}r}{G} = \dfrac{4\pi^{2}r^{2}}{T^{2}} \cdot \dfrac{r}{G} = \dfrac{4\pi^{2}r^{3}}{GT^{2}}$. ✓ Then $M = \dfrac{(29\,780)^{2} \times 1.496 \times 10^{11}}{6.674 \times 10^{-11}} = 1.99 \times 10^{30}$ kg.
+</Solution>
+</Problem>
+
+<Problem n={12} level="challenging" book>
+Suppose Grace's radar is broken. He has only the period (81.87 min) and the angle Adrian fills ($151.7°$). Show that he can still find Adrian's density, and calculate it.
+
+<Solution>
+$\rho = \dfrac{M}{\tfrac{4}{3}\pi R^{3}} = \dfrac{4\pi^{2}r^{3}/GT^{2}}{\tfrac{4}{3}\pi R^{3}} = \dfrac{3\pi}{GT^{2}}\left(\dfrac{r}{R}\right)^{3}$, and $\dfrac{R}{r} = \sin\dfrac{\theta}{2}$. So $\rho = \dfrac{3\pi}{GT^{2}\sin^{3}(\theta/2)}$, which needs no distances at all. With $T = 4912$ s and $\sin 75.83° = 0.9696$: $\rho = \dfrac{3\pi}{6.674 \times 10^{-11} \times 4912^{2} \times 0.9115} = 6420\ \text{kg/m}^{3}$.
+</Solution>
+</Problem>
+
+## Summary
+
+- An orbit's size and period give the mass at its centre: $M = 4\pi^{2}a^{3}/GT^{2}$, or $M = v^{2}r/G$. The orbiting body's mass doesn't matter (strictly, the orbit weighs the pair together).
+- From orbit, a ship can find the planet's radius from its angular size, $\sin(\theta/2) = R/(R + h)$, and then its density, surface gravity and escape speed.
+- A skimming orbit's period depends only on density: $T = \sqrt{3\pi/G\rho}$, about 85 to 110 minutes for rocky worlds.
+- Errors: $\Delta M/M \approx 3\Delta r/r + 2\Delta T/T$, so the radius matters most.
+
+**Formulas from this chapter**
+
+$$
+M = \frac{4\pi^{2}a^{3}}{GT^{2}} \qquad M = \frac{v^{2}r}{G} \qquad \sin\frac{\theta}{2} = \frac{R}{R + h} \qquad T_{\text{low}} = \sqrt{\frac{3\pi}{G\rho}} \qquad \frac{\Delta M}{M} \approx 3\,\frac{\Delta r}{r} + 2\,\frac{\Delta T}{T}
+$$
+
+## Sources
+
+- Masses from orbits: OpenStax, *University Physics Volume 1*, [§13.5 Kepler's Laws of Planetary Motion](https://openstax.org/books/university-physics-volume-1/pages/13-5-keplers-laws-of-planetary-motion); HyperPhysics, [Kepler's laws](http://hyperphysics.gsu.edu/hbase/kepler.html).
+- Moon, Sun, Mars (including Phobos), Jupiter and Earth data, densities and $GM$ values: NASA NSSDCA fact sheets for [Earth](https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html), [the Moon](https://nssdc.gsfc.nasa.gov/planetary/factsheet/moonfact.html), [Mars](https://nssdc.gsfc.nasa.gov/planetary/factsheet/marsfact.html), [Jupiter](https://nssdc.gsfc.nasa.gov/planetary/factsheet/jupiterfact.html), [the Sun](https://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html) and the [Planetary fact sheet](https://nssdc.gsfc.nasa.gov/planetary/factsheet/).
+- Io's orbit (421 800 km, 1.769138 days): NASA NSSDCA, [Jovian Satellite Fact Sheet](https://nssdc.gsfc.nasa.gov/planetary/factsheet/joviansatfact.html). Galileo's discovery in 1610: Wikipedia, [Galilean moons](https://en.wikipedia.org/wiki/Galilean_moons).
+- Minimum masses from stellar wobbles and Tau Ceti e: Wikipedia, [Doppler spectroscopy](https://en.wikipedia.org/wiki/Doppler_spectroscopy) and [Tau Ceti e](https://en.wikipedia.org/wiki/Tau_Ceti_e).
+- Adrian in the novel: Wikipedia, [*Project Hail Mary*](https://en.wikipedia.org/wiki/Project_Hail_Mary). All the parking-orbit measurements are our model.

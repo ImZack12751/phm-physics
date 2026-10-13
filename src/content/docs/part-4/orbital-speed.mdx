@@ -1,0 +1,322 @@
+---
+title: Orbital speed
+description: Why an orbit is free fall that keeps missing the ground, the speed and period of a circular orbit, v = √(GM/r) and T = 2π√(r³/GM), and why astronauts float although gravity is nearly as strong as on the ground.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import NewtonCannon from '../../../components/diagrams/part-4/NewtonCannon.astro';
+import FallingAround from '../../../components/diagrams/part-4/FallingAround.astro';
+import OrbitCannon from '../../../components/sims/OrbitCannon.astro';
+
+## The scene
+
+Once Grace and Rocky find Adrian, the *Hail Mary* goes into orbit around it. With the engines off, nothing pushes the ship and nothing holds it up, yet it stays at the same height, lap after lap. The crew float, as they did when the engines were off on the way out.
+
+Then they need a sample of Adrian's air. The plan is to lower a collector on a 10 km chain from the orbiting ship into the top of the atmosphere. To judge whether that can work, you need to know how fast an orbiting ship moves and why it doesn't fall. This chapter answers both questions.
+
+## Prerequisites
+
+<Prereqs notes={{ gravitation: 'g = GM/r² at any distance from a planet', 'centripetal-acceleration': 'a = v²/r for any circular motion', 'apparent-weight': 'weightlessness as free fall', 'angular-speed': 'v = ωr and T = 2πr/v' }} />
+
+## The concept
+
+### Newton's cannon
+
+Newton imagined a cannon on top of an impossibly high mountain, firing horizontally. A slow shot curves down and lands nearby. A faster shot lands further away. On a flat world, every shot would eventually land, but the world is round. As the shot moves sideways, the ground curves away beneath it. Fire fast enough and the ground curves away as fast as the shot falls. Then it never lands. It falls all the way round the planet and comes back to the mountain from behind.
+
+<Figure caption="Newton's thought experiment, drawn to scale for a mountain about 20% of the planet's radius high. Shots A and B fall to the ground. Shot C, at exactly the circular speed, falls round the planet at a constant height: a circular orbit. Shot D, a little faster, swings out into an ellipse (Chapter 4.3)." alt="A planet with a tall mountain on top. Four paths start horizontally from the mountain top heading right. A, grey, curves down and lands a short way round. B, amber, lands about a quarter of the way round. C, green dashed, is a circle around the planet through the launch point. D, blue dashed, is a larger oval that passes through the launch point and swings far out below the planet. A legend lists A: too slow, lands nearby; B: faster, lands further round; C: just fast enough, falls all the way round (circular orbit); D: faster still, an elongated orbit (an ellipse).">
+	<NewtonCannon />
+</Figure>
+
+An <Term id="orbit">orbit</Term> is a path like C or D: free fall that keeps missing the planet.
+
+### Why astronauts float
+
+Chapter 4.1 found that at the ISS's height gravity is still 89% of its surface strength. So why do astronauts float?
+
+Because the station and everyone in it are in <Term id="free-fall">free fall</Term> together. Gravity is the only force acting and everything falls in the same way, so nothing presses on anything else. Chapter 2.3 showed that a falling lift gives the same <Term id="weightlessness">weightlessness</Term>. An orbit is a fall that never ends, so the weightlessness never ends either. The same is true of the *Hail Mary* around Adrian, of the Moon, and of a spanner that drifts away from an astronaut: all are falling round the planet together.
+
+### How fast? Two ways
+
+**From falling.** In one second, a ship moving at speed $v$ would travel $s = vt$ in a straight line if there were no gravity. Gravity makes it fall $\tfrac{1}{2}gt^{2}$ towards the planet. Meanwhile the circle it moves on curves away from the straight line by $s^{2}/2r$ (for a small step, by the geometry of a circle). The height never changes if the two are equal:
+
+$$
+\tfrac{1}{2}gt^{2} = \frac{(vt)^{2}}{2r} \quad\Rightarrow\quad v^{2} = gr.
+$$
+
+<Figure caption="Orbit as falling. In a short time a ship would move a distance s = vt along a straight line, but gravity makes it fall ½gt². The circle of the orbit curves away from the straight line by s²/2r. When these match, the ship stays at the same height. For the ISS, both are 4.35 m in each second while it travels 7.67 km. The gap is hugely exaggerated." alt="A large green arc represents the orbit. At its top an amber dot is labelled ship now. A grey dashed arrow goes straight out to the right along the tangent, labelled without gravity: straight on, s = v t. From the end of the arrow, a red arrow points down to a second amber dot on the arc labelled ship 1 s later, with the label falls one half g t squared, equals ground drops s squared over 2 r. Footer: one half g t squared equals (v t) squared over 2 r, so v squared = g r (gap hugely exaggerated).">
+	<FallingAround />
+</Figure>
+
+**From centripetal acceleration.** A circular orbit is circular motion, so it needs an inward acceleration $v^{2}/r$ (Chapter 3.2). Gravity supplies it, with $g = GM/r^{2}$:
+
+$$
+\frac{v^{2}}{r} = \frac{GM}{r^{2}} \quad\Rightarrow\quad v = \sqrt{\frac{GM}{r}}.
+$$
+
+Both methods give the same answer, since $gr = GM/r$.
+
+### What the formula says
+
+- **The orbiting object's mass cancels.** A space station, an astronaut and a spanner at the same height all need the same speed. That is why they can float side by side.
+- **Higher orbits are slower.** Speed goes as $1/\sqrt{r}$, so four times as far out means half the speed.
+- **Higher orbits take much longer.** The period is the circumference divided by the speed:
+
+$$
+T = \frac{2\pi r}{v} = 2\pi\sqrt{\frac{r^{3}}{GM}}.
+$$
+
+Four times as far out takes $4^{3/2} = 8$ times as long. Chapter 4.3 shows this is Kepler's third law.
+
+### Special orbits
+
+The lowest possible orbit just skims the surface (ignoring air and mountains), with $r = R$ and $v = \sqrt{gR}$. For Earth that is 7.9 km/s, and one lap takes 84 minutes. That is the same 84 minutes as Chapter 3.2 Problem 11, where a spinning Earth flings people off the equator. The two are the same condition, $v^{2}/R = g$.
+
+At the other extreme, a satellite at the right height takes exactly one sidereal day (23.93 hours, Chapter 3.4) to go round. Above the equator, it keeps pace with the ground below and seems to hang still in the sky. This is a <Term id="geostationary-orbit">geostationary orbit</Term>, used for TV and weather satellites. Its radius is 42 164 km.
+
+## Formulas
+
+### Circular orbital speed
+
+Gravity provides the centripetal acceleration: $v^{2}/r = GM/r^{2}$, so
+
+$$
+\boxed{v = \sqrt{\frac{GM}{r}} = \sqrt{g(r)\,r}}
+$$
+
+### Orbital period and angular speed
+
+From $T = 2\pi r/v$ and $\omega = v/r$:
+
+$$
+\boxed{T = 2\pi\sqrt{\frac{r^{3}}{GM}}} \qquad \omega = \sqrt{\frac{GM}{r^{3}}}
+$$
+
+### Radius for a given period
+
+Squaring the period formula and making $r$ the subject (Chapter 0.4):
+
+$$
+\boxed{r = \left(\frac{GMT^{2}}{4\pi^{2}}\right)^{1/3}}
+$$
+
+### Skimming orbit
+
+With $r = R$ and $GM/R^{2} = g$:
+
+$$
+\boxed{v_{\text{low}} = \sqrt{gR}} \qquad T_{\text{low}} = 2\pi\sqrt{\frac{R}{g}}
+$$
+
+## Worked examples
+
+<Example n={1} title="The space station">
+The ISS orbits about 400 km up. Find its speed and period, and how many laps it makes in a day. Use $GM_{\text{E}} = 3.986 \times 10^{14}\ \text{m}^{3}/\text{s}^{2}$ and $r = 6.771 \times 10^{6}$ m.
+
+$$
+v = \sqrt{\frac{GM}{r}} = \sqrt{\frac{3.986 \times 10^{14}\ \text{m}^{3}/\text{s}^{2}}{6.771 \times 10^{6}\ \text{m}}} = 7670\ \text{m/s}
+$$
+
+$$
+T = \frac{2\pi r}{v} = \frac{2\pi \times 6.771 \times 10^{6}\ \text{m}}{7673\ \text{m/s}} = 5545\ \text{s} = 92.4\ \text{min}
+$$
+
+That is $86\,400/5545 = 15.6$ laps a day. Check with Figure 2: in one second the station moves 7.67 km and falls $\tfrac{1}{2} \times 8.69 \times 1^{2} = 4.35$ m. The curve drops $7673^{2}/(2 \times 6.771 \times 10^{6}) = 4.35$ m too. ✓
+</Example>
+
+<Example n={2} title="The lowest orbit around Earth">
+Find the speed and period of an orbit skimming Earth's surface.
+
+$$
+v = \sqrt{gR} = \sqrt{9.82\ \text{m/s}^{2} \times 6.371 \times 10^{6}\ \text{m}} = 7910\ \text{m/s}
+$$
+
+$$
+T = \frac{2\pi R}{v} = \frac{2\pi \times 6.371 \times 10^{6}\ \text{m}}{7910\ \text{m/s}} = 5060\ \text{s} = 84.3\ \text{min}
+$$
+
+This is the minimum speed needed to stay in orbit around Earth, which is why launch rockets must reach almost 8 km/s sideways.
+</Example>
+
+<Example n={3} title="Parking at Adrian" book>
+In our model of Adrian (Chapter 4.1: mass $2.347 \times 10^{25}$ kg, radius 9557 km), the *Hail Mary* parks in a circular orbit 300 km up. Find its speed and period.
+
+$$
+GM = 6.674 \times 10^{-11} \times 2.347 \times 10^{25} = 1.567 \times 10^{15}\ \text{m}^{3}/\text{s}^{2} \qquad r = 9557\ \text{km} + 300\ \text{km} = 9.857 \times 10^{6}\ \text{m}
+$$
+
+$$
+v = \sqrt{\frac{1.567 \times 10^{15}\ \text{m}^{3}/\text{s}^{2}}{9.857 \times 10^{6}\ \text{m}}} = 12\,600\ \text{m/s} \qquad T = \frac{2\pi \times 9.857 \times 10^{6}\ \text{m}}{12\,610\ \text{m/s}} = 4910\ \text{s} = 81.9\ \text{min}
+$$
+
+Faster than around Earth (heavier planet) but with a similar period, because the period depends on $r^{3}/M$, which happens to be similar for the two. Anything lowered from the ship would hit the air at about 12.6 km/s, which is over 45 000 km/h. That makes collecting a sample very difficult.
+</Example>
+
+<Example n={4} title="Geostationary orbit">
+Find the radius, height and speed of an orbit whose period is one sidereal day, $T = 86\,164$ s.
+
+$$
+r = \left(\frac{GMT^{2}}{4\pi^{2}}\right)^{1/3} = \left(\frac{3.986 \times 10^{14}\ \text{m}^{3}/\text{s}^{2} \times (86\,164\ \text{s})^{2}}{4\pi^{2}}\right)^{1/3} = 4.216 \times 10^{7}\ \text{m}
+$$
+
+That is 42 164 km from the centre, or $42\,164 - 6378 = 35\,786$ km above the equator. The speed is
+
+$$
+v = \frac{2\pi r}{T} = \frac{2\pi \times 4.216 \times 10^{7}\ \text{m}}{86\,164\ \text{s}} = 3070\ \text{m/s},
+$$
+
+only 40% of the ISS's speed.
+</Example>
+
+<Example n={5} title="Adrian's year" book>
+Adrian (the candidate planet Tau Ceti e) orbits Tau Ceti at about 0.552 au, and Tau Ceti has 0.800 times the Sun's mass. Treat the orbit as a circle and find Adrian's speed and period.
+
+$$
+GM = 6.674 \times 10^{-11} \times 0.800 \times 1.988 \times 10^{30} = 1.062 \times 10^{20}\ \text{m}^{3}/\text{s}^{2} \qquad r = 0.552 \times 1.496 \times 10^{11} = 8.258 \times 10^{10}\ \text{m}
+$$
+
+$$
+v = \sqrt{\frac{1.062 \times 10^{20}}{8.258 \times 10^{10}}}\ \text{m/s} = 35\,900\ \text{m/s} \qquad T = 2\pi\sqrt{\frac{(8.258 \times 10^{10})^{3}}{1.062 \times 10^{20}}}\ \text{s} = 1.447 \times 10^{7}\ \text{s} = 167.5\ \text{days}
+$$
+
+The astronomers' catalogue gives about 168 days. Our formula, a star's mass and a distance, has predicted the length of a year on another world.
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** Circular orbit speeds and periods follow exactly from Newton's laws, and they are used to plan every satellite. The ISS's 92-minute orbit, the 35 786 km geostationary height and the free-fall explanation of weightlessness are all standard. Real orbits are slightly elliptical, and low ones slowly lose height to the thin upper air.
+
+**Weir's inventions.** Adrian, its atmosphere and the sampling chain are the novel's. The planet's mass is the real candidate's minimum mass, and its radius and the ship's 300 km parking orbit are our assumptions. The real candidate Tau Ceti e may not exist (Chapter 4.1).
+
+**How realistic are the numbers?** Any orbit just above a planet's air means moving at many kilometres per second relative to that air. A probe dangled into the air from an orbiting ship would hit it at orbital speed unless the ship flew very low and slow, so it would be heated and dragged strongly. That would be very hard to arrange, and the novel's sampling run does go dangerously wrong. Problem 10 shows a further subtlety: an object hanging 10 km below an orbiting ship is not itself in orbit, so the chain has to hold it up.
+</RealVsBook>
+
+## Interactive simulation
+
+<OrbitCannon />
+
+Things to try: at 400 km, find the circular speed (7.67 km/s) and watch the path close into a circle. Try 7.0 km/s: the shot hits the ground. Try 9 km/s: an ellipse. Now set the speed to $\sqrt{2}$ times circular (10.85 km/s) or more: it escapes (Chapter 4.4). Raise the launch height and watch the circular speed go down.
+
+## Practice set
+
+<Problem n={1} level="easy">
+Use $GM_{\text{E}} = 3.986 \times 10^{14}\ \text{m}^{3}/\text{s}^{2}$ to find the Moon's orbital speed at $r = 3.844 \times 10^{8}$ m. NASA gives 1.022 km/s.
+
+<Solution>
+$v = \sqrt{\dfrac{3.986 \times 10^{14}}{3.844 \times 10^{8}}} = 1018$ m/s, within half a percent of NASA's value.
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy">
+A friend says astronauts on the ISS float "because there's no gravity in space". What is wrong with this?
+
+<Solution>
+Gravity at the ISS is about 89% of its strength on the ground. The astronauts float because they and the station are falling together (free fall), so nothing presses on them. The fall never reaches the ground because they are moving sideways fast enough.
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy">
+A satellite moves out to an orbit four times as far from the planet's centre. By what factors do its speed and period change?
+
+<Solution>
+$v \propto r^{-1/2}$, so the speed halves. $T \propto r^{3/2}$, so the period becomes $4^{3/2} = 8$ times longer.
+</Solution>
+</Problem>
+
+<Problem n={4} level="easy" book>
+The *Hail Mary* and Rocky's ship, the *Blip-A*, which has a different mass, are in the same circular orbit. Does the heavier ship need to go faster to stay there?
+
+<Solution>
+No. $v = \sqrt{GM/r}$ depends on the planet's mass and the radius, not on the ship's mass. Both ships move at the same speed.
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium">
+Find the speed and period of an orbit skimming Mars ($GM = 4.283 \times 10^{13}\ \text{m}^{3}/\text{s}^{2}$, $R = 3390$ km).
+
+<Solution>
+$v = \sqrt{\dfrac{4.283 \times 10^{13}}{3.3895 \times 10^{6}}} = 3550$ m/s. $T = \dfrac{2\pi \times 3.3895 \times 10^{6}}{3555} = 5990$ s, about 100 minutes.
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium">
+Use $T = 2\pi\sqrt{r^{3}/GM}$ to find the Moon's period in days. The measured value is 27.32 days. Then repeat with $G(M_{\text{E}} + M_{\text{M}})$ in place of $GM_{\text{E}}$, where $M_{\text{E}} = 81.3\,M_{\text{M}}$, which accounts for Earth and Moon both circling their centre of mass.
+
+<Solution>
+$T = 2\pi\sqrt{\dfrac{(3.844 \times 10^{8})^{3}}{3.986 \times 10^{14}}} = 2.372 \times 10^{6}$ s $= 27.45$ days, 0.5% too long.
+
+With $GM_{\text{E}}(1 + 1/81.3)$ the period is shorter by a factor $\sqrt{1.0123}$: 27.29 days, within 0.1% of the measured value.
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium">
+Find Venus's orbital speed around the Sun ($GM_{\odot} = 1.327 \times 10^{20}\ \text{m}^{3}/\text{s}^{2}$, $r = 1.082 \times 10^{11}$ m). NASA gives 35.02 km/s.
+
+<Solution>
+$v = \sqrt{\dfrac{1.32712 \times 10^{20}}{1.0821 \times 10^{11}}} = 35\,020$ m/s. ✓
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium" book>
+In the parking orbit of Worked example 3, find $g$ and how far the ship falls towards Adrian in one second, while it moves 12.6 km sideways.
+
+<Solution>
+$g = \dfrac{GM}{r^{2}} = \dfrac{1.567 \times 10^{15}}{(9.857 \times 10^{6})^{2}} = 16.1\ \text{m/s}^{2}$. It falls $\tfrac{1}{2} \times 16.1 \times 1^{2} = 8.06$ m. Check: $\dfrac{12\,607^{2}}{2 \times 9.857 \times 10^{6}} = 8.06$ m, so it stays at the same height.
+</Solution>
+</Problem>
+
+<Problem n={9} level="medium">
+Find the ISS's angular speed $\omega = \sqrt{GM/r^{3}}$. How does it compare with the centrifuge model's 0.3546 rad/s (Chapter 3.1)?
+
+<Solution>
+$\omega = \sqrt{\dfrac{3.986 \times 10^{14}}{(6.771 \times 10^{6})^{3}}} = 1.13 \times 10^{-3}$ rad/s, about 300 times slower than the centrifuge.
+</Solution>
+</Problem>
+
+<Problem n={10} level="challenging" book>
+A 50 kg sample collector hangs on a chain 10 km below the ship in Adrian's parking orbit, going round with the ship's angular speed $\omega$ (with $\omega^{2} = GM/r^{3} = 1.636 \times 10^{-6}\ \text{s}^{-2}$). At its lower radius, gravity is stronger than the centripetal acceleration it needs. Find the difference per kilogram, and the tension the chain must supply. (Ignore the chain's own mass and the air.)
+
+<Solution>
+At $r' = r - 10\ \text{km} = 9.847 \times 10^{6}$ m: gravity per kg $= \dfrac{GM}{r'^{2}}$ and required centripetal acceleration $= \omega^{2}r'$. The difference is $0.0491\ \text{m/s}^{2}$. (Approximately $3\omega^{2}d = 3 \times 1.636 \times 10^{-6} \times 10^{4} = 0.0491$.)
+
+The chain must pull up with $50 \times 0.0491 = 2.5$ N. That is tiny compared with the collector's 860 N weight on Adrian's surface. This stretching effect, gravity changing across an object's length, is called a <Term id="tidal-effect">tidal effect</Term>. In a real sampling run, air drag at orbital speed would be far larger.
+</Solution>
+</Problem>
+
+<Problem n={11} level="challenging">
+Show that $T^{2}/r^{3}$ is the same for every orbit around the same body, and evaluate it for Earth. Check it against the ISS's $T = 5545$ s at $r = 6.771 \times 10^{6}$ m.
+
+<Solution>
+Squaring $T = 2\pi\sqrt{r^{3}/GM}$ gives $\dfrac{T^{2}}{r^{3}} = \dfrac{4\pi^{2}}{GM}$, which depends only on the central mass. For Earth: $\dfrac{4\pi^{2}}{3.986 \times 10^{14}} = 9.90 \times 10^{-14}\ \text{s}^{2}/\text{m}^{3}$. ISS: $\dfrac{5545^{2}}{(6.771 \times 10^{6})^{3}} = 9.90 \times 10^{-14}$. ✓
+</Solution>
+</Problem>
+
+<Problem n={12} level="challenging">
+At what height above Earth's surface does a satellite take exactly 2 hours per orbit?
+
+<Solution>
+$r = \left(\dfrac{3.986 \times 10^{14} \times 7200^{2}}{4\pi^{2}}\right)^{1/3} = 8.06 \times 10^{6}$ m. The height is $8059 - 6371 = 1690$ km.
+</Solution>
+</Problem>
+
+## Summary
+
+- An orbit is free fall in which the ground keeps curving away as fast as the object falls. Everything in orbit falls together, which is why astronauts are weightless though gravity is still strong.
+- In a circular orbit, gravity provides the centripetal acceleration: $v = \sqrt{GM/r}$. The orbiting object's mass doesn't matter.
+- The period is $T = 2\pi\sqrt{r^{3}/GM}$. Higher orbits are slower and take much longer.
+- The lowest orbit has $v = \sqrt{gR}$: 7.9 km/s and 84 minutes for Earth. A geostationary orbit has a period of one sidereal day, at 42 164 km from Earth's centre.
+
+**Formulas from this chapter**
+
+$$
+v = \sqrt{\frac{GM}{r}} \qquad T = 2\pi\sqrt{\frac{r^{3}}{GM}} \qquad \omega = \sqrt{\frac{GM}{r^{3}}} \qquad r = \left(\frac{GMT^{2}}{4\pi^{2}}\right)^{1/3} \qquad v_{\text{low}} = \sqrt{gR}
+$$
+
+## Sources
+
+- Orbital speed, period, weightlessness in orbit and Newton's cannon: OpenStax, *University Physics Volume 1*, [§13.4 Satellite Orbits and Energy](https://openstax.org/books/university-physics-volume-1/pages/13-4-satellite-orbits-and-energy); HyperPhysics, [Circular orbits](http://hyperphysics.gsu.edu/hbase/orbv.html).
+- $GM$, orbital speeds and periods for Earth, the Moon, Mars and Venus, and the sidereal day: NASA NSSDCA fact sheets for [Earth](https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html), [the Moon](https://nssdc.gsfc.nasa.gov/planetary/factsheet/moonfact.html), [Mars](https://nssdc.gsfc.nasa.gov/planetary/factsheet/marsfact.html), [Venus](https://nssdc.gsfc.nasa.gov/planetary/factsheet/venusfact.html) and [the Sun](https://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html).
+- ISS altitude: NASA, [International Space Station reference guide](https://www.nasa.gov/reference/international-space-station/). Geostationary orbit (42 164 km radius, 35 786 km altitude): Wikipedia, [Geostationary orbit](https://en.wikipedia.org/wiki/Geostationary_orbit).
+- Tau Ceti's mass (0.800 solar masses) and the candidate planet Tau Ceti e (about 168 days, 0.552 au): Wikipedia, [Tau Ceti](https://en.wikipedia.org/wiki/Tau_Ceti) and [Tau Ceti e](https://en.wikipedia.org/wiki/Tau_Ceti_e), citing Korolik et al. 2023 and Feng et al. 2017.
+- The orbit at Adrian and the 10 km xenonite sampling chain: Wikipedia, [*Project Hail Mary*](https://en.wikipedia.org/wiki/Project_Hail_Mary). Adrian's radius and the 300 km parking orbit are our assumptions.

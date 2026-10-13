@@ -1,0 +1,88 @@
+---
+// Simulation: an elliptical orbit around a Sun-like star. The planet moves according to Kepler's laws
+// (position from Kepler's equation), and the area swept in the last fixed slice of time is shaded.
+---
+
+<div
+	class="sim ko"
+	data-title="Kepler orbit"
+	data-description="A planet orbits a star of one solar mass on an ellipse with a chosen eccentricity (0 to 0.9) and semi-major axis (0.3 to 5 au). The planet moves according to Kepler's laws, sped up so one orbit takes about 8 seconds, and the area swept by the line from the star during the last tenth of an orbit is shaded: it stays the same size all the way round. The readout gives the period T = a^(3/2) years, the perihelion and aphelion distances a(1 − e) and a(1 + e), and the ratio of the speeds at perihelion and aphelion, which equals the ratio of the distances."
+>
+	<p class="sim-title">Simulation: Kepler orbit</p>
+	<p class="sim-help">The shaded slice is the area swept in the last tenth of an orbit. Watch it change shape but never size. Push the eccentricity up to see the planet race past the star and crawl at the far end.</p>
+	<div class="sim-controls">
+		<label>Eccentricity e <input type="range" class="ko-e" min="0" max="0.9" step="0.01" value="0.5" /> <output class="ko-ev"></output></label>
+		<label>Semi-major axis a <input type="range" class="ko-a" min="0.3" max="5" step="0.01" value="1" /> <output class="ko-av"></output></label>
+	</div>
+	<svg class="dg ko-svg" viewBox="0 0 600 320" role="img" aria-label="An elliptical orbit with the star at one focus and a shaded slice swept out by the planet"></svg>
+	<div class="readout ko-out" aria-live="polite"></div>
+</div>
+
+<script>
+	const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+	document.querySelectorAll<HTMLElement>('.sim.ko').forEach((root) => {
+		const svg = root.querySelector<SVGSVGElement>('.ko-svg')!;
+		const Es = root.querySelector<HTMLInputElement>('.ko-e')!, As = root.querySelector<HTMLInputElement>('.ko-a')!;
+		const out = root.querySelector<HTMLElement>('.ko-out')!;
+		const NS = 'http://www.w3.org/2000/svg';
+		const el = (tag: string, at: Record<string, string | number>) => {
+			const e = document.createElementNS(NS, tag);
+			Object.entries(at).forEach(([k, v]) => e.setAttribute(k, String(v)));
+			svg.append(e);
+			return e;
+		};
+		// Created once; only attributes change afterwards.
+		const wedge = el('path', { class: 'f-amber-soft s-amber w1' });
+		const orbit = el('ellipse', { class: 's-green w2', fill: 'none' });
+		const star = el('circle', { r: 10, class: 'f-amber' });
+		const radius = el('line', { class: 's-muted w1 dash' });
+		const planet = el('circle', { r: 7, class: 'f-sky' });
+		const scale = el('text', { x: 590, y: 310, class: 't-end t-sm f-muted' });
+		let e = 0.5, PX = 1, CX = 300, CY = 160, Ax = 200, By = 170, Sx = 0, M = 0, last = 0;
+		const pos = (m: number) => {
+			let E = m;
+			for (let i = 0; i < 30; i++) E -= (E - e * Math.sin(E) - m) / (1 - e * Math.cos(E));
+			return { x: CX + Ax * Math.cos(E), y: CY - By * Math.sin(E) };
+		};
+		function setup() {
+			e = +Es.value;
+			const a = +As.value;
+			root.querySelector('.ko-ev')!.textContent = e.toFixed(2);
+			root.querySelector('.ko-av')!.textContent = `${a.toFixed(2)} au`;
+			// fit the whole ellipse in the box: width 2a, height 2b
+			const b = Math.sqrt(1 - e * e);
+			PX = Math.min(270 / 1, 140 / b); // pixels per unit of a
+			Ax = PX; By = PX * b; CX = 300; CY = 160; Sx = CX + Ax * e; // star at the right focus (perihelion on the right)
+			orbit.setAttribute('cx', String(CX)); orbit.setAttribute('cy', String(CY));
+			orbit.setAttribute('rx', String(Ax)); orbit.setAttribute('ry', String(By));
+			star.setAttribute('cx', String(Sx)); star.setAttribute('cy', String(CY));
+			scale.textContent = `ellipse drawn to fit: 2a = ${(2 * a).toFixed(2)} au across`;
+			const T = a ** 1.5;
+			out.innerHTML =
+				`<span class="k">period T = a<sup>3/2</sup></span> = <b>${T.toFixed(3)} years</b> (${(T * 365.25).toFixed(0)} days) &nbsp; <span class="k">perihelion a(1 − e)</span> = ${(a * (1 - e)).toFixed(3)} au &nbsp; <span class="k">aphelion a(1 + e)</span> = ${(a * (1 + e)).toFixed(3)} au<br>` +
+				`<span class="k">speed at perihelion ÷ speed at aphelion</span> = (1 + e)/(1 − e) = <b>${((1 + e) / (1 - e)).toFixed(2)}</b>`;
+			update();
+		}
+		function update() {
+			const p = pos(M);
+			planet.setAttribute('cx', String(p.x)); planet.setAttribute('cy', String(p.y));
+			radius.setAttribute('x1', String(Sx)); radius.setAttribute('y1', String(CY));
+			radius.setAttribute('x2', String(p.x)); radius.setAttribute('y2', String(p.y));
+			let d = `M${Sx},${CY}`;
+			for (let i = 0; i <= 24; i++) {
+				const q = pos(M - (2 * Math.PI * 0.1 * (24 - i)) / 24);
+				d += ` L${q.x.toFixed(1)},${q.y.toFixed(1)}`;
+			}
+			wedge.setAttribute('d', d + ' Z');
+		}
+		function frame(now: number) {
+			if (last) M += ((now - last) / 8000) * 2 * Math.PI; // one orbit per 8 s
+			last = now;
+			update();
+			requestAnimationFrame(frame);
+		}
+		[Es, As].forEach((i) => i.addEventListener('input', setup));
+		setup();
+		if (!reduce) requestAnimationFrame(frame);
+	});
+</script>

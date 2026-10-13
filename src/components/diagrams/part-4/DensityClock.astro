@@ -1,0 +1,44 @@
+---
+// Period of an orbit skimming a planet's surface depends only on its average density: T = √(3π/Gρ).
+// Densities from the NASA planetary fact sheet; Adrian is our model (6420 kg/m³).
+const G = 6.6743e-11;
+const T = (rho: number) => Math.sqrt((3 * Math.PI) / (G * rho)) / 60; // minutes
+const L = 80, R = 560, Tp = 20, B = 250, xMin = 1000, xMax = 7000, yMin = 60, yMax = 180;
+const px = (rho: number) => L + ((rho - xMin) / (xMax - xMin)) * (R - L);
+const py = (t: number) => B - ((t - yMin) / (yMax - yMin)) * (B - Tp);
+const rhoStart = (3 * Math.PI) / (G * (yMax * 60) ** 2); // where the curve enters the top of the graph
+const curve = Array.from({ length: 121 }, (_, i) => {
+	const rho = rhoStart + ((xMax - rhoStart) * i) / 120;
+	return `${i ? 'L' : 'M'}${px(rho).toFixed(1)},${py(T(rho)).toFixed(1)}`;
+}).join(' ');
+const pts = [
+	{ n: 'Jupiter', rho: 1326, dx: 10, dy: -6 },
+	{ n: 'Moon', rho: 3340, dx: 10, dy: -8 },
+	{ n: 'Mars', rho: 3934, dx: 10, dy: -8 },
+	{ n: 'Venus', rho: 5243, dx: -10, dy: -10, end: true },
+	{ n: 'Earth', rho: 5514, dx: 6, dy: -12 },
+	{ n: 'Adrian (model)', rho: 6420, dx: -8, dy: 22, end: true },
+];
+---
+
+<svg class="dg" viewBox="0 0 600 310" xmlns="http://www.w3.org/2000/svg">
+	{[60, 90, 120, 150, 180].map((t) => (
+		<>
+			<line x1={L} y1={py(t)} x2={R} y2={py(t)} class="s-grid w1" />
+			<text x={L - 8} y={py(t) + 4} class="t-end t-sm f-muted">{t}</text>
+		</>
+	))}
+	{[1000, 2000, 3000, 4000, 5000, 6000, 7000].map((r) => <text x={px(r)} y={B + 18} class="t-mid t-sm f-muted">{r}</text>)}
+	<line x1={L} y1={B} x2={R} y2={B} class="s-fg w2" />
+	<line x1={L} y1={B} x2={L} y2={Tp} class="s-fg w2" />
+	<path d={curve} class="s-rose w3" fill="none" />
+	{pts.map((p) => (
+		<>
+			<circle cx={px(p.rho)} cy={py(T(p.rho))} r="5" class="f-amber" />
+			<text x={px(p.rho) + p.dx} y={py(T(p.rho)) + p.dy} class={`t-sm halo ${p.end ? 't-end' : ''}`}>{`${p.n}: ${T(p.rho).toFixed(0)} min`}</text>
+		</>
+	))}
+	<text x={(L + R) / 2} y={B + 40} class="t-mid t-sm">average density ρ (kg/m³)</text>
+	<text x="24" y={(Tp + B) / 2} class="t-mid t-sm" transform={`rotate(-90 24 ${(Tp + B) / 2})`}>skimming-orbit period (min)</text>
+	<text x={R} y={Tp + 16} class="t-end t-sm f-rose">T = √(3π / Gρ)</text>
+</svg>

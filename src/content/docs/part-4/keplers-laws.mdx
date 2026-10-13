@@ -1,0 +1,331 @@
+---
+title: Kepler’s laws
+description: The three laws of planetary motion, elliptical orbits with the star at a focus, equal areas in equal times (and Newton's proof of why), and T² ∝ a³, which lets you predict any orbit's period from its size.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import EllipseAnatomy from '../../../components/diagrams/part-4/EllipseAnatomy.astro';
+import EqualAreas from '../../../components/diagrams/part-4/EqualAreas.astro';
+import NewtonAreas from '../../../components/diagrams/part-4/NewtonAreas.astro';
+import KeplerThird from '../../../components/diagrams/part-4/KeplerThird.astro';
+import KeplerOrbit from '../../../components/sims/KeplerOrbit.astro';
+
+## The scene
+
+Long before Grace sets out, the crisis begins with orbits. Astrophage breeds at Venus and draws a line of infrared light, the Petrova line, back to the Sun. Scientists send a probe to Venus to collect a sample. When the *Hail Mary* reaches Tau Ceti, Grace finds the same pattern: a Petrova line running from the star to one planet, Adrian. To reach it, he must know where that planet is now and where it will be.
+
+Every planet, probe and coasting ship moves according to three rules that Johannes Kepler found in the early 1600s, before anyone knew why they worked. Chapter 4.2 covered circular orbits. Real orbits are slightly stretched, and Kepler's laws describe their shapes and timing.
+
+## Prerequisites
+
+<Prereqs notes={{ 'orbital-speed': 'circular orbits and T = 2π√(r³/GM)', graphs: 'straightening a power law on log–log axes', vectors: 'adding a sideways kick to a velocity' }} />
+
+## The concept
+
+### Where the laws came from
+
+Tycho Brahe spent more than two decades measuring the positions of the planets, with no telescope, more precisely than anyone before him. After he died, his assistant Kepler spent years trying to fit Mars's path with circles, and failed. The data were too good: his best circle missed Tycho's measurements by 8 minutes of arc, about a quarter of the Moon's width but more than Tycho's errors. Kepler then tried an ellipse and it fitted. He published his first two laws in 1609 and the third in 1619. In 1687, Newton showed that all three follow from his law of gravitation.
+
+### First law: orbits are ellipses
+
+> Each planet moves on an ellipse with the Sun at one focus.
+
+An <Term id="ellipse">ellipse</Term> is a stretched circle. To draw one, push two pins into a board, loop a string round them and trace with a pencil that keeps the string tight. Each pin is a **focus** (plural foci). For every point on the ellipse, the distances to the two foci add up to the same total. The star sits at one focus, and the other is empty.
+
+<Figure caption="An elliptical orbit, made much more stretched than any planet's so the parts are visible (eccentricity 0.6). The star sits at one focus, offset from the centre by ae. The closest point is the perihelion, at a(1 − e), and the furthest is the aphelion, at a(1 + e). For any point on the ellipse, the distances to the two foci add up to 2a." alt="A green ellipse, wider than it is tall. Its long axis is labelled a, the semi-major axis, from the centre to the right end; the short half-axis is labelled b. A large amber dot left of centre is labelled star (a focus); a small grey dot the same distance right of centre is labelled empty focus. A red segment from the star to the centre is labelled a e. A blue planet on the upper right of the ellipse has violet dashed lines to both foci, labelled r1 + r2 = 2a. The left end is labelled perihelion: closest, r = a(1 − e); the right end aphelion: furthest, r = a(1 + e).">
+	<EllipseAnatomy />
+</Figure>
+
+Two numbers describe the ellipse:
+
+- The <Term id="semi-major-axis">semi-major axis</Term> $a$ is half the longest width. It is also the average of the closest and furthest distances from the star.
+- The <Term id="eccentricity">eccentricity</Term> $e$ measures how stretched the ellipse is. Each focus is a distance $ae$ from the centre. A circle has $e = 0$; the closer $e$ is to 1, the longer and thinner the ellipse.
+
+The closest point to the star is the <Term id="perihelion">perihelion</Term>, and the furthest is the aphelion:
+
+$$
+r_{\text{p}} = a(1 - e) \qquad r_{\text{a}} = a(1 + e).
+$$
+
+Planets' orbits are nearly circles. Earth's eccentricity is 0.0167, so its distance from the Sun varies by only ±1.7%. Comets can have eccentricities above 0.9.
+
+### Second law: equal areas in equal times
+
+> The line from the Sun to a planet sweeps out equal areas in equal times.
+
+Near the star, the line is short, so the planet must move fast to sweep the same area. Far away, the line is long, and a slow movement is enough.
+
+<Figure caption="Equal areas in equal times. Both shaded slices are swept out in the same time. Near the star the planet moves fast, giving a short, wide slice; far away it moves slowly, giving a long, thin one. Their areas are equal. The planet positions were calculated for equal steps of time." alt="A green ellipse with an amber star at the left focus. Two shaded amber wedges come from the star: a short wide wedge reaching the nearby left end of the ellipse, labelled fast near the star: short, wide slice; and a long thin wedge reaching the far right end, labelled slow far away: long, thin slice. Blue dots mark the ends of each wedge's arc. Footer: both shaded slices take the same time, and have the same area.">
+	<EqualAreas />
+</Figure>
+
+**Why it works.** Newton's proof needs only geometry. Think of gravity acting in short, sharp tugs, one every time step $\Delta t$.
+
+- With no force, the planet moves in a straight line at steady speed: from A to B, then on to c, the same distance in the next step. The triangles SAB and SBc have equal bases (AB = Bc) on the same line and the same height above S, so they have equal areas.
+- Now a tug towards S at B adds a sideways piece to the velocity (Chapter 0.7), so the planet goes to C instead of c. Because the tug points along BS, the shift cC is parallel to SB. Triangles SBc and SBC share the base SB and their third corners lie on a line parallel to it, so they have the same height and the same area.
+
+<Figure caption="Newton's proof of the equal-area law. With no force, the body goes from A to B to c, and triangles SAB and SBc have the same area. A pull towards S at B moves the endpoint from c to C, parallel to SB, which leaves the triangle's area unchanged. Any force aimed at S, however strong, leaves the rate of sweeping unchanged." alt="A point S at lower left. A body moves along a straight line from A to B (both near the top). The dashed continuation goes on to c, the same distance again. A red segment from c to C is labelled kick towards S, parallel to SB. Triangles from S are drawn: S A B shaded blue, S B C shaded amber, and S B c outlined dashed. Footer: Area SAB = area SBc (same base, same height) = area SBC (same base SB, cC parallel to SB). So a force aimed at S never changes the rate of sweeping out area.">
+	<NewtonAreas />
+</Figure>
+
+Make the time steps shorter and shorter and the tugs become a smooth pull, but the conclusion stays the same. So the equal-area law holds for **any** force that points towards a fixed centre, not just gravity. It is a first glimpse of a conserved quantity, now called angular momentum.
+
+**A useful consequence.** At perihelion and at aphelion, the velocity is at right angles to the line from the star. In a short time $\Delta t$ the swept slice is then a thin triangle with base $v\,\Delta t$ and height $r$, so its area is $\tfrac{1}{2}rv\,\Delta t$. Equal areas means
+
+$$
+r_{\text{p}}v_{\text{p}} = r_{\text{a}}v_{\text{a}} \qquad\Rightarrow\qquad \frac{v_{\text{p}}}{v_{\text{a}}} = \frac{r_{\text{a}}}{r_{\text{p}}} = \frac{1 + e}{1 - e}.
+$$
+
+Chapter 4.6 uses this to plan transfers between orbits.
+
+### Third law: the square of the period goes as the cube of the size
+
+> The square of a planet's period is proportional to the cube of its semi-major axis: $T^{2} \propto a^{3}$.
+
+For circular orbits, Chapter 4.2 already gives this: squaring $T = 2\pi\sqrt{r^{3}/GM}$ gives $T^{2} = 4\pi^{2}r^{3}/GM$. Newton proved that the same formula holds for any ellipse, with the radius $r$ replaced by the semi-major axis $a$:
+
+$$
+T^{2} = \frac{4\pi^{2}}{GM}\,a^{3}.
+$$
+
+Only the central mass $M$ appears. Every planet of the Sun shares the same value of $T^{2}/a^{3}$, and every satellite of Earth shares a different one. Measuring $T$ in years and $a$ in au makes the Sun's version very simple, because Earth has $T = 1$ and $a = 1$:
+
+$$
+T_{\text{years}}^{2} = a_{\text{au}}^{3}.
+$$
+
+On log–log axes, a power law becomes a straight line whose gradient is the power (Chapter 0.9). Here $\log T = \tfrac{3}{2}\log a$, so the planets lie on a line of gradient 3/2.
+
+<Figure caption="Kepler's third law for the eight planets, on logarithmic axes. All lie on one straight line of gradient 3/2: T² = a³ with T in years and a in au. Neptune is 30 times further out than Earth and takes 30^(3/2) ≈ 164 years to go round." alt="A log-log graph. Horizontal axis: semi-major axis a in au, logarithmic, from about 0.25 to 40. Vertical axis: period T in years, logarithmic, 0.1 to 100 and beyond. Eight amber points labelled Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus and Neptune lie on a red dashed straight line labelled gradient 3/2: T squared = a cubed.">
+	<KeplerThird />
+</Figure>
+
+### Other stars
+
+For a star of mass $M$ (in solar masses), the third law becomes $T_{\text{years}}^{2} = a_{\text{au}}^{3}/M$. A lighter star pulls more weakly, so its planets go round more slowly at the same distance. Tau Ceti has 0.80 solar masses, so a planet 1 au from it would take $\sqrt{1/0.80} = 1.12$ years per orbit.
+
+## Formulas
+
+### The shape of an ellipse
+
+From the definition (focus at $ae$ from the centre):
+
+$$
+\boxed{r_{\text{p}} = a(1 - e) \qquad r_{\text{a}} = a(1 + e)} \qquad a = \frac{r_{\text{p}} + r_{\text{a}}}{2} \qquad e = \frac{r_{\text{a}} - r_{\text{p}}}{r_{\text{a}} + r_{\text{p}}}
+$$
+
+The last two come from adding and subtracting the first two.
+
+### Equal areas
+
+At perihelion and aphelion the swept area per unit time is $\tfrac{1}{2}rv$, and it is the same at both:
+
+$$
+\boxed{r_{\text{p}}v_{\text{p}} = r_{\text{a}}v_{\text{a}}} \qquad \frac{v_{\text{p}}}{v_{\text{a}}} = \frac{1 + e}{1 - e}
+$$
+
+### The third law
+
+From Chapter 4.2, extended by Newton to ellipses:
+
+$$
+\boxed{T^{2} = \frac{4\pi^{2}}{GM}\,a^{3}}
+$$
+
+Dividing by the same equation for Earth's orbit ($T = 1$ yr, $a = 1$ au, $M = 1\ M_{\odot}$):
+
+$$
+\boxed{T_{\text{years}}^{2} = \frac{a_{\text{au}}^{3}}{M/M_{\odot}}}
+$$
+
+## Worked examples
+
+<Example n={1} title="Earth's closest and furthest points">
+Earth's orbit has $a = 149.598$ million km and $e = 0.0167$. Find its perihelion and aphelion distances.
+
+$$
+r_{\text{p}} = a(1 - e) = 149.598 \times 0.9833 = 147.1\ \text{million km} \qquad r_{\text{a}} = a(1 + e) = 149.598 \times 1.0167 = 152.1\ \text{million km}
+$$
+
+These match NASA's values. Earth is closest to the Sun in early January, during the northern winter. So the seasons are not caused by distance: a 3% change in distance is far too small (they are caused by the tilt of Earth's axis).
+</Example>
+
+<Example n={2} title="A year on Mars">
+Mars's semi-major axis is 227.956 million km. Find its period.
+
+$$
+a = \frac{227.956}{149.598}\ \text{au} = 1.5238\ \text{au} \qquad T = a^{3/2} = 1.5238^{1.5}\ \text{years} = 1.881\ \text{years} = 687\ \text{days}
+$$
+
+NASA gives 686.98 days.
+</Example>
+
+<Example n={3} title="Earth's fastest and slowest speeds">
+Use $r_{\text{p}}v_{\text{p}} = r_{\text{a}}v_{\text{a}}$ to predict the ratio of Earth's fastest and slowest orbital speeds, and compare it with NASA's values of 30.29 and 29.29 km/s.
+
+$$
+\frac{v_{\text{p}}}{v_{\text{a}}} = \frac{r_{\text{a}}}{r_{\text{p}}} = \frac{152.1\ \text{million km}}{147.095\ \text{million km}} = 1.034 \qquad \frac{30.29\ \text{km/s}}{29.29\ \text{km/s}} = 1.034\ ✓
+$$
+</Example>
+
+<Example n={4} title="The probe to Venus" book>
+In the novel, a probe is sent to Venus to sample the Petrova line. The most economical path (Chapter 4.6) is an ellipse that touches Earth's orbit (1 au) at aphelion and Venus's orbit (0.7233 au) at perihelion. How long does the probe take to get there?
+
+The trip is half of one orbit on this ellipse.
+
+$$
+a = \frac{1 + 0.7233}{2}\ \text{au} = 0.8617\ \text{au} \qquad T = 0.8617^{1.5}\ \text{years} = 0.7998\ \text{years}
+$$
+
+$$
+t = \frac{T}{2} = 0.400\ \text{years} = 146\ \text{days}
+$$
+
+About five months. The European Space Agency's Venus Express took 153 days in 2005–06.
+</Example>
+
+<Example n={5} title="A long-period comet">
+A comet comes as close to the Sun as 0.6 au and goes out to 35 au. Find its semi-major axis, eccentricity and period.
+
+$$
+a = \frac{0.6 + 35}{2} = 17.8\ \text{au} \qquad e = \frac{35 - 0.6}{35 + 0.6} = 0.966 \qquad T = 17.8^{1.5} = 75.1\ \text{years}
+$$
+
+These are close to the values for Halley's comet (0.59 au, 35.1 au, $e = 0.967$). It spends most of its 75 years far out and slow, and only a few months near the Sun.
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** Kepler's three laws are exact for one small body orbiting a much heavier one, and Newton showed that they follow from the inverse-square law. Small corrections come from the planets tugging on each other and from the star itself moving slightly around the shared centre of mass. All the planetary values here are NASA's.
+
+**Weir's inventions.** Astrophage and the Petrova lines are invented. The Venus probe is part of the novel's plot, and its 146-day minimum-energy transfer is our estimate of how such a mission would fly, not a figure from the book.
+
+**How realistic are the numbers?** Very. Venus Express reached Venus after a 153-day cruise, close to the 146-day ideal transfer. Kepler's laws apply as well to Tau Ceti's planets as to the Sun's, with $T^{2} \propto a^{3}/M$. That is how the 168-day period of the candidate planet behind Adrian relates to its 0.552 au distance (Chapter 4.2).
+</RealVsBook>
+
+## Interactive simulation
+
+<KeplerOrbit />
+
+Things to try: start at $e = 0$ (a circle). The planet moves at a steady speed and the slice keeps its shape. Raise $e$ to 0.8 and watch the planet whip round the star and crawl at the far end, while the shaded area stays the same. Change $a$ from 1 to 4 au: the period grows by $4^{3/2} = 8$.
+
+## Practice set
+
+<Problem n={1} level="easy">
+State Kepler's three laws in your own words.
+
+<Solution>
+(1) Orbits are ellipses with the star at one focus. (2) The line from the star sweeps out equal areas in equal times, so planets move faster when closer. (3) The square of the period is proportional to the cube of the semi-major axis.
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy">
+At which point of its orbit does a planet move fastest? Slowest?
+
+<Solution>
+Fastest at perihelion (closest to the star), slowest at aphelion (furthest).
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy">
+An asteroid orbits the Sun with a semi-major axis of 4 au. Find its period.
+
+<Solution>
+$T = 4^{3/2} = 8$ years.
+</Solution>
+</Problem>
+
+<Problem n={4} level="easy">
+What is the eccentricity of a circle? Where are its foci?
+
+<Solution>
+$e = 0$. Both foci are at the centre, since $ae = 0$.
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium">
+Jupiter's semi-major axis is 778.479 million km. Predict its period in years and compare with NASA's 4332.6 days.
+
+<Solution>
+$a = 778.479/149.598 = 5.204$ au. $T = 5.204^{1.5} = 11.87$ years. NASA: $4332.6/365.256 = 11.86$ years. ✓
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium">
+Mars has $a = 227.956$ million km and $e = 0.0935$. Find its perihelion and aphelion distances.
+
+<Solution>
+$r_{\text{p}} = 227.956 \times 0.9065 = 206.6$ million km, $r_{\text{a}} = 227.956 \times 1.0935 = 249.3$ million km. NASA gives 206.650 and 249.261.
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium">
+Jupiter's perihelion and aphelion distances are 740.595 and 816.363 million km. Find $a$ and $e$.
+
+<Solution>
+$a = \dfrac{740.595 + 816.363}{2} = 778.48$ million km. $e = \dfrac{816.363 - 740.595}{816.363 + 740.595} = 0.0487$.
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium" book>
+Repeat Worked example 4 for a probe from Earth (1 au) to Mars (1.5238 au). How long is the one-way trip?
+
+<Solution>
+$a = \dfrac{1 + 1.5238}{2} = 1.2619$ au. $T = 1.2619^{1.5} = 1.4175$ years. Half of that is 0.709 years, about 259 days.
+</Solution>
+</Problem>
+
+<Problem n={9} level="medium">
+By what factor is Mars faster at perihelion than at aphelion? (Use Problem 6.)
+
+<Solution>
+$\dfrac{v_{\text{p}}}{v_{\text{a}}} = \dfrac{r_{\text{a}}}{r_{\text{p}}} = \dfrac{249.261}{206.650} = 1.206$, about 21% faster.
+</Solution>
+</Problem>
+
+<Problem n={10} level="challenging">
+Using Earth ($a = 1$ au, $T = 1$ yr) and Jupiter ($a = 5.2038$ au, $T = 11.862$ yr), find the gradient of the line through the two points on a graph of $\log T$ against $\log a$. What does it tell you?
+
+<Solution>
+Gradient $= \dfrac{\log 11.862 - \log 1}{\log 5.2038 - \log 1} = \dfrac{\ln 11.862}{\ln 5.2038} = 1.4995$. The gradient is 3/2, so $T \propto a^{3/2}$, which is Kepler's third law.
+</Solution>
+</Problem>
+
+<Problem n={11} level="challenging">
+Show that $\dfrac{v_{\text{p}}}{v_{\text{a}}} = \dfrac{1 + e}{1 - e}$, and use it to find the ratio for a comet with $e = 0.966$.
+
+<Solution>
+$\dfrac{v_{\text{p}}}{v_{\text{a}}} = \dfrac{r_{\text{a}}}{r_{\text{p}}} = \dfrac{a(1 + e)}{a(1 - e)} = \dfrac{1 + e}{1 - e}$. For $e = 0.966$: $\dfrac{1.966}{0.034} = 58$. The comet moves 58 times faster at perihelion than at aphelion.
+</Solution>
+</Problem>
+
+<Problem n={12} level="challenging" book>
+Tau Ceti has 0.80 solar masses. A second candidate planet, Tau Ceti f, orbits at about 1.334 au. Predict its period in days. The astronomers' estimate is about 636 days, with an uncertainty of several weeks.
+
+<Solution>
+$T = \sqrt{\dfrac{1.334^{3}}{0.80}} = \sqrt{2.967} = 1.723$ years $= 629$ days. That is within the uncertainty of the estimate.
+</Solution>
+</Problem>
+
+## Summary
+
+- **First law:** orbits are ellipses with the star at one focus. Semi-major axis $a$ and eccentricity $e$ fix the shape: $r_{\text{p}} = a(1 - e)$, $r_{\text{a}} = a(1 + e)$.
+- **Second law:** the line to the star sweeps equal areas in equal times. This holds for any force aimed at a fixed centre, and gives $r_{\text{p}}v_{\text{p}} = r_{\text{a}}v_{\text{a}}$.
+- **Third law:** $T^{2} = 4\pi^{2}a^{3}/GM$. Around the Sun, $T^{2} = a^{3}$ in years and au; around a star of $M$ solar masses, $T^{2} = a^{3}/M$.
+- A transfer between two circular orbits along an ellipse takes half that ellipse's period.
+
+**Formulas from this chapter**
+
+$$
+r_{\text{p}} = a(1 - e) \qquad r_{\text{a}} = a(1 + e) \qquad r_{\text{p}}v_{\text{p}} = r_{\text{a}}v_{\text{a}} \qquad T^{2} = \frac{4\pi^{2}}{GM}\,a^{3} \qquad T_{\text{years}}^{2} = \frac{a_{\text{au}}^{3}}{M/M_{\odot}}
+$$
+
+## Sources
+
+- Kepler's laws, ellipses and Newton's derivation: OpenStax, *University Physics Volume 1*, [§13.5 Kepler's Laws of Planetary Motion](https://openstax.org/books/university-physics-volume-1/pages/13-5-keplers-laws-of-planetary-motion); *The Feynman Lectures on Physics*, Vol. I, [Ch. 7 "The Theory of Gravitation"](https://www.feynmanlectures.caltech.edu/I_07.html) (including Newton's equal-area argument); Wikipedia, [Kepler's laws of planetary motion](https://en.wikipedia.org/wiki/Kepler%27s_laws_of_planetary_motion) (1609 and 1619 publication, Tycho Brahe's data).
+- Planetary distances, periods, eccentricities, perihelia, aphelia and Earth's maximum and minimum orbital speeds: NASA NSSDCA [Planetary fact sheet](https://nssdc.gsfc.nasa.gov/planetary/factsheet/) and the fact sheets for [Earth](https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html), [Venus](https://nssdc.gsfc.nasa.gov/planetary/factsheet/venusfact.html), [Mars](https://nssdc.gsfc.nasa.gov/planetary/factsheet/marsfact.html) and [Jupiter](https://nssdc.gsfc.nasa.gov/planetary/factsheet/jupiterfact.html).
+- Tau Ceti's mass and the candidate planets e and f: Wikipedia, [Tau Ceti](https://en.wikipedia.org/wiki/Tau_Ceti), citing Korolik et al. 2023 and Feng et al. 2017.
+- Earth's perihelion in early January, and the seasons coming from the tilt of its axis: Wikipedia, [Apsis](https://en.wikipedia.org/wiki/Apsis) and [Season](https://en.wikipedia.org/wiki/Season).
+- Kepler's 8-arcminute discrepancy: Wikipedia, [*Astronomia nova*](https://en.wikipedia.org/wiki/Astronomia_nova). Halley's comet: Wikipedia, [Halley's Comet](https://en.wikipedia.org/wiki/Halley%27s_Comet). Venus Express's 153-day cruise: ESA, [Venus Express enters orbit around the Hothouse Planet](https://www.esa.int/ESA_Multimedia/Images/2006/04/Venus_Express_enters_orbit_around_the_Hothouse_Planet) and the [ESA mission catalogue](https://archives.esac.esa.int/psa/ftp/VENUS-EXPRESS/MAG/VEX-V-Y-MAG-4-EXT3-V1.0/CATALOG/MISSION.CAT).
+- The Petrova line and the probe sent to Venus: Wikipedia, [*Project Hail Mary*](https://en.wikipedia.org/wiki/Project_Hail_Mary).

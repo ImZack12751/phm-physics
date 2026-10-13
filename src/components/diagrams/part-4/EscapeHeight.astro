@@ -1,0 +1,35 @@
+---
+// Height reached by something launched straight up, against launch speed as a fraction of escape speed.
+// True result: h/R = f²/(1 − f²) with f = v₀/v_esc. Constant-g estimate h = v₀²/2g gives h/R = f².
+const L = 80, R = 560, T = 20, B = 250, yMax = 5;
+const px = (f: number) => L + f * (R - L);
+const py = (h: number) => B - (Math.min(h, yMax) / yMax) * (B - T);
+const pts = (fn: (f: number) => number, fMax: number) =>
+	Array.from({ length: 161 }, (_, i) => {
+		const f = (fMax * i) / 160;
+		return `${i ? 'L' : 'M'}${px(f).toFixed(1)},${py(fn(f)).toFixed(1)}`;
+	}).join(' ');
+const fTop = Math.sqrt(yMax / (1 + yMax));
+const trueCurve = pts((f) => (f * f) / (1 - f * f), fTop);
+const flatCurve = pts((f) => f * f, 1);
+---
+
+<svg class="dg" viewBox="0 0 600 310" xmlns="http://www.w3.org/2000/svg">
+	{[0, 1, 2, 3, 4, 5].map((h) => (
+		<>
+			<line x1={L} y1={py(h)} x2={R} y2={py(h)} class="s-grid w1" />
+			<text x={L - 8} y={py(h) + 4} class="t-end t-sm f-muted">{h}</text>
+		</>
+	))}
+	{[0, 0.2, 0.4, 0.6, 0.8, 1].map((f) => <text x={px(f)} y={B + 18} class="t-mid t-sm f-muted">{f}</text>)}
+	<line x1={L} y1={B} x2={R} y2={B} class="s-fg w2" />
+	<line x1={L} y1={B} x2={L} y2={T} class="s-fg w2" />
+	<line x1={px(1)} y1={T} x2={px(1)} y2={B} class="s-rose w2 dash" />
+	<text x={px(1) - 8} y={T + 14} class="t-end t-sm f-rose halo">escape: never comes back</text>
+	<path d={flatCurve} class="s-muted w2 dash" fill="none" />
+	<text x={px(0.93)} y={py(0.86) + 22} class="t-end t-sm f-muted halo">if g stayed constant</text>
+	<path d={trueCurve} class="s-amber w3" fill="none" />
+	<text x={px(0.78)} y={py(1.55) - 10} class="t-end t-sm f-amber halo">real gravity, weakening with height</text>
+	<text x={(L + R) / 2} y={B + 42} class="t-mid t-sm">launch speed as a fraction of escape speed</text>
+	<text x="24" y={(T + B) / 2} class="t-mid t-sm" transform={`rotate(-90 24 ${(T + B) / 2})`}>height reached (planet radii)</text>
+</svg>

@@ -166,12 +166,12 @@ Teaching order follows logical dependency, not plot order. Planned chapters have
 
 | # | Chapter | Path | Prerequisites | Status |
 |---|---|---|---|---|
-| 4.1 | Newton’s law of gravitation | `part-4/gravitation` | – | planned |
-| 4.2 | Orbital speed | `part-4/orbital-speed` | – | planned |
-| 4.3 | Kepler’s laws | `part-4/keplers-laws` | – | planned |
-| 4.4 | Escape velocity | `part-4/escape-velocity` | – | planned |
-| 4.5 | Finding a planet’s mass from an orbit | `part-4/planet-mass-from-orbit` | – | planned |
-| 4.6 | Orbital manoeuvring | `part-4/orbital-manoeuvring` | – | planned |
+| 4.1 | Newton’s law of gravitation | `part-4/gravitation` | 3.2, 0.5, 2.2, 2.1 | written, awaiting review |
+| 4.2 | Orbital speed | `part-4/orbital-speed` | 4.1, 3.2, 2.3, 3.1 | written, awaiting review |
+| 4.3 | Kepler’s laws | `part-4/keplers-laws` | 4.2, 0.9, 0.7 | written, awaiting review |
+| 4.4 | Escape velocity | `part-4/escape-velocity` | 4.3, 1.2, C.6 | written, awaiting review |
+| 4.5 | Finding a planet’s mass from an orbit | `part-4/planet-mass-from-orbit` | 4.3, 1.4, 0.4 | written, awaiting review |
+| 4.6 | Orbital manoeuvring | `part-4/orbital-manoeuvring` | 4.4, 4.3, 0.7 | written, awaiting review |
 
 **Part 5 · Energy and momentum**
 
@@ -282,7 +282,7 @@ Brief biology and chemistry sidebars are added only where the plot's physics dep
 Source of truth: `src/data/glossary.mjs`.
 
 <!-- AUTO:glossary -->
-159 terms.
+174 terms.
 
 | Term | id | First chapter |
 |---|---|---|
@@ -445,6 +445,21 @@ Source of truth: `src/data/glossary.mjs`.
 | Coriolis effect | `coriolis-effect` | 3.4 |
 | Spinward and antispinward | `spinward` | 3.4 |
 | Foucault pendulum | `foucault-pendulum` | 3.4 |
+| Law of universal gravitation | `law-of-gravitation` | 4.1 |
+| Gravitational constant (G) | `gravitational-constant` | 4.1 |
+| Shell theorem | `shell-theorem` | 4.1 |
+| Orbit | `orbit` | 4.2 |
+| Geostationary orbit | `geostationary-orbit` | 4.2 |
+| Tidal effect | `tidal-effect` | 4.2 |
+| Ellipse | `ellipse` | 4.3 |
+| Semi-major axis (a) | `semi-major-axis` | 4.3 |
+| Eccentricity (e) | `eccentricity` | 4.3 |
+| Perihelion and aphelion | `perihelion` | 4.3 |
+| Escape velocity | `escape-velocity` | 4.4 |
+| Burn | `burn` | 4.6 |
+| Delta-v (Δv) | `delta-v` | 4.6 |
+| Vis-viva equation | `vis-viva` | 4.6 |
+| Hohmann transfer | `hohmann-transfer` | 4.6 |
 <!-- /AUTO:glossary -->
 
 ---
@@ -454,7 +469,7 @@ Source of truth: `src/data/glossary.mjs`.
 Source of truth: `src/data/formulas.mjs`.
 
 <!-- AUTO:formulas -->
-94 formulas.
+107 formulas.
 
 | Formula | id | First chapter | LaTeX |
 |---|---|---|---|
@@ -552,6 +567,19 @@ Source of truth: `src/data/formulas.mjs`.
 | Two masses spinning on a cable | `two-masses-cable` | 3.3 | `m_{1}r_{1} = m_{2}r_{2} \qquad r_{1} = L\,\dfrac{m_{2}}{m_{1} + m_{2}} \qquad T = m_{1}\omega^{2}r_{1}` |
 | Coriolis effects in a spinning habitat | `coriolis` | 3.4 | `g_{\text{felt}} = \dfrac{(\omega r \pm u)^{2}}{r} \approx \omega^{2}r \pm 2\omega u \qquad a_{\text{C}} = 2\omega v \qquad x \approx \tfrac{2}{3}\omega h t` |
 | Coriolis on Earth and Foucault’s pendulum | `foucault` | 3.4 | `a_{\text{C}} = 2\Omega v\sin\phi \qquad T_{\text{F}} = \dfrac{T_{\text{sidereal}}}{\sin\phi}` |
+| Newton’s law of gravitation | `gravitation` | 4.1 | `F = \dfrac{GMm}{r^{2}} \qquad G = 6.674 \times 10^{-11}\ \text{N·m}^{2}/\text{kg}^{2}` |
+| Gravitational field strength | `field-strength` | 4.1 | `g = \dfrac{GM}{r^{2}} \qquad M = \dfrac{gR^{2}}{G} \qquad g(r) = g_{\text{surface}}\left(\dfrac{R}{r}\right)^{2} \qquad g = \tfrac{4}{3}\pi G\rho R \qquad \dfrac{\Delta g}{g} \approx -2\,\dfrac{\Delta r}{r}` |
+| Circular orbits | `orbital-speed` | 4.2 | `v = \sqrt{\dfrac{GM}{r}} \qquad T = 2\pi\sqrt{\dfrac{r^{3}}{GM}} \qquad \omega = \sqrt{\dfrac{GM}{r^{3}}} \qquad r = \left(\dfrac{GMT^{2}}{4\pi^{2}}\right)^{1/3}` |
+| Lowest (skimming) orbit | `low-orbit` | 4.2 | `v_{\text{low}} = \sqrt{gR} \qquad T_{\text{low}} = 2\pi\sqrt{\dfrac{R}{g}}` |
+| Shape of an elliptical orbit | `ellipse-orbit` | 4.3 | `r_{\text{p}} = a(1 - e) \qquad r_{\text{a}} = a(1 + e) \qquad a = \dfrac{r_{\text{p}} + r_{\text{a}}}{2} \qquad e = \dfrac{r_{\text{a}} - r_{\text{p}}}{r_{\text{a}} + r_{\text{p}}}` |
+| Kepler’s second law at the turning points | `equal-areas` | 4.3 | `r_{\text{p}}v_{\text{p}} = r_{\text{a}}v_{\text{a}} \qquad \dfrac{v_{\text{p}}}{v_{\text{a}}} = \dfrac{1 + e}{1 - e}` |
+| Kepler’s third law | `kepler-third` | 4.3 | `T^{2} = \dfrac{4\pi^{2}}{GM}\,a^{3} \qquad T_{\text{years}}^{2} = \dfrac{a_{\text{au}}^{3}}{M/M_{\odot}}` |
+| Speed while climbing against gravity | `climbing-speed` | 4.4 | `v^{2} = v_{0}^{2} - 2GM\left(\dfrac{1}{R} - \dfrac{1}{r}\right) \qquad \dfrac{1}{r_{\text{max}}} = \dfrac{1}{R} - \dfrac{v_{0}^{2}}{2GM}` |
+| Escape velocity | `escape-velocity` | 4.4 | `v_{\text{esc}} = \sqrt{\dfrac{2GM}{R}} = \sqrt{2gR} = \sqrt{2}\,v_{\text{circ}} \qquad v_{\infty} = \sqrt{v_{0}^{2} - v_{\text{esc}}^{2}}` |
+| Mass from an orbit | `mass-from-orbit` | 4.5 | `M = \dfrac{4\pi^{2}a^{3}}{GT^{2}} \qquad M = \dfrac{v^{2}r}{G} \qquad \dfrac{\Delta M}{M} \approx 3\,\dfrac{\Delta r}{r} + 2\,\dfrac{\Delta T}{T}` |
+| Radius and density from orbit | `density-clock` | 4.5 | `\sin\dfrac{\theta}{2} = \dfrac{R}{R + h} \qquad T_{\text{low}} = \sqrt{\dfrac{3\pi}{G\rho}}` |
+| Vis-viva equation | `vis-viva` | 4.6 | `v^{2} - \dfrac{2GM}{r} = \text{constant} \qquad v^{2} = GM\left(\dfrac{2}{r} - \dfrac{1}{a}\right)` |
+| Hohmann transfer | `hohmann` | 4.6 | `\Delta v_{1} = v_{1}\left(\sqrt{\dfrac{2r_{2}}{r_{1} + r_{2}}} - 1\right) \qquad \Delta v_{2} = v_{2}\left(1 - \sqrt{\dfrac{2r_{1}}{r_{1} + r_{2}}}\right) \qquad t = \pi\sqrt{\dfrac{a_{\text{t}}^{3}}{GM}} \qquad \phi = 180° - \omega_{2}t` |
 <!-- /AUTO:formulas -->
 
 ---
@@ -571,6 +599,7 @@ All constants and book figures used so far, each with its source, are in `script
 - Part 1 book figures (reader summary, trangnkp.substack.com): table drop 0.91 m in 0.348 s → 15.0 m/s²; pendulum 346 swings in 10 min (T = 1.734 s), unchanged on a deck 4.5 m lower. The novel's string length isn't used; 1.12 m is our assumption consistent with 1.5 g. Moon g 1.62, Mars 3.73 (NASA). Reaction times 0.2–0.3 s (two cited studies). Newtonian flip-and-burn to Tau Ceti at 1.5 g: 5.55 yr, peak 4.29c (set up for Part 10).
 - Part 2 figures: Dimitri's Astrophage test about 60,000 N for 100 µs from about 20 µg; fuel display 20,862 kg at 6.043 g/s (reader summary). Erid "just over double" Earth's gravity (/Film) → we use 2.0 g. ISS altitude g = 8.67 m/s², 88% (OpenStax §13.2). Shuttle crew up to 3 g (NASA NTRS 19940019731). MICROSCOPE equivalence test ~10⁻¹⁵ (PRL 129, 121102). Our assumptions, stated in the chapters: Grace 80 kg, loaded ship 2.5 × 10⁶ kg, Rocky 100 kg, mass-meter chair 600 N/m and 12.0 kg. No source found that the oscillating mass meter flew on Skylab, so the chapters don't claim it.
 - Part 3 figures: Grace's imagined centrifuge 700 m, 88 m/s (reader summary; 88 m/s doesn't match 1.5 g at 700 m, which needs ~101 m/s, and the chapters say so). Our two-deck criterion gives r ≥ 777 m, 1.31 rpm, 107 m/s. Centrifuge structure (two sections on cables, used from ch. 16; runaway spin later) from LitCharts. The cable length "up to 104 m" is fan-wiki only (unconfirmed). **Model centrifuge used throughout Part 3** (`SPIN` in `constants.mjs`): crew section 2.0 × 10⁵ kg and rear 6.0 × 10⁵ kg (assumed) on 104 m → crew floor 78 m, rear 26 m, ω = 0.3546 rad/s (3.39 rpm, T = 17.7 s), crew speed 27.66 m/s, 1 g crew / 0.33 g rear, cable tension 1.96 × 10⁶ N; a 1 m drop lands 10.8 cm antispinward. Comfort: 1970s 1–2 rpm; Globus & Hall (2017) up to 4 rpm (56 m) and 6 rpm (25 m). Gemini 11: 30 m tether (NASA). Earth sidereal day 23.9345 h, Ω = 7.2921 × 10⁻⁵ rad/s. Foucault: 1851, 67 m, 28 kg, Paris 31.8 h (Wikipedia). Runaway spin (10 m, 20 rpm) is our illustration. Physiology g-tolerance numbers were left out because no source could be opened.
+- Part 4 figures (`GRAV` and `ADRIAN` in `constants.mjs`): G = 6.674 30 × 10⁻¹¹ (CODATA 2022). NASA fact sheets for GM, masses, radii, escape speeds, orbits and densities of Earth, Moon, Mars, Venus, Jupiter, Sun; Phobos 9378 km / 0.31891 d; Io 421 800 km / 1.769138 d. ISS 370–460 km (we use 400 km); GEO 42 164 km. Tau Ceti 0.800 M☉ (Korolik 2023). **Adrian = Tau Ceti e** (Wikipedia, Feng et al. 2017): ~168 d, 0.552 au, minimum mass 3.93 M⊕; later studies say it may not exist, and the chapters say so. **Our model Adrian:** 3.93 M⊕ (2.347 × 10²⁵ kg), radius 1.5 R⊕ (9557 km, ASSUMED), g = 17.15 m/s² (1.75 g), ρ = 6420 kg/m³, v_esc 18.1 km/s; Hail Mary parked 300 km up (r = 9857 km, v = 12.6 km/s, T = 81.87 min). Escape from Tau Ceti at Adrian's orbit 50.7 km/s (Adrian moves 35.9). Plot facts from Wikipedia's novel page: 10 km xenonite chain, beetles carry results home, probe sent to Venus, Grace rescues Rocky from the stranded Blip-A. No source confirmed a "decaying orbit" at Adrian or any book figure for Adrian's mass/orbit, so the chapters don't claim them; all manoeuvres at Adrian (200 km lowering, 10° phasing in 3 laps) are our illustrations. Kepler's 8′ discrepancy (Astronomia nova), Halley's comet, Venus Express 153-day cruise (ESA), Mars windows every 26 months, Michell's 1783 dark stars all sourced in the chapters.
 - Open question for Part 5: is 2 × 10⁶ kg of fuel at 6 g/s consistent with the trip's duration (2 × 10⁶ / 0.006 s ≈ 10.6 yr of continuous burn, compared with about 3.75 yr of ship time)? Check against the novel, which may have several drives, before relying on it.
 
 ---
@@ -584,3 +613,4 @@ All constants and book figures used so far, each with its source, are in `script
 - **Session 4 (2026-10-08).** Wrote Part 1: 1.1 Position, velocity and acceleration, 1.2 The equations of motion, 1.3 Free fall, 1.4 Measuring g (48 practice problems, 4 simulations: MotionGraphs, FlipBurnPlanner, DropLab, GLab; 8 diagrams). Made the home-page progress table collapsible and put the hero ship exactly on its route. **Next:** Part 2, starting with 2.1 Newton's laws (equivalence of the 1.5 g ship and gravity is set up in 1.1 Example 5; the pendulum's 2π is promised in 2.4).
 - **Session 5 (2026-10-09).** Wrote Part 2: 2.1 Newton's laws (forces, the three laws, free-body diagrams, terminal velocity with drag bv²), 2.2 Mass vs weight (inertial and gravitational mass, scales vs balances, measuring mass in orbit), 2.3 Apparent weight (N = m(g + a), weightlessness as free fall, the equivalence principle, g-forces, g_eff = g − a), 2.4 Pendulums and SHM (Hooke's law, a = −ω²x, derivation of T = 2π√(L/g), mass on a spring, large-swing correction). 48 practice problems, 4 simulations (DragFall, WeighingLab, ApparentWeight, PendulumLab) and 8 diagrams. All of Part 1's promises to Part 2 are kept. Tooling note: the Bash heredocs in this environment halve backslashes, so write files containing LaTeX with the Write/Edit tools. **Next:** Part 3, starting with 3.1 Angular speed (2.3 Problem 12 and 1.4 set up the two-deck spin test).
 - **Session 6 (2026-10-09).** Wrote Part 3: 3.1 Angular speed (radians, ω, rpm, period, v = ωr, tangent velocity), 3.2 Centripetal acceleration (a = v²/r = ω²r two ways, the SHM shadow, centripetal force as a role, centrifugal force as fictitious, Newton's Moon test), 3.3 Designing spin gravity (g = ω²r, r = g/ω², gradient h/r, comfort limits, two masses on a cable and the centre of mass, Grace's two-deck test), 3.4 The Coriolis effect (exact drop geometry, running spinward/antispinward, a = 2ωv, drift ⅔ωht by integration, Earth, Foucault, the sink myth). 48 practice problems, 4 simulations (SpinRate, CircularMotion, SpinGravityDesigner, CoriolisLab) and 8 diagrams. Fixed a check-browser hang: an animation that rebuilt SVG elements every frame kept the page from reaching network idle, so animated sims must create elements once and update attributes per frame. If `npm run preview` says a server is already running, use `npx astro preview stop` first. **Next:** Part 4, starting with 4.1 Newton's law of gravitation (3.2 Example 3 sets up the Moon test; 3.2 Problem 11 previews the 84-minute low orbit).
+- **Session 7 (2026-10-13).** Wrote Part 4: 4.1 Newton's law of gravitation (F = GMm/r² from the Moon test, G and Cavendish, the shell theorem, g = GM/r², weighing Earth, g with height, g = 4/3 πGρR), 4.2 Orbital speed (Newton's cannon, orbit as free fall, v = √(GM/r) two ways, T = 2π√(r³/GM), skimming and geostationary orbits, tidal pull on a hanging probe), 4.3 Kepler's laws (ellipse anatomy, Newton's geometric proof of equal areas, r_p v_p = r_a v_a, T² = a³ and T² = a³/M for other stars), 4.4 Escape velocity (derived without energy: Δ(v²) = 2aΔr summed as an integral, √2 × circular speed, r_max, v∞, escaping a star from a planet's orbit, Michell's dark stars), 4.5 Finding a planet's mass from an orbit (M = 4π²a³/GT², radius from angular size, the density clock T = √(3π/Gρ), ΔM/M = 3Δr/r + 2ΔT/T), 4.6 Orbital manoeuvring (v² − 2GM/r constant along any path via the along-path component, vis-viva derived, Hohmann transfers, lead angle, phasing orbits, drag speeds satellites up). 72 practice problems, 6 simulations (GravityExplorer, OrbitCannon, KeplerOrbit, EscapeLauncher, WeighPlanet, HohmannPlanner) and 14 diagrams. Tooling note: registering several chapters as `review` before their files exist breaks the build (Starlight sidebar), so mark unwritten ones `planned` until written. **Next:** Part 5, starting with 5.1 Work as an integral (4.4 and 4.6 promise that Part 5 recasts v² − 2GM/r = constant as energy conservation and proves escape speed is direction-independent; 4.6 says Part 5 shows how fuel sets delta-v).

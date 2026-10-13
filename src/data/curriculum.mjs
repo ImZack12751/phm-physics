@@ -79,12 +79,12 @@ export const parts = [
 		id: 'part-4', icon: 'G', dir: 'part-4', code: '4', label: 'Part 4 · Gravitation and orbits',
 		blurb: 'Gravity between bodies, orbits, and weighing a planet from orbit.',
 		chapters: [
-			{ slug: 'gravitation', title: 'Newton’s law of gravitation', prereqs: [], status: 'planned' },
-			{ slug: 'orbital-speed', title: 'Orbital speed', prereqs: [], status: 'planned' },
-			{ slug: 'keplers-laws', title: 'Kepler’s laws', prereqs: [], status: 'planned' },
-			{ slug: 'escape-velocity', title: 'Escape velocity', prereqs: [], status: 'planned' },
-			{ slug: 'planet-mass-from-orbit', title: 'Finding a planet’s mass from an orbit', prereqs: [], status: 'planned' },
-			{ slug: 'orbital-manoeuvring', title: 'Orbital manoeuvring', prereqs: [], status: 'planned' },
+			{ slug: 'gravitation', title: 'Newton’s law of gravitation', prereqs: ['centripetal-acceleration', 'ratios-proportionality', 'mass-and-weight', 'newtons-laws'], status: 'review' },
+			{ slug: 'orbital-speed', title: 'Orbital speed', prereqs: ['gravitation', 'centripetal-acceleration', 'apparent-weight', 'angular-speed'], status: 'review' },
+			{ slug: 'keplers-laws', title: 'Kepler’s laws', prereqs: ['orbital-speed', 'graphs', 'vectors'], status: 'review' },
+			{ slug: 'escape-velocity', title: 'Escape velocity', prereqs: ['keplers-laws', 'equations-of-motion', 'fundamental-theorem'], status: 'review' },
+			{ slug: 'planet-mass-from-orbit', title: 'Finding a planet’s mass from an orbit', prereqs: ['keplers-laws', 'measuring-g', 'rearranging-formulas'], status: 'review' },
+			{ slug: 'orbital-manoeuvring', title: 'Orbital manoeuvring', prereqs: ['escape-velocity', 'keplers-laws', 'vectors'], status: 'review' },
 		],
 	},
 	{

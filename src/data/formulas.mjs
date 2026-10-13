@@ -698,4 +698,101 @@ export const formulas = [
 		where: 'Ω = 7.29 × 10⁻⁵ rad/s; latitude φ.',
 		chapter: 'coriolis',
 	},
+	// ---- 4.1 Newton’s law of gravitation ----
+	{
+		id: 'gravitation',
+		name: 'Newton’s law of gravitation',
+		tex: 'F = \\dfrac{GMm}{r^{2}} \\qquad G = 6.674 \\times 10^{-11}\\ \\text{N·m}^{2}/\\text{kg}^{2}',
+		where: 'r: distance between the centres.',
+		chapter: 'gravitation',
+	},
+	{
+		id: 'field-strength',
+		name: 'Gravitational field strength',
+		tex: 'g = \\dfrac{GM}{r^{2}} \\qquad M = \\dfrac{gR^{2}}{G} \\qquad g(r) = g_{\\text{surface}}\\left(\\dfrac{R}{r}\\right)^{2} \\qquad g = \\tfrac{4}{3}\\pi G\\rho R \\qquad \\dfrac{\\Delta g}{g} \\approx -2\\,\\dfrac{\\Delta r}{r}',
+		where: 'R: the body’s radius; r: distance from its centre; ρ: average density.',
+		chapter: 'gravitation',
+	},
+	// ---- 4.2 Orbital speed ----
+	{
+		id: 'orbital-speed',
+		name: 'Circular orbits',
+		tex: 'v = \\sqrt{\\dfrac{GM}{r}} \\qquad T = 2\\pi\\sqrt{\\dfrac{r^{3}}{GM}} \\qquad \\omega = \\sqrt{\\dfrac{GM}{r^{3}}} \\qquad r = \\left(\\dfrac{GMT^{2}}{4\\pi^{2}}\\right)^{1/3}',
+		where: 'r: orbit radius, from the centre of the body being orbited; M: its mass.',
+		chapter: 'orbital-speed',
+	},
+	{
+		id: 'low-orbit',
+		name: 'Lowest (skimming) orbit',
+		tex: 'v_{\\text{low}} = \\sqrt{gR} \\qquad T_{\\text{low}} = 2\\pi\\sqrt{\\dfrac{R}{g}}',
+		where: 'R: the planet’s radius; g: its surface gravity.',
+		chapter: 'orbital-speed',
+	},
+	// ---- 4.3 Kepler’s laws ----
+	{
+		id: 'ellipse-orbit',
+		name: 'Shape of an elliptical orbit',
+		tex: 'r_{\\text{p}} = a(1 - e) \\qquad r_{\\text{a}} = a(1 + e) \\qquad a = \\dfrac{r_{\\text{p}} + r_{\\text{a}}}{2} \\qquad e = \\dfrac{r_{\\text{a}} - r_{\\text{p}}}{r_{\\text{a}} + r_{\\text{p}}}',
+		where: 'r_p, r_a: perihelion and aphelion distances from the central body.',
+		chapter: 'keplers-laws',
+	},
+	{
+		id: 'equal-areas',
+		name: 'Kepler’s second law at the turning points',
+		tex: 'r_{\\text{p}}v_{\\text{p}} = r_{\\text{a}}v_{\\text{a}} \\qquad \\dfrac{v_{\\text{p}}}{v_{\\text{a}}} = \\dfrac{1 + e}{1 - e}',
+		where: 'Equal areas in equal times; v is at right angles to r at both points.',
+		chapter: 'keplers-laws',
+	},
+	{
+		id: 'kepler-third',
+		name: 'Kepler’s third law',
+		tex: 'T^{2} = \\dfrac{4\\pi^{2}}{GM}\\,a^{3} \\qquad T_{\\text{years}}^{2} = \\dfrac{a_{\\text{au}}^{3}}{M/M_{\\odot}}',
+		where: 'a: semi-major axis; M: the central mass.',
+		chapter: 'keplers-laws',
+	},
+	// ---- 4.4 Escape velocity ----
+	{
+		id: 'climbing-speed',
+		name: 'Speed while climbing against gravity',
+		tex: 'v^{2} = v_{0}^{2} - 2GM\\left(\\dfrac{1}{R} - \\dfrac{1}{r}\\right) \\qquad \\dfrac{1}{r_{\\text{max}}} = \\dfrac{1}{R} - \\dfrac{v_{0}^{2}}{2GM}',
+		where: 'Launched at v₀ from distance R; coasting, no air.',
+		chapter: 'escape-velocity',
+	},
+	{
+		id: 'escape-velocity',
+		name: 'Escape velocity',
+		tex: 'v_{\\text{esc}} = \\sqrt{\\dfrac{2GM}{R}} = \\sqrt{2gR} = \\sqrt{2}\\,v_{\\text{circ}} \\qquad v_{\\infty} = \\sqrt{v_{0}^{2} - v_{\\text{esc}}^{2}}',
+		where: 'v∞: speed left over far away when v₀ is above escape speed.',
+		chapter: 'escape-velocity',
+	},
+	// ---- 4.5 Finding a planet’s mass from an orbit ----
+	{
+		id: 'mass-from-orbit',
+		name: 'Mass from an orbit',
+		tex: 'M = \\dfrac{4\\pi^{2}a^{3}}{GT^{2}} \\qquad M = \\dfrac{v^{2}r}{G} \\qquad \\dfrac{\\Delta M}{M} \\approx 3\\,\\dfrac{\\Delta r}{r} + 2\\,\\dfrac{\\Delta T}{T}',
+		where: 'a: semi-major axis (r for a circle); strictly gives the mass of the pair.',
+		chapter: 'planet-mass-from-orbit',
+	},
+	{
+		id: 'density-clock',
+		name: 'Radius and density from orbit',
+		tex: '\\sin\\dfrac{\\theta}{2} = \\dfrac{R}{R + h} \\qquad T_{\\text{low}} = \\sqrt{\\dfrac{3\\pi}{G\\rho}}',
+		where: 'θ: angle the planet fills in view from height h; T_low: period of an orbit skimming the surface.',
+		chapter: 'planet-mass-from-orbit',
+	},
+	// ---- 4.6 Orbital manoeuvring ----
+	{
+		id: 'vis-viva',
+		name: 'Vis-viva equation',
+		tex: 'v^{2} - \\dfrac{2GM}{r} = \\text{constant} \\qquad v^{2} = GM\\left(\\dfrac{2}{r} - \\dfrac{1}{a}\\right)',
+		where: 'r: current distance from the centre; a: semi-major axis of the orbit.',
+		chapter: 'orbital-manoeuvring',
+	},
+	{
+		id: 'hohmann',
+		name: 'Hohmann transfer',
+		tex: '\\Delta v_{1} = v_{1}\\left(\\sqrt{\\dfrac{2r_{2}}{r_{1} + r_{2}}} - 1\\right) \\qquad \\Delta v_{2} = v_{2}\\left(1 - \\sqrt{\\dfrac{2r_{1}}{r_{1} + r_{2}}}\\right) \\qquad t = \\pi\\sqrt{\\dfrac{a_{\\text{t}}^{3}}{GM}} \\qquad \\phi = 180° - \\omega_{2}t',
+		where: 'v₁, v₂: circular speeds; a_t = (r₁ + r₂)/2; φ: lead angle of the target at departure.',
+		chapter: 'orbital-manoeuvring',
+	},
 ];

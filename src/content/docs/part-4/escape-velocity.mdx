@@ -1,0 +1,331 @@
+---
+title: Escape velocity
+description: How fast something must be launched so that it never falls back, derived step by step from the equations of motion and an integral, why it is √2 times orbital speed, how high slower launches reach, and how much speed it takes to leave a star.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import EscapeHeight from '../../../components/diagrams/part-4/EscapeHeight.astro';
+import EscapeLadder from '../../../components/diagrams/part-4/EscapeLadder.astro';
+import EscapeLauncher from '../../../components/sims/EscapeLauncher.astro';
+
+## The scene
+
+The *Hail Mary* has fuel for a one-way trip only, so its results must reach Earth another way. It carries four small unmanned ships, the "beetles", each with its own Astrophage drive. When Grace and Rocky find the answer at Adrian, the beetles have to carry it home. Each one must climb out of the gravity of Adrian and of Tau Ceti and cross twelve light-years.
+
+That raises a basic question: how fast does something have to go to get away from a planet or a star for good? On a flat world with constant gravity, everything thrown upwards falls back eventually. Real gravity weakens with distance, and that changes the answer.
+
+## Prerequisites
+
+<Prereqs notes={{ 'keplers-laws': 'orbits and how gravity weakens with distance', 'equations-of-motion': 'v² = u² + 2as for a short step with nearly constant acceleration', 'fundamental-theorem': 'adding up many small steps as an integral, and antiderivatives of powers' }} />
+
+## The concept
+
+### Throwing harder
+
+Throw a ball straight up at speed $u$. If gravity were the same at every height, it would rise until its speed was zero. From $v^{2} = u^{2} - 2gh$ (Chapter 1.2), that happens at $h = u^{2}/2g$. Throw twice as fast and it goes four times as high, but it always comes back.
+
+Real gravity weakens as the ball rises, $g = GM/r^{2}$ (Chapter 4.1). A fast enough launch takes the projectile so far out that gravity becomes too weak to stop it. It slows forever but never stops, and never returns. The smallest launch speed that does this is the <Term id="escape-velocity">escape velocity</Term>.
+
+### Building it up one step at a time
+
+Follow a projectile launched straight up from the surface ($r = R$) at speed $v_{0}$, with no air. Split its climb into many short steps. During one step of length $\Delta r$, gravity barely changes, so the acceleration is nearly constant: $a = -GM/r^{2}$, negative because it slows the climb. On a short step with constant acceleration, $v^{2} = u^{2} + 2as$ gives the change in $v^{2}$:
+
+$$
+\Delta(v^{2}) \approx 2a\,\Delta r = -\frac{2GM}{r^{2}}\,\Delta r.
+$$
+
+Adding up all the steps from the surface out to some distance $r$ is a Riemann sum (Chapter C.4). As the steps shrink, it becomes an integral:
+
+$$
+v^{2} - v_{0}^{2} = -2GM\int_{R}^{r} \frac{dr'}{r'^{2}}.
+$$
+
+The antiderivative of $r'^{-2}$ is $-r'^{-1}$ (power rule, Chapter C.5). By the fundamental theorem (Chapter C.6):
+
+$$
+\int_{R}^{r} \frac{dr'}{r'^{2}} = \left[-\frac{1}{r'}\right]_{R}^{r} = \frac{1}{R} - \frac{1}{r}.
+$$
+
+So the speed at distance $r$ is given by
+
+$$
+v^{2} = v_{0}^{2} - 2GM\left(\frac{1}{R} - \frac{1}{r}\right).
+$$
+
+### The escape condition
+
+As $r$ grows, $1/r$ shrinks towards zero, so the bracket rises towards $1/R$ but never exceeds it. The most speed gravity can ever remove (in terms of $v^{2}$) is therefore $2GM/R$, however far the projectile goes. If $v_{0}^{2}$ is at least that, $v^{2}$ never reaches zero and the projectile never turns back:
+
+$$
+v_{\text{esc}} = \sqrt{\frac{2GM}{R}}.
+$$
+
+Compare this with the speed of a circular orbit at the same radius, $\sqrt{GM/R}$ (Chapter 4.2):
+
+$$
+v_{\text{esc}} = \sqrt{2}\;v_{\text{circ}} \approx 1.41\,v_{\text{circ}}.
+$$
+
+Escape takes only 41% more speed than staying in orbit. The Newton's cannon simulation in Chapter 4.2 shows it: at about 1.41 times the circular speed, the path stops closing.
+
+A few things to notice:
+
+- **The projectile's mass cancels**, as it did for orbits. A pebble and a spaceship need the same speed.
+- **Direction doesn't matter much.** We launched straight up, but Part 5 shows (using energy) that the same speed works in any direction, as long as the path doesn't hit the planet.
+- **It only applies to coasting.** A ship with its engine running can leave at any speed, as long as it keeps pushing. The *Hail Mary* never needs 11 km/s at the moment it leaves Earth's orbit, because it thrusts for years. Escape velocity is the speed needed for an unpowered object, such as a thrown ball, a cannon shell, or a rocket after its engine stops.
+
+### Slower launches: how high?
+
+If $v_{0} < v_{\text{esc}}$, the projectile stops where $v = 0$. Setting $v = 0$ and solving for $r$:
+
+$$
+\frac{1}{r_{\text{max}}} = \frac{1}{R} - \frac{v_{0}^{2}}{2GM}.
+$$
+
+<Figure caption="How high a projectile launched straight up gets, against launch speed as a fraction of escape speed. At low speeds it agrees with the constant-g estimate h = v₀²/2g. Faster launches go much higher than that estimate, because gravity weakens as they climb. Near the escape speed the height shoots up without limit." alt="A graph. Horizontal axis: launch speed as a fraction of escape speed, 0 to 1. Vertical axis: height reached in planet radii, 0 to 5. A grey dashed curve labelled if g stayed constant rises gently to 1 at the right edge. An amber curve labelled real gravity, weakening with height starts with it, then curves up steeply, passing 1 radius at about 0.71 and leaving the top of the graph at about 0.91. A red dashed vertical line at 1 is labelled escape: never comes back.">
+	<EscapeHeight />
+</Figure>
+
+### Escaping from a star
+
+To leave a solar system you must also escape the star. At Earth's distance from the Sun, the escape speed is about 42 km/s. But anything launched from Earth already shares Earth's orbital speed of 29.8 km/s. Launched in the direction Earth is moving, it needs only about 12 km/s more (plus what it takes to climb out of Earth's own gravity). Spacecraft heading out of the Solar System use exactly this head start.
+
+<Figure caption="Escape speeds compared. The blue bars are escape from the surface of each body. The amber bars are escape from a star, starting at a planet's orbit. The green part is the planet's own orbital speed, which anything leaving it already has, so only the rest has to be added." alt="A horizontal bar chart of escape speed in kilometres per second, 0 to 50. Blue bars: Moon surface 2.38; Mars surface 5.03; Venus surface 10.36; Earth surface 11.19; Adrian, our model, surface 18.1. Amber bars with a green inner section: Sun from Earth's orbit 42.1, with green to 29.78; Tau Ceti from Adrian's orbit 50.7, with green to 35.9. A note reads: green, the planet's own orbital speed, a head start.">
+	<EscapeLadder />
+</Figure>
+
+## Formulas
+
+### Speed while climbing
+
+From $\Delta(v^{2}) = 2a\,\Delta r$ with $a = -GM/r^{2}$, integrated from $R$ to $r$:
+
+$$
+\boxed{v^{2} = v_{0}^{2} - 2GM\left(\frac{1}{R} - \frac{1}{r}\right)}
+$$
+
+### Escape velocity
+
+Requiring $v^{2} \geq 0$ all the way to $r \to \infty$:
+
+$$
+\boxed{v_{\text{esc}} = \sqrt{\frac{2GM}{R}} = \sqrt{2gR} = \sqrt{2}\,v_{\text{circ}}}
+$$
+
+The middle form uses $GM = gR^{2}$ (Chapter 4.1). The same formula with $R$ replaced by any distance $r$ gives the escape speed starting from there.
+
+### Greatest distance reached
+
+Setting $v = 0$:
+
+$$
+\boxed{\frac{1}{r_{\text{max}}} = \frac{1}{R} - \frac{v_{0}^{2}}{2GM}}
+$$
+
+### Speed left over far away
+
+If $v_{0} > v_{\text{esc}}$, then as $r \to \infty$, $v^{2} \to v_{0}^{2} - 2GM/R$:
+
+$$
+\boxed{v_{\infty} = \sqrt{v_{0}^{2} - v_{\text{esc}}^{2}}}
+$$
+
+## Worked examples
+
+<Example n={1} title="Escaping Earth">
+Find Earth's escape velocity from $GM = 3.986 \times 10^{14}\ \text{m}^{3}/\text{s}^{2}$ and $R = 6.371 \times 10^{6}$ m.
+
+$$
+v_{\text{esc}} = \sqrt{\frac{2 \times 3.986 \times 10^{14}\ \text{m}^{3}/\text{s}^{2}}{6.371 \times 10^{6}\ \text{m}}} = 11\,190\ \text{m/s} = 11.19\ \text{km/s}
+$$
+
+NASA gives 11.186 km/s. That is about 40 000 km/h.
+</Example>
+
+<Example n={2} title="A shot that falls back">
+A projectile is fired straight up from Earth at 5.0 km/s (ignore air). How high does it go? Compare with the constant-g estimate.
+
+$$
+\frac{1}{r_{\text{max}}} = \frac{1}{6.371 \times 10^{6}\ \text{m}} - \frac{(5000\ \text{m/s})^{2}}{2 \times 3.986 \times 10^{14}\ \text{m}^{3}/\text{s}^{2}} = 1.2560 \times 10^{-7}\ \text{m}^{-1}
+$$
+
+So $r_{\text{max}} = 7.962 \times 10^{6}$ m, and the height is $7962 - 6371 = 1591$ km.
+
+$$
+\text{constant-}g\text{ estimate: } h = \frac{v_{0}^{2}}{2g} = \frac{(5000\ \text{m/s})^{2}}{2 \times 9.82\ \text{m/s}^{2}} = 1273\ \text{km}
+$$
+
+The real projectile goes 25% higher, because gravity weakens as it climbs.
+</Example>
+
+<Example n={3} title="Escaping Adrian" book>
+Find the escape velocity from the surface of our model Adrian ($GM = 1.567 \times 10^{15}\ \text{m}^{3}/\text{s}^{2}$, $R = 9.557 \times 10^{6}$ m), and compare it with the speed of an orbit skimming the surface.
+
+$$
+v_{\text{esc}} = \sqrt{\frac{2 \times 1.567 \times 10^{15}}{9.557 \times 10^{6}}}\ \text{m/s} = 18.1\ \text{km/s} \qquad v_{\text{circ}} = \frac{18.1\ \text{km/s}}{\sqrt{2}} = 12.8\ \text{km/s}
+$$
+
+Over 60% more than Earth's escape speed. Anything leaving from Adrian's surface would need a powerful rocket. The beetles start from orbit instead, where they already move at about 12.6 km/s.
+</Example>
+
+<Example n={4} title="The beetles leave Tau Ceti" book>
+Once clear of Adrian, a beetle must escape Tau Ceti ($GM = 1.062 \times 10^{20}\ \text{m}^{3}/\text{s}^{2}$), starting from Adrian's orbit at $r = 8.258 \times 10^{10}$ m. Find the escape speed there, and how much more speed is needed if the beetle sets off in the direction Adrian is moving (35.9 km/s, Chapter 4.2).
+
+$$
+v_{\text{esc}} = \sqrt{\frac{2 \times 1.062 \times 10^{20}\ \text{m}^{3}/\text{s}^{2}}{8.258 \times 10^{10}\ \text{m}}} = 50.7\ \text{km/s}
+$$
+
+$$
+\Delta v = 50.7\ \text{km/s} - 35.9\ \text{km/s} = 14.8\ \text{km/s}
+$$
+
+For an Astrophage drive that is easy. To cross 12 light-years in a useful time, the beetles must reach a sizeable fraction of light speed (300 000 km/s), so escaping the star is a tiny part of their job.
+</Example>
+
+<Example n={5} title="Michell's dark stars">
+In 1783, John Michell asked: what if a star were so compact that its escape velocity equalled the speed of light, $c$? Find the radius at which this would happen for the Sun ($GM = 1.327 \times 10^{20}\ \text{m}^{3}/\text{s}^{2}$).
+
+Set $\sqrt{2GM/R} = c$ and solve for $R$:
+
+$$
+R = \frac{2GM}{c^{2}} = \frac{2 \times 1.327 \times 10^{20}\ \text{m}^{3}/\text{s}^{2}}{(2.998 \times 10^{8}\ \text{m/s})^{2}} = 2950\ \text{m}
+$$
+
+The whole Sun would have to be squeezed into a ball under 3 km in radius. Newton's theory isn't really valid in such strong gravity, but general relativity gives exactly the same radius for the edge of a black hole, the Schwarzschild radius.
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** $v_{\text{esc}} = \sqrt{2GM/R}$ is a standard result, and the values here match NASA's fact sheets. Real launches lose extra speed to air resistance and to gravity during the climb, so rockets need more than the escape speed's worth of speed change. Spacecraft that leave the Solar System use the Earth's orbital speed as a head start, and often gain more by swinging past planets.
+
+**Weir's inventions.** The beetles and their Astrophage drives are the novel's. With continuous thrust, a ship doesn't need escape velocity at any single moment, so for the *Hail Mary* and the beetles escape velocity is a measure of the job rather than a hard barrier. Our model Adrian's escape speed depends on our assumed radius.
+
+**How realistic are the numbers?** Escaping Tau Ceti from Adrian's orbit takes about 15 km/s more than Adrian's orbital speed, much like leaving the Sun from Earth (about 12 km/s). Without Astrophage, a probe with a chemical rocket could just about do that, but at 20 km/s crossing 12 light-years would take about 180 000 years. That is why the novel needs an extraordinary fuel.
+</RealVsBook>
+
+## Interactive simulation
+
+<EscapeLauncher />
+
+Things to try: from Earth, launch at 5 km/s and compare the real height with the constant-g estimate. Find the escape speed by raising the launch speed until the amber curve no longer touches zero. Launch at 15 km/s and read the speed left over far away. Then switch to the Moon, where even 3 km/s escapes.
+
+## Practice set
+
+<Problem n={1} level="easy">
+Find the Moon's escape velocity ($GM = 4.90 \times 10^{12}\ \text{m}^{3}/\text{s}^{2}$, $R = 1737$ km). NASA gives 2.38 km/s.
+
+<Solution>
+$v_{\text{esc}} = \sqrt{\dfrac{2 \times 4.90 \times 10^{12}}{1.7374 \times 10^{6}}} = 2375$ m/s $= 2.38$ km/s. ✓
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy">
+A satellite is in a circular orbit at 7.0 km/s. What speed would it need, at the same height, to escape?
+
+<Solution>
+$v_{\text{esc}} = \sqrt{2} \times 7.0 = 9.9$ km/s.
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy">
+Does a 1000 kg probe need a higher escape velocity than a 1 kg probe?
+
+<Solution>
+No. The projectile's mass cancels: $v_{\text{esc}} = \sqrt{2GM/R}$ depends only on the planet.
+</Solution>
+</Problem>
+
+<Problem n={4} level="easy" book>
+The *Hail Mary* never travels at 11.2 km/s while still near Earth, yet it leaves Earth's gravity behind. How?
+
+<Solution>
+Escape velocity applies to coasting objects. The *Hail Mary* keeps its engines on, pushing it outwards continuously, so it can climb away at any speed.
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium">
+Find Mars's escape velocity ($GM = 4.283 \times 10^{13}\ \text{m}^{3}/\text{s}^{2}$, $R = 3390$ km).
+
+<Solution>
+$v_{\text{esc}} = \sqrt{\dfrac{2 \times 4.2828 \times 10^{13}}{3.3895 \times 10^{6}}} = 5030$ m/s. NASA gives 5.03 km/s.
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium">
+A meteoroid starts at rest very far from Earth and falls straight in. Ignoring air, how fast is it moving when it reaches Earth's surface?
+
+<Solution>
+Run the formula backwards: starting with $v = 0$ at $r \to \infty$, $v^{2} = 2GM/R$ at the surface. It arrives at the escape velocity, 11.2 km/s. Falling from very far away and escaping are mirror images of each other.
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium">
+The ISS moves at 7.67 km/s, 400 km up. What is the escape speed at that height, and how much would an astronaut's capsule need to add, in the direction of motion, to escape Earth?
+
+<Solution>
+$v_{\text{esc}} = \sqrt{2} \times 7.673 = 10.85$ km/s. It needs $10.85 - 7.67 = 3.18$ km/s more.
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium">
+A projectile is launched straight up from Earth at 10.0 km/s. How far from Earth's centre does it get, and how high is that above the surface?
+
+<Solution>
+$\dfrac{1}{r_{\text{max}}} = \dfrac{1}{6.371 \times 10^{6}} - \dfrac{10^{8}}{7.972 \times 10^{14}} = 3.152 \times 10^{-8}\ \text{m}^{-1}$, so $r_{\text{max}} = 3.17 \times 10^{7}$ m, about 4.98 Earth radii. The height is about 25 400 km.
+</Solution>
+</Problem>
+
+<Problem n={9} level="medium" book>
+In Chapter 4.1 Problem 9, we estimated that Erid, at about 2 g with Earth's density, would have twice Earth's radius. Use $v_{\text{esc}} = \sqrt{2gR}$ to estimate its escape velocity.
+
+<Solution>
+$v_{\text{esc}} = \sqrt{2 \times 19.64 \times 1.274 \times 10^{7}} = 22.4$ km/s. Doubling both $g$ and $R$ doubles the escape speed compared with Earth's 11.2 km/s.
+</Solution>
+</Problem>
+
+<Problem n={10} level="challenging">
+Find the escape speed from the Sun at Earth's distance ($GM = 1.327 \times 10^{20}\ \text{m}^{3}/\text{s}^{2}$, $r = 1.496 \times 10^{11}$ m), and the extra speed needed beyond Earth's 29.78 km/s orbital speed.
+
+<Solution>
+$v_{\text{esc}} = \sqrt{\dfrac{2 \times 1.32712 \times 10^{20}}{1.496 \times 10^{11}}} = 42.1$ km/s. Extra: $42.12 - 29.78 = 12.3$ km/s, launched in the direction of Earth's motion.
+</Solution>
+</Problem>
+
+<Problem n={11} level="challenging">
+How small would Earth have to be squeezed for its escape velocity to equal the speed of light?
+
+<Solution>
+$R = \dfrac{2GM}{c^{2}} = \dfrac{2 \times 3.986 \times 10^{14}}{(2.998 \times 10^{8})^{2}} = 8.87 \times 10^{-3}$ m, under 9 mm, smaller than a marble.
+</Solution>
+</Problem>
+
+<Problem n={12} level="challenging">
+Show that for a small height $h = r - R$ (with $h$ much smaller than $R$), $v^{2} = v_{0}^{2} - 2GM(1/R - 1/r)$ becomes the familiar $v^{2} = v_{0}^{2} - 2gh$.
+
+<Solution>
+$\dfrac{1}{R} - \dfrac{1}{R + h} = \dfrac{h}{R(R + h)} \approx \dfrac{h}{R^{2}}$ when $h \ll R$. So $v^{2} \approx v_{0}^{2} - \dfrac{2GM}{R^{2}}h = v_{0}^{2} - 2gh$, using $g = GM/R^{2}$. The new formula contains the old one as a special case.
+</Solution>
+</Problem>
+
+## Summary
+
+- Gravity weakens with distance, so a fast enough projectile slows forever without ever stopping. The smallest such launch speed is the escape velocity, $v_{\text{esc}} = \sqrt{2GM/R}$.
+- It comes from adding up $\Delta(v^{2}) = 2a\,\Delta r$ over many short steps, which gives an integral: $v^{2} = v_{0}^{2} - 2GM(1/R - 1/r)$.
+- Escape speed is $\sqrt{2}$ times the circular orbital speed at the same distance. It doesn't depend on the projectile's mass.
+- Slower launches reach $1/r_{\text{max}} = 1/R - v_{0}^{2}/2GM$, higher than the constant-g estimate. Faster ones keep $\sqrt{v_{0}^{2} - v_{\text{esc}}^{2}}$ far away.
+- Escape velocity applies to coasting objects. A ship under continuous thrust can leave at any speed.
+
+**Formulas from this chapter**
+
+$$
+v^{2} = v_{0}^{2} - 2GM\left(\frac{1}{R} - \frac{1}{r}\right) \qquad v_{\text{esc}} = \sqrt{\frac{2GM}{R}} = \sqrt{2}\,v_{\text{circ}} \qquad \frac{1}{r_{\text{max}}} = \frac{1}{R} - \frac{v_{0}^{2}}{2GM} \qquad v_{\infty} = \sqrt{v_{0}^{2} - v_{\text{esc}}^{2}}
+$$
+
+## Sources
+
+- Escape velocity: OpenStax, *University Physics Volume 1*, [§13.3 Gravitational Potential Energy and Total Energy](https://openstax.org/books/university-physics-volume-1/pages/13-3-gravitational-potential-energy-and-total-energy); HyperPhysics, [Escape velocity](http://hyperphysics.gsu.edu/hbase/vesc.html).
+- Escape velocities, $GM$ and radii: NASA NSSDCA fact sheets for [Earth](https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html), [the Moon](https://nssdc.gsfc.nasa.gov/planetary/factsheet/moonfact.html), [Mars](https://nssdc.gsfc.nasa.gov/planetary/factsheet/marsfact.html), [Venus](https://nssdc.gsfc.nasa.gov/planetary/factsheet/venusfact.html) and [the Sun](https://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html). Speed of light: NIST CODATA (exact).
+- John Michell's 1783 "dark stars" and the Schwarzschild radius: Wikipedia, [Dark star (Newtonian mechanics)](https://en.wikipedia.org/wiki/Dark_star_(Newtonian_mechanics)) and [Schwarzschild radius](https://en.wikipedia.org/wiki/Schwarzschild_radius).
+- Tau Ceti's mass and the candidate planet behind Adrian: Wikipedia, [Tau Ceti](https://en.wikipedia.org/wiki/Tau_Ceti) and [Tau Ceti e](https://en.wikipedia.org/wiki/Tau_Ceti_e).
+- The beetles and the one-way fuel supply: Wikipedia, [*Project Hail Mary*](https://en.wikipedia.org/wiki/Project_Hail_Mary). Adrian's radius is our assumption.

@@ -1,0 +1,102 @@
+---
+// Simulation: plan a Hohmann transfer between two circular orbits around the Sun, with the target planet
+// starting at the right lead angle so that it arrives at the meeting point together with the ship.
+---
+
+<div
+	class="sim hp"
+	data-title="Hohmann transfer planner"
+	data-description="Choose the radius of the starting orbit and of the destination orbit around the Sun (0.3 to 10 au). The ship coasts along half an ellipse from one to the other while the target planet moves along its own orbit, starting at the lead angle that makes them meet; the animation repeats (it stops if reduced motion is requested). The readout gives the two circular speeds, the speed changes Δv₁ and Δv₂ from the vis-viva equation v² = GM(2/r − 1/a), their total, the transfer time (half the ellipse's period), and the angle by which the target must lead the ship at departure."
+>
+	<p class="sim-title">Simulation: Hohmann transfer planner</p>
+	<p class="sim-help">The ship (amber) leaves its orbit with one burn and coasts half an ellipse. The target (violet) has to be the right distance ahead at departure, or the ship arrives at an empty point in space.</p>
+	<div class="sim-controls">
+		<label>Start orbit r₁ <input type="range" class="hp-r1" min="0.3" max="10" step="0.01" value="1" /> <output class="hp-r1v"></output></label>
+		<label>Target orbit r₂ <input type="range" class="hp-r2" min="0.3" max="10" step="0.01" value="1.52" /> <output class="hp-r2v"></output></label>
+	</div>
+	<svg class="dg hp-svg" viewBox="0 0 600 330" role="img" aria-label="Two circular orbits around the Sun joined by a half-ellipse transfer path"></svg>
+	<div class="readout hp-out" aria-live="polite"></div>
+</div>
+
+<script>
+	const GM = 1.32712e20, AU = 1.495978707e11, DAY = 86400;
+	const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+	document.querySelectorAll<HTMLElement>('.sim.hp').forEach((root) => {
+		const svg = root.querySelector<SVGSVGElement>('.hp-svg')!;
+		const R1s = root.querySelector<HTMLInputElement>('.hp-r1')!, R2s = root.querySelector<HTMLInputElement>('.hp-r2')!;
+		const out = root.querySelector<HTMLElement>('.hp-out')!;
+		const NS = 'http://www.w3.org/2000/svg';
+		const el = (tag: string, at: Record<string, string | number>) => {
+			const e = document.createElementNS(NS, tag);
+			Object.entries(at).forEach(([k, v]) => e.setAttribute(k, String(v)));
+			svg.append(e);
+			return e;
+		};
+		const CX = 300, CY = 160;
+		// Created once; only attributes change afterwards.
+		const c1 = el('circle', { cx: CX, cy: CY, class: 's-sky w2', fill: 'none' });
+		const c2 = el('circle', { cx: CX, cy: CY, class: 's-green w2', fill: 'none' });
+		const path = el('path', { class: 's-amber w2 dash', fill: 'none' });
+		el('circle', { cx: CX, cy: CY, r: 9, class: 'f-amber' });
+		const tgt = el('circle', { r: 7, class: 'f-violet' });
+		const ship = el('circle', { r: 6, class: 'f-amber' });
+		let S = 1, r1 = 1, r2 = 1.5, a = 1.25, e = 0.2, tT = 1, w2 = 1, lead = 0, phase = 0, last = 0;
+		function setup() {
+			r1 = +R1s.value; r2 = +R2s.value;
+			root.querySelector('.hp-r1v')!.textContent = `${r1.toFixed(2)} au`;
+			root.querySelector('.hp-r2v')!.textContent = `${r2.toFixed(2)} au`;
+			S = 145 / Math.max(r1, r2);
+			c1.setAttribute('r', String(r1 * S)); c2.setAttribute('r', String(r2 * S));
+			a = (r1 + r2) / 2; e = Math.abs(r2 - r1) / (r1 + r2);
+			const am = a * AU, r1m = r1 * AU, r2m = r2 * AU;
+			const v1 = Math.sqrt(GM / r1m), v2 = Math.sqrt(GM / r2m);
+			const vd = Math.sqrt(GM * (2 / r1m - 1 / am)), va = Math.sqrt(GM * (2 / r2m - 1 / am));
+			const d1 = vd - v1, d2 = v2 - va;
+			tT = Math.PI * Math.sqrt(am ** 3 / GM); // seconds
+			w2 = Math.sqrt(GM / r2m ** 3);
+			lead = Math.PI - w2 * tT; // radians the target must lead by at departure
+			// transfer path: departure on the right (angle 0), arrival on the left (angle π), going anticlockwise
+			let d = '';
+			for (let i = 0; i <= 60; i++) {
+				const p = pos((i / 60) * tT);
+				d += `${i ? 'L' : 'M'}${p.x.toFixed(1)},${p.y.toFixed(1)}`;
+			}
+			path.setAttribute('d', d);
+			const deg = (((lead * 180) / Math.PI) % 360 + 540) % 360 - 180;
+			out.innerHTML =
+				`<span class="k">circular speeds</span>: ${(v1 / 1000).toFixed(2)} km/s at r₁, ${(v2 / 1000).toFixed(2)} km/s at r₂<br>` +
+				`<span class="k">Δv₁</span> = ${(d1 / 1000).toFixed(2)} km/s &nbsp; <span class="k">Δv₂</span> = ${(d2 / 1000).toFixed(2)} km/s &nbsp; (+ forward, − backward) &nbsp; <span class="k">total</span> = <b>${((Math.abs(d1) + Math.abs(d2)) / 1000).toFixed(2)} km/s</b><br>` +
+				`<span class="k">transfer time</span> = <b>${(tT / DAY).toFixed(0)} days</b> &nbsp; <span class="k">target must lead by</span> ${deg.toFixed(1)}° at departure${deg < 0 ? ' (negative: it must be behind)' : ''}`;
+			phase = 0;
+			place();
+		}
+		// ship position at time t after departure: Kepler's equation on the transfer ellipse
+		function pos(t: number) {
+			// outward transfers start at perihelion (mean anomaly 0 → π); inward ones at aphelion (π → 2π)
+			const outward = r2 >= r1, M = (outward ? 0 : Math.PI) + Math.PI * (t / tT);
+			let E = M;
+			for (let i = 0; i < 30; i++) E -= (E - e * Math.sin(E) - M) / (1 - e * Math.cos(E));
+			const nu = 2 * Math.atan2(Math.sqrt(1 + e) * Math.sin(E / 2), Math.sqrt(1 - e) * Math.cos(E / 2));
+			const r = a * (1 - e * Math.cos(E));
+			const ang = outward ? nu : nu - Math.PI; // departure is always drawn at angle 0
+			return { x: CX + r * S * Math.cos(ang), y: CY - r * S * Math.sin(ang) };
+		}
+		function place() {
+			const t = Math.min(phase, 1) * tT;
+			const p = pos(t);
+			ship.setAttribute('cx', String(p.x)); ship.setAttribute('cy', String(p.y));
+			const at = lead + w2 * t;
+			tgt.setAttribute('cx', String(CX + r2 * S * Math.cos(at))); tgt.setAttribute('cy', String(CY - r2 * S * Math.sin(at)));
+		}
+		function frame(now: number) {
+			if (last) phase += (now - last) / 4000; // 4 s per transfer, then a 1 s pause
+			last = now;
+			if (phase > 1.25) phase = 0;
+			place();
+			requestAnimationFrame(frame);
+		}
+		[R1s, R2s].forEach((i) => i.addEventListener('input', setup));
+		setup();
+		if (reduce) { phase = 1; place(); } else requestAnimationFrame(frame);
+	});
+</script>

@@ -1,0 +1,32 @@
+---
+// Newton's law of gravitation: two masses pull on each other with equal and opposite forces F = GMm/r²,
+// where r is measured between the centres.
+const Y = 150, MX = 150, MR = 62, mX = 450, mR = 22, L = 70;
+const head = (x2: number, dir: number) => `${x2},${Y} ${x2 - 12 * dir},${Y - 6} ${x2 - 12 * dir},${Y + 6}`;
+---
+
+<svg class="dg" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+	<circle cx={MX} cy={Y} r={MR} class="f-sky-soft s-sky w2" />
+	<text x={MX} y={Y - MR - 12} class="t-mid t-b">mass M</text>
+	<circle cx={mX} cy={Y} r={mR} class="f-amber-soft s-amber w2" />
+	<text x={mX} y={Y - mR - 12} class="t-mid t-b">mass m</text>
+	<!-- force on m, towards M -->
+	<line x1={mX - mR} y1={Y} x2={mX - mR - L + 12} y2={Y} class="s-rose w3" />
+	<polygon points={head(mX - mR - L, -1)} class="f-rose" />
+	<text x={mX - mR - L / 2} y={Y - 14} class="t-mid t-sm f-rose">F on m</text>
+	<!-- force on M, towards m -->
+	<line x1={MX + MR} y1={Y} x2={MX + MR + L - 12} y2={Y} class="s-rose w3" />
+	<polygon points={head(MX + MR + L, 1)} class="f-rose" />
+	<text x={MX + MR + L / 2} y={Y - 14} class="t-mid t-sm f-rose">F on M</text>
+	<!-- centre-to-centre distance -->
+	<circle cx={MX} cy={Y} r="3" class="f-fg" />
+	<circle cx={mX} cy={Y} r="3" class="f-fg" />
+	<line x1={MX} y1={Y + 92} x2={mX} y2={Y + 92} class="s-fg w1" />
+	<line x1={MX} y1={Y + 84} x2={MX} y2={Y + 100} class="s-fg w1" />
+	<line x1={mX} y1={Y + 84} x2={mX} y2={Y + 100} class="s-fg w1" />
+	<line x1={MX} y1={Y + 6} x2={MX} y2={Y + 84} class="s-grid w1 dash" />
+	<line x1={mX} y1={Y + 6} x2={mX} y2={Y + 84} class="s-grid w1 dash" />
+	<text x={(MX + mX) / 2} y={Y + 86} class="t-mid t-sm">r, measured between the centres</text>
+	<text x="300" y="34" class="t-mid t-b f-rose">F = GMm / r²</text>
+	<text x="300" y="56" class="t-mid t-sm">same size on each body, opposite directions (Newton’s third law)</text>
+</svg>

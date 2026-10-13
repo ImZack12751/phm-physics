@@ -1,0 +1,41 @@
+---
+// Catching up with a ship ahead in the same circular orbit: brake (backward burn) to drop into a smaller ellipse
+// with a shorter period; after a whole number of laps, return to the burn point just as the target arrives, and a
+// forward burn there restores the original circle. Drawn exaggerated; motion is clockwise on screen.
+const CX = 230, CY = 180, R = 140;
+const rp = 92, A = (R + rp) / 2, C = A - rp, E = C / A, B = A * Math.sqrt(1 - E * E);
+// burn point at the top of the circle, which becomes the apoapsis of the phasing orbit
+const top = { x: CX, y: CY - R };
+const ecy = CY - (R - A); // ellipse centre: apoapsis at top (distance R above the planet), periapsis below (rp)
+const ang = (deg: number) => ({ x: CX + R * Math.sin((deg * Math.PI) / 180), y: CY - R * Math.cos((deg * Math.PI) / 180) });
+const target = ang(28); // target 28° ahead (clockwise on screen = direction of motion)
+---
+
+<svg class="dg" viewBox="0 0 600 350" xmlns="http://www.w3.org/2000/svg">
+	<circle cx={CX} cy={CY} r={R} class="s-green w2" fill="none" />
+	<ellipse cx={CX} cy={ecy} rx={B} ry={A} class="s-amber w2 dash" fill="none" />
+	<circle cx={CX} cy={CY} r="34" class="f-sky-soft s-sky w2" />
+	<text x={CX} y={CY + 5} class="t-mid t-sm f-sky">planet</text>
+	<!-- chaser at the top, braking: arrow pointing left (against motion, which is to the right) -->
+	<circle cx={top.x} cy={top.y} r="7" class="f-amber" />
+	<line x1={top.x} y1={top.y} x2={top.x - 36} y2={top.y} class="s-rose w3" />
+	<polygon points={`${top.x - 48},${top.y} ${top.x - 36},${top.y - 6} ${top.x - 36},${top.y + 6}`} class="f-rose" />
+	<text x={top.x - 52} y={top.y - 10} class="t-end t-sm f-rose halo">1. brake</text>
+	<text x={top.x - 10} y={top.y + 24} class="t-end t-sm f-amber halo">you</text>
+	<circle cx={target.x} cy={target.y} r="7" class="f-violet" />
+	<text x={target.x + 12} y={target.y - 6} class="t-sm f-violet halo">target, ahead</text>
+	<text x={CX + R * 0.78 + 12} y={CY + R * 0.62 + 14} class="t-sm f-green halo">shared circular orbit</text>
+	<text x={CX - B - 8} y={ecy + 46} class="t-end t-sm f-amber halo">2. smaller, faster</text>
+	<text x={CX - B - 8} y={ecy + 64} class="t-end t-sm f-amber halo">phasing orbit</text>
+	<text x="420" y="80" class="t-sm t-b">Catching up</text>
+	<text x="420" y="104" class="t-sm">1. Brake: drop into a</text>
+	<text x="432" y="122" class="t-sm">smaller orbit with a</text>
+	<text x="432" y="140" class="t-sm">shorter period.</text>
+	<text x="420" y="164" class="t-sm">2. Each lap gains on</text>
+	<text x="432" y="182" class="t-sm">the target.</text>
+	<text x="420" y="206" class="t-sm">3. Back at the burn point</text>
+	<text x="432" y="224" class="t-sm">as the target arrives,</text>
+	<text x="432" y="242" class="t-sm">speed up to rejoin the</text>
+	<text x="432" y="260" class="t-sm">circle beside it.</text>
+	<text x="300" y="336" class="t-mid t-sm">Motion is clockwise. Sizes exaggerated.</text>
+</svg>
