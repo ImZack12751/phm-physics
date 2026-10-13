@@ -795,4 +795,109 @@ export const formulas = [
 		where: 'v₁, v₂: circular speeds; a_t = (r₁ + r₂)/2; φ: lead angle of the target at departure.',
 		chapter: 'orbital-manoeuvring',
 	},
+	// ---- 5.1 Work as an integral ----
+	{
+		id: 'work',
+		name: 'Work',
+		tex: 'W = Fd\\cos\\theta \\qquad W = \\int_{x_{1}}^{x_{2}} F\\,dx',
+		where: 'θ: angle between the force and the motion; work is the area under the force–distance graph.',
+		chapter: 'work',
+	},
+	{
+		id: 'work-spring-lift',
+		name: 'Work on a spring and against gravity',
+		tex: 'W = \\tfrac{1}{2}k\\left(x_{2}^{2} - x_{1}^{2}\\right) \\qquad W = GMm\\left(\\dfrac{1}{r_{1}} - \\dfrac{1}{r_{2}}\\right)',
+		where: 'k: spring constant; r: distances from the planet’s centre.',
+		chapter: 'work',
+	},
+	// ---- 5.2 Kinetic and potential energy ----
+	{
+		id: 'kinetic-energy',
+		name: 'Kinetic energy and the work–energy theorem',
+		tex: 'K = \\tfrac{1}{2}mv^{2} \\qquad W_{\\text{net}} = \\tfrac{1}{2}mv^{2} - \\tfrac{1}{2}mu^{2}',
+		where: 'u, v: speeds before and after.',
+		chapter: 'kinetic-potential-energy',
+	},
+	{
+		id: 'potential-energy',
+		name: 'Potential energies',
+		tex: 'U = mgh \\qquad U = \\tfrac{1}{2}kx^{2} \\qquad U = -\\dfrac{GMm}{r} \\qquad F = -\\dfrac{dU}{dx}',
+		where: 'Gravity’s U is zero far away; force points downhill on the U graph.',
+		chapter: 'kinetic-potential-energy',
+	},
+	// ---- 5.3 Power ----
+	{
+		id: 'power',
+		name: 'Power',
+		tex: 'P = \\dfrac{dW}{dt} \\qquad P = Fv \\qquad \\eta = \\dfrac{P_{\\text{useful}}}{P_{\\text{in}}}',
+		where: '1 W = 1 J/s; 1 kWh = 3.6 × 10⁶ J.',
+		chapter: 'power',
+	},
+	{
+		id: 'light-drive',
+		name: 'Mass-to-light drive',
+		tex: 'P = \\dot{m}c^{2} \\qquad F = \\dfrac{P}{c} = \\dot{m}c \\qquad \\dfrac{Fv}{P} = \\dfrac{v}{c}',
+		where: 'ṁ: mass converted to light per second; Fv/P: share of the power going into the ship’s motion.',
+		chapter: 'power',
+	},
+	// ---- 5.4 Conservation laws ----
+	{
+		id: 'energy-conservation',
+		name: 'Energy conservation with friction',
+		tex: 'K_{1} + U_{1} = K_{2} + U_{2} + fd',
+		where: 'f: friction force; d: distance slid; fd becomes thermal energy.',
+		chapter: 'conservation-laws',
+	},
+	{
+		id: 'orbit-energy',
+		name: 'Energy of an orbit',
+		tex: 'E = -\\dfrac{GMm}{2a} \\qquad K = -E,\\ U = 2E \\ (\\text{circular})',
+		where: 'a: semi-major axis; negative E means a bound orbit.',
+		chapter: 'conservation-laws',
+	},
+	// ---- 5.5 Momentum ----
+	{
+		id: 'momentum',
+		name: 'Momentum and impulse',
+		tex: '\\vec{p} = m\\vec{v} \\qquad \\vec{F} = \\dfrac{d\\vec{p}}{dt} \\qquad \\vec{J} = \\int \\vec{F}\\,dt = \\Delta\\vec{p} \\qquad p_{\\text{light}} = \\dfrac{E}{c}',
+		where: 'J: impulse, the area under a force–time graph.',
+		chapter: 'momentum',
+	},
+	{
+		id: 'collisions',
+		name: 'Collisions',
+		tex: 'm_{1}u_{1} + m_{2}u_{2} = m_{1}v_{1} + m_{2}v_{2} \\qquad v_{1} = \\dfrac{m_{1} - m_{2}}{m_{1} + m_{2}}u_{1},\\ v_{2} = \\dfrac{2m_{1}}{m_{1} + m_{2}}u_{1}',
+		where: 'Momentum is always conserved; the second pair is for an elastic collision with object 2 at rest.',
+		chapter: 'momentum',
+	},
+	// ---- 5.6 Thrust ----
+	{
+		id: 'thrust',
+		name: 'Thrust',
+		tex: 'F = \\dot{m}v_{\\text{e}} \\qquad I_{\\text{sp}} = \\dfrac{v_{\\text{e}}}{g_{0}} \\qquad P = \\tfrac{1}{2}Fv_{\\text{e}}',
+		where: 'ṁ: propellant mass thrown out per second; v_e: exhaust speed; P: exhaust power.',
+		chapter: 'thrust',
+	},
+	{
+		id: 'light-thrust',
+		name: 'Light drive at constant acceleration',
+		tex: 'F = \\dot{m}c \\qquad \\dot{m} = \\dfrac{ma}{c}',
+		where: 'The burn rate needed to hold acceleration a falls in step with the ship’s mass m.',
+		chapter: 'thrust',
+	},
+	// ---- 5.7 The rocket equation ----
+	{
+		id: 'rocket-equation',
+		name: 'Tsiolkovsky rocket equation',
+		tex: '\\Delta v = v_{\\text{e}}\\ln\\dfrac{m_{0}}{m_{\\text{f}}} \\qquad \\dfrac{m_{0}}{m_{\\text{f}}} = e^{\\Delta v/v_{\\text{e}}}',
+		where: 'm₀: starting mass; m_f: final mass. Newtonian: fails when Δv is a large fraction of c.',
+		chapter: 'rocket-equation',
+	},
+	{
+		id: 'constant-acceleration-burn',
+		name: 'Fuel use at constant acceleration',
+		tex: 'm(t) = m_{0}\\,e^{-at/v_{\\text{e}}} \\qquad t = \\dfrac{v_{\\text{e}}}{a}\\ln\\dfrac{m_{0}}{m_{\\text{f}}}',
+		where: 'For a light drive (v_e = c), exact at any speed with t on the ship’s clock.',
+		chapter: 'rocket-equation',
+	},
 ];

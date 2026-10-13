@@ -1,0 +1,317 @@
+---
+title: Momentum
+description: Momentum p = mv, Newton's second law as F = dp/dt, impulse as the area under a force–time graph, conservation of momentum from the third law, recoil, and elastic and inelastic collisions.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import ImpulseArea from '../../../components/diagrams/part-5/ImpulseArea.astro';
+import CollisionKinds from '../../../components/diagrams/part-5/CollisionKinds.astro';
+import CollisionLab from '../../../components/sims/CollisionLab.astro';
+
+## The scene
+
+Out in open space, there is nothing to push against. An astronaut drifting away from the hull can kick, wave and swim all they like, and their centre of mass carries on exactly as before. Anyone working outside the *Hail Mary*, and the meeting of the *Hail Mary* with Rocky's ship, the *Blip-A*, are governed by one quantity that can't be created or destroyed: **momentum**.
+
+Momentum also explains how any spaceship moves at all. The *Hail Mary* has nothing to push on, either. It moves by throwing something the other way, which for an Astrophage drive is light. This chapter sets up the idea, and Chapters 5.6 and 5.7 build rockets from it.
+
+## Prerequisites
+
+<Prereqs notes={{ 'newtons-laws': 'F = ma and the third law (equal and opposite forces)', 'conservation-laws': 'conserved quantities and closed systems', integrals: 'area under a graph as an integral', vectors: 'momentum has a direction' }} />
+
+## The concept
+
+### Quantity of motion
+
+Which is harder to stop: a cart rolling at 1 m/s or one rolling at 10 m/s? A small cart or a loaded truck at the same speed? Both mass and velocity matter. <Term id="momentum">Momentum</Term> combines them:
+
+$$
+\vec{p} = m\vec{v}.
+$$
+
+It is a <Term id="vector">vector</Term>, pointing the same way as the velocity, measured in kg m/s. Unlike kinetic energy, its sign matters: a cart moving left has negative momentum if right is positive.
+
+### Newton's second law, the original version
+
+Newton wrote his second law in terms of momentum. For a steady mass, $F = ma = m\,dv/dt = d(mv)/dt$:
+
+$$
+\vec{F} = \frac{d\vec{p}}{dt}.
+$$
+
+**Force is the rate of change of momentum.** This form also works when the mass changes, as it does for rockets (Chapter 5.6).
+
+### Impulse: force over time
+
+A force acting for a time changes momentum by the area under the force–time graph. This change is called the <Term id="impulse">impulse</Term>:
+
+$$
+\vec{J} = \int \vec{F}\,dt = \Delta\vec{p}.
+$$
+
+For a steady force, it is simply $F\,\Delta t$. Real pushes, like a kick, a bat hitting a ball or a burst of Astrophage light, rise and fall quickly. The same impulse can come from a big force for a short time or a small force for a long time. That is why airbags and crumple zones work: by stretching out the time, they shrink the force needed to stop you.
+
+<Figure caption="Impulse as area under a force–time graph. A real push rises and falls (red curve). A steady average force acting for the same time (dashed rectangle) with the same area gives the same change in momentum." alt="A graph of force against time. A red bell-shaped curve rises from zero, peaks and falls back to zero, labelled force during the push, with the area under it shaded amber and labelled area = impulse J = delta p. A dashed blue rectangle over the same time interval, labelled average force, has the same area. The time interval is marked duration of the push, delta t. The title reads same area, same change in momentum: J = integral of F dt = F average times delta t.">
+	<ImpulseArea />
+</Figure>
+
+### Momentum is conserved
+
+When two objects push on each other, Newton's third law says the forces are equal and opposite, and they act for exactly the same time. So the impulses are equal and opposite. Whatever momentum one gains, the other loses. If no outside force acts on the pair, their total momentum can't change:
+
+$$
+m_{1}\vec{u}_{1} + m_{2}\vec{u}_{2} = m_{1}\vec{v}_{1} + m_{2}\vec{v}_{2}.
+$$
+
+This is the <Term id="conservation-of-momentum">conservation of momentum</Term>. It holds for collisions, explosions, push-offs and throws, however complicated the forces inside. It is why you can't steer yourself in empty space without throwing something away: your total momentum, with nothing to push against, is fixed. The centre of mass of a closed system keeps moving at a steady velocity.
+
+**Recoil** is momentum conservation at work. Start at rest, with zero total momentum. Throw something forward, and you must move backwards so that the total stays zero.
+
+### Collisions
+
+Momentum is conserved in every collision. Kinetic energy is not necessarily conserved:
+
+- In an <Term id="elastic-collision">elastic collision</Term>, the objects bounce apart with no kinetic energy lost. Collisions of hard steel balls, and of atoms, come close.
+- In an <Term id="inelastic-collision">inelastic collision</Term>, some kinetic energy becomes heat, sound and deformation. When the objects stick together it is called **perfectly inelastic**, and the most kinetic energy that momentum conservation allows is lost.
+
+A useful measure is the bounciness $e$, the relative speed after the collision divided by the relative speed before: 1 for elastic, 0 for sticking.
+
+<Figure caption="A 2 kg cart at 3 m/s hits a 6 kg cart at rest, in three ways. The total momentum is 6 kg m/s afterwards in every case, but the kinetic energy that survives ranges from all 9 J (elastic) down to 2.25 J (sticking)." alt="Left column, before: a small amber cart labelled 2 moving right at 3 m/s towards a larger blue cart labelled 6 at rest. Momentum 6 kg m/s, kinetic energy 9.0 J. Right column, after, three rows. Elastic (bounce): the small cart moves left at 1.5 m/s and the large cart right at 1.5 m/s, kinetic energy 9.0 J. Partly elastic: the small cart moves left slowly and the large cart right at 1.1 m/s, kinetic energy 3.9 J. Perfectly inelastic (stick): the two carts joined, moving right at 0.75 m/s, kinetic energy 2.25 J. Footer: momentum after: 6 kg m/s in every case.">
+	<CollisionKinds />
+</Figure>
+
+### Light carries momentum too
+
+Chapter 5.3 used the novel's figures to find that a light drive pushes with $F = P/c$. Over a burst of energy $E$, the impulse is $F\,\Delta t = P\,\Delta t/c = E/c$. So a burst of light carries momentum
+
+$$
+p = \frac{E}{c}.
+$$
+
+Dimitri's $1.8 \times 10^{9}$ J burst carried $6.0$ N s of momentum backwards, and gave the same 6.0 N s forwards to his apparatus. Part 7 explains this from the nature of light.
+
+## Formulas
+
+### Momentum and force
+
+$$
+\boxed{\vec{p} = m\vec{v} \qquad \vec{F} = \frac{d\vec{p}}{dt}}
+$$
+
+### Impulse
+
+Integrating $F = dp/dt$ over the time of the push:
+
+$$
+\boxed{\vec{J} = \int \vec{F}\,dt = \Delta\vec{p} = \vec{F}_{\text{avg}}\,\Delta t}
+$$
+
+### Conservation of momentum
+
+$$
+\boxed{m_{1}\vec{u}_{1} + m_{2}\vec{u}_{2} = m_{1}\vec{v}_{1} + m_{2}\vec{v}_{2}}
+$$
+
+### Head-on collisions
+
+Sticking together (perfectly inelastic):
+
+$$
+\boxed{v = \frac{m_{1}u_{1} + m_{2}u_{2}}{m_{1} + m_{2}}}
+$$
+
+Elastic, with cart 2 at rest: solving momentum and kinetic-energy conservation together gives
+
+$$
+\boxed{v_{1} = \frac{m_{1} - m_{2}}{m_{1} + m_{2}}\,u_{1} \qquad v_{2} = \frac{2m_{1}}{m_{1} + m_{2}}\,u_{1}}
+$$
+
+(Problem 10 asks you to derive these.)
+
+## Worked examples
+
+<Example n={1} title="The momentum in Dimitri's burst" book>
+Dimitri's Astrophage burst pushed with 60,000 N for 100 µs. Find the impulse. What speed would it give a 500 kg sled (our assumption)? Check it against the momentum of $1.8 \times 10^{9}$ J of light.
+
+$$
+J = F\,\Delta t = 60\,000\ \text{N} \times 1.0 \times 10^{-4}\ \text{s} = 6.0\ \text{N s}
+$$
+
+$$
+v = \frac{J}{m} = \frac{6.0\ \text{kg m/s}}{500\ \text{kg}} = 0.012\ \text{m/s}
+$$
+
+$$
+p_{\text{light}} = \frac{E}{c} = \frac{1.8 \times 10^{9}\ \text{J}}{3.0 \times 10^{8}\ \text{m/s}} = 6.0\ \text{kg m/s} \quad ✓
+$$
+
+The same 1.2 cm/s as Chapter 2.1, found more simply. It is also exactly what you get if the 20 µg of Astrophage were thrown backwards at the speed of light: $2.0 \times 10^{-8}\ \text{kg} \times 3.0 \times 10^{8}\ \text{m/s} = 6.0$ kg m/s.
+</Example>
+
+<Example n={2} title="Pushing off the hull" book>
+Grace, 200 kg with his spacesuit (our assumption), pushes away from the *Hail Mary* (about $1.2 \times 10^{5}$ kg, our estimate) and drifts off at 0.50 m/s. How fast does the ship recoil?
+
+Total momentum before is zero, so after it is still zero:
+
+$$
+200\ \text{kg} \times 0.50\ \text{m/s} + 1.2 \times 10^{5}\ \text{kg} \times v_{\text{ship}} = 0 \qquad\Rightarrow\qquad v_{\text{ship}} = -8.3 \times 10^{-4}\ \text{m/s}
+$$
+
+The ship moves backwards at under a millimetre per second: real, but far too slow to notice.
+</Example>
+
+<Example n={3} title="Linking up with the Blip-A" book>
+Suppose the *Hail Mary* ($1.2 \times 10^{5}$ kg) closes on the *Blip-A* at 0.20 m/s and they join. We assume the *Blip-A* is $5.0 \times 10^{5}$ kg and at rest. How fast do the joined ships move, and how much kinetic energy is lost?
+
+$$
+v = \frac{m_{1}u_{1}}{m_{1} + m_{2}} = \frac{1.2 \times 10^{5}\ \text{kg} \times 0.20\ \text{m/s}}{6.2 \times 10^{5}\ \text{kg}} = 0.039\ \text{m/s}
+$$
+
+$$
+K_{\text{before}} = \tfrac{1}{2} \times 1.2 \times 10^{5} \times 0.20^{2}\ \text{J} = 2400\ \text{J} \qquad K_{\text{after}} = \tfrac{1}{2} \times 6.2 \times 10^{5} \times 0.0387^{2}\ \text{J} = 465\ \text{J}
+$$
+
+81% of the kinetic energy, about 1900 J, goes into squashing and heating the docking gear. That is why real dockings are made at a few centimetres per second.
+</Example>
+
+<Example n={4} title="Two canisters bounce">
+A 2.0 kg sample canister floating at 3.0 m/s hits a 6.0 kg canister at rest, head-on and elastically. Find their velocities afterwards, and check both conservation laws.
+
+$$
+v_{1} = \frac{2.0 - 6.0}{8.0} \times 3.0\ \text{m/s} = -1.5\ \text{m/s} \qquad v_{2} = \frac{2 \times 2.0}{8.0} \times 3.0\ \text{m/s} = 1.5\ \text{m/s}
+$$
+
+Momentum: $2.0 \times 3.0 = 6.0$ before, $2.0 \times (-1.5) + 6.0 \times 1.5 = 6.0$ kg m/s after. ✓ Kinetic energy: $\tfrac{1}{2} \times 2.0 \times 3.0^{2} = 9.0$ J before, $\tfrac{1}{2} \times 2.0 \times 1.5^{2} + \tfrac{1}{2} \times 6.0 \times 1.5^{2} = 2.25 + 6.75 = 9.0$ J after. ✓ The lighter canister bounces back.
+</Example>
+
+<Example n={5} title="Stranded outside" book>
+Suppose Grace (200 kg with suit) is stranded at rest 100 m from the airlock, with no tether. He throws a 2.0 kg tool directly away from the ship at 10 m/s. How fast does he drift towards the ship, and how long does he take to get there?
+
+$$
+0 = 2.0\ \text{kg} \times 10\ \text{m/s} + 198\ \text{kg} \times v \qquad\Rightarrow\qquad v = -0.101\ \text{m/s}
+$$
+
+$$
+t = \frac{100\ \text{m}}{0.101\ \text{m/s}} = 990\ \text{s} \approx 16.5\ \text{min}
+$$
+
+Slow, but it works, and it is exactly how a rocket works: throw mass one way to go the other.
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** Momentum, impulse, its conservation and the collision formulas are core mechanics (OpenStax §9.1–9.4). Astronauts really do recoil when they push off, and dockings really are made at a few centimetres per second. Light carries momentum $E/c$: it has been measured since the early 1900s, and solar sails such as JAXA's IKAROS have used it to fly.
+
+**Weir's inventions.** Dimitri's 60,000 N for 100 µs and $1.8 \times 10^{9}$ J are the novel's figures, and they agree with $p = E/c$ exactly. Grace's 200 kg with suit, the ship masses, the closing speed and the stranding are our assumptions, used to show the method. They are not scenes or figures from the book.
+
+**How realistic are the numbers?** A 0.2 m/s docking that loses 1900 J is gentle by spacecraft standards. The throwing trick in Example 5 is a real emergency technique, but slow. Real spacesuits for untethered work, such as NASA's SAFER pack, carry small gas thrusters, which are tiny rockets.
+</RealVsBook>
+
+## Interactive simulation
+
+<CollisionLab />
+
+Things to try: the default is Example 4. Drag the time slider through zero, and check that the momentum stays at 6.00 kg m/s. Set the bounciness to 0 and watch the carts stick, losing 75% of the kinetic energy. Make the masses equal with $e = 1$: the carts swap velocities. Make cart 2 very heavy: cart 1 bounces back at nearly its original speed, like a ball off a wall.
+
+## Practice set
+
+<Problem n={1} level="easy">
+Find the momentum of an 80 kg person running at 3.0 m/s.
+
+<Solution>
+$p = mv = 80\ \text{kg} \times 3.0\ \text{m/s} = 240\ \text{kg m/s}$.
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy">
+A 500 N force acts on a 50 kg cart for 0.20 s. What impulse does it give, and how much does the cart's speed change?
+
+<Solution>
+$J = 500\ \text{N} \times 0.20\ \text{s} = 100\ \text{N s}$. $\Delta v = J/m = 100/50 = 2.0\ \text{m/s}$.
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy">
+Why does a rifle kick back against the shoulder when it fires?
+
+<Solution>
+Before firing, the total momentum is zero. The bullet and gas leave forwards with momentum, so the rifle must gain equal momentum backwards to keep the total zero.
+</Solution>
+</Problem>
+
+<Problem n={4} level="medium">
+A bat's force on a 0.15 kg ball rises steadily from 0 to 1200 N in 0.010 s, then falls steadily back to 0 in another 0.010 s. Find the impulse and the ball's speed, if it was at rest.
+
+<Solution>
+The graph is a triangle: $J = \tfrac{1}{2} \times 0.020\ \text{s} \times 1200\ \text{N} = 12\ \text{N s}$. $v = 12/0.15 = 80\ \text{m/s}$.
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium" book>
+Grace (200 kg with suit) pushes off the ship ($1.2 \times 10^{5}$ kg) at 0.80 m/s. How fast does the ship recoil?
+
+<Solution>
+$v = -\dfrac{200 \times 0.80}{1.2 \times 10^{5}}\ \text{m/s} = -1.3 \times 10^{-3}$ m/s, about 1.3 mm/s backwards.
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium">
+A 1000 kg cart at 2.0 m/s hits a 3000 kg cart at rest and they stick. Find their speed and the fraction of kinetic energy lost.
+
+<Solution>
+$v = 2000/4000 = 0.50$ m/s. $K$ goes from $\tfrac{1}{2} \times 1000 \times 4 = 2000$ J to $\tfrac{1}{2} \times 4000 \times 0.25 = 500$ J, so 75% is lost.
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium">
+Show that in an elastic head-on collision of equal masses, with one at rest, the moving one stops and the other moves off with its velocity.
+
+<Solution>
+With $m_{1} = m_{2}$: $v_{1} = \dfrac{m - m}{2m}u_{1} = 0$ and $v_{2} = \dfrac{2m}{2m}u_{1} = u_{1}$. (This is the "Newton's cradle" effect.)
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium" book>
+Stranded Grace (200 kg with suit) has three 2.0 kg tools. Each throw sends a tool at 10 m/s relative to him just after the throw, which changes his speed by $m_{\text{tool}} \times 10\ \text{m/s}$ divided by his mass just before it. Compare throwing them one at a time with throwing all three together.
+
+<Solution>
+One at a time: $\dfrac{20}{200} + \dfrac{20}{198} + \dfrac{20}{196} = 0.100 + 0.101 + 0.102 = 0.303$ m/s. All together: $\dfrac{60}{200} = 0.300$ m/s. One at a time is slightly better, because each later throw pushes a lighter Grace. A rocket takes this to the limit, throwing its fuel out continuously (Chapter 5.7).
+</Solution>
+</Problem>
+
+<Problem n={9} level="challenging">
+Use the elastic formulas to describe what happens when (a) a light ball hits a very heavy one at rest, and (b) a very heavy ball hits a light one at rest.
+
+<Solution>
+(a) $m_{1} \ll m_{2}$: $v_{1} \to -u_{1}$, $v_{2} \to 0$. The light ball bounces straight back at the same speed, like a ball off a wall. (b) $m_{1} \gg m_{2}$: $v_{1} \to u_{1}$, $v_{2} \to 2u_{1}$. The heavy ball barely notices, and the light one flies off at twice its speed.
+</Solution>
+</Problem>
+
+<Problem n={10} level="challenging">
+Derive the elastic-collision results for cart 2 initially at rest. (Hint: write momentum and kinetic-energy conservation as $m_{1}(u_{1} - v_{1}) = m_{2}v_{2}$ and $m_{1}(u_{1}^{2} - v_{1}^{2}) = m_{2}v_{2}^{2}$, then divide.)
+
+<Solution>
+Dividing, and using $u_{1}^{2} - v_{1}^{2} = (u_{1} - v_{1})(u_{1} + v_{1})$: $u_{1} + v_{1} = v_{2}$. Substitute into momentum: $m_{1}(u_{1} - v_{1}) = m_{2}(u_{1} + v_{1})$, so $v_{1} = \dfrac{m_{1} - m_{2}}{m_{1} + m_{2}}u_{1}$. Then $v_{2} = u_{1} + v_{1} = \dfrac{2m_{1}}{m_{1} + m_{2}}u_{1}$.
+</Solution>
+</Problem>
+
+## Summary
+
+- Momentum is $\vec{p} = m\vec{v}$, a vector. Force is its rate of change, $\vec{F} = d\vec{p}/dt$.
+- Impulse, $\int \vec{F}\,dt$, is the area under a force–time graph and equals the change in momentum.
+- Because of Newton's third law, the total momentum of a closed system never changes. That explains recoil and the impossibility of "swimming" in space.
+- All collisions conserve momentum. Elastic ones also keep kinetic energy, and sticking ones lose the most.
+- Light carries momentum $p = E/c$, which is how an Astrophage drive pushes.
+
+**Formulas from this chapter**
+
+$$
+\vec{p} = m\vec{v} \qquad \vec{F} = \frac{d\vec{p}}{dt} \qquad \vec{J} = \int \vec{F}\,dt = \Delta\vec{p} \qquad m_{1}\vec{u}_{1} + m_{2}\vec{u}_{2} = m_{1}\vec{v}_{1} + m_{2}\vec{v}_{2} \qquad p_{\text{light}} = \frac{E}{c}
+$$
+
+## Sources
+
+- Momentum, impulse, conservation and collisions: OpenStax, *University Physics Volume 1*, [§9.1 Linear Momentum](https://openstax.org/books/university-physics-volume-1/pages/9-1-linear-momentum), [§9.2 Impulse and Collisions](https://openstax.org/books/university-physics-volume-1/pages/9-2-impulse-and-collisions), [§9.3 Conservation of Linear Momentum](https://openstax.org/books/university-physics-volume-1/pages/9-3-conservation-of-linear-momentum) and [§9.4 Types of Collisions](https://openstax.org/books/university-physics-volume-1/pages/9-4-types-of-collisions).
+- Light pressure and solar sails (IKAROS): Wikipedia, [Radiation pressure](https://en.wikipedia.org/wiki/Radiation_pressure) and [IKAROS](https://en.wikipedia.org/wiki/IKAROS).
+- NASA's SAFER self-rescue jetpack: Wikipedia, [Simplified Aid for EVA Rescue](https://en.wikipedia.org/wiki/Simplified_Aid_for_EVA_Rescue).
+- Dimitri's test (60,000 N for 100 µs, $1.8 \times 10^{9}$ J, about 20 µg): Andy Weir, *Project Hail Mary* (2021), as summarised by a reader: [trangnkp.substack.com](https://trangnkp.substack.com/p/project-hail-mary). Approximate. Rocky's ship, the *Blip-A*: Wikipedia, [*Project Hail Mary*](https://en.wikipedia.org/wiki/Project_Hail_Mary).

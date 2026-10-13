@@ -1,0 +1,37 @@
+---
+// The rocket equation as a graph: mass ratio R = e^(Δv/v_e) against Δv/v_e, on a logarithmic R axis.
+// Marks at Δv = v_e (R = 2.7), 2v_e (7.4), 3v_e (20) and 5v_e (148).
+const L = 90, R = 560, T = 30, B = 250, xMax = 5.5, lo = 0, hi = 2.6; // log10 R from 0 to 2.6
+const px = (x: number) => L + (x / xMax) * (R - L);
+const py = (r: number) => B - ((Math.log10(r) - lo) / (hi - lo)) * (B - T);
+const curve = Array.from({ length: 111 }, (_, i) => (xMax * i) / 110).map((x, i) => `${i ? 'L' : 'M'}${px(x).toFixed(1)},${py(Math.exp(x)).toFixed(1)}`).join(' ');
+const marks = [
+	{ x: 1, t: '2.7', f: '63%' },
+	{ x: 2, t: '7.4', f: '86%' },
+	{ x: 3, t: '20', f: '95%' },
+	{ x: 5, t: '148', f: '99.3%' },
+];
+---
+
+<svg class="dg" viewBox="0 0 600 320" xmlns="http://www.w3.org/2000/svg">
+	{[1, 10, 100].map((r) => (
+		<>
+			<line x1={L} y1={py(r)} x2={R} y2={py(r)} class="s-grid w1" />
+			<text x={L - 8} y={py(r) + 4} class="t-end t-sm f-muted">{r}</text>
+		</>
+	))}
+	{[0, 1, 2, 3, 4, 5].map((x) => <text x={px(x)} y={B + 18} class="t-mid t-sm f-muted">{x}</text>)}
+	<line x1={L} y1={B} x2={R} y2={B} class="s-fg w2" />
+	<line x1={L} y1={B} x2={L} y2={T} class="s-fg w2" />
+	<path d={curve} class="s-rose w3" fill="none" />
+	{marks.map((m) => (
+		<>
+			<line x1={px(m.x)} y1={B} x2={px(m.x)} y2={py(Math.exp(m.x))} class="s-grid w1 dash" />
+			<circle cx={px(m.x)} cy={py(Math.exp(m.x))} r="5" class="f-amber" />
+			<text x={m.x === 1 ? px(m.x) + 12 : px(m.x) - 8} y={m.x === 1 ? py(Math.exp(m.x)) + 18 : py(Math.exp(m.x)) - 10} class={`${m.x === 1 ? '' : 't-end'} t-sm halo`}>{`R = ${m.t}: ${m.f} fuel`}</text>
+		</>
+	))}
+	<text x={(L + R) / 2} y={B + 42} class="t-mid t-sm">Δv / v_e (change in speed, in units of the exhaust speed)</text>
+	<text x="26" y={(T + B) / 2} class="t-mid t-sm" transform={`rotate(-90 26 ${(T + B) / 2})`}>mass ratio m₀ / m_f (log scale)</text>
+	<text x={R} y={B - 10} class="t-end t-sm f-rose">R = exp(Δv / v_e)</text>
+</svg>

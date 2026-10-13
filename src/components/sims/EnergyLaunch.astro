@@ -1,0 +1,112 @@
+---
+// Simulation: kinetic and potential energy along a coasting path launched from a planet's surface (no air).
+// KE/m = ½v², U/m = −GM/r, and their sum stays constant. Escape happens when the sum is ≥ 0, whatever the angle.
+---
+
+<div
+	class="sim enl"
+	data-title="Energy on a launch"
+	data-description="Launch a coasting object (no air) from the surface of Earth, the Moon or our model Adrian, with a speed given as a fraction of the escape speed (0.3 to 1.4) and an angle from 0° (horizontal) to 90° (straight up). The path is computed step by step and drawn around the planet out to 6 radii. A slider moves a marker along the path. Bars show the kinetic energy per kilogram ½v², the gravitational potential energy per kilogram −GM/r, and their sum, in megajoules per kilogram; the sum stays the same at every point. The readout says whether the object escapes, which happens exactly when the total is zero or more, whatever the launch angle."
+>
+	<p class="sim-title">Simulation: energy on a launch</p>
+	<p class="sim-help">Choose a launch speed and angle, then slide the marker along the path. The kinetic and potential bars trade with each other, but the total never changes. Try the same speed at different angles.</p>
+	<div class="sim-controls">
+		<label>Speed (× escape speed) <input type="range" class="enl-v" min="0.3" max="1.4" step="0.01" value="0.85" /> <output class="enl-vv"></output></label>
+		<label>Angle above horizontal <input type="range" class="enl-a" min="0" max="90" step="1" value="45" /> <output class="enl-av"></output></label>
+		<label>Marker along the path <input type="range" class="enl-s" min="0" max="1" step="0.005" value="0.3" /> <output class="enl-sv"></output></label>
+		<label>Body <select class="enl-b">
+			<option value="0">Adrian (our model)</option>
+			<option value="1">Earth</option>
+			<option value="2">Moon</option>
+		</select></label>
+	</div>
+	<svg class="dg enl-svg" viewBox="0 0 600 300" role="img" aria-label="A planet with a launch path drawn round it, and bars showing kinetic, potential and total energy at a marked point"></svg>
+	<div class="readout enl-out" aria-live="polite"></div>
+</div>
+
+<script>
+	// GM and radius: NASA NSSDCA fact sheets; Adrian is our model (3.93 Earth masses, 1.5 Earth radii, assumed).
+	const BODIES = [
+		{ n: 'Adrian (model)', GM: 1.5665e15, R: 9.5565e6 },
+		{ n: 'Earth', GM: 3.986e14, R: 6.371e6 },
+		{ n: 'the Moon', GM: 4.9e12, R: 1.7374e6 },
+	];
+	document.querySelectorAll<HTMLElement>('.sim.enl').forEach((root) => {
+		const q = <T extends Element>(s: string) => root.querySelector<T>(s)!;
+		const svg = q<SVGSVGElement>('.enl-svg'), out = q<HTMLElement>('.enl-out');
+		const Vs = q<HTMLInputElement>('.enl-v'), As = q<HTMLInputElement>('.enl-a'), Ss = q<HTMLInputElement>('.enl-s'), Bs = q<HTMLSelectElement>('.enl-b');
+		const NS = 'http://www.w3.org/2000/svg';
+		const el = (tag: string, at: Record<string, string | number>, text?: string) => {
+			const e = document.createElementNS(NS, tag);
+			Object.entries(at).forEach(([k, v]) => e.setAttribute(k, String(v)));
+			if (text) e.textContent = text;
+			svg.append(e);
+			return e;
+		};
+		const CX = 150, CY = 160, PR = 24, VIEW = 6; // planet drawn with radius PR px; view out to VIEW radii
+		function path(f: number, ang: number) {
+			// Units: R = 1, GM = 1, so escape speed is √2. Launch from the top of the planet.
+			const v0 = f * Math.SQRT2, th = (ang * Math.PI) / 180;
+			let x = 0, y = 1, vx = v0 * Math.cos(th), vy = v0 * Math.sin(th);
+			const pts: { x: number; y: number; v: number; r: number }[] = [{ x, y, v: v0, r: 1 }];
+			const dt = 0.004;
+			let ax = 0, ay = -1;
+			for (let i = 0; i < 60000; i++) {
+				x += vx * dt + 0.5 * ax * dt * dt;
+				y += vy * dt + 0.5 * ay * dt * dt;
+				const r = Math.hypot(x, y), nax = -x / r ** 3, nay = -y / r ** 3;
+				vx += 0.5 * (ax + nax) * dt;
+				vy += 0.5 * (ay + nay) * dt;
+				ax = nax;
+				ay = nay;
+				if (i % 5 === 0) pts.push({ x, y, v: Math.hypot(vx, vy), r });
+				if (r < 1 || r > VIEW) {
+					pts.push({ x, y, v: Math.hypot(vx, vy), r });
+					break;
+				}
+			}
+			return pts;
+		}
+		function draw() {
+			const f = +Vs.value, ang = +As.value, s = +Ss.value, b = BODIES[+Bs.value];
+			q('.enl-vv').textContent = `${f.toFixed(2)} ×`;
+			q('.enl-av').textContent = `${ang}°`;
+			q('.enl-sv').textContent = `${Math.round(s * 100)}%`;
+			const pts = path(f, ang);
+			const sc = (CY - 18) / VIEW; // px per radius
+			const X = (x: number) => CX + x * sc, Y = (y: number) => CY - y * sc;
+			svg.replaceChildren();
+			el('circle', { cx: CX, cy: CY, r: VIEW * sc, class: 's-grid w1 dash', fill: 'none' });
+			el('circle', { cx: CX, cy: CY, r: sc, class: 'f-sky-soft s-sky w2' });
+			el('path', { d: pts.map((p, i) => `${i ? 'L' : 'M'}${X(p.x).toFixed(1)},${Y(p.y).toFixed(1)}`).join(' '), class: 's-amber w2', fill: 'none' });
+			const p = pts[Math.min(pts.length - 1, Math.round(s * (pts.length - 1)))];
+			el('circle', { cx: X(p.x), cy: Y(p.y), r: 6, class: 'f-rose' });
+			el('text', { x: CX, y: CY + 4, class: 't-mid t-sm' }, b.n.split(' ')[0]);
+			// energies per kg in real units
+			const u = b.GM / b.R; // J/kg per unit
+			const KE = 0.5 * p.v * p.v * u, U = (-1 / p.r) * u, E = KE + U;
+			const scale = u * 1.0; // bar full length = GM/R
+			const BX = 420, BW = 46, Z = 150, H = 110;
+			const bar = (i: number, val: number, cls: string, label: string) => {
+				const x = BX + i * (BW + 20), h = (val / scale) * H;
+				el('rect', { x, y: h >= 0 ? Z - h : Z, width: BW, height: Math.max(1, Math.abs(h)), class: cls });
+				el('text', { x: x + BW / 2, y: Z + 130, class: 't-mid t-sm' }, label);
+				el('text', { x: x + BW / 2, y: h >= 0 ? Z - h - 6 : Z - 6, class: 't-mid t-sm t-b' }, (val / 1e6).toFixed(1));
+			};
+			el('line', { x1: BX - 14, y1: Z, x2: BX + 3 * BW + 54, y2: Z, class: 's-fg w2' });
+			bar(0, KE, 'f-amber', 'kinetic');
+			bar(1, U, 'f-sky', 'potential');
+			bar(2, E, E >= 0 ? 'f-green' : 'f-rose', 'total');
+			el('text', { x: BX + 1.5 * BW + 20, y: 22, class: 't-mid t-sm' }, 'MJ per kg at the marker');
+			const vEsc = Math.sqrt(2 * u);
+			const escapes = f >= 1 - 1e-9;
+			const crashedEarly = pts.length < 4;
+			out.innerHTML =
+				`<span class="k">launch speed</span> = ${((f * vEsc) / 1000).toFixed(2)} km/s (escape speed ${(vEsc / 1000).toFixed(2)} km/s) &nbsp; <span class="k">at the marker</span>: ${((p.r - 1) * b.R / 1000).toLocaleString('en-GB', { maximumFractionDigits: 0 })} km up, ${((p.v * Math.sqrt(u)) / 1000).toFixed(2)} km/s<br>` +
+				`<span class="k">½v² − GM/r</span> = ${(KE / 1e6).toFixed(1)} − ${(-U / 1e6).toFixed(1)} = <b>${(E / 1e6).toFixed(1)} MJ/kg</b> at every point &nbsp; ` +
+				(escapes ? '<b>total ≥ 0: it escapes</b>, at any launch angle' : crashedEarly ? 'total &lt; 0, and too flat a launch hits the ground at once' : '<b>total &lt; 0: it falls back</b>, at any launch angle');
+		}
+		[Vs, As, Ss, Bs].forEach((i) => i.addEventListener('input', draw));
+		draw();
+	});
+</script>

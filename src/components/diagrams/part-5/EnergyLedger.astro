@@ -1,0 +1,29 @@
+---
+// Energy accounting for a crate sliding to rest: 40 J of kinetic energy becomes 40 J of thermal energy (in the crate and
+// floor). Mechanical energy is lost; total energy is not.
+const B = 230, s = 3.6; // baseline, px per joule
+const cols = [
+	{ x: 110, label: 'sliding at 2.0 m/s', k: 40, th: 0 },
+	{ x: 270, label: 'halfway', k: 20, th: 20 },
+	{ x: 430, label: 'stopped', k: 0, th: 40 },
+];
+---
+
+<svg class="dg" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+	<line x1="60" y1={B} x2="560" y2={B} class="s-fg w2" />
+	{cols.map((c) => (
+		<>
+			<rect x={c.x} y={B - c.k * s} width="60" height={Math.max(c.k * s, 0.5)} class="f-amber" />
+			<rect x={c.x} y={B - (c.k + c.th) * s} width="60" height={Math.max(c.th * s, 0.5)} class="f-rose-soft s-rose w1" />
+			<text x={c.x + 30} y={B + 20} class="t-mid t-sm">{c.label}</text>
+			{c.k > 0 && <text x={c.x + 30} y={B - (c.k * s) / 2 + 4} class="t-mid t-sm t-b">{`${c.k} J`}</text>}
+			{c.th > 0 && <text x={c.x + 30} y={B - (c.k + c.th / 2) * s + 4} class="t-mid t-sm t-b">{`${c.th} J`}</text>}
+		</>
+	))}
+	<line x1="80" y1={B - 40 * s} x2="520" y2={B - 40 * s} class="s-green w1 dash" />
+	<text x="520" y={B - 40 * s - 8} class="t-end t-sm f-green">total energy: 40 J throughout</text>
+	<rect x="150" y="268" width="12" height="12" class="f-amber" />
+	<text x="168" y="279" class="t-sm">kinetic (mechanical)</text>
+	<rect x="330" y="268" width="12" height="12" class="f-rose-soft s-rose w1" />
+	<text x="348" y="279" class="t-sm">thermal, from friction</text>
+</svg>

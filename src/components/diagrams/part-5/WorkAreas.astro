@@ -1,0 +1,43 @@
+---
+// Work is the area under a force–distance graph. Three panels: constant force (rectangle), spring force kx (triangle),
+// inverse-square gravity (area under a curve).
+const W = 170, H = 150, T = 50, gap = 25, L0 = 30;
+const panels = [0, 1, 2].map((i) => L0 + i * (W + gap));
+const B = T + H;
+// gravity curve: F ∝ 1/r², r from 1 to 3 (graph units), shaded 1.2 to 2.4
+const gx = (r: number) => panels[2] + ((r - 1) / 2) * W;
+const gy = (r: number) => B - (H - 10) / (r * r);
+const curve = Array.from({ length: 61 }, (_, i) => 1 + (2 * i) / 60).map((r, i) => `${i ? 'L' : 'M'}${gx(r).toFixed(1)},${gy(r).toFixed(1)}`).join(' ');
+const shadePts = Array.from({ length: 41 }, (_, i) => 1.2 + (1.2 * i) / 40).map((r) => `${gx(r).toFixed(1)},${gy(r).toFixed(1)}`);
+const shade = `${gx(1.2).toFixed(1)},${B} ${shadePts.join(' ')} ${gx(2.4).toFixed(1)},${B}`;
+---
+
+<svg class="dg" viewBox="0 0 600 270" xmlns="http://www.w3.org/2000/svg">
+	{panels.map((x, i) => (
+		<>
+			<line x1={x} y1={B} x2={x + W} y2={B} class="s-fg w2" />
+			<line x1={x} y1={B} x2={x} y2={T - 8} class="s-fg w2" />
+			<text x={x - 6} y={T} class="t-end t-sm">F</text>
+			<text x={x + W} y={B + 16} class="t-end t-sm">{['x', '', 'r'][i]}</text>
+		</>
+	))}
+	<!-- constant force -->
+	<rect x={panels[0] + 30} y={T + 50} width="110" height={H - 50} class="f-amber-soft" />
+	<line x1={panels[0]} y1={T + 50} x2={panels[0] + W} y2={T + 50} class="s-rose w3" />
+	<text x={panels[0] + 85} y={T + 110} class="t-mid t-sm t-b halo">W = F d</text>
+	<text x={panels[0] + 85} y={T + 40} class="t-mid t-sm f-rose">constant F</text>
+	<!-- spring -->
+	<polygon points={`${panels[1]},${B} ${panels[1] + 130},${B - 120} ${panels[1] + 130},${B}`} class="f-amber-soft" />
+	<line x1={panels[1]} y1={B} x2={panels[1] + 160} y2={B - 148} class="s-rose w3" />
+	<text x={panels[1] + 92} y={B - 22} class="t-mid t-sm t-b halo">W = ½kx²</text>
+	<text x={panels[1] + 46} y={T + 20} class="t-mid t-sm f-rose">spring: F = kx</text>
+	<text x={panels[1] + 130} y={B + 16} class="t-mid t-sm">x</text>
+	<!-- gravity -->
+	<polygon points={shade} class="f-amber-soft" />
+	<path d={curve} class="s-rose w3" fill="none" />
+	<text x={gx(1.8)} y={B - 14} class="t-mid t-sm t-b halo">W = ∫ F dr</text>
+	<text x={gx(2.1)} y={T + 30} class="t-mid t-sm f-rose">gravity: F ∝ 1/r²</text>
+	<text x={gx(1.2)} y={B + 16} class="t-mid t-sm">r₁</text>
+	<text x={gx(2.4)} y={B + 16} class="t-mid t-sm">r₂</text>
+	<text x="300" y={B + 50} class="t-mid t-sm">in every case the work is the shaded area under the force graph</text>
+</svg>

@@ -1,0 +1,29 @@
+---
+// Impulse is the area under a force–time graph. A brief, peaked push (red) and a steady average force (dashed rectangle)
+// with the same area give the same change in momentum.
+const L = 80, R = 540, T = 40, B = 240, tMax = 10, fMax = 10;
+const px = (t: number) => L + (t / tMax) * (R - L);
+const py = (f: number) => B - (f / fMax) * (B - T);
+// smooth bump between t = 2 and t = 8, peak 9: f = 9 sin²(π (t−2)/6); area = 9 × 6 / 2 = 27
+const bump = Array.from({ length: 61 }, (_, i) => 2 + (6 * i) / 60).map((t) => [t, 9 * Math.sin((Math.PI * (t - 2)) / 6) ** 2]);
+const path = bump.map(([t, f], i) => `${i ? 'L' : 'M'}${px(t).toFixed(1)},${py(f).toFixed(1)}`).join(' ');
+const fill = `${px(2)},${B} ${bump.map(([t, f]) => `${px(t).toFixed(1)},${py(f).toFixed(1)}`).join(' ')} ${px(8)},${B}`;
+const avg = 27 / 6;
+---
+
+<svg class="dg" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+	<polygon points={fill} class="f-amber-soft" />
+	<path d={path} class="s-rose w3" fill="none" />
+	<rect x={px(2)} y={py(avg)} width={px(8) - px(2)} height={B - py(avg)} class="s-sky w2 dash" fill="none" />
+	<text x={px(8) + 8} y={py(avg) + 4} class="t-sm f-sky">average force</text>
+	<text x={px(5)} y={py(2)} class="t-mid t-sm t-b halo">area = impulse J = Δp</text>
+	<text x={px(5) + 50} y={py(9) - 8} class="t-sm f-rose">force during the push</text>
+	<line x1={L} y1={B} x2={R} y2={B} class="s-fg w2" />
+	<line x1={L} y1={B} x2={L} y2={T - 10} class="s-fg w2" />
+	<text x={L - 8} y={T} class="t-end t-sm">F</text>
+	<text x={R} y={B + 18} class="t-end t-sm">time t</text>
+	<line x1={px(2)} y1={B + 6} x2={px(2)} y2={B - 4} class="s-fg w1" />
+	<line x1={px(8)} y1={B + 6} x2={px(8)} y2={B - 4} class="s-fg w1" />
+	<text x={(px(2) + px(8)) / 2} y={B + 22} class="t-mid t-sm">duration of the push, Δt</text>
+	<text x="300" y="22" class="t-mid t-sm">same area, same change in momentum: J = ∫F dt = F_avg Δt</text>
+</svg>

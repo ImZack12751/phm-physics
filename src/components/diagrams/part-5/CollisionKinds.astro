@@ -1,0 +1,49 @@
+---
+// Three kinds of head-on collision between a 2 kg cart at 3 m/s and a 6 kg cart at rest. Momentum (6 kg m/s) is the same
+// before and after in every case; kinetic energy is kept only in the elastic one.
+// Elastic: v1 = −1.5, v2 = 1.5 (KE 9 J). Partly elastic, e = 0.5: v1 = −0.375, v2 = 1.125 (KE 3.94 J). Sticking: both 0.75 (KE 2.25 J).
+const rows = [
+	{ n: 'elastic (bounce)', v1: -1.5, v2: 1.5, ke: '9.0 J' },
+	{ n: 'partly elastic', v1: -0.375, v2: 1.125, ke: '3.9 J' },
+	{ n: 'perfectly inelastic (stick)', v1: 0.75, v2: 0.75, ke: '2.25 J', stick: true },
+];
+const Y0 = 70, H = 70, cA = 250, cB = 310; // after: small cart left edge at cA, big cart at cB
+const arrow = (x: number, y: number, v: number) => {
+	const len = v * 30;
+	if (Math.abs(len) < 1) return '';
+	const x2 = x + len, d = Math.sign(len);
+	return `M${x},${y} L${x2 - 8 * d},${y} M${x2},${y} L${x2 - 10 * d},${y - 5} L${x2 - 10 * d},${y + 5} Z`;
+};
+---
+
+<svg class="dg" viewBox="0 0 600 330" xmlns="http://www.w3.org/2000/svg">
+	<text x="110" y="30" class="t-mid t-b">before</text>
+	<text x="330" y="30" class="t-mid t-b">after</text>
+	<text x="520" y="30" class="t-mid t-b">kinetic energy</text>
+	<!-- before (same for all) -->
+	<rect x="40" y={Y0 + H - 14} width="34" height="26" class="f-amber-soft s-amber w2" />
+	<text x="57" y={Y0 + H + 4} class="t-mid t-sm">2</text>
+	<path d={arrow(78, Y0 + H - 22, 3)} class="s-rose w2 f-rose" />
+	<text x="122" y={Y0 + H - 30} class="t-mid t-sm f-rose">3 m/s</text>
+	<rect x="150" y={Y0 + H - 22} width="50" height="34" class="f-sky-soft s-sky w2" />
+	<text x="175" y={Y0 + H + 0} class="t-mid t-sm">6</text>
+	<text x="175" y={Y0 + H + 34} class="t-mid t-sm f-muted">at rest</text>
+	<text x="110" y={Y0 + 2 * H + 30} class="t-mid t-sm">momentum: 6 kg m/s</text>
+	<text x="110" y={Y0 + 2 * H + 50} class="t-mid t-sm">kinetic energy: 9.0 J</text>
+	{rows.map((r, i) => {
+		const y = Y0 + i * H + 12;
+		return (
+			<>
+				<text x="330" y={y - 4} class="t-mid t-sm f-muted">{r.n}</text>
+				<rect x={cA} y={y + 8} width="34" height="26" class="f-amber-soft s-amber w2" />
+				<rect x={r.stick ? cA + 34 : cB} y={y + 4} width="50" height="34" class="f-sky-soft s-sky w2" />
+				<path d={arrow(r.stick ? cA + 90 : cA - 4, y + 21, r.v1)} class="s-rose w2 f-rose" />
+				{!r.stick && <path d={arrow(cB + 54, y + 21, r.v2)} class="s-rose w2 f-rose" />}
+				<text x="520" y={y + 26} class="t-mid t-sm t-b">{r.ke}</text>
+			</>
+		);
+	})}
+	<line x1="215" y1="40" x2="215" y2="290" class="s-grid w1" />
+	<text x="390" y="300" class="t-mid t-sm">momentum after: 6 kg m/s in every case</text>
+	<text x="390" y="320" class="t-mid t-sm f-muted">(arrows show velocities; the 2 kg cart bounces back in the first two)</text>
+</svg>

@@ -1,0 +1,305 @@
+---
+title: Power
+description: Power as the rate of doing work, the watt and the kilowatt-hour, P = Fv, efficiency, and the staggering power of an Astrophage drive, with how little of it a slow ship actually captures.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import ForceVelocity from '../../../components/diagrams/part-5/ForceVelocity.astro';
+import PowerLadder from '../../../components/diagrams/part-5/PowerLadder.astro';
+import DrivePower from '../../../components/sims/DrivePower.astro';
+
+## The scene
+
+Early in the novel, Grace reads two numbers off the ship's fuel display: about 20,862 kg of Astrophage left, being used at 6.043 grams per second. Later he works out what that burn rate means. Astrophage stores energy as mass, and if the engines turn 6 grams of it into energy every second, the output is about 540 trillion joules **per second**. That is far more than all the power humanity uses.
+
+This chapter is about that "per second": the rate at which energy is delivered, called **power**. It explains why a light-pushed ship needs such absurd power, and why nearly all of it is lost to space.
+
+## Prerequisites
+
+<Prereqs notes={{ work: 'work as force times distance', 'kinetic-potential-energy': 'kinetic and potential energy', derivatives: 'a rate as a derivative' }} />
+
+## The concept
+
+### Power is how fast energy moves
+
+Two people climb the same stairs. They do the same work against gravity. But if one runs up in 4 seconds and the other walks up in 20, the runner is working five times as hard. <Term id="power">Power</Term> measures this: the rate at which work is done, or more generally the rate at which energy is transferred or converted.
+
+$$
+P = \frac{W}{t} \qquad\text{or, at each instant,}\qquad P = \frac{dW}{dt}.
+$$
+
+The unit is the joule per second, called the <Term id="watt">watt</Term> (W), after James Watt. A 100 W bulb uses 100 joules every second. Over a long time, power adds up to energy. Electricity bills use the <Term id="kilowatt-hour">kilowatt-hour</Term>, the energy delivered in one hour at 1 kW:
+
+$$
+1\ \text{kWh} = 1000\ \text{W} \times 3600\ \text{s} = 3.6 \times 10^{6}\ \text{J}.
+$$
+
+### Power from force and speed
+
+A force $F$ pushing an object along at speed $v$ moves it a distance $v\,\Delta t$ in a short time $\Delta t$. It does work $F\,v\,\Delta t$ in that time. Dividing by $\Delta t$:
+
+$$
+P = Fv.
+$$
+
+<Figure caption="Power from force and speed. In a short time Δt, the object moves vΔt, so the force does work F·vΔt. Per second, that is Fv." alt="A box at time t, drawn dashed, and the same box further right at time t plus delta t, drawn solid. A red arrow labelled F pushes the box to the right. A green arrow above, labelled speed v, points right. An amber bracket between the two positions is labelled distance moved = v delta t. The title reads work in delta t = F times v delta t, so power P = F v. Below: the same force delivers more power the faster its object moves.">
+	<ForceVelocity />
+</Figure>
+
+$P = Fv$ means that the same force delivers more power the faster its object moves. Pulling a car at a steady speed against air drag takes far more power at motorway speeds than in town: both the drag force and the speed rise.
+
+### Efficiency
+
+No machine turns all of its input power into the output you want. Some is always lost, usually as heat. The <Term id="efficiency">efficiency</Term> is the useful fraction:
+
+$$
+\eta = \frac{\text{useful power out}}{\text{power in}}.
+$$
+
+It is a number between 0 and 1 (or 0% and 100%).
+
+### The power of an Astrophage drive
+
+In the novel, Astrophage stores energy as extra mass, and Grace converts burned mass to energy with $E = mc^{2}$ (Part 9 explains this formula). Burning a mass $\Delta m$ releases $\Delta m\,c^{2}$ as light. Burning at a steady rate $\dot{m}$ (kilograms per second, read "m-dot") gives a power of
+
+$$
+P = \dot{m}c^{2}.
+$$
+
+With $c^{2} \approx 9 \times 10^{16}\ \text{m}^{2}/\text{s}^{2}$, even a few grams per second is colossal.
+
+<Figure caption="Power on a logarithmic scale. Each grid line is 1000 times the last. The Hail Mary's drive outputs about 28 times as much power as all of humanity, yet still only about a trillionth of the Sun's output." alt="A horizontal bar chart on a logarithmic scale from 10 to the 0 to 10 to the 27 watts. Rows: a person, on average, 100 W. One RS-25 engine's exhaust, 5.1 times 10 to the 9 W. Dimitri's test burst (100 microseconds), 1.8 times 10 to the 13 W, in amber. All human energy use (2021), 2.0 times 10 to the 13 W. Hail Mary drive at 6.043 g per second, 5.4 times 10 to the 14 W, in amber. Sunlight reaching Earth, 1.7 times 10 to the 17 W. The Sun, 3.8 times 10 to the 26 W. Note: amber marks figures from the novel.">
+	<PowerLadder />
+</Figure>
+
+### Where does all that power go?
+
+The novel's own numbers reveal how a light drive pushes. Dimitri's burst released $1.8 \times 10^{9}$ J in 100 µs, a power of $1.8 \times 10^{13}$ W, and pushed with 60,000 N. Divide one by the other:
+
+$$
+\frac{P}{F} = \frac{1.8 \times 10^{13}\ \text{W}}{6.0 \times 10^{4}\ \text{N}} = 3.0 \times 10^{8}\ \text{m/s} = c.
+$$
+
+A light drive gives one newton of push for every $3 \times 10^{8}$ W of power: $F = P/c$. (Part 7 explains why light pushes like this, and Chapter 5.6 builds it into rockets.) With $P = \dot{m}c^{2}$, the push is $F = \dot{m}c$.
+
+Now use $P = Fv$. A ship moving at speed $v$ gains kinetic energy at the rate $Fv$. Out of the drive's power $Fc$, that is a fraction
+
+$$
+\frac{Fv}{Fc} = \frac{v}{c}.
+$$
+
+At a thousand kilometres per second, a third of a percent of the drive's power goes into the ship's motion. Everything else streams away behind it as light. A light drive is a superb way to push but a wasteful way to deliver energy, until the ship is moving at a good fraction of light speed.
+
+## Formulas
+
+### Power
+
+$$
+\boxed{P = \frac{dW}{dt} = \frac{dE}{dt} \qquad 1\ \text{W} = 1\ \text{J/s} \qquad 1\ \text{kWh} = 3.6 \times 10^{6}\ \text{J}}
+$$
+
+### Power from force and velocity
+
+From $\Delta W = F\,\Delta x$, divide by $\Delta t$ and let it shrink:
+
+$$
+\boxed{P = Fv}
+$$
+
+### Efficiency
+
+$$
+\boxed{\eta = \frac{P_{\text{useful}}}{P_{\text{in}}}}
+$$
+
+### A mass-to-light drive
+
+$$
+\boxed{P = \dot{m}c^{2} \qquad F = \frac{P}{c} = \dot{m}c \qquad \frac{Fv}{P} = \frac{v}{c}}
+$$
+
+## Worked examples
+
+<Example n={1} title="Running up a level" book>
+Grace (80 kg) climbs 3.0 m between levels in 4.0 s at 1.5 g. Find his average power. Compare it with the 100 W his whole body uses on average.
+
+$$
+P = \frac{mg_{\text{eff}}h}{t} = \frac{80\ \text{kg} \times 14.71\ \text{m/s}^{2} \times 3.0\ \text{m}}{4.0\ \text{s}} = \frac{3530\ \text{J}}{4.0\ \text{s}} = 883\ \text{W}
+$$
+
+Nearly nine times his body's average power. Bodies can manage bursts like that only for seconds, which is why stairs leave you out of breath.
+</Example>
+
+<Example n={2} title="Grace's power calculation" book>
+The display reads 6.043 g/s. Find the drive's power, first as Grace does (6 g/s and $c = 3 \times 10^{8}$ m/s), then with the exact figures. Compare it with all of humanity's energy use, about $1.96 \times 10^{13}$ W in 2021.
+
+$$
+P \approx 0.006\ \text{kg/s} \times \left(3 \times 10^{8}\ \text{m/s}\right)^{2} = 5.4 \times 10^{14}\ \text{W} = 540\ \text{TW}
+$$
+
+$$
+P = 6.043 \times 10^{-3}\ \text{kg/s} \times \left(2.998 \times 10^{8}\ \text{m/s}\right)^{2} = 5.43 \times 10^{14}\ \text{W}
+$$
+
+$$
+\frac{5.43 \times 10^{14}\ \text{W}}{1.96 \times 10^{13}\ \text{W}} = 27.7
+$$
+
+The *Hail Mary*'s engines put out nearly 28 times the power of human civilisation.
+</Example>
+
+<Example n={3} title="Dimitri's burst" book>
+Dimitri's sample released $1.8 \times 10^{9}$ J of light in 100 µs. What was its power, and how does it compare with humanity's?
+
+$$
+P = \frac{1.8 \times 10^{9}\ \text{J}}{1.0 \times 10^{-4}\ \text{s}} = 1.8 \times 10^{13}\ \text{W} = 18\ \text{TW}
+$$
+
+That is 92% of humanity's power, but for only a ten-thousandth of a second. In energy it is modest: $1.8 \times 10^{9}\ \text{J} = 500$ kWh, what a 100 W lamp uses in about seven months.
+</Example>
+
+<Example n={4} title="How much reaches the ship?" book>
+The drive pushes with $F = \dot{m}c = 6.043 \times 10^{-3} \times 2.998 \times 10^{8}\ \text{N} = 1.81 \times 10^{6}\ \text{N}$. At what rate does it add kinetic energy when the ship is moving at $0.10c$? What fraction of the drive's power is that?
+
+$$
+Fv = 1.81 \times 10^{6}\ \text{N} \times 3.00 \times 10^{7}\ \text{m/s} = 5.43 \times 10^{13}\ \text{W} \qquad \frac{Fv}{P} = \frac{v}{c} = 0.10
+$$
+
+Even at a tenth of light speed, 90% of the power leaves as light. Early in the trip, at a thousand kilometres per second, only $1000/299\,792 = 0.33\%$ goes into the ship.
+</Example>
+
+<Example n={5} title="Chemical rocket versus light drive">
+An RS-25 (a Space Shuttle main engine) throws out 514.49 kg/s of exhaust at 4436 m/s. Find the power carried by its exhaust, $\tfrac{1}{2}\dot{m}v_{\text{e}}^{2}$. Its push is about $\dot{m}v_{\text{e}}$ (Chapter 5.6), so how many watts does it need per newton? Compare with a light drive.
+
+$$
+P = \tfrac{1}{2} \times 514.49\ \text{kg/s} \times (4436\ \text{m/s})^{2} = 5.06 \times 10^{9}\ \text{W}
+$$
+
+$$
+\frac{P}{F} = \frac{\tfrac{1}{2}\dot{m}v_{\text{e}}^{2}}{\dot{m}v_{\text{e}}} = \frac{v_{\text{e}}}{2} = 2218\ \text{W/N} \qquad \frac{c}{2218\ \text{m/s}} = 1.35 \times 10^{5}
+$$
+
+A light drive needs 135,000 times more power for each newton of push. Only a fuel as energy-dense as Astrophage could ever supply it.
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** Power, $P = Fv$ and efficiency are standard (OpenStax §7.4). A beam of light really does push with $F = P/c$. That is the principle of solar sails and of the theoretical "photon rocket", and the novel's own figures for Dimitri's test obey it exactly. The RS-25's figures are real.
+
+**Weir's inventions.** Astrophage, its storage of energy as mass, the burn rate of 6.043 g/s and the 20,862 kg on the display are the novel's. Grace's 540 TW is the novel's calculation, which we reproduce. The 4-second climb is our assumption.
+
+**How realistic are the numbers?** The physics is consistent: if Astrophage existed, the *Hail Mary*'s drive would need a power of hundreds of terawatts, as the novel says. Getting rid of even a tiny fraction of that as waste heat would be a huge engineering problem, which the novel sidesteps: its drive releases the energy directly as light aimed out of the back of the ship.
+</RealVsBook>
+
+## Interactive simulation
+
+<DrivePower />
+
+Things to try: the default is the novel's 6.043 g/s. Read off 543 TW, and see the drive sit between humanity and sunlight on Earth. Slide the burn rate down to 1 µg/s: even that is 90 MW, the output of a sizeable power station. Then raise the ship's speed from 0 to 0.3c and watch the share of power going into motion grow, always equal to $v/c$.
+
+## Practice set
+
+<Problem n={1} level="easy">
+A motor does 1000 J of work in 20 s. What is its power?
+
+<Solution>
+$P = 1000\ \text{J} / 20\ \text{s} = 50\ \text{W}$.
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy">
+How many joules are in 1 kWh? How much energy does a 100 W lamp use in a day, in kWh and in joules?
+
+<Solution>
+$1\ \text{kWh} = 3.6 \times 10^{6}\ \text{J}$. In a day: $100\ \text{W} \times 24\ \text{h} = 2.4\ \text{kWh} = 8.64 \times 10^{6}\ \text{J}$.
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy">
+A rope pulls a cart with 500 N at a steady 4.0 m/s. What power does it deliver?
+
+<Solution>
+$P = Fv = 500\ \text{N} \times 4.0\ \text{m/s} = 2000\ \text{W} = 2.0\ \text{kW}$.
+</Solution>
+</Problem>
+
+<Problem n={4} level="medium" book>
+Find the energy in the 20,862 kg of Astrophage on the display ($E = mc^{2}$), and how long it lasts at a steady 6.043 g/s. Compare with Grace's "about forty days".
+
+<Solution>
+$E = 20\,862\ \text{kg} \times (2.998 \times 10^{8}\ \text{m/s})^{2} = 1.87 \times 10^{21}$ J. At $5.43 \times 10^{14}$ W it lasts $3.45 \times 10^{6}$ s, which is 40.0 days. ✓ (Chapter 5.7 shows why a steady rate isn't quite right.)
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium">
+An electric winch draws 400 W and lifts 20 kg by 3.0 m in 2.0 s on Earth. What is its efficiency?
+
+<Solution>
+Useful power $= \dfrac{20 \times 9.81 \times 3.0\ \text{J}}{2.0\ \text{s}} = 294\ \text{W}$. $\eta = 294/400 = 0.74$, or 74%.
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium" book>
+Grace's legs can keep up 300 W. How long does the 3.0 m climb at 1.5 g take him at that power (80 kg)?
+
+<Solution>
+$t = W/P = 3530\ \text{J} / 300\ \text{W} = 11.8\ \text{s}$.
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium">
+Air drag on a car at 30 m/s is 400 N. What power does the engine need just to overcome drag at that speed?
+
+<Solution>
+$P = Fv = 400\ \text{N} \times 30\ \text{m/s} = 12\,000\ \text{W} = 12\ \text{kW}$.
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium">
+The Sun's output is $3.828 \times 10^{26}$ W. Using $P = \dot{m}c^{2}$, how much mass does the Sun turn into light every second?
+
+<Solution>
+$\dot{m} = P/c^{2} = 3.828 \times 10^{26} / (2.998 \times 10^{8})^{2}\ \text{kg/s} = 4.26 \times 10^{9}$ kg/s. That is over four million tonnes every second, which is tiny compared with the Sun's $2 \times 10^{30}$ kg.
+</Solution>
+</Problem>
+
+<Problem n={9} level="challenging" book>
+Starting from rest at 1.5 g, how fast is the ship moving after one day? What fraction of the drive's power is going into its motion then?
+
+<Solution>
+$v = at = 14.71\ \text{m/s}^{2} \times 86\,400\ \text{s} = 1.27 \times 10^{6}\ \text{m/s}$ (0.42% of light speed, as in Chapter C.6). The fraction is $v/c = 0.0042$, or 0.42%.
+</Solution>
+</Problem>
+
+<Problem n={10} level="challenging" book>
+A 2.0 kW winch on the surface of our model Adrian ($g = 17.15\ \text{m/s}^{2}$) lifts a 1000 kg probe at a steady speed. How fast can it lift, at most?
+
+<Solution>
+At steady speed the pull equals the weight, $mg$, so $P = mgv$ and $v = \dfrac{P}{mg} = \dfrac{2000\ \text{W}}{1000\ \text{kg} \times 17.15\ \text{m/s}^{2}} = 0.117$ m/s, about 12 cm per second.
+</Solution>
+</Problem>
+
+## Summary
+
+- Power is the rate of transferring energy: $P = dW/dt$, in watts (joules per second). A kilowatt-hour is $3.6 \times 10^{6}$ J.
+- A force pushing an object at speed $v$ delivers $P = Fv$.
+- Efficiency is the useful fraction of the input power.
+- An Astrophage drive burning $\dot{m}$ releases $P = \dot{m}c^{2}$ as light: about 543 TW at 6.043 g/s, nearly 28 times humanity's power.
+- Light pushes with $F = P/c$. So only a fraction $v/c$ of a light drive's power goes into a ship's motion, and the rest leaves as light.
+
+**Formulas from this chapter**
+
+$$
+P = \frac{dW}{dt} \qquad P = Fv \qquad \eta = \frac{P_{\text{useful}}}{P_{\text{in}}} \qquad P = \dot{m}c^{2} \qquad F = \frac{P}{c}
+$$
+
+## Sources
+
+- Power and $P = Fv$: OpenStax, *University Physics Volume 1*, [§7.4 Power](https://openstax.org/books/university-physics-volume-1/pages/7-4-power). The watt: Wikipedia, [Watt](https://en.wikipedia.org/wiki/Watt).
+- A person's average power, about 100 W: The Physics Factbook, ["Power of a Human"](https://hypertextbook.com/facts/2003/WeiLiangMok.shtml).
+- World energy production in 2021, about 19.6 TW: Wikipedia, [World energy supply and consumption](https://en.wikipedia.org/wiki/World_energy_supply_and_consumption).
+- RS-25 mass flow (514.49 kg/s) and vacuum exhaust speed (4.436 km/s): Wikipedia, [RS-25](https://en.wikipedia.org/wiki/RS-25).
+- The Sun's luminosity and the solar constant: NASA, [Sun fact sheet](https://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html) and [Earth fact sheet](https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html).
+- Light pushing with $F = P/c$ and photon rockets: Wikipedia, [Photon rocket](https://en.wikipedia.org/wiki/Photon_rocket).
+- The fuel display (20,862 kg, 6.043 g/s), Grace's 540 TW, and Dimitri's test: Andy Weir, *Project Hail Mary* (2021), as summarised by a reader: [trangnkp.substack.com](https://trangnkp.substack.com/p/project-hail-mary). Approximate.

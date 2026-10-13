@@ -1,0 +1,83 @@
+---
+// Simulation: the Tsiolkovsky rocket equation, Δv = v_e ln(m₀/m_f). Pick an engine and a target Δv; read the mass
+// ratio and the propellant needed for a ship of a chosen empty mass.
+---
+
+<div
+	class="sim re"
+	data-title="Rocket equation"
+	data-description="Choose an engine (solid booster 2.63 km/s, RS-25 4.44 km/s, ion thruster 30 km/s, or an Astrophage light drive with exhaust at the speed of light), the change in speed Δv wanted (logarithmic, 0.1 km/s to 100 000 km/s) and the ship's empty mass (1 to 1000 tonnes). A graph of mass ratio against Δv/v_e on a logarithmic scale marks the chosen point. The readout gives Δv/v_e, the mass ratio m₀/m_f = exp(Δv/v_e), the fraction of the starting mass that must be propellant, and the propellant mass needed. It warns when Δv is above a tenth of light speed, where this non-relativistic equation starts to fail (Part 10)."
+>
+	<p class="sim-title">Simulation: rocket equation</p>
+	<p class="sim-help">Choose an engine and the speed change you want. Watch the fuel needed explode once Δv is more than two or three times the exhaust speed.</p>
+	<div class="sim-controls">
+		<label>Engine <select class="re-e">
+			<option value="1">Hydrogen–oxygen, RS-25 (4.44 km/s)</option>
+			<option value="0">Solid booster (2.63 km/s)</option>
+			<option value="2">Ion thruster (30 km/s)</option>
+			<option value="3">Astrophage light drive (c)</option>
+		</select></label>
+		<label>Δv wanted <input type="range" class="re-v" min="-1" max="5" step="0.001" value="0.885" /> <output class="re-vv"></output></label>
+		<label>Empty mass <input type="range" class="re-m" min="0" max="3" step="0.01" value="2" /> <output class="re-mv"></output></label>
+	</div>
+	<svg class="dg re-svg" viewBox="0 0 600 240" role="img" aria-label="Graph of mass ratio against change in speed divided by exhaust speed, with the chosen point marked"></svg>
+	<div class="readout re-out" aria-live="polite"></div>
+</div>
+
+<script>
+	const c = 299792458;
+	const VE = [2630, 4436, 30000, c];
+	const sci = (x: number, d = 3) => {
+		if (!isFinite(x)) return '∞';
+		const e = Math.floor(Math.log10(Math.abs(x)));
+		if (e >= -2 && e < 5) return x.toPrecision(d);
+		return `${(x / 10 ** e).toFixed(d - 1)} × 10<sup>${e}</sup>`;
+	};
+	document.querySelectorAll<HTMLElement>('.sim.re').forEach((root) => {
+		const q = <T extends Element>(s: string) => root.querySelector<T>(s)!;
+		const svg = q<SVGSVGElement>('.re-svg'), out = q<HTMLElement>('.re-out');
+		const Es = q<HTMLSelectElement>('.re-e'), Vs = q<HTMLInputElement>('.re-v'), Ms = q<HTMLInputElement>('.re-m');
+		const NS = 'http://www.w3.org/2000/svg';
+		const el = (tag: string, at: Record<string, string | number>, text?: string) => {
+			const e = document.createElementNS(NS, tag);
+			Object.entries(at).forEach(([k, v]) => e.setAttribute(k, String(v)));
+			if (text) e.textContent = text;
+			svg.append(e);
+			return e;
+		};
+		const L = 70, R = 570, T = 20, B = 190, xMax = 8, hi = 3.5;
+		const px = (x: number) => L + (Math.min(x, xMax) / xMax) * (R - L);
+		const py = (r: number) => B - (Math.min(Math.log10(r), hi) / hi) * (B - T);
+		function draw() {
+			const ve = VE[+Es.value], dv = 10 ** +Vs.value * 1000, mDry = 10 ** +Ms.value * 1000;
+			q('.re-vv').textContent = dv >= 1e6 ? `${(dv / 1000).toLocaleString('en-GB', { maximumFractionDigits: 0 })} km/s` : `${(dv / 1000).toPrecision(3)} km/s`;
+			q('.re-mv').textContent = `${(mDry / 1000).toPrecision(3)} t`;
+			const x = dv / ve, Rm = Math.exp(x), frac = 1 - 1 / Rm, prop = mDry * (Rm - 1);
+			svg.replaceChildren();
+			[1, 10, 100, 1000].forEach((r) => {
+				el('line', { x1: L, y1: py(r), x2: R, y2: py(r), class: 's-grid w1' });
+				el('text', { x: L - 8, y: py(r) + 4, class: 't-end t-sm f-muted' }, String(r));
+			});
+			for (let i = 0; i <= xMax; i++) el('text', { x: px(i), y: B + 18, class: 't-mid t-sm f-muted' }, String(i));
+			el('line', { x1: L, y1: B, x2: R, y2: B, class: 's-fg w2' });
+			el('line', { x1: L, y1: B, x2: L, y2: T, class: 's-fg w2' });
+			let d = '';
+			for (let i = 0; i <= 160; i++) {
+				const u = (xMax * i) / 160;
+				if (Math.log10(Math.exp(u)) > hi) break;
+				d += `${i ? 'L' : 'M'}${px(u).toFixed(1)},${py(Math.exp(u)).toFixed(1)}`;
+			}
+			el('path', { d, class: 's-rose w3', fill: 'none' });
+			if (x <= xMax && Math.log10(Rm) <= hi) el('circle', { cx: px(x), cy: py(Rm), r: 7, class: 'f-amber' });
+			else el('text', { x: R - 4, y: T + 14, class: 't-end t-sm f-amber t-b' }, 'off the chart →');
+			el('text', { x: (L + R) / 2, y: B + 40, class: 't-mid t-sm' }, 'Δv / v_e');
+			el('text', { x: 22, y: (T + B) / 2, class: 't-mid t-sm', transform: `rotate(-90 22 ${(T + B) / 2})` }, 'mass ratio');
+			out.innerHTML =
+				`<span class="k">Δv / v<sub>e</sub></span> = ${sci(x)} &nbsp; <span class="k">mass ratio m₀/m<sub>f</sub> = e<sup>Δv/v<sub>e</sub></sup></span> = <b>${sci(Rm)}</b> &nbsp; <span class="k">propellant share of starting mass</span> = <b>${frac > 0.99995 ? '> 99.99' : (frac * 100).toFixed(frac > 0.99 ? 2 : 1)}%</b><br>` +
+				`<span class="k">propellant for a ${(mDry / 1000).toPrecision(3)} t ship</span> = <b>${sci(prop / 1000)} t</b>` +
+				(dv > 0.1 * c ? ' &nbsp; <b>Warning:</b> Δv is over 0.1c, where this Newtonian formula fails (Part 10).' : '');
+		}
+		[Es, Vs, Ms].forEach((i) => i.addEventListener('input', draw));
+		draw();
+	});
+</script>

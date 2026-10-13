@@ -1,0 +1,35 @@
+---
+// Fuel left against time from the display reading (20,862 kg at 6.043 g/s, ship 123,158 kg at 1.5 g).
+// Grace's estimate: a steady 6.043 g/s → empty in 40.0 days. Holding 1.5 g: m(t) = m₀ e^(−at/c), burn rate falling with
+// the mass → empty in 43.8 days.
+const c = 299792458, a = 1.5 * 9.80665, m0 = (6.043e-3 * c) / a, fuel0 = 20862;
+const tLin = fuel0 / 6.043e-3 / 86400, tExp = ((c / a) * Math.log(m0 / (m0 - fuel0))) / 86400;
+const L = 80, R = 560, T = 30, B = 240, tMax = 46, fMax = 22000;
+const px = (d: number) => L + (d / tMax) * (R - L);
+const py = (f: number) => B - (f / fMax) * (B - T);
+const exp = Array.from({ length: 101 }, (_, i) => (tExp * i) / 100).map((d, i) => {
+	const left = fuel0 - m0 * (1 - Math.exp((-a * d * 86400) / c));
+	return `${i ? 'L' : 'M'}${px(d).toFixed(1)},${py(Math.max(left, 0)).toFixed(1)}`;
+}).join(' ');
+---
+
+<svg class="dg" viewBox="0 0 600 310" xmlns="http://www.w3.org/2000/svg">
+	{[0, 5000, 10000, 15000, 20000].map((f) => (
+		<>
+			<line x1={L} y1={py(f)} x2={R} y2={py(f)} class="s-grid w1" />
+			<text x={L - 8} y={py(f) + 4} class="t-end t-sm f-muted">{f.toLocaleString('en-GB')}</text>
+		</>
+	))}
+	{[0, 10, 20, 30, 40].map((d) => <text x={px(d)} y={B + 18} class="t-mid t-sm f-muted">{d}</text>)}
+	<line x1={L} y1={B} x2={R} y2={B} class="s-fg w2" />
+	<line x1={L} y1={B} x2={L} y2={T} class="s-fg w2" />
+	<line x1={px(0)} y1={py(fuel0)} x2={px(tLin)} y2={py(0)} class="s-sky w2 dash" />
+	<path d={exp} class="s-amber w3" fill="none" />
+	<circle cx={px(tLin)} cy={B} r="5" class="f-sky" />
+	<circle cx={px(tExp)} cy={B} r="5" class="f-amber" />
+	<text x={px(4)} y={py(1600)} class="t-sm f-sky">steady 6.043 g/s: empty after {tLin.toFixed(1)} days</text>
+	<text x={px(26)} y={py(13500)} class="t-sm f-amber">holding 1.5 g as the ship lightens:</text>
+	<text x={px(26)} y={py(13500) + 18} class="t-sm f-amber">empty after {tExp.toFixed(1)} days</text>
+	<text x={(L + R) / 2} y={B + 42} class="t-mid t-sm">days after the display reading</text>
+	<text x="22" y={(T + B) / 2} class="t-mid t-sm" transform={`rotate(-90 22 ${(T + B) / 2})`}>fuel left (kg)</text>
+</svg>

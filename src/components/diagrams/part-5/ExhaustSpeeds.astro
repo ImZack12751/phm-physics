@@ -1,0 +1,31 @@
+---
+// Exhaust speeds on a log scale (km/s): Shuttle SRB 2.63, RS-25 4.44 (Wikipedia), ion thrusters 20–50 (Wikipedia
+// "Ion thruster"), light 299 792 km/s.
+const rows = [
+	{ n: 'solid booster (Shuttle SRB)', lo: 2.63, hi: 2.63, t: '2.6 km/s' },
+	{ n: 'hydrogen–oxygen (RS-25)', lo: 4.44, hi: 4.44, t: '4.4 km/s' },
+	{ n: 'ion thrusters', lo: 20, hi: 50, t: '20–50 km/s' },
+	{ n: 'light (Astrophage drive)', lo: 299792, hi: 299792, t: '300 000 km/s' },
+];
+const L = 225, R = 560, T = 20, H = 44, lo = 0, hi = 6;
+const px = (v: number) => L + ((Math.log10(v) - lo) / (hi - lo)) * (R - L);
+const labels = ['1', '10', '100', '1000', '10⁴', '10⁵', '10⁶'];
+---
+
+<svg class="dg" viewBox="0 0 600 270" xmlns="http://www.w3.org/2000/svg">
+	{labels.map((s, e) => (
+		<>
+			<line x1={px(10 ** e)} y1={T} x2={px(10 ** e)} y2={T + rows.length * H} class="s-grid w1" />
+			<text x={px(10 ** e)} y={T + rows.length * H + 18} class="t-mid t-sm f-muted">{s}</text>
+		</>
+	))}
+	{rows.map((r, i) => (
+		<>
+			<text x={L - 8} y={T + i * H + H / 2 + 4} class="t-end t-sm">{r.n}</text>
+			<rect x={L} y={T + i * H + 10} width={px(r.lo) - L} height={H - 20} class={i === 3 ? 'f-amber' : 'f-sky'} />
+			{r.hi > r.lo && <rect x={px(r.lo)} y={T + i * H + 10} width={px(r.hi) - px(r.lo)} height={H - 20} class="f-sky-soft s-sky w1" />}
+			<text x={i === 3 ? px(r.hi) - 6 : px(r.hi) + 6} y={T + i * H + H / 2 + 4} class={`t-sm halo ${i === 3 ? 't-end' : ''}`}>{r.t}</text>
+		</>
+	))}
+	<text x={(L + R) / 2} y={T + rows.length * H + 42} class="t-mid t-sm">exhaust speed (km/s, logarithmic scale)</text>
+</svg>

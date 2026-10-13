@@ -1,0 +1,38 @@
+---
+// Work done by a force at an angle: only the component along the displacement, F cos θ, does work. W = F d cos θ.
+const fx = 120, fy = 190, boxW = 90, boxH = 60; // box bottom-left at (fx, fy - boxH)
+const ax = fx + boxW, ay = fy - boxH / 2; // where the rope attaches
+const th = (35 * Math.PI) / 180, F = 140;
+const tipX = ax + F * Math.cos(th), tipY = ay - F * Math.sin(th);
+const head = (x: number, y: number, ang: number) => {
+	const a1 = ang + Math.PI - 0.4, a2 = ang + Math.PI + 0.4;
+	return `${x},${y} ${x + 13 * Math.cos(a1)},${y - 13 * Math.sin(a1)} ${x + 13 * Math.cos(a2)},${y - 13 * Math.sin(a2)}`;
+};
+const arcR = 46;
+const arc = `M${ax + arcR},${ay} A${arcR},${arcR} 0 0 0 ${ax + arcR * Math.cos(th)},${ay - arcR * Math.sin(th)}`;
+---
+
+<svg class="dg" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+	<line x1="40" y1={fy} x2="560" y2={fy} class="s-fg w2" />
+	<rect x={fx} y={fy - boxH} width={boxW} height={boxH} class="f-sky-soft s-sky w2" />
+	<text x={fx + boxW / 2} y={fy - boxH / 2 + 5} class="t-mid t-sm">crate</text>
+	<!-- the pull F at angle θ -->
+	<line x1={ax} y1={ay} x2={tipX - 10 * Math.cos(th)} y2={tipY + 10 * Math.sin(th)} class="s-rose w3" />
+	<polygon points={head(tipX, tipY, th)} class="f-rose" />
+	<text x={tipX + 8} y={tipY - 4} class="t-sm t-b f-rose">F</text>
+	<!-- components -->
+	<line x1={ax} y1={ay} x2={tipX} y2={ay} class="s-amber w2 dash" />
+	<polygon points={head(tipX, ay, 0)} class="f-amber" />
+	<line x1={tipX} y1={ay} x2={tipX} y2={tipY + 12} class="s-muted w1 dash" />
+	<polygon points={head(tipX, tipY, Math.PI / 2)} class="f-muted" />
+	<text x={tipX + 10} y={(ay + tipY) / 2 + 8} class="t-sm f-muted">F sin θ: no work</text>
+	<text x={(ax + tipX) / 2 + 16} y={ay + 20} class="t-mid t-sm f-amber t-b">F cos θ: does the work</text>
+	<path d={arc} class="s-fg w1" fill="none" />
+	<text x={ax + arcR + 8} y={ay - 9} class="t-sm">θ</text>
+	<!-- displacement -->
+	<line x1={fx} y1={fy + 34} x2={fx + 300} y2={fy + 34} class="s-green w2" />
+	<polygon points={head(fx + 312, fy + 34, 0)} class="f-green" />
+	<text x={fx + 150} y={fy + 58} class="t-mid t-sm f-green">displacement d</text>
+	<text x="300" y="34" class="t-mid t-b">W = F d cos θ</text>
+	<text x="300" y="56" class="t-mid t-sm">only the part of the force along the motion does work</text>
+</svg>

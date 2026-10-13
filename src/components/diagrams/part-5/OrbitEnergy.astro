@@ -1,0 +1,34 @@
+---
+// Energy bookkeeping for circular orbits: K = GMm/2r, U = −GMm/r, E = −GMm/2r. A lower orbit has less total energy but
+// MORE kinetic energy: dropping inwards, U falls by twice what E falls by, and K rises by the difference.
+const Z = 140, s = 40; // y of zero, px per unit of GMm/(2 r_high)
+const orbits = [
+	{ label: 'higher orbit', x: 120, k: 1 }, // in units of GMm/(2 r_high)
+	{ label: 'lower orbit', x: 350, k: 1.5 },
+];
+const bw = 40;
+---
+
+<svg class="dg" viewBox="0 0 600 330" xmlns="http://www.w3.org/2000/svg">
+	<line x1="60" y1={Z} x2="560" y2={Z} class="s-fg w2" />
+	<text x="56" y={Z + 4} class="t-end t-sm">0</text>
+	{orbits.map((o) => (
+		<>
+			<rect x={o.x} y={Z - o.k * s} width={bw} height={o.k * s} class="f-amber" />
+			<rect x={o.x + bw + 8} y={Z} width={bw} height={2 * o.k * s} class="f-sky" />
+			<rect x={o.x + 2 * (bw + 8)} y={Z} width={bw} height={o.k * s} class="f-rose" />
+			<text x={o.x + bw / 2} y={Z - o.k * s - 6} class="t-mid t-sm">K</text>
+			<text x={o.x + 1.5 * bw + 8} y={Z + 2 * o.k * s + 16} class="t-mid t-sm">U</text>
+			<text x={o.x + 2.5 * bw + 16} y={Z + o.k * s + 16} class="t-mid t-sm">E</text>
+			<text x={o.x + 1.5 * bw + 8} y="30" class="t-mid t-sm t-b">{o.label}</text>
+		</>
+	))}
+	<rect x="150" y="300" width="12" height="12" class="f-amber" />
+	<text x="168" y="311" class="t-sm">kinetic, K = −E</text>
+	<rect x="290" y="300" width="12" height="12" class="f-sky" />
+	<text x="308" y="311" class="t-sm">potential, U = 2E</text>
+	<rect x="440" y="300" width="12" height="12" class="f-rose" />
+	<text x="458" y="311" class="t-sm">total, E</text>
+	<text x="545" y={Z - 50} class="t-end t-sm">lower: total E drops,</text>
+	<text x="545" y={Z - 32} class="t-end t-sm">yet K rises</text>
+</svg>

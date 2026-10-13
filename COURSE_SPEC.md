@@ -177,13 +177,13 @@ Teaching order follows logical dependency, not plot order. Planned chapters have
 
 | # | Chapter | Path | Prerequisites | Status |
 |---|---|---|---|---|
-| 5.1 | Work as an integral | `part-5/work` | – | planned |
-| 5.2 | Kinetic and potential energy | `part-5/kinetic-potential-energy` | – | planned |
-| 5.3 | Power | `part-5/power` | – | planned |
-| 5.4 | Conservation laws | `part-5/conservation-laws` | – | planned |
-| 5.5 | Momentum | `part-5/momentum` | – | planned |
-| 5.6 | Thrust | `part-5/thrust` | – | planned |
-| 5.7 | The Tsiolkovsky rocket equation | `part-5/rocket-equation` | – | planned |
+| 5.1 | Work as an integral | `part-5/work` | 2.1, 0.7, C.5, C.6, 4.1 | written, awaiting review |
+| 5.2 | Kinetic and potential energy | `part-5/kinetic-potential-energy` | 5.1, 1.2, 4.4, C.3 | written, awaiting review |
+| 5.3 | Power | `part-5/power` | 5.1, 5.2, C.3 | written, awaiting review |
+| 5.4 | Conservation laws | `part-5/conservation-laws` | 5.2, 5.3, 2.1, 4.6 | written, awaiting review |
+| 5.5 | Momentum | `part-5/momentum` | 2.1, 5.4, C.5, 0.7 | written, awaiting review |
+| 5.6 | Thrust | `part-5/thrust` | 5.5, 5.3, 2.1, 2.3 | written, awaiting review |
+| 5.7 | The Tsiolkovsky rocket equation | `part-5/rocket-equation` | 5.6, C.5, 0.8, 4.6 | written, awaiting review |
 
 **Part 6 · Thermal physics and climate**
 
@@ -282,7 +282,7 @@ Brief biology and chemistry sidebars are added only where the plot's physics dep
 Source of truth: `src/data/glossary.mjs`.
 
 <!-- AUTO:glossary -->
-174 terms.
+199 terms.
 
 | Term | id | First chapter |
 |---|---|---|
@@ -460,6 +460,31 @@ Source of truth: `src/data/glossary.mjs`.
 | Delta-v (Δv) | `delta-v` | 4.6 |
 | Vis-viva equation | `vis-viva` | 4.6 |
 | Hohmann transfer | `hohmann-transfer` | 4.6 |
+| Work | `work` | 5.1 |
+| Joule (J) | `joule` | 5.1 |
+| Kinetic energy | `kinetic-energy` | 5.2 |
+| Work–energy theorem | `work-energy-theorem` | 5.2 |
+| Potential energy | `potential-energy` | 5.2 |
+| Conservative force | `conservative-force` | 5.2 |
+| Mechanical energy | `mechanical-energy` | 5.2 |
+| Power | `power` | 5.3 |
+| Kilowatt-hour (kWh) | `kilowatt-hour` | 5.3 |
+| Efficiency (η) | `efficiency` | 5.3 |
+| Thermal energy | `thermal-energy` | 5.4 |
+| Closed system | `closed-system` | 5.4 |
+| Conservation of energy | `conservation-of-energy` | 5.4 |
+| Bound orbit | `bound-orbit` | 5.4 |
+| Momentum | `momentum` | 5.5 |
+| Impulse | `impulse` | 5.5 |
+| Conservation of momentum | `conservation-of-momentum` | 5.5 |
+| Elastic collision | `elastic-collision` | 5.5 |
+| Inelastic collision | `inelastic-collision` | 5.5 |
+| Propellant | `propellant` | 5.6 |
+| Thrust | `thrust` | 5.6 |
+| Exhaust speed (v_e) | `exhaust-velocity` | 5.6 |
+| Specific impulse (I_sp) | `specific-impulse` | 5.6 |
+| Tsiolkovsky rocket equation | `rocket-equation` | 5.7 |
+| Mass ratio | `mass-ratio` | 5.7 |
 <!-- /AUTO:glossary -->
 
 ---
@@ -469,7 +494,7 @@ Source of truth: `src/data/glossary.mjs`.
 Source of truth: `src/data/formulas.mjs`.
 
 <!-- AUTO:formulas -->
-107 formulas.
+121 formulas.
 
 | Formula | id | First chapter | LaTeX |
 |---|---|---|---|
@@ -580,6 +605,20 @@ Source of truth: `src/data/formulas.mjs`.
 | Radius and density from orbit | `density-clock` | 4.5 | `\sin\dfrac{\theta}{2} = \dfrac{R}{R + h} \qquad T_{\text{low}} = \sqrt{\dfrac{3\pi}{G\rho}}` |
 | Vis-viva equation | `vis-viva` | 4.6 | `v^{2} - \dfrac{2GM}{r} = \text{constant} \qquad v^{2} = GM\left(\dfrac{2}{r} - \dfrac{1}{a}\right)` |
 | Hohmann transfer | `hohmann` | 4.6 | `\Delta v_{1} = v_{1}\left(\sqrt{\dfrac{2r_{2}}{r_{1} + r_{2}}} - 1\right) \qquad \Delta v_{2} = v_{2}\left(1 - \sqrt{\dfrac{2r_{1}}{r_{1} + r_{2}}}\right) \qquad t = \pi\sqrt{\dfrac{a_{\text{t}}^{3}}{GM}} \qquad \phi = 180° - \omega_{2}t` |
+| Work | `work` | 5.1 | `W = Fd\cos\theta \qquad W = \int_{x_{1}}^{x_{2}} F\,dx` |
+| Work on a spring and against gravity | `work-spring-lift` | 5.1 | `W = \tfrac{1}{2}k\left(x_{2}^{2} - x_{1}^{2}\right) \qquad W = GMm\left(\dfrac{1}{r_{1}} - \dfrac{1}{r_{2}}\right)` |
+| Kinetic energy and the work–energy theorem | `kinetic-energy` | 5.2 | `K = \tfrac{1}{2}mv^{2} \qquad W_{\text{net}} = \tfrac{1}{2}mv^{2} - \tfrac{1}{2}mu^{2}` |
+| Potential energies | `potential-energy` | 5.2 | `U = mgh \qquad U = \tfrac{1}{2}kx^{2} \qquad U = -\dfrac{GMm}{r} \qquad F = -\dfrac{dU}{dx}` |
+| Power | `power` | 5.3 | `P = \dfrac{dW}{dt} \qquad P = Fv \qquad \eta = \dfrac{P_{\text{useful}}}{P_{\text{in}}}` |
+| Mass-to-light drive | `light-drive` | 5.3 | `P = \dot{m}c^{2} \qquad F = \dfrac{P}{c} = \dot{m}c \qquad \dfrac{Fv}{P} = \dfrac{v}{c}` |
+| Energy conservation with friction | `energy-conservation` | 5.4 | `K_{1} + U_{1} = K_{2} + U_{2} + fd` |
+| Energy of an orbit | `orbit-energy` | 5.4 | `E = -\dfrac{GMm}{2a} \qquad K = -E,\ U = 2E \ (\text{circular})` |
+| Momentum and impulse | `momentum` | 5.5 | `\vec{p} = m\vec{v} \qquad \vec{F} = \dfrac{d\vec{p}}{dt} \qquad \vec{J} = \int \vec{F}\,dt = \Delta\vec{p} \qquad p_{\text{light}} = \dfrac{E}{c}` |
+| Collisions | `collisions` | 5.5 | `m_{1}u_{1} + m_{2}u_{2} = m_{1}v_{1} + m_{2}v_{2} \qquad v_{1} = \dfrac{m_{1} - m_{2}}{m_{1} + m_{2}}u_{1},\ v_{2} = \dfrac{2m_{1}}{m_{1} + m_{2}}u_{1}` |
+| Thrust | `thrust` | 5.6 | `F = \dot{m}v_{\text{e}} \qquad I_{\text{sp}} = \dfrac{v_{\text{e}}}{g_{0}} \qquad P = \tfrac{1}{2}Fv_{\text{e}}` |
+| Light drive at constant acceleration | `light-thrust` | 5.6 | `F = \dot{m}c \qquad \dot{m} = \dfrac{ma}{c}` |
+| Tsiolkovsky rocket equation | `rocket-equation` | 5.7 | `\Delta v = v_{\text{e}}\ln\dfrac{m_{0}}{m_{\text{f}}} \qquad \dfrac{m_{0}}{m_{\text{f}}} = e^{\Delta v/v_{\text{e}}}` |
+| Fuel use at constant acceleration | `constant-acceleration-burn` | 5.7 | `m(t) = m_{0}\,e^{-at/v_{\text{e}}} \qquad t = \dfrac{v_{\text{e}}}{a}\ln\dfrac{m_{0}}{m_{\text{f}}}` |
 <!-- /AUTO:formulas -->
 
 ---
@@ -600,7 +639,8 @@ All constants and book figures used so far, each with its source, are in `script
 - Part 2 figures: Dimitri's Astrophage test about 60,000 N for 100 µs from about 20 µg; fuel display 20,862 kg at 6.043 g/s (reader summary). Erid "just over double" Earth's gravity (/Film) → we use 2.0 g. ISS altitude g = 8.67 m/s², 88% (OpenStax §13.2). Shuttle crew up to 3 g (NASA NTRS 19940019731). MICROSCOPE equivalence test ~10⁻¹⁵ (PRL 129, 121102). Our assumptions, stated in the chapters: Grace 80 kg, loaded ship 2.5 × 10⁶ kg, Rocky 100 kg, mass-meter chair 600 N/m and 12.0 kg. No source found that the oscillating mass meter flew on Skylab, so the chapters don't claim it.
 - Part 3 figures: Grace's imagined centrifuge 700 m, 88 m/s (reader summary; 88 m/s doesn't match 1.5 g at 700 m, which needs ~101 m/s, and the chapters say so). Our two-deck criterion gives r ≥ 777 m, 1.31 rpm, 107 m/s. Centrifuge structure (two sections on cables, used from ch. 16; runaway spin later) from LitCharts. The cable length "up to 104 m" is fan-wiki only (unconfirmed). **Model centrifuge used throughout Part 3** (`SPIN` in `constants.mjs`): crew section 2.0 × 10⁵ kg and rear 6.0 × 10⁵ kg (assumed) on 104 m → crew floor 78 m, rear 26 m, ω = 0.3546 rad/s (3.39 rpm, T = 17.7 s), crew speed 27.66 m/s, 1 g crew / 0.33 g rear, cable tension 1.96 × 10⁶ N; a 1 m drop lands 10.8 cm antispinward. Comfort: 1970s 1–2 rpm; Globus & Hall (2017) up to 4 rpm (56 m) and 6 rpm (25 m). Gemini 11: 30 m tether (NASA). Earth sidereal day 23.9345 h, Ω = 7.2921 × 10⁻⁵ rad/s. Foucault: 1851, 67 m, 28 kg, Paris 31.8 h (Wikipedia). Runaway spin (10 m, 20 rpm) is our illustration. Physiology g-tolerance numbers were left out because no source could be opened.
 - Part 4 figures (`GRAV` and `ADRIAN` in `constants.mjs`): G = 6.674 30 × 10⁻¹¹ (CODATA 2022). NASA fact sheets for GM, masses, radii, escape speeds, orbits and densities of Earth, Moon, Mars, Venus, Jupiter, Sun; Phobos 9378 km / 0.31891 d; Io 421 800 km / 1.769138 d. ISS 370–460 km (we use 400 km); GEO 42 164 km. Tau Ceti 0.800 M☉ (Korolik 2023). **Adrian = Tau Ceti e** (Wikipedia, Feng et al. 2017): ~168 d, 0.552 au, minimum mass 3.93 M⊕; later studies say it may not exist, and the chapters say so. **Our model Adrian:** 3.93 M⊕ (2.347 × 10²⁵ kg), radius 1.5 R⊕ (9557 km, ASSUMED), g = 17.15 m/s² (1.75 g), ρ = 6420 kg/m³, v_esc 18.1 km/s; Hail Mary parked 300 km up (r = 9857 km, v = 12.6 km/s, T = 81.87 min). Escape from Tau Ceti at Adrian's orbit 50.7 km/s (Adrian moves 35.9). Plot facts from Wikipedia's novel page: 10 km xenonite chain, beetles carry results home, probe sent to Venus, Grace rescues Rocky from the stranded Blip-A. No source confirmed a "decaying orbit" at Adrian or any book figure for Adrian's mass/orbit, so the chapters don't claim them; all manoeuvres at Adrian (200 km lowering, 10° phasing in 3 laps) are our illustrations. Kepler's 8′ discrepancy (Astronomia nova), Halley's comet, Venus Express 153-day cruise (ESA), Mars windows every 26 months, Michell's 1783 dark stars all sourced in the chapters.
-- Open question for Part 5: is 2 × 10⁶ kg of fuel at 6 g/s consistent with the trip's duration (2 × 10⁶ / 0.006 s ≈ 10.6 yr of continuous burn, compared with about 3.75 yr of ship time)? Check against the novel, which may have several drives, before relying on it.
+- Part 5 figures (`ENERGY` in `constants.mjs`). Book (reader summary trangnkp.substack.com, Goodreads highlights, Nick Frass's Substack): display 20,862 kg at 6.043 g/s (Grace: ~40 days); drive power 540 TW (Grace's E = mc²); Dimitri 1.8 × 10⁹ J, ~20 µg, 60,000 N for 100 µs (obeys F = P/c and p = E/c exactly); a manoeuvre "will consume 130 kilograms of fuel"; ~2 × 10⁶ kg of fuel; trip "at least three years" of ship time. Real: RS-25 514.49 kg/s, 4.436 km/s, 2279 kN vac; SRB 2.63 km/s; NSTAR 92 mN / 2.3 kW, ion exhausts 20–50 km/s (we use 30); Deep Space 1 486 kg launch, 73.4 kg Xe, 4.3 km/s; world energy 19.6 TW (2021); human ~100 W; ISS 419,725 kg; TNT 4.184 MJ/kg. **Our inference (5.6):** if 6.043 g/s holds 1.5 g with light exhaust, the ship is 1.23 × 10⁵ kg at the reading and ~1.02 × 10⁵ kg empty; the course uses **1.0 × 10⁵ kg empty** (and ~1.2 × 10⁵ kg in 5.4/5.5 examples). Assumed: Grace 200 kg with suit, Blip-A 5.0 × 10⁵ kg, 3.0 m deck height.
+- **Fuel question answered (5.7):** the 6 g/s is a late-trip rate; holding 1.5 g needs ṁ = ma/c (103 g/s at launch), so fuel decays as e^(−at/c) and the 20,862 kg lasts 43.8 days, not 40. On the ship's clock (exact for a photon rocket), R = 21 buys only 1.97 yr at 1.5 g; 3.75 yr needs R = 333 (3.3 × 10⁷ kg fuel), and even 3 yr needs R = 104. The chapters say the novel's budget doesn't quite add up for 1.5 g throughout. Part 10 should revisit this with relativity (a coast phase changes the numbers).
 
 ---
 
@@ -614,3 +654,4 @@ All constants and book figures used so far, each with its source, are in `script
 - **Session 5 (2026-10-09).** Wrote Part 2: 2.1 Newton's laws (forces, the three laws, free-body diagrams, terminal velocity with drag bv²), 2.2 Mass vs weight (inertial and gravitational mass, scales vs balances, measuring mass in orbit), 2.3 Apparent weight (N = m(g + a), weightlessness as free fall, the equivalence principle, g-forces, g_eff = g − a), 2.4 Pendulums and SHM (Hooke's law, a = −ω²x, derivation of T = 2π√(L/g), mass on a spring, large-swing correction). 48 practice problems, 4 simulations (DragFall, WeighingLab, ApparentWeight, PendulumLab) and 8 diagrams. All of Part 1's promises to Part 2 are kept. Tooling note: the Bash heredocs in this environment halve backslashes, so write files containing LaTeX with the Write/Edit tools. **Next:** Part 3, starting with 3.1 Angular speed (2.3 Problem 12 and 1.4 set up the two-deck spin test).
 - **Session 6 (2026-10-09).** Wrote Part 3: 3.1 Angular speed (radians, ω, rpm, period, v = ωr, tangent velocity), 3.2 Centripetal acceleration (a = v²/r = ω²r two ways, the SHM shadow, centripetal force as a role, centrifugal force as fictitious, Newton's Moon test), 3.3 Designing spin gravity (g = ω²r, r = g/ω², gradient h/r, comfort limits, two masses on a cable and the centre of mass, Grace's two-deck test), 3.4 The Coriolis effect (exact drop geometry, running spinward/antispinward, a = 2ωv, drift ⅔ωht by integration, Earth, Foucault, the sink myth). 48 practice problems, 4 simulations (SpinRate, CircularMotion, SpinGravityDesigner, CoriolisLab) and 8 diagrams. Fixed a check-browser hang: an animation that rebuilt SVG elements every frame kept the page from reaching network idle, so animated sims must create elements once and update attributes per frame. If `npm run preview` says a server is already running, use `npx astro preview stop` first. **Next:** Part 4, starting with 4.1 Newton's law of gravitation (3.2 Example 3 sets up the Moon test; 3.2 Problem 11 previews the 84-minute low orbit).
 - **Session 7 (2026-10-13).** Wrote Part 4: 4.1 Newton's law of gravitation (F = GMm/r² from the Moon test, G and Cavendish, the shell theorem, g = GM/r², weighing Earth, g with height, g = 4/3 πGρR), 4.2 Orbital speed (Newton's cannon, orbit as free fall, v = √(GM/r) two ways, T = 2π√(r³/GM), skimming and geostationary orbits, tidal pull on a hanging probe), 4.3 Kepler's laws (ellipse anatomy, Newton's geometric proof of equal areas, r_p v_p = r_a v_a, T² = a³ and T² = a³/M for other stars), 4.4 Escape velocity (derived without energy: Δ(v²) = 2aΔr summed as an integral, √2 × circular speed, r_max, v∞, escaping a star from a planet's orbit, Michell's dark stars), 4.5 Finding a planet's mass from an orbit (M = 4π²a³/GT², radius from angular size, the density clock T = √(3π/Gρ), ΔM/M = 3Δr/r + 2ΔT/T), 4.6 Orbital manoeuvring (v² − 2GM/r constant along any path via the along-path component, vis-viva derived, Hohmann transfers, lead angle, phasing orbits, drag speeds satellites up). 72 practice problems, 6 simulations (GravityExplorer, OrbitCannon, KeplerOrbit, EscapeLauncher, WeighPlanet, HohmannPlanner) and 14 diagrams. Tooling note: registering several chapters as `review` before their files exist breaks the build (Starlight sidebar), so mark unwritten ones `planned` until written. **Next:** Part 5, starting with 5.1 Work as an integral (4.4 and 4.6 promise that Part 5 recasts v² − 2GM/r = constant as energy conservation and proves escape speed is direction-independent; 4.6 says Part 5 shows how fuel sets delta-v).
+- **Session 8 (2026-10-13).** Wrote Part 5: 5.1 Work as an integral (W = Fd cos θ, zero work at right angles, W = ∫F dx as area, springs ½kx², lifting GMm(1/r₁ − 1/r₂), Dimitri's huge force doing 0.036 J), 5.2 Kinetic and potential energy (work–energy theorem via ∫mv dv, U = mgh, ½kx², −GMm/r, F = −dU/dx, v² − 2GM/r recast as energy, escape speed direction-independent, as promised in 4.4), 5.3 Power (P = dW/dt = Fv, kWh, efficiency, P = ṁc² = 543 TW, F = P/c discovered from Dimitri's figures, only v/c of a light drive's power goes into motion), 5.4 Conservation laws (energy bookkeeping, friction → thermal, E = −GMm/2a, K = −E and U = 2E, the drag paradox explained, angular momentum = Kepler II, Noether), 5.5 Momentum (p = mv, F = dp/dt, impulse, conservation and recoil, elastic/inelastic collisions, p = E/c), 5.6 Thrust (F = ṁv_e, I_sp, P/F = v_e/2 vs c, F = ṁc, ṁ = ma/c, the ship's mass inferred from the fuel display), 5.7 The Tsiolkovsky rocket equation (derivation, tyranny of the exponential, staging, m = m₀e^(−at/v_e), 43.8 not 40 days, the trip's fuel budget checked). 70 practice problems, 7 simulations (WorkArea, EnergyLaunch, DrivePower, EnergyTrack, CollisionLab, ThrustLab, RocketEquation) and 14 diagrams. All of Part 4's promises to Part 5 are kept. Tooling note: Python heredocs in Bash also mangle backslashes (\t, \D), so edit LaTeX with the Edit tool or a Python file written with Write. **Next:** Part 6, starting with 6.1 Temperature and heat (5.4 promises Part 6 measures the warming that friction causes).

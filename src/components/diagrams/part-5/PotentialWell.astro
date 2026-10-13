@@ -1,0 +1,33 @@
+---
+// Gravitational potential energy U = −GMm/r outside a planet of radius R, with two total-energy levels:
+// a negative total (bound: turns back where the level meets the curve) and a zero total (just escapes).
+const L = 70, Rr = 560, T = 30, B = 270, rMax = 8; // r in planet radii, from 1 to rMax
+const uMin = -1.05; // U in units of GMm/R
+const px = (r: number) => L + ((r - 1) / (rMax - 1)) * (Rr - L);
+const Z = T + 30; // y of U = 0
+const py = (u: number) => Z + (u / uMin) * (B - Z);
+const curve = Array.from({ length: 141 }, (_, i) => 1 + ((rMax - 1) * i) / 140).map((r, i) => `${i ? 'L' : 'M'}${px(r).toFixed(1)},${py(-1 / r).toFixed(1)}`).join(' ');
+const Eb = -0.4, rTurn = 1 / 0.4; // bound level and its turning point
+---
+
+<svg class="dg" viewBox="0 0 600 330" xmlns="http://www.w3.org/2000/svg">
+	<line x1={L} y1={Z} x2={Rr} y2={Z} class="s-fg w2" />
+	<line x1={L} y1={T} x2={L} y2={B + 6} class="s-fg w2" />
+	<text x={L - 8} y={Z + 4} class="t-end t-sm">0</text>
+	<text x={Rr} y={Z - 8} class="t-end t-sm">distance from the centre, r →</text>
+	<path d={curve} class="s-sky w3" fill="none" />
+	<text x={px(1.6)} y={py(-0.68)} class="t-sm f-sky">U = −GMm / r</text>
+	<!-- bound level -->
+	<line x1={px(1)} y1={py(Eb)} x2={px(rTurn)} y2={py(Eb)} class="s-rose w2" />
+	<line x1={px(rTurn)} y1={py(Eb)} x2={Rr} y2={py(Eb)} class="s-rose w1 dash" />
+	<circle cx={px(rTurn)} cy={py(Eb)} r="5" class="f-rose" />
+	<text x={px(rTurn) + 10} y={py(Eb) - 10} class="t-sm f-rose">total energy below 0: turns back here</text>
+	<!-- KE gap at the surface for the bound case -->
+	<line x1={px(1) + 14} y1={py(-1)} x2={px(1) + 14} y2={py(Eb)} class="s-amber w2" />
+	<text x={px(1) + 22} y={py(-0.86)} class="t-sm f-amber">kinetic energy at launch</text>
+	<!-- escape level -->
+	<text x={px(4.5)} y={Z + 20} class="t-mid t-sm f-green">total energy 0 or more: never turns back, escapes</text>
+	<text x={L - 8} y={B + 4} class="t-end t-sm f-muted">−GMm/R</text>
+	<line x1={L - 4} y1={py(-1)} x2={L + 4} y2={py(-1)} class="s-fg w1" />
+	<text x={px(1)} y={B + 22} class="t-mid t-sm">surface (r = R)</text>
+</svg>

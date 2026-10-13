@@ -1,0 +1,83 @@
+---
+// Simulation: a head-on collision between two carts on a frictionless track. Momentum is always conserved; the
+// "bounciness" e (relative speed after ÷ before) decides how much kinetic energy survives.
+---
+
+<div
+	class="sim cl"
+	data-title="Collision lab"
+	data-description="Two carts on a frictionless track collide head-on. Set the mass of each (0.5 to 10 kg), the starting velocity of each (−5 to 5 m/s, positive to the right) and the bounciness e from 0 (they stick together) to 1 (perfectly elastic). A time slider runs from 2 s before the collision to 2 s after, moving the carts along the track. The readout gives the velocities after the collision, v₁ = (m₁u₁ + m₂u₂ + m₂e(u₂ − u₁))/(m₁ + m₂) and v₂ = (m₁u₁ + m₂u₂ + m₁e(u₁ − u₂))/(m₁ + m₂), the total momentum before and after (always equal), and the kinetic energy before and after, with the fraction lost."
+>
+	<p class="sim-title">Simulation: collision lab</p>
+	<p class="sim-help">Set up two carts, then drag the time slider through the collision. The total momentum never changes. How much kinetic energy survives depends on the bounciness.</p>
+	<div class="sim-controls">
+		<label>Time <input type="range" class="cl-t" min="-2" max="2" step="0.01" value="-1" /> <output class="cl-tv"></output></label>
+		<label>Mass m₁ <input type="range" class="cl-m1" min="0.5" max="10" step="0.5" value="2" /> <output class="cl-m1v"></output></label>
+		<label>Mass m₂ <input type="range" class="cl-m2" min="0.5" max="10" step="0.5" value="6" /> <output class="cl-m2v"></output></label>
+		<label>Velocity u₁ <input type="range" class="cl-u1" min="-5" max="5" step="0.1" value="3" /> <output class="cl-u1v"></output></label>
+		<label>Velocity u₂ <input type="range" class="cl-u2" min="-5" max="5" step="0.1" value="0" /> <output class="cl-u2v"></output></label>
+		<label>Bounciness e <input type="range" class="cl-e" min="0" max="1" step="0.05" value="1" /> <output class="cl-ev"></output></label>
+	</div>
+	<svg class="dg cl-svg" viewBox="0 0 600 150" role="img" aria-label="Two carts on a track, shown at the chosen time before or after their collision"></svg>
+	<div class="readout cl-out" aria-live="polite"></div>
+</div>
+
+<script>
+	document.querySelectorAll<HTMLElement>('.sim.cl').forEach((root) => {
+		const q = <T extends Element>(s: string) => root.querySelector<T>(s)!;
+		const svg = q<SVGSVGElement>('.cl-svg'), out = q<HTMLElement>('.cl-out');
+		const ids = ['t', 'm1', 'm2', 'u1', 'u2', 'e'];
+		const inp = Object.fromEntries(ids.map((k) => [k, q<HTMLInputElement>(`.cl-${k}`)]));
+		const NS = 'http://www.w3.org/2000/svg';
+		const make = (tag: string, at: Record<string, string | number>) => {
+			const e = document.createElementNS(NS, tag);
+			Object.entries(at).forEach(([k, v]) => e.setAttribute(k, String(v)));
+			svg.append(e);
+			return e;
+		};
+		const Y = 110, CX = 300, S = 40; // track y, collision point x, px per metre
+		make('line', { x1: 10, y1: Y, x2: 590, y2: Y, class: 's-fg w2' });
+		make('line', { x1: CX, y1: Y + 4, x2: CX, y2: Y + 14, class: 's-muted w1' });
+		const c1 = make('rect', { class: 'f-amber-soft s-amber w2' }), c2 = make('rect', { class: 'f-sky-soft s-sky w2' });
+		const l1 = make('text', { class: 't-mid t-sm' }), l2 = make('text', { class: 't-mid t-sm' });
+		const v1t = make('text', { class: 't-mid t-sm f-rose' }), v2t = make('text', { class: 't-mid t-sm f-rose' });
+		const note = make('text', { x: 300, y: 24, class: 't-mid t-sm f-muted' });
+		const size = (m: number) => 22 + 5 * Math.sqrt(m) * 3;
+		function draw() {
+			const t = +inp.t.value, m1 = +inp.m1.value, m2 = +inp.m2.value, u1 = +inp.u1.value, u2 = +inp.u2.value, e = +inp.e.value;
+			q('.cl-tv').textContent = `${t.toFixed(2)} s`;
+			q('.cl-m1v').textContent = `${m1} kg`;
+			q('.cl-m2v').textContent = `${m2} kg`;
+			q('.cl-u1v').textContent = `${u1.toFixed(1)} m/s`;
+			q('.cl-u2v').textContent = `${u2.toFixed(1)} m/s`;
+			q('.cl-ev').textContent = e.toFixed(2);
+			const hits = u1 > u2;
+			const M = m1 + m2, P = m1 * u1 + m2 * u2;
+			const v1 = hits ? (P + m2 * e * (u2 - u1)) / M : u1, v2 = hits ? (P + m1 * e * (u1 - u2)) / M : u2;
+			const w1 = size(m1), w2 = size(m2);
+			// carts touch at the collision point at t = 0 (cart 1's front at CX, cart 2's back at CX)
+			const x1 = CX + S * (t < 0 || !hits ? u1 * t : v1 * t), x2 = CX + S * (t < 0 || !hits ? u2 * t : v2 * t);
+			const set = (el: Element, at: Record<string, string | number>) => Object.entries(at).forEach(([k, v]) => el.setAttribute(k, String(v)));
+			set(c1, { x: x1 - w1, y: Y - w1 * 0.7, width: w1, height: w1 * 0.7 });
+			set(c2, { x: x2, y: Y - w2 * 0.7, width: w2, height: w2 * 0.7 });
+			const cv1 = t < 0 || !hits ? u1 : v1, cv2 = t < 0 || !hits ? u2 : v2;
+			set(l1, { x: x1 - w1 / 2, y: Y + 22 });
+			l1.textContent = `m₁ = ${m1} kg`;
+			set(l2, { x: x2 + w2 / 2, y: Y + 22 });
+			l2.textContent = `m₂ = ${m2} kg`;
+			set(v1t, { x: x1 - w1 / 2, y: Y - w1 * 0.7 - 8 });
+			v1t.textContent = `${cv1.toFixed(2)} m/s`;
+			set(v2t, { x: x2 + w2 / 2, y: Y - w2 * 0.7 - 8 });
+			v2t.textContent = `${cv2.toFixed(2)} m/s`;
+			note.textContent = !hits ? 'these carts never meet: cart 1 is not catching cart 2' : t < 0 ? 'before the collision' : 'after the collision';
+			const K0 = 0.5 * m1 * u1 * u1 + 0.5 * m2 * u2 * u2, K1 = 0.5 * m1 * v1 * v1 + 0.5 * m2 * v2 * v2;
+			out.innerHTML =
+				`<span class="k">after</span>: v₁ = <b>${v1.toFixed(2)} m/s</b>, v₂ = <b>${v2.toFixed(2)} m/s</b><br>` +
+				`<span class="k">momentum</span>: before ${P.toFixed(2)} kg m/s, after ${(m1 * v1 + m2 * v2).toFixed(2)} kg m/s (always the same)<br>` +
+				`<span class="k">kinetic energy</span>: before ${K0.toFixed(2)} J, after ${K1.toFixed(2)} J` +
+				(K0 > 0 && hits ? ` (${(((K0 - K1) / K0) * 100).toFixed(0)}% turned into heat, sound and deformation)` : '');
+		}
+		Object.values(inp).forEach((i) => i.addEventListener('input', draw));
+		draw();
+	});
+</script>

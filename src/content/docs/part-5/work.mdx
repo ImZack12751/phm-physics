@@ -1,0 +1,306 @@
+---
+title: Work as an integral
+description: What physicists mean by work, W = Fd cos θ for a steady force, work as the area under a force–distance graph, the integral W = ∫F dx, and the work done stretching a spring or lifting a probe out of a planet's gravity.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import ForceAngle from '../../../components/diagrams/part-5/ForceAngle.astro';
+import WorkAreas from '../../../components/diagrams/part-5/WorkAreas.astro';
+import WorkArea from '../../../components/sims/WorkArea.astro';
+
+## The scene
+
+When Grace first wakes aboard the *Hail Mary*, he is weak and the ship's engines are pressing him to the floor at 1.5 g. Every climb between the ship's levels is an effort. Moving supplies around the lab is tiring too, and so is pulling himself along. Much later, the ship has to lift things, and itself, against the pull of whole planets. Behind all of this is one quantity: how much a force achieves while it pushes something along.
+
+Physics calls that quantity **work**. It is the first step towards energy, the most useful bookkeeping idea in all of physics. Part 4 kept meeting a quantity that stayed constant along any orbit, $v^{2} - 2GM/r$. This part of the course explains what that quantity is. It starts here, with work.
+
+## Prerequisites
+
+<Prereqs notes={{ 'newtons-laws': 'forces and F = ma', vectors: 'the component of a force along a direction', integrals: 'an integral as a sum of many small pieces', 'fundamental-theorem': 'evaluating an integral with an antiderivative', gravitation: 'F = GMm/r² changes with distance' }} />
+
+## The concept
+
+### Work: force times distance moved
+
+Push a crate across a floor, and you have done something that depends on two things: how hard you pushed, and how far it moved. Push twice as hard, or twice as far, and you have done twice as much. Physicists define the <Term id="work">work</Term> done by a steady force $F$ that moves its point of application a distance $d$ in the direction of the force as
+
+$$
+W = Fd.
+$$
+
+The unit is the newton-metre, called the <Term id="joule">joule</Term> (J): $1\ \text{J} = 1\ \text{N} \times 1\ \text{m}$. Lifting an apple (about 1 N) by one metre takes about one joule.
+
+This "work" is not the everyday word. Holding a heavy bag still for an hour feels like hard work, but the bag doesn't move, so no work is done on it (your muscles are busy, but that is a different story, about chemistry inside them). Physics work needs **motion along the force**.
+
+### Forces at an angle
+
+Usually the force and the motion are not in the same direction. Pull a crate with a rope that slopes upwards, and only part of your pull drags the crate along. The rest tries to lift it.
+
+<Figure caption="Pulling a crate with a sloping rope. The pull F splits into a component along the motion, F cos θ, and a component at right angles to it, F sin θ. Only the component along the motion does work." alt="A crate on a horizontal floor. A red arrow labelled F pulls from the crate's right side, sloping up at angle theta above the horizontal. A dashed amber arrow along the horizontal, labelled F cos theta: does the work, and a dashed grey arrow upwards, labelled F sin theta: no work, are its components. A green arrow below the crate, pointing right, is labelled displacement d. The title reads W = F d cos theta, only the part of the force along the motion does work.">
+	<ForceAngle />
+</Figure>
+
+Splitting the force into components (Chapter 0.7), the part along the motion is $F\cos\theta$, where $\theta$ is the angle between the force and the direction of motion. So
+
+$$
+W = Fd\cos\theta.
+$$
+
+Three cases are worth remembering:
+
+- $\theta = 0$: the force points along the motion, and $W = Fd$. The work is **positive**: the force helps the motion.
+- $\theta = 90°$: the force is at right angles to the motion, and $W = 0$. A force that only changes an object's direction does no work. The centripetal force of Chapter 3.2 is like this, and so is gravity on a satellite in a circular orbit. That is why such a satellite never speeds up or slows down.
+- $\theta = 180°$: the force opposes the motion, and $W = -Fd$. The work is **negative**: the force fights the motion, like friction or a braking engine.
+
+Work is a <Term id="scalar">scalar</Term>. It has a size and a sign, but no direction.
+
+### When the force changes along the way
+
+A spring pulls harder the more it is stretched. Gravity weakens as you climb away from a planet. For forces like these, $W = Fd$ can't be used directly, because there is no single value of $F$.
+
+Chapter C.4 met exactly this problem for distance with a changing velocity, and the answer is the same. Chop the motion into small steps $\Delta x$, so small that the force barely changes during each one. The work in one step is about $F\,\Delta x$. Add up all the steps:
+
+$$
+W \approx \sum F\,\Delta x.
+$$
+
+This is a Riemann sum (Chapter C.4). As the steps shrink, it becomes an integral (Chapter C.5):
+
+$$
+W = \int_{x_{1}}^{x_{2}} F\,dx.
+$$
+
+On a graph of force against position, $F\,\Delta x$ is the area of a thin strip, so **work is the area under the force–distance graph**.
+
+<Figure caption="Work as area. For a constant force the area is a rectangle, F × d. For a spring, whose force grows in step with the stretch, it is a triangle, ½kx². For gravity, which weakens as 1/r², it is the area under a curve, found with an integral." alt="Three small graphs of force F against position x, each with the work shaded. Left: a horizontal red line labelled constant F, with a shaded rectangle labelled W = F d. Middle: a red straight line rising from the origin labelled spring: F = kx, with a shaded triangle from 0 to x labelled W = half k x squared. Right: a red curve falling steeply then levelling off, labelled gravity: F proportional to 1 over r squared, shaded between r1 and r2, labelled W = integral of F dr. Caption text below: in every case the work is the shaded area under the force graph.">
+	<WorkAreas />
+</Figure>
+
+### Who does the work on whom
+
+Always say **which force** does the work, and on **which object**. When Grace lifts a box steadily, his hands do positive work on it, and gravity does an equal amount of negative work on it. The box ends up higher but no faster. The next chapter shows how these two pieces of work account for that: the work done by the **net** force decides how the speed changes.
+
+## Formulas
+
+### Steady force at an angle
+
+$$
+\boxed{W = Fd\cos\theta}
+$$
+
+### Changing force
+
+Adding up $F\,\Delta x$ over small steps and letting them shrink:
+
+$$
+\boxed{W = \int_{x_{1}}^{x_{2}} F\,dx}
+$$
+
+### Stretching a spring
+
+To hold a spring stretched by $x$ you must pull with $F = kx$ (Hooke's law, Chapter 2.4). The work you do stretching it from $x_{1}$ to $x_{2}$ is
+
+$$
+W = \int_{x_{1}}^{x_{2}} kx\,dx = \left[\tfrac{1}{2}kx^{2}\right]_{x_{1}}^{x_{2}} \qquad\Rightarrow\qquad \boxed{W = \tfrac{1}{2}k\left(x_{2}^{2} - x_{1}^{2}\right)}
+$$
+
+From an unstretched start ($x_{1} = 0$), this is $\tfrac{1}{2}kx^{2}$, the area of the triangle in the figure.
+
+### Lifting against gravity
+
+To lift a mass $m$ slowly from distance $r_{1}$ to $r_{2}$ from a planet's centre, you must pull outwards with a force equal to its weight there, $GMm/r^{2}$ (Chapter 4.1). The work you do is
+
+$$
+W = \int_{r_{1}}^{r_{2}} \frac{GMm}{r^{2}}\,dr = GMm\left[-\frac{1}{r}\right]_{r_{1}}^{r_{2}} \qquad\Rightarrow\qquad \boxed{W = GMm\left(\frac{1}{r_{1}} - \frac{1}{r_{2}}\right)}
+$$
+
+Near the surface, where $g$ hardly changes, this is very close to the simpler $W = mgh$ (weight × height).
+
+## Worked examples
+
+<Example n={1} title="Climbing at 1.5 g" book>
+Grace (80 kg, our assumption from Chapter 2.2) climbs 3.0 m between levels of the ship while it accelerates at 1.5 g ($14.71\ \text{m/s}^{2}$). The deck height is our assumption. How much work must his muscles do, at least? How does this compare with the same climb on Earth?
+
+His legs must push up with at least his apparent weight, $mg_{\text{eff}}$ (Chapter 2.3), along the upward motion:
+
+$$
+W = mg_{\text{eff}}h = 80\ \text{kg} \times 14.71\ \text{m/s}^{2} \times 3.0\ \text{m} = 3530\ \text{J}
+$$
+
+$$
+W_{\text{Earth}} = 80\ \text{kg} \times 9.81\ \text{m/s}^{2} \times 3.0\ \text{m} = 2354\ \text{J}
+$$
+
+Each climb costs 1.5 times as much as at home: 3.5 kJ instead of 2.4 kJ.
+</Example>
+
+<Example n={2} title="Dragging a sample crate">
+A crate is dragged 4.0 m across the lab floor by a rope pulled with 150 N at 35° above the floor. How much work does the pull do?
+
+$$
+W = Fd\cos\theta = 150\ \text{N} \times 4.0\ \text{m} \times \cos 35° = 150 \times 4.0 \times 0.8192\ \text{J} = 491\ \text{J}
+$$
+
+The part of the pull that tries to lift the crate, $150\sin 35° = 86$ N, does no work, because the crate doesn't rise.
+</Example>
+
+<Example n={3} title="The mass-meter spring" book>
+The spring in our model of the ship's mass-measuring chair (Chapter 2.4) has $k = 600\ \text{N/m}$. How much work does it take to compress it by 0.10 m from relaxed? And by a further 0.10 m?
+
+$$
+W_{1} = \tfrac{1}{2}kx^{2} = \tfrac{1}{2} \times 600\ \text{N/m} \times (0.10\ \text{m})^{2} = 3.0\ \text{J}
+$$
+
+$$
+W_{2} = \tfrac{1}{2}k\left(x_{2}^{2} - x_{1}^{2}\right) = \tfrac{1}{2} \times 600\ \text{N/m} \times \left(0.040 - 0.010\right)\ \text{m}^{2} = 9.0\ \text{J}
+$$
+
+The second 10 cm costs three times as much as the first, because the spring is already pushing back harder. On the graph, the second strip under the line is a trapezium three times the area of the first triangle.
+</Example>
+
+<Example n={4} title="Lifting a probe off Adrian" book>
+How much work is needed to lift a 1000 kg probe from the surface of our model Adrian ($R = 9557$ km, $GM = 1.567 \times 10^{15}\ \text{m}^{3}/\text{s}^{2}$, Chapter 4.1) to the *Hail Mary*'s parking height, 300 km up? Compare with $mgh$ using the surface gravity, $17.15\ \text{m/s}^{2}$.
+
+$$
+W = GMm\left(\frac{1}{r_{1}} - \frac{1}{r_{2}}\right) = 1.567 \times 10^{15} \times 1000 \times \left(\frac{1}{9.557 \times 10^{6}} - \frac{1}{9.857 \times 10^{6}}\right)\ \text{J} = 4.99 \times 10^{9}\ \text{J}
+$$
+
+$$
+mgh = 1000\ \text{kg} \times 17.15\ \text{m/s}^{2} \times 3.00 \times 10^{5}\ \text{m} = 5.15 \times 10^{9}\ \text{J}
+$$
+
+The simple estimate is 3% too big, because gravity is a little weaker at the top of the climb. This is only the work of **lifting**. To stay up there, the probe would also need orbital speed, which costs more (Chapter 5.2).
+</Example>
+
+<Example n={5} title="Dimitri's sled" book>
+In Chapter 2.1, Dimitri's Astrophage burst pushes with 60,000 N for 100 µs. Applied to a 500 kg sled (our assumption) starting at rest, the sled accelerates at $120\ \text{m/s}^{2}$. How far does it move during the push, and how much work does the push do on it? The novel says the burst released $1.8 \times 10^{9}$ J of light.
+
+$$
+d = \tfrac{1}{2}at^{2} = \tfrac{1}{2} \times 120\ \text{m/s}^{2} \times \left(1.0 \times 10^{-4}\ \text{s}\right)^{2} = 6.0 \times 10^{-7}\ \text{m}
+$$
+
+$$
+W = Fd = 60\,000\ \text{N} \times 6.0 \times 10^{-7}\ \text{m} = 0.036\ \text{J}
+$$
+
+A huge force does almost no work, because it acts over less than a thousandth of a millimetre. Only $0.036 / (1.8 \times 10^{9}) = 2 \times 10^{-11}$ of the light's energy ends up as work on the sled. Force and work are different things. Chapter 5.3 shows that light makes a superb push but a terribly wasteful way to deliver energy to a slow ship.
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** Work as force times distance along the force, and the integral for changing forces, are standard mechanics (OpenStax §7.1). The spring result $\tfrac{1}{2}kx^{2}$ and the gravity result $GMm(1/r_{1} - 1/r_{2})$ are exact for an ideal spring and a spherical planet. The unit is named after James Prescott Joule, whose experiments in the 1840s showed that mechanical work and heat are two forms of the same thing.
+
+**Weir's inventions.** The 1.5 g acceleration, Dimitri's 60,000 N burst and the $1.8 \times 10^{9}$ J of light are the novel's figures. Grace's mass, the deck height, the crate, the spring and the sled are our assumptions. Adrian is our model from Part 4.
+
+**How realistic are the numbers?** A 3.5 kJ climb is easy for a healthy person, under one food calorie (kcal, 4184 J) of mechanical work. It would wear down someone as weak as Grace is when he first wakes. The contrast in Example 5 is real physics: a beam of light can push hard while delivering very little work to something that barely moves.
+</RealVsBook>
+
+## Interactive simulation
+
+<WorkArea />
+
+Things to try: with the constant pull, set θ to 0°, then 60°, then 90°, and watch the work halve and then vanish. With the spring, compare the work from 0 to 0.1 m with the work from 0.1 to 0.2 m (three times as much). With gravity, set the start to 0 and the end to 300 km to reproduce Example 4. Then stretch the climb to 5000 km and watch the simple estimate $mgh$ become badly wrong.
+
+## Practice set
+
+<Problem n={1} level="easy">
+A 200 N push moves a box 5.0 m in the direction of the push. How much work does the push do?
+
+<Solution>
+$W = Fd = 200\ \text{N} \times 5.0\ \text{m} = 1000\ \text{J} = 1.0\ \text{kJ}$.
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy">
+A satellite moves in a circular orbit. How much work does gravity do on it during one lap? What does that tell you about its speed?
+
+<Solution>
+None. Gravity points towards the centre, at 90° to the motion at every moment, so $\cos\theta = 0$ and $W = 0$. A force that does no work can't change the speed, which is why the speed in a circular orbit stays constant.
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy">
+Grace leans with all his weight on a locked hatch for a minute. It doesn't move. How much work does he do on the hatch?
+
+<Solution>
+None. The hatch doesn't move, so $d = 0$ and $W = 0$. He still gets tired, because his muscles use energy internally to keep pushing.
+</Solution>
+</Problem>
+
+<Problem n={4} level="easy" book>
+At 1.5 g ($14.71\ \text{m/s}^{2}$), Grace lifts a 12 kg box of supplies 1.2 m onto a shelf. How much work does he do?
+
+<Solution>
+$W = mg_{\text{eff}}h = 12\ \text{kg} \times 14.71\ \text{m/s}^{2} \times 1.2\ \text{m} = 212\ \text{J}$.
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium">
+A cart is pulled 10 m along a level track by a rope that pulls with 80 N at 60° to the track. How much work does the rope do? What angle would double the work for the same pull?
+
+<Solution>
+$W = 80\ \text{N} \times 10\ \text{m} \times \cos 60° = 400\ \text{J}$. Doubling it needs $\cos\theta = 1$, so $\theta = 0°$: pull straight along the track, for 800 J.
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium">
+A spring with $k = 600\ \text{N/m}$ is stretched from 0.05 m to 0.15 m. How much work is done?
+
+<Solution>
+$W = \tfrac{1}{2}k\left(x_{2}^{2} - x_{1}^{2}\right) = \tfrac{1}{2} \times 600 \times (0.0225 - 0.0025)\ \text{J} = 6.0\ \text{J}$.
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium">
+A force rises steadily from 0 to 400 N over the first 2.0 m of a motion, then stays at 400 N for the next 3.0 m. Sketch the force–distance graph and find the total work.
+
+<Solution>
+The graph is a triangle followed by a rectangle. Triangle: $\tfrac{1}{2} \times 2.0\ \text{m} \times 400\ \text{N} = 400\ \text{J}$. Rectangle: $3.0\ \text{m} \times 400\ \text{N} = 1200\ \text{J}$. Total 1600 J.
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium">
+A force along the $x$-axis is $F = 30x^{2}$ newtons ($x$ in metres). How much work does it do as an object moves from $x = 0$ to $x = 2.0$ m?
+
+<Solution>
+$W = \displaystyle\int_{0}^{2} 30x^{2}\,dx = \left[10x^{3}\right]_{0}^{2} = 10 \times 8\ \text{J} = 80\ \text{J}$.
+</Solution>
+</Problem>
+
+<Problem n={9} level="challenging">
+A uniform cable 50 m long, of mass 2.0 kg per metre, hangs straight down from a winch on Earth. How much work does the winch do to reel it all in? (Hint: a short piece $dy$ at depth $y$ has mass $\lambda\,dy$ and must be lifted a height $y$.)
+
+<Solution>
+$W = \displaystyle\int_{0}^{L} \lambda g\,y\,dy = \tfrac{1}{2}\lambda gL^{2} = \tfrac{1}{2} \times 2.0\ \text{kg/m} \times 9.81\ \text{m/s}^{2} \times (50\ \text{m})^{2} = 24\,500\ \text{J}$. That is the same as lifting the whole 100 kg cable through 25 m, the depth of its middle.
+</Solution>
+</Problem>
+
+<Problem n={10} level="challenging">
+How much work does it take to lift 1 kg from Earth's surface ($R = 6371$ km, $GM = 3.986 \times 10^{14}\ \text{m}^{3}/\text{s}^{2}$) to an enormous distance? Compare your answer with $\tfrac{1}{2}v^{2}$ for the escape speed of 11.19 km/s (Chapter 4.4). What do you notice?
+
+<Solution>
+Let $r_{2} \to \infty$: $W = \dfrac{GMm}{R} = \dfrac{3.986 \times 10^{14} \times 1}{6.371 \times 10^{6}}\ \text{J} = 6.26 \times 10^{7}\ \text{J}$. And $\tfrac{1}{2} \times (11\,186\ \text{m/s})^{2} = 6.26 \times 10^{7}\ \text{J/kg}$. They are the same: the work needed to escape equals $\tfrac{1}{2}mv^{2}$ at escape speed. The next chapter explains why.
+</Solution>
+</Problem>
+
+## Summary
+
+- Work is done when a force moves something along the force's direction: $W = Fd\cos\theta$, measured in joules ($1\ \text{J} = 1\ \text{N m}$).
+- A force along the motion does positive work. A force against it does negative work. A force at right angles to it, like the pull that holds an orbit, does none.
+- For a changing force, work is the area under the force–distance graph: $W = \int F\,dx$.
+- Stretching a spring from relaxed takes $\tfrac{1}{2}kx^{2}$. Lifting against gravity from $r_{1}$ to $r_{2}$ takes $GMm(1/r_{1} - 1/r_{2})$, which is close to $mgh$ near the surface.
+- A huge force acting over a tiny distance does very little work.
+
+**Formulas from this chapter**
+
+$$
+W = Fd\cos\theta \qquad W = \int_{x_{1}}^{x_{2}} F\,dx \qquad W_{\text{spring}} = \tfrac{1}{2}k\left(x_{2}^{2} - x_{1}^{2}\right) \qquad W_{\text{lift}} = GMm\left(\frac{1}{r_{1}} - \frac{1}{r_{2}}\right)
+$$
+
+## Sources
+
+- Work, work by a changing force, the spring and gravity: OpenStax, *University Physics Volume 1*, [§7.1 Work](https://openstax.org/books/university-physics-volume-1/pages/7-1-work) and [§13.3 Gravitational Potential Energy and Total Energy](https://openstax.org/books/university-physics-volume-1/pages/13-3-gravitational-potential-energy-and-total-energy).
+- James Prescott Joule and the mechanical equivalent of heat: Wikipedia, [James Prescott Joule](https://en.wikipedia.org/wiki/James_Prescott_Joule).
+- Dimitri's test (60,000 N for 100 µs, $1.8 \times 10^{9}$ J of light from about 20 µg) and the 1.5 g acceleration: Andy Weir, *Project Hail Mary* (2021), as summarised by a reader: [trangnkp.substack.com](https://trangnkp.substack.com/p/project-hail-mary). Approximate.
+- Our model Adrian ($GM$, radius and surface gravity): Chapter 4.1, built on the candidate planet Tau Ceti e and an assumed radius. $GM$ for Earth: NASA, [Earth fact sheet](https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html).

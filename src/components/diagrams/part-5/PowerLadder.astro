@@ -1,0 +1,39 @@
+---
+// Powers compared on a logarithmic scale (watts). Sources in the chapter: human ~100 W (hypertextbook), RS-25 jet power
+// computed from Wikipedia's mass flow and exhaust speed, world primary energy 2021 ≈ 19.6 TW, Dimitri's burst and the
+// Hail Mary's drive from the novel's figures, sunlight on Earth = 1361 W/m² × πR², Sun 3.828 × 10²⁶ W (NASA).
+const rows = [
+	{ n: 'a person, on average', p: 100, c: 'f-sky' },
+	{ n: 'one RS-25 engine’s exhaust', p: 5.06e9, c: 'f-sky' },
+	{ n: 'Dimitri’s test burst (100 µs)', p: 1.8e13, c: 'f-amber' },
+	{ n: 'all human energy use (2021)', p: 1.96e13, c: 'f-sky' },
+	{ n: 'Hail Mary drive at 6.043 g/s', p: 5.43e14, c: 'f-amber' },
+	{ n: 'sunlight reaching Earth', p: 1.74e17, c: 'f-sky' },
+	{ n: 'the Sun', p: 3.828e26, c: 'f-sky' },
+];
+const L = 245, R = 575, T = 18, H = 34, lo = 0, hi = 27;
+const px = (p: number) => L + ((Math.log10(p) - lo) / (hi - lo)) * (R - L);
+const sup = (e: number) => String(e).split('').map((d) => '⁰¹²³⁴⁵⁶⁷⁸⁹'[+d]).join('');
+const fmt = (p: number) => {
+	const e = Math.floor(Math.log10(p));
+	return e < 3 ? `${p} W` : `${(p / 10 ** e).toFixed(1)} × 10${sup(e)} W`;
+};
+---
+
+<svg class="dg" viewBox="0 0 600 320" xmlns="http://www.w3.org/2000/svg">
+	{[0, 3, 6, 9, 12, 15, 18, 21, 24, 27].map((e) => (
+		<>
+			<line x1={px(10 ** e)} y1={T} x2={px(10 ** e)} y2={T + rows.length * H} class="s-grid w1" />
+			<text x={px(10 ** e)} y={T + rows.length * H + 18} class="t-mid t-sm f-muted">{`10${sup(e)}`}</text>
+		</>
+	))}
+	{rows.map((r, i) => (
+		<>
+			<text x={L - 8} y={T + i * H + H / 2 + 4} class="t-end t-sm">{r.n}</text>
+			<rect x={L} y={T + i * H + 8} width={px(r.p) - L} height={H - 16} class={r.c} />
+			<text x={Math.min(px(r.p) + 6, R - 2)} y={T + i * H + H / 2 + 4} class={`t-sm halo ${px(r.p) > R - 90 ? 't-end' : ''}`}>{fmt(r.p)}</text>
+		</>
+	))}
+	<text x={(L + R) / 2} y={T + rows.length * H + 42} class="t-mid t-sm">power in watts (each grid line is 1000 times the last)</text>
+	<text x={(L + R) / 2} y={T + rows.length * H + 62} class="t-mid t-sm f-amber">amber: figures from the novel</text>
+</svg>

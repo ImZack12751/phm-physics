@@ -1,0 +1,111 @@
+---
+// Simulation: a 1 kg block released on a U-shaped track (y = 0.5x² m), with an adjustable friction force and gravity.
+// Mechanical energy falls by f·s with distance travelled s; the lost energy becomes thermal energy. Total stays fixed.
+---
+
+<div
+	class="sim et"
+	data-title="Energy track"
+	data-description="A 1 kg block is released from rest on a U-shaped track whose height is y = 0.5x² metres. Choose the release height (0.2 to 1.1 m), the friction force as a fraction of the block's weight (0 to 0.2), and the gravity (1 g on Earth or 1.5 g aboard the accelerating Hail Mary). A slider moves through the distance the block has travelled along the track. The block's position is drawn on the track, and bars show its kinetic energy, its potential energy above the bottom of the track, and the thermal energy made by friction so far, in joules. Their sum always equals the starting potential energy. With no friction the block swings back and forth for ever; with friction it settles at the bottom."
+>
+	<p class="sim-title">Simulation: energy track</p>
+	<p class="sim-help">Release the block, then move the "distance travelled" slider to follow it. With no friction, potential and kinetic energy trade back and forth for ever. Add friction and watch thermal energy grow until the block comes to rest.</p>
+	<div class="sim-controls">
+		<label>Distance travelled <input type="range" class="et-s" min="0" max="1" step="0.002" value="0.15" /> <output class="et-sv"></output></label>
+		<label>Release height <input type="range" class="et-h" min="0.2" max="1.1" step="0.01" value="1.0" /> <output class="et-hv"></output></label>
+		<label>Friction (× weight) <input type="range" class="et-f" min="0" max="0.2" step="0.005" value="0.05" /> <output class="et-fv"></output></label>
+		<label>Gravity <select class="et-g">
+			<option value="14.71">1.5 g (Hail Mary)</option>
+			<option value="9.81">1 g (Earth)</option>
+		</select></label>
+	</div>
+	<svg class="dg et-svg" viewBox="0 0 600 260" role="img" aria-label="A U-shaped track with a block on it, and bars showing kinetic, potential and thermal energy"></svg>
+	<div class="readout et-out" aria-live="polite"></div>
+</div>
+
+<script>
+	document.querySelectorAll<HTMLElement>('.sim.et').forEach((root) => {
+		const q = <T extends Element>(s: string) => root.querySelector<T>(s)!;
+		const svg = q<SVGSVGElement>('.et-svg'), out = q<HTMLElement>('.et-out');
+		const Ss = q<HTMLInputElement>('.et-s'), Hs = q<HTMLInputElement>('.et-h'), Fs = q<HTMLInputElement>('.et-f'), Gs = q<HTMLSelectElement>('.et-g');
+		const NS = 'http://www.w3.org/2000/svg';
+		const el = (tag: string, at: Record<string, string | number>, text?: string) => {
+			const e = document.createElementNS(NS, tag);
+			Object.entries(at).forEach(([k, v]) => e.setAttribute(k, String(v)));
+			if (text) e.textContent = text;
+			svg.append(e);
+			return e;
+		};
+		const yOf = (x: number) => 0.5 * x * x;
+		const SX = 118, CX = 200, BY = 220; // px per metre, centre x, bottom y of track
+		const X = (x: number) => CX + x * SX, Y = (y: number) => BY - y * SX;
+		// Walk along the track in small arc-length steps, reversing at turning points, losing f per metre.
+		function run(h: number, f: number, g: number) {
+			const ds = 0.002, m = 1;
+			let x = -Math.sqrt(2 * h), dir = 1, Emech = m * g * h, s = 0;
+			const states = [{ x, s, Emech }];
+			for (let i = 0; i < 40000; i++) {
+				const slope = x; // dy/dx
+				const dx = (dir * ds) / Math.sqrt(1 + slope * slope);
+				const nx = x + dx, U = m * g * yOf(nx), E2 = Emech - f * m * g * ds;
+				if (E2 < U) {
+					// turning point: the block is momentarily at rest. It slides back only if the slope's pull beats friction.
+					dir = -dir;
+					if (Math.abs(x) / Math.sqrt(1 + x * x) <= f || Math.abs(x) < 0.002) {
+						states.push({ x, s, Emech: m * g * yOf(x) });
+						break;
+					}
+					Emech = m * g * yOf(x);
+					continue;
+				}
+				x = nx;
+				Emech = E2;
+				s += ds;
+				if (i % 4 === 0) states.push({ x, s, Emech });
+				if (f === 0 && s > 12) break;
+			}
+			return states;
+		}
+		function draw() {
+			const h = +Hs.value, f = +Fs.value, g = +Gs.value, frac = +Ss.value;
+			q('.et-hv').textContent = `${h.toFixed(2)} m`;
+			q('.et-fv').textContent = f.toFixed(3);
+			const states = run(h, f, g);
+			const st = states[Math.min(states.length - 1, Math.round(frac * (states.length - 1)))];
+			q('.et-sv').textContent = `${st.s.toFixed(2)} m`;
+			const E0 = g * h, U = g * yOf(st.x), K = Math.max(0, st.Emech - U), Th = E0 - st.Emech;
+			svg.replaceChildren();
+			const pts: string[] = [];
+			for (let i = 0; i <= 80; i++) {
+				const x = -1.5 + (3 * i) / 80;
+				pts.push(`${i ? 'L' : 'M'}${X(x).toFixed(1)},${Y(yOf(x)).toFixed(1)}`);
+			}
+			el('path', { d: pts.join(' '), class: 's-fg w3', fill: 'none' });
+			el('line', { x1: X(-1.5), y1: Y(h), x2: X(1.5), y2: Y(h), class: 's-grid w1 dash' });
+			el('text', { x: CX, y: Y(h) - 6, class: 't-mid t-sm f-muted' }, 'release height');
+			const ang = Math.atan(st.x);
+			el('rect', { x: X(st.x) - 11, y: Y(yOf(st.x)) - 22, width: 22, height: 22, class: 'f-amber s-amber w1', transform: `rotate(${(-ang * 180) / Math.PI} ${X(st.x)} ${Y(yOf(st.x))})` });
+			// bars
+			const BX = 400, bw = 44, top = 40, full = BY - top, sc = full / Math.max(E0, 1e-9);
+			const bar = (i: number, val: number, cls: string, label: string) => {
+				const x = BX + i * (bw + 14);
+				el('rect', { x, y: BY - val * sc, width: bw, height: Math.max(0.5, val * sc), class: cls });
+				el('text', { x: x + bw / 2, y: BY + 18, class: 't-mid t-sm' }, label);
+				el('text', { x: x + bw / 2, y: BY - val * sc - 6, class: 't-mid t-sm t-b' }, val.toFixed(1));
+			};
+			el('line', { x1: BX - 8, y1: BY, x2: BX + 3 * bw + 36, y2: BY, class: 's-fg w2' });
+			el('line', { x1: BX - 8, y1: BY - full, x2: BX + 3 * bw + 36, y2: BY - full, class: 's-green w1 dash' });
+			bar(0, K, 'f-amber', 'kinetic');
+			bar(1, U, 'f-sky', 'potential');
+			bar(2, Th, 'f-rose', 'thermal');
+			el('text', { x: BX + 1.5 * bw + 14, y: 22, class: 't-mid t-sm' }, 'joules (1 kg block)');
+			const v = Math.sqrt(2 * K);
+			const done = states.length > 1 && st === states[states.length - 1] && f > 0;
+			out.innerHTML =
+				`<span class="k">K + U + thermal</span> = ${K.toFixed(2)} + ${U.toFixed(2)} + ${Th.toFixed(2)} = <b>${(K + U + Th).toFixed(2)} J</b> (always the starting mgh = ${E0.toFixed(2)} J) &nbsp; <span class="k">speed</span> = ${v.toFixed(2)} m/s<br>` +
+				`<span class="k">mechanical energy K + U</span> = ${(K + U).toFixed(2)} J, down by friction × distance = ${(f * g).toFixed(3)} N × ${st.s.toFixed(2)} m${done ? '. <b>The block has come to rest.</b>' : ''}`;
+		}
+		[Ss, Hs, Fs, Gs].forEach((i) => i.addEventListener('input', draw));
+		draw();
+	});
+</script>

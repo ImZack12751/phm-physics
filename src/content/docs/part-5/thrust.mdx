@@ -1,0 +1,295 @@
+---
+title: Thrust
+description: How a rocket pushes itself by throwing exhaust backwards, thrust F = ṁv_e, exhaust speed and specific impulse, the power-versus-thrust trade-off from chemical rockets to ion engines to a light drive, and what the Hail Mary's fuel display reveals about the ship's mass.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import RocketMomentum from '../../../components/diagrams/part-5/RocketMomentum.astro';
+import ExhaustSpeeds from '../../../components/diagrams/part-5/ExhaustSpeeds.astro';
+import ThrustLab from '../../../components/sims/ThrustLab.astro';
+
+## The scene
+
+The *Hail Mary*'s engines are called spin drives. They push the ship with light released by Astrophage. There is no air to push against and no road under the wheels. Yet the drive holds the ship at 1.5 g for years, and Grace can read its fuel use off a display: 6.043 grams per second at one point in the novel.
+
+How does throwing a few grams of something out of the back hold up a ship of a hundred tonnes or more? This chapter turns Chapter 5.5's momentum into the rocket's basic law. It then uses the fuel display to estimate something the novel's summaries don't tell us: how heavy the *Hail Mary* is.
+
+## Prerequisites
+
+<Prereqs notes={{ momentum: 'F = dp/dt, conservation of momentum, and light carrying momentum E/c', power: 'P = Fv and the mass-to-light drive P = ṁc²', 'newtons-laws': 'F = ma and the third law', 'apparent-weight': 'what it means for a ship to accelerate at 1.5 g' }} />
+
+## The concept
+
+### A rocket pushes on its own exhaust
+
+A rocket carries its own reaction mass, called <Term id="propellant">propellant</Term>. The engine throws it out of the back at high speed. By Newton's third law, the exhaust pushes back on the rocket with an equal and opposite force. That push is the <Term id="thrust">thrust</Term>.
+
+<Figure caption="Thrust from momentum. In a short time Δt, the engine throws out a mass Δm backwards at exhaust speed v_e. The exhaust gains momentum Δm·v_e backwards, so the rocket gains the same forwards. Dividing by Δt gives the thrust, F = ṁv_e." alt="A rocket pointing right, labelled rocket, mass m, with a nozzle on its left. To the left, a round parcel of exhaust labelled exhaust delta m = m-dot delta t, with an amber arrow pointing further left labelled v e. On the right of the rocket, a red arrow pointing right labelled thrust F. Title: exhaust momentum backwards = rocket momentum forwards. Subtitle: in each delta t, delta p = delta m times v e, so F = delta p over delta t = m-dot v e. Footer: nothing outside is pushed: the rocket pushes on its own exhaust.">
+	<RocketMomentum />
+</Figure>
+
+Count the momentum (Chapter 5.5). In a short time $\Delta t$, a mass $\Delta m$ of exhaust leaves at speed $v_{\text{e}}$ relative to the rocket. It carries away momentum $\Delta m\,v_{\text{e}}$ backwards, so the rocket gains the same momentum forwards. Force is momentum per second, so
+
+$$
+F = \frac{\Delta m\,v_{\text{e}}}{\Delta t} = \dot{m}\,v_{\text{e}},
+$$
+
+where $\dot{m}$ is the mass of propellant thrown out per second. Two things make thrust: throwing **a lot** of mass, and throwing it **fast**.
+
+Rockets work best in a vacuum. Air doesn't help them push, and in fact its pressure on the nozzle's exit slightly reduces the thrust.
+
+### Exhaust speed is everything
+
+The <Term id="exhaust-velocity">exhaust speed</Term> $v_{\text{e}}$ is the single most important property of a rocket engine. Engineers often quote it as the <Term id="specific-impulse">specific impulse</Term>, $I_{\text{sp}} = v_{\text{e}}/g_{0}$, which comes out in seconds ($g_{0} = 9.806\,65\ \text{m/s}^{2}$, standard gravity). An $I_{\text{sp}}$ of 452 s means an exhaust speed of 4.44 km/s.
+
+<Figure caption="Exhaust speeds on a logarithmic scale. Chemical rockets throw their exhaust at a few kilometres per second. Ion engines manage tens. A light drive's 'exhaust' moves at the speed of light, nearly 70,000 times faster than the best chemical rocket." alt="A horizontal bar chart on a logarithmic scale of exhaust speed from 1 to a million kilometres per second. Solid booster (Shuttle SRB): 2.6 km/s. Hydrogen-oxygen (RS-25): 4.4 km/s. Ion thrusters: a range from 20 to 50 km/s. Light (Astrophage drive): 300,000 km/s, in amber.">
+	<ExhaustSpeeds />
+</Figure>
+
+Chemical rockets are limited by chemistry: burning hydrogen with oxygen releases only so much energy per kilogram, which caps the exhaust speed near 4.5 km/s. Ion engines use electricity to fire charged atoms out at tens of kilometres per second.
+
+### The thrust–power trade-off
+
+Fast exhaust costs power. A material exhaust carries kinetic energy $\tfrac{1}{2}\dot{m}v_{\text{e}}^{2}$ per second. Dividing by the thrust:
+
+$$
+\frac{P}{F} = \frac{\tfrac{1}{2}\dot{m}v_{\text{e}}^{2}}{\dot{m}v_{\text{e}}} = \frac{v_{\text{e}}}{2}.
+$$
+
+So each newton of thrust needs $v_{\text{e}}/2$ watts. For a given power supply, a faster exhaust gives **less** thrust. That is why ion engines, with only a few kilowatts of solar electricity, push with about the weight of a few sheets of paper. Chapter 5.7 shows why their fast exhaust is still worth it.
+
+### The light drive
+
+For an Astrophage drive, the "exhaust" is light. Chapter 5.5 showed that light carries momentum $E/c$. Burning $\dot{m}$ of Astrophage each second releases energy $\dot{m}c^{2}$ as light (Chapter 5.3), carrying momentum $\dot{m}c^{2}/c = \dot{m}c$ per second. So the thrust is
+
+$$
+F = \dot{m}c.
+$$
+
+That is $F = \dot{m}v_{\text{e}}$ with an exhaust speed of $c$, the highest possible. The power per newton is $c$, not $c/2$, because light has no mass to carry kinetic energy in the ordinary way. It is all $3 \times 10^{8}$ watts per newton. Only fuel as rich as Astrophage could pay that bill.
+
+### Throttling to keep 1.5 g
+
+As fuel burns, the ship gets lighter. To keep a steady acceleration $a$, the thrust must fall in step with the mass: $F = ma$. For a light drive, that means burning
+
+$$
+\dot{m} = \frac{ma}{c}.
+$$
+
+A heavy, fully fuelled ship must burn fast. A nearly empty one burns slowly. The novel's 6.043 g/s is one moment in a burn rate that changes all the way through the trip.
+
+## Formulas
+
+### Thrust
+
+$$
+\boxed{F = \dot{m}\,v_{\text{e}} \qquad I_{\text{sp}} = \frac{v_{\text{e}}}{g_{0}}}
+$$
+
+### Exhaust power
+
+$$
+\boxed{P = \tfrac{1}{2}\dot{m}v_{\text{e}}^{2} = \tfrac{1}{2}Fv_{\text{e}} \ \ (\text{material exhaust}) \qquad P = Fc \ \ (\text{light})}
+$$
+
+### Light drive and constant acceleration
+
+$$
+\boxed{F = \dot{m}c \qquad \dot{m} = \frac{ma}{c} \ \ \text{to hold acceleration } a}
+$$
+
+## Worked examples
+
+<Example n={1} title="The RS-25">
+A Space Shuttle main engine throws out 514.49 kg/s of exhaust at 4436 m/s in vacuum. Find its thrust and specific impulse. Wikipedia lists its vacuum thrust as 2279 kN.
+
+$$
+F = \dot{m}v_{\text{e}} = 514.49\ \text{kg/s} \times 4436\ \text{m/s} = 2.282 \times 10^{6}\ \text{N} = 2282\ \text{kN} \quad ✓
+$$
+
+$$
+I_{\text{sp}} = \frac{4436\ \text{m/s}}{9.807\ \text{m/s}^{2}} = 452\ \text{s}
+$$
+
+Over 2 meganewtons, from half a tonne of exhaust per second.
+</Example>
+
+<Example n={2} title="Dimitri's burst as a rocket" book>
+Dimitri's sample used about 20 µg of Astrophage in 100 µs. Treat it as a rocket with light as the exhaust. What thrust does $F = \dot{m}c$ predict?
+
+$$
+\dot{m} = \frac{2.0 \times 10^{-8}\ \text{kg}}{1.0 \times 10^{-4}\ \text{s}} = 2.0 \times 10^{-4}\ \text{kg/s}
+$$
+
+$$
+F = \dot{m}c = 2.0 \times 10^{-4}\ \text{kg/s} \times 3.0 \times 10^{8}\ \text{m/s} = 6.0 \times 10^{4}\ \text{N}
+$$
+
+The novel's 60,000 N, exactly.
+</Example>
+
+<Example n={3} title="Weighing the Hail Mary with its fuel gauge" book>
+The display shows 6.043 g/s, at a time when the ship is accelerating at 1.5 g ($14.71\ \text{m/s}^{2}$, the acceleration Grace measured in Chapter 1.4). If that burn rate is what holds the ship at 1.5 g, how massive is the ship? How much of that is the 20,862 kg of fuel still on board?
+
+$$
+F = \dot{m}c = 6.043 \times 10^{-3}\ \text{kg/s} \times 2.998 \times 10^{8}\ \text{m/s} = 1.812 \times 10^{6}\ \text{N}
+$$
+
+$$
+m = \frac{F}{a} = \frac{1.812 \times 10^{6}\ \text{N}}{14.71\ \text{m/s}^{2}} = 1.23 \times 10^{5}\ \text{kg}
+$$
+
+$$
+m_{\text{empty}} = 123\,000\ \text{kg} - 20\,862\ \text{kg} \approx 1.02 \times 10^{5}\ \text{kg}
+$$
+
+So the empty *Hail Mary* would be about 100 tonnes: roughly a quarter of the International Space Station. This is our inference, not a figure stated in the novel. The rest of this course uses $1.0 \times 10^{5}$ kg as the empty mass.
+</Example>
+
+<Example n={4} title="An ion thruster">
+NASA's NSTAR ion thruster gives at most 92 mN of thrust from 2.3 kW of electricity. Take a typical ion exhaust speed of 30 km/s. Find its mass flow, its exhaust power and its efficiency, and the acceleration it gives the 486 kg Deep Space 1 probe.
+
+$$
+\dot{m} = \frac{F}{v_{\text{e}}} = \frac{0.092\ \text{N}}{3.0 \times 10^{4}\ \text{m/s}} = 3.1 \times 10^{-6}\ \text{kg/s} = 3.1\ \text{mg/s}
+$$
+
+$$
+P = \tfrac{1}{2}Fv_{\text{e}} = \tfrac{1}{2} \times 0.092\ \text{N} \times 3.0 \times 10^{4}\ \text{m/s} = 1380\ \text{W} \qquad \eta = \frac{1380}{2300} = 0.60
+$$
+
+$$
+a = \frac{0.092\ \text{N}}{486\ \text{kg}} = 1.9 \times 10^{-4}\ \text{m/s}^{2}
+$$
+
+That is 0.002% of a g. But it can be kept up for months: after one day the probe has gained 16 m/s.
+</Example>
+
+<Example n={5} title="The burn rate at departure" book>
+At departure, the *Hail Mary* carries about $2.0 \times 10^{6}$ kg of fuel on a $1.0 \times 10^{5}$ kg ship. What burn rate holds it at 1.5 g then? Compare with the display's 6.043 g/s.
+
+$$
+\dot{m} = \frac{ma}{c} = \frac{2.1 \times 10^{6}\ \text{kg} \times 14.71\ \text{m/s}^{2}}{2.998 \times 10^{8}\ \text{m/s}} = 0.103\ \text{kg/s} = 103\ \text{g/s}
+$$
+
+That is 17 times the display's rate. (Chapter 2.1 assumed a loaded ship of $2.5 \times 10^{6}$ kg. The fuel display now points to a little less, about $2.1 \times 10^{6}$ kg.) Fuel use falls steadily through the trip as the ship lightens. Chapter 5.7 works out exactly how, and what that means for the 2 million kilograms.
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** $F = \dot{m}v_{\text{e}}$, specific impulse and the thrust–power trade-off are standard rocket science (OpenStax §9.7; NASA Glenn Research Center). The RS-25, Shuttle booster and NSTAR figures are real. A beam of light pushes with $F = P/c$. A "photon rocket" using it has been studied for decades, but no real fuel comes close to supplying the power.
+
+**Weir's inventions.** Astrophage, which turns its stored mass into light, is the novel's invention, and so are the spin drives that use it. The 6.043 g/s, 20,862 kg, 20 µg and 60,000 N are the novel's figures as summarised by readers. The ship mass of about $1.2 \times 10^{5}$ kg (and $1.0 \times 10^{5}$ kg empty) is **our inference** from those figures, assuming the display's rate was holding 1.5 g.
+
+**How realistic are the numbers?** Internally, very consistent. Dimitri's test obeys $F = \dot{m}c$ exactly. The display rate implies a ship of about 100 tonnes, a sensible size for a crewed interstellar ship and roughly a quarter of the ISS. Real engines are far from this: even the fastest ion thruster's exhaust is thousands of times slower than light.
+</RealVsBook>
+
+## Interactive simulation
+
+<ThrustLab />
+
+Things to try: the default is Example 3, giving 1.5 g. Keep 6.043 g/s but switch to the RS-25: the thrust collapses by a factor of nearly 70,000. Find the flow rate an RS-25-type engine would need to hold the same ship at 1.5 g (about 400 kg/s). Then try the ion thruster on a 486 kg probe at 3 mg/s.
+
+## Practice set
+
+<Problem n={1} level="easy">
+An engine throws out 100 kg/s of exhaust at 3000 m/s. What is its thrust?
+
+<Solution>
+$F = \dot{m}v_{\text{e}} = 100 \times 3000\ \text{N} = 3.0 \times 10^{5}\ \text{N}$.
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy">
+The Shuttle's solid boosters had an exhaust speed of 2.63 km/s. What was their specific impulse?
+
+<Solution>
+$I_{\text{sp}} = 2630 / 9.807 = 268\ \text{s}$.
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy">
+A friend says rockets can't work in space because "there's nothing to push against". Explain why they are wrong.
+
+<Solution>
+A rocket pushes against its own exhaust, not the surroundings. Throwing exhaust backwards gives it backward momentum, so the rocket gains equal forward momentum (Newton's third law, momentum conservation). This works perfectly in a vacuum.
+</Solution>
+</Problem>
+
+<Problem n={4} level="medium">
+A $5.0 \times 10^{5}$ kg rocket with an exhaust speed of 3000 m/s sits on a launch pad on Earth. What mass flow does it need just to lift off?
+
+<Solution>
+Thrust must exceed the weight: $5.0 \times 10^{5} \times 9.81 = 4.9 \times 10^{6}$ N. $\dot{m} = F/v_{\text{e}} = 4.9 \times 10^{6}/3000 = 1630$ kg/s, more than a tonne and a half per second.
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium" book>
+Using Grace's rounded figures (6 g/s and $c = 3 \times 10^{8}$ m/s), what thrust does the drive produce?
+
+<Solution>
+$F = \dot{m}c = 0.006 \times 3 \times 10^{8}\ \text{N} = 1.8 \times 10^{6}\ \text{N}$.
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium">
+How much speed does the NSTAR thruster (92 mN) add to the 486 kg Deep Space 1 probe in one day?
+
+<Solution>
+$a = 0.092/486 = 1.89 \times 10^{-4}\ \text{m/s}^{2}$, so in 86,400 s it adds $16.4$ m/s.
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium" book>
+At the very end of its fuel, the *Hail Mary* is about $1.0 \times 10^{5}$ kg. What burn rate holds it at 1.5 g then?
+
+<Solution>
+$\dot{m} = ma/c = 1.0 \times 10^{5} \times 14.71/2.998 \times 10^{8}\ \text{kg/s} = 4.9 \times 10^{-3}$ kg/s, about 4.9 g/s.
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium">
+How many watts of exhaust power does each newton of thrust need for (a) the RS-25 (4436 m/s), (b) an ion thruster at 30 km/s, (c) a light drive?
+
+<Solution>
+(a) $v_{\text{e}}/2 = 2218$ W/N. (b) $15\,000$ W/N. (c) $c = 3.0 \times 10^{8}$ W/N, about 135,000 times the RS-25's.
+</Solution>
+</Problem>
+
+<Problem n={9} level="challenging" book>
+Explain why holding a steady 1.5 g makes the *Hail Mary*'s burn rate fall during the trip. By what factor does it fall from departure ($2.1 \times 10^{6}$ kg) to empty ($1.0 \times 10^{5}$ kg)?
+
+<Solution>
+Holding $a$ needs $F = ma$. As fuel is used, $m$ falls, so the thrust and the burn rate $\dot{m} = ma/c$ must fall in proportion. The factor is $2.1 \times 10^{6}/1.0 \times 10^{5} = 21$: from 103 g/s to 4.9 g/s.
+</Solution>
+</Problem>
+
+<Problem n={10} level="challenging">
+A 15,000 kg lander hovers just above the Moon ($g = 1.62\ \text{m/s}^{2}$) with an exhaust speed of 3000 m/s. What mass flow keeps it hovering? Why does hovering waste fuel?
+
+<Solution>
+Thrust equals weight: $\dot{m} = mg/v_{\text{e}} = 15\,000 \times 1.62/3000 = 8.1$ kg/s. Hovering spends fuel without gaining speed or height. All the work goes into the exhaust, so landers keep hovering as short as possible.
+</Solution>
+</Problem>
+
+## Summary
+
+- A rocket pushes on its own exhaust. Throwing out $\dot{m}$ per second at speed $v_{\text{e}}$ gives thrust $F = \dot{m}v_{\text{e}}$.
+- Exhaust speed (or specific impulse, $v_{\text{e}}/g_{0}$) is the key figure: chemical rockets reach about 4.4 km/s, ion engines 20 to 50 km/s, and light $c$.
+- Each newton of thrust costs $v_{\text{e}}/2$ watts for a material exhaust and $c$ watts for light, so faster exhaust needs more power per newton.
+- An Astrophage light drive pushes with $F = \dot{m}c$. The novel's figures obey this exactly.
+- Holding 1.5 g needs $\dot{m} = ma/c$. The display's 6.043 g/s then implies a ship of about $1.23 \times 10^{5}$ kg, or about 100 tonnes empty (our inference).
+
+**Formulas from this chapter**
+
+$$
+F = \dot{m}v_{\text{e}} \qquad I_{\text{sp}} = \frac{v_{\text{e}}}{g_{0}} \qquad P = \tfrac{1}{2}Fv_{\text{e}} \qquad F = \dot{m}c \qquad \dot{m} = \frac{ma}{c}
+$$
+
+## Sources
+
+- Rocket thrust and propulsion: OpenStax, *University Physics Volume 1*, [§9.7 Rocket Propulsion](https://openstax.org/books/university-physics-volume-1/pages/9-7-rocket-propulsion); NASA Glenn Research Center, [Rocket thrust summary](https://www.grc.nasa.gov/www/k-12/rocket/rktthsum.html) and [Specific impulse](https://www.grc.nasa.gov/www/k-12/airplane/specimp.html).
+- RS-25 (514.49 kg/s, 4.436 km/s, 2279 kN in vacuum): Wikipedia, [RS-25](https://en.wikipedia.org/wiki/RS-25). Shuttle solid boosters ($I_{\text{sp}}$ 268 s): Wikipedia, [Space Shuttle Solid Rocket Booster](https://en.wikipedia.org/wiki/Space_Shuttle_Solid_Rocket_Booster).
+- Ion thrusters (exhaust 20–50 km/s; NSTAR up to 92 mN from 2.3 kW): Wikipedia, [Ion thruster](https://en.wikipedia.org/wiki/Ion_thruster). Deep Space 1 launch mass 486 kg: Wikipedia, [Deep Space 1](https://en.wikipedia.org/wiki/Deep_Space_1).
+- Photon rockets: Wikipedia, [Photon rocket](https://en.wikipedia.org/wiki/Photon_rocket). ISS mass (about 420 t): NASA, [International Space Station facts and figures](https://www.nasa.gov/international-space-station/space-station-facts-and-figures/).
+- The spin drives, the fuel display (20,862 kg, 6.043 g/s) and Dimitri's test: Andy Weir, *Project Hail Mary* (2021), as summarised by a reader: [trangnkp.substack.com](https://trangnkp.substack.com/p/project-hail-mary). About 2 million kg of fuel: Nick Frass, ["The Energy Economics of Project Hail Mary"](https://nickfrass.substack.com/p/the-energy-economics-of-project-hail). Approximate.

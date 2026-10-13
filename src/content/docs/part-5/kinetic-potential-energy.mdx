@@ -1,0 +1,328 @@
+---
+title: Kinetic and potential energy
+description: The work–energy theorem and kinetic energy ½mv², potential energy as stored work (mgh, ½kx² and −GMm/r), force as the downhill slope of potential energy, and why escape speed doesn't depend on the direction of launch.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import EnergyTrade from '../../../components/diagrams/part-5/EnergyTrade.astro';
+import PotentialWell from '../../../components/diagrams/part-5/PotentialWell.astro';
+import EnergyLaunch from '../../../components/sims/EnergyLaunch.astro';
+
+## The scene
+
+Everything Grace does at Adrian costs something. To get down to the atmosphere and back, to escape the planet, and to head home, the *Hail Mary* has to climb out of gravity's pull and also build up enormous speeds. Back on Earth, the whole Astrophage crisis is a story about where the Sun's energy is going.
+
+Chapter 4.4 found that a coasting object keeps $v^{2} - 2GM/r$ fixed. It also promised a proof that the escape speed is the same in every direction. Both follow from two kinds of energy, which this chapter builds out of the work of Chapter 5.1: **energy of motion** and **energy of position**.
+
+## Prerequisites
+
+<Prereqs notes={{ work: 'W = ∫F dx, and the work to stretch a spring or climb out of gravity', 'equations-of-motion': 'v² = u² + 2as', 'escape-velocity': 'v² − 2GM/r stays constant while coasting', derivatives: 'the slope of a graph as a derivative' }} />
+
+## The concept
+
+### Work changes speed
+
+Push a cart with a steady net force $F$ over a distance $d$. From Chapter 1.2, $v^{2} = u^{2} + 2ad$, and from Newton's second law $a = F/m$. Multiply by $\tfrac{1}{2}m$:
+
+$$
+Fd = \tfrac{1}{2}mv^{2} - \tfrac{1}{2}mu^{2}.
+$$
+
+The left side is the work done by the net force. The right side is the change in a quantity that depends only on mass and speed. That quantity is the <Term id="kinetic-energy">kinetic energy</Term>:
+
+$$
+K = \tfrac{1}{2}mv^{2}.
+$$
+
+The result, **net work = change in kinetic energy**, is called the <Term id="work-energy-theorem">work–energy theorem</Term>. It holds for changing forces too (see Formulas). Kinetic energy is measured in joules, like work, and is never negative. Because it grows with $v^{2}$, doubling a speed quadruples the energy. That is why crashes at high speed are so much worse than slow ones.
+
+Kinetic energy depends only on **speed**, not direction. That one fact will settle the escape-speed question.
+
+### Stored work: potential energy
+
+Lift a box onto a shelf. Your hands do work $mgh$, but the box ends up at rest, so its kinetic energy hasn't changed. Where did the work go? Let the box fall, and gravity gives back exactly that amount as kinetic energy at the bottom. The work was **stored** in the box's position. This stored work is called <Term id="potential-energy">potential energy</Term>, $U$.
+
+Potential energy only makes sense for forces that give back exactly what you put in, whatever route you take: gravity and ideal springs, for example. These are called <Term id="conservative-force">conservative forces</Term>. Friction is not one. Drag a crate across the floor and back, and friction takes work both ways and returns none (Chapter 5.4).
+
+Three potential energies cover most of this course:
+
+- **Near a surface,** with $g$ steady: $U = mgh$, where $h$ is the height above any level you choose as zero.
+- **A spring** stretched or squashed by $x$: $U = \tfrac{1}{2}kx^{2}$ (the work of Chapter 5.1).
+- **Gravity over large distances:** $U = -\dfrac{GMm}{r}$.
+
+Only **changes** in potential energy matter, so we can choose where $U = 0$. For gravity over large distances, the natural choice is $U = 0$ very far away. Every closer point is then lower than that, which is why $U$ is negative. Climbing from $r_{1}$ to $r_{2}$ raises $U$ by $GMm(1/r_{1} - 1/r_{2})$, exactly the work found in Chapter 5.1.
+
+### Trading one for the other
+
+When only conservative forces act, the work they do on an object takes from its potential energy and adds the same amount to its kinetic energy. The total stays the same:
+
+$$
+K + U = \text{constant}.
+$$
+
+This is the conservation of <Term id="mechanical-energy">mechanical energy</Term>. Chapter 5.4 explores it in full.
+
+<Figure caption="A tool falling 2.0 m at 1.5 g. Its potential energy (blue) turns steadily into kinetic energy (amber). Per kilogram, the total is always 29.4 J." alt="On the left, a horizontal floor with a height marker of 2.0 m and three circles showing a tool at the top, halfway and at the floor. On the right, three pairs of bars for released, halfway and just before the floor. Potential bars read 29.4, 14.7 and 0.0. Kinetic bars read 0.0, 14.7 and 29.4 joules per kilogram. A green dashed line along the top of the tallest bars reads total: 29.4 J per kg, always.">
+	<EnergyTrade />
+</Figure>
+
+### The orbit constant explained
+
+Divide $K + U = \text{constant}$ by $\tfrac{1}{2}m$ for gravity over large distances:
+
+$$
+\tfrac{1}{2}mv^{2} - \frac{GMm}{r} = \text{constant} \qquad\Rightarrow\qquad v^{2} - \frac{2GM}{r} = \text{constant}.
+$$
+
+This is the quantity of Chapters 4.4 and 4.6. It is the total energy per kilogram (doubled). Along any coasting path, falling in turns potential energy into speed, and climbing out turns speed back into potential energy.
+
+<Figure caption="Gravitational potential energy, U = −GMm/r, is a 'well'. A thrown object's total energy is a horizontal line. Below zero, the line meets the curve and the object turns back. At zero or above, it never meets the curve, and the object escapes." alt="A graph with distance from the centre along the horizontal axis and energy up the vertical axis. The horizontal axis is at energy zero near the top. A blue curve labelled U = minus GMm over r starts deep at minus GMm over R at the surface and rises towards zero far away. A red horizontal line at a negative energy starts at the surface and meets the curve at a dot labelled total energy below 0: turns back here. An amber vertical segment at the surface between the curve and the red line is labelled kinetic energy at launch. Green text along the zero line reads total energy 0 or more: never turns back, escapes.">
+	<PotentialWell />
+</Figure>
+
+### Escape speed in any direction
+
+To escape, an object must reach very large $r$, where $U \to 0$, with $K \geq 0$ left over. So it needs a total energy of at least zero:
+
+$$
+\tfrac{1}{2}mv^{2} - \frac{GMm}{R} \geq 0 \qquad\Rightarrow\qquad v \geq \sqrt{\frac{2GM}{R}}.
+$$
+
+Nothing here mentions direction, because kinetic energy depends only on speed. So the escape speed of Chapter 4.4 works for a launch straight up, sideways or at any angle, as long as the path doesn't hit the ground or the atmosphere first. That keeps Chapter 4.4's promise.
+
+### Force is the downhill slope
+
+Moving a small step $\Delta x$, a force does work $F\,\Delta x$, and the potential energy falls by the same amount: $\Delta U = -F\,\Delta x$. As the step shrinks, this becomes a derivative (Chapter C.3):
+
+$$
+F = -\frac{dU}{dx}.
+$$
+
+Forces push things **downhill** on a potential-energy graph, and the steeper the slope, the stronger the force. For $U = -GMm/r$, $F = -dU/dr = -GMm/r^{2}$. The minus sign means "towards smaller $r$", which is towards the planet.
+
+### A warning for very high speeds
+
+$\tfrac{1}{2}mv^{2}$ is excellent at every speed in this course except the *Hail Mary*'s cruising speeds. Close to the speed of light it is wrong, and Part 10 replaces it. At a tenth of light speed, the error is under 1%.
+
+## Formulas
+
+### The work–energy theorem
+
+For any changing net force, write $F = m\,\dfrac{dv}{dt}$ and change variable with $dx = v\,dt$:
+
+$$
+W_{\text{net}} = \int F\,dx = \int m\,\frac{dv}{dt}\,v\,dt = \int_{u}^{v} m\,v\,dv = \left[\tfrac{1}{2}mv^{2}\right]_{u}^{v}
+$$
+
+$$
+\boxed{W_{\text{net}} = \tfrac{1}{2}mv^{2} - \tfrac{1}{2}mu^{2} = \Delta K}
+$$
+
+### Potential energies
+
+$$
+\boxed{U = mgh \qquad U = \tfrac{1}{2}kx^{2} \qquad U = -\frac{GMm}{r}}
+$$
+
+### Mechanical energy and force
+
+$$
+\boxed{K + U = \text{constant (conservative forces only)} \qquad F = -\frac{dU}{dx}}
+$$
+
+### Escape speed from energy
+
+$$
+\boxed{v_{\text{esc}} = \sqrt{\frac{2GM}{r}} \text{ in any direction}}
+$$
+
+## Worked examples
+
+<Example n={1} title="Grace on the move" book>
+Suppose Grace (80 kg) jogs at 3.0 m/s. What is his kinetic energy? What would it be at 6.0 m/s?
+
+$$
+K = \tfrac{1}{2}mv^{2} = \tfrac{1}{2} \times 80\ \text{kg} \times (3.0\ \text{m/s})^{2} = 360\ \text{J}
+$$
+
+$$
+K = \tfrac{1}{2} \times 80\ \text{kg} \times (6.0\ \text{m/s})^{2} = 1440\ \text{J}
+$$
+
+Twice the speed, four times the energy.
+</Example>
+
+<Example n={2} title="A dropped tool at 1.5 g" book>
+A tool slips from a 2.0 m shelf while the ship accelerates at 1.5 g ($14.71\ \text{m/s}^{2}$). How fast does it hit the floor? What about on Earth?
+
+Its potential energy turns into kinetic energy: $mgh = \tfrac{1}{2}mv^{2}$, and the mass cancels.
+
+$$
+v = \sqrt{2g_{\text{eff}}h} = \sqrt{2 \times 14.71\ \text{m/s}^{2} \times 2.0\ \text{m}} = 7.67\ \text{m/s}
+$$
+
+$$
+v_{\text{Earth}} = \sqrt{2 \times 9.81\ \text{m/s}^{2} \times 2.0\ \text{m}} = 6.26\ \text{m/s}
+$$
+
+The same answer as Chapter 1.3's equations of motion, with less work.
+</Example>
+
+<Example n={3} title="Escaping Adrian in any direction" book>
+Find the escape speed from the surface of our model Adrian ($GM = 1.567 \times 10^{15}\ \text{m}^{3}/\text{s}^{2}$, $R = 9557$ km). Does it matter whether a rocket climbs straight up or slants over?
+
+$$
+v_{\text{esc}} = \sqrt{\frac{2GM}{R}} = \sqrt{\frac{2 \times 1.567 \times 10^{15}\ \text{m}^{3}/\text{s}^{2}}{9.557 \times 10^{6}\ \text{m}}} = 18.1\ \text{km/s}
+$$
+
+The same as Chapter 4.4. The direction doesn't matter: escape needs a total energy of zero, and kinetic energy depends only on speed. (Real rockets slant over anyway, to spend less time fighting gravity and to use the planet's spin.)
+</Example>
+
+<Example n={4} title="What does an orbit cost?" book>
+Per kilogram, how much energy does it take to go from standing on our model Adrian to circling in the *Hail Mary*'s 300 km parking orbit ($r = 9857$ km, speed 12.61 km/s)? Which part is bigger, the climb or the speed? (Ignore Adrian's spin and its air.)
+
+$$
+\frac{\Delta U}{m} = GM\left(\frac{1}{R} - \frac{1}{r}\right) = 1.567 \times 10^{15} \times \left(\frac{1}{9.557 \times 10^{6}} - \frac{1}{9.857 \times 10^{6}}\right)\ \text{J/kg} = 4.99 \times 10^{6}\ \text{J/kg}
+$$
+
+$$
+\frac{K}{m} = \tfrac{1}{2}v^{2} = \frac{GM}{2r} = \frac{1.567 \times 10^{15}}{2 \times 9.857 \times 10^{6}}\ \text{J/kg} = 7.95 \times 10^{7}\ \text{J/kg}
+$$
+
+Total $8.45 \times 10^{7}$ J for every kilogram, and 94% of it is speed. Getting to low orbit is mostly about going fast, not about going up.
+</Example>
+
+<Example n={5} title="The ship's energy at a tenth of light speed" book>
+Suppose the empty *Hail Mary* has a mass of about $1.0 \times 10^{5}$ kg (our estimate, from Chapter 5.6). Find its kinetic energy at $0.10c$, and compare it with the energy locked in 2 million kilograms of Astrophage, which Grace works out as $mc^{2}$ (Part 9 explains this formula).
+
+$$
+K = \tfrac{1}{2}mv^{2} = \tfrac{1}{2} \times 1.0 \times 10^{5}\ \text{kg} \times \left(3.00 \times 10^{7}\ \text{m/s}\right)^{2} = 4.5 \times 10^{19}\ \text{J}
+$$
+
+$$
+E_{\text{fuel}} = mc^{2} = 2.0 \times 10^{6}\ \text{kg} \times \left(3.00 \times 10^{8}\ \text{m/s}\right)^{2} = 1.8 \times 10^{23}\ \text{J}
+$$
+
+The kinetic energy at $0.1c$ is only 0.025% of the fuel's energy. Chapters 5.3 and 5.7 show where the rest goes: almost all of it leaves as light. At this speed $\tfrac{1}{2}mv^{2}$ is about 0.8% too low (Part 10).
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** Kinetic energy, the work–energy theorem, potential energy and the conservation of mechanical energy are core mechanics (OpenStax §7.2–7.3 and §8.1–8.3). $U = -GMm/r$ with zero at infinity is the standard convention (OpenStax §13.3). Escape speed doesn't depend on launch direction, as long as the path stays clear of the ground and the air.
+
+**Weir's inventions.** Astrophage storing energy as mass, and Grace's use of $E = mc^{2}$ to find that energy, are the novel's. The 2 million kilograms of fuel is the novel's figure as reported by readers. Grace's 80 kg and the jog, the shelf, and the empty ship's $1.0 \times 10^{5}$ kg are our assumptions.
+
+**How realistic are the numbers?** The energy of reaching low orbit is realistic. For a 400 km orbit around Earth the same sum gives about 33 MJ per kilogram, and real rockets spend much more than this, because their fuel must also lift the fuel still to be burned (Chapter 5.7). Adrian's deep gravity well makes escaping it, $GM/R$ per kilogram, about 2.6 times harder than escaping Earth.
+</RealVsBook>
+
+## Interactive simulation
+
+<EnergyLaunch />
+
+Things to try: set the speed to 0.85 and slide the marker. The kinetic and potential bars trade off, but the total stays put. Now keep the speed and change only the angle: the paths differ, but the total, and whether the object escapes, don't change. Set the speed to exactly 1.00 and the total becomes zero, which is just enough to escape at any angle.
+
+## Practice set
+
+<Problem n={1} level="easy">
+Find the kinetic energy of a 0.15 kg ball thrown at 20 m/s.
+
+<Solution>
+$K = \tfrac{1}{2} \times 0.15\ \text{kg} \times (20\ \text{m/s})^{2} = 30\ \text{J}$.
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy">
+By what factor does kinetic energy change if the speed (a) doubles, (b) triples, (c) halves?
+
+<Solution>
+$K \propto v^{2}$: (a) 4 times, (b) 9 times, (c) a quarter.
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy" book>
+At 1.5 g, Grace puts a 12 kg box on a 1.2 m shelf. By how much has its potential energy risen? Compare with Problem 4 of Chapter 5.1.
+
+<Solution>
+$\Delta U = mg_{\text{eff}}h = 12 \times 14.71 \times 1.2\ \text{J} = 212\ \text{J}$, exactly the work he did lifting it.
+</Solution>
+</Problem>
+
+<Problem n={4} level="medium" book>
+A sample jar falls 1.5 m to the floor at 1.5 g. How fast is it moving when it lands?
+
+<Solution>
+$v = \sqrt{2g_{\text{eff}}h} = \sqrt{2 \times 14.71 \times 1.5}\ \text{m/s} = 6.64\ \text{m/s}$.
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium">
+A spring with $k = 600\ \text{N/m}$ is squashed by 0.10 m and then releases a 0.50 kg block on a smooth floor. How fast does the block leave?
+
+<Solution>
+$\tfrac{1}{2}kx^{2} = 3.0\ \text{J} = \tfrac{1}{2}mv^{2}$, so $v = \sqrt{\dfrac{2 \times 3.0}{0.50}}\ \text{m/s} = 3.46\ \text{m/s}$.
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium">
+Use $F = -dU/dr$ to find the force from $U = -GMm/r$. Which way does it point?
+
+<Solution>
+$\dfrac{dU}{dr} = \dfrac{GMm}{r^{2}}$, so $F = -\dfrac{GMm}{r^{2}}$. The minus sign means it points towards smaller $r$: an attraction towards the centre, Newton's law of gravitation.
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium">
+Find the escape speed from the Moon ($M = 7.346 \times 10^{22}$ kg, $R = 1737$ km). Check it against NASA's 2.38 km/s.
+
+<Solution>
+$GM = 6.674 \times 10^{-11} \times 7.346 \times 10^{22} = 4.90 \times 10^{12}\ \text{m}^{3}/\text{s}^{2}$. $v = \sqrt{\dfrac{2 \times 4.90 \times 10^{12}}{1.737 \times 10^{6}}}\ \text{m/s} = 2.38\ \text{km/s}$. ✓
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium" book>
+The *Hail Mary* circles Adrian at 12.61 km/s, 9857 km from the centre. How much energy per kilogram must it gain to escape Adrian, and how big a forward burn is that?
+
+<Solution>
+Total energy per kg in the orbit is $\tfrac{1}{2}v^{2} - GM/r = GM/2r - GM/r = -GM/2r = -7.95 \times 10^{7}$ J/kg. It must gain $7.95 \times 10^{7}$ J/kg. The escape speed there is $\sqrt{2GM/r} = 17.83$ km/s, so the burn is $17.83 - 12.61 = 5.22$ km/s.
+</Solution>
+</Problem>
+
+<Problem n={9} level="challenging">
+A probe is fired straight up from Earth at 5.0 km/s (no air). Use energy to find how high it rises. Compare with the constant-$g$ answer $v^{2}/2g$.
+
+<Solution>
+$\tfrac{1}{2}v^{2} - \dfrac{GM}{R} = -\dfrac{GM}{r_{\max}}$, so $r_{\max} = \dfrac{1}{1/R - v^{2}/2GM} = \dfrac{1}{1/(6.371 \times 10^{6}) - (5000)^{2}/(2 \times 3.986 \times 10^{14})}\ \text{m} = 7.96 \times 10^{6}$ m. That is 1590 km up. Constant $g$ would say $5000^{2}/(2 \times 9.82) = 1270$ km, too low, because gravity weakens as the probe climbs.
+</Solution>
+</Problem>
+
+<Problem n={10} level="challenging" book>
+A lander drops from rest 1000 km above our model Adrian with no air and no engine. How fast does it hit the ground? Now find the energy per kilogram to reach Adrian's parking orbit (Example 4), and compare it with the 33 MJ/kg for Earth.
+
+<Solution>
+$v = \sqrt{2GM\left(\dfrac{1}{R} - \dfrac{1}{R + h}\right)} = \sqrt{2 \times 1.567 \times 10^{15} \times \left(\dfrac{1}{9.557 \times 10^{6}} - \dfrac{1}{1.0557 \times 10^{7}}\right)}\ \text{m/s} = 5.57\ \text{km/s}$. Orbit costs 84.5 MJ/kg at Adrian, about 2.5 times Earth's figure.
+</Solution>
+</Problem>
+
+## Summary
+
+- Kinetic energy is $K = \tfrac{1}{2}mv^{2}$. The net work done on an object equals its change in kinetic energy.
+- Potential energy is work stored by a conservative force: $mgh$ near a surface, $\tfrac{1}{2}kx^{2}$ in a spring, $-GMm/r$ for gravity with zero far away.
+- With only conservative forces, $K + U$ is constant. Dividing by $\tfrac{1}{2}m$ gives the orbit constant $v^{2} - 2GM/r$ of Part 4.
+- Escape needs a total energy of at least zero, which gives $v_{\text{esc}} = \sqrt{2GM/r}$ in any direction.
+- Force is the downhill slope of potential energy: $F = -dU/dx$.
+- Getting into low orbit is mostly about speed: over 90% of the energy is kinetic.
+
+**Formulas from this chapter**
+
+$$
+K = \tfrac{1}{2}mv^{2} \qquad W_{\text{net}} = \Delta K \qquad U = mgh \qquad U = \tfrac{1}{2}kx^{2} \qquad U = -\frac{GMm}{r} \qquad F = -\frac{dU}{dx}
+$$
+
+## Sources
+
+- Kinetic energy and the work–energy theorem: OpenStax, *University Physics Volume 1*, [§7.2 Kinetic Energy](https://openstax.org/books/university-physics-volume-1/pages/7-2-kinetic-energy) and [§7.3 Work-Energy Theorem](https://openstax.org/books/university-physics-volume-1/pages/7-3-work-energy-theorem).
+- Potential energy, conservative forces and conservation of energy: OpenStax, [§8.1 Potential Energy of a System](https://openstax.org/books/university-physics-volume-1/pages/8-1-potential-energy-of-a-system), [§8.2 Conservative and Non-Conservative Forces](https://openstax.org/books/university-physics-volume-1/pages/8-2-conservative-and-non-conservative-forces) and [§8.3 Conservation of Energy](https://openstax.org/books/university-physics-volume-1/pages/8-3-conservation-of-energy).
+- Gravitational potential energy and escape: OpenStax, [§13.3 Gravitational Potential Energy and Total Energy](https://openstax.org/books/university-physics-volume-1/pages/13-3-gravitational-potential-energy-and-total-energy).
+- Moon and Earth data: NASA, [Moon fact sheet](https://nssdc.gsfc.nasa.gov/planetary/factsheet/moonfact.html) and [Earth fact sheet](https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html).
+- Astrophage as fuel, about 2 million kilograms of it, and Grace's $E = mc^{2}$ reasoning: Andy Weir, *Project Hail Mary* (2021), as summarised by readers: [trangnkp.substack.com](https://trangnkp.substack.com/p/project-hail-mary) and Nick Frass, ["The Energy Economics of Project Hail Mary"](https://nickfrass.substack.com/p/the-energy-economics-of-project-hail). Approximate.

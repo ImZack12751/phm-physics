@@ -1,0 +1,289 @@
+---
+title: The Tsiolkovsky rocket equation
+description: Deriving Δv = v_e ln(m₀/m_f) from momentum and an integral, the tyranny of the exponential, why staging and fast exhaust matter, how fuel drains at constant acceleration, and a check of the Hail Mary's fuel budget.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import MassRatioCurve from '../../../components/diagrams/part-5/MassRatioCurve.astro';
+import FuelBurnCurve from '../../../components/diagrams/part-5/FuelBurnCurve.astro';
+import RocketEquation from '../../../components/sims/RocketEquation.astro';
+
+## The scene
+
+Grace reads the fuel display, 20,862 kg left at 6.043 g/s, and does the obvious sum: about forty days of fuel. Later he plans a manoeuvre that the novel says will cost 130 kilograms of fuel, including the burn to slow down at the end. And the whole mission hangs on one budget, set long before launch: about 2 million kilograms of Astrophage to carry the ship to Tau Ceti.
+
+Every one of these numbers is governed by a single equation, written down by the Russian schoolteacher Konstantin Tsiolkovsky in 1903. It links a rocket's change in speed to how much of it is fuel. It is the reason rockets are mostly fuel, and the reason chemical rockets can never reach the stars.
+
+## Prerequisites
+
+<Prereqs notes={{ thrust: 'F = ṁv_e, exhaust speed, and burn rate at constant acceleration', integrals: 'the integral of 1/m is ln m', 'exponentials-logarithms': 'e, ln and exponential decay', 'orbital-manoeuvring': 'delta-v as the cost of a manoeuvre' }} />
+
+## The concept
+
+### Speeding up a rocket, one puff at a time
+
+Chapter 5.5's Problem 8 showed that throwing tools one at a time works slightly better than throwing them all at once, because each throw pushes a lighter astronaut. A rocket takes this to the limit: it throws its propellant out continuously, in countless tiny puffs, and every puff pushes a slightly lighter rocket.
+
+Think about one puff. The rocket has mass $m$. It throws out a tiny mass $\Delta m$ backwards at the exhaust speed $v_{\text{e}}$ (relative to itself). Momentum conservation says the rocket gains speed
+
+$$
+\Delta v = v_{\text{e}}\,\frac{\Delta m}{m}.
+$$
+
+Early puffs push a heavy rocket and add little speed. Late puffs push a nearly empty one and add much more. Adding up all the puffs is an integral (Chapter C.5), and its answer involves a logarithm because $\int dm/m = \ln m$. The result is the <Term id="rocket-equation">Tsiolkovsky rocket equation</Term>:
+
+$$
+\Delta v = v_{\text{e}}\ln\frac{m_{0}}{m_{\text{f}}},
+$$
+
+where $m_{0}$ is the starting mass (with fuel) and $m_{\text{f}}$ the final mass (after burning it). Their quotient is the <Term id="mass-ratio">mass ratio</Term>, $R = m_{0}/m_{\text{f}}$.
+
+Notice what is missing: the thrust, the burn time and the engine's power. However fast or slowly the fuel is burned, in empty space the speed gained depends only on the exhaust speed and the mass ratio. (Near a planet, burning slowly wastes fuel fighting gravity, as the hovering lander in Chapter 5.6 showed.)
+
+### The tyranny of the exponential
+
+Turn the equation round to ask what mass ratio a given $\Delta v$ needs:
+
+$$
+\frac{m_{0}}{m_{\text{f}}} = e^{\Delta v/v_{\text{e}}}.
+$$
+
+The mass ratio grows **exponentially** with the speed you want (Chapter 0.8).
+
+<Figure caption="The rocket equation: mass ratio grows exponentially with Δv/v_e. A Δv equal to the exhaust speed needs a mass ratio of 2.7 (63% of the starting mass is fuel). Twice the exhaust speed needs 7.4 (86%), three times needs 20 (95%), and five times needs 148 (99.3%)." alt="A graph with delta v over v e from 0 to 5.5 on the horizontal axis and mass ratio m0 over mf on a logarithmic vertical axis from 1 to about 400. A red curve, R = e to the power delta v over v e, appears as a straight line rising on the log scale. Amber dots mark R = 2.7 at 1 (63% fuel), R = 7.4 at 2 (86% fuel), R = 20 at 3 (95% fuel) and R = 148 at 5 (99.3% fuel).">
+	<MassRatioCurve />
+</Figure>
+
+Asking for a $\Delta v$ a few times bigger than $v_{\text{e}}$ quickly makes the rocket almost all fuel. That is the "tyranny of the rocket equation", and it is why exhaust speed matters so much. It also explains two engineering tricks:
+
+- **Staging.** Dropping empty tanks and spent engines partway through means the later burns don't have to push dead weight. Most rockets that reach orbit use two or three stages.
+- **Fast exhaust.** An ion engine's 30 km/s exhaust makes a 9 km/s change cost only about a quarter of the starting mass in propellant, where a chemical engine would need almost nine-tenths. It just takes months, because the thrust is tiny (Chapter 5.6).
+
+### Constant acceleration: fuel drains exponentially
+
+The *Hail Mary* doesn't burn at a steady rate. It holds a steady 1.5 g, so its burn rate is $\dot{m} = ma/c$ (Chapter 5.6), which is proportional to its mass. A quantity whose rate of loss is proportional to itself decays exponentially (Chapter 0.8):
+
+$$
+\frac{dm}{dt} = -\frac{a}{v_{\text{e}}}\,m \qquad\Rightarrow\qquad m(t) = m_{0}\,e^{-at/v_{\text{e}}}.
+$$
+
+Both the mass and the burn rate fall by the same factor $e$ every $v_{\text{e}}/a$ seconds. For a light drive at 1.5 g, that is $c/a = 2.04 \times 10^{7}$ s, about 0.65 years.
+
+<Figure caption="Grace's fuel estimate. At a steady 6.043 g/s, the 20,862 kg on the display lasts 40.0 days (dashed). But holding 1.5 g, the burn rate falls as the ship lightens, so the fuel lasts 43.8 days (amber curve)." alt="A graph of fuel left in kilograms against days after the display reading. A dashed blue straight line falls from 20,862 kg at day 0 to zero at day 40.0, labelled steady 6.043 g/s: empty after 40.0 days. An amber curve starts at the same point, falls slightly less steeply and gently curves, reaching zero at day 43.8, labelled holding 1.5 g as the ship lightens: empty after 43.8 days.">
+	<FuelBurnCurve />
+</Figure>
+
+### When the speeds get close to light
+
+For a light drive, $v_{\text{e}} = c$. Any mass ratio above about 1.1 then gives a $\Delta v$ above $0.1c$, and Newton's mechanics starts to fail. A mass ratio of 21 would give "$\Delta v = 3c$", which is impossible: nothing reaches the speed of light. Part 10 fixes the rocket equation for high speeds.
+
+One result survives unchanged. The exponential decay $m = m_{0}e^{-at/c}$ for a light drive holding acceleration $a$ is exact at any speed, **provided $t$ is the time on the ship's own clock**. That is because each instant of the burn looks like the slow-speed case to the crew. Part 10 explains why. It means the fuel budget can be checked against the time Grace experiences.
+
+## Formulas
+
+### Deriving the rocket equation
+
+In a short time, the rocket (mass $m$, speed $v$) throws out mass $-dm$ (its own mass falls by $dm$, which is negative) at $v_{\text{e}}$ backwards relative to itself. Momentum conservation, in the frame where the rocket is momentarily at rest:
+
+$$
+m\,dv = -v_{\text{e}}\,dm \qquad\Rightarrow\qquad dv = -v_{\text{e}}\,\frac{dm}{m}
+$$
+
+Integrate from the start ($m_{0}$, speed $v_{0}$) to the end ($m_{\text{f}}$, speed $v_{\text{f}}$), using $\int dm/m = \ln m$:
+
+$$
+\int_{v_{0}}^{v_{\text{f}}} dv = -v_{\text{e}}\int_{m_{0}}^{m_{\text{f}}}\frac{dm}{m} = -v_{\text{e}}\left(\ln m_{\text{f}} - \ln m_{0}\right)
+$$
+
+$$
+\boxed{\Delta v = v_{\text{e}}\ln\frac{m_{0}}{m_{\text{f}}} \qquad \frac{m_{0}}{m_{\text{f}}} = e^{\Delta v/v_{\text{e}}} \qquad \text{propellant fraction} = 1 - e^{-\Delta v/v_{\text{e}}}}
+$$
+
+### Constant acceleration
+
+From $F = \dot{m}_{\text{out}}v_{\text{e}} = ma$, the mass falls as $dm/dt = -ma/v_{\text{e}}$, so
+
+$$
+\boxed{m(t) = m_{0}\,e^{-at/v_{\text{e}}} \qquad t = \frac{v_{\text{e}}}{a}\ln\frac{m_{0}}{m_{\text{f}}}}
+$$
+
+## Worked examples
+
+<Example n={1} title="Reaching orbital speed with hydrogen and oxygen">
+How much of a rocket must be propellant just to reach the ISS's orbital speed, 7.67 km/s (Chapter 4.2), using RS-25-type engines ($v_{\text{e}} = 4.436$ km/s)? Ignore gravity and air.
+
+$$
+\frac{m_{0}}{m_{\text{f}}} = e^{7.67/4.436} = e^{1.730} = 5.64 \qquad \text{propellant} = 1 - \frac{1}{5.64} = 0.82
+$$
+
+82% of the lift-off mass must be propellant, before allowing for tanks, engines or payload. Real launches also lose speed to gravity and air on the way up, so they need even more. That is why orbital rockets are slender tanks with a small payload at the top.
+</Example>
+
+<Example n={2} title="Deep Space 1's exhaust speed">
+The ion-powered probe Deep Space 1 launched with a mass of 486 kg and used 73.4 kg of xenon for a total $\Delta v$ of 4.3 km/s. Estimate its effective exhaust speed. (It also carried a little other fuel, so this is approximate.)
+
+$$
+v_{\text{e}} = \frac{\Delta v}{\ln(m_{0}/m_{\text{f}})} = \frac{4300\ \text{m/s}}{\ln\left(486/412.6\right)} = \frac{4300\ \text{m/s}}{0.164} = 26\ \text{km/s}
+$$
+
+This is within the 20 to 50 km/s range of ion thrusters. A chemical rocket would have needed $486 \times (1 - e^{-4.3/4.436}) = 300$ kg of propellant for the same $\Delta v$, not 73 kg.
+</Example>
+
+<Example n={3} title="The 130-kilogram manoeuvre" book>
+The novel says a manoeuvre will cost 130 kg of fuel. Suppose the ship then masses about $1.2 \times 10^{5}$ kg (our estimate, Chapter 5.6). What total $\Delta v$ does 130 kg of Astrophage buy?
+
+$$
+\Delta v = c\ln\frac{m_{0}}{m_{\text{f}}} = 2.998 \times 10^{8}\ \text{m/s} \times \ln\frac{120\,000}{119\,870} = 2.998 \times 10^{8} \times 1.084 \times 10^{-3}\ \text{m/s} = 325\ \text{km/s}
+$$
+
+That is 18 times the escape speed from our model Adrian's surface. A 0.1% sliver of the ship's mass buys more $\Delta v$ than any chemical rocket ever built. That is the point of a light drive.
+</Example>
+
+<Example n={4} title="Is it forty days?" book>
+At the display reading, the ship is about $1.232 \times 10^{5}$ kg with 20,862 kg of fuel (Chapter 5.6). Grace estimates 40 days at a steady 6.043 g/s. How long does the fuel really last if the ship keeps holding 1.5 g?
+
+$$
+t = \frac{c}{a}\ln\frac{m_{0}}{m_{\text{f}}} = \frac{2.998 \times 10^{8}\ \text{m/s}}{14.71\ \text{m/s}^{2}} \times \ln\frac{123\,160\ \text{kg}}{102\,300\ \text{kg}} = 2.038 \times 10^{7}\ \text{s} \times 0.1856 = 3.78 \times 10^{6}\ \text{s}
+$$
+
+That is 43.8 days, nearly four days longer than Grace's estimate. His straight-line sum is a fine first guess: it errs on the safe side, because the burn rate keeps falling.
+</Example>
+
+<Example n={5} title="Checking the mission's fuel budget" book>
+At launch, the ship carries about $2.0 \times 10^{6}$ kg of Astrophage on an empty mass of $1.0 \times 10^{5}$ kg. (a) What does the Newtonian rocket equation say? (b) Using the ship-clock result, how long can it hold 1.5 g? (c) Grace's trip took about 3¾ years of his time. What mass ratio would 1.5 g all the way need?
+
+(a) $R = 2.1 \times 10^{6}/1.0 \times 10^{5} = 21$, so $\Delta v = c\ln 21 = 3.04c$. That is impossible, so Newton's version has broken down (Part 10).
+
+(b) On the ship's clock:
+
+$$
+t = \frac{c}{a}\ln R = 2.038 \times 10^{7}\ \text{s} \times \ln 21 = 6.20 \times 10^{7}\ \text{s} = 1.97\ \text{years}
+$$
+
+(c) The ship-clock time $t = 3.75$ years $= 1.183 \times 10^{8}$ s needs
+
+$$
+R = e^{at/c} = e^{1.183 \times 10^{8}/2.038 \times 10^{7}} = e^{5.81} = 333.
+$$
+
+For a 100-tonne ship that means about $3.3 \times 10^{7}$ kg of fuel, 17 times the novel's 2 million kilograms. Even the three years the novel gives as a minimum would need $R = e^{4.65} = 104$, about five times the fuel. The book's figures don't quite add up if the ship really held 1.5 g for the whole trip. A lighter ship, or a coasting phase in the middle, would close part of the gap. Part 10 revisits the journey with relativity.
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** The rocket equation was published by Tsiolkovsky in 1903 and governs every rocket ever flown (OpenStax §9.7). Staging, the push for faster exhaust and the exponential fuel cost are all real engineering facts. For a photon rocket, the ship-clock decay $m = m_{0}e^{-a\tau/c}$ is a standard result of special relativity (Part 10).
+
+**Weir's inventions.** The Astrophage drive, the 2 million kilograms of fuel, the 20,862 kg reading, the 6.043 g/s rate, the 130 kg manoeuvre and the trip of about 3¾ years of ship time are the novel's, as summarised by readers. The ship masses (about 123 t at the reading, 100 t empty) are our inference from the fuel display.
+
+**How realistic are the numbers?** The day-to-day numbers fit together remarkably well: Dimitri's test, the display rate, a 100-tonne ship and a 40-day reserve all agree. The overall fuel budget is generous. With 2 million kilograms on a 100-tonne ship, the rocket equation allows about 2 years at 1.5 g on Grace's clock, not 3¾. Like all the book's figures, the trip times come from reader summaries and are approximate.
+</RealVsBook>
+
+## Interactive simulation
+
+<RocketEquation />
+
+Things to try: the default is the RS-25 reaching 7.67 km/s, which needs 82% propellant. Switch to the solid booster and watch the fraction climb to 95%. Try the ion thruster for the same $\Delta v$. Then pick the light drive, set the empty mass to 120 t and $\Delta v$ to 325 km/s: the propellant is only 0.13 t, the 130 kg of Example 3. Push $\Delta v$ past 30,000 km/s ($0.1c$) to see where Newton's version stops working.
+
+## Practice set
+
+<Problem n={1} level="easy">
+A rocket's mass ratio is $e \approx 2.72$. What $\Delta v$ does it get, in terms of its exhaust speed?
+
+<Solution>
+$\Delta v = v_{\text{e}}\ln e = v_{\text{e}}$: exactly its exhaust speed.
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy">
+What mass ratio and propellant fraction does $\Delta v = 2v_{\text{e}}$ need?
+
+<Solution>
+$R = e^{2} = 7.39$. Propellant fraction $= 1 - 1/7.39 = 0.865$, or 86.5%.
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy">
+Explain why dropping empty fuel tanks partway through a launch helps.
+
+<Solution>
+After the tanks are empty, carrying them adds to $m_{\text{f}}$ without adding fuel. Dropping them lowers the mass the later burns must push, which raises the mass ratio of each later stage and so the total $\Delta v$.
+</Solution>
+</Problem>
+
+<Problem n={4} level="medium">
+A hydrogen–oxygen rocket ($v_{\text{e}} = 4.436$ km/s) needs a $\Delta v$ of 9.0 km/s. What fraction of it must be propellant?
+
+<Solution>
+$R = e^{9.0/4.436} = e^{2.029} = 7.61$. Propellant fraction $= 1 - 1/7.61 = 0.869$, about 87%.
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium">
+Repeat Problem 4 for an ion engine with $v_{\text{e}} = 30$ km/s.
+
+<Solution>
+$R = e^{0.30} = 1.35$. Propellant fraction $= 1 - 1/1.35 = 0.26$, only 26%. (But at 92 mN of thrust, it would take a long time.)
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium" book>
+How much Astrophage gives a $1.0 \times 10^{5}$ kg (empty) ship a $\Delta v$ of 1000 km/s?
+
+<Solution>
+$R = e^{10^{6}/2.998 \times 10^{8}} = e^{0.003336} = 1.00334$. Fuel $= m_{\text{f}}(R - 1) = 1.0 \times 10^{5} \times 0.00334 = 334$ kg.
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium">
+A 100 t rocket ($v_{\text{e}} = 3.0$ km/s) carries a 1 t payload. As a single stage, it has 90 t of propellant and 9 t of structure. As two stages, stage 1 has 60 t of propellant and 6 t of structure, and stage 2 has 30 t of propellant and 3 t of structure. Compare the final speeds.
+
+<Solution>
+Single stage: $3.0 \ln(100/10) = 6.91$ km/s. Two stages: stage 1 burns 60 t, $3.0\ln(100/40) = 2.75$ km/s, then drops 6 t, leaving 34 t. Stage 2: $3.0\ln(34/4) = 6.42$ km/s. Total 9.17 km/s, 2.3 km/s more from the same propellant.
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium" book>
+How much fuel does the empty-ish *Hail Mary* ($1.0 \times 10^{5}$ kg at the end) need to hold 1.5 g for one more week?
+
+<Solution>
+$m_{0} = m_{\text{f}}e^{at/c} = 1.0 \times 10^{5} \times e^{14.71 \times 604\,800/2.998 \times 10^{8}} = 1.0 \times 10^{5} \times e^{0.02968}$. The fuel is $1.0 \times 10^{5} \times (e^{0.02968} - 1) = 3010$ kg.
+</Solution>
+</Problem>
+
+<Problem n={9} level="challenging">
+Derive the rocket equation, starting from momentum conservation for one small puff of exhaust.
+
+<Solution>
+In the rocket's momentary rest frame, a puff of mass $\delta$ leaves backwards at $v_{\text{e}}$, and the rest of the rocket, $m - \delta$, gains $dv$: $(m - \delta)\,dv = \delta\,v_{\text{e}}$. To first order, $m\,dv = -v_{\text{e}}\,dm$ with $dm = -\delta$. Separate and integrate: $\int dv = -v_{\text{e}}\int_{m_{0}}^{m_{\text{f}}} dm/m$, so $\Delta v = v_{\text{e}}\ln(m_{0}/m_{\text{f}})$.
+</Solution>
+</Problem>
+
+<Problem n={10} level="challenging" book>
+Show that holding acceleration $a$ makes the burn rate decay exponentially. If the display reads 6.043 g/s now, what will it read 30 days later at 1.5 g?
+
+<Solution>
+The burn rate is $\dot{m} = ma/c$, proportional to $m$, and $m = m_{0}e^{-at/c}$. So $\dot{m} = \dot{m}_{0}e^{-at/c}$. After 30 days: $at/c = 14.71 \times 2.592 \times 10^{6}/2.998 \times 10^{8} = 0.127$, so the rate is $6.043 \times e^{-0.127} = 5.32$ g/s.
+</Solution>
+</Problem>
+
+## Summary
+
+- A rocket gains $\Delta v = v_{\text{e}}\ln(m_{0}/m_{\text{f}})$, whatever its thrust or burn time (in empty space).
+- The mass ratio needed grows exponentially: $m_{0}/m_{\text{f}} = e^{\Delta v/v_{\text{e}}}$. Asking for more than two or three times $v_{\text{e}}$ makes a rocket almost all fuel.
+- Staging and faster exhaust are the two ways round the exponential.
+- Holding a constant acceleration makes mass and burn rate decay as $e^{-at/v_{\text{e}}}$. That is why Grace's 40 days is really about 44.
+- For a light drive, $v_{\text{e}} = c$ and Newton's version fails above about $0.1c$. On the ship's clock, 2 million kilograms on a 100-tonne ship buys about 2 years at 1.5 g, less than the novel's trip implies.
+
+**Formulas from this chapter**
+
+$$
+\Delta v = v_{\text{e}}\ln\frac{m_{0}}{m_{\text{f}}} \qquad \frac{m_{0}}{m_{\text{f}}} = e^{\Delta v/v_{\text{e}}} \qquad m(t) = m_{0}\,e^{-at/v_{\text{e}}}
+$$
+
+## Sources
+
+- The rocket equation: OpenStax, *University Physics Volume 1*, [§9.7 Rocket Propulsion](https://openstax.org/books/university-physics-volume-1/pages/9-7-rocket-propulsion); Wikipedia, [Tsiolkovsky rocket equation](https://en.wikipedia.org/wiki/Tsiolkovsky_rocket_equation) (Tsiolkovsky, 1903).
+- Photon rockets and the relativistic rocket: Wikipedia, [Photon rocket](https://en.wikipedia.org/wiki/Photon_rocket).
+- RS-25 exhaust speed: Wikipedia, [RS-25](https://en.wikipedia.org/wiki/RS-25). Deep Space 1 (486 kg at launch, 73.4 kg of xenon, 4.3 km/s) and ion exhaust speeds: Wikipedia, [Deep Space 1](https://en.wikipedia.org/wiki/Deep_Space_1) and [Ion thruster](https://en.wikipedia.org/wiki/Ion_thruster).
+- The fuel display (20,862 kg, 6.043 g/s) and Grace's forty days: Andy Weir, *Project Hail Mary* (2021), as summarised by a reader: [trangnkp.substack.com](https://trangnkp.substack.com/p/project-hail-mary). The trip of about 3¾ years of ship time: the reader summaries used in Part 1. The 130 kg manoeuvre and "at least three years" of ship time: reader highlights on [Goodreads](https://www.goodreads.com/notes/222697645-project-hail-mary/158109149-eddie?page=2). About 2 million kg of fuel: Nick Frass, ["The Energy Economics of Project Hail Mary"](https://nickfrass.substack.com/p/the-energy-economics-of-project-hail). All approximate.

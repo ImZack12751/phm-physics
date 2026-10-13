@@ -1,0 +1,44 @@
+---
+// A tool dropped from 2.0 m at 1.5 g: potential energy (above the floor) turns into kinetic energy; their sum is fixed.
+// Per kilogram: total = g h = 14.71 × 2.0 = 29.4 J/kg.
+const g = 14.71, H = 2.0, tot = g * H;
+const stages = [
+	{ h: 2.0, label: 'released' },
+	{ h: 1.0, label: 'halfway' },
+	{ h: 0.0, label: 'just before the floor' },
+];
+const FY = 260, scaleY = 100; // floor y, px per metre for the drop
+const barX = 300, barW = 34, barMax = 120;
+---
+
+<svg class="dg" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+	<line x1="40" y1={FY} x2="250" y2={FY} class="s-fg w2" />
+	<line x1="70" y1={FY - H * scaleY} x2="70" y2={FY} class="s-grid w1 dash" />
+	<text x="62" y={FY - (H * scaleY) / 2} class="t-end t-sm">2.0 m</text>
+	{stages.map((s, i) => (
+		<>
+			<circle cx={110 + i * 50} cy={FY - s.h * scaleY - 9} r="8" class="f-amber-soft s-amber w2" />
+		</>
+	))}
+	<text x="160" y={FY + 22} class="t-mid t-sm">the same tool at three moments</text>
+	{stages.map((s, i) => {
+		const pe = g * s.h, ke = tot - pe, x = barX + i * 100;
+		const hp = (pe / tot) * barMax, hk = (ke / tot) * barMax;
+		return (
+			<>
+				<rect x={x} y={FY - hp} width={barW} height={Math.max(hp, 0.5)} class="f-sky" />
+				<rect x={x + barW + 4} y={FY - hk} width={barW} height={Math.max(hk, 0.5)} class="f-amber" />
+				<text x={x + barW / 2} y={FY - hp - 6} class="t-mid t-sm">{pe.toFixed(1)}</text>
+				<text x={x + barW * 1.5 + 4} y={FY - hk - 6} class="t-mid t-sm">{ke.toFixed(1)}</text>
+				<text x={x + barW + 2} y={FY + 22} class="t-mid t-sm">{s.label}</text>
+			</>
+		);
+	})}
+	<line x1={barX - 10} y1={FY} x2="590" y2={FY} class="s-fg w2" />
+	<line x1={barX - 10} y1={FY - barMax} x2="590" y2={FY - barMax} class="s-green w1 dash" />
+	<text x={barX + 150} y={FY - barMax - 8} class="t-mid t-sm f-green">total: 29.4 J per kg, always</text>
+	<rect x={barX} y="34" width="12" height="12" class="f-sky" />
+	<text x={barX + 18} y="45" class="t-sm">potential, mgh</text>
+	<rect x={barX + 140} y="34" width="12" height="12" class="f-amber" />
+	<text x={barX + 158} y="45" class="t-sm">kinetic, ½mv²</text>
+</svg>

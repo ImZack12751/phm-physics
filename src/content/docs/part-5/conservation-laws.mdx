@@ -1,0 +1,291 @@
+---
+title: Conservation laws
+description: Conservation of energy as bookkeeping, when mechanical energy is conserved and where friction's share goes, the total energy of an orbit E = −GMm/2a, why losing energy makes a satellite speed up, and the family of conservation laws that physics rests on.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import EnergyLedger from '../../../components/diagrams/part-5/EnergyLedger.astro';
+import OrbitEnergy from '../../../components/diagrams/part-5/OrbitEnergy.astro';
+import EnergyTrack from '../../../components/sims/EnergyTrack.astro';
+
+## The scene
+
+The whole plot of *Project Hail Mary* is an energy problem. <Term id="astrophage">Astrophage</Term> breeds by absorbing energy from the Sun, energy that would otherwise reach the Earth. That energy doesn't vanish when the Sun dims: it is stored in the microbes, and the *Hail Mary* later turns it into thrust. So the first question anyone studying Astrophage must ask is a bookkeeper's: where is the energy coming from, and where is it going?
+
+That instinct rests on the most reliable rule in physics: **energy is never created or destroyed, only moved and converted**. This chapter makes it a tool, and shows how the same bookkeeping explains orbits.
+
+## Prerequisites
+
+<Prereqs notes={{ 'kinetic-potential-energy': 'K = ½mv², potential energies and K + U = constant', power: 'energy transferred per second', 'newtons-laws': 'forces and the third law', 'orbital-manoeuvring': 'the vis-viva equation and drag lowering an orbit' }} />
+
+## The concept
+
+### Energy is conserved
+
+Picture energy as money moving between accounts. There are many accounts: kinetic, gravitational and elastic potential, <Term id="thermal-energy">thermal energy</Term> (the jiggling of atoms, felt as warmth), chemical, light, and the energy stored in mass that Part 9 explores. Money moves between accounts and between people, but in a <Term id="closed-system">closed system</Term>, one that nothing enters or leaves, the total never changes. This is the <Term id="conservation-of-energy">conservation of energy</Term>.
+
+$$
+E_{\text{total, before}} = E_{\text{total, after}}.
+$$
+
+No experiment has ever found a violation. When the books seem not to balance, an account has been missed. In 1930, the energy in some radioactive decays seemed to go missing, and Wolfgang Pauli proposed an unseen particle to carry it. That particle, the neutrino, was found in 1956 (Part 13).
+
+### Mechanical energy and friction
+
+Chapter 5.2 found that $K + U$, the mechanical energy, stays constant when only conservative forces like gravity and springs do work. Friction and drag are not conservative. They turn mechanical energy into thermal energy, which spreads out among countless atoms and can't be gathered back into motion.
+
+<Figure caption="A crate sliding to rest. Its 40 J of kinetic energy turns into 40 J of thermal energy in the crate and the floor. Mechanical energy is lost; total energy is not." alt="Three stacked bars over a baseline, labelled sliding at 2.0 m/s, halfway and stopped. The first is all amber, labelled 40 J kinetic. The second is 20 J amber kinetic below 20 J red thermal. The third is all red, 40 J thermal. A green dashed line across the top of all three reads total energy: 40 J throughout. Legend: kinetic (mechanical), thermal, from friction.">
+	<EnergyLedger />
+</Figure>
+
+A friction force $f$ acting against the motion over a distance $d$ does work $-fd$ (Chapter 5.1). That amount leaves the mechanical accounts and appears as thermal energy:
+
+$$
+K_{1} + U_{1} = K_{2} + U_{2} + fd.
+$$
+
+### Solving problems with energy
+
+Energy conservation often gives answers with no need to know the path. A pendulum bob, a block on a curved track and a satellite on an ellipse all have speeds that depend only on **height** (or distance from the planet), not on the details of the route. Write down the energy at two points, set the totals equal, and solve. It works because energy is a scalar: there are no directions or components to track.
+
+### The energy of an orbit
+
+Chapter 4.6 found that $v^{2} - 2GM/r$ along an orbit equals $-GM/a$, where $a$ is the semi-major axis. Multiply by $\tfrac{1}{2}m$ and the left side becomes kinetic plus potential energy. So the total energy of an orbit is
+
+$$
+E = K + U = -\frac{GMm}{2a}.
+$$
+
+It depends only on the orbit's size, not its shape. All orbits with the same $a$ have the same energy, and the same period (Chapter 4.3). Negative energy means a <Term id="bound-orbit">bound orbit</Term>: the object can never get far away. Zero or more means it escapes.
+
+For a circular orbit of radius $r$, $K = \tfrac{1}{2}mv^{2} = GMm/2r$. Comparing:
+
+$$
+K = -E \qquad U = 2E.
+$$
+
+<Figure caption="Energy in circular orbits. In a lower orbit the total energy E is more negative, but the kinetic energy K is larger. Dropping inwards, the potential energy U falls by twice as much as E does, and K gains the difference." alt="Two groups of three bars around a zero line, labelled higher orbit and lower orbit. In each group: an amber kinetic bar K above the line, a blue potential bar U below the line twice as long, and a red total bar E below the line the same length as K. The lower orbit's bars are all 1.5 times longer. Legend: kinetic, K = minus E; potential, U = 2E; total, E. Text at right: lower: total E drops, yet K rises.">
+	<OrbitEnergy />
+</Figure>
+
+This resolves the puzzle of Chapter 4.6. Air drag takes energy from a satellite, so $E$ becomes more negative and the orbit shrinks. But $K = -E$, so the kinetic energy **rises**. For every joule drag removes, the satellite falls far enough to lose 2 J of potential energy, which pays for the lost joule and adds 1 J of kinetic energy.
+
+### A family of conservation laws
+
+Energy is not the only quantity that is conserved:
+
+- **Momentum** (Chapter 5.5), the "quantity of motion", is conserved whenever no outside force acts.
+- **Angular momentum**, the "quantity of rotation", is conserved when no outside twist acts. For an orbit it is proportional to $rv$ at perihelion and aphelion, and its conservation **is** Kepler's second law, $r_{\text{p}}v_{\text{p}} = r_{\text{a}}v_{\text{a}}$ (Chapter 4.3).
+- **Electric charge** is conserved in every process ever observed.
+
+In 1918, the mathematician Emmy Noether proved that each conservation law comes from a symmetry. Energy is conserved because the laws of physics are the same today as tomorrow. Momentum is conserved because they are the same here as over there. Angular momentum is conserved because they are the same whichever way you face.
+
+## Formulas
+
+### Conservation of energy with friction
+
+$$
+\boxed{K_{1} + U_{1} = K_{2} + U_{2} + E_{\text{thermal}} \qquad E_{\text{thermal}} = fd}
+$$
+
+### Total energy of an orbit
+
+From $v^{2} = GM\left(\dfrac{2}{r} - \dfrac{1}{a}\right)$ (Chapter 4.6), multiply by $\tfrac{1}{2}m$:
+
+$$
+\tfrac{1}{2}mv^{2} = \frac{GMm}{r} - \frac{GMm}{2a} \qquad\Rightarrow\qquad \tfrac{1}{2}mv^{2} - \frac{GMm}{r} = -\frac{GMm}{2a}
+$$
+
+$$
+\boxed{E = -\frac{GMm}{2a}}
+$$
+
+### Circular orbits
+
+$$
+\boxed{K = \frac{GMm}{2r} = -E \qquad U = -\frac{GMm}{r} = 2E}
+$$
+
+## Worked examples
+
+<Example n={1} title="The pendulum at 1.5 g" book>
+Grace's pendulum (Chapter 1.4) is 1.12 m long. He pulls it 20° to the side at 1.5 g and lets go. How fast is the bob moving at the bottom?
+
+It drops by $h = L(1 - \cos 20°) = 1.12\ \text{m} \times (1 - 0.9397) = 0.0675\ \text{m}$. All of that potential energy becomes kinetic energy:
+
+$$
+v = \sqrt{2g_{\text{eff}}h} = \sqrt{2 \times 14.71\ \text{m/s}^{2} \times 0.0675\ \text{m}} = 1.41\ \text{m/s}
+$$
+
+No forces, angles or timing were needed: only the drop in height.
+</Example>
+
+<Example n={2} title="A crate skids to a stop" book>
+A 20 kg crate slides across the lab floor at 2.0 m/s. Friction pushes back on it with 60 N. How far does it slide, and where does its energy go?
+
+$$
+K = \tfrac{1}{2} \times 20\ \text{kg} \times (2.0\ \text{m/s})^{2} = 40\ \text{J} \qquad fd = K \quad\Rightarrow\quad d = \frac{40\ \text{J}}{60\ \text{N}} = 0.67\ \text{m}
+$$
+
+All 40 J becomes thermal energy in the crate's base and the floor, spread so thinly that the warming is too small to feel (Part 6 measures such warming).
+</Example>
+
+<Example n={3} title="The energy of the parking orbit" book>
+Find the total energy per kilogram of the *Hail Mary*'s 300 km orbit at our model Adrian ($GM = 1.567 \times 10^{15}\ \text{m}^{3}/\text{s}^{2}$, $r = 9857$ km). For a ship of about $1.2 \times 10^{5}$ kg (our estimate), what is the total? How much must it gain to escape?
+
+$$
+\frac{E}{m} = -\frac{GM}{2r} = -\frac{1.567 \times 10^{15}\ \text{m}^{3}/\text{s}^{2}}{2 \times 9.857 \times 10^{6}\ \text{m}} = -7.95 \times 10^{7}\ \text{J/kg}
+$$
+
+$$
+E = -7.95 \times 10^{7}\ \text{J/kg} \times 1.2 \times 10^{5}\ \text{kg} = -9.5 \times 10^{12}\ \text{J}
+$$
+
+To escape, the total must reach zero: the ship must gain $9.5 \times 10^{12}$ J, the same as its kinetic energy in the orbit, since $K = -E$.
+</Example>
+
+<Example n={4} title="Lower, yet faster" book>
+In Chapter 4.6's Example 4, Grace drops the ship from 300 km to 200 km ($r$ from 9857 km to 9757 km). Find the change in energy per kilogram, and the speeds in the two circular orbits.
+
+$$
+\frac{\Delta E}{m} = -\frac{GM}{2}\left(\frac{1}{r_{2}} - \frac{1}{r_{1}}\right) = -\frac{1.567 \times 10^{15}}{2}\left(\frac{1}{9.757 \times 10^{6}} - \frac{1}{9.857 \times 10^{6}}\right)\ \text{J/kg} = -8.1 \times 10^{5}\ \text{J/kg}
+$$
+
+$$
+v_{1} = \sqrt{\frac{GM}{r_{1}}} = 12.61\ \text{km/s} \qquad v_{2} = \sqrt{\frac{GM}{r_{2}}} = 12.67\ \text{km/s}
+$$
+
+The two backward burns remove energy, and the ship ends up 64 m/s **faster**. Kinetic energy rose by $8.1 \times 10^{5}$ J/kg while potential energy fell by twice that.
+</Example>
+
+<Example n={5} title="Checking the Venus transfer">
+In Chapter 4.6, Example 2, the probe leaves Earth's orbit ($r = 1.496 \times 10^{11}$ m) at 27.29 km/s on a transfer ellipse with $a = 1.289 \times 10^{11}$ m. Check that its energy per kilogram matches $-GM/2a$, with $GM_{\odot} = 1.327 \times 10^{20}\ \text{m}^{3}/\text{s}^{2}$.
+
+$$
+\tfrac{1}{2}v^{2} - \frac{GM}{r} = \tfrac{1}{2} \times (2.729 \times 10^{4})^{2} - \frac{1.327 \times 10^{20}}{1.496 \times 10^{11}}\ \text{J/kg} = 3.724 \times 10^{8} - 8.870 \times 10^{8} = -5.147 \times 10^{8}\ \text{J/kg}
+$$
+
+$$
+-\frac{GM}{2a} = -\frac{1.327 \times 10^{20}}{2 \times 1.289 \times 10^{11}}\ \text{J/kg} = -5.147 \times 10^{8}\ \text{J/kg} \quad ✓
+$$
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** Conservation of energy is among the best-tested laws in science (OpenStax §8.3). The orbital energy $-GMm/2a$ and the drag "paradox" are standard results of orbital mechanics (OpenStax §13.4). Pauli's 1930 neutrino proposal and its 1956 detection, and Noether's 1918 theorem, are historical facts.
+
+**Weir's inventions.** Astrophage, a microbe that captures sunlight and stores it as mass, is the novel's invention. The novel respects energy conservation: Astrophage doesn't make energy, it collects and spends it, and the Sun dims because of it. The ship's mass of about $1.2 \times 10^{5}$ kg is our estimate (Chapter 5.6). The crate and the 60 N friction are our assumptions.
+
+**How realistic are the numbers?** The orbital energies are realistic. $-8 \times 10^{7}$ J/kg is the energy of a low orbit around a planet about four times Earth's mass. The amount of energy is not the hard part: Astrophage carries $9 \times 10^{16}$ J per kilogram, about a billion times what escaping the orbit needs. The hard part is pushing efficiently, and Chapter 5.7 shows why.
+</RealVsBook>
+
+## Interactive simulation
+
+<EnergyTrack />
+
+Things to try: set friction to 0 and drag the distance slider all the way. The block swings for ever, and the thermal bar stays at zero. Add a little friction: each swing is lower, the thermal bar grows, and the total stays fixed. Switch between 1 g and 1.5 g: all the energies scale up together, but the shape of the motion is the same.
+
+## Practice set
+
+<Problem n={1} level="easy">
+A dropped tool hits the floor and stops. Its kinetic energy is gone. Where did it go?
+
+<Solution>
+Into thermal energy (the tool and floor warm slightly), sound, and perhaps a small dent or bounce. The total energy is unchanged.
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy">
+A block slides from rest down a smooth curved track 5.0 m high on Earth. How fast is it at the bottom?
+
+<Solution>
+$v = \sqrt{2gh} = \sqrt{2 \times 9.81 \times 5.0}\ \text{m/s} = 9.90\ \text{m/s}$, whatever the track's shape.
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy" book>
+Grace lowers a heavy box slowly to the floor. Is the box's mechanical energy conserved? Where does the potential energy go?
+
+<Solution>
+No. Its potential energy falls but it gains no speed. His arms push up while it moves down, doing negative work, and the energy ends up as thermal energy in his muscles.
+</Solution>
+</Problem>
+
+<Problem n={4} level="medium" book>
+A swinging lamp at 1.5 g drops 0.30 m from the top of its swing to the bottom. How fast is it moving at the bottom?
+
+<Solution>
+$v = \sqrt{2 \times 14.71 \times 0.30}\ \text{m/s} = 2.97\ \text{m/s}$.
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium">
+A 15 kg crate sliding at 2.5 m/s stops in 3.0 m. What was the average friction force?
+
+<Solution>
+$K = \tfrac{1}{2} \times 15 \times 2.5^{2} = 46.9\ \text{J}$. $f = K/d = 46.9/3.0 = 15.6\ \text{N}$.
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium" book>
+A 1000 kg probe is in the 300 km parking orbit at our model Adrian. What is its total energy? How much energy must it gain to escape?
+
+<Solution>
+$E = -\dfrac{GMm}{2r} = -7.95 \times 10^{7} \times 1000\ \text{J} = -7.95 \times 10^{10}$ J. It must gain $7.95 \times 10^{10}$ J.
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium">
+Show that for a circular orbit, $K = -E$ and $U = 2E$.
+
+<Solution>
+From $v^{2} = GM/r$: $K = \tfrac{1}{2}mv^{2} = \dfrac{GMm}{2r}$ and $U = -\dfrac{GMm}{r}$. So $E = K + U = -\dfrac{GMm}{2r}$. Then $K = -E$ and $U = 2E$.
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium">
+Two orbits around the same planet have the same semi-major axis: one is a circle, the other a long thin ellipse. Compare their energies and periods.
+
+<Solution>
+They are the same. $E = -GMm/2a$ and $T = 2\pi\sqrt{a^{3}/GM}$ both depend only on $a$, not on the shape.
+</Solution>
+</Problem>
+
+<Problem n={9} level="challenging" book>
+A rock falls from rest, very far away, onto our model Adrian (no air). How fast does it hit, and how much energy does each kilogram deliver? TNT releases 4.184 MJ/kg. How many kilograms of TNT is each kilogram of rock equivalent to?
+
+<Solution>
+From $0 = \tfrac{1}{2}v^{2} - GM/R$: $v = \sqrt{2GM/R} = 18.1$ km/s, the escape speed. Energy per kg: $GM/R = 1.64 \times 10^{8}$ J/kg, which is $1.64 \times 10^{8}/4.184 \times 10^{6} = 39$ kg of TNT for every kilogram of rock.
+</Solution>
+</Problem>
+
+<Problem n={10} level="challenging">
+Drag lowers the ISS from 400 km to 399 km ($r$ from 6771 to 6770 km, $GM = 3.986 \times 10^{14}\ \text{m}^{3}/\text{s}^{2}$). Per kilogram, find the changes in $E$, $K$ and $U$, and the change in speed.
+
+<Solution>
+$\Delta E = -\dfrac{GM}{2}\left(\dfrac{1}{6.770 \times 10^{6}} - \dfrac{1}{6.771 \times 10^{6}}\right) = -4350$ J/kg (taken by drag, as heat). $\Delta K = -\Delta E = +4350$ J/kg. $\Delta U = 2\Delta E = -8700$ J/kg. The speed rises by $\sqrt{GM/r_{2}} - \sqrt{GM/r_{1}} = 0.57$ m/s, as in Chapter 4.6.
+</Solution>
+</Problem>
+
+## Summary
+
+- In a closed system, total energy never changes. It only moves between forms: kinetic, potential, thermal, chemical, light and mass.
+- Mechanical energy $K + U$ is conserved only when conservative forces alone do work. Friction turns $fd$ of it into thermal energy.
+- Energy methods give speeds from heights alone, without tracking forces or paths.
+- An orbit's total energy is $E = -GMm/2a$. For a circle, $K = -E$ and $U = 2E$, so losing energy to drag makes a satellite sink and speed up.
+- Momentum, angular momentum and charge are also conserved. Noether's theorem links each conservation law to a symmetry of nature.
+
+**Formulas from this chapter**
+
+$$
+K_{1} + U_{1} = K_{2} + U_{2} + fd \qquad E = -\frac{GMm}{2a} \qquad K = -E,\ U = 2E \ (\text{circular})
+$$
+
+## Sources
+
+- Conservation of energy, conservative and non-conservative forces: OpenStax, *University Physics Volume 1*, [§8.2 Conservative and Non-Conservative Forces](https://openstax.org/books/university-physics-volume-1/pages/8-2-conservative-and-non-conservative-forces) and [§8.3 Conservation of Energy](https://openstax.org/books/university-physics-volume-1/pages/8-3-conservation-of-energy).
+- Orbital energy: OpenStax, [§13.3 Gravitational Potential Energy and Total Energy](https://openstax.org/books/university-physics-volume-1/pages/13-3-gravitational-potential-energy-and-total-energy) and [§13.4 Satellite Orbits and Energy](https://openstax.org/books/university-physics-volume-1/pages/13-4-satellite-orbits-and-energy).
+- Noether's theorem (1918): Wikipedia, [Noether's theorem](https://en.wikipedia.org/wiki/Noether%27s_theorem). Pauli's neutrino proposal (1930) and its detection (1956): Wikipedia, [Neutrino](https://en.wikipedia.org/wiki/Neutrino).
+- The energy of TNT, 4.184 MJ/kg by definition: Wikipedia, [TNT equivalent](https://en.wikipedia.org/wiki/TNT_equivalent).
+- Astrophage breeding on energy absorbed from the Sun, and the dimming Sun: Wikipedia, [*Project Hail Mary*](https://en.wikipedia.org/wiki/Project_Hail_Mary).

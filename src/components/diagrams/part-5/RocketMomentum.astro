@@ -1,0 +1,27 @@
+---
+// Thrust from momentum: in a short time Δt the rocket throws out a mass Δm = ṁΔt backwards at exhaust speed v_e
+// (relative to the rocket). The exhaust gains backward momentum Δm·v_e, so the rocket gains the same forward: F = ṁ v_e.
+const Y = 150;
+const rocket = (x: number) => `M${x},${Y - 22} L${x + 120},${Y - 22} L${x + 160},${Y} L${x + 120},${Y + 22} L${x},${Y + 22} Z`;
+const RX = 300;
+---
+
+<svg class="dg" viewBox="0 0 600 290" xmlns="http://www.w3.org/2000/svg">
+	<path d={rocket(RX)} class="f-sky-soft s-sky w2" />
+	<text x={RX + 70} y={Y + 5} class="t-mid t-sm">rocket, mass m</text>
+	<!-- nozzle -->
+	<path d={`M${RX},${Y - 14} L${RX - 22},${Y - 24} L${RX - 22},${Y + 24} L${RX},${Y + 14} Z`} class="f-muted" />
+	<!-- exhaust parcel -->
+	<circle cx={RX - 140} cy={Y} r="16" class="f-amber-soft s-amber w2" />
+	<text x={RX - 140} y={Y + 44} class="t-mid t-sm f-amber">exhaust Δm = ṁ Δt</text>
+	<line x1={RX - 160} y1={Y} x2={RX - 225} y2={Y} class="s-amber w3" />
+	<polygon points={`${RX - 238},${Y} ${RX - 224},${Y - 7} ${RX - 224},${Y + 7}`} class="f-amber" />
+	<text x={RX - 200} y={Y - 14} class="t-mid t-sm f-amber">v_e</text>
+	<!-- thrust -->
+	<line x1={RX + 166} y1={Y} x2={RX + 236} y2={Y} class="s-rose w3" />
+	<polygon points={`${RX + 250},${Y} ${RX + 236},${Y - 7} ${RX + 236},${Y + 7}`} class="f-rose" />
+	<text x={RX + 210} y={Y - 14} class="t-mid t-sm f-rose t-b">thrust F</text>
+	<text x="300" y="30" class="t-mid t-b">exhaust momentum backwards = rocket momentum forwards</text>
+	<text x="300" y="54" class="t-mid t-sm">in each Δt: Δp = Δm · v_e, so F = Δp / Δt = ṁ v_e</text>
+	<text x="300" y="250" class="t-mid t-sm f-muted">nothing outside is pushed: the rocket pushes on its own exhaust</text>
+</svg>

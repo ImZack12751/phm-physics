@@ -926,4 +926,136 @@ export const glossary = {
 		def: 'The cheapest two-burn route between two circular orbits: half an ellipse that just touches both. Described by Walter Hohmann in 1925.',
 		chapter: 'orbital-manoeuvring',
 	},
+	// ---- 5.1 Work as an integral ----
+	work: {
+		term: 'Work',
+		def: 'Energy transferred by a force that moves something along its direction: W = Fd cos θ for a steady force, or W = ∫F dx (the area under a force–distance graph) for a changing one. Measured in joules.',
+		chapter: 'work',
+	},
+	joule: {
+		term: 'Joule (J)',
+		def: 'The SI unit of work and energy: the work done by a 1 N force moving its object 1 m. 1 J = 1 N m = 1 kg m²/s².',
+		chapter: 'work',
+	},
+	// ---- 5.2 Kinetic and potential energy ----
+	'kinetic-energy': {
+		term: 'Kinetic energy',
+		def: 'Energy of motion, K = ½mv². It depends on speed but not direction, and quadruples when the speed doubles. (Part 10 corrects it near light speed.)',
+		chapter: 'kinetic-potential-energy',
+	},
+	'work-energy-theorem': {
+		term: 'Work–energy theorem',
+		def: 'The net work done on an object equals its change in kinetic energy: W_net = ½mv² − ½mu².',
+		chapter: 'kinetic-potential-energy',
+	},
+	'potential-energy': {
+		term: 'Potential energy',
+		def: 'Work stored by a conservative force because of position: mgh near a surface, ½kx² in a spring, −GMm/r for gravity (zero far away). Force is its downhill slope, F = −dU/dx.',
+		chapter: 'kinetic-potential-energy',
+	},
+	'conservative-force': {
+		term: 'Conservative force',
+		def: 'A force, like gravity or an ideal spring, that gives back all the work done against it, whatever the route taken. Only conservative forces have a potential energy. Friction is not conservative.',
+		chapter: 'kinetic-potential-energy',
+	},
+	'mechanical-energy': {
+		term: 'Mechanical energy',
+		def: 'Kinetic plus potential energy, K + U. It stays constant when only conservative forces do work.',
+		chapter: 'kinetic-potential-energy',
+	},
+	// ---- 5.3 Power ----
+	power: {
+		term: 'Power',
+		def: 'The rate of transferring energy or doing work, P = dW/dt, measured in watts. A force pushing an object at speed v delivers P = Fv.',
+		chapter: 'power',
+	},
+	'kilowatt-hour': {
+		term: 'Kilowatt-hour (kWh)',
+		def: 'The energy delivered in one hour at a power of 1 kW: 3.6 × 10⁶ J. Used on electricity bills.',
+		chapter: 'power',
+	},
+	efficiency: {
+		term: 'Efficiency (η)',
+		def: 'The fraction of a machine’s input power (or energy) that comes out in the useful form: η = useful output / input, between 0 and 1.',
+		chapter: 'power',
+	},
+	// ---- 5.4 Conservation laws ----
+	'thermal-energy': {
+		term: 'Thermal energy',
+		def: 'The energy of the random jiggling of atoms and molecules, felt as warmth. Friction and drag turn mechanical energy into thermal energy.',
+		chapter: 'conservation-laws',
+	},
+	'closed-system': {
+		term: 'Closed system',
+		def: 'A collection of objects that nothing enters or leaves and that no outside influence acts on. Conserved quantities keep their totals in a closed system.',
+		chapter: 'conservation-laws',
+	},
+	'conservation-of-energy': {
+		term: 'Conservation of energy',
+		def: 'Energy is never created or destroyed, only transferred or converted between forms (kinetic, potential, thermal, chemical, light, mass). The total in a closed system is constant.',
+		chapter: 'conservation-laws',
+	},
+	'bound-orbit': {
+		term: 'Bound orbit',
+		def: 'An orbit with negative total energy, E = −GMm/2a, which can never carry the object arbitrarily far away. Zero or positive energy means the object escapes.',
+		chapter: 'conservation-laws',
+	},
+	// ---- 5.5 Momentum ----
+	momentum: {
+		term: 'Momentum',
+		def: 'Mass times velocity, p = mv: a vector, measured in kg m/s. Force is its rate of change, F = dp/dt. Light carries momentum too, p = E/c.',
+		chapter: 'momentum',
+	},
+	impulse: {
+		term: 'Impulse',
+		def: 'The change in momentum a force produces: J = ∫F dt, the area under a force–time graph, or F × Δt for a steady force. Measured in N s.',
+		chapter: 'momentum',
+	},
+	'conservation-of-momentum': {
+		term: 'Conservation of momentum',
+		def: 'With no outside force, the total momentum of a system never changes, because internal forces come in equal and opposite pairs (Newton’s third law). It explains recoil, collisions and rockets.',
+		chapter: 'momentum',
+	},
+	'elastic-collision': {
+		term: 'Elastic collision',
+		def: 'A collision in which kinetic energy is conserved as well as momentum: the objects bounce apart with no energy turned into heat or sound.',
+		chapter: 'momentum',
+	},
+	'inelastic-collision': {
+		term: 'Inelastic collision',
+		def: 'A collision in which some kinetic energy becomes heat, sound or deformation. Momentum is still conserved. When the objects stick together it is perfectly inelastic.',
+		chapter: 'momentum',
+	},
+	// ---- 5.6 Thrust ----
+	propellant: {
+		term: 'Propellant',
+		def: 'The material a rocket throws out of its engine to push itself along: burnt fuel and oxidiser, ions, or, for an Astrophage drive, light made from the fuel’s mass.',
+		chapter: 'thrust',
+	},
+	thrust: {
+		term: 'Thrust',
+		def: 'The push on a rocket from its exhaust: F = ṁ v_e, the mass thrown out per second times the exhaust speed. For a light drive, F = ṁc.',
+		chapter: 'thrust',
+	},
+	'exhaust-velocity': {
+		term: 'Exhaust speed (v_e)',
+		def: 'How fast a rocket’s exhaust leaves, relative to the rocket: about 2.6–4.5 km/s for chemical rockets, 20–50 km/s for ion engines, and c for light.',
+		chapter: 'thrust',
+	},
+	'specific-impulse': {
+		term: 'Specific impulse (I_sp)',
+		def: 'Exhaust speed divided by standard gravity, I_sp = v_e/g₀, quoted in seconds. The RS-25’s 452 s means 4.44 km/s.',
+		chapter: 'thrust',
+	},
+	// ---- 5.7 The rocket equation ----
+	'rocket-equation': {
+		term: 'Tsiolkovsky rocket equation',
+		def: 'The speed a rocket gains by burning propellant: Δv = v_e ln(m₀/m_f). Published by Konstantin Tsiolkovsky in 1903.',
+		chapter: 'rocket-equation',
+	},
+	'mass-ratio': {
+		term: 'Mass ratio',
+		def: 'A rocket’s starting mass divided by its final mass, m₀/m_f. It must equal e raised to the power Δv/v_e, so it grows exponentially with the Δv wanted.',
+		chapter: 'rocket-equation',
+	},
 };

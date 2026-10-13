@@ -1,0 +1,103 @@
+---
+// Simulation: work as the area under a force–distance graph, for three force laws.
+---
+
+<div
+	class="sim wa"
+	data-title="Work as area"
+	data-description="Choose a force law: a constant 150 N pull at an angle θ to the motion, a spring of stiffness 600 N/m, or the gravity of our model Adrian on a 1000 kg probe. Two sliders set the start and end of the motion. The graph shows the force along the motion against distance, with the area between the start and end shaded. The readout gives the work done, W = Fd cos θ, W = ½k(x₂² − x₁²) or W = GMm(1/r₁ − 1/r₂), and for gravity compares it with the near-surface estimate mgh using the surface value of g."
+>
+	<p class="sim-title">Simulation: work as area</p>
+	<p class="sim-help">Pick a force, then slide the start and end points. The shaded area is the work. For gravity, compare the exact area with the simple estimate mgh as the climb gets higher.</p>
+	<div class="sim-controls">
+		<label>Force <select class="wa-m">
+			<option value="0">Constant pull at an angle</option>
+			<option value="1">Spring, k = 600 N/m</option>
+			<option value="2">Gravity of Adrian (model), 1000 kg probe</option>
+		</select></label>
+		<label>Start <input type="range" class="wa-a" min="0" max="1" step="0.005" value="0.1" /> <output class="wa-av"></output></label>
+		<label>End <input type="range" class="wa-b" min="0" max="1" step="0.005" value="0.7" /> <output class="wa-bv"></output></label>
+		<label class="wa-thl">Angle θ <input type="range" class="wa-th" min="0" max="90" step="1" value="35" /> <output class="wa-thv"></output></label>
+	</div>
+	<svg class="dg wa-svg" viewBox="0 0 600 270" role="img" aria-label="Force against distance with the work shaded as an area"></svg>
+	<div class="readout wa-out" aria-live="polite"></div>
+</div>
+
+<script>
+	const G = 6.6743e-11, MA = 3.93 * 5.9722e24, RA = 1.5 * 6.371e6, mP = 1000; // our model Adrian
+	const fmt = (x: number) => {
+		const a = Math.abs(x);
+		if (a >= 1e6) {
+			const e = Math.floor(Math.log10(a));
+			return `${(x / 10 ** e).toFixed(3)} × 10<sup>${e}</sup>`;
+		}
+		return x.toLocaleString('en-GB', { maximumFractionDigits: a < 10 ? 2 : 0 });
+	};
+	document.querySelectorAll<HTMLElement>('.sim.wa').forEach((root) => {
+		const q = <T extends Element>(s: string) => root.querySelector<T>(s)!;
+		const svg = q<SVGSVGElement>('.wa-svg'), out = q<HTMLElement>('.wa-out');
+		const Ms = q<HTMLSelectElement>('.wa-m'), As = q<HTMLInputElement>('.wa-a'), Bs = q<HTMLInputElement>('.wa-b'), THs = q<HTMLInputElement>('.wa-th');
+		const NS = 'http://www.w3.org/2000/svg';
+		const el = (tag: string, at: Record<string, string | number>, text?: string) => {
+			const e = document.createElementNS(NS, tag);
+			Object.entries(at).forEach(([k, v]) => e.setAttribute(k, String(v)));
+			if (text) e.textContent = text;
+			svg.append(e);
+			return e;
+		};
+		const L = 80, R = 570, T = 20, B = 220;
+		// Each mode: x range (display units), unit label, force along the motion F(x) in N, exact work between a and b.
+		const modes = [
+			{ xMax: 10, unit: 'm', F: (_x: number, th: number) => 150 * Math.cos(th), W: (a: number, b: number, th: number) => 150 * Math.cos(th) * (b - a), fMax: 160, fl: 'F cos θ (N)', xl: 'distance moved (m)' },
+			{ xMax: 0.3, unit: 'm', F: (x: number) => 600 * x, W: (a: number, b: number) => 300 * (b * b - a * a), fMax: 180, fl: 'force kx (N)', xl: 'stretch x (m)' },
+			{ xMax: 5000, unit: 'km', F: (h: number) => (G * MA * mP) / (RA + h * 1000) ** 2, W: (a: number, b: number) => G * MA * mP * (1 / (RA + a * 1000) - 1 / (RA + b * 1000)), fMax: 18000, fl: 'weight GMm/r² (N)', xl: 'height above the surface (km)' },
+		];
+		function draw() {
+			const m = modes[+Ms.value], th = (+THs.value * Math.PI) / 180;
+			q<HTMLElement>('.wa-thl').hidden = +Ms.value !== 0;
+			const a = +As.value * m.xMax, b = +Bs.value * m.xMax;
+			const dp = m.xMax < 1 ? 3 : 0;
+			q('.wa-av').textContent = `${a.toFixed(dp)} ${m.unit}`;
+			q('.wa-bv').textContent = `${b.toFixed(dp)} ${m.unit}`;
+			q('.wa-thv').textContent = `${THs.value}°`;
+			const px = (x: number) => L + (x / m.xMax) * (R - L);
+			const py = (f: number) => B - (f / m.fMax) * (B - T);
+			svg.replaceChildren();
+			for (let i = 0; i <= 5; i++) {
+				const x = (m.xMax * i) / 5;
+				el('line', { x1: px(x), y1: T, x2: px(x), y2: B, class: 's-grid w1' });
+				el('text', { x: px(x), y: B + 18, class: 't-mid t-sm f-muted' }, m.xMax < 1 ? x.toFixed(2) : x.toLocaleString('en-GB'));
+				const f = (m.fMax * i) / 5;
+				el('text', { x: L - 8, y: py(f) + 4, class: 't-end t-sm f-muted' }, f.toLocaleString('en-GB'));
+			}
+			const lo = Math.min(a, b), hi = Math.max(a, b), n = 80;
+			const pts: string[] = [];
+			for (let i = 0; i <= n; i++) {
+				const x = lo + ((hi - lo) * i) / n;
+				pts.push(`${px(x).toFixed(1)},${py(m.F(x, th)).toFixed(1)}`);
+			}
+			el('polygon', { points: `${px(lo)},${B} ${pts.join(' ')} ${px(hi)},${B}`, class: 'f-amber-soft' });
+			const line: string[] = [];
+			for (let i = 0; i <= 120; i++) {
+				const x = (m.xMax * i) / 120;
+				line.push(`${i ? 'L' : 'M'}${px(x).toFixed(1)},${py(m.F(x, th)).toFixed(1)}`);
+			}
+			el('path', { d: line.join(' '), class: 's-rose w3', fill: 'none' });
+			el('line', { x1: L, y1: B, x2: R, y2: B, class: 's-fg w2' });
+			el('line', { x1: L, y1: B, x2: L, y2: T, class: 's-fg w2' });
+			el('text', { x: (L + R) / 2, y: B + 40, class: 't-mid t-sm' }, m.xl);
+			el('text', { x: L + 8, y: T + 14, class: 't-sm f-rose' }, m.fl);
+			const W = m.W(a, b, th);
+			let extra = '';
+			if (+Ms.value === 0) extra = ` &nbsp; <span class="k">W = F d cos θ</span> = 150 N × ${(b - a).toFixed(2)} m × cos ${THs.value}°`;
+			if (+Ms.value === 1) extra = ` &nbsp; <span class="k">W = ½k(x₂² − x₁²)</span>`;
+			if (+Ms.value === 2 && W !== 0) {
+				const est = mP * ((G * MA) / RA ** 2) * (b - a) * 1000;
+				extra = ` &nbsp; <span class="k">W = GMm(1/r₁ − 1/r₂)</span> &nbsp; <span class="k">estimate mgh with surface g</span> = ${fmt(est)} J (${(((est - W) / W) * 100).toFixed(1)}% too big)`;
+			}
+			out.innerHTML = `<span class="k">work = shaded area</span> = <b>${fmt(W)} J</b>${extra}${b < a ? ' &nbsp; (end before start: the work is negative)' : ''}`;
+		}
+		[Ms, As, Bs, THs].forEach((i) => i.addEventListener('input', draw));
+		draw();
+	});
+</script>

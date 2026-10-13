@@ -1,0 +1,74 @@
+---
+// Simulation: power of an Astrophage drive. Burning ṁ of Astrophage per second releases P = ṁc² as light, which pushes
+// with F = ṁc (Chapter 5.6). At ship speed v, the push adds kinetic energy at the rate Fv, a fraction v/c of P.
+---
+
+<div
+	class="sim dp"
+	data-title="Drive power"
+	data-description="Set the Astrophage burn rate (1 microgram to 1 kilogram per second, logarithmic) and the ship's speed (0 to 0.3 of light speed). The readout gives the drive's power P = ṁc², its push F = ṁc, the power going into the ship's motion, Fv, and the fraction v/c of the drive's power that this represents. A logarithmic power scale compares the drive with a person, an RS-25 rocket engine, all human energy use, sunlight reaching Earth and the Sun."
+>
+	<p class="sim-title">Simulation: drive power</p>
+	<p class="sim-help">Set how fast the drive burns Astrophage. The novel's display reads 6.043 g/s. Then raise the ship's speed and watch how little of the power goes into the ship's motion.</p>
+	<div class="sim-controls">
+		<label>Burn rate <input type="range" class="dp-m" min="-9" max="0" step="0.0001" value="-2.2187" /> <output class="dp-mv"></output></label>
+		<label>Ship speed <input type="range" class="dp-v" min="0" max="0.3" step="0.001" value="0.05" /> <output class="dp-vv"></output></label>
+	</div>
+	<svg class="dg dp-svg" viewBox="0 0 600 150" role="img" aria-label="A logarithmic power scale with reference powers and the drive's power marked"></svg>
+	<div class="readout dp-out" aria-live="polite"></div>
+</div>
+
+<script>
+	const c = 299792458;
+	const REFS = [
+		{ n: 'person', p: 100, up: true },
+		{ n: 'RS-25', p: 5.06e9, up: false },
+		{ n: 'humanity', p: 1.96e13, up: true },
+		{ n: 'sunlight on Earth', p: 1.74e17, up: false },
+		{ n: 'Sun', p: 3.828e26, up: true },
+	];
+	const sci = (x: number, d = 3) => {
+		if (x === 0) return '0';
+		const e = Math.floor(Math.log10(Math.abs(x)));
+		return `${(x / 10 ** e).toFixed(d - 1)} × 10<sup>${e}</sup>`;
+	};
+	document.querySelectorAll<HTMLElement>('.sim.dp').forEach((root) => {
+		const q = <T extends Element>(s: string) => root.querySelector<T>(s)!;
+		const svg = q<SVGSVGElement>('.dp-svg'), out = q<HTMLElement>('.dp-out');
+		const Ms = q<HTMLInputElement>('.dp-m'), Vs = q<HTMLInputElement>('.dp-v');
+		const NS = 'http://www.w3.org/2000/svg';
+		const el = (tag: string, at: Record<string, string | number>, text?: string) => {
+			const e = document.createElementNS(NS, tag);
+			Object.entries(at).forEach(([k, v]) => e.setAttribute(k, String(v)));
+			if (text) e.textContent = text;
+			svg.append(e);
+			return e;
+		};
+		const L = 30, R = 570, Y = 80, lo = 0, hi = 27;
+		const px = (p: number) => L + ((Math.log10(p) - lo) / (hi - lo)) * (R - L);
+		function draw() {
+			const mdot = 10 ** +Ms.value, beta = +Vs.value;
+			q('.dp-mv').textContent = mdot >= 1e-3 ? `${(mdot * 1000).toPrecision(4)} g/s` : mdot >= 1e-6 ? `${(mdot * 1e6).toPrecision(3)} mg/s` : `${(mdot * 1e9).toPrecision(3)} µg/s`;
+			q('.dp-vv').textContent = `${beta.toFixed(3)} c`;
+			const P = mdot * c * c, F = mdot * c, Pk = F * beta * c;
+			svg.replaceChildren();
+			el('line', { x1: L, y1: Y, x2: R, y2: Y, class: 's-fg w2' });
+			for (let e = lo; e <= hi; e += 3) el('text', { x: px(10 ** e), y: Y + 40, class: 't-mid t-sm f-muted' }, `10${String(e).split('').map((d) => '⁰¹²³⁴⁵⁶⁷⁸⁹'[+d]).join('')}`);
+			REFS.forEach((r) => {
+				el('line', { x1: px(r.p), y1: Y - 8, x2: px(r.p), y2: Y + 8, class: 's-sky w2' });
+				el('text', { x: px(r.p), y: r.up ? Y - 14 : Y + 24, class: 't-mid t-sm f-sky' }, r.n);
+			});
+			el('circle', { cx: px(P), cy: Y, r: 7, class: 'f-amber' });
+			el('text', { x: px(P), y: Y - 34, class: 't-mid t-sm t-b f-amber' }, 'drive');
+			if (Pk > 1) {
+				el('circle', { cx: px(Pk), cy: Y, r: 5, class: 'f-green' });
+				el('text', { x: px(Pk), y: Y - 50, class: 't-mid t-sm f-green' }, 'into motion');
+			}
+			out.innerHTML =
+				`<span class="k">drive power P = ṁc²</span> = <b>${sci(P)} W</b> (${(P / 1.96e13).toPrecision(3)} × all human energy use) &nbsp; <span class="k">push F = ṁc</span> = ${sci(F)} N<br>` +
+				`<span class="k">power into the ship’s motion, Fv</span> = ${sci(Pk)} W = <b>${(beta * 100).toFixed(1)}%</b> of the drive’s power (v/c). The rest leaves as light.`;
+		}
+		[Ms, Vs].forEach((i) => i.addEventListener('input', draw));
+		draw();
+	});
+</script>

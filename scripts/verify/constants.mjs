@@ -143,3 +143,44 @@ export const SPIN = {
 		return Math.sqrt(9.81 / this.rCrew); // 0.3546 rad/s
 	},
 };
+
+// Part 5 (energy and momentum).
+// BOOK (reader summary, trangnkp.substack.com, and Goodreads reader highlights): fuel display 20,862 kg at 6.043 g/s
+// (Grace rounds to 6 g/s, ~40 days); drive power 540 trillion W (Grace's E = mc² estimate); Dimitri's test released
+// 1.8 × 10⁹ J of light from ~20 µg, 60,000 N for 100 µs; one manoeuvre "will consume 130 kilograms of fuel".
+// Total fuel ≈ 2 × 10⁶ kg (Nick Frass, "The Energy Economics of Project Hail Mary", citing the novel).
+// Real engines: RS-25 vacuum Isp 452.3 s (4.436 km/s), mass flow 514.49 kg/s, vacuum thrust 2279 kN (Wikipedia "RS-25").
+// Shuttle SRB Isp 268 s (2.63 km/s). NSTAR ion thruster max 92 mN, 2.3 kW; ion exhausts 20–50 km/s (Wikipedia "Ion thruster").
+// Deep Space 1: launch mass 486 kg, 73.4 kg xenon for Δv 4.3 km/s (Wikipedia "Deep Space 1", "Ion thruster").
+// World primary energy production 2021 ≈ 19.6 TW (Wikipedia "World energy supply and consumption"). Human ≈ 100 W (hypertextbook).
+export const ENERGY = {
+	displayFuel: 20_862, // kg (BOOK)
+	displayRate: 6.043e-3, // kg/s (BOOK)
+	drivePowerBook: 540e12, // W (BOOK, Grace's estimate with 6 g/s and c = 3e8)
+	dimitriEnergy: 1.8e9, // J (BOOK)
+	dimitriMass: 20e-9, // kg (BOOK)
+	dimitriForce: 60_000, // N (BOOK)
+	dimitriTime: 100e-6, // s (BOOK)
+	manoeuvreFuel: 130, // kg (BOOK)
+	totalFuel: 2.0e6, // kg (BOOK, approximate)
+	rs25Ve: 4436, // m/s
+	rs25Mdot: 514.49, // kg/s
+	rs25ThrustVac: 2.279e6, // N
+	srbVe: 2630, // m/s
+	nstarThrust: 0.092, // N
+	nstarPower: 2300, // W
+	ds1Launch: 486, // kg
+	ds1Xenon: 73.4, // kg
+	ds1Dv: 4300, // m/s
+	worldPower: 19.6e12, // W (2021)
+	humanPower: 100, // W
+	// Our inference (stated in 5.6): if the 6.043 g/s display rate holds the ship at 1.5 g with a light exhaust,
+	// F = ṁc and m = F/(1.5 g) ≈ 1.23 × 10⁵ kg, so the dry ship is ≈ 1.02 × 10⁵ kg. We round the dry mass to 1.0 × 10⁵ kg.
+	shipDry: 1.0e5, // kg (OUR MODEL)
+	get aShip() {
+		return 1.5 * C.gStandard;
+	},
+	get massAtDisplay() {
+		return (this.displayRate * C.c) / this.aShip;
+	},
+};
