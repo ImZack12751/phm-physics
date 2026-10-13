@@ -136,7 +136,7 @@ export const glossary = {
 	},
 	'absolute-zero': {
 		term: 'Absolute zero',
-		def: 'The lowest possible temperature: 0 K, which is −273.15 °C or −459.67 °F. Part 6 explains why nothing can be colder.',
+		def: 'The lowest possible temperature: 0 K, which is −273.15 °C or −459.67 °F. Chapter 6.1 explains why nothing can be colder: particles’ average kinetic energy can’t fall below zero.',
 		chapter: 'unit-handling',
 	},
 	dimension: {
@@ -1057,5 +1057,176 @@ export const glossary = {
 		term: 'Mass ratio',
 		def: 'A rocket’s starting mass divided by its final mass, m₀/m_f. It must equal e raised to the power Δv/v_e, so it grows exponentially with the Δv wanted.',
 		chapter: 'rocket-equation',
+	},
+	// ---- 6.1 Temperature and heat ----
+	temperature: {
+		term: 'Temperature',
+		def: 'A measure of how vigorously the particles of a substance jiggle: proportional to their average kinetic energy, ⅔ × KE/k in kelvins.',
+		chapter: 'temperature-heat',
+	},
+	'thermal-equilibrium': {
+		term: 'Thermal equilibrium',
+		def: 'The state reached when objects in contact stop exchanging heat overall, because they are at the same temperature.',
+		chapter: 'temperature-heat',
+	},
+	'zeroth-law': {
+		term: 'Zeroth law of thermodynamics',
+		def: 'If A is in thermal equilibrium with B, and B with C, then A is in thermal equilibrium with C. It is why thermometers work.',
+		chapter: 'temperature-heat',
+	},
+	'boltzmann-constant': {
+		term: 'Boltzmann constant (k)',
+		def: 'The number linking temperature to energy, k = 1.380649 × 10⁻²³ J/K (exact since 2019). A gas molecule’s average kinetic energy is 3/2 kT.',
+		chapter: 'temperature-heat',
+	},
+	'rms-speed': {
+		term: 'Root-mean-square speed',
+		def: 'The square root of the average of the squared speeds of a gas’s molecules: v_rms = √(3kT/m). About 511 m/s for nitrogen at 20 °C.',
+		chapter: 'temperature-heat',
+	},
+	'internal-energy': {
+		term: 'Internal energy',
+		def: 'All the energy stored inside an object at the scale of its atoms: their kinetic energy of jiggling plus the potential energy of the forces between them.',
+		chapter: 'temperature-heat',
+	},
+	heat: {
+		term: 'Heat',
+		def: 'Energy that flows from one object to another because they are at different temperatures. Objects contain internal energy, not heat.',
+		chapter: 'temperature-heat',
+	},
+	calorie: {
+		term: 'Calorie',
+		def: 'An old unit of heat: the energy that warms 1 g of water by 1 °C, now defined as exactly 4.184 J. A food Calorie is 1000 of them.',
+		chapter: 'temperature-heat',
+	},
+	'first-law': {
+		term: 'First law of thermodynamics',
+		def: 'Energy conservation for heat and work: ΔU = Q − W, where Q is the heat flowing in and W the work the system does on its surroundings.',
+		chapter: 'temperature-heat',
+	},
+	'thermal-expansion': {
+		term: 'Thermal expansion',
+		def: 'The growth of most materials as they warm: ΔL = αLΔT, with α = 12 × 10⁻⁶ per kelvin for steel.',
+		chapter: 'temperature-heat',
+	},
+	// ---- 6.2 Specific and latent heat ----
+	'specific-heat': {
+		term: 'Specific heat (c)',
+		def: 'The heat needed to warm 1 kg of a material by 1 K, so Q = mcΔT. Water: 4186 J/(kg·K), about ten times iron’s.',
+		chapter: 'specific-latent-heat',
+	},
+	'heat-capacity': {
+		term: 'Heat capacity',
+		def: 'The heat an object absorbs per kelvin of warming: mc for a mass m of one material.',
+		chapter: 'specific-latent-heat',
+	},
+	calorimetry: {
+		term: 'Calorimetry',
+		def: 'Measuring heat by mixing objects in an insulated container: the heat lost by the hot parts equals the heat gained by the cold parts.',
+		chapter: 'specific-latent-heat',
+	},
+	'phase-change': {
+		term: 'Phase change',
+		def: 'A change between solid, liquid and gas (melting, freezing, boiling, condensing). It happens at a fixed temperature while latent heat flows in or out.',
+		chapter: 'specific-latent-heat',
+	},
+	'latent-heat': {
+		term: 'Latent heat (L)',
+		def: 'The heat per kilogram absorbed or released at a phase change, Q = mL, with no change in temperature. Water: 334 kJ/kg to melt, 2256 kJ/kg to boil.',
+		chapter: 'specific-latent-heat',
+	},
+	// ---- 6.3 Heat transfer ----
+	conduction: {
+		term: 'Conduction',
+		def: 'Heat passed from particle to particle through a material, with no overall movement of the material. P = kAΔT/d through a slab.',
+		chapter: 'heat-transfer',
+	},
+	convection: {
+		term: 'Convection',
+		def: 'Heat carried by a moving fluid: warm fluid rises and cool fluid sinks (needs gravity), or a fan or wind moves it.',
+		chapter: 'heat-transfer',
+	},
+	'thermal-radiation': {
+		term: 'Thermal radiation',
+		def: 'Electromagnetic radiation (infrared at everyday temperatures) given off by every object because its particles jiggle. It needs no material and crosses empty space.',
+		chapter: 'heat-transfer',
+	},
+	'thermal-conductivity': {
+		term: 'Thermal conductivity (k)',
+		def: 'How well a material conducts heat, in W/(m·K): copper 390, glass 0.84, still air 0.023.',
+		chapter: 'heat-transfer',
+	},
+	'newtons-law-of-cooling': {
+		term: 'Newton’s law of cooling',
+		def: 'An object’s excess temperature over its surroundings falls at a rate proportional to itself, so the gap decays exponentially, shrinking by the same factor each equal time.',
+		chapter: 'heat-transfer',
+	},
+	'stefan-boltzmann-constant': {
+		term: 'Stefan–Boltzmann constant (σ)',
+		def: 'The constant in the radiation law P = eσAT⁴: σ = 5.67 × 10⁻⁸ W/(m²K⁴).',
+		chapter: 'heat-transfer',
+	},
+	emissivity: {
+		term: 'Emissivity (e)',
+		def: 'How well a surface radiates (and absorbs) compared with a perfect black body, from 0 to 1. Skin is 0.97 in the infrared.',
+		chapter: 'heat-transfer',
+	},
+	// ---- 6.4 Planetary energy balance ----
+	'equilibrium-temperature': {
+		term: 'Equilibrium temperature',
+		def: 'The temperature at which a planet radiates away exactly as much power as it absorbs from its star: [S(1 − α)/4σ] to the power ¼. 255 K for Earth.',
+		chapter: 'energy-balance',
+	},
+	albedo: {
+		term: 'Albedo',
+		def: 'The fraction of sunlight a surface or planet reflects. Earth 0.29, fresh snow 0.8, desert sand 0.4, open ocean 0.06.',
+		chapter: 'energy-balance',
+	},
+	// ---- 6.5 The greenhouse effect ----
+	'greenhouse-effect': {
+		term: 'Greenhouse effect',
+		def: 'The warming of a planet’s surface by gases that let sunlight in but absorb the surface’s infrared and radiate part of it back down. It keeps Earth about 33 K warmer than its equilibrium temperature.',
+		chapter: 'greenhouse-effect',
+	},
+	'greenhouse-gas': {
+		term: 'Greenhouse gas',
+		def: 'A gas whose molecules absorb and emit infrared because their charge is lopsided: water vapour, carbon dioxide, methane, ammonia. Nitrogen and oxygen are not.',
+		chapter: 'greenhouse-effect',
+	},
+	'radiative-forcing': {
+		term: 'Radiative forcing',
+		def: 'A change in a planet’s energy balance, in W/m², before the climate responds: positive warms, negative cools. Doubling CO₂ gives about +3.7 W/m²; a 1% dimmer Sun about −2.4 W/m².',
+		chapter: 'greenhouse-effect',
+	},
+	// ---- 6.6 Feedback loops ----
+	feedback: {
+		term: 'Feedback',
+		def: 'A loop where a change causes effects that come back to alter the change itself. Positive feedback amplifies it; negative feedback damps it.',
+		chapter: 'feedback-loops',
+	},
+	'planck-response': {
+		term: 'Planck response',
+		def: 'The climate’s basic negative feedback: a warmer planet radiates more, about 4σT³ ≈ 3.8 W/m² more per kelvin, which pulls it back towards balance.',
+		chapter: 'feedback-loops',
+	},
+	'feedback-factor': {
+		term: 'Feedback factor (f)',
+		def: 'The fraction of each temperature change that the amplifying feedbacks add back. The total change is ΔT₀/(1 − f); f ≈ 0.68 for Earth, a gain of about 3. At f = 1 the change runs away.',
+		chapter: 'feedback-loops',
+	},
+	'climate-sensitivity': {
+		term: 'Climate sensitivity',
+		def: 'How much the Earth’s temperature changes in the end for a given forcing: about 3 °C per doubling of CO₂ (likely 2.5 to 4 °C), or about 0.8 K per W/m².',
+		chapter: 'feedback-loops',
+	},
+	'tipping-point': {
+		term: 'Tipping point',
+		def: 'A threshold beyond which a small extra push sets off a large, self-reinforcing change, such as ice spreading to the equator in a snowball Earth.',
+		chapter: 'feedback-loops',
+	},
+	hysteresis: {
+		term: 'Hysteresis',
+		def: 'When a system’s state depends on its history: under the same Sun, the Earth can be warm or frozen, depending on which it was before.',
+		chapter: 'feedback-loops',
 	},
 };

@@ -1,0 +1,103 @@
+---
+// Simulation: molecules of a gas in a box. Each velocity component is drawn from a normal distribution with spread
+// √(kT/m), so ½m·v̄² = 3/2 kT (here shown in 2-D for the picture; the readout uses the 3-D formulas).
+---
+
+<div
+	class="sim gb"
+	data-title="Molecules in a box"
+	data-description="Forty molecules of a gas fly about in a box and bounce off its walls. Choose the temperature (5 to 1000 K) and the gas: helium (4.0 u), nitrogen (28.0 u), ammonia (17.0 u) or xenon (131.3 u). The molecules' speeds on screen are proportional to their real speeds, so hotter or lighter gases move faster (the animation stops if reduced motion is requested). The readout gives the temperature in kelvins and degrees Celsius, the average kinetic energy per molecule 3/2 kT in joules, and the rms speed √(3kT/m) in metres per second, compared with the speed of sound in air."
+>
+	<p class="sim-title">Simulation: molecules in a box</p>
+	<p class="sim-help">Change the temperature and the gas. Temperature sets the average kinetic energy; the mass decides how fast that makes each molecule move.</p>
+	<div class="sim-controls">
+		<label>Temperature <input type="range" class="gb-t" min="5" max="1000" step="1" value="293" /> <output class="gb-tv"></output></label>
+		<label>Gas <select class="gb-g">
+			<option value="1">Nitrogen, N₂ (28.0 u): Grace's air</option>
+			<option value="2">Ammonia, NH₃ (17.0 u): Rocky's air</option>
+			<option value="0">Helium, He (4.0 u)</option>
+			<option value="3">Xenon, Xe (131.3 u)</option>
+		</select></label>
+	</div>
+	<svg class="dg gb-svg" viewBox="0 0 600 260" role="img" aria-label="A box of moving molecules"></svg>
+	<div class="readout gb-out" aria-live="polite"></div>
+</div>
+
+<script>
+	const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+	const k = 1.380649e-23, u = 1.66053906892e-27;
+	const GASES = [
+		{ n: 'helium', M: 4.0, cls: 'f-violet' },
+		{ n: 'nitrogen', M: 28.0, cls: 'f-sky' },
+		{ n: 'ammonia', M: 17.0, cls: 'f-green' },
+		{ n: 'xenon', M: 131.3, cls: 'f-amber' },
+	];
+	const gauss = () => {
+		let a = 0, b = 0;
+		while (a === 0) a = Math.random();
+		b = Math.random();
+		return Math.sqrt(-2 * Math.log(a)) * Math.cos(2 * Math.PI * b);
+	};
+	document.querySelectorAll<HTMLElement>('.sim.gb').forEach((root) => {
+		const q = <T extends Element>(s: string) => root.querySelector<T>(s)!;
+		const svg = q<SVGSVGElement>('.gb-svg'), out = q<HTMLElement>('.gb-out');
+		const Ts = q<HTMLInputElement>('.gb-t'), Gs = q<HTMLSelectElement>('.gb-g');
+		const NS = 'http://www.w3.org/2000/svg';
+		const el = (tag: string, at: Record<string, string | number>) => {
+			const e = document.createElementNS(NS, tag);
+			Object.entries(at).forEach(([key, v]) => e.setAttribute(key, String(v)));
+			svg.append(e);
+			return e;
+		};
+		const X0 = 20, X1 = 580, Y0 = 15, Y1 = 245, N = 40, R = 6;
+		const PX_PER_MS = 0.25; // screen pixels per second for each m/s of real speed
+		const mol = Array.from({ length: N }, () => ({
+			x: X0 + R + Math.random() * (X1 - X0 - 2 * R),
+			y: Y0 + R + Math.random() * (Y1 - Y0 - 2 * R),
+			gx: gauss(),
+			gy: gauss(),
+			e: null as SVGElement | null,
+		}));
+		let sig = 0, last = 0;
+		function draw() {
+			const T = +Ts.value, g = GASES[+Gs.value], m = g.M * u;
+			sig = Math.sqrt((k * T) / m);
+			const vrms = Math.sqrt((3 * k * T) / m), ke = 1.5 * k * T;
+			q('.gb-tv').textContent = `${T} K`;
+			svg.replaceChildren();
+			el('rect', { x: X0, y: Y0, width: X1 - X0, height: Y1 - Y0, class: 's-fg w2', fill: 'none' });
+			mol.forEach((p) => (p.e = el('circle', { cx: p.x, cy: p.y, r: R, class: g.cls })));
+			const sci = (x: number) => {
+				const e = Math.floor(Math.log10(x));
+				return `${(x / 10 ** e).toFixed(2)} × 10<sup>${e}</sup>`;
+			};
+			out.innerHTML =
+				`<span class="k">temperature</span> = <b>${T} K</b> = ${(T - 273.15).toFixed(1)} °C &nbsp; <span class="k">gas</span> = ${g.n} (${g.M} u)<br>` +
+				`<span class="k">average kinetic energy per molecule, 3/2 kT</span> = <b>${sci(ke)} J</b> (the same for every gas)<br>` +
+				`<span class="k">rms speed √(3kT/m)</span> = <b>${vrms.toFixed(0)} m/s</b>, ${(vrms / 343).toFixed(2)} × the speed of sound in room-temperature air`;
+		}
+		function step(dt: number) {
+			const s = sig * PX_PER_MS;
+			mol.forEach((p) => {
+				p.x += p.gx * s * dt;
+				p.y += p.gy * s * dt;
+				if (p.x < X0 + R) { p.x = 2 * (X0 + R) - p.x; p.gx = Math.abs(p.gx); }
+				if (p.x > X1 - R) { p.x = 2 * (X1 - R) - p.x; p.gx = -Math.abs(p.gx); }
+				if (p.y < Y0 + R) { p.y = 2 * (Y0 + R) - p.y; p.gy = Math.abs(p.gy); }
+				if (p.y > Y1 - R) { p.y = 2 * (Y1 - R) - p.y; p.gy = -Math.abs(p.gy); }
+				p.x = Math.min(Math.max(p.x, X0 + R), X1 - R);
+				p.y = Math.min(Math.max(p.y, Y0 + R), Y1 - R);
+				p.e?.setAttribute('cx', p.x.toFixed(1));
+				p.e?.setAttribute('cy', p.y.toFixed(1));
+			});
+		}
+		function frame(now: number) {
+			if (last) step(Math.min(0.05, (now - last) / 1000));
+			last = now;
+			requestAnimationFrame(frame);
+		}
+		[Ts, Gs].forEach((i) => i.addEventListener('input', draw));
+		draw();
+		if (!reduce) requestAnimationFrame(frame);
+	});
+</script>

@@ -184,3 +184,53 @@ export const ENERGY = {
 		return (this.displayRate * C.c) / this.aShip;
 	},
 };
+
+// Part 6 (thermal physics and climate). Checked October 2026.
+// NIST CODATA 2022: k and N_A exact; σ = 5.670 374 419 × 10⁻⁸ W m⁻² K⁻⁴.
+// OpenStax University Physics Vol. 2 (§1.3 Table 1.2, §1.4 Table 1.3, §1.5 Table 1.4, §1.6 Table 1.5).
+// NASA NSSDCA fact sheets (Bond albedo, black-body and mean temperatures). NASA Earth Observatory energy budget.
+// Wikipedia: Climate sensitivity (IPCC AR6), Radiative forcing (Myhre 1998), Atmospheric methane, Last Glacial Maximum,
+// Year Without a Summer, Faint young Sun paradox, Snowball Earth, Albedo, 40 Eridani.
+export const THERMAL = {
+	k: 1.380649e-23, // J/K (exact)
+	NA: 6.02214076e23, // 1/mol (exact)
+	sigma: 5.670374419e-8, // W m⁻² K⁻⁴
+	calorie: 4.184, // J (thermochemical calorie)
+	u: 1.66053906892e-27, // kg, atomic mass unit (CODATA 2022)
+	// Specific heats, J/(kg K) (OpenStax Table 1.3)
+	cWater: 4186, cIce: 2090, cSteam: 2020, cAl: 900, cCu: 387, cIron: 452, cGlass: 840, cAir: 1015,
+	// Latent heats, J/kg (OpenStax Table 1.4)
+	LfWater: 334e3, LvWater: 2256e3, LfAmmonia: 332e3, LvAmmonia: 1370e3, ammoniaBoilC: -33.4,
+	// Thermal conductivities, W/(m K) (OpenStax Table 1.5)
+	kCu: 390, kAl: 220, kSteel: 80, kStainless: 14, kGlass: 0.84, kWater: 0.6, kGlassWool: 0.042, kDown: 0.025, kAir: 0.023,
+	rhoIce: 917, rhoSea: 1030, atmMass: 5.1e18, // kg/m³ (OpenStax Vol. 1 Table 14.1), kg (NASA Earth fact sheet)
+	alphaAl: 25e-6, alphaSteel: 12e-6, // 1/K, linear expansion (OpenStax Table 1.2)
+	// Planets (NASA fact sheets): Bond albedo, black-body temperature (K), mean surface temperature (K)
+	earthAlbedo: 0.294, earthTbb: 254.0, earthTmean: 288,
+	venusAlbedo: 0.77, venusTbb: 226.6, venusTmean: 737,
+	marsAlbedo: 0.25, marsTbb: 209.8, marsTmean: 214,
+	marsIrradiance: 586.2,
+	// NASA Earth Observatory energy budget (percent of 340 W/m² incoming)
+	budgetIn: 340, budgetReflected: 0.29, budgetSurfaceUp: 1.17, budgetBack: 1.0,
+	// Climate (Wikipedia citing IPCC AR6, Myhre 1998)
+	ecs: 3.0, ecsRange: [2.5, 4.0], f2x: 3.7, lambda: 0.8, // K, K, W/m², K per W/m²
+	albedoFeedback: 0.35, // W/(m² K) (Wikipedia, Climate change feedbacks, AR6); water vapour ~1.8, clouds 0.42, Planck ~3.8
+	co2Coeff: 5.35, // W/m², ΔF = 5.35 ln(C/C₀)
+	co2Pre: 280, co2Now: 421, // ppm (NOAA, May 2022 at Mauna Loa)
+	ch4Lifetime: 12, // years (perturbation lifetime)
+	ch4Now: 1911.8, ch4PreInd: 722, // ppb (2022, 1750)
+	lgmCooling: 6, // °C colder 21,000 years ago (Tierney 2020)
+	lgmSeaLevel: 125, // m lower
+	tamboraCooling: [0.4, 0.7], // °C, 1816
+	faintSun: 0.7, // early Sun's output relative to today
+	// Albedos (Wikipedia "Albedo" table)
+	albedoOcean: 0.06, albedoSand: 0.4, albedoSeaIce: [0.5, 0.7], albedoSnow: 0.8, albedoForest: 0.15, albedoAsphalt: 0.04,
+	earthArea: 4 * Math.PI * 6.371e6 ** 2, // m²
+	// 40 Eridani A (Wikipedia): L = 0.4 L☉, M = 0.78 M☉, candidate planet period 42 days (likely stellar activity)
+	eriL: 0.4, eriM: 0.78, eriPeriodDays: 42,
+	// BOOK (fan guides and articles, approximate)
+	eridTempC: 210, eridPressureAtm: 29, // /Film
+	bombs: 241, bombDepth: 50, bombSpacing: 3000, // m (readifyai reader guide)
+	saharaPanels: 2e12, saharaArea: 9e12, // m² (reader guide: a quarter of the Sahara)
+	iceAgeYears: 30, // Wikipedia plot summary: ice age within thirty years
+};

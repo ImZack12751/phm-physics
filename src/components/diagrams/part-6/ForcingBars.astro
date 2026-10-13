@@ -1,0 +1,30 @@
+---
+// Radiative forcings, W/m² (global average). Dimming: fraction × 240.2 W/m² absorbed. CO₂: 5.35 ln(C/C₀) (Myhre 1998),
+// 280 → 421 ppm (NOAA 2022) and doubling. Methane since 1750: about +0.5 (Wikipedia, Atmospheric methane).
+const rows = [
+	{ n: 'Sun 1% dimmer', f: -0.01 * 240.2 },
+	{ n: 'Sun 5% dimmer', f: -0.05 * 240.2 },
+	{ n: 'Sun 10% dimmer', f: -0.1 * 240.2 },
+	{ n: 'methane rise since 1750', f: 0.5 },
+	{ n: 'CO₂ 280 → 421 ppm', f: 5.35 * Math.log(421 / 280) },
+	{ n: 'CO₂ doubled', f: 5.35 * Math.log(2) },
+];
+const Z = 400, SC = 12, T = 20, H = 38;
+---
+
+<svg class="dg" viewBox="0 0 600 290" xmlns="http://www.w3.org/2000/svg">
+	{[-25, -20, -15, -10, -5, 0, 5].map((v) => (
+		<>
+			<line x1={Z + v * SC} y1={T} x2={Z + v * SC} y2={T + rows.length * H} class={v === 0 ? 's-fg w2' : 's-grid w1'} />
+			<text x={Z + v * SC} y={T + rows.length * H + 18} class="t-mid t-sm f-muted">{v > 0 ? `+${v}` : v}</text>
+		</>
+	))}
+	{rows.map((r, i) => (
+		<>
+			<rect x={r.f < 0 ? Z + r.f * SC : Z} y={T + i * H + 8} width={Math.abs(r.f) * SC} height={H - 16} class={r.f < 0 ? 'f-sky' : 'f-rose'} />
+			<text x={r.f < 0 ? Z + r.f * SC - 8 : Z - 8} y={T + i * H + 24} class="t-end t-sm">{r.n}</text>
+			<text x={r.f < 0 ? Z + 8 : Z + r.f * SC + 8} y={T + i * H + 24} class={`t-sm ${r.f < 0 ? 'f-sky' : 'f-rose'}`}>{r.f > 0 ? '+' : '−'}{Math.abs(r.f).toFixed(1)}</text>
+		</>
+	))}
+	<text x={Z} y={T + rows.length * H + 40} class="t-mid t-sm">forcing (W/m²): cooling ← → warming</text>
+</svg>

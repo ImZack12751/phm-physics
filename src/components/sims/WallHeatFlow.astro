@@ -1,0 +1,82 @@
+---
+// Simulation: conduction through a wall, P = kAΔT/d, with conductivities from OpenStax Vol. 2 Table 1.5.
+// The cold side is Grace's room at 21 °C; the hot side defaults to Rocky's 210 °C.
+---
+
+<div
+	class="sim whf"
+	data-title="Heat through a wall"
+	data-description="Choose a wall material (copper 390, aluminium 220, steel 80, stainless steel 14, glass 0.84, water 0.6, glass wool 0.042, down 0.025 or still air 0.023 W/(m·K)), its thickness (0.1 to 20 cm), its area (0.5 to 10 m²) and the hot-side temperature (−50 to 300 °C); the cold side is a room at 21 °C. A drawing shows the wall with the temperature falling in a straight line across it, and a logarithmic bar of the heat flow from 1 W to 10 MW. The readout gives the heat flow P = kAΔT/d in watts, the flow per square metre, the number of 2 kW room heaters it equals, and the energy that passes in an hour."
+>
+	<p class="sim-title">Simulation: heat through a wall</p>
+	<p class="sim-help">Pick a material and thickness and see how much heat leaks from the hot side into a 21 °C room.</p>
+	<div class="sim-controls">
+		<label>Material <select class="whf-k">
+			<option value="0.84">Glass (0.84)</option>
+			<option value="390">Copper (390)</option>
+			<option value="220">Aluminium (220)</option>
+			<option value="80">Steel (80)</option>
+			<option value="14">Stainless steel (14)</option>
+			<option value="0.6">Water (0.6)</option>
+			<option value="0.042">Glass wool (0.042)</option>
+			<option value="0.025">Down feathers (0.025)</option>
+			<option value="0.023">Still air (0.023)</option>
+		</select></label>
+		<label>Thickness <input type="range" class="whf-d" min="0.1" max="20" step="0.1" value="1" /> <output class="whf-dv"></output></label>
+		<label>Area <input type="range" class="whf-a" min="0.5" max="10" step="0.5" value="2" /> <output class="whf-av"></output></label>
+		<label>Hot side <input type="range" class="whf-t" min="-50" max="300" step="1" value="210" /> <output class="whf-tv"></output></label>
+	</div>
+	<svg class="dg whf-svg" viewBox="0 0 600 240" role="img" aria-label="A wall with a temperature profile across it and a bar showing the heat flow"></svg>
+	<div class="readout whf-out" aria-live="polite"></div>
+</div>
+
+<script>
+	document.querySelectorAll<HTMLElement>('.sim.whf').forEach((root) => {
+		const q = <T extends Element>(s: string) => root.querySelector<T>(s)!;
+		const svg = q<SVGSVGElement>('.whf-svg'), out = q<HTMLElement>('.whf-out');
+		const Ks = q<HTMLSelectElement>('.whf-k'), Ds = q<HTMLInputElement>('.whf-d'), As = q<HTMLInputElement>('.whf-a'), Ts = q<HTMLInputElement>('.whf-t');
+		const NS = 'http://www.w3.org/2000/svg';
+		const el = (tag: string, at: Record<string, string | number>, text?: string) => {
+			const e = document.createElementNS(NS, tag);
+			Object.entries(at).forEach(([k, v]) => e.setAttribute(k, String(v)));
+			if (text) e.textContent = text;
+			svg.append(e);
+			return e;
+		};
+		const TC = 21, Y0 = 30, Y1 = 190, tMin = -60, tMax = 310;
+		const py = (t: number) => Y1 - ((t - tMin) / (tMax - tMin)) * (Y1 - Y0);
+		const fmt = (p: number) => (Math.abs(p) >= 1e4 ? `${(p / 1000).toLocaleString('en-GB', { maximumFractionDigits: 0 })} kW` : Math.abs(p) >= 100 ? `${p.toFixed(0)} W` : `${p.toPrecision(3)} W`);
+		function draw() {
+			const k = +Ks.value, dcm = +Ds.value, d = dcm / 100, A = +As.value, TH = +Ts.value;
+			const P = (k * A * (TH - TC)) / d;
+			q('.whf-dv').textContent = `${dcm.toFixed(1)} cm`;
+			q('.whf-av').textContent = `${A.toFixed(1)} m²`;
+			q('.whf-tv').textContent = `${TH} °C`;
+			svg.replaceChildren();
+			// wall drawing: width grows with thickness
+			const wx0 = 150, ww = 20 + (dcm / 20) * 140, wx1 = wx0 + ww;
+			el('rect', { x: 30, y: Y0, width: wx0 - 30, height: Y1 - Y0, class: TH > TC ? 'f-rose-soft' : 'f-sky-soft' });
+			el('rect', { x: wx1, y: Y0, width: 340 - wx1, height: Y1 - Y0, class: TH > TC ? 'f-sky-soft' : 'f-rose-soft' });
+			el('rect', { x: wx0, y: Y0, width: ww, height: Y1 - Y0, class: 'f-violet s-violet w2', 'fill-opacity': 0.3 });
+			el('polyline', { points: `30,${py(TH)} ${wx0},${py(TH)} ${wx1},${py(TC)} 340,${py(TC)}`, class: 's-rose w3', fill: 'none' });
+			el('text', { x: 36, y: py(TH) - 8, class: 't-sm f-rose' }, `${TH} °C`);
+			el('text', { x: 334, y: py(TC) - 8, class: 't-end t-sm f-sky' }, `${TC} °C`);
+			el('text', { x: 185, y: Y1 + 20, class: 't-mid t-sm f-muted' }, 'temperature across the wall');
+			// log bar of |P|
+			const BX = 400, BW = 160, lo = 0, hi = 7;
+			const bh = (p: number) => ((Math.min(Math.max(Math.log10(Math.max(Math.abs(p), 1)), lo), hi) - lo) / (hi - lo)) * (Y1 - Y0);
+			[0, 1, 2, 3, 4, 5, 6, 7].forEach((e) => {
+				const y = Y1 - ((e - lo) / (hi - lo)) * (Y1 - Y0);
+				el('line', { x1: BX, y1: y, x2: BX + BW, y2: y, class: 's-grid w1' });
+				el('text', { x: BX - 6, y: y + 4, class: 't-end t-sm f-muted' }, ['1 W', '10 W', '100 W', '1 kW', '10 kW', '100 kW', '1 MW', '10 MW'][e]);
+			});
+			el('rect', { x: BX + 40, y: Y1 - bh(P), width: 80, height: bh(P), class: 'f-amber' });
+			el('text', { x: BX + BW / 2, y: Y1 + 20, class: 't-mid t-sm f-muted' }, 'heat flow (log scale)');
+			out.innerHTML =
+				`<span class="k">heat flow P = kAΔT/d</span> = <b>${fmt(P)}</b> &nbsp; <span class="k">per square metre</span> = ${fmt(P / A)}${P < 0 ? ' (heat flows the other way, out of the room)' : ''}<br>` +
+				`<span class="k">equal to</span> ${(Math.abs(P) / 2000).toPrecision(2)} room heaters of 2 kW &nbsp; <span class="k">energy in one hour</span> = ${((Math.abs(P) * 3600) / 1e6).toPrecision(3)} MJ`;
+		}
+		[Ks, Ds, As, Ts].forEach((i) => i.addEventListener('input', draw));
+		draw();
+	});
+</script>

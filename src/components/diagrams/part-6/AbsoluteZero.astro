@@ -1,0 +1,38 @@
+---
+// Gas thermometer: pressure against Celsius temperature at fixed volume for three samples. Measured (solid) from
+// 0 to 200 °C; extrapolated (dashed) they all reach P = 0 at −273.15 °C.
+const L = 70, R = 570, T = 30, B = 240, tMin = -300, tMax = 220, pMax = 2.8;
+const px = (t: number) => L + ((t - tMin) / (tMax - tMin)) * (R - L);
+const py = (p: number) => B - (p / pMax) * (B - T);
+const gases = [
+	{ p0: 1.5, cls: 's-amber' },
+	{ p0: 1.0, cls: 's-sky' },
+	{ p0: 0.55, cls: 's-green' },
+];
+const P = (p0: number, t: number) => (p0 * (t + 273.15)) / 273.15;
+const Z = px(-273.15);
+---
+
+<svg class="dg" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+	{[-300, -200, -100, 0, 100, 200].map((t) => (
+		<>
+			<line x1={px(t)} y1={T} x2={px(t)} y2={B} class="s-grid w1" />
+			<text x={px(t)} y={B + 18} class="t-mid t-sm f-muted">{t}</text>
+		</>
+	))}
+	<line x1={L} y1={B} x2={R} y2={B} class="s-fg w2" />
+	<line x1={px(0)} y1={B} x2={px(0)} y2={T} class="s-fg w1" />
+	{gases.map((g) => (
+		<>
+			<line x1={Z} y1={B} x2={px(0)} y2={py(P(g.p0, 0))} class={`${g.cls} w2 dash`} />
+			<line x1={px(0)} y1={py(P(g.p0, 0))} x2={px(200)} y2={py(P(g.p0, 200))} class={`${g.cls} w3`} />
+		</>
+	))}
+	<circle cx={Z} cy={B} r="6" class="f-rose" />
+	<text x={Z + 10} y={B - 38} class="t-sm f-rose t-b halo">absolute zero</text>
+	<text x={Z + 10} y={B - 20} class="t-sm f-rose halo">−273.15 °C = 0 K</text>
+	<text x={px(100)} y={py(0.3)} class="t-mid t-sm halo">measured (solid)</text>
+	<text x={px(-150)} y={py(1.25)} class="t-mid t-sm f-muted halo">extended (dashed)</text>
+	<text x={(L + R) / 2} y={B + 42} class="t-mid t-sm">temperature (°C)</text>
+	<text x="26" y={(T + B) / 2} class="t-mid t-sm" transform={`rotate(-90 26 ${(T + B) / 2})`}>gas pressure</text>
+</svg>

@@ -1,0 +1,97 @@
+---
+// Simulation: heating curve of water. Start as ice (below 0 °C) or water, add heat Q; the temperature follows
+// Q = mcΔT on the slopes and stays fixed during melting (334 kJ/kg) and boiling (2256 kJ/kg). OpenStax Tables 1.3, 1.4.
+---
+
+<div
+	class="sim hl"
+	data-title="Heating curve lab"
+	data-description="Heat a mass of water (0.5 to 3.0 kg) that starts as ice or liquid at a chosen temperature (−40 to 40 °C). A slider sets the heat added, from 0 to 10 megajoules. A graph shows the whole heating curve, temperature against heat added, up to steam at 150 °C, with a marker at the chosen amount of heat. The readout gives the state (ice, melting, water, boiling or steam), the temperature, the fraction melted or boiled, and how the heat so far is split between warming ice, melting, warming water, boiling and warming steam. Specific heats: ice 2090, water 4186, steam 2020 J/(kg·K); latent heats 334 kJ/kg and 2256 kJ/kg."
+>
+	<p class="sim-title">Simulation: heating curve lab</p>
+	<p class="sim-help">Drag the heat slider and watch the marker climb the slopes and stall on the plateaus.</p>
+	<div class="sim-controls">
+		<label>Heat added <input type="range" class="hl-q" min="0" max="10" step="0.01" value="0.6" /> <output class="hl-qv"></output></label>
+		<label>Mass <input type="range" class="hl-m" min="0.5" max="3" step="0.1" value="1" /> <output class="hl-mv"></output></label>
+		<label>Starting temperature <input type="range" class="hl-t" min="-40" max="40" step="1" value="-20" /> <output class="hl-tv"></output></label>
+	</div>
+	<svg class="dg hl-svg" viewBox="0 0 600 270" role="img" aria-label="Heating curve of water with a marker at the chosen amount of heat"></svg>
+	<div class="readout hl-out" aria-live="polite"></div>
+</div>
+
+<script>
+	const cI = 2090, cW = 4186, cS = 2020, Lf = 334e3, Lv = 2256e3, TOP = 150;
+	document.querySelectorAll<HTMLElement>('.sim.hl').forEach((root) => {
+		const q = <T extends Element>(s: string) => root.querySelector<T>(s)!;
+		const svg = q<SVGSVGElement>('.hl-svg'), out = q<HTMLElement>('.hl-out');
+		const Qs = q<HTMLInputElement>('.hl-q'), Ms = q<HTMLInputElement>('.hl-m'), Ts = q<HTMLInputElement>('.hl-t');
+		const NS = 'http://www.w3.org/2000/svg';
+		const el = (tag: string, at: Record<string, string | number>, text?: string) => {
+			const e = document.createElementNS(NS, tag);
+			Object.entries(at).forEach(([k, v]) => e.setAttribute(k, String(v)));
+			if (text) e.textContent = text;
+			svg.append(e);
+			return e;
+		};
+		// Segments: [heat needed, start T, end T, name]
+		function segments(m: number, T0: number) {
+			const s: { q: number; t0: number; t1: number; n: string }[] = [];
+			if (T0 < 0) s.push({ q: m * cI * -T0, t0: T0, t1: 0, n: 'warming ice' });
+			if (T0 <= 0) s.push({ q: m * Lf, t0: 0, t1: 0, n: 'melting' });
+			s.push({ q: m * cW * (100 - Math.max(T0, 0)), t0: Math.max(T0, 0), t1: 100, n: 'warming water' });
+			s.push({ q: m * Lv, t0: 100, t1: 100, n: 'boiling' });
+			s.push({ q: m * cS * (TOP - 100), t0: 100, t1: TOP, n: 'warming steam' });
+			return s;
+		}
+		const L = 70, R = 570, T = 20, B = 220, tMin = -45, tMax = 160;
+		const py = (t: number) => B - ((t - tMin) / (tMax - tMin)) * (B - T);
+		function draw() {
+			const m = +Ms.value, T0 = +Ts.value, seg = segments(m, T0);
+			const total = seg.reduce((a, s) => a + s.q, 0), Qset = +Qs.value * 1e6, Q = Math.min(Qset, total), QMAX = 10e6;
+			const px = (x: number) => L + (x / QMAX) * (R - L);
+			q('.hl-qv').textContent = `${(Qset / 1e6).toFixed(2)} MJ`;
+			q('.hl-mv').textContent = `${m.toFixed(1)} kg`;
+			q('.hl-tv').textContent = `${T0} °C`;
+			svg.replaceChildren();
+			[-40, 0, 50, 100, 150].map((t) => {
+				el('line', { x1: L, y1: py(t), x2: R, y2: py(t), class: 's-grid w1' });
+				el('text', { x: L - 8, y: py(t) + 4, class: 't-end t-sm f-muted' }, String(t));
+			});
+			el('line', { x1: L, y1: B, x2: R, y2: B, class: 's-fg w2' });
+			el('line', { x1: L, y1: B, x2: L, y2: T, class: 's-fg w2' });
+			let acc = 0, d = `M${px(0)},${py(seg[0].t0)}`;
+			const done: string[] = [];
+			let state = '', temp = 0, extra = '';
+			seg.forEach((s) => {
+				acc += s.q;
+				d += ` L${px(acc).toFixed(1)},${py(s.t1).toFixed(1)}`;
+			});
+			el('path', { d, class: 's-amber w3', fill: 'none' });
+			// locate Q
+			let left = Q;
+			for (const s of seg) {
+				const used = Math.min(left, s.q);
+				if (used > 0) done.push(`${s.n} ${(used / 1000).toFixed(0)} kJ`);
+				if (left <= s.q) {
+					const f = s.q ? left / s.q : 0;
+					temp = s.t0 + f * (s.t1 - s.t0);
+					state = s.n;
+					if (s.n === 'melting') extra = ` &nbsp; <span class="k">melted</span> = ${(f * 100).toFixed(0)}%`;
+					if (s.n === 'boiling') extra = ` &nbsp; <span class="k">boiled away</span> = ${(f * 100).toFixed(0)}%`;
+					break;
+				}
+				left -= s.q;
+			}
+			el('circle', { cx: px(Q), cy: py(temp), r: 7, class: 'f-sky' });
+			for (let i = 0; i <= 10; i += 2) el('text', { x: px(i * 1e6), y: B + 18, class: 't-mid t-sm f-muted' }, String(i));
+			el('text', { x: (L + R) / 2, y: B + 40, class: 't-mid t-sm' }, 'heat added (MJ)');
+			el('text', { x: 22, y: (T + B) / 2, class: 't-mid t-sm', transform: `rotate(-90 22 ${(T + B) / 2})` }, '°C');
+			out.innerHTML =
+				`<span class="k">heat added</span> = <b>${(Q / 1e6).toFixed(3)} MJ</b> &nbsp; <span class="k">now</span>: <b>${state}</b> at <b>${temp.toFixed(1)} °C</b>${extra}<br>` +
+				`<span class="k">where the heat went</span>: ${done.join(', ') || 'nothing yet'}` +
+				(Qset > total ? `<br>All steam at ${TOP} °C after ${(total / 1e6).toFixed(2)} MJ: this chart stops there.` : '');
+		}
+		[Qs, Ms, Ts].forEach((i) => i.addEventListener('input', draw));
+		draw();
+	});
+</script>

@@ -1,0 +1,98 @@
+---
+// Simulation: planetary energy balance. T_e = [S(1 − α)/4σ]^(1/4). Presets from NASA fact sheets (Earth, Venus, Mars),
+// our model Adrian (Tau Ceti e, 0.52 L☉ at 0.552 au) and the candidate planet 40 Eridani A b ("Erid", albedo assumed 0.30).
+---
+
+<div
+	class="sim pt"
+	data-title="Planet thermostat"
+	data-description="Choose the star's brightness as a percentage of today's (80 to 110%), the planet's albedo (0 to 0.90) and a planet: Earth (1361 W/m², albedo 0.294), Venus (2601.3 W/m², 0.77), Mars (586.2 W/m², 0.25), our model Adrian at Tau Ceti (2323 W/m², albedo assumed 0.294) or Erid, the candidate planet of 40 Eridani A (about 11 490 W/m², albedo assumed 0.30). Choosing a planet resets the albedo to its value. A graph shows the absorbed sunlight per square metre, S(1 − albedo)/4, as a flat line and the emitted infrared σT⁴ as a rising curve; the planet settles where they cross. The readout gives the absorbed power per square metre, the equilibrium temperature in kelvins and degrees Celsius, the change from the planet's normal value, and the measured average surface temperature where known."
+>
+	<p class="sim-title">Simulation: planet thermostat</p>
+	<p class="sim-help">Dim the star or change the albedo and watch where absorbed and emitted power balance.</p>
+	<div class="sim-controls">
+		<label>Star brightness <input type="range" class="pt-s" min="80" max="110" step="0.5" value="100" /> <output class="pt-sv"></output></label>
+		<label>Albedo <input type="range" class="pt-a" min="0" max="0.9" step="0.001" value="0.294" /> <output class="pt-av"></output></label>
+		<label>Planet <select class="pt-p">
+			<option value="0">Earth</option>
+			<option value="1">Venus</option>
+			<option value="2">Mars</option>
+			<option value="3">Adrian (our model)</option>
+			<option value="4">Erid (candidate planet)</option>
+		</select></label>
+	</div>
+	<svg class="dg pt-svg" viewBox="0 0 600 260" role="img" aria-label="Absorbed and emitted power against temperature, crossing at the equilibrium temperature"></svg>
+	<div class="readout pt-out" aria-live="polite"></div>
+</div>
+
+<script>
+	const sigma = 5.670374419e-8;
+	const P = [
+		{ n: 'Earth', S: 1361, a: 0.294, real: 288 },
+		{ n: 'Venus', S: 2601.3, a: 0.77, real: 737 },
+		{ n: 'Mars', S: 586.2, a: 0.25, real: 214 },
+		{ n: 'Adrian', S: 2323, a: 0.294, real: 0 },
+		{ n: 'Erid', S: 11490, a: 0.3, real: 0 },
+	];
+	const Te = (S: number, a: number) => ((S * (1 - a)) / (4 * sigma)) ** 0.25;
+	document.querySelectorAll<HTMLElement>('.sim.pt').forEach((root) => {
+		const q = <T extends Element>(s: string) => root.querySelector<T>(s)!;
+		const svg = q<SVGSVGElement>('.pt-svg'), out = q<HTMLElement>('.pt-out');
+		const Ss = q<HTMLInputElement>('.pt-s'), As = q<HTMLInputElement>('.pt-a'), Ps = q<HTMLSelectElement>('.pt-p');
+		const NS = 'http://www.w3.org/2000/svg';
+		const el = (tag: string, at: Record<string, string | number>, text?: string) => {
+			const e = document.createElementNS(NS, tag);
+			Object.entries(at).forEach(([k, v]) => e.setAttribute(k, String(v)));
+			if (text) e.textContent = text;
+			svg.append(e);
+			return e;
+		};
+		const L = 80, R = 570, T = 20, B = 210;
+		function draw() {
+			const p = P[+Ps.value], f = +Ss.value / 100, a = +As.value;
+			const S = p.S * f, abs = (S * (1 - a)) / 4, t = Te(S, a), t0 = Te(p.S, p.a);
+			q('.pt-sv').textContent = `${(+Ss.value).toFixed(1)}%`;
+			q('.pt-av').textContent = a.toFixed(3);
+			// axes around the planet's normal temperature
+			const tMin = Math.floor((t0 * 0.6) / 10) * 10, tMax = Math.ceil((t0 * 1.3) / 10) * 10;
+			const pMax = sigma * tMax ** 4;
+			const px = (x: number) => L + ((x - tMin) / (tMax - tMin)) * (R - L);
+			const py = (w: number) => B - (Math.min(w, pMax) / pMax) * (B - T);
+			svg.replaceChildren();
+			for (let i = 0; i <= 4; i++) {
+				const w = (pMax * i) / 4;
+				el('line', { x1: L, y1: py(w), x2: R, y2: py(w), class: 's-grid w1' });
+				el('text', { x: L - 8, y: py(w) + 4, class: 't-end t-sm f-muted' }, w.toFixed(0));
+			}
+			const step = (tMax - tMin) / 5;
+			for (let i = 0; i <= 5; i++) el('text', { x: px(tMin + i * step), y: B + 18, class: 't-mid t-sm f-muted' }, (tMin + i * step).toFixed(0));
+			el('line', { x1: L, y1: B, x2: R, y2: B, class: 's-fg w2' });
+			el('line', { x1: L, y1: B, x2: L, y2: T, class: 's-fg w2' });
+			let d = '';
+			for (let i = 0; i <= 80; i++) {
+				const x = tMin + ((tMax - tMin) * i) / 80;
+				d += `${i ? 'L' : 'M'}${px(x).toFixed(1)},${py(sigma * x ** 4).toFixed(1)}`;
+			}
+			el('path', { d, class: 's-rose w3', fill: 'none' });
+			el('line', { x1: L, y1: py(abs), x2: R, y2: py(abs), class: 's-amber w3' });
+			if (t >= tMin && t <= tMax) {
+				el('line', { x1: px(t), y1: py(abs), x2: px(t), y2: B, class: 's-amber w1 dash' });
+				el('circle', { cx: px(t), cy: py(abs), r: 7, class: 'f-amber' });
+			}
+			el('text', { x: L + 8, y: py(abs) - 8, class: 't-sm f-amber halo' }, 'absorbed');
+			el('text', { x: R - 4, y: T + 14, class: 't-end t-sm f-rose halo' }, 'emitted σT⁴');
+			el('text', { x: (L + R) / 2, y: B + 40, class: 't-mid t-sm' }, 'temperature (K)');
+			const dT = t - t0;
+			out.innerHTML =
+				`<span class="k">sunlight</span> = ${S.toFixed(0)} W/m² &nbsp; <span class="k">absorbed per m², S(1 − α)/4</span> = <b>${abs.toFixed(1)} W/m²</b><br>` +
+				`<span class="k">equilibrium temperature</span> = <b>${t.toFixed(1)} K</b> = ${(t - 273.15).toFixed(1)} °C &nbsp; <span class="k">change from normal</span> = <b>${dT >= 0 ? '+' : ''}${dT.toFixed(2)} K</b>` +
+				(p.real ? `<br><span class="k">measured average surface</span> = ${p.real} K: ${p.real - t0 > 5 ? `${(p.real - t0).toFixed(0)} K warmer than the balance gives (greenhouse effect, Chapter 6.5)` : 'close to the balance (thin air)'}` : '');
+		}
+		Ps.addEventListener('input', () => {
+			As.value = String(P[+Ps.value].a);
+			draw();
+		});
+		[Ss, As].forEach((i) => i.addEventListener('input', draw));
+		draw();
+	});
+</script>

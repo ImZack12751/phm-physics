@@ -1,0 +1,91 @@
+---
+// Simulation: toy climate with an ice–albedo feedback (Chapter 6.6). C dT/dt = (S/4)(1 − α(T)) − E(T), with
+// α(T) = 0.4417 − 0.1583 tanh((T − 254.42)/20), E(T) = 240.2 + 1.58 (T − 288) W/m², C = 4.19 × 10⁸ J/(m² K).
+// Calibrated to 288 K today and about 0.81 K per W/m² near today. A toy, not a forecast.
+---
+
+<div
+	class="sim sb"
+	data-title="Snowball lab"
+	data-description="A toy climate model with an ice–albedo feedback. Choose the Sun's brightness (80 to 115% of today's), the starting climate (today's warm Earth at 288 K, or a snowball Earth at 226 K) and how many years to run (5 to 200). The model steps the global temperature forward in time with the heat capacity of the top 100 m of ocean: absorbed sunlight, with an albedo that rises from about 0.28 when warm to about 0.6 when frozen, minus emitted infrared, which rises in a straight line with temperature. A graph shows temperature against time, with dashed lines at the model's equilibrium temperatures for that brightness. The readout gives the temperature after 10 and 30 years and at the end, the albedo at the end, and the list of equilibria, stable or unstable. With today's Sun both a warm and a frozen climate are stable; dimming by about 6% removes the warm one."
+>
+	<p class="sim-title">Simulation: snowball lab</p>
+	<p class="sim-help">Dim the Sun and run the climate forward. Then start from a snowball and see how bright the Sun must be to thaw it.</p>
+	<div class="sim-controls">
+		<label>Sun's brightness <input type="range" class="sb-s" min="80" max="115" step="0.5" value="95" /> <output class="sb-sv"></output></label>
+		<label>Start from <select class="sb-0">
+			<option value="288">today's warm Earth (288 K)</option>
+			<option value="226">a snowball Earth (226 K)</option>
+		</select></label>
+		<label>Years to run <input type="range" class="sb-y" min="5" max="200" step="5" value="60" /> <output class="sb-yv"></output></label>
+	</div>
+	<svg class="dg sb-svg" viewBox="0 0 600 260" role="img" aria-label="Global temperature against time, with the equilibrium temperatures marked"></svg>
+	<div class="readout sb-out" aria-live="polite"></div>
+</div>
+
+<script>
+	const Q = 1361 / 4, C = 4.19e8, YEAR = 3.156e7;
+	const alpha = (t: number) => 0.4417 - 0.1583 * Math.tanh((t - 254.42) / 20);
+	const net = (t: number, f: number) => Q * f * (1 - alpha(t)) - (240.2 + 1.58 * (t - 288));
+	function equilibria(f: number) {
+		const r: { t: number; stable: boolean }[] = [];
+		let p = net(150, f);
+		for (let t = 150.25; t <= 340; t += 0.25) {
+			const c = net(t, f);
+			if (p * c <= 0 && p !== c) r.push({ t: t - 0.125, stable: c < p });
+			p = c;
+		}
+		return r;
+	}
+	document.querySelectorAll<HTMLElement>('.sim.sb').forEach((root) => {
+		const q = <T extends Element>(s: string) => root.querySelector<T>(s)!;
+		const svg = q<SVGSVGElement>('.sb-svg'), out = q<HTMLElement>('.sb-out');
+		const Ss = q<HTMLInputElement>('.sb-s'), S0 = q<HTMLSelectElement>('.sb-0'), Ys = q<HTMLInputElement>('.sb-y');
+		const NS = 'http://www.w3.org/2000/svg';
+		const el = (tag: string, at: Record<string, string | number>, text?: string) => {
+			const e = document.createElementNS(NS, tag);
+			Object.entries(at).forEach(([k, v]) => e.setAttribute(k, String(v)));
+			if (text) e.textContent = text;
+			svg.append(e);
+			return e;
+		};
+		const L = 70, R = 560, T = 20, B = 210, tMin = 200, tMax = 310;
+		const py = (t: number) => B - ((Math.min(Math.max(t, tMin), tMax) - tMin) / (tMax - tMin)) * (B - T);
+		function draw() {
+			const f = +Ss.value / 100, years = +Ys.value, t0 = +S0.value;
+			q('.sb-sv').textContent = `${(+Ss.value).toFixed(1)}%`;
+			q('.sb-yv').textContent = `${years} years`;
+			const px = (y: number) => L + (y / years) * (R - L);
+			const dt = 0.05;
+			let t = t0, d = `M${px(0)},${py(t)}`, t10 = NaN, t30 = NaN;
+			for (let y = dt; y <= years + 1e-9; y += dt) {
+				t += (dt * YEAR * net(t, f)) / C;
+				if (Math.abs(y - 10) < dt / 2) t10 = t;
+				if (Math.abs(y - 30) < dt / 2) t30 = t;
+				d += ` L${px(y).toFixed(1)},${py(t).toFixed(1)}`;
+			}
+			svg.replaceChildren();
+			[200, 220, 240, 260, 280, 300].forEach((v) => {
+				el('line', { x1: L, y1: py(v), x2: R, y2: py(v), class: 's-grid w1' });
+				el('text', { x: L - 8, y: py(v) + 4, class: 't-end t-sm f-muted' }, String(v));
+			});
+			el('line', { x1: L, y1: py(273.15), x2: R, y2: py(273.15), class: 's-sky w1 dash' });
+			el('text', { x: L + 6, y: py(273.15) + 14, class: 't-sm f-sky halo' }, 'freezing, 273 K');
+			for (let i = 0; i <= 4; i++) el('text', { x: px((years * i) / 4), y: B + 18, class: 't-mid t-sm f-muted' }, String(Math.round((years * i) / 4)));
+			el('line', { x1: L, y1: B, x2: R, y2: B, class: 's-fg w2' });
+			el('line', { x1: L, y1: B, x2: L, y2: T, class: 's-fg w2' });
+			const eq = equilibria(f);
+			eq.forEach((e) => el('line', { x1: L, y1: py(e.t), x2: R, y2: py(e.t), class: e.stable ? 's-green w1 dash' : 's-muted w1 dash' }));
+			el('path', { d, class: 's-amber w3', fill: 'none' });
+			el('text', { x: (L + R) / 2, y: B + 40, class: 't-mid t-sm' }, 'years');
+			el('text', { x: 22, y: (T + B) / 2, class: 't-mid t-sm', transform: `rotate(-90 22 ${(T + B) / 2})` }, 'K');
+			const frozen = t < 260;
+			out.innerHTML =
+				`<span class="k">after 10 years</span> = ${isNaN(t10) ? '–' : `${t10.toFixed(1)} K`} &nbsp; <span class="k">after 30 years</span> = ${isNaN(t30) ? '–' : `${t30.toFixed(1)} K`} &nbsp; <span class="k">after ${years} years</span> = <b>${t.toFixed(1)} K (${(t - 273.15).toFixed(1)} °C)</b>, albedo ${alpha(t).toFixed(2)}: <b>${frozen ? 'frozen' : 'not frozen'}</b><br>` +
+				`<span class="k">equilibria at this brightness</span>: ${eq.map((e) => `${e.t.toFixed(0)} K (${e.stable ? 'stable' : 'unstable'})`).join(', ')}` +
+				(eq.length === 1 ? (eq[0].t < 260 ? ' — no warm climate exists: everything ends frozen' : ' — no frozen climate exists: any ice melts') : '');
+		}
+		[Ss, S0, Ys].forEach((i) => i.addEventListener('input', draw));
+		draw();
+	});
+</script>

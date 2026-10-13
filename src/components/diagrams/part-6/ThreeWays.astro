@@ -1,0 +1,66 @@
+---
+// The three mechanisms of heat transfer, schematic: conduction along a rod, a convection loop in a heated pot,
+// radiation crossing a vacuum gap.
+const head = (x: number, y: number, dx: number, dy: number) => {
+	const n = Math.hypot(dx, dy), ux = dx / n, uy = dy / n;
+	return `${x},${y} ${x - 10 * ux + 5 * uy},${y - 10 * uy - 5 * ux} ${x - 10 * ux - 5 * uy},${y - 10 * uy + 5 * ux}`;
+};
+const flame = (x: number, y: number) => `M${x - 14},${y} Q${x - 12},${y - 22} ${x},${y - 34} Q${x + 12},${y - 22} ${x + 14},${y} Z`;
+// conduction rod particles: jiggle amplitude falls from hot (left) to cold (right)
+const rod = Array.from({ length: 7 }, (_, i) => ({ x: 42 + i * 18, a: 7 - i }));
+// radiation waves
+const wave = (y: number) => {
+	let d = `M450,${y}`;
+	for (let x = 450; x <= 520; x += 2) d += ` L${x},${(y + 6 * Math.sin(((x - 450) / 70) * 4 * Math.PI)).toFixed(1)}`;
+	return d;
+};
+---
+
+<svg class="dg" viewBox="0 0 600 270" xmlns="http://www.w3.org/2000/svg">
+	<!-- conduction -->
+	<text x="100" y="26" class="t-mid t-b">conduction</text>
+	<rect x="30" y="110" width="140" height="40" rx="4" class="f-amber-soft s-amber w2" />
+	{rod.map((p) => (
+		<>
+			<line x1={p.x - p.a} y1="130" x2={p.x + p.a} y2="130" class="s-rose w1" />
+			<circle cx={p.x} cy="130" r="4" class="f-fg" />
+		</>
+	))}
+	<path d={flame(44, 194)} class="f-rose" />
+	<line x1="50" y1="88" x2="140" y2="88" class="s-rose w2" />
+	<polygon points={head(152, 88, 1, 0)} class="f-rose" />
+	<text x="100" y="78" class="t-mid t-sm">heat</text>
+	<text x="44" y="220" class="t-mid t-sm f-rose">hot</text>
+	<text x="160" y="172" class="t-end t-sm f-sky">cold end</text>
+	<text x="100" y="250" class="t-mid t-sm f-muted">jiggling passed along</text>
+	<!-- convection -->
+	<text x="300" y="26" class="t-mid t-b">convection</text>
+	<path d="M235,60 L235,180 Q235,190 245,190 L355,190 Q365,190 365,180 L365,60" class="s-fg w2" fill="none" />
+	<rect x="237" y="80" width="126" height="108" class="f-sky-soft" />
+	<path d="M300,170 L300,100" class="s-rose w2" fill="none" />
+	<polygon points={head(300, 92, 0, -1)} class="f-rose" />
+	<path d="M300,100 Q300,92 290,92 L262,92 Q252,92 252,102 L252,160" class="s-sky w2" fill="none" />
+	<polygon points={head(252, 170, 0, 1)} class="f-sky" />
+	<path d="M300,100 Q300,92 310,92 L338,92 Q348,92 348,102 L348,160" class="s-sky w2" fill="none" />
+	<polygon points={head(348, 170, 0, 1)} class="f-sky" />
+	<path d="M256,176 L290,176" class="s-sky w1" fill="none" />
+	<path d="M344,176 L310,176" class="s-sky w1" fill="none" />
+	<path d={flame(300, 230)} class="f-rose" />
+	<text x="300" y="76" class="t-mid t-sm f-rose">warm rises</text>
+	<text x="232" y="216" class="t-end t-sm f-sky">cool sinks</text>
+	<text x="300" y="250" class="t-mid t-sm f-muted">the fluid carries the heat</text>
+	<!-- radiation -->
+	<text x="490" y="26" class="t-mid t-b">radiation</text>
+	<circle cx="420" cy="130" r="26" class="f-rose" />
+	<text x="420" y="176" class="t-mid t-sm f-rose">hot</text>
+	<rect x="540" y="104" width="34" height="52" class="f-sky-soft s-sky w2" />
+	<text x="557" y="176" class="t-mid t-sm f-sky">cooler</text>
+	{[112, 130, 148].map((y) => (
+		<>
+			<path d={wave(y)} class="s-amber w2" fill="none" />
+			<polygon points={head(532, y, 1, 0)} class="f-amber" />
+		</>
+	))}
+	<text x="490" y="88" class="t-mid t-sm f-muted">vacuum</text>
+	<text x="490" y="250" class="t-mid t-sm f-muted">infrared light, no medium</text>
+</svg>

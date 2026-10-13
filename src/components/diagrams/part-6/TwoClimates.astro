@@ -1,0 +1,50 @@
+---
+// Toy model of 6.6: absorbed (1361/4)(1 − α(T)) with α(T) = 0.4417 − 0.1583 tanh((T − 254.42)/20),
+// emitted 240.2 + 1.58 (T − 288). Equilibria at about 226 K (snowball), 252 K (unstable), 288 K (today).
+const Q = 1361 / 4;
+const alpha = (t: number) => 0.4417 - 0.1583 * Math.tanh((t - 254.42) / 20);
+const absd = (t: number) => Q * (1 - alpha(t));
+const em = (t: number) => 240.2 + 1.58 * (t - 288);
+const net = (t: number) => absd(t) - em(t);
+const roots: number[] = [];
+for (let t = 200.25, p = net(200); t <= 310; t += 0.25) {
+	const c = net(t);
+	if (p * c <= 0) roots.push(t - 0.125);
+	p = c;
+}
+const L = 80, R = 570, T = 30, B = 240, tMin = 200, tMax = 310, pMin = 100, pMax = 280;
+const px = (t: number) => L + ((t - tMin) / (tMax - tMin)) * (R - L);
+const py = (p: number) => B - ((p - pMin) / (pMax - pMin)) * (B - T);
+const path = (fn: (t: number) => number) => Array.from({ length: 111 }, (_, i) => tMin + i).map((t, i) => `${i ? 'L' : 'M'}${px(t).toFixed(1)},${py(fn(t)).toFixed(1)}`).join(' ');
+const labels = [
+	{ t: 'snowball: stable', dx: 0, dy: -46, cls: 'f-sky' },
+	{ t: 'unstable: tips either way', dx: 0, dy: 40, cls: 'f-muted' },
+	{ t: 'today: stable', dx: -10, dy: -36, cls: 'f-green' },
+];
+---
+
+<svg class="dg" viewBox="0 0 600 310" xmlns="http://www.w3.org/2000/svg">
+	{[100, 150, 200, 250].map((p) => (
+		<>
+			<line x1={L} y1={py(p)} x2={R} y2={py(p)} class="s-grid w1" />
+			<text x={L - 8} y={py(p) + 4} class="t-end t-sm f-muted">{p}</text>
+		</>
+	))}
+	{[200, 220, 240, 260, 280, 300].map((t) => <text x={px(t)} y={B + 18} class="t-mid t-sm f-muted">{t}</text>)}
+	<line x1={L} y1={B} x2={R} y2={B} class="s-fg w2" />
+	<line x1={L} y1={B} x2={L} y2={T} class="s-fg w2" />
+	<path d={path(absd)} class="s-amber w3" fill="none" />
+	<path d={path(em)} class="s-rose w3" fill="none" />
+	{roots.map((t, i) => (
+		<>
+			<circle cx={px(t)} cy={py(em(t))} r="7" class={i === 1 ? 'f-bg s-fg w2' : labels[i].cls} />
+			<text x={px(t) + labels[i].dx} y={py(em(t)) + labels[i].dy} class={`t-mid t-sm halo ${labels[i].cls}`}>{labels[i].t}</text>
+			<text x={px(t) + labels[i].dx} y={py(em(t)) + labels[i].dy + 16} class="t-mid t-sm halo f-muted">{`${Math.round(t)} K`}</text>
+		</>
+	))}
+	<text x={px(203)} y={py(124)} class="t-sm f-amber halo">absorbed sunlight (amber)</text>
+	<text x={px(203)} y={py(124) + 16} class="t-sm f-amber halo">ice reflects more when cold</text>
+	<text x={px(232)} y={py(262)} class="t-sm f-rose halo">emitted infrared (red line)</text>
+	<text x={(L + R) / 2} y={B + 42} class="t-mid t-sm">global temperature (K)</text>
+	<text x="24" y={(T + B) / 2} class="t-mid t-sm" transform={`rotate(-90 24 ${(T + B) / 2})`}>W per m²</text>
+</svg>

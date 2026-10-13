@@ -1,0 +1,41 @@
+---
+// One-layer greenhouse model with a fully absorbing layer (ε = 1): sunlight 240 W/m² passes the layer;
+// ground radiates σT_s⁴ = 480 W/m²; layer radiates σT_a⁴ = 240 W/m² up and 240 down.
+const head = (x: number, y: number, dx: number, dy: number) => {
+	const n = Math.hypot(dx, dy), ux = dx / n, uy = dy / n;
+	return `${x},${y} ${x - 12 * ux + 6 * uy},${y - 12 * uy - 6 * ux} ${x - 12 * ux - 6 * uy},${y - 12 * uy + 6 * ux}`;
+};
+const LY0 = 100, LY1 = 130, GY = 250;
+const arrow = (x: number, y1: number, y2: number) => ({ x, y1, y2: y2 > y1 ? y2 - 12 : y2 + 12, hy: y2, dy: y2 > y1 ? 1 : -1 });
+const sun = arrow(90, 20, GY);
+const up = arrow(210, GY, LY1);
+const out = arrow(330, LY0, 20);
+const down = arrow(330, LY1, GY);
+---
+
+<svg class="dg" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+	<text x="20" y="16" class="t-sm f-muted">space</text>
+	<rect x="20" y={LY0} width="400" height={LY1 - LY0} class="f-violet" fill-opacity="0.35" />
+	<text x="30" y={LY0 + 20} class="t-sm t-b">atmosphere layer, Tₐ</text>
+	<rect x="20" y={GY} width="400" height="30" class="f-green-soft s-green w1" />
+	<text x="30" y={GY + 20} class="t-sm t-b">ground, Tₛ</text>
+	{[sun, up, out, down].map((a, i) => (
+		<>
+			<line x1={a.x} y1={a.y1} x2={a.x} y2={a.y2} class={i === 0 ? 's-amber w3' : 's-rose w3'} />
+			<polygon points={head(a.x, a.hy, 0, a.dy)} class={i === 0 ? 'f-amber' : 'f-rose'} />
+		</>
+	))}
+	<text x={sun.x + 10} y="200" class="t-sm f-amber halo">sunlight</text>
+	<text x={sun.x + 10} y="218" class="t-sm f-amber halo">240</text>
+	<text x={up.x + 10} y="200" class="t-sm f-rose halo">σTₛ⁴</text>
+	<text x={up.x + 10} y="218" class="t-sm f-rose halo">480</text>
+	<text x={out.x + 10} y="56" class="t-sm f-rose halo">σTₐ⁴ = 240</text>
+	<text x={down.x + 10} y="200" class="t-sm f-rose halo">σTₐ⁴</text>
+	<text x={down.x + 10} y="218" class="t-sm f-rose halo">240</text>
+	<text x="440" y="50" class="t-sm">leaving to space: 240</text>
+	<text x="440" y="70" class="t-sm f-muted">= sunlight absorbed</text>
+	<text x="440" y="200" class="t-sm">ground receives</text>
+	<text x="440" y="220" class="t-sm">240 + 240 = 480</text>
+	<text x="440" y="240" class="t-sm f-muted">so Tₛ = 1.19 × Tₑ</text>
+	<text x="440" y="290" class="t-sm f-muted">(all in W/m²)</text>
+</svg>

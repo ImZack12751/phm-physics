@@ -1,0 +1,30 @@
+import { check, report } from './lib.mjs';
+import { THERMAL as T, C } from './constants.mjs';
+export default function () {
+	check('cal water', T.calorie * 1000, 4186, 0.001);
+	check('boil/warm ratio', T.LvWater / (T.cWater * 100), 5.39, 0.002);
+	check('WE1', 40 / (1.0 * T.cIron), 0.088, 0.01);
+	const Q1 = 1.0 * T.cIce * 20, Q2 = T.LfWater, Q3 = T.cWater * 100, Q4 = T.LvWater, Q = Q1 + Q2 + Q3 + Q4;
+	check('WE2 Q1', Q1, 41800); check('WE2 Q3', Q3, 418600); check('WE2 Q', Q, 3.05e6, 0.001); check('WE2 frac', Q4 / Q, 0.74, 0.005);
+	check('WE2 astro', Q / 9e16, 3.4e-11, 0.01); check('WE2 1ug', (1e-9 * 9e16) / Q, 30, 0.02);
+	const mi = T.rhoIce * 1e9, Qm = mi * T.LfWater;
+	check('WE3 m', mi, 9.17e11); check('WE3 Q', Qm, 3.06e17, 0.001); check('WE3 water', Qm / T.cWater, 7.3e13, 0.005);
+	check('WE4 T', (0.5 * T.cAl * 210 + 2 * T.cWater * 20) / (0.5 * T.cAl + 2 * T.cWater), 29.7, 0.002);
+	check('WE4 ratio', (2 * T.cWater) / (0.5 * T.cAl), 18.6, 0.003);
+	const air = T.atmMass / T.earthArea;
+	check('WE5 air', air, 1.0e4, 0.01); check('WE5 area', T.earthArea, 5.1e14, 0.002);
+	check('WE5 air mc', air * T.cAir, 1.0e7, 0.02); check('WE5 ocean', 1e5 * T.cWater, 4.2e8, 0.005); check('WE5 ratio', (1e5 * T.cWater) / (air * T.cAir), 41, 0.01);
+	check('RvB mass', Qm / C.c ** 2, 3.4, 0.01); check('RvB TNT Mt', Qm / 4.184e9 / 1e6, 73, 0.005);
+	check('P1', 2 * T.cWater * 60, 5.02e5, 0.001); check('P2', 0.5 * T.LfWater, 1.67e5, 0.001);
+	check('P4 Cu', 9000 / T.cCu, 23.3, 0.002); check('P4 Al', 9000 / T.cAl, 10.0);
+	check('P5 Q', 5 * T.cWater * 80, 1.67e6, 0.003); check('P5 t', (5 * T.cWater * 80) / 2000, 837, 0.001);
+	check('P6', 0.3 * 90 + 0.7 * 10, 34);
+	check('P7', T.cWater * 20 + T.LfWater, 4.18e5, 0.001);
+	check('P8', 0.5 * T.LvWater, 1.13e6, 0.002); check('P9', 2 * T.LvAmmonia, 2.74e6);
+	check('P10', (0.2 * T.cIron * 400 + 0.5 * T.cWater * 20) / (0.2 * T.cIron + 0.5 * T.cWater), 35.7, 0.002);
+	check('P11', (T.cWater * 30) / T.LfWater, 0.376, 0.002);
+	const absorbed = C.solarIrradiance * (1 - T.earthAlbedo) * Math.PI * C.earthRadius ** 2;
+	check('P12 absorbed', absorbed, 1.2e17, 0.03); check('P12 Q', 1000 * Qm, 3.06e20, 0.001);
+	check('P12 year', 1.2e17 * 3.156e7, 3.8e24, 0.005); check('P12 frac', 3.06e20 / 3.8e24, 8e-5, 0.01); check('P12 min', 3.06e20 / 1.2e17 / 60, 42, 0.02);
+	return report('6.2 Specific and latent heat');
+}

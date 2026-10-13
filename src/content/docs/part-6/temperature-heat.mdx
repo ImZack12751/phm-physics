@@ -1,0 +1,352 @@
+---
+title: Temperature and heat
+description: What temperature really measures (the average kinetic energy of jiggling particles), why there is an absolute zero, how fast air molecules move, the difference between heat, work and internal energy, the first law of thermodynamics, and thermal expansion.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import WallBounce from '../../../components/diagrams/part-6/WallBounce.astro';
+import AbsoluteZero from '../../../components/diagrams/part-6/AbsoluteZero.astro';
+import GasBox from '../../../components/sims/GasBox.astro';
+
+## The scene
+
+One of the first strange things Grace learns about <Term id="astrophage">Astrophage</Term> is its temperature. In the novel, every cell sits at exactly $96.415\ °\text{C}$. Feed it extra energy and it does not warm up: it stores the excess as mass. Let it cool and it gives energy back out as infrared light until it is at its set point again. A drop of Astrophage is a perfect thermostat.
+
+To see why that is so odd, we need to know what temperature is. Why does adding energy to ordinary matter make it hotter, and what would it mean for something to soak up energy and stay at the same temperature? This chapter builds the ideas of temperature, heat and internal energy from the motion of atoms.
+
+## Prerequisites
+
+<Prereqs notes={{ 'unit-handling': 'the Celsius, kelvin and Fahrenheit scales', 'kinetic-potential-energy': 'kinetic energy ½mv²', 'conservation-laws': 'energy is conserved; friction makes thermal energy', momentum: 'momentum p = mv and force as rate of change of momentum' }} />
+
+## The concept
+
+### Temperature is jiggling
+
+Everything is made of atoms and molecules, and they never sit still. In a gas they fly about and collide. In a liquid they slide past one another. In a solid they vibrate about fixed places. This random motion is <Term id="thermal-energy">thermal energy</Term>, and **<Term id="temperature">temperature</Term> measures how vigorous it is**: the higher the temperature, the larger the average kinetic energy of each particle.
+
+The particles don't all move at the same speed. At any moment some are fast and some are slow, and collisions keep shuffling energy between them. Temperature tracks the **average**. A bathtub of warm water and a cup of the same water have the same temperature, even though the bathtub holds far more thermal energy, because the average energy per molecule is the same.
+
+### Thermal equilibrium
+
+Put a hot object against a cold one. Fast-jiggling particles at the boundary bump slower ones and, on average, hand them energy. Energy flows from hot to cold until the averages match. Then the flow stops: the two are in <Term id="thermal-equilibrium">thermal equilibrium</Term>, at the same temperature.
+
+This is why thermometers work. A thermometer doesn't measure the patient; it measures itself, after it has come into equilibrium with the patient. The rule behind it is called the <Term id="zeroth-law">zeroth law of thermodynamics</Term>: if A is in equilibrium with B, and B with C, then A is in equilibrium with C. (It was named after the first and second laws were already numbered, but it is more basic than either.)
+
+### Pressure from bouncing molecules
+
+A gas pushes on its container because molecules keep hitting the walls. Each hit reverses part of a molecule's momentum, and Chapter 5.5 showed that changing momentum needs a force. Billions of tiny hits per second add up to a steady push: pressure.
+
+<Figure caption="A molecule bounces off a wall. Only the part of its velocity towards the wall reverses, so each hit changes its momentum by 2mvₓ. It comes back to the same wall after travelling 2L across and back." alt="A square box of side L, with a molecule moving towards the right-hand wall. Its velocity is split into a horizontal part vₓ, towards the wall, and a vertical part along the wall. After the bounce the horizontal part points the other way, minus vₓ, and the vertical part is unchanged. A label at the wall reads momentum change 2mvₓ per hit. A dashed path shows the molecule crossing to the far wall and back, a distance 2L, between hits on the right wall.">
+	<WallBounce />
+</Figure>
+
+The **Formulas** section turns this picture into a formula. The result is that a gas's pressure $P$ times its volume $V$ is two-thirds of the total kinetic energy of its molecules. Experiments on every dilute gas also find $PV = NkT$, where $N$ is the number of molecules and $k$ is a fixed number (Part 12 studies this gas law). Put the two together and temperature appears as an energy:
+
+$$
+\overline{KE} = \tfrac{3}{2}kT.
+$$
+
+The <Term id="boltzmann-constant">Boltzmann constant</Term>, $k = 1.380649 \times 10^{-23}\ \text{J/K}$, converts kelvins into joules. Its value is exact, because since 2019 it has been used to **define** the kelvin.
+
+### Why there is an absolute zero
+
+Kinetic energy can't be negative. If temperature is proportional to the average kinetic energy, there must be a lowest temperature, where the jiggling has stopped as far as it can. That is <Term id="absolute-zero">absolute zero</Term>, $0\ \text{K} = -273.15\ °\text{C}$, and it is why the kelvin scale starts there.
+
+<Figure caption="Absolute zero from experiment. Hold a gas at a fixed volume and its pressure falls in a straight line as it cools. Whatever the gas and however much there is, the lines meet at zero pressure at −273.15 °C." alt="A graph of gas pressure against temperature in degrees Celsius, from minus 300 to plus 200. Three straight solid lines for three different samples of gas, each measured between 0 and 200 degrees, with different slopes. Dashed extensions of all three lines continue down to the left and meet the temperature axis at the same point, labelled absolute zero, minus 273.15 degrees C, 0 K.">
+	<AbsoluteZero />
+</Figure>
+
+Quantum physics adds a footnote: even at absolute zero, particles keep a tiny unavoidable "zero-point" motion. And absolute zero itself can be approached but never quite reached: each step of cooling gets harder. Laboratories have cooled atoms to below a billionth of a kelvin.
+
+### Heat, work and internal energy
+
+Three words are easy to mix up.
+
+- **<Term id="internal-energy">Internal energy</Term>** $U$ is all the energy stored inside an object at the scale of its atoms: their kinetic energy of jiggling, plus the potential energy of the forces between them.
+- **<Term id="heat">Heat</Term>** $Q$ is energy that flows from one object to another **because they are at different temperatures**. An object doesn't "contain heat", just as a bank account doesn't "contain deposits": heat is energy on the move.
+- **Work** $W$ (Chapter 5.1) is energy moved by a force acting through a distance.
+
+Both heat and work can change internal energy. You can warm your hands at a fire (heat) or by rubbing them together (work). In the 1840s James Prescott Joule showed this was the same energy, by letting falling weights turn a paddle in water and measuring the warming. Before then, heat was measured in **<Term id="calorie">calories</Term>**: one calorie warms one gram of water by $1\ °\text{C}$. Joule found that 1 calorie equals about 4.2 J of work. Today the calorie is defined as exactly 4.184 J.
+
+Energy conservation applied to internal energy is the <Term id="first-law">first law of thermodynamics</Term>:
+
+$$
+\Delta U = Q - W,
+$$
+
+where $Q$ is the heat flowing **in** and $W$ is the work the object does **on its surroundings**. A gas that is heated and pushes a piston out gains less internal energy than the heat it received, because some left again as work.
+
+### Astrophage breaks the usual pattern
+
+For ordinary matter, more internal energy means more jiggling, which means a higher temperature. Astrophage in the novel turns energy that would warm it into mass instead, so its temperature stays put. Real matter does something a little like this at a phase change: melting ice absorbs heat while staying at $0\ °\text{C}$, because the energy goes into breaking the bonds between molecules rather than into faster jiggling. Chapter 6.2 measures that.
+
+### Thermal expansion
+
+Hotter atoms jiggle further from their neighbours, so most solids grow slightly when they warm: <Term id="thermal-expansion">thermal expansion</Term>. For a length $L$ and a temperature change $\Delta T$, the change in length is
+
+$$
+\Delta L = \alpha L\,\Delta T,
+$$
+
+where $\alpha$ is the material's expansion coefficient: $12 \times 10^{-6}$ per kelvin for steel and $25 \times 10^{-6}$ per kelvin for aluminium. Bridges have expansion joints, and long spacecraft structures must allow for the swing between sunlight and shadow.
+
+## Formulas
+
+### Pressure from molecular collisions
+
+Take a box of side $L$ and volume $V = L^{3}$, holding $N$ molecules of mass $m$. Follow one molecule whose velocity component towards the right-hand wall is $v_{x}$.
+
+Each bounce reverses $v_{x}$, so its momentum changes by
+
+$$
+\Delta p = mv_{x} - (-mv_{x}) = 2mv_{x}.
+$$
+
+It crosses the box and back, a distance $2L$, between hits on that wall, so the time between hits is $2L/v_{x}$. The average force it exerts is the momentum change per second:
+
+$$
+F_{1} = \frac{2mv_{x}}{2L/v_{x}} = \frac{mv_{x}^{2}}{L}.
+$$
+
+Adding all $N$ molecules, with $\overline{v_{x}^{2}}$ the average of $v_{x}^{2}$, and dividing by the wall's area $L^{2}$:
+
+$$
+P = \frac{F}{L^{2}} = \frac{Nm\overline{v_{x}^{2}}}{L^{3}} = \frac{Nm\overline{v_{x}^{2}}}{V}.
+$$
+
+The motion is random, so no direction is special. Since $v^{2} = v_{x}^{2} + v_{y}^{2} + v_{z}^{2}$, each component carries a third of the average: $\overline{v_{x}^{2}} = \tfrac{1}{3}\overline{v^{2}}$. So
+
+$$
+PV = \tfrac{1}{3}Nm\overline{v^{2}} = \tfrac{2}{3}N \times \tfrac{1}{2}m\overline{v^{2}} = \tfrac{2}{3}N\,\overline{KE}.
+$$
+
+### Temperature as energy
+
+Measurements on dilute gases give $PV = NkT$. Setting the two expressions for $PV$ equal:
+
+$$
+\tfrac{2}{3}N\,\overline{KE} = NkT \qquad\Rightarrow\qquad \boxed{\overline{KE} = \tfrac{1}{2}m\overline{v^{2}} = \tfrac{3}{2}kT}
+$$
+
+### Root-mean-square speed
+
+Solve for the square root of the average of $v^{2}$, the <Term id="rms-speed">root-mean-square speed</Term>:
+
+$$
+\boxed{v_{\text{rms}} = \sqrt{\overline{v^{2}}} = \sqrt{\frac{3kT}{m}}}
+$$
+
+Lighter molecules move faster at the same temperature. Molecular masses are usually given in atomic mass units, $1\ \text{u} = 1.6605 \times 10^{-27}$ kg.
+
+### The first law and thermal expansion
+
+$$
+\boxed{\Delta U = Q - W} \qquad\qquad \boxed{\Delta L = \alpha L\,\Delta T}
+$$
+
+## Worked examples
+
+<Example n={1} title="How hard Astrophage jiggles" book>
+Astrophage sits at $96.415\ °\text{C}$ in the novel. Find the average kinetic energy per molecule at that temperature, and compare it with room temperature ($20.00\ °\text{C}$).
+
+First convert to kelvins: $T = 96.415 + 273.15 = 369.565$ K.
+
+$$
+\overline{KE} = \tfrac{3}{2}kT = 1.5 \times 1.380649 \times 10^{-23}\ \text{J/K} \times 369.565\ \text{K} = 7.65 \times 10^{-21}\ \text{J}
+$$
+
+At $293.15$ K it is $6.07 \times 10^{-21}$ J. The ratio is $369.565/293.15 = 1.26$: the molecules have 26% more kinetic energy. Ratios of energy follow ratios of **kelvin** temperatures, never Celsius ones. ($96.4/20$ would wrongly suggest almost five times as much.)
+</Example>
+
+<Example n={2} title="The air in the Hail Mary" book>
+Grace breathes air that is mostly nitrogen, $\text{N}_{2}$, with a molecular mass of 28.0 u. At $20\ °\text{C}$, how fast do the molecules move?
+
+$$
+m = 28.0 \times 1.6605 \times 10^{-27}\ \text{kg} = 4.650 \times 10^{-26}\ \text{kg}
+$$
+
+$$
+v_{\text{rms}} = \sqrt{\frac{3 \times 1.380649 \times 10^{-23}\ \text{J/K} \times 293.15\ \text{K}}{4.650 \times 10^{-26}\ \text{kg}}} = 511\ \text{m/s}
+$$
+
+That is faster than the speed of sound in air (about 343 m/s), which is no coincidence: sound is carried by these same molecules (Part 11).
+</Example>
+
+<Example n={3} title="Rocky's air" book>
+In the novel, Rocky breathes ammonia, $\text{NH}_{3}$ (17.0 u), at about $210\ °\text{C}$. Find the molecules' rms speed and compare it with Grace's nitrogen.
+
+$$
+T = 210 + 273.15 = 483.15\ \text{K} \qquad m = 17.0 \times 1.6605 \times 10^{-27}\ \text{kg} = 2.823 \times 10^{-26}\ \text{kg}
+$$
+
+$$
+v_{\text{rms}} = \sqrt{\frac{3 \times 1.380649 \times 10^{-23} \times 483.15}{2.823 \times 10^{-26}}}\ \text{m/s} = 842\ \text{m/s}
+$$
+
+That is $842/511 = 1.65$ times as fast. Both the higher temperature and the lighter molecule help.
+</Example>
+
+<Example n={4} title="Joule's experiment at 1.5 g" book>
+Suppose Grace repeats Joule's experiment in his lab at 1.5 g ($14.71\ \text{m/s}^{2}$). A 10 kg weight falls 2.0 m, turning a paddle in 1.0 kg of water, and he winds it up and drops it 20 times. How much work is done, and how much does the water warm, if all the work stays in the water?
+
+$$
+W = 20 \times mgh = 20 \times 10\ \text{kg} \times 14.71\ \text{m/s}^{2} \times 2.0\ \text{m} = 5884\ \text{J}
+$$
+
+$$
+\frac{5884\ \text{J}}{4.184\ \text{J/cal}} = 1406\ \text{cal}
+$$
+
+One calorie warms 1 g by $1\ °\text{C}$, so 1406 cal warms 1000 g by $1406/1000 = 1.41\ °\text{C}$. All that effort warms the water by about a degree and a half, which shows how much energy thermal energy can hide. At 1.5 g each drop does 50% more work than on Earth, so the warming is 50% bigger.
+</Example>
+
+<Example n={5} title="A tape measure in Rocky's air" book>
+In the novel, Grace passes a tape measure into Rocky's hot air, and parts of it melt. Suppose its 3.0 m steel blade survives. How much longer does it get, warming from $21\ °\text{C}$ to $210\ °\text{C}$?
+
+$$
+\Delta L = \alpha L\,\Delta T = 12 \times 10^{-6}\ \text{K}^{-1} \times 3.0\ \text{m} \times 189\ \text{K} = 6.8 \times 10^{-3}\ \text{m} = 6.8\ \text{mm}
+$$
+
+A temperature **difference** of 189 °C is also 189 K, since the degrees are the same size. The blade would read about 2 mm short in every metre: a measurement taken with a hot tape is wrong by 0.2%.
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** The kinetic theory of gases, $\overline{KE} = \tfrac{3}{2}kT$ and $v_{\text{rms}} = \sqrt{3kT/m}$ (OpenStax Vol. 2 §2.2), the zeroth and first laws (§1.1, §3.3) and thermal expansion (§1.3) are textbook physics. The Boltzmann constant has been exact since the 2019 redefinition of the SI (NIST). Joule's paddle-wheel experiment and the 4.184 J calorie are historical facts.
+
+**Weir's inventions.** Astrophage's fixed core temperature of $96.415\ °\text{C}$, and its trick of storing extra energy as mass and releasing it as infrared light, are invented (Royal Institution). No real material soaks up energy without limit while staying at one temperature. Real organisms are heat-limited: the record for reproducing is about $122\ °\text{C}$, by a microbe from a deep-sea vent. Erid's 210 °C ammonia air is the novel's figure; the gas speeds follow from it with real physics. The 1.5 g Joule experiment is our illustration.
+
+**How realistic are the numbers?** The speeds are real: nitrogen at room temperature averages about 500 m/s, and hotter, lighter ammonia about 840 m/s. Joule's own apparatus warmed water by only a fraction of a degree, which is why it took him years of careful work to measure.
+</RealVsBook>
+
+## Interactive simulation
+
+<GasBox />
+
+Things to try: raise the temperature and watch the molecules speed up, but only as the square root of $T$: four times the kelvin temperature gives twice the speed. Switch from helium to xenon at the same temperature. The xenon atoms crawl, yet the average kinetic energy is identical. Lower the temperature towards 0 K and the motion dies away.
+
+## Practice set
+
+<Problem n={1} level="easy">
+A cup of tea and a swimming pool are both at $40\ °\text{C}$. Which has the higher average kinetic energy per molecule? Which has more thermal energy?
+
+<Solution>
+The average energy per molecule is the same, because the temperature is the same. The pool has far more thermal energy, because it has far more molecules.
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy">
+Why must you wait a minute before reading a thermometer under your tongue?
+
+<Solution>
+The thermometer measures its own temperature. It must first come into thermal equilibrium with your mouth, which takes time for heat to flow into it.
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy">
+Explain the difference between heat and internal energy in one sentence each.
+
+<Solution>
+Internal energy is the energy stored in an object's jiggling and bonded particles. Heat is energy transferred between objects because of a temperature difference.
+</Solution>
+</Problem>
+
+<Problem n={4} level="easy">
+A gas is heated from 300 K to 600 K. By what factor does the average kinetic energy of its molecules change? And its rms speed?
+
+<Solution>
+$\overline{KE} \propto T$, so it doubles. $v_{\text{rms}} \propto \sqrt{T}$, so it rises by $\sqrt{2} = 1.41$.
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium">
+Find the rms speed of helium atoms (4.0 u) at $20\ °\text{C}$.
+
+<Solution>
+$v_{\text{rms}} = \sqrt{\dfrac{3 \times 1.380649 \times 10^{-23} \times 293.15}{4.0 \times 1.6605 \times 10^{-27}}}\ \text{m/s} = 1350\ \text{m/s}$.
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium">
+At what temperature would nitrogen molecules have an rms speed of 1000 m/s?
+
+<Solution>
+$T = \dfrac{mv^{2}}{3k} = \dfrac{4.650 \times 10^{-26} \times 1000^{2}}{3 \times 1.380649 \times 10^{-23}}\ \text{K} = 1123\ \text{K}$, about $850\ °\text{C}$. Since $v \propto \sqrt{T}$, check: $(1000/511)^{2} \times 293 = 1122$ K.
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium">
+A gas absorbs 500 J of heat and does 200 J of work pushing out a piston. What is the change in its internal energy?
+
+<Solution>
+$\Delta U = Q - W = 500\ \text{J} - 200\ \text{J} = 300\ \text{J}$.
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium" book>
+Grace stirs 1.0 kg of water vigorously with a whisk, doing 12 J of work per second for 10 minutes, in an insulated flask. Using the calorie, how much does the water warm?
+
+<Solution>
+$W = 12\ \text{W} \times 600\ \text{s} = 7200$ J $= 7200/4.184 = 1721$ cal. The water warms by $1721/1000 = 1.72\ °\text{C}$.
+</Solution>
+</Problem>
+
+<Problem n={9} level="medium">
+A 10 m aluminium beam on a spacecraft cools from $20\ °\text{C}$ in sunlight to $-100\ °\text{C}$ in shadow. How much does it shrink?
+
+<Solution>
+$\Delta L = 25 \times 10^{-6} \times 10\ \text{m} \times 120\ \text{K} = 0.030$ m $= 3.0$ cm.
+</Solution>
+</Problem>
+
+<Problem n={10} level="challenging">
+Xenon atoms have a mass of 131.3 u. (a) At $20\ °\text{C}$, what is their rms speed? (b) Show that $m\overline{v^{2}}$ is the same for xenon and helium at the same temperature. What does that mean for the pressure of equal numbers of atoms in equal boxes?
+
+<Solution>
+(a) $v_{\text{rms}} = \sqrt{\dfrac{3 \times 1.380649 \times 10^{-23} \times 293.15}{131.3 \times 1.6605 \times 10^{-27}}}\ \text{m/s} = 236\ \text{m/s}$.
+
+(b) $m\overline{v^{2}} = 3kT$, which depends only on temperature. So $PV = \tfrac{1}{3}Nm\overline{v^{2}} = NkT$ is the same for equal numbers of atoms: heavy slow atoms hit the walls less often but harder.
+</Solution>
+</Problem>
+
+<Problem n={11} level="challenging">
+Find the total kinetic energy of the molecules in 1.0 kg of nitrogen at $20\ °\text{C}$. Through what height would you have to lift the kilogram, on Earth, to give it the same energy?
+
+<Solution>
+Number of molecules: $N = \dfrac{1.0\ \text{kg}}{4.650 \times 10^{-26}\ \text{kg}} = 2.15 \times 10^{25}$. Total: $N \times 6.07 \times 10^{-21}\ \text{J} = 1.31 \times 10^{5}$ J. Height: $h = \dfrac{1.31 \times 10^{5}\ \text{J}}{1.0\ \text{kg} \times 9.81\ \text{m/s}^{2}} = 13\ \text{km}$. Ordinary air hides a lot of energy in random motion.
+</Solution>
+</Problem>
+
+<Problem n={12} level="challenging" book>
+Astrophage at $96.415\ °\text{C}$ is put in contact with a lump of ordinary metal at $200\ °\text{C}$. Describe what happens to the metal's temperature and to the Astrophage, according to the novel's rules. When does the heat flow stop?
+
+<Solution>
+Heat flows from the hot metal to the cooler Astrophage, so the metal cools. The Astrophage doesn't warm: it turns the energy it receives into mass. The flow stops only when the metal reaches $96.415\ °\text{C}$, thermal equilibrium. Astrophage behaves like a bottomless "cold reservoir" pinned at one temperature.
+</Solution>
+</Problem>
+
+## Summary
+
+- Temperature measures the average kinetic energy of particles' random motion: $\overline{KE} = \tfrac{3}{2}kT$, with $k = 1.380649 \times 10^{-23}$ J/K.
+- Gas pressure comes from molecules bouncing off walls, each changing its momentum by $2mv_{x}$.
+- Kinetic energy can't be negative, so there is a lowest temperature: absolute zero, 0 K = $-273.15\ °\text{C}$.
+- Heat is energy that flows because of a temperature difference; work also changes internal energy. Energy conservation gives the first law, $\Delta U = Q - W$.
+- Objects in contact reach the same temperature (thermal equilibrium). Most solids expand when heated, by $\alpha L\Delta T$.
+
+**Formulas from this chapter**
+
+$$
+\overline{KE} = \tfrac{3}{2}kT \qquad v_{\text{rms}} = \sqrt{\frac{3kT}{m}} \qquad \Delta U = Q - W \qquad \Delta L = \alpha L\,\Delta T
+$$
+
+## Sources
+
+- Temperature, thermal equilibrium and the zeroth law: OpenStax, *University Physics Volume 2*, [§1.1 Temperature and Thermal Equilibrium](https://openstax.org/books/university-physics-volume-2/pages/1-1-temperature-and-thermal-equilibrium) and [§1.2 Thermometers and Temperature Scales](https://openstax.org/books/university-physics-volume-2/pages/1-2-thermometers-and-temperature-scales).
+- Thermal expansion and the coefficients for steel and aluminium (Table 1.2): OpenStax, [§1.3 Thermal Expansion](https://openstax.org/books/university-physics-volume-2/pages/1-3-thermal-expansion).
+- Kinetic theory, pressure from collisions and rms speed: OpenStax, [§2.2 Pressure, Temperature, and RMS Speed](https://openstax.org/books/university-physics-volume-2/pages/2-2-pressure-temperature-and-rms-speed).
+- The first law of thermodynamics: OpenStax, [§3.3 First Law of Thermodynamics](https://openstax.org/books/university-physics-volume-2/pages/3-3-first-law-of-thermodynamics). Joule's experiment and the calorie: OpenStax, [§1.4 Heat Transfer, Specific Heat, and Calorimetry](https://openstax.org/books/university-physics-volume-2/pages/1-4-heat-transfer-specific-heat-and-calorimetry).
+- Zero-point energy, the unattainability of absolute zero, and laboratory temperatures below a billionth of a kelvin: Wikipedia, [Absolute zero](https://en.wikipedia.org/wiki/Absolute_zero). Speed of sound in air at 20 °C, 343 m/s: OpenStax, *University Physics Volume 1*, [§17.2 Speed of Sound](https://openstax.org/books/university-physics-volume-1/pages/17-2-speed-of-sound).
+- Boltzmann constant (exact) and atomic mass unit: NIST, [CODATA values](https://physics.nist.gov/cuu/Constants/).
+- Astrophage's 96.415 °C core temperature, storing excess energy as mass and releasing it as infrared light; the 122 °C record for a reproducing organism: Royal Institution, ["Project Hail Mary: the science behind the fiction"](https://www.rigb.org/explore-science/explore/blog/project-hail-mary-science-behind-fiction).
+- Erid's ammonia air at about 210 °C and 29 atmospheres, and the melting tape measure: /Film, ["Project Hail Mary: Why Rocky and Grace can't be in the same space"](https://slashfilm.com/2125069/project-hail-mary-why-rocky-grace-not-same-space).

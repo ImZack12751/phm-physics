@@ -1,0 +1,74 @@
+---
+// Simulation: the one-layer greenhouse model. T_e from the energy balance; T_s = T_e (2/(2 − ε))^(1/4); T_a⁴ = T_s⁴/2.
+// Flows (W/m²): absorbed sunlight σT_e⁴, ground emission σT_s⁴, through the layer (1 − ε)σT_s⁴, layer up and down εσT_a⁴.
+---
+
+<div
+	class="sim gh"
+	data-title="One-layer greenhouse"
+	data-description="Set the fraction ε of the ground's infrared that the atmosphere layer absorbs (0 to 1), the Sun's brightness (80 to 110% of today's) and Earth's albedo (0.20 to 0.50). A diagram shows the flows of energy in watts per square metre, with arrow widths in proportion: absorbed sunlight reaching the ground, infrared rising from the ground, the part that passes straight through the layer, and the layer's own infrared going up to space and down to the ground. The readout gives the equilibrium temperature, the ground temperature Tₛ = Tₑ × (2/(2 − ε)) to the power ¼ in kelvins and degrees Celsius, the layer's temperature, and the total leaving to space, which always equals the sunlight absorbed."
+>
+	<p class="sim-title">Simulation: one-layer greenhouse</p>
+	<p class="sim-help">Thicken the blanket with ε, or dim the Sun, and see how the ground temperature responds while the energy leaving to space stays balanced.</p>
+	<div class="sim-controls">
+		<label>Infrared absorbed by the layer, ε <input type="range" class="gh-e" min="0" max="1" step="0.01" value="0.77" /> <output class="gh-ev"></output></label>
+		<label>Sun's brightness <input type="range" class="gh-s" min="80" max="110" step="0.5" value="100" /> <output class="gh-sv"></output></label>
+		<label>Albedo <input type="range" class="gh-a" min="0.2" max="0.5" step="0.002" value="0.294" /> <output class="gh-av"></output></label>
+	</div>
+	<svg class="dg gh-svg" viewBox="0 0 600 270" role="img" aria-label="Energy flows between sunlight, ground, atmosphere layer and space"></svg>
+	<div class="readout gh-out" aria-live="polite"></div>
+</div>
+
+<script>
+	const sigma = 5.670374419e-8;
+	document.querySelectorAll<HTMLElement>('.sim.gh').forEach((root) => {
+		const q = <T extends Element>(s: string) => root.querySelector<T>(s)!;
+		const svg = q<SVGSVGElement>('.gh-svg'), out = q<HTMLElement>('.gh-out');
+		const Es = q<HTMLInputElement>('.gh-e'), Ss = q<HTMLInputElement>('.gh-s'), As = q<HTMLInputElement>('.gh-a');
+		const NS = 'http://www.w3.org/2000/svg';
+		const el = (tag: string, at: Record<string, string | number>, text?: string) => {
+			const e = document.createElementNS(NS, tag);
+			Object.entries(at).forEach(([k, v]) => e.setAttribute(k, String(v)));
+			if (text) e.textContent = text;
+			svg.append(e);
+			return e;
+		};
+		const LY0 = 95, LY1 = 125, GY = 225;
+		function arrow(x: number, y1: number, y2: number, w: number, cls: string, label: string, ly = (y1 + y2) / 2 + 4) {
+			const dir = y2 > y1 ? 1 : -1, wd = Math.max(1.5, w / 22);
+			el('line', { x1: x, y1, x2: x, y2: y2 - dir * 12, class: cls, 'stroke-width': wd });
+			const hw = Math.max(6, wd * 0.9);
+			el('polygon', { points: `${x},${y2} ${x - hw},${y2 - dir * 14} ${x + hw},${y2 - dir * 14}`, class: cls.replace('s-', 'f-') });
+			el('text', { x: x + hw + 6, y: ly, class: `t-sm halo ${cls.replace('s-', 'f-')}` }, label);
+		}
+		function draw() {
+			const eps = +Es.value, f = +Ss.value / 100, a = +As.value;
+			const absd = (1361 * f * (1 - a)) / 4, Te = (absd / sigma) ** 0.25;
+			const Ts = Te * (2 / (2 - eps)) ** 0.25, Ta = Ts / 2 ** 0.25;
+			const up = sigma * Ts ** 4, through = (1 - eps) * up, layer = eps * sigma * Ta ** 4;
+			q('.gh-ev').textContent = eps.toFixed(2);
+			q('.gh-sv').textContent = `${(+Ss.value).toFixed(1)}%`;
+			q('.gh-av').textContent = a.toFixed(3);
+			svg.replaceChildren();
+			el('text', { x: 20, y: 16, class: 't-sm f-muted' }, 'space');
+			el('rect', { x: 20, y: LY0, width: 470, height: LY1 - LY0, class: 'f-violet', 'fill-opacity': 0.12 + 0.4 * eps });
+			el('text', { x: 470, y: LY0 + 20, class: 't-end t-sm t-b' }, 'atmosphere layer');
+			el('rect', { x: 20, y: GY, width: 470, height: 30, class: 'f-green-soft s-green w1' });
+			el('text', { x: 470, y: GY + 20, class: 't-end t-sm t-b' }, 'ground');
+			arrow(70, 22, GY, absd, 's-amber', `sunlight ${absd.toFixed(0)}`, GY - 40);
+			arrow(190, GY, LY1, up, 's-rose', `ground ${up.toFixed(0)}`);
+			if (through > 0.5) arrow(300, LY0 - 2, 22, through, 's-rose', `through ${through.toFixed(0)}`);
+			if (layer > 0.5) {
+				arrow(400, LY0, 22, layer, 's-violet', `layer up ${layer.toFixed(0)}`);
+				arrow(400, LY1, GY, layer, 's-violet', `layer down ${layer.toFixed(0)}`);
+			}
+			el('text', { x: 590, y: 50, class: 't-end t-sm' }, `to space: ${(through + layer).toFixed(0)}`);
+			el('text', { x: 590, y: 70, class: 't-end t-sm f-muted' }, '(W/m²)');
+			out.innerHTML =
+				`<span class="k">equilibrium temperature Tₑ</span> = ${Te.toFixed(1)} K &nbsp; <span class="k">ground Tₛ</span> = <b>${Ts.toFixed(1)} K = ${(Ts - 273.15).toFixed(1)} °C</b> &nbsp; <span class="k">layer Tₐ</span> = ${eps > 0 ? `${Ta.toFixed(1)} K` : '(absorbs nothing)'}<br>` +
+				`<span class="k">sunlight absorbed</span> = ${absd.toFixed(1)} W/m² &nbsp; <span class="k">leaving to space</span> = ${(through + layer).toFixed(1)} W/m² (always equal) &nbsp; <span class="k">compared with today's 288 K</span>: ${Ts - 288 >= 0 ? '+' : ''}${(Ts - 288).toFixed(1)} K`;
+		}
+		[Es, Ss, As].forEach((i) => i.addEventListener('input', draw));
+		draw();
+	});
+</script>

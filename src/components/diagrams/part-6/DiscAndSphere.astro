@@ -1,0 +1,45 @@
+---
+// Sunlight intercepted by a disc πR², radiated from a sphere 4πR²: average S/4 per square metre.
+const CX = 330, CY = 150, R = 70;
+const head = (x: number, y: number, dx: number, dy: number) => {
+	const n = Math.hypot(dx, dy), ux = dx / n, uy = dy / n;
+	return `${x},${y} ${x - 10 * ux + 5 * uy},${y - 10 * uy - 5 * ux} ${x - 10 * ux - 5 * uy},${y - 10 * uy + 5 * ux}`;
+};
+const rays = [-55, -30, -5, 20, 45].map((dy) => CY + dy);
+// infrared wavy arrows leaving the sphere
+const ir = [-60, -30, 0, 30, 60, 90, 120].map((deg) => {
+	const t = (deg * Math.PI) / 180, ux = Math.cos(t), uy = -Math.sin(t);
+	const x0 = CX + ux * (R + 8), y0 = CY + uy * (R + 8);
+	let d = `M${x0.toFixed(1)},${y0.toFixed(1)}`;
+	for (let i = 1; i <= 16; i++) {
+		const r = R + 8 + i * 2.4, w = 4 * Math.sin((i / 16) * 3 * Math.PI);
+		d += ` L${(CX + ux * r - uy * w).toFixed(1)},${(CY + uy * r + ux * w).toFixed(1)}`;
+	}
+	const r1 = R + 8 + 16 * 2.4 + 10;
+	return { d, hx: CX + ux * r1, hy: CY + uy * r1, ux, uy };
+});
+---
+
+<svg class="dg" viewBox="0 0 600 320" xmlns="http://www.w3.org/2000/svg">
+	{rays.map((y) => (
+		<>
+			<line x1="30" y1={y} x2={CX - Math.sqrt(R * R - (y - CY) ** 2) - 14} y2={y} class="s-amber w2" />
+			<polygon points={head(CX - Math.sqrt(R * R - (y - CY) ** 2) - 4, y, 1, 0)} class="f-amber" />
+		</>
+	))}
+	<text x="30" y="70" class="t-sm f-amber t-b">sunlight, S per m²</text>
+	<circle cx={CX} cy={CY} r={R} class="f-sky-soft s-sky w2" />
+	<ellipse cx={CX} cy={CY} rx="16" ry={R} class="s-amber w1 dash" fill="none" />
+	{ir.map((w) => (
+		<>
+			<path d={w.d} class="s-rose w2" fill="none" />
+			<polygon points={head(w.hx, w.hy, w.ux, w.uy)} class="f-rose" />
+		</>
+	))}
+	<text x="30" y="286" class="t-sm f-amber">catches sunlight on a disc:</text>
+	<text x="30" y="306" class="t-sm f-amber t-b">area πR²</text>
+	<text x="570" y="286" class="t-end t-sm f-rose">radiates infrared from the whole sphere:</text>
+	<text x="570" y="306" class="t-end t-sm f-rose t-b">area 4πR²</text>
+	<text x="570" y="40" class="t-end t-sm">average sunlight per m²</text>
+	<text x="570" y="60" class="t-end t-sm t-b">S / 4 ≈ 340 W/m²</text>
+</svg>

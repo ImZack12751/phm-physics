@@ -900,4 +900,122 @@ export const formulas = [
 		where: 'For a light drive (v_e = c), exact at any speed with t on the ship’s clock.',
 		chapter: 'rocket-equation',
 	},
+	// ---- 6.1 Temperature and heat ----
+	{
+		id: 'kinetic-temperature',
+		name: 'Temperature and molecular motion',
+		tex: '\\overline{KE} = \\tfrac{3}{2}kT \\qquad v_{\\text{rms}} = \\sqrt{\\dfrac{3kT}{m}}',
+		where: 'k = 1.380649 × 10⁻²³ J/K; T in kelvins; m: mass of one molecule.',
+		chapter: 'temperature-heat',
+	},
+	{
+		id: 'first-law',
+		name: 'First law of thermodynamics',
+		tex: '\\Delta U = Q - W',
+		where: 'Q: heat flowing in; W: work done by the system on its surroundings.',
+		chapter: 'temperature-heat',
+	},
+	{
+		id: 'thermal-expansion',
+		name: 'Thermal expansion',
+		tex: '\\Delta L = \\alpha L\\,\\Delta T',
+		where: 'α: linear expansion coefficient (12 × 10⁻⁶ K⁻¹ for steel).',
+		chapter: 'temperature-heat',
+	},
+	// ---- 6.2 Specific and latent heat ----
+	{
+		id: 'specific-heat',
+		name: 'Heat to warm an object',
+		tex: 'Q = mc\\,\\Delta T',
+		where: 'c: specific heat (water 4186 J/(kg·K)).',
+		chapter: 'specific-latent-heat',
+	},
+	{
+		id: 'latent-heat',
+		name: 'Heat for a phase change',
+		tex: 'Q = mL',
+		where: 'Water: L_f = 334 kJ/kg (melting), L_v = 2256 kJ/kg (boiling).',
+		chapter: 'specific-latent-heat',
+	},
+	{
+		id: 'mixing-temperature',
+		name: 'Final temperature of a mixture',
+		tex: 'T = \\dfrac{m_{1}c_{1}T_{1} + m_{2}c_{2}T_{2}}{m_{1}c_{1} + m_{2}c_{2}}',
+		where: 'No phase change and no heat lost to the surroundings.',
+		chapter: 'specific-latent-heat',
+	},
+	// ---- 6.3 Heat transfer ----
+	{
+		id: 'conduction',
+		name: 'Conduction through a slab',
+		tex: 'P = \\dfrac{kA\\,\\Delta T}{d} \\qquad P = \\dfrac{A\\,\\Delta T}{d_{1}/k_{1} + d_{2}/k_{2}}',
+		where: 'k: thermal conductivity; d: thickness; layers in a row add their d/k.',
+		chapter: 'heat-transfer',
+	},
+	{
+		id: 'newton-cooling',
+		name: 'Newton’s law of cooling',
+		tex: 'T = T_{\\text{s}} + (T_{0} - T_{\\text{s}})\\,e^{-t/\\tau}',
+		where: 'T_s: surroundings; τ: time constant.',
+		chapter: 'heat-transfer',
+	},
+	{
+		id: 'thermal-radiation',
+		name: 'Thermal radiation',
+		tex: 'P = e\\sigma AT^{4} \\qquad P_{\\text{net}} = e\\sigma A\\left(T^{4} - T_{\\text{s}}^{4}\\right)',
+		where: 'σ = 5.67 × 10⁻⁸ W/(m²K⁴); e: emissivity; T in kelvins.',
+		chapter: 'heat-transfer',
+	},
+	// ---- 6.4 Planetary energy balance ----
+	{
+		id: 'equilibrium-temperature',
+		name: 'Planet’s equilibrium temperature',
+		tex: 'T_{\\text{e}} = \\left[\\dfrac{S(1 - \\alpha)}{4\\sigma}\\right]^{1/4}',
+		where: 'S: sunlight at the planet (W/m²); α: albedo. Earth: 255 K.',
+		chapter: 'energy-balance',
+	},
+	{
+		id: 'balance-sensitivity',
+		name: 'Sensitivity to sunlight and albedo',
+		tex: '\\dfrac{\\Delta T}{T} \\approx \\dfrac{1}{4}\\dfrac{\\Delta S}{S} \\qquad \\dfrac{\\Delta T}{T} \\approx -\\dfrac{1}{4}\\dfrac{\\Delta\\alpha}{1 - \\alpha}',
+		where: 'Before feedbacks. 1% less sunlight: about −0.64 K for Earth.',
+		chapter: 'energy-balance',
+	},
+	{
+		id: 'climate-response-time',
+		name: 'Climate response time',
+		tex: '\\tau = \\dfrac{C}{4\\sigma T^{3}}',
+		where: 'C: heat capacity per m² (about 4.2 × 10⁸ J/K for 100 m of ocean), giving about 3.5 years.',
+		chapter: 'energy-balance',
+	},
+	// ---- 6.5 The greenhouse effect ----
+	{
+		id: 'one-layer-greenhouse',
+		name: 'One-layer greenhouse model',
+		tex: 'T_{\\text{s}} = T_{\\text{e}}\\left(\\dfrac{2}{2 - \\varepsilon}\\right)^{1/4} \\qquad \\sigma T_{\\text{s}}^{4} = (n + 1)\\,\\sigma T_{\\text{e}}^{4}',
+		where: 'ε: fraction of the ground’s infrared the layer absorbs (Earth about 0.77); n: number of fully absorbing layers.',
+		chapter: 'greenhouse-effect',
+	},
+	{
+		id: 'co2-forcing',
+		name: 'Forcing from carbon dioxide',
+		tex: '\\Delta F = 5.35\\ \\text{W/m}^{2} \\times \\ln\\dfrac{C}{C_{0}}',
+		where: 'Myhre et al. (1998). Each doubling adds about 3.7 W/m².',
+		chapter: 'greenhouse-effect',
+	},
+	// ---- 6.6 Feedback loops ----
+	{
+		id: 'feedback-gain',
+		name: 'Feedback gain',
+		tex: '\\Delta T = \\dfrac{\\Delta T_{0}}{1 - f} = \\dfrac{\\Delta F}{\\lambda_{0} - \\sum\\lambda_{i}} \\qquad f = \\dfrac{\\sum\\lambda_{i}}{\\lambda_{0}}',
+		where: 'λ₀ = 4σT³ ≈ 3.8 W/(m²·K) (Planck); λᵢ: amplifying feedbacks. Earth: f ≈ 0.68, about 0.8 K per W/m².',
+		chapter: 'feedback-loops',
+	},
+	{
+		id: 'feedback-response-time',
+		name: 'Response time with feedbacks',
+		tex: '\\tau = \\dfrac{C}{\\lambda_{0} - \\sum\\lambda_{i}}',
+		where: 'Feedbacks make the change bigger and slower by the same factor: about 10 years for 100 m of ocean.',
+		chapter: 'feedback-loops',
+	},
 ];

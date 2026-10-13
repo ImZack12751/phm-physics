@@ -1,0 +1,302 @@
+---
+title: Feedback loops
+description: Positive and negative feedback, the Planck response, the feedback factor and the gain 1/(1 − f), water vapour, ice–albedo and cloud feedbacks, climate sensitivity, what the novel's dimming would really do, tipping points, snowball Earth and hysteresis.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import FeedbackLoop from '../../../components/diagrams/part-6/FeedbackLoop.astro';
+import TwoClimates from '../../../components/diagrams/part-6/TwoClimates.astro';
+import SnowballLab from '../../../components/sims/SnowballLab.astro';
+
+## The scene
+
+The novel's climate scientists are not worried about a degree of cooling. They forecast an ice age within a few decades, crop failures across the world, and billions of deaths from famine within about twenty years. Chapter 6.4 found that a 1% dimmer Sun lowers the Earth's equilibrium temperature by only 0.64 K. How can such a small push cause a catastrophe?
+
+The answer is that the climate doesn't just respond to a push; it **responds to its own response**. Cooling spreads snow and ice, which reflect more sunlight, which causes more cooling. This chapter is about such feedback loops: how to measure them, how they multiply a small change, and how, past a tipping point, they can run away.
+
+## Prerequisites
+
+<Prereqs notes={{ 'energy-balance': 'equilibrium temperature, albedo and the Planck response 4σT³', 'greenhouse-effect': 'radiative forcing in W/m² and the no-feedback warming of about 1 K per doubling of CO₂', 'specific-latent-heat': 'heat capacity of the ocean', graphs: 'finding where two curves cross' }} />
+
+## The concept
+
+### Feedback, positive and negative
+
+A <Term id="feedback">feedback</Term> loop is a chain of cause and effect that comes back round to its own start. A microphone too close to its loudspeaker picks up its own sound, makes it louder, picks that up, and squeals: **positive feedback**, which amplifies a change. A thermostat switches the heating off when the room gets warm: **negative feedback**, which damps a change and holds things steady. "Positive" and "negative" describe direction, not good and bad.
+
+<Figure caption="A feedback loop in the climate. A forcing changes the temperature; the temperature change triggers an extra change in the energy balance, which pushes the temperature further. A fraction f of each round's change comes back as the next round." alt="A loop diagram. On the left, a box labelled forcing, Delta F, with an arrow into a box labelled temperature change. From the temperature box an arrow goes down and round to a box labelled feedback: ice melts or spreads, water vapour, clouds, then an arrow back into the temperature box, labelled extra push, fraction f of each change. A note under the loop: total change equals no-feedback change divided by 1 minus f.">
+	<FeedbackLoop />
+</Figure>
+
+### The Planck response: the planet's thermostat
+
+The most important feedback is negative, and we have already met it. A warmer planet radiates more, $\sigma T^{4}$, which cools it back down. Chapter 6.4 found that each kelvin of warming raises the outgoing radiation by $4\sigma T^{3} \approx 3.8\ \text{W/m}^{2}$. This <Term id="planck-response">Planck response</Term> is why the climate has a stable temperature at all. On its own it gives about 1 K of warming for doubling carbon dioxide (Chapter 6.5).
+
+### The amplifying feedbacks
+
+Several other effects push the same way as the change:
+
+- **Water vapour.** Warm air holds more water vapour, and water vapour is the strongest greenhouse gas. Warming adds water vapour, which adds warming; cooling dries the air, which adds cooling. Measured strength: about $+1.8$ W/m² per kelvin.
+- **Ice–albedo.** Cooling spreads snow and sea ice (albedo 0.5 to 0.8) over dark ground and open ocean (ocean: 0.06). The planet reflects more sunlight and cools further. Warming melts ice and does the reverse. About $+0.35$ W/m² per kelvin today.
+- **Clouds.** Clouds both reflect sunlight (cooling) and trap infrared (warming). Their net effect is the most uncertain, about $+0.4$ W/m² per kelvin, but could be anywhere from slightly negative to nearly $+1$.
+
+### How feedbacks multiply
+
+Suppose a forcing alone would change the temperature by $\Delta T_{0}$. That change triggers the amplifying feedbacks, which add an extra push equal to a fraction $f$ of it: $f\,\Delta T_{0}$. That extra change triggers $f$ times more: $f^{2}\Delta T_{0}$. And so on. The total is a geometric series (summed below):
+
+$$
+\Delta T = \Delta T_{0}\left(1 + f + f^{2} + f^{3} + \cdots\right) = \frac{\Delta T_{0}}{1 - f}.
+$$
+
+The <Term id="feedback-factor">feedback factor</Term> $f$ is the amplifying feedbacks' strength divided by the Planck response. With today's estimates, $f = (1.8 + 0.35 + 0.42)/3.8 \approx 0.68$, so the gain $1/(1 - f)$ is about 3. That turns the 1 K of "no-feedback" warming per doubling of carbon dioxide into about 3 K, matching the measured <Term id="climate-sensitivity">climate sensitivity</Term>: the IPCC's best estimate is 3 °C per doubling, very likely between 2.5 and 4 °C. Equivalently, the climate changes by about **0.8 K for every W/m²** of forcing.
+
+If $f$ reached 1, the series would never stop growing: a **runaway**. Then the climate would keep changing until something else, like the ice covering the whole planet, finally stopped it.
+
+### What the dimming would really do
+
+With feedbacks, a 1% dimmer Sun ($-2.4$ W/m²) cools the Earth by about $2.4 \times 0.8 = 1.9$ K, three times Chapter 6.4's estimate. A 5% dimming ($-12$ W/m²) gives about 10 K: more than the 6 K by which the last ice age was colder than today. And since the ice–albedo feedback grows stronger as ice spreads towards the equator, the real response to a big dimming could be even larger. That is the novel's ice age.
+
+### Tipping points and snowball Earth
+
+The ice–albedo feedback has a dangerous twist. In the 1960s, Mikhail Budyko built a simple energy-balance model of the Earth and found that if the ice sheets advanced to within about 30° of the equator, the feedback would run away and freeze the whole planet. This is a <Term id="tipping-point">tipping point</Term>: past it, a small extra push causes a huge, self-driven change.
+
+Worse, a frozen planet stays frozen. With an albedo of about 0.6, it reflects so much sunlight that its equilibrium temperature is about 221 K (Chapter 6.4, Problem 8), far below freezing. The same Sun can support two climates: today's warm one and a frozen one. Which you get depends on history. This is called <Term id="hysteresis">hysteresis</Term>. Getting out of a snowball needs a much stronger Sun, or a huge build-up of greenhouse gases.
+
+<Figure caption="Two climates under the same Sun, from our toy model. Absorbed sunlight (amber) bends as ice spreads at low temperatures; emitted infrared (red) rises steadily. They cross three times: a warm stable climate (today), a frozen stable one (snowball), and an unstable one in between, which divides the two." alt="A graph of power per square metre against temperature from 200 to 310 kelvins. An amber S-shaped curve for absorbed sunlight: low and flat at cold temperatures where ice reflects most sunlight, rising steeply between about 240 and 270 K, and leveling off at warm temperatures. A straight red line for emitted infrared, rising from left to right. They cross at about 226 K, labelled snowball, stable; at about 252 K, labelled unstable, tips either way; and at 288 K, labelled today, stable.">
+	<TwoClimates />
+</Figure>
+
+Geologists have found evidence that something like this really happened: glaciers seem to have reached the tropics during the "Cryogenian" period, roughly 720 to 635 million years ago. The Earth escaped, probably because volcanoes kept pumping out carbon dioxide while the frozen planet couldn't absorb it, until the greenhouse effect was strong enough to melt the ice.
+
+### Feedbacks that save the day
+
+Over millions of years, a slow negative feedback helps keep the Earth habitable. The young Sun shone only about 70% as brightly as today, enough to freeze the oceans by the simple balance. Yet there is evidence of liquid water on the early Earth. The leading explanation is a much stronger greenhouse effect, with far more carbon dioxide (and perhaps methane) in the air. This puzzle is called the faint young Sun paradox.
+
+## Formulas
+
+### The geometric series
+
+Let $S = 1 + f + f^{2} + \cdots + f^{n}$. Multiply by $f$ and subtract:
+
+$$
+S - fS = 1 - f^{n+1} \qquad\Rightarrow\qquad S = \frac{1 - f^{n+1}}{1 - f}
+$$
+
+If $0 \le f \lt 1$, then $f^{n+1} \to 0$ as $n$ grows, so
+
+$$
+\boxed{\Delta T = \frac{\Delta T_{0}}{1 - f}}
+$$
+
+### Feedbacks as W/m² per kelvin
+
+Write each feedback as an extra flow per kelvin of warming, $\lambda_{i}$ in W/(m²·K). The Planck response $\lambda_{0} = 4\sigma T^{3} \approx 3.8$ W/(m²·K) removes energy; the others add it back. In equilibrium after a forcing $\Delta F$:
+
+$$
+\Delta F + \left(\textstyle\sum\lambda_{i}\right)\Delta T = \lambda_{0}\,\Delta T \qquad\Rightarrow\qquad \boxed{\Delta T = \frac{\Delta F}{\lambda_{0} - \sum\lambda_{i}}}
+$$
+
+Since $\Delta T_{0} = \Delta F/\lambda_{0}$, this is the same as $\Delta T_{0}/(1 - f)$ with $f = \sum\lambda_{i}/\lambda_{0}$. The <Term id="climate-sensitivity">climate sensitivity parameter</Term> is $1/(\lambda_{0} - \sum\lambda_{i})$, about 0.8 K per W/m².
+
+### Response time with feedbacks
+
+Chapter 6.4's response time was $\tau = C/\lambda_{0}$. With feedbacks the restoring force is weaker, $\lambda_{0} - \sum\lambda_{i}$, so
+
+$$
+\boxed{\tau = \frac{C}{\lambda_{0} - \sum\lambda_{i}}}
+$$
+
+Feedbacks make the change both **bigger** and **slower**, by the same factor.
+
+## Worked examples
+
+<Example n={1} title="Climate sensitivity from the feedbacks">
+Using $\lambda_{0} = 3.8$, water vapour $+1.8$, ice–albedo $+0.35$ and clouds $+0.42$ W/(m²·K), find $f$, the gain, and the warming for doubled carbon dioxide ($\Delta F = 3.71$ W/m²).
+
+$$
+f = \frac{1.8 + 0.35 + 0.42}{3.8} = \frac{2.57}{3.8} = 0.68 \qquad \text{gain} = \frac{1}{1 - 0.68} = 3.1
+$$
+
+$$
+\Delta T_{0} = \frac{3.71}{3.8}\ \text{K} = 0.98\ \text{K} \qquad \Delta T = 0.98\ \text{K} \times 3.1 = 3.0\ \text{K}
+$$
+
+The sensitivity parameter is $1/(3.8 - 2.57) = 0.81$ K per W/m². This simple sum leaves out smaller feedbacks (such as one linked to how temperature changes with height, which partly cancels water vapour), but lands on the IPCC's best estimate of 3 °C.
+</Example>
+
+<Example n={2} title="The forecast, with feedbacks" book>
+Using 0.8 K per W/m², find the cooling for a 1%, 5% and 10% dimming (forcings $-2.40$, $-12.0$ and $-24.0$ W/m²).
+
+$$
+1\%:\ 2.40 \times 0.8 = 1.9\ \text{K} \qquad 5\%:\ 12.0 \times 0.8 = 9.6\ \text{K} \qquad 10\%:\ 24.0 \times 0.8 = 19\ \text{K}
+$$
+
+The 1% figure is already larger than the cooling after Tambora's eruption (0.4 to 0.7 °C), which brought a year of failed harvests. The 5% figure is beyond the last ice age (about 6 °C), and 10% is far beyond it. These straight-line estimates also assume the feedbacks stay the same size, which the ice–albedo feedback doesn't (Example 4).
+</Example>
+
+<Example n={3} title="How long the cooling takes" book>
+With the top 100 m of ocean ($C = 4.19 \times 10^{8}$ J/K per m²) and a sensitivity of 0.8 K per W/m², what is the response time?
+
+$$
+\tau = C \times 0.8\ \frac{\text{K}}{\text{W/m}^{2}} = 4.19 \times 10^{8} \times 0.8\ \text{s} = 3.35 \times 10^{8}\ \text{s} = 10.6\ \text{years}
+$$
+
+Three times Chapter 6.4's 3.5 years. Within the decades the novel's forecast covers, most of the cooling arrives. The novel's "ice age within thirty years" fits the physics.
+</Example>
+
+<Example n={4} title="Running the toy model" book>
+Our toy model (used in the figure and simulation) has Earth at 288 K today and a sensitivity of 0.81 K per W/m² near today's climate, but its ice–albedo feedback strengthens as the planet cools. If the Sun suddenly dims by 5% and stays there, the model gives 282 K after 10 years, 277.7 K after 30, and settles near 276 K: a cooling of 12 K, more than the straight-line 9.6 K, because the spreading ice adds more feedback.
+
+Dim the Sun by 10% and the model finds no warm climate at all. The temperature reaches 261 K after 30 years and keeps falling, into a snowball near 215 K within a century. In our toy model, the tipping point is at about 6% dimming. Real climate models disagree on where the true threshold is, so treat the number as an illustration, not a forecast.
+</Example>
+
+<Example n={5} title="The faint young Sun">
+Four billion years ago the Sun was about 70% as bright as today. With today's albedo, what equilibrium temperature would the Earth have had? How big a forcing would be needed to make up the difference?
+
+$$
+T_{\text{e}} = 255.1\ \text{K} \times 0.70^{1/4} = 255.1 \times 0.9147\ \text{K} = 233\ \text{K}
+$$
+
+$$
+\Delta F = 0.30 \times 240.2\ \text{W/m}^{2} = 72\ \text{W/m}^{2}
+$$
+
+The early Earth would have been 22 K colder at the top of its atmosphere, and its oceans frozen, unless its greenhouse effect was much stronger. Making up 72 W/m² takes an enormous amount of carbon dioxide: estimates for the early air run to hundreds or a thousand times today's level.
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** The feedback values (Planck about $-3.8$, water vapour about $+1.8$, surface albedo $+0.35$, clouds $+0.42$ W/(m²·K)) are from the IPCC's 2021 assessment as summarised on Wikipedia. The 3 °C climate sensitivity (likely 2.5 to 4 °C) and 0.8 K per W/m² are standard. Budyko's model, the 30° runaway threshold, the Cryogenian snowball episodes and the faint young Sun paradox are well documented.
+
+**Weir's inventions.** The dimming and its causes are fictional. The novel's forecasts (an ice age within about thirty years, crop failure, 3.5 billion deaths within about nineteen years) are the characters' predictions, not results we can check. Our toy model, with its tipping point near 6%, is our own simplification, built to match today's temperature and sensitivity.
+
+**How realistic are the numbers?** Once feedbacks are included, the novel's fears are physically reasonable. A 1% dimming alone gives about 2 K of cooling, and 5% about 10 K, colder than the last ice age, arriving over a decade or so. The Royal Institution's summary of the novel says a 10% drop would trigger a "terminal" ice age; simple energy-balance models do show such tipping into a snowball, though where the real threshold lies is uncertain.
+</RealVsBook>
+
+## Interactive simulation
+
+<SnowballLab />
+
+Things to try: start from today's Earth and dim the Sun step by step. The warm climate cools a little, then a lot, then vanishes, and the model drops into a snowball. Now, starting from the snowball, turn the Sun back to 100%. The planet stays frozen. How bright must the Sun get before it thaws?
+
+## Practice set
+
+<Problem n={1} level="easy">
+Is each of these a positive or negative feedback? (a) A warmer planet radiates more infrared. (b) Melting sea ice exposes dark ocean. (c) A shower's water is too hot, so you turn it cooler.
+
+<Solution>
+(a) Negative: it opposes the warming. (b) Positive: dark ocean absorbs more sunlight, causing more warming. (c) Negative.
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy">
+A forcing alone would warm the Earth by 0.5 K, and the feedback factor is $f = 0.5$. What is the total warming?
+
+<Solution>
+$\Delta T = 0.5/(1 - 0.5) = 1.0$ K.
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy">
+Why does a snow-covered planet tend to stay frozen?
+
+<Solution>
+Snow and ice reflect most sunlight (high albedo), so the planet absorbs too little energy to warm up and melt them: the ice–albedo feedback holds it in place.
+</Solution>
+</Problem>
+
+<Problem n={4} level="medium">
+If water vapour were the only feedback ($+1.8$ W/(m²·K)) besides the Planck response ($3.8$), what would the gain be?
+
+<Solution>
+$f = 1.8/3.8 = 0.47$; gain $= 1/(1 - 0.47) = 1.9$. Water vapour alone nearly doubles the response.
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium">
+Show that $1 + f + f^{2} + f^{3}$ with $f = 0.5$ is already within 7% of $1/(1 - f)$.
+
+<Solution>
+$1 + 0.5 + 0.25 + 0.125 = 1.875$, and $1/(1 - 0.5) = 2$. The shortfall is $0.125/2 = 6.25\%$.
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium" book>
+Using 0.8 K per W/m², what dimming (in percent) would cool the Earth by 6 K, matching the last ice age?
+
+<Solution>
+Forcing needed: $6/0.8 = 7.5$ W/m². Each 1% of dimming is 2.40 W/m², so $7.5/2.40 = 3.1\%$. With feedbacks, about a 3% dimmer Sun matches the last ice age, compared with 9% without them (Chapter 6.4, Problem 10).
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium">
+Clouds' feedback is uncertain, from $-0.10$ to $+0.94$ W/(m²·K). Keeping the other values of Example 1, find the warming for doubled CO₂ at each end.
+
+<Solution>
+Low: $\sum\lambda = 1.8 + 0.35 - 0.10 = 2.05$; $\Delta T = 3.71/(3.8 - 2.05) = 2.1$ K. High: $\sum\lambda = 3.09$; $\Delta T = 3.71/(3.8 - 3.09) = 5.2$ K. Clouds are the biggest reason the sensitivity is uncertain.
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium">
+A feedback factor of exactly 1 is reached. What happens to $\Delta T_{0}/(1 - f)$, and what does that mean physically?
+
+<Solution>
+It becomes infinite: the formula breaks. Physically, each round of change triggers an equal further change, so the climate runs away until a feedback changes size (for example, the ice reaches the equator and can't spread further).
+</Solution>
+</Problem>
+
+<Problem n={9} level="challenging" book>
+The Sun dims by 1% and stays there. Using a response time of 10.6 years and a final cooling of 1.9 K, how much has the Earth cooled after 5 years and after 20 years?
+
+<Solution>
+$\Delta T(t) = 1.9\ \text{K} \times (1 - e^{-t/10.6\ \text{yr}})$. After 5 years: $1.9 \times (1 - e^{-0.47}) = 1.9 \times 0.376 = 0.71$ K. After 20 years: $1.9 \times (1 - e^{-1.89}) = 1.9 \times 0.849 = 1.6$ K.
+</Solution>
+</Problem>
+
+<Problem n={10} level="challenging" book>
+The novel's engineers aim to cancel a 5% dimming with greenhouse gases. With feedbacks, does the forcing they need change? Explain.
+
+<Solution>
+No. Feedbacks multiply the response to any forcing by the same gain, whatever its cause. To cancel the cooling they need an equal and opposite forcing, $+12$ W/m², with or without feedbacks. Feedbacks do raise the stakes of falling short: every W/m² missing becomes about 0.8 K of cooling instead of 0.27 K.
+</Solution>
+</Problem>
+
+<Problem n={11} level="challenging">
+In the toy model, today's Sun supports both a warm climate (288 K) and a snowball (about 226 K, albedo 0.58). Check the snowball: is absorbed sunlight close to the model’s emitted 142 W/m² at 226 K?
+
+<Solution>
+Absorbed: $\dfrac{1361}{4} \times (1 - 0.58) = 340.25 \times 0.42 = 143$ W/m², close to 142 W/m² (the difference is rounding of the albedo). So yes: a frozen Earth under today's Sun is in balance too.
+</Solution>
+</Problem>
+
+<Problem n={12} level="challenging">
+The faint young Sun gave about 72 W/m² less forcing than today. Use the CO₂ formula to estimate how many doublings of carbon dioxide would cancel it, and comment on whether the formula can be trusted there.
+
+<Solution>
+Each doubling gives 3.71 W/m², so $72/3.71 = 19$ doublings, a factor of $2^{19}$, about half a million. That is absurd: the logarithmic formula was fitted for modern concentrations and fails at very high levels, where new absorption bands matter. It only shows that a much stronger greenhouse, probably with methane too, was needed.
+</Solution>
+</Problem>
+
+## Summary
+
+- Negative feedback damps a change; positive feedback amplifies it. The Planck response ($4\sigma T^{3} \approx 3.8$ W/(m²·K)) is the climate's main negative feedback.
+- Water vapour (+1.8), ice–albedo (+0.35) and clouds (about +0.4 W/(m²·K)) amplify. The total change is $\Delta T_{0}/(1 - f)$ with $f \approx 0.68$: a gain of about 3.
+- Climate sensitivity: about 3 °C per doubling of CO₂, or 0.8 K per W/m². Feedbacks also slow the response, to about a decade.
+- A 1% dimmer Sun gives about 2 K of cooling and 5% about 10 K: ice-age territory within decades.
+- The ice–albedo feedback can run away past a tipping point into a snowball Earth, and hysteresis keeps it frozen even if the Sun recovers.
+
+**Formulas from this chapter**
+
+$$
+\Delta T = \frac{\Delta T_{0}}{1 - f} = \frac{\Delta F}{\lambda_{0} - \sum\lambda_{i}} \qquad f = \frac{\sum\lambda_{i}}{\lambda_{0}} \qquad \tau = \frac{C}{\lambda_{0} - \sum\lambda_{i}}
+$$
+
+## Sources
+
+- Feedback strengths (Planck about −3.8, water vapour about +1.8, surface albedo +0.35, clouds +0.42 W/(m²·K), citing IPCC AR6): Wikipedia, [Climate change feedbacks](https://en.wikipedia.org/wiki/Climate_change_feedbacks).
+- Climate sensitivity, 3 °C best estimate (2.5 to 4 °C), about 3.7 W/m² per doubling, roughly 1 °C without feedbacks: Wikipedia, [Climate sensitivity](https://en.wikipedia.org/wiki/Climate_sensitivity). About 0.8 K per W/m²: Wikipedia, [Radiative forcing](https://en.wikipedia.org/wiki/Radiative_forcing).
+- Budyko's model, the runaway once ice reaches within 30° of the equator, and the Cryogenian (Sturtian and Marinoan) glaciations: Wikipedia, [Snowball Earth](https://en.wikipedia.org/wiki/Snowball_Earth).
+- The young Sun at about 70% of today's brightness and the greenhouse explanations: Wikipedia, [Faint young Sun paradox](https://en.wikipedia.org/wiki/Faint_young_Sun_paradox).
+- The last ice age about 6 °C colder: Wikipedia, [Last Glacial Maximum](https://en.wikipedia.org/wiki/Last_Glacial_Maximum). Tambora's 0.4 to 0.7 °C: Wikipedia, [Year Without a Summer](https://en.wikipedia.org/wiki/Year_Without_a_Summer). Sea ice and ocean albedos: Wikipedia, [Albedo](https://en.wikipedia.org/wiki/Albedo).
+- The novel's ice age within thirty years: Wikipedia, [*Project Hail Mary*](https://en.wikipedia.org/wiki/Project_Hail_Mary). A 10% drop triggering a "terminal ice age": Royal Institution, ["Project Hail Mary: the science behind the fiction"](https://www.rigb.org/explore-science/explore/blog/project-hail-mary-science-behind-fiction). Leclerc's forecast of 3.5 billion deaths within nineteen years: reader guide, [readifyai: Solar dimming](https://readifyai.com/books/Project%20Hail%20Mary/wiki/Solar%20dimming) (not an official source).

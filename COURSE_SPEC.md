@@ -189,12 +189,12 @@ Teaching order follows logical dependency, not plot order. Planned chapters have
 
 | # | Chapter | Path | Prerequisites | Status |
 |---|---|---|---|---|
-| 6.1 | Temperature and heat | `part-6/temperature-heat` | – | planned |
-| 6.2 | Specific and latent heat | `part-6/specific-latent-heat` | – | planned |
-| 6.3 | Heat transfer | `part-6/heat-transfer` | – | planned |
-| 6.4 | Planetary energy balance and albedo | `part-6/energy-balance` | – | planned |
-| 6.5 | The greenhouse effect | `part-6/greenhouse-effect` | – | planned |
-| 6.6 | Feedback loops | `part-6/feedback-loops` | – | planned |
+| 6.1 | Temperature and heat | `part-6/temperature-heat` | 0.3, 5.2, 5.4, 5.5 | written, awaiting review |
+| 6.2 | Specific and latent heat | `part-6/specific-latent-heat` | 6.1, 5.4, 0.9, 5.3 | written, awaiting review |
+| 6.3 | Heat transfer | `part-6/heat-transfer` | 6.1, 6.2, 0.8, C.3, 5.3 | written, awaiting review |
+| 6.4 | Planetary energy balance and albedo | `part-6/energy-balance` | 6.3, 0.5, 6.2, C.3, 4.3 | written, awaiting review |
+| 6.5 | The greenhouse effect | `part-6/greenhouse-effect` | 6.4, 6.3, 0.8, 6.1 | written, awaiting review |
+| 6.6 | Feedback loops | `part-6/feedback-loops` | 6.4, 6.5, 6.2, 0.9 | written, awaiting review |
 
 **Part 7 · Waves and light**
 
@@ -282,7 +282,7 @@ Brief biology and chemistry sidebars are added only where the plot's physics dep
 Source of truth: `src/data/glossary.mjs`.
 
 <!-- AUTO:glossary -->
-199 terms.
+232 terms.
 
 | Term | id | First chapter |
 |---|---|---|
@@ -485,6 +485,39 @@ Source of truth: `src/data/glossary.mjs`.
 | Specific impulse (I_sp) | `specific-impulse` | 5.6 |
 | Tsiolkovsky rocket equation | `rocket-equation` | 5.7 |
 | Mass ratio | `mass-ratio` | 5.7 |
+| Temperature | `temperature` | 6.1 |
+| Thermal equilibrium | `thermal-equilibrium` | 6.1 |
+| Zeroth law of thermodynamics | `zeroth-law` | 6.1 |
+| Boltzmann constant (k) | `boltzmann-constant` | 6.1 |
+| Root-mean-square speed | `rms-speed` | 6.1 |
+| Internal energy | `internal-energy` | 6.1 |
+| Heat | `heat` | 6.1 |
+| Calorie | `calorie` | 6.1 |
+| First law of thermodynamics | `first-law` | 6.1 |
+| Thermal expansion | `thermal-expansion` | 6.1 |
+| Specific heat (c) | `specific-heat` | 6.2 |
+| Heat capacity | `heat-capacity` | 6.2 |
+| Calorimetry | `calorimetry` | 6.2 |
+| Phase change | `phase-change` | 6.2 |
+| Latent heat (L) | `latent-heat` | 6.2 |
+| Conduction | `conduction` | 6.3 |
+| Convection | `convection` | 6.3 |
+| Thermal radiation | `thermal-radiation` | 6.3 |
+| Thermal conductivity (k) | `thermal-conductivity` | 6.3 |
+| Newton’s law of cooling | `newtons-law-of-cooling` | 6.3 |
+| Stefan–Boltzmann constant (σ) | `stefan-boltzmann-constant` | 6.3 |
+| Emissivity (e) | `emissivity` | 6.3 |
+| Equilibrium temperature | `equilibrium-temperature` | 6.4 |
+| Albedo | `albedo` | 6.4 |
+| Greenhouse effect | `greenhouse-effect` | 6.5 |
+| Greenhouse gas | `greenhouse-gas` | 6.5 |
+| Radiative forcing | `radiative-forcing` | 6.5 |
+| Feedback | `feedback` | 6.6 |
+| Planck response | `planck-response` | 6.6 |
+| Feedback factor (f) | `feedback-factor` | 6.6 |
+| Climate sensitivity | `climate-sensitivity` | 6.6 |
+| Tipping point | `tipping-point` | 6.6 |
+| Hysteresis | `hysteresis` | 6.6 |
 <!-- /AUTO:glossary -->
 
 ---
@@ -494,7 +527,7 @@ Source of truth: `src/data/glossary.mjs`.
 Source of truth: `src/data/formulas.mjs`.
 
 <!-- AUTO:formulas -->
-121 formulas.
+137 formulas.
 
 | Formula | id | First chapter | LaTeX |
 |---|---|---|---|
@@ -619,6 +652,22 @@ Source of truth: `src/data/formulas.mjs`.
 | Light drive at constant acceleration | `light-thrust` | 5.6 | `F = \dot{m}c \qquad \dot{m} = \dfrac{ma}{c}` |
 | Tsiolkovsky rocket equation | `rocket-equation` | 5.7 | `\Delta v = v_{\text{e}}\ln\dfrac{m_{0}}{m_{\text{f}}} \qquad \dfrac{m_{0}}{m_{\text{f}}} = e^{\Delta v/v_{\text{e}}}` |
 | Fuel use at constant acceleration | `constant-acceleration-burn` | 5.7 | `m(t) = m_{0}\,e^{-at/v_{\text{e}}} \qquad t = \dfrac{v_{\text{e}}}{a}\ln\dfrac{m_{0}}{m_{\text{f}}}` |
+| Temperature and molecular motion | `kinetic-temperature` | 6.1 | `\overline{KE} = \tfrac{3}{2}kT \qquad v_{\text{rms}} = \sqrt{\dfrac{3kT}{m}}` |
+| First law of thermodynamics | `first-law` | 6.1 | `\Delta U = Q - W` |
+| Thermal expansion | `thermal-expansion` | 6.1 | `\Delta L = \alpha L\,\Delta T` |
+| Heat to warm an object | `specific-heat` | 6.2 | `Q = mc\,\Delta T` |
+| Heat for a phase change | `latent-heat` | 6.2 | `Q = mL` |
+| Final temperature of a mixture | `mixing-temperature` | 6.2 | `T = \dfrac{m_{1}c_{1}T_{1} + m_{2}c_{2}T_{2}}{m_{1}c_{1} + m_{2}c_{2}}` |
+| Conduction through a slab | `conduction` | 6.3 | `P = \dfrac{kA\,\Delta T}{d} \qquad P = \dfrac{A\,\Delta T}{d_{1}/k_{1} + d_{2}/k_{2}}` |
+| Newton’s law of cooling | `newton-cooling` | 6.3 | `T = T_{\text{s}} + (T_{0} - T_{\text{s}})\,e^{-t/\tau}` |
+| Thermal radiation | `thermal-radiation` | 6.3 | `P = e\sigma AT^{4} \qquad P_{\text{net}} = e\sigma A\left(T^{4} - T_{\text{s}}^{4}\right)` |
+| Planet’s equilibrium temperature | `equilibrium-temperature` | 6.4 | `T_{\text{e}} = \left[\dfrac{S(1 - \alpha)}{4\sigma}\right]^{1/4}` |
+| Sensitivity to sunlight and albedo | `balance-sensitivity` | 6.4 | `\dfrac{\Delta T}{T} \approx \dfrac{1}{4}\dfrac{\Delta S}{S} \qquad \dfrac{\Delta T}{T} \approx -\dfrac{1}{4}\dfrac{\Delta\alpha}{1 - \alpha}` |
+| Climate response time | `climate-response-time` | 6.4 | `\tau = \dfrac{C}{4\sigma T^{3}}` |
+| One-layer greenhouse model | `one-layer-greenhouse` | 6.5 | `T_{\text{s}} = T_{\text{e}}\left(\dfrac{2}{2 - \varepsilon}\right)^{1/4} \qquad \sigma T_{\text{s}}^{4} = (n + 1)\,\sigma T_{\text{e}}^{4}` |
+| Forcing from carbon dioxide | `co2-forcing` | 6.5 | `\Delta F = 5.35\ \text{W/m}^{2} \times \ln\dfrac{C}{C_{0}}` |
+| Feedback gain | `feedback-gain` | 6.6 | `\Delta T = \dfrac{\Delta T_{0}}{1 - f} = \dfrac{\Delta F}{\lambda_{0} - \sum\lambda_{i}} \qquad f = \dfrac{\sum\lambda_{i}}{\lambda_{0}}` |
+| Response time with feedbacks | `feedback-response-time` | 6.6 | `\tau = \dfrac{C}{\lambda_{0} - \sum\lambda_{i}}` |
 <!-- /AUTO:formulas -->
 
 ---
@@ -641,6 +690,7 @@ All constants and book figures used so far, each with its source, are in `script
 - Part 4 figures (`GRAV` and `ADRIAN` in `constants.mjs`): G = 6.674 30 × 10⁻¹¹ (CODATA 2022). NASA fact sheets for GM, masses, radii, escape speeds, orbits and densities of Earth, Moon, Mars, Venus, Jupiter, Sun; Phobos 9378 km / 0.31891 d; Io 421 800 km / 1.769138 d. ISS 370–460 km (we use 400 km); GEO 42 164 km. Tau Ceti 0.800 M☉ (Korolik 2023). **Adrian = Tau Ceti e** (Wikipedia, Feng et al. 2017): ~168 d, 0.552 au, minimum mass 3.93 M⊕; later studies say it may not exist, and the chapters say so. **Our model Adrian:** 3.93 M⊕ (2.347 × 10²⁵ kg), radius 1.5 R⊕ (9557 km, ASSUMED), g = 17.15 m/s² (1.75 g), ρ = 6420 kg/m³, v_esc 18.1 km/s; Hail Mary parked 300 km up (r = 9857 km, v = 12.6 km/s, T = 81.87 min). Escape from Tau Ceti at Adrian's orbit 50.7 km/s (Adrian moves 35.9). Plot facts from Wikipedia's novel page: 10 km xenonite chain, beetles carry results home, probe sent to Venus, Grace rescues Rocky from the stranded Blip-A. No source confirmed a "decaying orbit" at Adrian or any book figure for Adrian's mass/orbit, so the chapters don't claim them; all manoeuvres at Adrian (200 km lowering, 10° phasing in 3 laps) are our illustrations. Kepler's 8′ discrepancy (Astronomia nova), Halley's comet, Venus Express 153-day cruise (ESA), Mars windows every 26 months, Michell's 1783 dark stars all sourced in the chapters.
 - Part 5 figures (`ENERGY` in `constants.mjs`). Book (reader summary trangnkp.substack.com, Goodreads highlights, Nick Frass's Substack): display 20,862 kg at 6.043 g/s (Grace: ~40 days); drive power 540 TW (Grace's E = mc²); Dimitri 1.8 × 10⁹ J, ~20 µg, 60,000 N for 100 µs (obeys F = P/c and p = E/c exactly); a manoeuvre "will consume 130 kilograms of fuel"; ~2 × 10⁶ kg of fuel; trip "at least three years" of ship time. Real: RS-25 514.49 kg/s, 4.436 km/s, 2279 kN vac; SRB 2.63 km/s; NSTAR 92 mN / 2.3 kW, ion exhausts 20–50 km/s (we use 30); Deep Space 1 486 kg launch, 73.4 kg Xe, 4.3 km/s; world energy 19.6 TW (2021); human ~100 W; ISS 419,725 kg; TNT 4.184 MJ/kg. **Our inference (5.6):** if 6.043 g/s holds 1.5 g with light exhaust, the ship is 1.23 × 10⁵ kg at the reading and ~1.02 × 10⁵ kg empty; the course uses **1.0 × 10⁵ kg empty** (and ~1.2 × 10⁵ kg in 5.4/5.5 examples). Assumed: Grace 200 kg with suit, Blip-A 5.0 × 10⁵ kg, 3.0 m deck height.
 - **Fuel question answered (5.7):** the 6 g/s is a late-trip rate; holding 1.5 g needs ṁ = ma/c (103 g/s at launch), so fuel decays as e^(−at/c) and the 20,862 kg lasts 43.8 days, not 40. On the ship's clock (exact for a photon rocket), R = 21 buys only 1.97 yr at 1.5 g; 3.75 yr needs R = 333 (3.3 × 10⁷ kg fuel), and even 3 yr needs R = 104. The chapters say the novel's budget doesn't quite add up for 1.5 g throughout. Part 10 should revisit this with relativity (a coast phase changes the numbers).
+- Part 6 figures (`THERMAL` in `constants.mjs`). Real: k, N_A exact, σ = 5.670 374 419 × 10⁻⁸ (CODATA); OpenStax Vol. 2 tables (specific heats: water 4186, ice 2090, steam 2020, air 1015, Al 900, glass 840, iron 452, Cu 387; latent heats 334 / 2256 kJ/kg, ammonia 332 / 1370 kJ/kg, boils −33.4 °C; conductivities Cu 390 … air 0.023; α steel 12, Al 25 × 10⁻⁶; skin emissivity 0.97 and the 99 W example); ice 917 kg/m³; atmosphere 5.1 × 10¹⁸ kg; NASA Bond albedo / black-body / mean T: Earth 0.294 / 254.0 / 288 K, Venus 0.77 / 226.6 / 737 K (92 bar), Mars 0.250 / 209.8 / 214 K; NASA energy budget 340 W/m², 29% reflected, surface 117% (398), back 100% (340); albedos (Wikipedia): ocean 0.06, sand 0.40, sea ice 0.5–0.7, snow 0.8; ECS 3 °C (2.5–4), 3.7 W/m² per doubling, about 1 °C no-feedback, 0.8 K per W/m²; ΔF = 5.35 ln(C/C₀) (Myhre 1998); CO₂ 280 → 421 ppm (NOAA 2022); methane 1911.8 ppb (2022), 722 (1750), GWP 84/28, lifetime about 12 yr, forcing about 0.5 W/m²; feedbacks (AR6 via Wikipedia) Planck about −3.8, water vapour about +1.8, surface albedo +0.35, clouds +0.42 (−0.10 to +0.94); LGM −6 °C, Tambora 0.4–0.7 °C, faint young Sun 70%, Budyko runaway when ice reaches 30° of the equator; 40 Eridani A 0.78 M☉, 0.40 L☉, 42-day signal (likely stellar activity) → "Erid" orbit 0.218 au, 11 490 W/m², T_e 434 K. Book: Astrophage's 96.415 °C set point (excess energy → mass, deficit → infrared; RI article); Erid 210 °C, 29 atm ammonia, melting tape measure, heat felt through the xenonite wall (/Film); Antarctic operation 241 bombs, 50 m deep, 3 km apart, methane breaks down in about 10 years, nearby ocean cools about 1 degree; Sahara blackpanels about 2 × 10¹² m² (a quarter of the Sahara); Leclerc: 3.5 billion dead within 19 years (readifyai reader guide, flagged as unofficial); ice age within thirty years (Wikipedia); 10% dimming → "terminal ice age" (RI). Our results: Earth T_e 255 K; dimming 1/5/10% → −0.64/−3.3/−6.6 K without feedbacks, −1.9/−9.6/−19 K with 0.8 K per W/m²; response time 3.5 yr (no feedback) and 10.6 yr (with), for 100 m of ocean; one-layer ε = 0.77 for Earth, 0.70 for Erid; Venus needs about 111 opaque layers. **Toy climate model (6.6, figure TwoClimates and sim SnowballLab):** α(T) = 0.4417 − 0.1583 tanh((T − 254.42)/20), emission 240.2 + 1.58(T − 288) W/m², C = 4.19 × 10⁸ J/(m² K); equilibria 226 / 252 / 288 K at today's Sun; tips to snowball at about 6% dimming (labelled as a toy, not a forecast). Our assumptions: xenonite conducting like glass, partition 2.0 m² × 1 cm, panel emissivity 0.9, coffee τ = 20 min, radiator 5 kW, blackpanel albedo 0.05.
 
 ---
 
@@ -655,3 +705,4 @@ All constants and book figures used so far, each with its source, are in `script
 - **Session 6 (2026-10-09).** Wrote Part 3: 3.1 Angular speed (radians, ω, rpm, period, v = ωr, tangent velocity), 3.2 Centripetal acceleration (a = v²/r = ω²r two ways, the SHM shadow, centripetal force as a role, centrifugal force as fictitious, Newton's Moon test), 3.3 Designing spin gravity (g = ω²r, r = g/ω², gradient h/r, comfort limits, two masses on a cable and the centre of mass, Grace's two-deck test), 3.4 The Coriolis effect (exact drop geometry, running spinward/antispinward, a = 2ωv, drift ⅔ωht by integration, Earth, Foucault, the sink myth). 48 practice problems, 4 simulations (SpinRate, CircularMotion, SpinGravityDesigner, CoriolisLab) and 8 diagrams. Fixed a check-browser hang: an animation that rebuilt SVG elements every frame kept the page from reaching network idle, so animated sims must create elements once and update attributes per frame. If `npm run preview` says a server is already running, use `npx astro preview stop` first. **Next:** Part 4, starting with 4.1 Newton's law of gravitation (3.2 Example 3 sets up the Moon test; 3.2 Problem 11 previews the 84-minute low orbit).
 - **Session 7 (2026-10-13).** Wrote Part 4: 4.1 Newton's law of gravitation (F = GMm/r² from the Moon test, G and Cavendish, the shell theorem, g = GM/r², weighing Earth, g with height, g = 4/3 πGρR), 4.2 Orbital speed (Newton's cannon, orbit as free fall, v = √(GM/r) two ways, T = 2π√(r³/GM), skimming and geostationary orbits, tidal pull on a hanging probe), 4.3 Kepler's laws (ellipse anatomy, Newton's geometric proof of equal areas, r_p v_p = r_a v_a, T² = a³ and T² = a³/M for other stars), 4.4 Escape velocity (derived without energy: Δ(v²) = 2aΔr summed as an integral, √2 × circular speed, r_max, v∞, escaping a star from a planet's orbit, Michell's dark stars), 4.5 Finding a planet's mass from an orbit (M = 4π²a³/GT², radius from angular size, the density clock T = √(3π/Gρ), ΔM/M = 3Δr/r + 2ΔT/T), 4.6 Orbital manoeuvring (v² − 2GM/r constant along any path via the along-path component, vis-viva derived, Hohmann transfers, lead angle, phasing orbits, drag speeds satellites up). 72 practice problems, 6 simulations (GravityExplorer, OrbitCannon, KeplerOrbit, EscapeLauncher, WeighPlanet, HohmannPlanner) and 14 diagrams. Tooling note: registering several chapters as `review` before their files exist breaks the build (Starlight sidebar), so mark unwritten ones `planned` until written. **Next:** Part 5, starting with 5.1 Work as an integral (4.4 and 4.6 promise that Part 5 recasts v² − 2GM/r = constant as energy conservation and proves escape speed is direction-independent; 4.6 says Part 5 shows how fuel sets delta-v).
 - **Session 8 (2026-10-13).** Wrote Part 5: 5.1 Work as an integral (W = Fd cos θ, zero work at right angles, W = ∫F dx as area, springs ½kx², lifting GMm(1/r₁ − 1/r₂), Dimitri's huge force doing 0.036 J), 5.2 Kinetic and potential energy (work–energy theorem via ∫mv dv, U = mgh, ½kx², −GMm/r, F = −dU/dx, v² − 2GM/r recast as energy, escape speed direction-independent, as promised in 4.4), 5.3 Power (P = dW/dt = Fv, kWh, efficiency, P = ṁc² = 543 TW, F = P/c discovered from Dimitri's figures, only v/c of a light drive's power goes into motion), 5.4 Conservation laws (energy bookkeeping, friction → thermal, E = −GMm/2a, K = −E and U = 2E, the drag paradox explained, angular momentum = Kepler II, Noether), 5.5 Momentum (p = mv, F = dp/dt, impulse, conservation and recoil, elastic/inelastic collisions, p = E/c), 5.6 Thrust (F = ṁv_e, I_sp, P/F = v_e/2 vs c, F = ṁc, ṁ = ma/c, the ship's mass inferred from the fuel display), 5.7 The Tsiolkovsky rocket equation (derivation, tyranny of the exponential, staging, m = m₀e^(−at/v_e), 43.8 not 40 days, the trip's fuel budget checked). 70 practice problems, 7 simulations (WorkArea, EnergyLaunch, DrivePower, EnergyTrack, CollisionLab, ThrustLab, RocketEquation) and 14 diagrams. All of Part 4's promises to Part 5 are kept. Tooling note: Python heredocs in Bash also mangle backslashes (\t, \D), so edit LaTeX with the Edit tool or a Python file written with Write. **Next:** Part 6, starting with 6.1 Temperature and heat (5.4 promises Part 6 measures the warming that friction causes).
+- **Session 9 (2026-10-13).** Wrote Part 6: 6.1 Temperature and heat (temperature as jiggling, thermal equilibrium and the zeroth law, pressure from molecular collisions, ⟨KE⟩ = 3/2 kT and v_rms, why absolute zero exists (promised in 0.3 and the glossary), heat vs internal energy, Joule and the calorie, the first law, thermal expansion), 6.2 Specific and latent heat (Q = mcΔT, mixing, Q = mL, heating curves, the friction warming promised in 5.4, melting Antarctic ice, the ocean's heat capacity), 6.3 Heat transfer (conduction and layered walls, convection, Newton's law of cooling, P = eσAT⁴ and net radiation, heat in space, Rocky's hot xenonite wall), 6.4 Planetary energy balance and albedo (S/4, T_e = 255 K, sensitivity ΔT/T = ¼ ΔS/S, the forecast dimming as promised in 0.5, the Sahara blackpanels, response time, Venus, Adrian, Erid), 6.5 The greenhouse effect (short waves in and long waves out, why N₂ and O₂ don't absorb, one-layer and many-layer models, forcing 5.35 ln(C/C₀), cancelling the dimming, why methane, Venus and Erid), 6.6 Feedback loops (Planck response, feedback factor and gain 1/(1 − f), water vapour, ice–albedo and clouds, sensitivity 3 °C, the dimming with feedbacks, tipping points, snowball Earth, hysteresis, faint young Sun). 72 practice problems, 6 simulations (GasBox, HeatingLab, WallHeatFlow, PlanetThermostat, GreenhouseSim, SnowballLab) and 12 diagrams. The Stefan–Boltzmann law is introduced in 6.3 as a measured law; Part 8 (8.1–8.2) should derive its context (blackbody, Wien) and use it for stars rather than introduce it from scratch. **Next:** Part 7, starting with 7.1 Wave properties (6.5 says Part 8 explains why hotter objects glow at shorter wavelengths; 6.2 says Part 9 covers c² as energy per kilogram).

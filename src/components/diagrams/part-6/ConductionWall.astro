@@ -1,0 +1,33 @@
+---
+// Conduction through a slab of thickness d, area A, conductivity k: linear temperature profile from T_hot to T_cold,
+// heat flow P = kAΔT/d.
+const X0 = 230, X1 = 370, Y0 = 70, Y1 = 230;
+const yHot = 95, yCold = 205;
+const head = (x: number, y: number, dx: number, dy: number) => {
+	const n = Math.hypot(dx, dy), ux = dx / n, uy = dy / n;
+	return `${x},${y} ${x - 12 * ux + 6 * uy},${y - 12 * uy - 6 * ux} ${x - 12 * ux - 6 * uy},${y - 12 * uy + 6 * ux}`;
+};
+---
+
+<svg class="dg" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+	<rect x="60" y={Y0} width={X0 - 60} height={Y1 - Y0} class="f-rose-soft" />
+	<rect x={X1} y={Y0} width={540 - X1} height={Y1 - Y0} class="f-sky-soft" />
+	<rect x={X0} y={Y0} width={X1 - X0} height={Y1 - Y0} class="f-violet s-violet w2" fill-opacity="0.25" />
+	<text x={(X0 + X1) / 2} y={Y1 - 14} class="t-mid t-sm halo">conductivity k</text>
+	<text x={(X0 + X1) / 2} y={Y1 + 4 - 140} class="t-mid t-sm halo">area A</text>
+	<line x1="60" y1={yHot} x2={X0} y2={yHot} class="s-rose w3" />
+	<line x1={X0} y1={yHot} x2={X1} y2={yCold} class="s-rose w3" />
+	<line x1={X1} y1={yCold} x2="540" y2={yCold} class="s-rose w3" />
+	<text x="70" y={yHot - 10} class="t-sm f-rose t-b">T hot</text>
+	<text x="530" y={yCold - 10} class="t-end t-sm f-sky t-b">T cold</text>
+	<text x="70" y={Y1 + 22} class="t-sm f-muted">hot side</text>
+	<text x="530" y={Y1 + 22} class="t-end t-sm f-muted">cold side</text>
+	<line x1={X0} y1={Y1 + 30} x2={X1} y2={Y1 + 30} class="s-fg w1" />
+	<line x1={X0} y1={Y1 + 22} x2={X0} y2={Y1 + 38} class="s-fg w1" />
+	<line x1={X1} y1={Y1 + 22} x2={X1} y2={Y1 + 38} class="s-fg w1" />
+	<text x={(X0 + X1) / 2} y={Y1 + 54} class="t-mid t-sm">thickness d</text>
+	<line x1={X0 - 40} y1="40" x2={X1 + 28} y2="40" class="s-amber w3" />
+	<polygon points={head(X1 + 42, 40, 1, 0)} class="f-amber" />
+	<text x={X1 + 52} y="45" class="t-sm f-amber t-b">P = kA ΔT / d</text>
+	<text x={X0 - 50} y="45" class="t-end t-sm f-muted">heat flow</text>
+</svg>

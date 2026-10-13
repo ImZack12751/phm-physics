@@ -1,0 +1,37 @@
+---
+// Absorbed sunlight (flat) vs emitted σT⁴ (rising). Earth: S = 1361, α = 0.294 → 240.2 W/m², crossing at 255.1 K.
+// A 5% dimmer Sun → 228.2 W/m², crossing at 251.9 K.
+const s = 5.670374419e-8;
+const A0 = (1361 * 0.706) / 4, A1 = 0.95 * A0;
+const T0 = (A0 / s) ** 0.25, T1 = (A1 / s) ** 0.25;
+const L = 80, R = 560, T = 30, B = 240, tMin = 220, tMax = 280, pMin = 120, pMax = 360;
+const px = (t: number) => L + ((t - tMin) / (tMax - tMin)) * (R - L);
+const py = (p: number) => B - ((p - pMin) / (pMax - pMin)) * (B - T);
+const curve = Array.from({ length: 61 }, (_, i) => tMin + i).map((t, i) => `${i ? 'L' : 'M'}${px(t).toFixed(1)},${py(s * t ** 4).toFixed(1)}`).join(' ');
+---
+
+<svg class="dg" viewBox="0 0 600 310" xmlns="http://www.w3.org/2000/svg">
+	{[150, 200, 250, 300, 350].map((p) => (
+		<>
+			<line x1={L} y1={py(p)} x2={R} y2={py(p)} class="s-grid w1" />
+			<text x={L - 8} y={py(p) + 4} class="t-end t-sm f-muted">{p}</text>
+		</>
+	))}
+	{[220, 230, 240, 250, 260, 270, 280].map((t) => <text x={px(t)} y={B + 18} class="t-mid t-sm f-muted">{t}</text>)}
+	<line x1={L} y1={B} x2={R} y2={B} class="s-fg w2" />
+	<line x1={L} y1={B} x2={L} y2={T} class="s-fg w2" />
+	<path d={curve} class="s-rose w3" fill="none" />
+	<line x1={L} y1={py(A0)} x2={R} y2={py(A0)} class="s-amber w3" />
+	<line x1={L} y1={py(A1)} x2={R} y2={py(A1)} class="s-amber w2 dash" />
+	<line x1={px(T0)} y1={py(A0)} x2={px(T0)} y2={B} class="s-amber w1 dash" />
+	<line x1={px(T1)} y1={py(A1)} x2={px(T1)} y2={B} class="s-amber w1 dash" />
+	<circle cx={px(T0)} cy={py(A0)} r="6" class="f-amber" />
+	<circle cx={px(T1)} cy={py(A1)} r="5" class="f-amber" />
+	<text x={L + 8} y={py(A0) - 8} class="t-sm f-amber t-b halo">absorbed today: 240 W/m²</text>
+	<text x={L + 8} y={py(A1) + 18} class="t-sm f-amber halo">5% dimmer Sun: 228 W/m²</text>
+	<text x={px(T0) + 8} y={B - 8} class="t-sm halo">255 K</text>
+	<text x={px(T1) - 8} y={B - 8} class="t-end t-sm halo">252 K</text>
+	<text x={px(272)} y={py(s * 272 ** 4) + 20} class="t-sm f-rose halo">emitted: σT⁴</text>
+	<text x={(L + R) / 2} y={B + 42} class="t-mid t-sm">planet temperature (K)</text>
+	<text x="24" y={(T + B) / 2} class="t-mid t-sm" transform={`rotate(-90 24 ${(T + B) / 2})`}>W per m²</text>
+</svg>

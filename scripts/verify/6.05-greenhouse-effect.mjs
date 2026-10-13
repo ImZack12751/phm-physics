@@ -1,0 +1,31 @@
+import { check, report } from './lib.mjs';
+import { THERMAL as T, C } from './constants.mjs';
+const s = T.sigma;
+const Te = (S, a) => ((S * (1 - a)) / (4 * s)) ** 0.25;
+export default function () {
+	const TE = Te(C.solarIrradiance, T.earthAlbedo);
+	check('gap', T.earthTmean - TE, 33, 0.01);
+	check('wavelength ratio', C.sunTeff / T.earthTmean, 20, 0.01);
+	check('N2', 78.08, 78, 0.002); check('O2', 20.95, 21, 0.003);
+	check('WE1 2^.25', 2 ** 0.25, 1.189, 0.001); check('WE1 Ts', 2 ** 0.25 * 255.1, 303, 0.002); check('WE1 diff', 2 ** 0.25 * TE - 288, 15, 0.03);
+	const r = (288 / 255.1) ** 4;
+	check('WE2 r', r, 1.624, 0.001); check('WE2 eps', 2 - 2 / r, 0.77, 0.005); check('WE2 Ta', 288 / 2 ** 0.25, 242, 0.002); check('WE2 C', 288 / 2 ** 0.25 - 273.15, -31, 0.01);
+	check('model check', TE * (2 / (2 - 0.77)) ** 0.25, 288, 0.002);
+	const k4 = 4 * s * TE ** 3;
+	check('WE3 F', T.co2Coeff * Math.log(2), 3.71, 0.002); check('WE3 dT', (T.co2Coeff * Math.log(2)) / k4, 0.98, 0.005);
+	check('WE4 x1', Math.exp(2.4 / 5.35), 1.57, 0.005); check('WE4 e1', 2.4 / 5.35, 0.449, 0.002);
+	check('WE4 x5', Math.exp(12.0 / 5.35), 9.4, 0.005); check('WE4 e5', 12 / 5.35, 2.24, 0.003); check('WE4 F5', 0.05 * 240.2, 12.0, 0.002);
+	check('WE4 human', T.co2Now / T.co2Pre, 1.5, 0.003);
+	check('WE5 10', Math.exp(-10 / 12), 0.43, 0.012); check('WE5 30', Math.exp(-30 / 12), 0.082, 0.002);
+	check('fig co2now', T.co2Coeff * Math.log(T.co2Now / T.co2Pre), 2.2, 0.01); check('fig 10%', 0.1 * 240.2, 24.0, 0.002);
+	check('P4 ln', Math.log(421 / 280), 0.408, 0.002); check('P4', 5.35 * Math.log(421 / 280), 2.18, 0.002);
+	check('P5', s * 288 ** 4, 390, 0.002); check('P5 pct', 1 - (s * 288 ** 4) / (1.17 * 340), 0.02, 0.1);
+	check('P6 f', (2 / 1.5) ** 0.25, 1.0746, 1e-4); check('P6', 255.1 * (2 / 1.5) ** 0.25, 274, 0.002);
+	check('P7', 2 - 2 * (T.marsTbb / T.marsTmean) ** 4, 0.15, 0.02);
+	check('P8', Math.exp(6 / 5.35), 3.07, 0.002); check('P8 e', 6 / 5.35, 1.12, 0.002);
+	const rE = (483.15 / 434) ** 4;
+	check('P9 r', rE, 1.537, 0.002); check('P9 eps', 2 - 2 / rE, 0.7, 0.005);
+	check('P10a', 2 ** 0.25 * T.venusTbb, 269, 0.002); check('P10b', (T.venusTmean / T.venusTbb) ** 4, 112, 0.002);
+	check('P11 a', 12 * Math.log(4), 16.6, 0.003); check('P11 b', 12 * Math.log(2), 8.3, 0.003);
+	return report('6.5 The greenhouse effect');
+}

@@ -104,12 +104,12 @@ export const parts = [
 		id: 'part-6', icon: 'Q', dir: 'part-6', code: '6', label: 'Part 6 · Thermal physics and climate',
 		blurb: 'Heat, temperature and why a dimmer Sun means an ice age.',
 		chapters: [
-			{ slug: 'temperature-heat', title: 'Temperature and heat', prereqs: [], status: 'planned' },
-			{ slug: 'specific-latent-heat', title: 'Specific and latent heat', prereqs: [], status: 'planned' },
-			{ slug: 'heat-transfer', title: 'Heat transfer', prereqs: [], status: 'planned' },
-			{ slug: 'energy-balance', title: 'Planetary energy balance and albedo', prereqs: [], status: 'planned' },
-			{ slug: 'greenhouse-effect', title: 'The greenhouse effect', prereqs: [], status: 'planned' },
-			{ slug: 'feedback-loops', title: 'Feedback loops', prereqs: [], status: 'planned' },
+			{ slug: 'temperature-heat', title: 'Temperature and heat', prereqs: ['unit-handling', 'kinetic-potential-energy', 'conservation-laws', 'momentum'], status: 'review' },
+			{ slug: 'specific-latent-heat', title: 'Specific and latent heat', prereqs: ['temperature-heat', 'conservation-laws', 'graphs', 'power'], status: 'review' },
+			{ slug: 'heat-transfer', title: 'Heat transfer', prereqs: ['temperature-heat', 'specific-latent-heat', 'exponentials-logarithms', 'derivatives', 'power'], status: 'review' },
+			{ slug: 'energy-balance', title: 'Planetary energy balance and albedo', prereqs: ['heat-transfer', 'ratios-proportionality', 'specific-latent-heat', 'derivatives', 'keplers-laws'], status: 'review' },
+			{ slug: 'greenhouse-effect', title: 'The greenhouse effect', prereqs: ['energy-balance', 'heat-transfer', 'exponentials-logarithms', 'temperature-heat'], status: 'review' },
+			{ slug: 'feedback-loops', title: 'Feedback loops', prereqs: ['energy-balance', 'greenhouse-effect', 'specific-latent-heat', 'graphs'], status: 'review' },
 		],
 	},
 	{

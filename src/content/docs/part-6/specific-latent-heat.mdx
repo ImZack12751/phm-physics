@@ -1,0 +1,310 @@
+---
+title: Specific and latent heat
+description: How much heat it takes to warm things (Q = mcΔT) and why water's huge specific heat steadies the climate, mixing hot and cold objects, the hidden heat of melting and boiling (Q = mL), heating curves, and the energy needed to melt Antarctic ice.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import SpecificHeats from '../../../components/diagrams/part-6/SpecificHeats.astro';
+import HeatingCurve from '../../../components/diagrams/part-6/HeatingCurve.astro';
+import HeatingLab from '../../../components/sims/HeatingLab.astro';
+
+## The scene
+
+While Grace travels, the people on Earth try to slow the coming ice age. In the novel, the climatologist François Leclerc plans to break off a huge section of the Antarctic ice sheet with buried nuclear bombs so that the ice slides into the sea and melts. The melting releases methane trapped in the ice, a gas that traps heat in the atmosphere (Chapter 6.5).
+
+Melting a continent's worth of ice is an energy problem. How much heat does it take to melt ice, and where does that heat come from? This chapter answers with two simple formulas: one for warming things up and one for melting and boiling them.
+
+## Prerequisites
+
+<Prereqs notes={{ 'temperature-heat': 'heat, internal energy and the calorie', 'conservation-laws': 'energy is conserved, so heat lost equals heat gained', graphs: 'reading a graph with flat and sloping sections', 'power': 'energy delivered per second' }} />
+
+## The concept
+
+### Specific heat
+
+Put the same pan of water and the same empty iron pan on identical burners. The iron gets scorching in a minute; the water takes many minutes just to get warm. Different materials need different amounts of heat to warm by the same amount.
+
+The <Term id="specific-heat">specific heat</Term> $c$ of a material is the heat needed to warm **one kilogram** of it by **one kelvin** (or one degree Celsius, which is the same step). The heat needed to warm a mass $m$ by $\Delta T$ is then
+
+$$
+Q = mc\,\Delta T.
+$$
+
+<Figure caption="Specific heats of some common materials: the heat needed to warm 1 kg by 1 K. Water needs about ten times as much as iron or copper." alt="A horizontal bar chart of specific heats in joules per kilogram per kelvin. Liquid water 4186, the longest bar, in blue. Ice 2090. Steam 2020. Air 1015. Aluminium 900. Glass 840. Iron and steel 452. Copper 387, the shortest.">
+	<SpecificHeats />
+</Figure>
+
+Water's specific heat, $4186\ \text{J/(kg·K)}$, is unusually large. That is why the calorie (Chapter 6.1) was based on water, since 1 cal per gram per degree is just $4186\ \text{J}$ per kilogram per kelvin. It is also why oceans warm and cool slowly, why coastal climates are mild, and why the Earth's climate takes years, not days, to respond to a change in sunlight.
+
+The product $mc$ is the object's <Term id="heat-capacity">heat capacity</Term>: the heat it absorbs per kelvin of warming.
+
+### Mixing hot and cold
+
+Drop a hot object into cold water in an insulated container. Heat flows from hot to cold until they reach the same temperature (thermal equilibrium). No energy escapes, so **heat lost by the hot object equals heat gained by the cold one**. This is the method of <Term id="calorimetry">calorimetry</Term>, and it is how specific heats are measured.
+
+### Latent heat: heat that hides
+
+Heat a block of ice from $-20\ °\text{C}$. Its temperature rises steadily until it reaches $0\ °\text{C}$. Then something odd happens: you keep heating, but the temperature **stops rising** until all the ice has melted. The same thing happens again at $100\ °\text{C}$, while the water boils.
+
+At a <Term id="phase-change">phase change</Term>, the heat goes into pulling molecules apart: breaking the bonds that hold them in a crystal (melting) or freeing them from the liquid entirely (boiling). It raises their potential energy, not their kinetic energy, so the temperature stays put. The heat needed per kilogram is the <Term id="latent-heat">latent heat</Term> $L$ ("latent" means hidden):
+
+$$
+Q = mL.
+$$
+
+For water, the latent heat of fusion (melting) is $L_{\text{f}} = 334\ \text{kJ/kg}$ and the latent heat of vaporisation (boiling) is $L_{\text{v}} = 2256\ \text{kJ/kg}$. Boiling a kilogram of water takes more than five times the heat needed to warm it all the way from freezing to boiling.
+
+<Figure caption="The heating curve for 1 kg of ice starting at −20 °C, heated steadily. The temperature climbs on the sloping sections and stays flat while the ice melts and while the water boils. The long boiling plateau shows that turning water to steam takes most of the energy." alt="A graph of temperature in degrees Celsius against heat added in megajoules, from 0 to 3.2. A short steep line rises from minus 20 to 0 degrees by 0.04 MJ (warming ice). A flat line at 0 degrees runs to 0.38 MJ (melting, 334 kJ). A sloping line rises to 100 degrees at 0.79 MJ (warming water, 419 kJ). A long flat line at 100 degrees runs to 3.05 MJ (boiling, 2256 kJ). A short steep line then rises (warming steam).">
+	<HeatingCurve />
+</Figure>
+
+The process runs backwards too. Freezing water gives out 334 kJ for every kilogram, and condensing steam gives out 2256 kJ. That is why a steam burn is far worse than a burn from boiling water, and why sweating cools you: each kilogram of sweat that evaporates carries away about 2.3 MJ from your skin.
+
+### Astrophage: a plateau that never ends
+
+A melting ice cube is a thermostat for as long as it lasts: drop it in a drink and the drink is pinned near $0\ °\text{C}$ until the ice is gone. Astrophage in the novel behaves like an ice cube that never runs out. Every joule it absorbs above its set point is stored as mass rather than as faster jiggling, so its temperature never leaves $96.415\ °\text{C}$. Its "latent heat" is, in effect, $c^{2} = 9 \times 10^{16}$ J per kilogram of mass gained (Part 9).
+
+## Formulas
+
+### Warming and cooling
+
+$$
+\boxed{Q = mc\,\Delta T}
+$$
+
+$Q$ is positive when heat flows in (the object warms) and negative when it flows out.
+
+### Phase changes
+
+$$
+\boxed{Q = mL}
+$$
+
+with $L_{\text{f}}$ for melting or freezing and $L_{\text{v}}$ for boiling or condensing.
+
+### The final temperature of a mixture
+
+Two objects (masses $m_{1}$, $m_{2}$, specific heats $c_{1}$, $c_{2}$, starting temperatures $T_{1}$, $T_{2}$) reach a common temperature $T$ with no phase change. Heat lost by one equals heat gained by the other:
+
+$$
+m_{1}c_{1}(T_{1} - T) = m_{2}c_{2}(T - T_{2})
+$$
+
+Expand and collect the terms in $T$:
+
+$$
+m_{1}c_{1}T_{1} + m_{2}c_{2}T_{2} = (m_{1}c_{1} + m_{2}c_{2})\,T
+$$
+
+$$
+\boxed{T = \frac{m_{1}c_{1}T_{1} + m_{2}c_{2}T_{2}}{m_{1}c_{1} + m_{2}c_{2}}}
+$$
+
+The final temperature is an average of the two, weighted by heat capacity. The object with the bigger $mc$ wins.
+
+## Worked examples
+
+<Example n={1} title="Warming the floor" book>
+In Chapter 5.4, a 20 kg crate skidded to a stop and turned 40 J of kinetic energy into thermal energy. Suppose all 40 J went into 1.0 kg of steel in the crate's base ($c = 452\ \text{J/(kg·K)}$). How much would it warm?
+
+$$
+\Delta T = \frac{Q}{mc} = \frac{40\ \text{J}}{1.0\ \text{kg} \times 452\ \text{J/(kg·K)}} = 0.088\ \text{K}
+$$
+
+Less than a tenth of a degree, and in reality the heat is shared with the floor, so the warming is even smaller. That is why friction's heat usually goes unnoticed.
+</Example>
+
+<Example n={2} title="From ice to steam" book>
+How much heat turns 1.0 kg of ice at $-20\ °\text{C}$ into steam at $100\ °\text{C}$? How much Astrophage would supply that energy, at $9 \times 10^{16}$ J per kilogram?
+
+$$
+\begin{aligned}
+\text{warm the ice:}\quad Q_{1} &= 1.0 \times 2090 \times 20\ \text{J} = 41\,800\ \text{J} \\
+\text{melt it:}\quad Q_{2} &= 1.0 \times 334\,000\ \text{J} = 334\,000\ \text{J} \\
+\text{warm the water:}\quad Q_{3} &= 1.0 \times 4186 \times 100\ \text{J} = 418\,600\ \text{J} \\
+\text{boil it:}\quad Q_{4} &= 1.0 \times 2\,256\,000\ \text{J} = 2\,256\,000\ \text{J} \\
+\text{total:}\quad Q &= 3.05 \times 10^{6}\ \text{J}
+\end{aligned}
+$$
+
+Boiling alone is 74% of the total. The Astrophage needed is $3.05 \times 10^{6}\ \text{J} / 9 \times 10^{16}\ \text{J/kg} = 3.4 \times 10^{-11}$ kg, or 34 nanograms. Turned around, one microgram of Astrophage would boil away about 30 kg of ice.
+</Example>
+
+<Example n={3} title="Melting Antarctic ice" book>
+Leclerc's plan sends ice into the sea to melt. How much heat does it take to melt one cubic kilometre of ice already at $0\ °\text{C}$ (density 917 kg/m³)? If the heat comes from seawater cooling by $1\ °\text{C}$, how much water must cool? (Treat seawater like fresh water.)
+
+$$
+m = 917\ \text{kg/m}^{3} \times 1 \times 10^{9}\ \text{m}^{3} = 9.17 \times 10^{11}\ \text{kg}
+$$
+
+$$
+Q = mL_{\text{f}} = 9.17 \times 10^{11}\ \text{kg} \times 3.34 \times 10^{5}\ \text{J/kg} = 3.06 \times 10^{17}\ \text{J}
+$$
+
+$$
+m_{\text{water}} = \frac{Q}{c\,\Delta T} = \frac{3.06 \times 10^{17}\ \text{J}}{4186\ \text{J/(kg·K)} \times 1\ \text{K}} = 7.3 \times 10^{13}\ \text{kg}
+$$
+
+That is about 73 cubic kilometres of seawater, cooled by a degree, for every cubic kilometre of ice. In the novel, the ocean near the drop is expected to cool by about a degree, which fits: the melting ice is a giant heat sink.
+</Example>
+
+<Example n={4} title="A hot tool from Rocky's side" book>
+Rocky passes back a 0.50 kg aluminium tool at $210\ °\text{C}$, and Grace drops it into 2.0 kg of water at $20\ °\text{C}$ in an insulated bucket. What is the final temperature? (Assume no water boils away.)
+
+$$
+T = \frac{0.50 \times 900 \times 210 + 2.0 \times 4186 \times 20}{0.50 \times 900 + 2.0 \times 4186}\ °\text{C} = \frac{94\,500 + 167\,440}{450 + 8372}\ °\text{C} = 29.7\ °\text{C}
+$$
+
+The tool cools by 180 degrees; the water warms by less than 10. The water's heat capacity, 8372 J/K, is almost 19 times the tool's 450 J/K.
+</Example>
+
+<Example n={5} title="Why the ocean slows the ice age">
+Above each square metre of Earth's surface sits about $1.0 \times 10^{4}$ kg of air (the atmosphere's $5.1 \times 10^{18}$ kg spread over $5.1 \times 10^{14}\ \text{m}^{2}$). Compare its heat capacity with that of the top 100 m of ocean below a square metre.
+
+$$
+\text{air:}\quad mc = 1.0 \times 10^{4}\ \text{kg} \times 1015\ \text{J/(kg·K)} = 1.0 \times 10^{7}\ \text{J/K}
+$$
+
+$$
+\text{ocean:}\quad m = 100\ \text{m}^{3} \times 1000\ \text{kg/m}^{3} = 1.0 \times 10^{5}\ \text{kg} \qquad mc = 1.0 \times 10^{5} \times 4186\ \text{J/K} = 4.2 \times 10^{8}\ \text{J/K}
+$$
+
+The top 100 m of ocean holds about 41 times as much heat per degree as the whole column of air above it. A dimmer Sun has to drain all that heat before the surface can cool much. That delay is exactly what the people of Earth are counting on to buy time.
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** Specific and latent heats are measured properties (OpenStax Vol. 2 §1.4 and §1.5, Tables 1.3 and 1.4). The atmosphere's mass is from NASA's Earth fact sheet. The ocean's large heat capacity really does slow the climate's response to changes in sunlight.
+
+**Weir's inventions.** The Antarctic bombing plan is part of the novel (reader guides describe 241 bombs buried 50 m deep at 3 km intervals). Astrophage's endless "plateau" at 96.415 °C is invented. The hot tool is our illustration.
+
+**How realistic are the numbers?** Melting ice really does take enormous amounts of heat: $3 \times 10^{17}$ J per cubic kilometre. In energy terms that is about 3.4 kg of mass turned completely into energy, or roughly 73 million tonnes of TNT. The ocean, not bombs, supplies almost all of it. The bombs' job in the novel is only to break the ice free so that the sea can do the melting.
+</RealVsBook>
+
+## Interactive simulation
+
+<HeatingLab />
+
+Things to try: start with ice at $-20\ °\text{C}$ and drag the heat slider slowly. The temperature stalls at 0 °C and again at 100 °C. Double the mass and every section stretches to twice the length. Find how much heat is needed just to get from 0 °C water to the first bubble of steam, and compare it with the boiling plateau.
+
+## Practice set
+
+<Problem n={1} level="easy">
+How much heat warms 2.0 kg of water from $20\ °\text{C}$ to $80\ °\text{C}$?
+
+<Solution>
+$Q = 2.0 \times 4186 \times 60\ \text{J} = 5.02 \times 10^{5}$ J $= 502$ kJ.
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy">
+How much heat melts 0.50 kg of ice that is already at $0\ °\text{C}$?
+
+<Solution>
+$Q = mL_{\text{f}} = 0.50 \times 334\,000\ \text{J} = 1.67 \times 10^{5}$ J $= 167$ kJ.
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy">
+While water boils on a stove, the burner keeps supplying heat, yet the temperature stays at 100 °C. Where does the energy go?
+
+<Solution>
+Into separating the molecules from the liquid (latent heat): it raises their potential energy, not their average kinetic energy, so the temperature doesn't change. The steam carries the energy away.
+</Solution>
+</Problem>
+
+<Problem n={4} level="medium">
+A 1.0 kg copper block and a 1.0 kg aluminium block both absorb 9000 J. How much does each warm?
+
+<Solution>
+Copper: $\Delta T = 9000/(1.0 \times 387) = 23.3$ K. Aluminium: $9000/(1.0 \times 900) = 10.0$ K.
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium" book>
+A 2.0 kW heater warms 5.0 kg of water from $15\ °\text{C}$ to $95\ °\text{C}$ in the *Hail Mary*'s galley. If all its output goes into the water, how long does it take?
+
+<Solution>
+$Q = 5.0 \times 4186 \times 80 = 1.67 \times 10^{6}$ J. $t = Q/P = 1.67 \times 10^{6}/2000 = 837$ s, about 14 minutes.
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium">
+0.30 kg of water at $90\ °\text{C}$ is mixed with 0.70 kg of water at $10\ °\text{C}$. Find the final temperature.
+
+<Solution>
+The specific heats cancel: $T = \dfrac{0.30 \times 90 + 0.70 \times 10}{1.0}\ °\text{C} = 34\ °\text{C}$.
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium">
+How much heat must be removed from 1.0 kg of water at $20\ °\text{C}$ to turn it into ice at $0\ °\text{C}$?
+
+<Solution>
+Cool the water: $1.0 \times 4186 \times 20 = 83\,700$ J. Freeze it: $334\,000$ J. Total $4.18 \times 10^{5}$ J.
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium">
+A runner evaporates 0.50 kg of sweat during a race. How much heat does this carry from the body (use $L_{\text{v}} = 2256\ \text{kJ/kg}$, a slight overestimate at skin temperature)?
+
+<Solution>
+$Q = 0.50 \times 2.256 \times 10^{6} = 1.13 \times 10^{6}$ J, about 1.1 MJ.
+</Solution>
+</Problem>
+
+<Problem n={9} level="medium" book>
+On Erid, ammonia boils at a high temperature because of the high pressure. At Earth's surface pressure, ammonia boils at $-33.4\ °\text{C}$ with a latent heat of 1370 kJ/kg. How much heat boils 2.0 kg of liquid ammonia that is already at its boiling point?
+
+<Solution>
+$Q = 2.0 \times 1.37 \times 10^{6} = 2.74 \times 10^{6}$ J.
+</Solution>
+</Problem>
+
+<Problem n={10} level="challenging">
+A 0.20 kg iron bar at $400\ °\text{C}$ is dropped into 0.50 kg of water at $20\ °\text{C}$ in an insulated cup. Find the final temperature, and check that no water boils.
+
+<Solution>
+$T = \dfrac{0.20 \times 452 \times 400 + 0.50 \times 4186 \times 20}{0.20 \times 452 + 0.50 \times 4186}\ °\text{C} = \dfrac{36\,160 + 41\,860}{90.4 + 2093}\ °\text{C} = 35.7\ °\text{C}$. That is below 100 °C, so no water boils overall (though a little may sizzle where the hot bar first touches it).
+</Solution>
+</Problem>
+
+<Problem n={11} level="challenging">
+How much ice at $0\ °\text{C}$ must be added to 1.0 kg of water at $30\ °\text{C}$ to end with all water at exactly $0\ °\text{C}$?
+
+<Solution>
+Heat available from cooling the water: $1.0 \times 4186 \times 30 = 125\,580$ J. Each kilogram of ice needs 334 000 J to melt (and then stays at 0 °C). $m = 125\,580/334\,000 = 0.376$ kg.
+</Solution>
+</Problem>
+
+<Problem n={12} level="challenging" book>
+Suppose the Antarctic operation eventually melts 1000 km³ of ice. How much heat does that take? Express it as a fraction of a year's worth of sunlight absorbed by the whole Earth, about $1.2 \times 10^{17}$ W (a figure Chapter 6.4 derives).
+
+<Solution>
+$Q = 1000 \times 3.06 \times 10^{17}\ \text{J} = 3.06 \times 10^{20}$ J. A year of absorbed sunlight: $1.2 \times 10^{17}\ \text{W} \times 3.156 \times 10^{7}\ \text{s} = 3.8 \times 10^{24}$ J. The fraction is $3.06 \times 10^{20}/3.8 \times 10^{24} = 8 \times 10^{-5}$: less than an hour's sunlight. Huge by human standards, tiny on the planet's scale.
+</Solution>
+</Problem>
+
+## Summary
+
+- Warming a mass $m$ by $\Delta T$ needs heat $Q = mc\Delta T$. Water's specific heat, $4186\ \text{J/(kg·K)}$, is among the largest of common substances.
+- In a mixture, heat lost by the hot part equals heat gained by the cold part; the final temperature is a heat-capacity-weighted average.
+- At a phase change the temperature stays fixed while heat $Q = mL$ breaks molecular bonds. For water, $L_{\text{f}} = 334$ kJ/kg and $L_{\text{v}} = 2256$ kJ/kg.
+- Melting ice soaks up huge amounts of heat; the ocean's large heat capacity slows how fast climate can change.
+
+**Formulas from this chapter**
+
+$$
+Q = mc\,\Delta T \qquad Q = mL \qquad T = \frac{m_{1}c_{1}T_{1} + m_{2}c_{2}T_{2}}{m_{1}c_{1} + m_{2}c_{2}}
+$$
+
+## Sources
+
+- Specific heats (Table 1.3) and calorimetry: OpenStax, *University Physics Volume 2*, [§1.4 Heat Transfer, Specific Heat, and Calorimetry](https://openstax.org/books/university-physics-volume-2/pages/1-4-heat-transfer-specific-heat-and-calorimetry).
+- Latent heats of water and ammonia, and ammonia's boiling point (Table 1.4): OpenStax, [§1.5 Phase Changes](https://openstax.org/books/university-physics-volume-2/pages/1-5-phase-changes).
+- Density of ice, 917 kg/m³: OpenStax, *University Physics Volume 1*, [§14.1 Fluids, Density, and Pressure](https://openstax.org/books/university-physics-volume-1/pages/14-1-fluids-density-and-pressure) (Table 14.1).
+- Mass of Earth's atmosphere, $5.1 \times 10^{18}$ kg: NASA, [Earth Fact Sheet](https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html).
+- TNT equivalent, 4.184 MJ/kg: Wikipedia, [TNT equivalent](https://en.wikipedia.org/wiki/TNT_equivalent).
+- The Antarctic operation in the novel (241 bombs, 50 m deep, 3 km apart; ice sliding into the sea to release methane; the nearby ocean expected to cool by about a degree): reader guide, [readifyai: Antarctica methane release](https://readifyai.com/books/Project%20Hail%20Mary/wiki/Antarctica%20methane%20release). Not an official source; treat as approximate.
+- Erid's ammonia atmosphere: /Film, ["Project Hail Mary: Why Rocky and Grace can't be in the same space"](https://slashfilm.com/2125069/project-hail-mary-why-rocky-grace-not-same-space).

@@ -1,0 +1,325 @@
+---
+title: Planetary energy balance and albedo
+description: Why a planet settles at the temperature where the sunlight it absorbs equals the infrared it radiates, the factor of four between a disc and a sphere, albedo, Earth's equilibrium temperature of 255 K, how much a dimmer Sun cools a planet, the Sahara blackpanels, and how long the climate takes to respond.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import DiscAndSphere from '../../../components/diagrams/part-6/DiscAndSphere.astro';
+import BalanceCurves from '../../../components/diagrams/part-6/BalanceCurves.astro';
+import PlanetThermostat from '../../../components/sims/PlanetThermostat.astro';
+
+## The scene
+
+The crisis in *Project Hail Mary* is a forecast. Astrophage is eating sunlight, and the Sun's output is set to fall by about 1% within nine years and about 5% within twenty. The novel's scientists conclude that this will bring a catastrophic ice age within a few decades, and a quarter of the Sahara is paved with black panels to breed Astrophage for the mission.
+
+A few percent less sunlight doesn't sound like much. How cold would the Earth actually get? And would painting a big piece of desert black matter? Both questions come down to the same principle: a planet's temperature is set by the balance between the energy it absorbs and the energy it radiates away.
+
+## Prerequisites
+
+<Prereqs notes={{ 'heat-transfer': 'every object radiates P = eσAT⁴', 'ratios-proportionality': 'the solar constant, 1361 W/m², and the inverse-square law', 'specific-latent-heat': 'heat capacity and the ocean', 'derivatives': 'small changes and slopes', 'keplers-laws': 'finding an orbit’s size from its period' }} />
+
+## The concept
+
+### Energy in, energy out
+
+Think of a bathtub with the tap running and the plug out. The water level rises until it is high enough that water drains out as fast as it flows in. Then the level stays steady. A planet is the same. Sunlight pours energy in; the planet radiates infrared out into space, and (Chapter 6.3) the hotter it is, the faster it radiates. Its temperature rises or falls until the two match. That steady temperature is the planet's <Term id="equilibrium-temperature">equilibrium temperature</Term>.
+
+Space is a vacuum, so radiation is the only way in or out.
+
+### The factor of four
+
+Sunlight arrives as a parallel beam. The Earth blocks it like a flat disc of area $\pi R^{2}$, so the power intercepted is $S\pi R^{2}$, where $S = 1361\ \text{W/m}^{2}$ is the <Term id="solar-constant">solar constant</Term>. But the Earth spins, and it radiates from its **whole** surface, $4\pi R^{2}$, day side and night side alike.
+
+<Figure caption="Sunlight is caught by a disc of area πR² but the planet radiates from a whole sphere of area 4πR². Spread over the globe, the average sunlight per square metre is S/4." alt="Parallel arrows of sunlight from the left strike a circle representing the planet. A dashed disc outline facing the Sun is labelled catches sunlight on area pi R squared. Wavy infrared arrows leave the planet in all directions, labelled radiates from the whole sphere, area 4 pi R squared. A note reads average sunlight per square metre equals S over 4, about 340 W per square metre.">
+	<DiscAndSphere />
+</Figure>
+
+So the sunlight per square metre of the Earth's surface, averaged over day and night and over all latitudes, is
+
+$$
+\frac{S\pi R^{2}}{4\pi R^{2}} = \frac{S}{4} = \frac{1361\ \text{W/m}^{2}}{4} = 340\ \text{W/m}^{2}.
+$$
+
+### Albedo
+
+Not all that sunlight is absorbed. Clouds, ice, snow and deserts reflect some straight back to space. The fraction reflected is the planet's <Term id="albedo">albedo</Term>, $\alpha$, from the Latin for "whiteness". Fresh snow reflects about 80%, desert sand 40%, grass 25%, forest about 15% and the open ocean only 6%. For the Earth as a whole, NASA gives $\alpha = 0.294$: about 29% of sunlight is reflected and 71% absorbed.
+
+### The balance
+
+Absorbed per square metre (averaged): $\dfrac{S(1 - \alpha)}{4}$. Radiated per square metre: $\sigma T^{4}$, treating the planet as a perfect emitter of infrared ($e = 1$). Setting them equal gives the equilibrium temperature (derived below):
+
+$$
+T_{\text{e}} = \left[\frac{S(1 - \alpha)}{4\sigma}\right]^{1/4}.
+$$
+
+For the Earth this gives about 255 K, which is $-18\ °\text{C}$. Yet the Earth's average surface temperature is 288 K, $15\ °\text{C}$. The 33-degree gap is the greenhouse effect, the subject of Chapter 6.5. For now, notice that the balance sets the temperature at which the planet **radiates to space**, and changes in sunlight or albedo shift it.
+
+<Figure caption="The balance as two curves. Absorbed sunlight (flat lines) doesn't depend on the planet's temperature; emitted infrared, σT⁴, climbs steeply. The planet settles where they cross. A 5% dimmer Sun lowers the absorbed line, and the crossing moves 3 K colder." alt="A graph of power per square metre, from about 120 to 360, against temperature from 220 to 280 kelvins. A rising red curve labelled emitted, sigma T to the fourth. A horizontal amber line at 240 watts per square metre labelled absorbed today, crossing the curve at 255 K. A lower dashed horizontal amber line at 228 watts per square metre labelled 5 percent dimmer Sun, crossing at 252 K. Short vertical dashed lines drop from both crossings to the temperature axis.">
+	<BalanceCurves />
+</Figure>
+
+### Why a few percent matters
+
+Because $T_{\text{e}}$ depends on the fourth root of the sunlight, a small fractional change in $S$ makes a change **four times smaller** in $T_{\text{e}}$: 1% less sunlight lowers the equilibrium temperature by $0.25\%$, about 0.64 K. That sounds mild. But a 5% drop takes away 3.3 K, and for comparison the Earth during the last ice age, 21 000 years ago, was only about 6 °C colder than today. And this simple estimate leaves out **feedbacks**: as the planet cools, ice and snow spread, raise the albedo and cool it further. Chapter 6.6 shows that this roughly triples the effect.
+
+### How fast the planet responds
+
+The planet doesn't jump to its new temperature. Chapter 6.2 showed that the top 100 m of ocean stores about $4.2 \times 10^{8}$ J per kelvin under each square metre. When the absorbed sunlight drops, the ocean must lose that heat before the surface can cool. The time scale (derived below) is a few years: long enough to buy the people of Earth some time, too short to save them without help.
+
+## Formulas
+
+### Equilibrium temperature
+
+Power absorbed by the whole planet equals power radiated:
+
+$$
+S(1 - \alpha)\,\pi R^{2} = \sigma T_{\text{e}}^{4} \times 4\pi R^{2}
+$$
+
+The $\pi R^{2}$ cancels, so the planet's size doesn't matter:
+
+$$
+\sigma T_{\text{e}}^{4} = \frac{S(1 - \alpha)}{4} \qquad\Rightarrow\qquad \boxed{T_{\text{e}} = \left[\frac{S(1 - \alpha)}{4\sigma}\right]^{1/4}}
+$$
+
+### Sensitivity to sunlight and albedo
+
+$T_{\text{e}}$ is proportional to $S^{1/4}$, so for two values of $S$:
+
+$$
+\frac{T_{2}}{T_{1}} = \left(\frac{S_{2}}{S_{1}}\right)^{1/4}.
+$$
+
+For a small change, differentiate $T = kS^{1/4}$ (Chapter C.3): $\dfrac{dT}{dS} = \tfrac{1}{4}kS^{-3/4} = \dfrac{T}{4S}$, so
+
+$$
+\boxed{\frac{\Delta T}{T} \approx \frac{1}{4}\,\frac{\Delta S}{S} \qquad \frac{\Delta T}{T} \approx -\frac{1}{4}\,\frac{\Delta\alpha}{1 - \alpha}}
+$$
+
+The second follows the same way, because $T$ is proportional to $(1 - \alpha)^{1/4}$.
+
+### Response time
+
+If the absorbed power changes, the imbalance $N$ (in W/m²) warms or cools a layer of heat capacity $C$ per square metre: $C\dfrac{dT}{dt} = N$. Near equilibrium, warming by $\Delta T$ raises the emitted power by $\dfrac{d}{dT}(\sigma T^{4})\,\Delta T = 4\sigma T^{3}\Delta T$, which shrinks the imbalance. This is exactly Newton's law of cooling (Chapter 6.3) with time constant
+
+$$
+\boxed{\tau = \frac{C}{4\sigma T^{3}}}
+$$
+
+## Worked examples
+
+<Example n={1} title="Earth's equilibrium temperature">
+Use $S = 1361\ \text{W/m}^{2}$ and $\alpha = 0.294$.
+
+$$
+\frac{S(1 - \alpha)}{4} = \frac{1361 \times 0.706}{4}\ \text{W/m}^{2} = 240.2\ \text{W/m}^{2}
+$$
+
+$$
+T_{\text{e}} = \left(\frac{240.2\ \text{W/m}^{2}}{5.670 \times 10^{-8}\ \text{W/(m}^{2}\text{K}^{4})}\right)^{1/4} = (4.236 \times 10^{9}\ \text{K}^{4})^{1/4} = 255\ \text{K}
+$$
+
+That is $-18\ °\text{C}$, close to NASA's quoted "black-body temperature" of 254 K, and 33 K below the measured average of 288 K.
+</Example>
+
+<Example n={2} title="The forecast dimming" book>
+Find the drop in Earth's equilibrium temperature if the Sun dims by 1%, by 5% (the novel's forecasts) and by 10%.
+
+$$
+T_{2} = T_{1}\left(\frac{S_{2}}{S_{1}}\right)^{1/4}
+$$
+
+$$
+\begin{aligned}
+1\%:&\quad 255.12 \times 0.99^{1/4} = 255.12 \times 0.99749 = 254.48\ \text{K} &&\Delta T = -0.64\ \text{K} \\
+5\%:&\quad 255.12 \times 0.95^{1/4} = 255.12 \times 0.98726 = 251.87\ \text{K} &&\Delta T = -3.3\ \text{K} \\
+10\%:&\quad 255.12 \times 0.90^{1/4} = 255.12 \times 0.97400 = 248.49\ \text{K} &&\Delta T = -6.6\ \text{K}
+\end{aligned}
+$$
+
+The quick rule $\Delta T/T \approx \tfrac{1}{4}\Delta S/S$ gives the same: $255 \times 0.0025 = 0.64$ K for 1%. Even before any feedbacks, a 10% dimming matches the cooling of the last ice age.
+</Example>
+
+<Example n={3} title="The Sahara blackpanels" book>
+In the novel, Astrophage breeder panels cover about $2 \times 10^{12}\ \text{m}^{2}$, a quarter of the Sahara. Suppose they turn desert sand ($\alpha = 0.40$) into a black surface ($\alpha = 0.05$, assumed). Using the global-average sunlight of 340 W/m², how much extra power is absorbed, and how much would it warm the planet's equilibrium temperature if it all became heat?
+
+$$
+\Delta P = 340\ \text{W/m}^{2} \times (0.40 - 0.05) \times 2 \times 10^{12}\ \text{m}^{2} = 2.4 \times 10^{14}\ \text{W}
+$$
+
+As a change in the whole Earth's albedo ($5.10 \times 10^{14}\ \text{m}^{2}$):
+
+$$
+\Delta\alpha = -\frac{0.35 \times 2 \times 10^{12}}{5.10 \times 10^{14}} = -1.37 \times 10^{-3}
+$$
+
+$$
+\Delta T \approx -\frac{T}{4}\,\frac{\Delta\alpha}{1 - \alpha} = -\frac{255\ \text{K}}{4} \times \frac{-1.37 \times 10^{-3}}{0.706} = +0.12\ \text{K}
+$$
+
+About a tenth of a degree globally: small next to the dimming. The real worry in the novel is local: $2.4 \times 10^{14}$ W, twelve times humanity's entire power use, dumped into one patch of desert would upset the winds and weather. (If the Astrophage stored the energy as mass instead of heat, even the local heating would be less.)
+</Example>
+
+<Example n={4} title="Venus: closer but colder?">
+Venus gets $S = 2601.3\ \text{W/m}^{2}$, nearly twice Earth's, but its clouds give it an albedo of 0.77. Find its equilibrium temperature.
+
+$$
+\frac{S(1 - \alpha)}{4} = \frac{2601.3 \times 0.23}{4}\ \text{W/m}^{2} = 149.6\ \text{W/m}^{2} \qquad T_{\text{e}} = \left(\frac{149.6}{5.670 \times 10^{-8}}\right)^{1/4}\ \text{K} = 227\ \text{K}
+$$
+
+Its brilliant clouds reflect so much that Venus absorbs **less** sunlight per square metre than Earth (149.6 against 240.2 W/m²), and its equilibrium temperature is colder. Yet its surface is a scorching 737 K. Chapter 6.5 explains why.
+</Example>
+
+<Example n={5} title="How quickly does the Earth respond?">
+Using the top 100 m of ocean ($C = 4.19 \times 10^{8}$ J/K per m², Chapter 6.2) and $T = 255$ K, find the response time.
+
+$$
+4\sigma T^{3} = 4 \times 5.670 \times 10^{-8} \times 255.1^{3}\ \text{W/(m}^{2}\text{K)} = 3.77\ \text{W/(m}^{2}\text{K)}
+$$
+
+$$
+\tau = \frac{C}{4\sigma T^{3}} = \frac{4.19 \times 10^{8}\ \text{J/(m}^{2}\text{K)}}{3.77\ \text{W/(m}^{2}\text{K)}} = 1.11 \times 10^{8}\ \text{s} = 3.5\ \text{years}
+$$
+
+After a sudden drop in sunlight, about 63% of the cooling arrives within 3.5 years and 95% within about 10 years ($3\tau$). Deeper ocean layers, which exchange heat slowly, stretch the full response to decades.
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** The energy-balance model and the 255 K equilibrium temperature are standard climate physics; NASA lists Bond albedos and black-body temperatures for each planet (Earth 0.294 and 254 K, Venus 0.77 and 226.6 K, Mars 0.250 and 209.8 K). The 340 W/m² average and 29% reflection are from NASA's Earth energy budget. The last ice age was about 6 °C colder than today (Tierney and others, 2020). The response time is a rough, single-layer estimate.
+
+**Weir's inventions.** The dimming forecast (1% in nine years, 5% in twenty) and its cause are fictional. The blackpanel farm, about $2 \times 10^{12}$ m² of the Sahara, is from the novel (as described in reader guides); the panels' albedo of 0.05 is our assumption.
+
+**How realistic are the numbers?** The physics gives a clear answer: a 1% dimming alone cools the planet's radiating temperature by about 0.6 K, and 5% by over 3 K, before feedbacks. The real Sun varies by only about 0.1% over its 11-year cycle, so nothing like this has happened in human history. For comparison, the 1815 Tambora eruption cut sunlight with a haze and cooled the world by about half a degree, and 1816 became the "Year Without a Summer", with crop failures across the Northern Hemisphere. The novel's fear of famine is well founded.
+</RealVsBook>
+
+## Interactive simulation
+
+<PlanetThermostat />
+
+Things to try: lower the Sun's brightness to 95% and read the change in temperature. Then put it back and raise the albedo by 0.05 instead: the effect is similar, which is why melting or spreading ice matters so much (Chapter 6.6). Pick Venus and see how its clouds keep its equilibrium temperature below Earth's.
+
+## Practice set
+
+<Problem n={1} level="easy">
+Why is the average sunlight per square metre of Earth's surface $S/4$, not $S/2$?
+
+<Solution>
+The Earth catches sunlight on a disc of area $\pi R^{2}$ but has a surface of $4\pi R^{2}$: four times as much. Averaging over day and night only explains a factor of 2; the other factor of 2 comes from sunlight striking most of the day side at a slant.
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy">
+A planet's albedo rises from 0.30 to 0.35. Does it absorb more or less sunlight? By what fraction?
+
+<Solution>
+Less. Absorbed fraction falls from 0.70 to 0.65, a drop of $0.05/0.70 = 7.1\%$.
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy">
+Does the equilibrium temperature of a planet depend on its size? Explain.
+
+<Solution>
+No. Both the absorbed power ($\propto \pi R^{2}$) and the radiated power ($\propto 4\pi R^{2}$) scale with $R^{2}$, so the radius cancels.
+</Solution>
+</Problem>
+
+<Problem n={4} level="medium">
+Mars receives $586.2\ \text{W/m}^{2}$ and has an albedo of 0.250. Find its equilibrium temperature and compare it with NASA's 209.8 K.
+
+<Solution>
+$\dfrac{586.2 \times 0.75}{4} = 109.9$ W/m². $T_{\text{e}} = (109.9/5.670 \times 10^{-8})^{1/4} = 209.8$ K. They agree. Mars's mean surface temperature, about 214 K, is only a little warmer, because its thin air makes only a small greenhouse effect.
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium">
+Using the quick rule, by how much does Earth's equilibrium temperature change if its albedo rises by 0.01?
+
+<Solution>
+$\Delta T \approx -\dfrac{255}{4} \times \dfrac{0.01}{0.706} = -0.90$ K. A 1-point rise in albedo cools about as much as a 1.4% dimmer Sun.
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium" book>
+Our model Adrian orbits Tau Ceti ($0.52\ L_{\odot}$) at 0.552 au. Find the sunlight it receives and its equilibrium temperature with an Earth-like albedo of 0.294.
+
+<Solution>
+$S = 1361 \times \dfrac{0.52}{0.552^{2}} = 2323$ W/m². $T_{\text{e}} = 255.12 \times (2323/1361)^{1/4} = 292$ K. Adrian gets 1.7 times Earth's sunlight, and its radiating temperature would be about 37 K higher than Earth's.
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium">
+How much less sunlight, averaged over the globe and allowing for albedo, does Earth absorb when the Sun dims by 1%?
+
+<Solution>
+$0.01 \times 240.2 = 2.4$ W/m². (Part 0's 14 W/m² is for a square metre facing the Sun, before reflection.)
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium">
+If the whole Earth were covered in snow and ice, with an albedo of about 0.60, what would its equilibrium temperature be?
+
+<Solution>
+$T_{\text{e}} = \left(\dfrac{1361 \times 0.40}{4 \times 5.670 \times 10^{-8}}\right)^{1/4} = 221$ K, 34 K colder than today. Once frozen, the bright ice keeps a planet frozen (Chapter 6.6).
+</Solution>
+</Problem>
+
+<Problem n={9} level="medium">
+How much sunlight does the whole Earth absorb, in watts? (Earth's radius is 6371 km.)
+
+<Solution>
+$S(1 - \alpha)\pi R^{2} = 1361 \times 0.706 \times \pi \times (6.371 \times 10^{6})^{2} = 1.23 \times 10^{17}$ W, about 6000 times humanity's total power use.
+</Solution>
+</Problem>
+
+<Problem n={10} level="challenging">
+By what percentage would the Sun have to dim for Earth's equilibrium temperature to fall by 6 K, matching the last ice age (with no feedbacks)?
+
+<Solution>
+$S_{2}/S_{1} = (T_{2}/T_{1})^{4} = (249.12/255.12)^{4} = 0.909$. The Sun would have to dim by about 9%.
+</Solution>
+</Problem>
+
+<Problem n={11} level="challenging" book>
+The candidate planet 40 Eridani A b (Erid in the novel) has a period of about 42 days around a star of 0.78 solar masses and 0.40 solar luminosities. Use Kepler's third law to find its orbit, then its sunlight and equilibrium temperature for an albedo of 0.30.
+
+<Solution>
+$a = (0.78 \times (42/365.25)^{2})^{1/3}$ au $= 0.218$ au. $S = 1361 \times \dfrac{0.40}{0.218^{2}} = 11\,490$ W/m², about 8.4 times Earth's. $T_{\text{e}} = \left(\dfrac{11\,490 \times 0.70}{4 \times 5.670 \times 10^{-8}}\right)^{1/4} = 434$ K, which is $161\ °\text{C}$. The novel's Erid is hotter still, about 210 °C (Chapter 6.5).
+</Solution>
+</Problem>
+
+<Problem n={12} level="challenging">
+If the ocean layer that must cool were 400 m deep instead of 100 m, what would the response time be? Why does a longer response time help the people in the novel?
+
+<Solution>
+$\tau$ is proportional to $C$, so four times as deep gives $4 \times 3.5 = 14$ years. A slower response delays the cooling, buying time for the *Hail Mary* to find a solution before the worst arrives.
+</Solution>
+</Problem>
+
+## Summary
+
+- A planet settles where absorbed sunlight equals emitted infrared. In space, radiation is the only way energy enters or leaves.
+- Sunlight is caught on a disc ($\pi R^{2}$) but radiated from a sphere ($4\pi R^{2}$): on average each square metre gets $S/4 = 340$ W/m².
+- Albedo $\alpha$ is the fraction of sunlight reflected: 0.294 for Earth, 0.06 for ocean, 0.8 for fresh snow.
+- $T_{\text{e}} = [S(1 - \alpha)/4\sigma]^{1/4}$ gives 255 K for Earth, 33 K below its actual surface temperature (the greenhouse effect).
+- Since $T \propto S^{1/4}$, a 1% dimmer Sun cools by about 0.64 K and 5% by 3.3 K, before feedbacks. The ocean delays the response by several years.
+
+**Formulas from this chapter**
+
+$$
+T_{\text{e}} = \left[\frac{S(1 - \alpha)}{4\sigma}\right]^{1/4} \qquad \frac{\Delta T}{T} \approx \frac{1}{4}\frac{\Delta S}{S} \qquad \tau = \frac{C}{4\sigma T^{3}}
+$$
+
+## Sources
+
+- Bond albedos, black-body temperatures, mean surface temperatures and solar irradiance of Earth, Venus and Mars: NASA NSSDCA fact sheets for [Earth](https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html), [Venus](https://nssdc.gsfc.nasa.gov/planetary/factsheet/venusfact.html) and [Mars](https://nssdc.gsfc.nasa.gov/planetary/factsheet/marsfact.html).
+- 340 W/m² average sunlight, 29% reflected: NASA Earth Observatory, ["Climate and Earth's Energy Budget"](https://science.nasa.gov/earth/earth-observatory/climate-and-earths-energy-budget).
+- Albedos of snow, sea ice, sand, grass, forest and ocean, and Earth's average of about 0.3: Wikipedia, [Albedo](https://en.wikipedia.org/wiki/Albedo).
+- The last ice age about 6 °C colder, 21 000 years ago: Wikipedia, [Last Glacial Maximum](https://en.wikipedia.org/wiki/Last_Glacial_Maximum), citing Tierney and others, *Nature* 584, 569 (2020).
+- Tambora and 1816's 0.4 to 0.7 °C global cooling and crop failures: Wikipedia, [Year Without a Summer](https://en.wikipedia.org/wiki/Year_Without_a_Summer).
+- 40 Eridani A (0.78 solar masses, 0.40 solar luminosities) and its doubtful 42-day planet signal: Wikipedia, [40 Eridani](https://en.wikipedia.org/wiki/40_Eridani). Tau Ceti's luminosity and Adrian's orbit: see Chapters 0.5 and 4.3.
+- The forecast dimming and ice age in the novel: Wikipedia, [*Project Hail Mary*](https://en.wikipedia.org/wiki/Project_Hail_Mary); Royal Institution, ["Project Hail Mary: the science behind the fiction"](https://www.rigb.org/explore-science/explore/blog/project-hail-mary-science-behind-fiction).
+- The Sahara blackpanel farm (about $2 \times 10^{12}$ m², a quarter of the Sahara) and Leclerc's weather warnings: reader guide, [readifyai: Sahara Desert](https://readifyai.com/books/Project%20Hail%20Mary/wiki/Sahara%20Desert). Not an official source; treat as approximate.
+- World energy use, 19.6 TW: see Chapter 5.3. The Sun’s roughly 0.1% variation over its 11-year cycle: see Chapter 0.5.

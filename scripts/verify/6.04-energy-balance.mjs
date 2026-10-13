@@ -1,0 +1,35 @@
+import { check, report } from './lib.mjs';
+import { THERMAL as T, C, ENERGY } from './constants.mjs';
+const s = T.sigma;
+const Te = (S, a) => ((S * (1 - a)) / (4 * s)) ** 0.25;
+export default function () {
+	const S = C.solarIrradiance, a = T.earthAlbedo, TE = Te(S, a);
+	check('S/4', S / 4, 340, 0.001);
+	check('WE1 abs', (S * (1 - a)) / 4, 240.2, 0.001); check('WE1 T4', (S * (1 - a)) / 4 / s, 4.236e9, 0.001);
+	check('WE1 Te', TE, 255, 0.002); check('WE1 C', TE - 273.15, -18, 0.02); check('gap', T.earthTmean - TE, 33, 0.01);
+	check('WE2 f1', 0.99 ** 0.25, 0.99749, 1e-5); check('WE2 T1', TE * 0.99 ** 0.25, 254.48, 1e-4); check('WE2 d1', TE * 0.99 ** 0.25 - TE, -0.64, 0.005);
+	check('WE2 f5', 0.95 ** 0.25, 0.98726, 1e-5); check('WE2 T5', TE * 0.95 ** 0.25, 251.87, 1e-4); check('WE2 d5', TE * 0.95 ** 0.25 - TE, -3.3, 0.02);
+	check('WE2 f10', 0.9 ** 0.25, 0.974, 1e-4); check('WE2 T10', TE * 0.9 ** 0.25, 248.49, 1e-4); check('WE2 d10', TE * 0.9 ** 0.25 - TE, -6.6, 0.01);
+	check('WE2 rule', 255 * 0.0025, 0.64, 0.005);
+	const dP = 340 * 0.35 * T.saharaPanels, dA = (0.35 * T.saharaPanels) / T.earthArea;
+	check('WE3 P', dP, 2.4e14, 0.01); check('WE3 area', T.earthArea, 5.1e14, 0.002); check('WE3 da', dA, 1.37e-3, 0.003);
+	check('WE3 dT', (255 / 4) * (dA / 0.706), 0.12, 0.04); check('WE3 x world', dP / ENERGY.worldPower, 12, 0.02);
+	check('WE4 abs', (2601.3 * 0.23) / 4, 149.6, 0.001); check('WE4 T', Te(2601.3, T.venusAlbedo), 227, 0.002); check('WE4 NASA', T.venusTbb, 226.6);
+	const k4 = 4 * s * TE ** 3, tau = 4.19e8 / k4;
+	check('WE5 4sT3', k4, 3.77, 0.002); check('WE5 tau', tau, 1.11e8, 0.003); check('WE5 yr', tau / 3.156e7, 3.5, 0.01);
+	check('P2', 0.05 / 0.7, 0.071, 0.01);
+	check('P4 abs', (T.marsIrradiance * 0.75) / 4, 109.9, 0.001); check('P4 T', Te(T.marsIrradiance, T.marsAlbedo), 209.8, 0.001);
+	check('P5', (-255 / 4) * (0.01 / 0.706), -0.9, 0.01); check('P5 eq', 0.903 / 0.64, 1.4, 0.01);
+	const Sad = (S * 0.52) / 0.552 ** 2;
+	check('P6 S', Sad, 2323, 0.001); check('P6 T', TE * (Sad / S) ** 0.25, 292, 0.002); check('P6 x', Sad / S, 1.7, 0.01); check('P6 diff', TE * (Sad / S) ** 0.25 - TE, 37, 0.02);
+	check('P7', 0.01 * 240.2, 2.4, 0.002);
+	check('P8', Te(S, 0.6), 221, 0.002); check('P8 diff', TE - Te(S, 0.6), 34, 0.01);
+	const tot = S * (1 - a) * Math.PI * C.earthRadius ** 2;
+	check('P9', tot, 1.23e17, 0.005); check('P9 x', tot / ENERGY.worldPower, 6000, 0.05);
+	check('P10', (249.12 / 255.12) ** 4, 0.909, 0.001);
+	const aE = Math.cbrt(T.eriM * (T.eriPeriodDays / 365.25) ** 2), SE = (S * T.eriL) / aE ** 2;
+	check('P11 a', aE, 0.218, 0.002); check('P11 S', SE, 11490, 0.001); check('P11 x', SE / S, 8.4, 0.01);
+	check('P11 T', Te(SE, 0.3), 434, 0.002); check('P11 C', Te(SE, 0.3) - 273.15, 161, 0.003);
+	check('P12', 4 * 3.5, 14);
+	return report('6.4 Planetary energy balance');
+}

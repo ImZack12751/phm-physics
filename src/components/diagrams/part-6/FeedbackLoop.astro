@@ -1,0 +1,33 @@
+---
+// A climate feedback loop: forcing → temperature change → feedbacks (ice, water vapour, clouds) → extra push → ...
+// Total ΔT = ΔT₀/(1 − f).
+const head = (x: number, y: number, dx: number, dy: number) => {
+	const n = Math.hypot(dx, dy), ux = dx / n, uy = dy / n;
+	return `${x},${y} ${x - 12 * ux + 6 * uy},${y - 12 * uy - 6 * ux} ${x - 12 * ux - 6 * uy},${y - 12 * uy + 6 * ux}`;
+};
+---
+
+<svg class="dg" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+	<rect x="30" y="60" width="150" height="60" rx="8" class="f-sky-soft s-sky w2" />
+	<text x="105" y="86" class="t-mid t-sm t-b">forcing ΔF</text>
+	<text x="105" y="106" class="t-mid t-sm f-muted">e.g. dimmer Sun</text>
+	<line x1="180" y1="90" x2="248" y2="90" class="s-fg w3" />
+	<polygon points={head(260, 90, 1, 0)} class="f-fg" />
+	<rect x="260" y="60" width="170" height="60" rx="8" class="f-amber-soft s-amber w2" />
+	<text x="345" y="86" class="t-mid t-sm t-b">temperature</text>
+	<text x="345" y="106" class="t-mid t-sm t-b">change ΔT</text>
+	<rect x="260" y="180" width="170" height="70" rx="8" class="f-rose-soft s-rose w2" />
+	<text x="345" y="204" class="t-mid t-sm t-b">feedbacks</text>
+	<text x="345" y="222" class="t-mid t-sm">ice spreads or melts,</text>
+	<text x="345" y="240" class="t-mid t-sm">water vapour, clouds</text>
+	<path d="M430,90 Q500,90 500,150 Q500,215 442,215" class="s-rose w3" fill="none" />
+	<polygon points={head(432, 215, -1, 0)} class="f-rose" />
+	<path d="M260,215 Q190,215 190,170 Q190,120 250,108" class="s-rose w3" fill="none" />
+	<polygon points={head(260, 106, 1, -0.2)} class="f-rose" />
+	<text x="508" y="150" class="t-sm f-rose">triggers</text>
+	<text x="44" y="176" class="t-sm f-rose">extra push:</text>
+	<text x="44" y="194" class="t-sm f-rose">a fraction f</text>
+	<text x="44" y="212" class="t-sm f-rose">of each change</text>
+	<text x="300" y="285" class="t-mid t-sm t-b">total ΔT = ΔT₀ (1 + f + f² + …) = ΔT₀ / (1 − f)</text>
+	<text x="300" y="34" class="t-mid t-sm f-muted">positive feedback: f between 0 and 1 amplifies; f ≥ 1 runs away</text>
+</svg>

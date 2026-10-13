@@ -1,0 +1,35 @@
+---
+// Heating curve of 1.0 kg of ice from −20 °C (OpenStax Tables 1.3, 1.4): warm ice (2090 J/kg K), melt (334 kJ),
+// warm water (4186), boil (2256 kJ), warm steam (2020) to 120 °C.
+const pts: [number, number][] = [];
+let q = 0;
+pts.push([q, -20]);
+q += 2090 * 20; pts.push([q, 0]);
+const q1 = q; q += 334e3; pts.push([q, 0]);
+const q2 = q; q += 4186 * 100; pts.push([q, 100]);
+const q3 = q; q += 2256e3; pts.push([q, 100]);
+const q4 = q; q += 2020 * 20; pts.push([q, 120]);
+const L = 80, R = 570, T = 30, B = 240, qMax = 3.2e6, tMin = -30, tMax = 130;
+const px = (x: number) => L + (x / qMax) * (R - L);
+const py = (t: number) => B - ((t - tMin) / (tMax - tMin)) * (B - T);
+const d = pts.map(([x, t], i) => `${i ? 'L' : 'M'}${px(x).toFixed(1)},${py(t).toFixed(1)}`).join(' ');
+---
+
+<svg class="dg" viewBox="0 0 600 310" xmlns="http://www.w3.org/2000/svg">
+	{[-20, 0, 50, 100].map((t) => (
+		<>
+			<line x1={L} y1={py(t)} x2={R} y2={py(t)} class="s-grid w1" />
+			<text x={L - 8} y={py(t) + 4} class="t-end t-sm f-muted">{t}</text>
+		</>
+	))}
+	{[0, 1, 2, 3].map((m) => <text x={px(m * 1e6)} y={B + 18} class="t-mid t-sm f-muted">{m}</text>)}
+	<line x1={L} y1={B} x2={R} y2={B} class="s-fg w2" />
+	<line x1={L} y1={B} x2={L} y2={T} class="s-fg w2" />
+	<path d={d} class="s-amber w3" fill="none" />
+	<text x={px(q1) + 6} y={py(0) + 18} class="t-sm f-sky">melting: 334 kJ</text>
+	<text x={px((q2 + q3) / 2) + 14} y={py(50) + 4} class="t-sm f-green">warming water: 419 kJ</text>
+	<text x={px((q3 + q4) / 2)} y={py(100) - 10} class="t-mid t-sm f-rose">boiling: 2256 kJ</text>
+	<text x={px(q4) - 4} y={py(120) - 6} class="t-end t-sm f-muted">steam</text>
+	<text x={(L + R) / 2} y={B + 42} class="t-mid t-sm">heat added to 1 kg (MJ)</text>
+	<text x="24" y={(T + B) / 2} class="t-mid t-sm" transform={`rotate(-90 24 ${(T + B) / 2})`}>temperature (°C)</text>
+</svg>

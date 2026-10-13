@@ -1,0 +1,49 @@
+---
+// Kinetic theory: a molecule bounces off the right-hand wall of a box of side L. Its velocity component towards the
+// wall, vₓ, reverses (momentum change 2mvₓ); the component along the wall is unchanged. It returns after a 2L round trip.
+const X0 = 110, X1 = 380, Y0 = 30, Y1 = 260; // box
+const HX = X1, HY = 150; // hit point
+const head = (x: number, y: number, dx: number, dy: number) => {
+	const n = Math.hypot(dx, dy), ux = dx / n, uy = dy / n;
+	return `${x},${y} ${x - 12 * ux + 6 * uy},${y - 12 * uy - 6 * ux} ${x - 12 * ux - 6 * uy},${y - 12 * uy + 6 * ux}`;
+};
+---
+
+<svg class="dg" viewBox="0 0 600 360" xmlns="http://www.w3.org/2000/svg">
+	<rect x={X0} y={Y0} width={X1 - X0} height={Y1 - Y0} class="s-fg w2" fill="none" />
+	<line x1={X1} y1={Y0} x2={X1} y2={Y1} class="s-amber w3" />
+	<!-- incoming and outgoing paths -->
+	<line x1={HX - 150} y1={HY + 60} x2={HX - 8} y2={HY + 4} class="s-muted w1 dash" />
+	<line x1={HX - 8} y1={HY - 4} x2={HX - 150} y2={HY - 60} class="s-muted w1 dash" />
+	<circle cx={HX - 9} cy={HY} r="8" class="f-sky" />
+	<!-- incoming components (below), drawn before the hit -->
+	<line x1={HX - 150} y1={HY + 60} x2={HX - 78} y2={HY + 60} class="s-green w3" />
+	<polygon points={head(HX - 66, HY + 60, 1, 0)} class="f-green" />
+	<text x={HX - 108} y={HY + 82} class="t-mid t-sm f-green">vₓ (before)</text>
+	<line x1={HX - 150} y1={HY + 60} x2={HX - 150} y2={HY + 30} class="s-violet w3" />
+	<polygon points={head(HX - 150, HY + 18, 0, -1)} class="f-violet" />
+	<!-- outgoing components (above) -->
+	<line x1={HX - 150} y1={HY - 60} x2={HX - 222} y2={HY - 60} class="s-rose w3" />
+	<polygon points={head(HX - 234, HY - 60, -1, 0)} class="f-rose" />
+	<text x={HX - 186} y={HY - 70} class="t-mid t-sm f-rose">−vₓ (after)</text>
+	<line x1={HX - 150} y1={HY - 60} x2={HX - 150} y2={HY - 90} class="s-violet w3" />
+	<polygon points={head(HX - 150, HY - 102, 0, -1)} class="f-violet" />
+	<text x={HX - 140} y={HY - 92} class="t-sm f-violet">along the wall: unchanged</text>
+	<!-- wall label -->
+	<text x={X1 + 14} y={HY - 6} class="t-sm f-amber t-b">wall</text>
+	<text x={X1 + 14} y={HY + 14} class="t-sm">momentum change</text>
+	<text x={X1 + 14} y={HY + 32} class="t-sm t-b">2mvₓ per hit</text>
+	<!-- round trip -->
+	<line x1={X1 - 6} y1={Y1 + 16} x2={X0 + 14} y2={Y1 + 16} class="s-sky w1 dash" />
+	<polygon points={head(X0 + 6, Y1 + 16, -1, 0)} class="f-sky" />
+	<line x1={X0 + 6} y1={Y1 + 26} x2={X1 - 14} y2={Y1 + 26} class="s-sky w1 dash" />
+	<polygon points={head(X1 - 6, Y1 + 26, 1, 0)} class="f-sky" />
+	<text x={(X0 + X1) / 2} y={Y1 + 46} class="t-mid t-sm f-sky">back to this wall after 2L</text>
+	<!-- dimension L -->
+	<line x1={X0} y1={Y1 + 64} x2={X1} y2={Y1 + 64} class="s-muted w1" />
+	<line x1={X0} y1={Y1 + 56} x2={X0} y2={Y1 + 72} class="s-muted w1" />
+	<line x1={X1} y1={Y1 + 56} x2={X1} y2={Y1 + 72} class="s-muted w1" />
+	<text x={(X0 + X1) / 2} y={Y1 + 88} class="t-mid t-sm">L</text>
+	<text x={X1 + 14} y={Y1 - 40} class="t-sm f-muted">time between hits:</text>
+	<text x={X1 + 14} y={Y1 - 20} class="t-sm f-muted">2L / vₓ</text>
+</svg>

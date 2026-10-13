@@ -1,0 +1,304 @@
+---
+title: Heat transfer
+description: The three ways heat moves (conduction, convection and radiation), the conduction law P = kAΔT/d and insulation, Newton's law of cooling and its exponential, thermal radiation P = eσAT⁴, and why a spacecraft can only lose heat by glowing.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import ThreeWays from '../../../components/diagrams/part-6/ThreeWays.astro';
+import ConductionWall from '../../../components/diagrams/part-6/ConductionWall.astro';
+import WallHeatFlow from '../../../components/sims/WallHeatFlow.astro';
+
+## The scene
+
+Rocky lives in ammonia at about $210\ °\text{C}$; Grace needs air at room temperature. In the novel, the two of them work side by side, separated only by a wall of Rocky's clear xenonite. When Grace first gets close to it, he can feel the heat pouring off the other side.
+
+How does heat get through a solid wall, and how fast? Why can Grace feel heat from a wall he isn't touching? And why, out in space, can heat leave the *Hail Mary* only one way? This chapter answers with the three mechanisms of <Term id="heat">heat</Term> transfer.
+
+## Prerequisites
+
+<Prereqs notes={{ 'temperature-heat': 'heat flows from hot to cold, driven by a temperature difference', 'specific-latent-heat': 'heat capacity Q = mcΔT', 'exponentials-logarithms': 'exponential decay and natural logarithms', derivatives: 'the derivative of an exponential', power: 'power as energy per second, in watts' }} />
+
+## The concept
+
+### Three ways for heat to move
+
+<Figure caption="The three ways heat moves. Conduction: jiggling passed from particle to particle through a solid. Convection: a warm fluid carries its heat with it as it flows. Radiation: infrared light, which needs no material at all and crosses empty space." alt="Three panels side by side. Conduction: a rod with a flame at the left end, its particles drawn as dots vibrating more at the hot end, with an arrow showing heat flowing to the cold right end. Convection: a pot of liquid over a flame with a loop of arrows, warm fluid rising in the middle and cool fluid sinking at the sides. Radiation: a glowing hot object on the left and wavy infrared arrows crossing an empty gap labelled vacuum to a cooler object on the right.">
+	<ThreeWays />
+</Figure>
+
+- **<Term id="conduction">Conduction</Term>.** Fast-jiggling atoms bump their neighbours, which bump theirs, and energy is passed along. Nothing moves overall. Metals conduct well because they also have free electrons that carry energy quickly. Still air, foam, fur and feathers conduct badly.
+- **<Term id="convection">Convection</Term>.** In a liquid or gas, warm fluid expands, becomes less dense and rises, while cool fluid sinks to replace it. The fluid itself carries the heat. Wind and a fan do the same thing by force. Convection needs gravity: in the weightlessness of orbit, warm air doesn't rise, so spacecraft use fans.
+- **<Term id="thermal-radiation">Thermal radiation</Term>.** Every object glows with electromagnetic radiation because its charged particles jiggle. At room temperature the glow is infrared, invisible to us but felt as warmth on the skin. Radiation is the only one of the three that crosses empty space. It is how sunlight reaches Earth, and the only way the Earth can lose heat to space.
+
+### Conduction through a wall
+
+Heat flows faster through a wall that is bigger, thinner, made of a better conductor, or across a bigger temperature difference. Experiment shows the rate is proportional to each:
+
+$$
+P = \frac{kA\,\Delta T}{d},
+$$
+
+where $A$ is the area, $d$ the thickness, $\Delta T$ the temperature difference between the faces, and $k$ the material's <Term id="thermal-conductivity">thermal conductivity</Term>.
+
+<Figure caption="Conduction through a slab. The temperature falls steadily from the hot face to the cold face. Doubling the thickness halves the heat flow; doubling the area doubles it." alt="A thick vertical slab, labelled thermal conductivity k and area A, with a hot side at the left labelled T hot and a cold side at the right labelled T cold. A red line across the slab slopes down from the hot temperature to the cold temperature. A double arrow under the slab marks the thickness d. An arrow above the slab points from hot to cold, labelled P = kA ΔT / d.">
+	<ConductionWall />
+</Figure>
+
+Conductivities range enormously. Copper has $k = 390\ \text{W/(m·K)}$, steel 14 to 80, glass about 0.84, water 0.6, glass wool 0.042, down feathers 0.025 and still air 0.023. Good insulators work by trapping still air in small pockets, so that it can't carry heat by convection.
+
+### Newton's law of cooling
+
+A hot drink loses heat by conduction, convection and radiation together. For moderate temperature differences, the rate of heat loss is roughly proportional to how much hotter the object is than its surroundings. Since $Q = mc\Delta T$, the rate of cooling is proportional too: the hotter the drink, the faster it cools. This is <Term id="newtons-law-of-cooling">Newton's law of cooling</Term>, and it leads to **exponential** cooling: the temperature difference shrinks by the same factor in each equal time.
+
+### Thermal radiation
+
+The power an object radiates depends very steeply on its temperature in kelvins:
+
+$$
+P = e\sigma A T^{4}.
+$$
+
+Here $A$ is the surface area, $\sigma = 5.67 \times 10^{-8}\ \text{W/(m}^{2}\text{K}^{4})$ is the <Term id="stefan-boltzmann-constant">Stefan–Boltzmann constant</Term>, and $e$ is the <Term id="emissivity">emissivity</Term>, a number from 0 to 1. A perfect absorber, a "black body", has $e = 1$; human skin has 0.97 in the infrared; shiny metal can be below 0.1. Good emitters are good absorbers too, which is why the same number describes both. Part 8 shows where this law comes from and uses it to measure stars.
+
+Double the temperature in kelvins and the radiated power rises $2^{4} = 16$ times. An object also **absorbs** radiation from its surroundings, so the **net** power it loses to surroundings at $T_{\text{s}}$ is
+
+$$
+P_{\text{net}} = e\sigma A\left(T^{4} - T_{\text{s}}^{4}\right).
+$$
+
+### Heat in space
+
+In the vacuum of space there is no air to conduct or convect. A spacecraft can only gain heat from sunlight and from its own machines and crew, and can only lose it by radiation. That is why spacecraft carry large **radiators**: panels that glow in the infrared to dump waste heat. A vacuum flask uses the same idea in reverse: a vacuum between two walls stops conduction and convection, and a shiny coating (low emissivity) cuts radiation.
+
+## Formulas
+
+### Conduction and layered walls
+
+$$
+\boxed{P = \frac{kA\,\Delta T}{d}}
+$$
+
+Write it as $\Delta T = P \times \dfrac{d}{kA}$. The quantity $\dfrac{d}{kA}$ behaves like a resistance to heat flow. For two layers in a row, the same power $P$ must pass through both (otherwise heat would pile up between them), and the temperature drops add:
+
+$$
+\Delta T = \Delta T_{1} + \Delta T_{2} = P\left(\frac{d_{1}}{k_{1}A} + \frac{d_{2}}{k_{2}A}\right) \quad\Rightarrow\quad \boxed{P = \frac{A\,\Delta T}{d_{1}/k_{1} + d_{2}/k_{2}}}
+$$
+
+### Newton's law of cooling
+
+Let $\theta = T - T_{\text{s}}$ be how much hotter the object is than its surroundings. The law says $\theta$ falls at a rate proportional to itself:
+
+$$
+\frac{d\theta}{dt} = -\frac{\theta}{\tau},
+$$
+
+where the time constant $\tau$ is larger for a big, well-insulated object. Chapter C.3 showed that $\dfrac{d}{dt}e^{-t/\tau} = -\dfrac{1}{\tau}e^{-t/\tau}$, so $\theta = \theta_{0}e^{-t/\tau}$ satisfies this equation and starts at $\theta_{0}$:
+
+$$
+\boxed{T = T_{\text{s}} + (T_{0} - T_{\text{s}})\,e^{-t/\tau}}
+$$
+
+Taking natural logarithms gives the time to cool to a temperature $T$: $t = \tau\ln\dfrac{T_{0} - T_{\text{s}}}{T - T_{\text{s}}}$.
+
+### Radiation
+
+$$
+\boxed{P = e\sigma AT^{4} \qquad P_{\text{net}} = e\sigma A\left(T^{4} - T_{\text{s}}^{4}\right)}
+$$
+
+## Worked examples
+
+<Example n={1} title="Heat through the partition" book>
+The novel doesn't give xenonite's thermal conductivity, so suppose it conducts like glass ($k = 0.84\ \text{W/(m·K)}$). A 2.0 m² panel, 1.0 cm thick, has Rocky's $210\ °\text{C}$ on one side and Grace's $21\ °\text{C}$ on the other. How much heat flows through?
+
+$$
+P = \frac{kA\,\Delta T}{d} = \frac{0.84\ \text{W/(m·K)} \times 2.0\ \text{m}^{2} \times 189\ \text{K}}{0.010\ \text{m}} = 3.2 \times 10^{4}\ \text{W}
+$$
+
+About 32 kW, like sixteen 2 kW room heaters running at once. Grace's side would soon be unbearably hot. Either xenonite insulates far better than glass, or the walls need an insulating layer (see Example 2). (In practice, a still layer of gas on each side also slows the flow, so this is an upper estimate.)
+</Example>
+
+<Example n={2} title="Adding insulation" book>
+Grace lines his side of the panel in Example 1 with 5.0 cm of glass wool ($k = 0.042\ \text{W/(m·K)}$). Find the new heat flow.
+
+$$
+P = \frac{A\,\Delta T}{d_{1}/k_{1} + d_{2}/k_{2}} = \frac{2.0\ \text{m}^{2} \times 189\ \text{K}}{\dfrac{0.010\ \text{m}}{0.84\ \text{W/(m·K)}} + \dfrac{0.050\ \text{m}}{0.042\ \text{W/(m·K)}}} = \frac{378}{0.0119 + 1.190}\ \text{W} = 314\ \text{W}
+$$
+
+The heat flow drops a hundredfold. Almost all the "resistance" is in the wool: the glass layer barely matters.
+</Example>
+
+<Example n={3} title="Feeling the heat from a distance" book>
+Suppose the surface of the partition on Grace's side reaches $60\ °\text{C}$. Its 2.0 m² has emissivity 0.90 (assumed), and the room is at $21\ °\text{C}$. How much heat does it radiate into the room?
+
+$$
+T = 333.15\ \text{K} \qquad T_{\text{s}} = 294.15\ \text{K}
+$$
+
+$$
+P_{\text{net}} = 0.90 \times 5.67 \times 10^{-8}\ \text{W/(m}^{2}\text{K}^{4}) \times 2.0\ \text{m}^{2} \times \left(333.15^{4} - 294.15^{4}\right)\ \text{K}^{4} = 490\ \text{W}
+$$
+
+Half a kilowatt of infrared, which Grace's skin (emissivity 0.97) absorbs readily. He feels it without touching anything.
+</Example>
+
+<Example n={4} title="A spacesuit in shadow">
+A spacesuit's outer surface (2.0 m², emissivity 0.90, both assumed) is at $20\ °\text{C}$, in shadow, facing deep space at about 3 K. How much power does it radiate?
+
+$$
+P = e\sigma A\left(T^{4} - T_{\text{s}}^{4}\right) = 0.90 \times 5.67 \times 10^{-8} \times 2.0 \times \left(293.15^{4} - 3^{4}\right)\ \text{W} = 754\ \text{W}
+$$
+
+The 3 K of space makes no difference. A resting person makes only about 100 W of heat (Chapter 5.3), so a suit like this would chill its wearer fast. Real suits are wrapped in many layers of insulation, so the outer surface runs much colder than the person inside and radiates far less.
+</Example>
+
+<Example n={5} title="Grace's coffee" book>
+Grace's coffee is at $90\ °\text{C}$ in a $21\ °\text{C}$ room, and cools with a time constant of 20 minutes (assumed). What is its temperature after 30 minutes? When does it reach $60\ °\text{C}$?
+
+$$
+T = 21 + (90 - 21)\,e^{-30/20}\ °\text{C} = 21 + 69 \times 0.223\ °\text{C} = 36.4\ °\text{C}
+$$
+
+$$
+t = \tau\ln\frac{T_{0} - T_{\text{s}}}{T - T_{\text{s}}} = 20\ \text{min} \times \ln\frac{69}{39} = 20\ \text{min} \times 0.571 = 11.4\ \text{min}
+$$
+
+The first 30 degrees go in 11 minutes; the next 30 take much longer, because the cooling slows as the coffee nears room temperature.
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** The conduction law, conductivities, the radiation law and emissivities are textbook physics (OpenStax Vol. 2 §1.6, Table 1.5). The Stefan–Boltzmann constant is from NIST. Newton's law of cooling is a good approximation for modest temperature differences. Spacecraft really do get rid of heat only by radiation, and use radiator panels to do it.
+
+**Weir's inventions.** Xenonite is invented, and the novel doesn't give its thermal conductivity, so Examples 1 and 2 assume it behaves like glass. Erid's 210 °C air is the novel's figure. The panel size, emissivities, the coffee's time constant and the suit are our assumptions.
+
+**How realistic are the numbers?** The point of Example 1 stands whatever xenonite is: a thin, hard panel with a 189 K difference across it would leak tens of kilowatts unless it were an excellent insulator. A real habitat next to Rocky's would need insulation and active cooling, and Grace still feeling heat through it is very plausible.
+</RealVsBook>
+
+## Interactive simulation
+
+<WallHeatFlow />
+
+Things to try: start with glass and watch the power. Switch to glass wool or down at the same thickness and the flow falls twentyfold or more. Double the thickness: the heat flow halves. Raise the hot side to Rocky's 210 °C and compare a centimetre of copper with a centimetre of down.
+
+## Practice set
+
+<Problem n={1} level="easy">
+Name the main way heat moves in each case: (a) a metal spoon in hot soup warms up; (b) warm air rises from a radiator; (c) you feel the Sun on your face.
+
+<Solution>
+(a) Conduction. (b) Convection. (c) Radiation.
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy">
+Why does a down jacket keep you warm, even though it produces no heat?
+
+<Solution>
+It traps still air in tiny pockets. Still air conducts heat very poorly ($k = 0.023$ W/(m·K)) and can't circulate to carry heat by convection, so your body's heat escapes slowly.
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy">
+An object's temperature in kelvins doubles. By what factor does the power it radiates change?
+
+<Solution>
+$P \propto T^{4}$, so it rises $2^{4} = 16$ times.
+</Solution>
+</Problem>
+
+<Problem n={4} level="medium">
+A window is 1.5 m² of glass 4.0 mm thick. Inside it is $20\ °\text{C}$, outside $0\ °\text{C}$ (take the glass faces at those temperatures). Find the heat flow.
+
+<Solution>
+$P = \dfrac{0.84 \times 1.5 \times 20}{0.004}\ \text{W} = 6300$ W. (Real windows lose far less, because still air layers on each side add a lot of resistance.)
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium">
+A person with 1.50 m² of skin at $33\ °\text{C}$ (emissivity 0.97) stands in a room whose walls are at $22\ °\text{C}$. Find the net power lost by radiation.
+
+<Solution>
+$P_{\text{net}} = 0.97 \times 5.67 \times 10^{-8} \times 1.50 \times (306.15^{4} - 295.15^{4})\ \text{W} = 99$ W. This is why a room with cold walls feels chilly even when the air is warm.
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium" book>
+The *Hail Mary*'s systems and crew produce 5.0 kW of heat (assumed). Its radiator panels are at 300 K with emissivity 0.90, facing deep space. What radiating area is needed?
+
+<Solution>
+$A = \dfrac{P}{e\sigma T^{4}} = \dfrac{5000}{0.90 \times 5.67 \times 10^{-8} \times 300^{4}}\ \text{m}^{2} = 12.1\ \text{m}^{2}$. A panel radiating from both faces needs about 6 m² of panel.
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium">
+A 3.0 cm steel plate ($k = 14\ \text{W/(m·K)}$, stainless) of area 0.50 m² carries 2000 W of heat. What is the temperature difference across it?
+
+<Solution>
+$\Delta T = \dfrac{Pd}{kA} = \dfrac{2000 \times 0.030}{14 \times 0.50}\ \text{K} = 8.6$ K.
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium">
+Using Newton's law of cooling, a bowl of soup cools from $80\ °\text{C}$ to $50\ °\text{C}$ in 10 minutes in a $20\ °\text{C}$ room. Find its time constant.
+
+<Solution>
+$\dfrac{50 - 20}{80 - 20} = e^{-10/\tau}$, so $0.5 = e^{-10/\tau}$ and $\tau = \dfrac{10\ \text{min}}{\ln 2} = 14.4$ min.
+</Solution>
+</Problem>
+
+<Problem n={9} level="medium" book>
+In the novel, Grace sends a tape measure into Rocky's chamber. Which way or ways can heat reach it from Rocky's hot ammonia air? Which would be the only way if the chamber were a vacuum at 210 °C?
+
+<Solution>
+Conduction and convection from the hot gas touching it, plus radiation from the hot walls. In a vacuum, only radiation from the walls would warm it.
+</Solution>
+</Problem>
+
+<Problem n={10} level="challenging">
+A wall is 10 cm of brick-like material ($k = 0.80$ W/(m·K)) plus 8.0 cm of glass wool. For 10 m² of wall with $\Delta T = 25$ K, find the heat flow with and without the wool.
+
+<Solution>
+Without: $P = \dfrac{0.80 \times 10 \times 25}{0.10} = 2000$ W. With: $P = \dfrac{10 \times 25}{0.10/0.80 + 0.080/0.042}\ \text{W} = \dfrac{250}{0.125 + 1.905}\ \text{W} = 123$ W.
+</Solution>
+</Problem>
+
+<Problem n={11} level="challenging">
+A small black sphere ($e = 1$) of radius 1.0 cm is heated to 1000 K in a vacuum chamber whose walls are at 300 K. Find its net radiated power. What fraction is "cancelled" by radiation absorbed from the walls?
+
+<Solution>
+$A = 4\pi(0.010)^{2} = 1.257 \times 10^{-3}\ \text{m}^{2}$. $P_{\text{net}} = 5.67 \times 10^{-8} \times 1.257 \times 10^{-3} \times (1000^{4} - 300^{4})\ \text{W} = 70.7$ W. The absorbed part is $(300/1000)^{4} = 0.81\%$ of the emitted power.
+</Solution>
+</Problem>
+
+<Problem n={12} level="challenging" book>
+Grace's coffee (Example 5) is forgotten for an hour. Using the same time constant, what temperature does it reach? How much hotter than the room is it, as a fraction of the starting difference?
+
+<Solution>
+$\theta = 69\ \text{K} \times e^{-60/20} = 69 \times 0.0498\ \text{K} = 3.4$ K, so $T = 24.4\ °\text{C}$. The fraction is $e^{-3} = 5.0\%$.
+</Solution>
+</Problem>
+
+## Summary
+
+- Heat moves by conduction (particle to particle), convection (carried by a moving fluid) and radiation (infrared light, which crosses empty space).
+- Conduction through a slab: $P = kA\Delta T/d$. Layers in a row add their $d/k$; insulators trap still air.
+- Newton's law of cooling makes the temperature difference decay exponentially: $T = T_{\text{s}} + (T_{0} - T_{\text{s}})e^{-t/\tau}$.
+- Everything radiates $P = e\sigma AT^{4}$; the net loss is $e\sigma A(T^{4} - T_{\text{s}}^{4})$. Radiation rises as the fourth power of temperature.
+- In space, only radiation can remove heat, so spacecraft use radiators and insulation.
+
+**Formulas from this chapter**
+
+$$
+P = \frac{kA\,\Delta T}{d} \qquad T = T_{\text{s}} + (T_{0} - T_{\text{s}})\,e^{-t/\tau} \qquad P_{\text{net}} = e\sigma A\left(T^{4} - T_{\text{s}}^{4}\right)
+$$
+
+## Sources
+
+- Conduction, convection and radiation; thermal conductivities (Table 1.5); emissivity of skin 0.97 and the 99 W example; the Stefan–Boltzmann law: OpenStax, *University Physics Volume 2*, [§1.6 Mechanisms of Heat Transfer](https://openstax.org/books/university-physics-volume-2/pages/1-6-mechanisms-of-heat-transfer).
+- Stefan–Boltzmann constant: NIST, [CODATA value of σ](https://physics.nist.gov/cgi-bin/cuu/Value?sigma).
+- Warm air doesn't rise in weightlessness, so astronauts rely on fans: McGill University Office for Science and Society, ["Sleeping Astronauts"](https://www.mcgill.ca/oss/article/did-you-know-general-science/sleeping-astronauts) (2017).
+- Newton's law of cooling: Wikipedia, [Newton's law of cooling](https://en.wikipedia.org/wiki/Newton%27s_law_of_cooling).
+- Human resting heat output about 100 W: see Chapter 5.3.
+- Rocky's 210 °C ammonia air behind a xenonite wall, and the heat Grace feels through it: /Film, ["Project Hail Mary: Why Rocky and Grace can't be in the same space"](https://slashfilm.com/2125069/project-hail-mary-why-rocky-grace-not-same-space).

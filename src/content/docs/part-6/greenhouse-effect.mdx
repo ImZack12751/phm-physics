@@ -1,0 +1,320 @@
+---
+title: The greenhouse effect
+description: Why Earth's surface is 33 K warmer than its equilibrium temperature, which gases trap infrared and why, the one-layer atmosphere model, radiative forcing and the CO₂ formula ΔF = 5.35 ln(C/C₀), Venus's runaway heat, Erid's hot air, and why the novel's engineers chose methane to fight the cold.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import GreenhouseLayer from '../../../components/diagrams/part-6/GreenhouseLayer.astro';
+import ForcingBars from '../../../components/diagrams/part-6/ForcingBars.astro';
+import GreenhouseSim from '../../../components/sims/GreenhouseSim.astro';
+
+## The scene
+
+With the Sun dimming, the people of Earth fight back in the only way they can on a planetary scale: they set out to strengthen the greenhouse effect. In the novel, Leclerc's Antarctic operation is meant to release methane, a powerful heat-trapping gas, from the ice. He picks methane for a reason: it breaks down in the air within about a decade, so if the *Hail Mary* succeeds, the extra warming will fade away by itself.
+
+Meanwhile, Rocky's home world, Erid, sits at about $210\ °\text{C}$ under a thick ammonia atmosphere at 29 times Earth's air pressure. How do invisible gases make a planet warmer, and how much gas would it take to cancel a dimming Sun?
+
+## Prerequisites
+
+<Prereqs notes={{ 'energy-balance': 'the equilibrium temperature, 255 K for Earth, and the 2.4 W/m² lost per 1% of dimming', 'heat-transfer': 'thermal radiation, P = eσAT⁴, and emissivity', 'exponentials-logarithms': 'natural logarithms and exponential decay', 'temperature-heat': 'molecules in motion' }} />
+
+## The concept
+
+### A 33-degree mystery
+
+Chapter 6.4 found that the Earth's energy balance gives an equilibrium temperature of 255 K, $-18\ °\text{C}$. The measured average surface temperature is 288 K, $15\ °\text{C}$. Something keeps the surface 33 K warmer than the balance alone allows. That something is the <Term id="greenhouse-effect">greenhouse effect</Term>, and without it the Earth would be frozen.
+
+### Short waves in, long waves out
+
+The key is that sunlight and "earthlight" are different kinds of light. The Sun's surface is about 5800 K, so most of its light is visible and near-infrared, with short wavelengths. The Earth, at about 255–288 K, glows in the far infrared, with wavelengths about twenty times longer (Part 8 shows why hotter objects glow at shorter wavelengths).
+
+Air is mostly transparent to sunlight, so most of it reaches the ground. But certain gases in the air absorb the long-wave infrared rising from the surface. Having absorbed it, they warm and radiate infrared of their own, **in all directions**: some out to space, and some back down to the ground. The ground now receives sunlight **plus** this infrared from the sky, so it warms until it radiates enough to balance both.
+
+This works like a blanket, not like a glass greenhouse. A blanket doesn't make heat; it slows the escape of the heat you make, so you sit warmer for the same heat input.
+
+### Which gases trap heat, and why
+
+The main gases of the air, nitrogen ($\text{N}_{2}$, 78%) and oxygen ($\text{O}_{2}$, 21%), are each made of two identical atoms. Their electric charge is spread evenly, so their vibrations can't interact with infrared light, and they let it pass. <Term id="greenhouse-gas">Greenhouse gases</Term> are made of different atoms, such as water vapour ($\text{H}_{2}\text{O}$), carbon dioxide ($\text{CO}_{2}$), methane ($\text{CH}_{4}$) and ammonia ($\text{NH}_{3}$). Their charge is lopsided, so when they bend and stretch they can absorb and emit infrared. Water vapour causes about half of Earth's greenhouse effect and carbon dioxide about a fifth, even though both are small fractions of the air.
+
+### The one-layer model
+
+Picture the atmosphere as a single layer that lets sunlight through but absorbs a fraction $\varepsilon$ of the infrared rising from the ground. A good absorber is a good emitter (Chapter 6.3), so the layer also radiates with emissivity $\varepsilon$, equally up and down.
+
+<Figure caption="The one-layer greenhouse model, for a layer that absorbs all the infrared. Sunlight passes through the layer and warms the ground. The ground radiates up; the layer absorbs it and radiates half to space and half back down. The ground ends up receiving the sunlight plus the layer's downward glow, so it must be warmer than the planet looks from space." alt="A horizontal band near the top labelled atmosphere layer, temperature T a, above a ground surface labelled temperature T s. A yellow arrow from the top passes through the layer to the ground, labelled sunlight absorbed, 240 W per square metre. A red arrow rises from the ground to the layer, labelled sigma T s to the fourth. From the layer, a red arrow goes up to space and another comes down to the ground, each labelled sigma T a to the fourth. A note at the right: space sees 240 W per square metre leaving, the same as the sunlight absorbed; the ground gets 480.">
+	<GreenhouseLayer />
+</Figure>
+
+Balancing energy for the planet as a whole and for the layer (below) gives the surface temperature
+
+$$
+T_{\text{s}} = T_{\text{e}}\left(\frac{2}{2 - \varepsilon}\right)^{1/4}.
+$$
+
+With no greenhouse gases ($\varepsilon = 0$), $T_{\text{s}} = T_{\text{e}}$. A layer that absorbs **all** the infrared ($\varepsilon = 1$) makes $T_{\text{s}} = 2^{1/4}T_{\text{e}} = 1.19\,T_{\text{e}}$: 303 K for Earth, a little too warm. Earth's real 288 K corresponds to $\varepsilon \approx 0.77$.
+
+From space, the planet still radiates exactly what it absorbs: 240 W/m², as if it were at 255 K. The greenhouse effect doesn't change the total leaving; it moves where it leaves from. More of it now comes from the cold upper air rather than the warm ground.
+
+NASA's measured energy budget agrees with the picture. The surface radiates about 398 W/m², far more than the 240 W/m² of sunlight the planet absorbs, because it also receives about 340 W/m² of infrared from the sky.
+
+### Radiative forcing
+
+Add more greenhouse gas and the blanket thickens: less infrared escapes until the surface warms. Climate scientists measure the push as a <Term id="radiative-forcing">radiative forcing</Term> $\Delta F$, the change in the energy balance in watts per square metre, before the climate has had time to respond. A forcing of $+1\ \text{W/m}^{2}$ heats the planet just like an extra 1 W/m² of absorbed sunlight.
+
+For carbon dioxide, careful calculations (Myhre and others, 1998) give
+
+$$
+\Delta F = 5.35\ \text{W/m}^{2} \times \ln\frac{C}{C_{0}},
+$$
+
+where $C_{0}$ and $C$ are the concentrations before and after. Because of the logarithm, each **doubling** adds the same forcing: $5.35 \ln 2 = 3.7\ \text{W/m}^{2}$. Carbon dioxide has risen from about 280 ppm (parts per million) before industry to about 421 ppm in 2022.
+
+<Figure caption="Forcings compared, in watts per square metre averaged over the Earth. The novel's 5% dimming is a bigger push than doubling the carbon dioxide in the air, in the opposite direction." alt="A horizontal bar chart around a zero line. Bars to the left, in blue, for cooling: Sun 1 percent dimmer, minus 2.4; Sun 5 percent dimmer, minus 12.0; Sun 10 percent dimmer, minus 24.0. Bars to the right, in red, for warming: methane rise since 1750, plus 0.5; carbon dioxide from 280 to 421 ppm, plus 2.2; carbon dioxide doubled, plus 3.7.">
+	<ForcingBars />
+</Figure>
+
+### Why methane?
+
+Weight for weight, methane traps far more heat than carbon dioxide: about 28 times as much over a century, and about 84 times over the first twenty years. And it doesn't last. Chemical reactions in the air destroy it, so an extra amount decays roughly exponentially with a time constant of about 12 years. Carbon dioxide, by contrast, lingers for centuries. For a temporary emergency, methane is the logical choice: strong while it lasts, gone a few decades later.
+
+### Venus and Erid
+
+Venus has a crushing atmosphere of carbon dioxide, 92 times Earth's surface pressure. Its equilibrium temperature is only 227 K, yet its surface is 737 K. One absorbing layer can't do that: a thick atmosphere acts like many layers stacked up, each adding to the blanket. Erid in the novel is the same idea with ammonia: the balance alone would give about 434 K (Chapter 6.4, Problem 11), and a strong ammonia greenhouse could plausibly lift it to the novel's 483 K.
+
+## Formulas
+
+### The one-layer model
+
+Let the absorbed sunlight per square metre be $\sigma T_{\text{e}}^{4}$ (that is the definition of $T_{\text{e}}$). The ground at $T_{\text{s}}$ radiates $\sigma T_{\text{s}}^{4}$; the layer absorbs $\varepsilon\sigma T_{\text{s}}^{4}$ of it and lets $(1 - \varepsilon)\sigma T_{\text{s}}^{4}$ through. The layer at $T_{\text{a}}$ radiates $\varepsilon\sigma T_{\text{a}}^{4}$ up and the same down.
+
+**The layer's balance.** It absorbs from below and emits both ways:
+
+$$
+\varepsilon\sigma T_{\text{s}}^{4} = 2\varepsilon\sigma T_{\text{a}}^{4} \qquad\Rightarrow\qquad T_{\text{a}}^{4} = \tfrac{1}{2}T_{\text{s}}^{4}
+$$
+
+**The whole planet's balance.** What leaves to space equals what is absorbed:
+
+$$
+\sigma T_{\text{e}}^{4} = (1 - \varepsilon)\sigma T_{\text{s}}^{4} + \varepsilon\sigma T_{\text{a}}^{4} = (1 - \varepsilon)\sigma T_{\text{s}}^{4} + \tfrac{1}{2}\varepsilon\sigma T_{\text{s}}^{4} = \left(1 - \tfrac{\varepsilon}{2}\right)\sigma T_{\text{s}}^{4}
+$$
+
+$$
+\boxed{T_{\text{s}} = T_{\text{e}}\left(\frac{2}{2 - \varepsilon}\right)^{1/4}} \qquad \text{and, rearranged,} \qquad \varepsilon = 2 - 2\left(\frac{T_{\text{e}}}{T_{\text{s}}}\right)^{4}
+$$
+
+### Many layers
+
+Stack $n$ layers that each absorb all infrared. The top layer must radiate $\sigma T_{\text{e}}^{4}$ to space, and working down, each layer's balance adds one more $\sigma T_{\text{e}}^{4}$ to the flow below it. The ground ends up radiating
+
+$$
+\boxed{\sigma T_{\text{s}}^{4} = (n + 1)\,\sigma T_{\text{e}}^{4}}
+$$
+
+With $n = 1$ this gives $T_{\text{s}} = 2^{1/4}T_{\text{e}}$, as before.
+
+### Forcing and decay
+
+$$
+\boxed{\Delta F = 5.35\ \text{W/m}^{2} \times \ln\frac{C}{C_{0}}} \qquad \boxed{\frac{C}{C_{0}} = e^{\Delta F/5.35\ \text{W/m}^{2}}}
+$$
+
+An extra amount of methane $M_{0}$ decays as $M = M_{0}e^{-t/\tau}$ with $\tau \approx 12$ years.
+
+## Worked examples
+
+<Example n={1} title="A perfect blanket">
+If Earth's atmosphere absorbed all the infrared from the ground ($\varepsilon = 1$), what would the surface temperature be? Use $T_{\text{e}} = 255.1$ K.
+
+$$
+T_{\text{s}} = 2^{1/4}\,T_{\text{e}} = 1.189 \times 255.1\ \text{K} = 303\ \text{K}
+$$
+
+That is $30\ °\text{C}$, about 15 K warmer than the real Earth. A single opaque layer overdoes it.
+</Example>
+
+<Example n={2} title="How absorbent is Earth's air?">
+Find the value of $\varepsilon$ that gives Earth's real 288 K, and the layer's temperature.
+
+$$
+\varepsilon = 2 - 2\left(\frac{T_{\text{e}}}{T_{\text{s}}}\right)^{4} = 2 - 2\left(\frac{255.1}{288}\right)^{4} = 2 - \frac{2}{1.624} = 0.77
+$$
+
+$$
+T_{\text{a}} = \frac{T_{\text{s}}}{2^{1/4}} = \frac{288\ \text{K}}{1.189} = 242\ \text{K}
+$$
+
+The model's air absorbs about three-quarters of the ground's infrared, and the layer it radiates from sits at $-31\ °\text{C}$: the upper air really is far colder than the ground.
+</Example>
+
+<Example n={3} title="Doubling carbon dioxide">
+Find the forcing from doubling carbon dioxide, and the warming it would cause if nothing else changed, using Chapter 6.4's $4\sigma T^{3} = 3.77\ \text{W/(m}^{2}\text{K)}$.
+
+$$
+\Delta F = 5.35\ \text{W/m}^{2} \times \ln 2 = 3.71\ \text{W/m}^{2}
+$$
+
+$$
+\Delta T = \frac{\Delta F}{4\sigma T^{3}} = \frac{3.71\ \text{W/m}^{2}}{3.77\ \text{W/(m}^{2}\text{K)}} = 0.98\ \text{K}
+$$
+
+About 1 K. This "no-feedback" warming is simple physics and not disputed. Chapter 6.6 shows why the real answer is about three times larger.
+</Example>
+
+<Example n={4} title="Cancelling the dimming" book>
+A 1% dimmer Sun removes $2.40\ \text{W/m}^{2}$ of absorbed sunlight (Chapter 6.4, Problem 7), and 5% removes $12.0\ \text{W/m}^{2}$. By what factor would carbon dioxide have to rise to cancel each?
+
+$$
+1\%:\quad \frac{C}{C_{0}} = e^{2.40/5.35} = e^{0.449} = 1.57 \qquad 5\%:\quad \frac{C}{C_{0}} = e^{12.0/5.35} = e^{2.24} = 9.4
+$$
+
+A 57% rise in carbon dioxide would cancel a 1% dimming: a little more than the 50% rise humanity has caused since before industry. But cancelling 5% would need more than nine times the carbon dioxide, and it would then stay for centuries after the Sun recovered. That is why the novel's engineers reach for methane instead.
+</Example>
+
+<Example n={5} title="Methane fades" book>
+Extra methane decays with a time constant of about 12 years. What fraction of a methane boost is left after 10 years, and after 30 years?
+
+$$
+e^{-10/12} = 0.43 \qquad e^{-30/12} = 0.082
+$$
+
+After a decade, less than half remains; after thirty years, about 8%. The novel's claim that the methane breaks down in about ten years is a fair summary: to keep the warming going, more must be released every few years, and if the crisis ends, it fades on its own.
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** The greenhouse effect, the role of molecules with lopsided charge, water vapour's and carbon dioxide's shares, and the one-layer model are standard climate physics. NASA's energy budget gives the 398 W/m² from the surface and 340 W/m² back from the sky. The CO₂ formula is from Myhre and others (1998); doubling gives about 3.7 W/m² and roughly 1 °C of warming without feedbacks. Methane's warming power (28 times over 100 years, 84 over 20) and its 12-year lifetime are from the scientific literature summarised on Wikipedia. Venus's 737 K and 92-bar atmosphere are from NASA.
+
+**Weir's inventions.** The Antarctic methane release is the novel's plan, and "about ten years" for methane to break down is the novel's figure, close to the real 12. Erid, its 210 °C temperature and its 29-atmosphere ammonia air are fiction; the real 40 Eridani A signal is probably not a planet. Our claim that an ammonia greenhouse "could" explain Erid's heat is a plausibility check, not a proof.
+
+**How realistic are the numbers?** Strengthening the greenhouse effect to fight a dimming Sun is physically sensible: a forcing is a forcing, whatever its cause. But the scale is daunting. Cancelling even a 1% dimming needs a forcing about as large as everything humanity's carbon dioxide has done so far. The novel treats it as a desperate stopgap, which is about right.
+</RealVsBook>
+
+## Interactive simulation
+
+<GreenhouseSim />
+
+Things to try: set $\varepsilon$ to 0 and the surface sits at the equilibrium temperature. Raise it to 0.77 to recover today's Earth, then to 1. Now dim the Sun by 5% and find what $\varepsilon$ would bring the surface back to 288 K.
+
+## Practice set
+
+<Problem n={1} level="easy">
+Why don't nitrogen and oxygen act as greenhouse gases?
+
+<Solution>
+Each molecule is made of two identical atoms, so its charge is spread evenly and its vibrations can't absorb or emit infrared light.
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy">
+From space, does a planet with a strong greenhouse effect radiate more energy than one without, if both absorb the same sunlight?
+
+<Solution>
+No. In balance, both radiate exactly what they absorb. The greenhouse effect changes the surface temperature, not the total leaving the planet.
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy">
+Carbon dioxide doubles from 280 to 560 ppm, then doubles again to 1120 ppm. How does the second doubling's forcing compare with the first?
+
+<Solution>
+They are the same, 3.7 W/m² each, because $\ln(C/C_{0})$ depends only on the ratio.
+</Solution>
+</Problem>
+
+<Problem n={4} level="medium">
+Find the forcing from the rise in carbon dioxide from 280 to 421 ppm.
+
+<Solution>
+$\Delta F = 5.35 \ln(421/280) = 5.35 \times 0.408 = 2.18$ W/m².
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium">
+Use the measured surface temperature of 288 K to find how much infrared the surface radiates (as a perfect emitter). Compare it with NASA's 398 W/m².
+
+<Solution>
+$\sigma T^{4} = 5.67 \times 10^{-8} \times 288^{4} = 390$ W/m², within about 2% of NASA's figure. (The real surface isn't all at 288 K, and the average of $T^{4}$ is a little higher than $(\text{average }T)^{4}$.)
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium">
+In the one-layer model with $\varepsilon = 0.50$, what is Earth's surface temperature?
+
+<Solution>
+$T_{\text{s}} = 255.1 \times (2/1.5)^{1/4} = 255.1 \times 1.0746 = 274$ K, just above freezing.
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium">
+Mars's equilibrium temperature is 209.8 K and its average surface temperature about 214 K. What $\varepsilon$ does the one-layer model give? Why is it so small?
+
+<Solution>
+$\varepsilon = 2 - 2(209.8/214)^{4} = 0.15$. Mars's air is about 1% as thick as Earth's, so even though it is mostly carbon dioxide, it absorbs little infrared.
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium" book>
+By what factor must carbon dioxide rise to give a forcing of $+6.0\ \text{W/m}^{2}$, about half of a 5% dimming?
+
+<Solution>
+$C/C_{0} = e^{6.0/5.35} = e^{1.12} = 3.07$.
+</Solution>
+</Problem>
+
+<Problem n={9} level="challenging" book>
+Erid's equilibrium temperature is about 434 K (Chapter 6.4, Problem 11), and the novel gives a surface at about 210 °C. What $\varepsilon$ would the one-layer model need?
+
+<Solution>
+$T_{\text{s}} = 483.15$ K. $\varepsilon = 2 - 2(434/483.15)^{4} = 2 - 2/1.537 = 0.70$. A thick ammonia atmosphere absorbing about 70% of the ground's infrared would do it, comparable to Earth's 0.77.
+</Solution>
+</Problem>
+
+<Problem n={10} level="challenging">
+Venus's equilibrium temperature is 226.6 K and its surface 737 K. (a) What would a single fully absorbing layer give? (b) How many fully absorbing layers would the many-layer model need?
+
+<Solution>
+(a) $2^{1/4} \times 226.6 = 269$ K, far too cold. (b) $n + 1 = (737/226.6)^{4} = 112$, so about 111 layers. Venus's air is so thick and so full of carbon dioxide that infrared is absorbed and re-emitted again and again on its way out.
+</Solution>
+</Problem>
+
+<Problem n={11} level="challenging" book>
+Engineers release methane in one burst. How many years until only a quarter of the extra methane is left ($\tau = 12$ years)? How often must they release fresh methane to keep at least half of the original boost in the air?
+
+<Solution>
+$e^{-t/12} = 0.25$ gives $t = 12\ln 4 = 16.6$ years. To stay above half, top up every $12\ln 2 = 8.3$ years: roughly every eight years, back to the full amount.
+</Solution>
+</Problem>
+
+<Problem n={12} level="challenging">
+Show that with $\varepsilon = 1$, the layer in the one-layer model is at exactly $T_{\text{e}}$. Why does that make sense?
+
+<Solution>
+$T_{\text{a}}^{4} = \tfrac{1}{2}T_{\text{s}}^{4} = \tfrac{1}{2} \times 2T_{\text{e}}^{4} = T_{\text{e}}^{4}$. With $\varepsilon = 1$, all the planet's outgoing radiation comes from the layer, which must therefore radiate $\sigma T_{\text{e}}^{4}$: it is the "surface" that space sees.
+</Solution>
+</Problem>
+
+## Summary
+
+- Sunlight (short-wave) passes through the air; the ground's infrared (long-wave) is partly absorbed by greenhouse gases, which radiate some of it back down. The surface warms until the balance is restored.
+- Gases whose molecules have lopsided charge (H₂O, CO₂, CH₄, NH₃) absorb infrared; N₂ and O₂ do not.
+- One-layer model: $T_{\text{s}} = T_{\text{e}}[2/(2 - \varepsilon)]^{1/4}$; Earth's 288 K needs $\varepsilon \approx 0.77$. $n$ opaque layers give $T_{\text{s}}^{4} = (n + 1)T_{\text{e}}^{4}$.
+- Forcing from CO₂: $\Delta F = 5.35\ln(C/C_{0})$ W/m², 3.7 W/m² per doubling, about 1 K of warming before feedbacks.
+- Methane is strong but short-lived (about 12 years), which is why the novel uses it as a temporary shield against the cold.
+
+**Formulas from this chapter**
+
+$$
+T_{\text{s}} = T_{\text{e}}\left(\frac{2}{2 - \varepsilon}\right)^{1/4} \qquad \sigma T_{\text{s}}^{4} = (n + 1)\sigma T_{\text{e}}^{4} \qquad \Delta F = 5.35\ln\frac{C}{C_{0}}\ \text{W/m}^{2}
+$$
+
+## Sources
+
+- Earth's energy budget (398 W/m² from the surface, 340 W/m² back from the atmosphere, 240 W/m² absorbed): NASA Earth Observatory, ["Climate and Earth's Energy Budget"](https://science.nasa.gov/earth/earth-observatory/climate-and-earths-energy-budget).
+- Why N₂ and O₂ don't absorb infrared; water vapour's 41–67% and carbon dioxide's roughly 18–26% shares of the greenhouse effect: Wikipedia, [Greenhouse gas](https://en.wikipedia.org/wiki/Greenhouse_gas). The blanket picture: Wikipedia, [Greenhouse effect](https://en.wikipedia.org/wiki/Greenhouse_effect).
+- The CO₂ forcing formula ΔF = 5.35 ln(C/C₀) (Myhre and others, *Geophysical Research Letters* 25, 2715, 1998): Wikipedia, [Radiative forcing](https://en.wikipedia.org/wiki/Radiative_forcing). Doubling gives about 3.7 W/m² and roughly 1 °C without feedbacks: Wikipedia, [Climate sensitivity](https://en.wikipedia.org/wiki/Climate_sensitivity).
+- Carbon dioxide at 421 ppm in May 2022, about 50% above the pre-industrial 280 ppm: NOAA Climate.gov, ["Carbon dioxide now more than 50% higher than pre-industrial levels"](https://www.climate.gov/news-features/feed/carbon-dioxide-now-more-50-higher-pre-industrial-levels).
+- Methane's warming potential (84 over 20 years, 28 over 100), its perturbation lifetime of about 12 years and its forcing since 1750 (about 0.5 W/m²): Wikipedia, [Atmospheric methane](https://en.wikipedia.org/wiki/Atmospheric_methane).
+- Venus's surface pressure (92 bar) and temperature (737 K): NASA, [Venus Fact Sheet](https://nssdc.gsfc.nasa.gov/planetary/factsheet/venusfact.html). The air's nitrogen (78%) and oxygen (21%): NASA, [Earth Fact Sheet](https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html). The Sun's surface temperature, 5772 K: NASA, [Sun Fact Sheet](https://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html).
+- Terraforming to strengthen the greenhouse effect in the novel: Wikipedia, [*Project Hail Mary*](https://en.wikipedia.org/wiki/Project_Hail_Mary). Leclerc's methane plan and its roughly ten-year breakdown: reader guide, [readifyai: Antarctica methane release](https://readifyai.com/books/Project%20Hail%20Mary/wiki/Antarctica%20methane%20release) (not an official source).
+- Erid's 210 °C, 29-atmosphere ammonia air: /Film, ["Project Hail Mary: Why Rocky and Grace can't be in the same space"](https://slashfilm.com/2125069/project-hail-mary-why-rocky-grace-not-same-space). The 40 Eridani A signal is likely stellar activity: Wikipedia, [40 Eridani](https://en.wikipedia.org/wiki/40_Eridani).
