@@ -1,0 +1,123 @@
+---
+// Simulation: a travelling wave y = A cos(kx − ωt) on a 10 m rope, with an optional second wave of the same amplitude,
+// wavelength and frequency, either moving the same way with a phase offset (interference) or the opposite way (standing wave).
+---
+
+<div
+	class="sim wm"
+	data-title="Wave machine"
+	data-description="A wave travels to the right along a 10 metre rope. Sliders set its frequency f (0.10 to 2.00 Hz), wavelength λ (0.5 to 5.0 m) and amplitude (0.1 to 1.0 m). One piece of rope is marked with a red dot: it only moves up and down while the pattern moves along. A menu adds a second, equal wave, either travelling the same way and shifted by a chosen fraction of a wavelength, or travelling the opposite way. The two waves are drawn faintly and their sum in bold. The readout gives the period T = 1/f, the wave speed v = fλ, the time for a crest to cross the rope, the marked piece's top speed, and, for two waves, whether they interfere constructively or destructively, or form a standing wave with nodes half a wavelength apart. The animation runs in real time and stops if reduced motion is requested."
+>
+	<p class="sim-title">Simulation: wave machine</p>
+	<p class="sim-help">Watch the red piece of rope: it bobs up and down in place while the crests march past. Then add a second wave.</p>
+	<div class="sim-controls">
+		<label>Frequency f <input type="range" class="wm-f" min="0.1" max="2" step="0.05" value="0.5" /> <output class="wm-fv"></output></label>
+		<label>Wavelength λ <input type="range" class="wm-l" min="0.5" max="5" step="0.1" value="4" /> <output class="wm-lv"></output></label>
+		<label>Amplitude A <input type="range" class="wm-a" min="0.1" max="1" step="0.05" value="0.6" /> <output class="wm-av"></output></label>
+		<label>Second wave <select class="wm-m">
+			<option value="none">none</option>
+			<option value="same">same direction</option>
+			<option value="opp">opposite direction</option>
+		</select></label>
+		<label>Shift of second wave <input type="range" class="wm-p" min="0" max="1" step="0.05" value="0.5" /> <output class="wm-pv"></output></label>
+	</div>
+	<svg class="dg wm-svg" viewBox="0 0 600 260" role="img" aria-label="A wave on a rope, with an optional second wave and their sum"></svg>
+	<div class="readout wm-out" aria-live="polite"></div>
+</div>
+
+<script>
+	const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+	document.querySelectorAll<HTMLElement>('.sim.wm').forEach((root) => {
+		const q = <T extends Element>(s: string) => root.querySelector<T>(s)!;
+		const svg = q<SVGSVGElement>('.wm-svg'), out = q<HTMLElement>('.wm-out');
+		const Fs = q<HTMLInputElement>('.wm-f'), Ls = q<HTMLInputElement>('.wm-l'), As = q<HTMLInputElement>('.wm-a');
+		const Ms = q<HTMLSelectElement>('.wm-m'), Ps = q<HTMLInputElement>('.wm-p');
+		const NS = 'http://www.w3.org/2000/svg';
+		const el = (tag: string, at: Record<string, string | number>, text?: string) => {
+			const e = document.createElementNS(NS, tag);
+			Object.entries(at).forEach(([k, v]) => e.setAttribute(k, String(v)));
+			if (text) e.textContent = text;
+			svg.append(e);
+			return e;
+		};
+		const X0 = 40, X1 = 570, Y0 = 120, SC = 50; // px per metre vertically (amplitudes up to 2 m in the sum)
+		const px = (x: number) => X0 + (x / 10) * (X1 - X0);
+		// Static parts and moving parts are created once; each frame only updates attributes.
+		el('line', { x1: X0, y1: Y0, x2: X1, y2: Y0, class: 's-grid w1' });
+		[0, 2, 4, 6, 8, 10].forEach((m) => {
+			el('line', { x1: px(m), y1: 228, x2: px(m), y2: 234, class: 's-muted w1' });
+			el('text', { x: px(m), y: 250, class: 't-mid t-sm f-muted' }, `${m} m`);
+		});
+		const w1 = el('polyline', { class: 's-sky w2', fill: 'none' });
+		const w2 = el('polyline', { class: 's-amber w2 dash', fill: 'none' });
+		const sum = el('polyline', { class: 's-green w3', fill: 'none' });
+		const dot = el('circle', { r: 7, class: 'f-rose' });
+		const nodes = el('g', {});
+		const XM = 3.0; // the marked piece of rope sits at x = 3 m
+		let t = 0, last = 0;
+		const N = 240;
+		function update() {
+			const f = +Fs.value, lam = +Ls.value, A = +As.value, mode = Ms.value, ph = +Ps.value;
+			const k = (2 * Math.PI) / lam, w = 2 * Math.PI * f;
+			const y1 = (x: number) => A * Math.cos(k * x - w * t);
+			const y2 = (x: number) => (mode === 'same' ? A * Math.cos(k * x - w * t - 2 * Math.PI * ph) : mode === 'opp' ? A * Math.cos(k * x + w * t) : 0);
+			const pts = (fn: (x: number) => number) =>
+				Array.from({ length: N + 1 }, (_, i) => {
+					const x = (10 * i) / N;
+					return `${px(x).toFixed(1)},${(Y0 - SC * fn(x)).toFixed(1)}`;
+				}).join(' ');
+			const two = mode !== 'none';
+			w1.setAttribute('points', pts(y1));
+			w1.setAttribute('stroke-opacity', two ? '0.55' : '1');
+			w2.setAttribute('points', two ? pts(y2) : '');
+			sum.setAttribute('points', two ? pts((x) => y1(x) + y2(x)) : '');
+			dot.setAttribute('cx', String(px(XM)));
+			dot.setAttribute('cy', String(Y0 - SC * (y1(XM) + y2(XM))));
+		}
+		function draw() {
+			const f = +Fs.value, lam = +Ls.value, A = +As.value, mode = Ms.value, ph = +Ps.value;
+			q('.wm-fv').textContent = `${f.toFixed(2)} Hz`;
+			q('.wm-lv').textContent = `${lam.toFixed(1)} m`;
+			q('.wm-av').textContent = `${A.toFixed(2)} m`;
+			q('.wm-pv').textContent = `${ph.toFixed(2)} λ`;
+			Ps.disabled = mode !== 'same';
+			const v = f * lam;
+			nodes.replaceChildren();
+			if (mode === 'opp') {
+				// standing wave 2A cos(kx) cos(ωt): nodes where cos(kx) = 0, i.e. x = λ/4 + nλ/2
+				for (let x = lam / 4; x <= 10; x += lam / 2) {
+					const c = document.createElementNS(NS, 'circle');
+					c.setAttribute('cx', String(px(x)));
+					c.setAttribute('cy', String(Y0));
+					c.setAttribute('r', '4');
+					c.setAttribute('class', 'f-fg');
+					nodes.append(c);
+				}
+			}
+			let two = '';
+			if (mode === 'same') {
+				const amp = 2 * A * Math.abs(Math.cos(Math.PI * ph));
+				const kind = ph < 0.05 || ph > 0.95 ? 'constructive (in step)' : Math.abs(ph - 0.5) < 0.05 ? 'destructive (they cancel)' : 'partly constructive';
+				two = `<br><span class="k">two waves, shifted ${ph.toFixed(2)} λ</span>: sum has amplitude 2A|cos(π × ${ph.toFixed(2)})| = <b>${amp.toFixed(2)} m</b>, ${kind}`;
+			} else if (mode === 'opp') {
+				two = `<br><span class="k">opposite waves make a standing wave</span>: the pattern no longer travels; white dots are <b>nodes</b>, which never move, ${(lam / 2).toFixed(2)} m (λ/2) apart`;
+			}
+			out.innerHTML =
+				`<span class="k">period T = 1/f</span> = ${(1 / f).toFixed(2)} s &nbsp; <span class="k">wave speed v = fλ</span> = <b>${v.toFixed(2)} m/s</b> &nbsp; <span class="k">a crest crosses the 10 m rope in</span> ${(10 / v).toFixed(1)} s<br>` +
+				`<span class="k">top speed of the red piece, Aω</span> = ${(A * 2 * Math.PI * f).toFixed(2)} m/s (not the same as the wave speed)` +
+				two;
+			update();
+		}
+		function frame(now: number) {
+			if (last) t += (now - last) / 1000;
+			last = now;
+			update();
+			requestAnimationFrame(frame);
+		}
+		[Fs, Ls, As, Ps].forEach((i) => i.addEventListener('input', draw));
+		Ms.addEventListener('change', draw);
+		Ms.addEventListener('input', draw);
+		draw();
+		if (!reduce) requestAnimationFrame(frame);
+	});
+</script>

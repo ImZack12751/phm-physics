@@ -1,0 +1,27 @@
+---
+// A diffraction grating: neighbouring slits a distance d apart send light at angle θ; the extra path is d sin θ.
+// Bright where d sin θ = mλ. Drawn for θ = 30°.
+const deg = Math.PI / 180, th = 30 * deg;
+const GX = 160, d = 70, slits = [30, 100, 170];
+const len = 330;
+const ux = Math.cos(th), uy = -Math.sin(th); // ray direction (up-right)
+---
+
+<svg class="dg" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+	<line x1={GX} y1="30" x2={GX} y2="270" class="s-fg w3" />
+	{slits.map((y) => <rect x={GX - 4} y={y + 80 - 6} width="8" height="12" class="f-bg" />)}
+	{slits.map((y) => <line x1="30" y1={y + 80} x2={GX - 6} y2={y + 80} class="s-amber w2" />)}
+	<text x="30" y="50" class="t-sm f-amber">light in</text>
+	{slits.map((y) => <line x1={GX} y1={y + 80} x2={GX + len * ux} y2={y + 80 + len * uy} class="s-amber w2" />)}
+	<line x1={GX} y1={slits[0] + 80} x2={GX + d * Math.sin(th) * ux} y2={slits[1] + 80 + d * Math.sin(th) * uy} class="s-green w2 dash" />
+	<line x1={GX} y1={slits[1] + 80} x2={GX + d * Math.sin(th) * ux} y2={slits[1] + 80 + d * Math.sin(th) * uy} class="s-rose w3" />
+	<text x={GX + 40} y={slits[1] + 96} class="t-sm f-rose halo">extra path d sin θ</text>
+	<text x={GX - 10} y={slits[0] + 80 + d / 2 + 4} class="t-end t-sm">d</text>
+	<line x1={GX - 4} y1={slits[0] + 80} x2={GX - 4} y2={slits[1] + 80} class="s-muted w1" />
+	<line x1={GX} y1={slits[2] + 80} x2={GX + 120} y2={slits[2] + 80} class="s-muted w1 dash" />
+	<path d={`M${GX + 80},${slits[2] + 80} A80,80 0 0 0 ${GX + 80 * ux},${slits[2] + 80 + 80 * uy}`} class="s-green w2" fill="none" />
+	<text x={GX + 88} y={slits[2] + 70} class="t-sm f-green">θ</text>
+	<text x="590" y="40" class="t-end t-sm">to the screen or detector</text>
+	<text x="590" y="250" class="t-end t-sm">bright when d sin θ = mλ</text>
+	<text x="590" y="270" class="t-end t-sm f-muted">each colour has its own angle</text>
+</svg>

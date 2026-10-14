@@ -1,0 +1,104 @@
+---
+// Simulation: emission and absorption spectra of a few elements (air wavelengths, NIST and Wikipedia), Doppler-shifted
+// by a line-of-sight speed v: λ' = λ(1 + v/c) (fine for v much less than c). Hydrogen's lines are also computed from
+// E_n = −13.6 eV/n² for comparison.
+---
+
+<div
+	class="sim sl"
+	data-title="Spectrum lab"
+	data-description="Choose an element (hydrogen, helium, sodium or mercury) and whether you see its emission spectrum (bright lines on black) or its absorption spectrum (dark lines on a rainbow). A slider sets the source's speed along the line of sight, from 3000 kilometres per second towards you to 3000 away, which shifts every line by Δλ = λv/c: towards blue when approaching, towards red when receding. A faint copy of the unshifted lines is drawn for comparison. The readout lists each line's rest wavelength and its shifted wavelength, the fractional shift v/c, and, for hydrogen, the energy levels that produce each line. Wavelengths are from NIST tables."
+>
+	<p class="sim-title">Simulation: spectrum lab</p>
+	<p class="sim-help">Every element has its own barcode of lines. Set the speed to move the whole barcode: that is how astronomers measure motion they can't see.</p>
+	<div class="sim-controls">
+		<label>Speed along line of sight <input type="range" class="sl-v" min="-3000" max="3000" step="10" value="0" /> <output class="sl-vv"></output></label>
+		<label>Element <select class="sl-e">
+			<option value="H">hydrogen</option>
+			<option value="He">helium</option>
+			<option value="Na">sodium</option>
+			<option value="Hg">mercury</option>
+		</select></label>
+		<label>Spectrum <select class="sl-m">
+			<option value="em">emission (hot thin gas)</option>
+			<option value="ab">absorption (gas in front of a star)</option>
+		</select></label>
+	</div>
+	<svg class="dg sl-svg" viewBox="0 0 600 150" role="img" aria-label="A spectrum from 380 to 720 nanometres with an element's lines"></svg>
+	<div class="readout sl-out" aria-live="polite"></div>
+</div>
+
+<script>
+	const C = 299792.458; // km/s
+	const DATA: Record<string, { name: string; lines: [number, string][] }> = {
+		H: { name: 'hydrogen', lines: [[656.279, 'n = 3 → 2'], [486.135, 'n = 4 → 2'], [434.047, 'n = 5 → 2'], [410.173, 'n = 6 → 2']] },
+		He: { name: 'helium', lines: [[706.518, ''], [667.815, ''], [587.562, 'the D3 line, found in the Sun in 1868'], [501.568, ''], [447.148, ''], [388.865, '']] },
+		Na: { name: 'sodium', lines: [[589.592, 'D1'], [588.995, 'D2']] },
+		Hg: { name: 'mercury', lines: [[579.066, ''], [576.960, ''], [546.074, ''], [435.833, ''], [404.656, '']] },
+	};
+	function rgb(nm: number) {
+		let r = 0, g = 0, b = 0;
+		if (nm < 440) { r = (440 - nm) / 60; b = 1; }
+		else if (nm < 490) { g = (nm - 440) / 50; b = 1; }
+		else if (nm < 510) { g = 1; b = (510 - nm) / 20; }
+		else if (nm < 580) { r = (nm - 510) / 70; g = 1; }
+		else if (nm < 645) { r = 1; g = (645 - nm) / 65; }
+		else r = 1;
+		const f = nm < 420 ? 0.3 + (0.7 * Math.max(0, nm - 380)) / 40 : nm > 700 ? 0.3 + (0.7 * Math.max(0, 750 - nm)) / 50 : 1;
+		const c = (x: number) => Math.round(255 * Math.max(0, Math.min(1, x * f)) ** 0.8);
+		return `rgb(${c(r)},${c(g)},${c(b)})`;
+	}
+	document.querySelectorAll<HTMLElement>('.sim.sl').forEach((root) => {
+		const q = <T extends Element>(s: string) => root.querySelector<T>(s)!;
+		const svg = q<SVGSVGElement>('.sl-svg'), out = q<HTMLElement>('.sl-out');
+		const Vs = q<HTMLInputElement>('.sl-v'), Es = q<HTMLSelectElement>('.sl-e'), Ms = q<HTMLSelectElement>('.sl-m');
+		const NS = 'http://www.w3.org/2000/svg';
+		const X0 = 20, X1 = 580, L0 = 380, L1 = 720;
+		const X = (nm: number) => X0 + ((nm - L0) / (L1 - L0)) * (X1 - X0);
+		const el = (parent: Element, tag: string, at: Record<string, string | number>, text?: string) => {
+			const e = document.createElementNS(NS, tag);
+			Object.entries(at).forEach(([k, v]) => e.setAttribute(k, String(v)));
+			if (text) e.textContent = text;
+			parent.append(e);
+			return e;
+		};
+		// static axis
+		for (let nm = 400; nm <= 700; nm += 50) {
+			el(svg, 'line', { x1: X(nm), y1: 112, x2: X(nm), y2: 118, class: 's-fg w1' });
+			el(svg, 'text', { x: X(nm), y: 132, class: 't-mid t-sm f-muted' }, `${nm}`);
+		}
+		el(svg, 'text', { x: X1, y: 148, class: 't-end t-sm f-muted' }, 'wavelength (nm)');
+		const layer = el(svg, 'g', {});
+		function draw() {
+			const v = +Vs.value, el0 = Es.value, mode = Ms.value;
+			const z = v / C;
+			q('.sl-vv').textContent = v === 0 ? '0 (at rest)' : `${Math.abs(v)} km/s ${v < 0 ? 'towards you' : 'away'}`;
+			layer.replaceChildren();
+			const Y = 30, H = 80;
+			if (mode === 'ab') for (let nm = L0; nm < L1; nm += 2) el(layer, 'rect', { x: X(nm), y: Y, width: X(nm + 2) - X(nm) + 0.4, height: H, fill: rgb(nm + 1) });
+			else el(layer, 'rect', { x: X0, y: Y, width: X1 - X0, height: H, class: 'f-bg' });
+			el(layer, 'rect', { x: X0, y: Y, width: X1 - X0, height: H, class: 's-muted w1', fill: 'none' });
+			const d = DATA[el0];
+			d.lines.forEach(([lam]) => {
+				el(layer, 'line', { x1: X(lam), y1: Y - 12, x2: X(lam), y2: Y - 2, class: 's-muted w2' });
+				const s = lam * (1 + z);
+				if (s < L0 || s > L1) return;
+				el(layer, 'rect', { x: X(s) - 1.6, y: Y, width: 3.2, height: H, fill: mode === 'ab' ? '#000' : rgb(s) });
+			});
+			el(layer, 'text', { x: X0, y: 16, class: 't-sm f-muted' }, 'grey ticks: lines at rest');
+			const rows = d.lines
+				.map(([lam, note]) => `${lam.toFixed(3)} → <b>${(lam * (1 + z)).toFixed(3)} nm</b>${note ? ` (${note})` : ''}`)
+				.join('<br>');
+			const hy = el0 === 'H' ? `<br><span class="k">from E = −13.6 eV/n²</span>: 3 → 2 gives 1240/1.889 = 656 nm, 4 → 2 gives 1240/2.550 = 486 nm` : '';
+			out.innerHTML =
+				`<span class="k">${d.name}, ${mode === 'ab' ? 'absorption' : 'emission'}</span>; <span class="k">shift Δλ/λ = v/c</span> = ${v === 0 ? '0' : `${z > 0 ? '+' : ''}${z.toExponential(2)}`} (${v === 0 ? 'no shift' : v < 0 ? 'blueshift' : 'redshift'})<br>` +
+				rows + hy;
+		}
+		Vs.addEventListener('input', draw);
+		[Es, Ms].forEach((s) => {
+			s.addEventListener('change', draw);
+			s.addEventListener('input', draw);
+		});
+		draw();
+	});
+</script>

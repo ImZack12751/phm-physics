@@ -1,0 +1,35 @@
+---
+// Momentum delivered by a photon of momentum p: absorbed (black surface) gives p; reflected (mirror) gives 2p,
+// because the photon's momentum changes from +p to −p.
+const head = (x: number, y: number, ux: number, uy: number) => `${x},${y} ${x - 12 * ux + 6 * uy},${y - 12 * uy - 6 * ux} ${x - 12 * ux - 6 * uy},${y - 12 * uy + 6 * ux}`;
+const sq = (x0: number, x1: number, y: number) =>
+	Array.from({ length: 41 }, (_, i) => {
+		const x = x0 + ((x1 - x0) * i) / 40;
+		return `${x.toFixed(1)},${(y - 6 * Math.sin((2 * Math.PI * 4 * i) / 40)).toFixed(1)}`;
+	}).join(' ');
+---
+
+<svg class="dg" viewBox="0 0 600 260" xmlns="http://www.w3.org/2000/svg">
+	<text x="150" y="26" class="t-mid t-sm t-b">absorbed: push p = E/c</text>
+	<text x="450" y="26" class="t-mid t-sm t-b">reflected: push 2p = 2E/c</text>
+	<line x1="300" y1="10" x2="300" y2="250" class="s-grid w1 dash" />
+	<polyline points={sq(40, 180, 110)} class="s-amber w2" fill="none" />
+	<polygon points={head(192, 110, 1, 0)} class="f-amber" />
+	<text x="100" y="90" class="t-mid t-sm f-amber">photon, momentum p →</text>
+	<rect x="200" y="60" width="26" height="110" class="f-fg" fill-opacity="0.85" />
+	<text x="213" y="190" class="t-mid t-sm f-muted">black surface</text>
+	<line x1="232" y1="140" x2="282" y2="140" class="s-rose w3" />
+	<polygon points={head(294, 140, 1, 0)} class="f-rose" />
+	<text x="150" y="226" class="t-mid t-sm">photon gone: all its p handed over</text>
+	<polyline points={sq(340, 480, 90)} class="s-amber w2" fill="none" />
+	<polygon points={head(492, 90, 1, 0)} class="f-amber" />
+	<text x="400" y="70" class="t-mid t-sm f-amber">in: +p</text>
+	<polyline points={sq(352, 490, 130)} class="s-amber w2 dash" fill="none" />
+	<polygon points={head(340, 130, -1, 0)} class="f-amber" />
+	<text x="420" y="160" class="t-mid t-sm f-amber">out: −p</text>
+	<rect x="500" y="60" width="14" height="110" class="f-sky" />
+	<text x="507" y="190" class="t-mid t-sm f-muted">mirror</text>
+	<line x1="520" y1="140" x2="570" y2="140" class="s-rose w3" />
+	<polygon points={head(582, 140, 1, 0)} class="f-rose" />
+	<text x="450" y="226" class="t-mid t-sm">change in photon’s momentum: 2p</text>
+</svg>

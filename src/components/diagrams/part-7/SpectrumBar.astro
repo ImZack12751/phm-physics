@@ -1,0 +1,71 @@
+---
+// The electromagnetic spectrum on a logarithmic wavelength scale (10⁻¹³ m to 10³ m), with approximate band boundaries
+// (OpenStax UP2 §16.5), a frequency scale f = c/λ, a zoomed-in visible band, and markers for wavelengths used in Part 7.
+const L = 40, R = 570, lo = -13, hi = 3;
+const X = (lam: number) => L + ((Math.log10(lam) - lo) / (hi - lo)) * (R - L);
+const BY = 150, BH = 26;
+const bands = [
+	{ name: 'gamma', a: 1e-13, b: 1e-11, cls: 'f-violet' },
+	{ name: 'X-ray', a: 1e-11, b: 1e-8, cls: 'f-sky' },
+	{ name: 'UV', a: 1e-8, b: 4e-7, cls: 'f-violet-soft' },
+	{ name: '', a: 4e-7, b: 7.5e-7, cls: '' },
+	{ name: 'infrared', a: 7.5e-7, b: 1e-3, cls: 'f-rose-soft' },
+	{ name: 'microwave', a: 1e-3, b: 0.1, cls: 'f-amber-soft' },
+	{ name: 'radio', a: 0.1, b: 1e3, cls: 'f-green-soft' },
+];
+const ticks = [
+	[1e-12, '1 pm'], [1e-9, '1 nm'], [1e-6, '1 µm'], [1e-3, '1 mm'], [1, '1 m'], [1e3, '1 km'],
+] as const;
+const fticks = [[1e21, '10²¹'], [1e18, '10¹⁸'], [1e15, '10¹⁵'], [1e12, '10¹²'], [1e9, '10⁹'], [1e6, '10⁶']] as const;
+const c = 299792458;
+const marks = [
+	{ lam: 4.26e-6, label: 'CO₂ 4.26 µm', y: 214, anchor: 't-end', dxl: -4 },
+	{ lam: 14.99e-6, label: 'CO₂ 15 µm', y: 236, anchor: 't-end', dxl: -4 },
+	{ lam: 25.984e-6, label: 'Petrova 25.984 µm', y: 258, anchor: '', dxl: 4 },
+	{ lam: 0.1224, label: 'microwave oven', y: 214, anchor: 't-mid', dxl: 0 },
+	{ lam: 3.0, label: 'FM radio', y: 236, anchor: 't-mid', dxl: 0 },
+];
+const v0 = X(4e-7), v1 = X(7.5e-7);
+const IX0 = 230, IX1 = 470, IY = 52; // inset for visible light
+const rainbow = [
+	[0, '#8b5cf6'], [0.17, '#3b82f6'], [0.34, '#06b6d4'], [0.5, '#22c55e'], [0.66, '#eab308'], [0.82, '#f97316'], [1, '#ef4444'],
+] as const;
+---
+
+<svg class="dg" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+	<defs>
+		<linearGradient id="spec-vis" x1="0" x2="1" y1="0" y2="0">
+			{rainbow.map(([o, col]) => <stop offset={o} stop-color={col} />)}
+		</linearGradient>
+	</defs>
+	{bands.map((b) => (b.cls ? <rect x={X(b.a)} y={BY} width={X(b.b) - X(b.a)} height={BH} class={b.cls} /> : <rect x={X(b.a)} y={BY} width={X(b.b) - X(b.a)} height={BH} fill="url(#spec-vis)" />))}
+	{bands.filter((b) => b.name).map((b) => <text x={(X(b.a) + X(b.b)) / 2} y={BY + 17} class="t-mid t-sm t-b halo">{b.name}</text>)}
+	<rect x={L} y={BY} width={R - L} height={BH} class="s-fg w1" fill="none" />
+	{ticks.map(([l, t]) => (
+		<>
+			<line x1={X(l)} y1={BY + BH} x2={X(l)} y2={BY + BH + 6} class="s-fg w1" />
+			<text x={X(l)} y={BY + BH + 19} class="t-mid t-sm f-muted">{t}</text>
+		</>
+	))}
+	{fticks.map(([f, t]) => (
+		<>
+			<line x1={X(c / f)} y1={BY} x2={X(c / f)} y2={BY - 6} class="s-fg w1" />
+			<text x={X(c / f)} y={BY - 10} class="t-mid t-sm f-muted">{t}</text>
+		</>
+	))}
+	<text x={L} y={BY - 26} class="t-sm f-muted">frequency (Hz) ↑</text>
+	<text x={L} y="296" class="t-sm f-muted">wavelength ↓, each step ×1000</text>
+	<line x1={v0} y1={BY} x2={IX0} y2={IY + 18} class="s-muted w1 dash" />
+	<line x1={v1} y1={BY} x2={IX1} y2={IY + 18} class="s-muted w1 dash" />
+	<rect x={IX0} y={IY} width={IX1 - IX0} height="18" fill="url(#spec-vis)" />
+	<text x={IX0} y={IY - 8} class="t-sm">400 nm</text>
+	<text x={IX1} y={IY - 8} class="t-end t-sm">750 nm</text>
+	<text x={(IX0 + IX1) / 2} y={IY - 8} class="t-mid t-sm t-b">visible light</text>
+	{marks.map((m) => (
+		<>
+			<line x1={X(m.lam)} y1={BY + BH} x2={X(m.lam)} y2={m.y - 12} class="s-rose w1" />
+			<circle cx={X(m.lam)} cy={BY + BH} r="3" class="f-rose" />
+			<text x={X(m.lam) + m.dxl} y={m.y} class={`t-sm f-rose ${m.anchor}`}>{m.label}</text>
+		</>
+	))}
+</svg>

@@ -1,0 +1,138 @@
+---
+// Simulation: slide along the electromagnetic spectrum on a log scale. Readout: band, frequency f = c/λ, period,
+// a size comparison, and the speed and wavelength inside a chosen material (v = c/n, λ/n, frequency unchanged).
+---
+
+<div
+	class="sim spx"
+	data-title="Spectrum explorer"
+	data-description="A slider moves along the electromagnetic spectrum on a logarithmic scale, from 1 picometre (gamma rays) to 1 kilometre (radio). A bar shows the bands (gamma, X-ray, ultraviolet, visible, infrared, microwave, radio) with a marker at the chosen wavelength and reference marks for the Petrova line at 25.984 micrometres, carbon dioxide's infrared bands, a microwave oven and FM radio. In the visible range a swatch shows the colour. A menu chooses a material (vacuum, air, water, glass, diamond); the readout gives the band, the frequency f = c/λ in hertz, the period, something about the same size as the wavelength, and, inside the material, the speed c/n and the shortened wavelength λ/n with the frequency unchanged. Buttons jump to the Petrova line, green light and a microwave oven."
+>
+	<p class="sim-title">Simulation: spectrum explorer</p>
+	<p class="sim-help">Every one of these is the same kind of wave, travelling at the same speed in a vacuum. Only the wavelength (and so the frequency) changes.</p>
+	<div class="sim-controls">
+		<label>Wavelength (log scale) <input type="range" class="spx-l" min="-12" max="3" step="0.005" value="-4.585" /> <output class="spx-lv"></output></label>
+		<label>Material <select class="spx-n">
+			<option value="1">vacuum (n = 1)</option>
+			<option value="1.0003">air (n = 1.0003)</option>
+			<option value="1.33">water (n = 1.33)</option>
+			<option value="1.5">glass (n = 1.5)</option>
+			<option value="2.419">diamond (n = 2.419)</option>
+		</select></label>
+		<span class="spx-jumps">
+			<button type="button" data-l="-4.58530">Petrova line</button>
+			<button type="button" data-l="-6.26761">green light</button>
+			<button type="button" data-l="-0.91235">microwave oven</button>
+		</span>
+	</div>
+	<svg class="dg spx-svg" viewBox="0 0 600 150" role="img" aria-label="The electromagnetic spectrum with a marker at the chosen wavelength"></svg>
+	<div class="readout spx-out" aria-live="polite"></div>
+</div>
+
+<style>
+	.spx-jumps { display: inline-flex; gap: 0.4rem; flex-wrap: wrap; }
+	.spx-swatch { display: inline-block; width: 1.2em; height: 1.2em; vertical-align: -0.2em; border: 1px solid currentColor; border-radius: 3px; }
+</style>
+
+<script>
+	const C = 299792458;
+	// approximate colour of visible light (380–750 nm), after the widely used piecewise fit by Dan Bruton
+	function rgb(nm: number) {
+		let r = 0, g = 0, b = 0;
+		if (nm < 440) { r = (440 - nm) / 60; b = 1; }
+		else if (nm < 490) { g = (nm - 440) / 50; b = 1; }
+		else if (nm < 510) { g = 1; b = (510 - nm) / 20; }
+		else if (nm < 580) { r = (nm - 510) / 70; g = 1; }
+		else if (nm < 645) { r = 1; g = (645 - nm) / 65; }
+		else r = 1;
+		const f = nm < 420 ? 0.3 + (0.7 * (nm - 380)) / 40 : nm > 700 ? 0.3 + (0.7 * (750 - nm)) / 50 : 1;
+		const c = (x: number) => Math.round(255 * Math.max(0, Math.min(1, x * f)) ** 0.8);
+		return `rgb(${c(r)},${c(g)},${c(b)})`;
+	}
+	const bands: [number, number, string, string][] = [
+		[1e-13, 1e-11, 'gamma rays', 'f-violet'],
+		[1e-11, 1e-8, 'X-rays', 'f-sky'],
+		[1e-8, 4e-7, 'ultraviolet', 'f-violet-soft'],
+		[4e-7, 7.5e-7, 'visible light', ''],
+		[7.5e-7, 1e-3, 'infrared', 'f-rose-soft'],
+		[1e-3, 0.1, 'microwaves', 'f-amber-soft'],
+		[0.1, 1e4, 'radio waves', 'f-green-soft'],
+	];
+	const sizes: [number, string][] = [
+		[1e-12, 'well inside an atom'], [1e-10, 'an atom'], [1e-8, 'a virus'], [5e-7, 'a small bacterium'],
+		[1e-5, 'an Astrophage cell (10 µm)'], [1e-4, 'the width of a hair'], [1e-2, 'a fingernail'], [1, 'a person’s height'],
+		[100, 'a football pitch'], [1e3, 'a small town'],
+	];
+	const fmt = (x: number, unit: string) => {
+		const pre: [number, string][] = [[1e12, 'T'], [1e9, 'G'], [1e6, 'M'], [1e3, 'k'], [1, ''], [1e-3, 'm'], [1e-6, 'µ'], [1e-9, 'n'], [1e-12, 'p']];
+		for (const [v, p] of pre) if (x >= v * 0.9995) return `${(x / v).toPrecision(4)} ${p}${unit}`;
+		return `${x.toExponential(3)} ${unit}`;
+	};
+	const sci = (x: number) => {
+		const e = Math.floor(Math.log10(x)), m = x / 10 ** e;
+		const sup = String(e).replace(/-/g, '⁻').replace(/\d/g, (d) => '⁰¹²³⁴⁵⁶⁷⁸⁹'[+d]);
+		return `${m.toFixed(3)} × 10${sup}`;
+	};
+	document.querySelectorAll<HTMLElement>('.sim.spx').forEach((root) => {
+		const q = <T extends Element>(s: string) => root.querySelector<T>(s)!;
+		const svg = q<SVGSVGElement>('.spx-svg'), out = q<HTMLElement>('.spx-out');
+		const Ls = q<HTMLInputElement>('.spx-l'), Ns = q<HTMLSelectElement>('.spx-n');
+		const NS = 'http://www.w3.org/2000/svg';
+		const el = (tag: string, at: Record<string, string | number>, text?: string) => {
+			const e = document.createElementNS(NS, tag);
+			Object.entries(at).forEach(([k, v]) => e.setAttribute(k, String(v)));
+			if (text) e.textContent = text;
+			svg.append(e);
+			return e;
+		};
+		const X0 = 20, X1 = 580, lo = -12, hi = 3;
+		const X = (lam: number) => X0 + ((Math.log10(lam) - lo) / (hi - lo)) * (X1 - X0);
+		// static bar
+		const BY = 40, BH = 30;
+		bands.forEach(([a, b, , cls]) => {
+			const x0 = Math.max(X0, X(a)), x1 = Math.min(X1, X(b));
+			if (cls) el('rect', { x: x0, y: BY, width: x1 - x0, height: BH, class: cls });
+			else for (let nm = 400; nm < 750; nm += 10) el('rect', { x: X(nm * 1e-9), y: BY, width: X((nm + 10) * 1e-9) - X(nm * 1e-9) + 0.3, height: BH, fill: rgb(nm + 5) });
+		});
+		el('rect', { x: X0, y: BY, width: X1 - X0, height: BH, class: 's-fg w1', fill: 'none' });
+		([[1e-12, '1 pm'], [1e-9, '1 nm'], [1e-6, '1 µm'], [1e-3, '1 mm'], [1, '1 m'], [1e3, '1 km']] as [number, string][]).forEach(([l, t]) => {
+			el('line', { x1: X(l), y1: BY + BH, x2: X(l), y2: BY + BH + 5, class: 's-fg w1' });
+			el('text', { x: X(l), y: BY + BH + 18, class: 't-mid t-sm f-muted' }, t);
+		});
+		([[25.984e-6, 'Petrova', ''], [4.26e-6, 'CO₂', 't-end'], [14.99e-6, '', ''], [0.1224, 'oven', 't-mid'], [3, 'FM', 't-mid']] as [number, string, string][]).forEach(([l, t, a]) => {
+			el('line', { x1: X(l), y1: BY - 2, x2: X(l), y2: BY - 10, class: 's-rose w1' });
+			if (t) el('text', { x: X(l) + (a === 't-end' ? -3 : a ? 0 : 3), y: BY - 14, class: `${a} t-sm f-rose` }, t);
+		});
+		const mk = el('line', { y1: BY - 4, y2: BY + BH + 4, class: 's-fg w3' });
+		const mkT = el('polygon', { class: 'f-fg' });
+		const band = el('text', { y: 136, class: 't-mid t-sm t-b' });
+		function draw() {
+			const lam = 10 ** +Ls.value, n = +Ns.value;
+			const f = C / lam, x = X(lam);
+			mk.setAttribute('x1', String(x));
+			mk.setAttribute('x2', String(x));
+			mkT.setAttribute('points', `${x},${BY + BH + 26} ${x - 7},${BY + BH + 38} ${x + 7},${BY + BH + 38}`);
+			const bn = bands.find(([a, b]) => lam >= a && lam < b)?.[2] ?? 'radio waves';
+			band.setAttribute('x', String(Math.min(520, Math.max(80, x))));
+			band.textContent = bn;
+			q('.spx-lv').textContent = fmt(lam, 'm');
+			const size = sizes.reduce((best, s) => (Math.abs(Math.log10(s[0] / lam)) < Math.abs(Math.log10(best[0] / lam)) ? s : best));
+			const nm = lam * 1e9;
+			const swatch = nm >= 380 && nm <= 750 ? ` <span class="spx-swatch" style="background:${rgb(nm)}"></span>` : '';
+			out.innerHTML =
+				`<span class="k">band</span>: <b>${bn}</b>${swatch} &nbsp; <span class="k">wavelength λ</span> = ${fmt(lam, 'm')} (about the size of ${size[1]})<br>` +
+				`<span class="k">frequency f = c/λ</span> = <b>${sci(f)} Hz</b> = ${fmt(f, 'Hz')} &nbsp; <span class="k">period 1/f</span> = ${sci(1 / f)} s<br>` +
+				`<span class="k">in ${Ns.options[Ns.selectedIndex].text.split(' (')[0]}</span>: speed c/n = ${sci(C / n)} m/s, wavelength λ/n = ${fmt(lam / n, 'm')}, frequency unchanged`;
+		}
+		Ls.addEventListener('input', draw);
+		Ns.addEventListener('change', draw);
+		Ns.addEventListener('input', draw);
+		root.querySelectorAll<HTMLButtonElement>('.spx-jumps button').forEach((b) =>
+			b.addEventListener('click', () => {
+				Ls.value = b.dataset.l!;
+				draw();
+			}),
+		);
+		draw();
+	});
+</script>

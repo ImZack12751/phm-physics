@@ -1,0 +1,38 @@
+---
+// Hydrogen's energy levels E_n = −13.6 eV / n², and the Balmer transitions down to n = 2 that give its visible lines.
+const T = 30, B = 270, eMin = -14, eMax = 0.5;
+const Y = (e: number) => T + ((eMax - e) / (eMax - eMin)) * (B - T);
+const levels = [1, 2, 3, 4, 5, 6].map((n) => ({ n, e: -13.6 / (n * n) }));
+const trans = [
+	{ n: 3, nm: 656, cls: 's-rose', fc: 'f-rose', x: 300 },
+	{ n: 4, nm: 486, cls: 's-sky', fc: 'f-sky', x: 345 },
+	{ n: 5, nm: 434, cls: 's-violet', fc: 'f-violet', x: 390 },
+	{ n: 6, nm: 410, cls: 's-violet', fc: 'f-violet', x: 435 },
+];
+---
+
+<svg class="dg" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+	<line x1="200" y1={Y(0)} x2="560" y2={Y(0)} class="s-muted w1 dash" />
+	<text x="190" y={Y(0) + 4} class="t-end t-sm f-muted">0 eV: electron free</text>
+	{levels.map((l) => (
+		<>
+			<line x1="200" y1={Y(l.e)} x2="560" y2={Y(l.e)} class="s-fg w2" />
+			{l.n <= 3 && <text x="190" y={Y(l.e) + 4} class="t-end t-sm">n = {l.n}: {l.e.toFixed(2).replace('-', '−')} eV</text>}
+		</>
+	))}
+	<text x="565" y={Y(-13.6 / 16) + 4} class="t-sm f-muted">4</text>
+	{trans.map((t) => {
+		const y1 = Y(-13.6 / (t.n * t.n)), y2 = Y(-3.4);
+		return (
+			<>
+				<line x1={t.x} y1={y1} x2={t.x} y2={y2 - 10} class={`${t.cls} w3`} />
+				<polygon points={`${t.x},${y2} ${t.x - 6},${y2 - 12} ${t.x + 6},${y2 - 12}`} class={t.fc} />
+				<text x={t.x} y={y2 + 18} class={`t-mid t-sm ${t.fc}`}>{t.nm}</text>
+			</>
+		);
+	})}
+	<text x="470" y={Y(-3.4) + 18} class="t-sm f-muted">nm: the visible lines</text>
+	<text x="200" y={Y(-13.6) - 10} class="t-sm f-muted">the ground state: the lowest energy</text>
+	<text x="230" y={Y(-8)} class="t-sm">photon energy = drop in level</text>
+	<text x="230" y={Y(-8) + 18} class="t-sm">e.g. n = 3 → 2: 3.40 − 1.51 = 1.89 eV → 656 nm</text>
+</svg>

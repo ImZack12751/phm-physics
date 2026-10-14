@@ -1,0 +1,359 @@
+---
+title: Spectroscopy
+description: Splitting light with prisms and gratings (d sin θ = mλ), continuous, emission and absorption spectra, why atoms emit sharp lines, hydrogen's energy levels and its visible lines, molecules' infrared fingerprints and how Astrophage could sniff out Venus, the Doppler shift Δλ/λ = v/c, and how a star's wobble revealed the planet the novel calls Adrian.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import ThreeSpectra from '../../../components/diagrams/part-7/ThreeSpectra.astro';
+import HydrogenLevels from '../../../components/diagrams/part-7/HydrogenLevels.astro';
+import GratingPaths from '../../../components/diagrams/part-7/GratingPaths.astro';
+import DopplerCrests from '../../../components/diagrams/part-7/DopplerCrests.astro';
+import SpectrumLab from '../../../components/sims/SpectrumLab.astro';
+
+## The scene
+
+Everything humanity knows about Astrophage at the start comes from light. The Petrova line is recognised because its light is all at one perfectly sharp wavelength, unlike anything a hot object makes. In the novel, Astrophage itself finds Venus by recognising the infrared fingerprint of its carbon dioxide. And the planet the novel calls Adrian, in the real world a candidate planet called Tau Ceti e, was proposed not by seeing it but by measuring a tiny, regular shift in the colours of Tau Ceti's light, as the planet tugs its star back and forth.
+
+How can light from a point in the sky tell us what something is made of and how it moves? The answer is **spectroscopy**: splitting light into its wavelengths and reading the pattern.
+
+## Prerequisites
+
+<Prereqs notes={{ photons: 'photons, E = hf and the electronvolt', 'em-spectrum': 'wavelength, colour, refraction and the infrared', 'wave-properties': 'interference and path difference', trigonometry: 'sine of an angle', momentum: 'conservation of momentum, for a star and its planet', 'keplers-laws': 'orbits and orbital speed' }} />
+
+## The concept
+
+### Splitting light
+
+Newton passed sunlight through a glass prism and saw it spread into a rainbow. Chapter 7.2 showed why light bends when it enters glass. The extra detail is that the refractive index is slightly **different for each wavelength**: in glass, violet light travels a little slower than red, so it bends more. This spreading of colours is called <Term id="dispersion">dispersion</Term>, and the spread-out band of colours is a <Term id="spectrum">spectrum</Term>.
+
+A **diffraction grating** does the job better. It is a surface ruled with thousands of fine, evenly spaced lines (a CD's tracks make a rough one). Light passing each gap spreads out, and the waves from neighbouring gaps interfere (Chapter 7.1). In most directions they cancel; they add up only in directions where the path difference between neighbours is a whole number of wavelengths:
+
+<Figure caption="A diffraction grating. Light leaving neighbouring slits at an angle θ travels different distances; the extra path (red) is d sin θ. When that equals a whole number of wavelengths, all the slits' waves arrive in step and the light is bright in that direction." alt="A vertical line represents the grating with three slits spaced d apart. Orange horizontal rays come in from the left, labelled light in, and three parallel orange rays leave each slit going up and to the right at an angle theta to the horizontal, marked with a green arc at the bottom slit. A green dashed line from the upper slit meets the middle slit's ray at right angles, and the short red segment of the middle ray before that point is labelled extra path d sine theta. Notes on the right: to the screen or detector; bright when d sine theta equals m lambda; each colour has its own angle.">
+	<GratingPaths />
+</Figure>
+
+$$
+d\sin\theta = m\lambda, \qquad m = 0, 1, 2, \dots
+$$
+
+Each wavelength comes out at its own angle, so a grating spreads light into a spectrum, and the angle measures the wavelength precisely. Telescopes' spectrographs, including the James Webb Space Telescope's, use gratings.
+
+### Three kinds of spectrum
+
+In 1802 William Wollaston, and in 1814 Joseph von Fraunhofer, noticed something strange in the Sun's spectrum: it is crossed by dark lines, hundreds of them. Fraunhofer mapped more than 570. In about 1859 Gustav Kirchhoff and Robert Bunsen worked out what they mean, by heating chemicals in a flame and looking at their light. There are three kinds of spectrum:
+
+- A hot, **dense** object, such as a lamp filament or the surface of a star, gives a **continuous spectrum**: all colours, smoothly. (Part 8 explains its shape.)
+- A hot, **thin gas** gives an <Term id="emission-spectrum">emission spectrum</Term>: bright lines at particular wavelengths and darkness in between. Sodium gives a pair of yellow lines at 589.0 and 589.6 nm, which is why sodium street lamps are yellow.
+- A **cooler gas in front of a hot, dense source** gives an <Term id="absorption-spectrum">absorption spectrum</Term>: the continuous rainbow with dark lines missing, at **exactly the same wavelengths** where that gas would emit.
+
+<Figure caption="Kirchhoff's three kinds of spectrum, shown for hydrogen. A hot, dense glow gives every colour. Hot, thin hydrogen gives only four bright visible lines. Cooler hydrogen in front of a hot glow removes those same four colours, leaving dark lines." alt="Three horizontal strips spanning 400 to 700 nanometres. Top, labelled continuous, a hot dense glow (lamp filament, a star's surface): a smooth rainbow from violet to red. Middle, labelled emission lines, a hot thin gas, bright lines only: a black strip with four thin coloured lines at 410, 434, 486 and 656 nanometres, labelled with those numbers. Bottom, labelled absorption lines, cooler gas in front of a hot glow, dark lines: the rainbow with four thin black lines at the same positions.">
+	<ThreeSpectra />
+</Figure>
+
+Each element has its own set of lines, as unique as a fingerprint or a barcode. The Sun's dark lines reveal hydrogen, sodium, iron, calcium and many more in its outer layers. In 1868, astronomers watching a solar eclipse saw a yellow line at 587.6 nm that matched no known element. They named the new element after the Greek word for the Sun: **helium**. It wasn't found on Earth until 1895.
+
+### Why sharp lines? Energy levels
+
+Why should an atom give out only certain wavelengths? Because the electrons in an atom can't have just any energy. They can only occupy certain <Term id="energy-level">energy levels</Term>, like the rungs of a ladder with no standing room between them. (Part 13 looks at why.) An electron can jump down from a higher rung to a lower one, and the energy it loses leaves as a single photon (Chapter 7.3):
+
+$$
+hf = E_{\text{upper}} - E_{\text{lower}}.
+$$
+
+The gaps between the rungs are fixed, so only certain photon energies, and so only certain wavelengths, can come out. That is an emission line. Run it backwards and you get absorption: an electron on a low rung can absorb a passing photon only if the photon's energy exactly matches a gap, so the atom removes exactly those wavelengths from light shining through it.
+
+Hydrogen, the simplest atom, has measured levels that follow a simple pattern:
+
+$$
+E_{n} = -\frac{13.6\ \text{eV}}{n^{2}}, \qquad n = 1, 2, 3, \dots
+$$
+
+The energies are negative because the electron is bound: you have to **add** energy to free it, and a free electron at rest has zero. The lowest level, $n = 1$, is the **ground state**, and it takes 13.6 eV to free the electron from it (Chapter 7.3's ionization energy).
+
+<Figure caption="Hydrogen's energy levels, with the jumps down to n = 2 that give its four visible lines. The bigger the drop, the more energetic the photon and the bluer the line." alt="A ladder of horizontal lines. The bottom line is labelled n equals 1, minus 13.6 eV, the ground state, lowest energy. Far above, a line labelled n equals 2, minus 3.40 eV, then n equals 3, minus 1.51 eV, and lines crowding together towards a dashed line labelled 0 eV, electron free; the fourth line is labelled 4. Four downward arrows end on the n equals 2 line, starting from levels 3, 4, 5 and 6, coloured red, blue, violet and violet, labelled 656, 486, 434 and 410 nanometres, the visible lines. A note: photon energy equals drop in level, for example n equals 3 to 2: 3.40 minus 1.51 equals 1.89 eV, giving 656 nanometres.">
+	<HydrogenLevels />
+</Figure>
+
+### Molecules and the infrared
+
+Molecules have energy levels too, for their vibrations and rotations. These gaps are much smaller, a fraction of an electronvolt, so molecules absorb and emit **infrared** photons. Carbon dioxide's strongest bands are at 4.26 µm (its atoms stretching) and 15 µm (bending), which is exactly why it traps Earth's heat (Chapter 6.5).
+
+It is also a fingerprint. Starlight filtering through a planet's atmosphere has CO₂'s wavelengths taken out. In 2022 the James Webb Space Telescope saw exactly this: a dip near 4.3 µm in starlight passing through the air of a giant planet, WASP-39 b, 700 light-years away, the first clear detection of carbon dioxide on a planet beyond the Solar System. The novel's Astrophage does the same thing by instinct, steering towards the infrared signature of Venus's carbon-dioxide atmosphere.
+
+### The Doppler shift
+
+Spectral lines also reveal **motion**. When a source of waves moves towards you, each new crest is sent out from a little closer than the last, so the crests arrive bunched up: shorter wavelength. Moving away, they arrive stretched out. This is the <Term id="doppler-effect">Doppler effect</Term>. You hear it when an ambulance passes and its siren drops in pitch.
+
+<Figure caption="The Doppler effect. Each crest spreads out from the point where the source was when it sent it. Ahead of the moving source the crests are bunched (shorter wavelength); behind, they are spread out (longer wavelength)." alt="An orange dot, the source, with an arrow pointing right, labelled source, speed v. Around it, six blue circles of increasing size, each shifted to the left of the previous one, so they are crowded together on the right and spread apart on the left. Labels: on the right, ahead, crests bunched, shorter lambda, blueshift; on the left, behind, crests spread, longer lambda, redshift. At the bottom: delta lambda over lambda equals v over c, for v much less than c.">
+	<DopplerCrests />
+</Figure>
+
+For light, moving towards us shifts every line towards the blue end, a **blueshift**; moving away shifts every line towards the red, a **redshift**. For speeds much less than $c$, the fractional shift is simply
+
+$$
+\frac{\Delta\lambda}{\lambda} = \frac{v}{c},
+$$
+
+where $v$ is the speed **along the line of sight**. Sideways motion doesn't shift the lines (at speeds close to $c$, relativity adds a small sideways effect too; Part 10). Because a spectrograph can locate a sharp line extremely precisely, this measures speeds of stars millions of kilometres away, or light-years away, to a few metres per second, and today to well under one.
+
+### Finding planets by their tug
+
+A planet doesn't simply circle its star. Both circle their shared centre of mass (Chapter 3.3), so the star moves in a small circle too, in step with the planet. Their momenta are equal and opposite (Chapter 5.5):
+
+$$
+M_{\star}v_{\star} = m_{\text{p}}v_{\text{p}} \qquad\Rightarrow\qquad v_{\star} = \frac{m_{\text{p}}}{M_{\star}}\,v_{\text{p}}.
+$$
+
+As the star swings towards us and away, its lines shift blue and red, back and forth, once per orbit. This is the <Term id="radial-velocity">radial-velocity method</Term>. It is how the candidate planets of Tau Ceti were proposed, in 2012 and 2017, from wobbles of well under a metre per second. Because only the motion along our line of sight shows up, this method gives a planet's **minimum** mass, which is why Chapter 4.3 called Adrian's 3.93 Earth masses a minimum.
+
+## Formulas
+
+### The diffraction grating
+
+For neighbouring slits a distance $d$ apart, light leaving at angle $\theta$ from one slit travels an extra $d\sin\theta$ compared with its neighbour (the right-angled triangle in the figure: hypotenuse $d$, opposite side the extra path). All the slits add in step when that extra path is a whole number of wavelengths (Chapter 7.1):
+
+$$
+\boxed{d\sin\theta = m\lambda}
+$$
+
+A grating with $N$ lines per millimetre has $d = 1\ \text{mm}/N$.
+
+### Lines from energy levels
+
+A photon from a drop between levels carries the difference, and $E = hc/\lambda$:
+
+$$
+\boxed{hf = \frac{hc}{\lambda} = E_{\text{upper}} - E_{\text{lower}}} \qquad \lambda_{\text{nm}} = \frac{1240}{\Delta E_{\text{eV}}}
+$$
+
+For hydrogen, a drop from level $n_{2}$ to $n_{1}$ gives
+
+$$
+\Delta E = 13.6\ \text{eV}\left(\frac{1}{n_{1}^{2}} - \frac{1}{n_{2}^{2}}\right) \qquad\Rightarrow\qquad \boxed{\frac{1}{\lambda} = R\left(\frac{1}{n_{1}^{2}} - \frac{1}{n_{2}^{2}}\right)}
+$$
+
+with $R = 13.6\ \text{eV}/hc = 1.097 \times 10^{7}\ \text{m}^{-1}$, the **Rydberg constant**. The visible lines, ending on $n_{1} = 2$, are the **Balmer series**, discovered as a number pattern by Johann Balmer in 1885, decades before anyone knew why.
+
+### The Doppler shift
+
+A source sends out crests every period $T$. Between two crests, the first crest travels $cT = \lambda$ towards you, but the source also moves $vT$ towards you before sending the next. So the gap between crests is
+
+$$
+\lambda' = cT - vT = \lambda\left(1 - \frac{v}{c}\right) \qquad\Rightarrow\qquad \boxed{\frac{\Delta\lambda}{\lambda} = \frac{\lambda' - \lambda}{\lambda} = -\frac{v}{c}}
+$$
+
+for a source approaching at speed $v$. Writing $v$ as positive for **receding** gives the usual form $\Delta\lambda/\lambda = v/c$: positive (red) away, negative (blue) towards. This is accurate when $v$ is much less than $c$; Part 10 gives the exact version.
+
+### A star's wobble
+
+From conservation of momentum about the centre of mass, with the planet on a near-circular orbit:
+
+$$
+\boxed{v_{\star} = \frac{m_{\text{p}}}{M_{\star}}\,v_{\text{p}}} \qquad \frac{\Delta\lambda}{\lambda} = \frac{v_{\star}}{c}\ \text{(at most)}
+$$
+
+## Worked examples
+
+<Example n={1} title="Hydrogen's red and blue-green lines">
+Use $E_{n} = -13.6\ \text{eV}/n^{2}$ to find the wavelengths of the drops $3 \to 2$ and $4 \to 2$.
+
+$$
+\Delta E_{3 \to 2} = 13.6\ \text{eV}\left(\frac{1}{4} - \frac{1}{9}\right) = 13.6\ \text{eV} \times 0.1389 = 1.889\ \text{eV} \qquad \lambda = \frac{1240\ \text{eV·nm}}{1.889\ \text{eV}} = 656\ \text{nm}
+$$
+
+$$
+\Delta E_{4 \to 2} = 13.6\ \text{eV}\left(\frac{1}{4} - \frac{1}{16}\right) = 2.550\ \text{eV} \qquad \lambda = \frac{1240\ \text{eV·nm}}{2.550\ \text{eV}} = 486\ \text{nm}
+$$
+
+The measured lines are at 656.3 nm (red, called H-alpha) and 486.1 nm (blue-green, H-beta). A two-line formula reproduces them to better than 0.1%; the leftover difference comes from rounding 13.6 and from light travelling slightly slower in air than in a vacuum.
+</Example>
+
+<Example n={2} title="Spreading hydrogen with a grating">
+A grating has 600 lines per millimetre. At what angles do H-alpha (656.3 nm) and H-beta (486.1 nm) appear in the first order ($m = 1$)?
+
+$$
+d = \frac{1.000 \times 10^{-3}\ \text{m}}{600} = 1.667 \times 10^{-6}\ \text{m}
+$$
+
+$$
+\sin\theta_{\alpha} = \frac{656.3 \times 10^{-9}\ \text{m}}{1.667 \times 10^{-6}\ \text{m}} = 0.3938 \qquad \theta_{\alpha} = 23.2°
+$$
+
+$$
+\sin\theta_{\beta} = \frac{486.1 \times 10^{-9}\ \text{m}}{1.667 \times 10^{-6}\ \text{m}} = 0.2917 \qquad \theta_{\beta} = 17.0°
+$$
+
+The two lines come out more than six degrees apart: easy to tell apart, and their angles pin down their wavelengths.
+</Example>
+
+<Example n={3} title="Tau Ceti is coming closer" book>
+Tau Ceti is moving towards the Sun at 16.68 km/s. By how much is its H-alpha line (656.279 nm) shifted, and which way?
+
+$$
+\frac{\Delta\lambda}{\lambda} = \frac{v}{c} = \frac{16.68 \times 10^{3}\ \text{m/s}}{2.998 \times 10^{8}\ \text{m/s}} = 5.56 \times 10^{-5}
+$$
+
+$$
+\Delta\lambda = 5.56 \times 10^{-5} \times 656.279\ \text{nm} = 0.0365\ \text{nm}
+$$
+
+The line appears at 656.243 nm, a blueshift of 0.0365 nm, about a sixteenth of the gap between sodium's two yellow lines. Small, but easily measured with a good spectrograph.
+</Example>
+
+<Example n={4} title="Adrian's tug on Tau Ceti" book>
+Use our model of Adrian (Part 4): a planet of 3.93 Earth masses ($2.347 \times 10^{25}$ kg) moving at 35.9 km/s around Tau Ceti ($0.800\ M_{\odot} = 1.591 \times 10^{30}$ kg). How fast does the star wobble, and what fractional Doppler shift does that give?
+
+$$
+v_{\star} = \frac{m_{\text{p}}}{M_{\star}}\,v_{\text{p}} = \frac{2.347 \times 10^{25}\ \text{kg}}{1.591 \times 10^{30}\ \text{kg}} \times 35.9 \times 10^{3}\ \text{m/s} = 1.475 \times 10^{-5} \times 35.9 \times 10^{3}\ \text{m/s} = 0.53\ \text{m/s}
+$$
+
+$$
+\frac{\Delta\lambda}{\lambda} = \frac{0.53\ \text{m/s}}{2.998 \times 10^{8}\ \text{m/s}} = 1.8 \times 10^{-9}
+$$
+
+Tau Ceti wobbles at about a third of walking pace, shifting its lines by under two parts in a billion, once every 168 days. Astronomers dig signals like this (some as small as 30 cm/s) out of thousands of spectral lines measured over years. Small wonder that later studies have questioned whether some of Tau Ceti's planets are real.
+</Example>
+
+<Example n={5} title="Reading a star's barcode">
+A star's spectrum shows dark lines at 589.0 nm, 589.6 nm and 656.3 nm, and no line at 587.6 nm. What can you say about its outer layers?
+
+The pair at 589.0 and 589.6 nm is sodium's D lines; 656.3 nm is hydrogen's H-alpha. So its outer layers contain sodium and hydrogen, cooler than the glowing surface below. The missing 587.6 nm line is helium's, but its absence doesn't prove there is no helium: helium absorbs visible light only when its gas is very hot, which is why it was first seen in the Sun's hot outer atmosphere during an eclipse. Reading spectra means knowing both which lines an element makes and when it makes them.
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** Dispersion and gratings (OpenStax), Kirchhoff's three spectra, the Fraunhofer lines (Wollaston 1802, Fraunhofer 1814, Kirchhoff and Bunsen about 1859), helium's discovery in the Sun (1868) and on Earth (1895), hydrogen's levels $-13.6\ \text{eV}/n^{2}$ and its Balmer lines, the Doppler shift, the radial-velocity method, Tau Ceti's approach at 16.68 km/s, and Webb's detection of CO₂ on WASP-39 b (2022) are established. Line wavelengths are from NIST.
+
+**Weir's inventions.** Astrophage navigating by Venus's CO₂ signature is fiction, though the idea, a living spectrometer, is clever. The novel's Adrian is based on the real candidate Tau Ceti e (Feng and others, 2017), whose existence is uncertain; the 0.53 m/s wobble is our calculation from Part 4's model.
+
+**How realistic are the numbers?** A perfectly sharp line "with no variance", as the Petrova line is described, would be surprising for a swarm of cells moving at many different speeds: Doppler shifts would smear it (Problem 10). Real narrow lines come from atoms or molecules, or from lasers, not from moving crowds. Everything else, from the CO₂ fingerprint to finding planets by a 50-centimetre-per-second wobble, is real astronomy.
+</RealVsBook>
+
+## Interactive simulation
+
+<SpectrumLab />
+
+Things to try: compare hydrogen's emission and absorption spectra and check that the lines sit at the same places. Set the speed to 3000 km/s away and watch every line move redwards by 1%. Then pick sodium and find the speed at which its D2 line (589.0 nm) lands where D1 (589.6 nm) was.
+
+## Practice set
+
+<Problem n={1} level="easy">
+Which kind of spectrum would you expect from (a) a glowing light-bulb filament (b) a neon sign (c) sunlight that has passed through the Sun's cooler outer layers?
+
+<Solution>
+(a) Continuous (hot, dense). (b) Emission lines (hot, thin gas). (c) Absorption lines (cooler gas in front of a hot, dense source).
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy">
+Why are absorption lines at exactly the same wavelengths as an element's emission lines?
+
+<Solution>
+Both come from the same gaps between energy levels. Emission is an electron dropping across a gap and giving out a photon of that energy; absorption is an electron taking in a photon of exactly that energy to climb the same gap.
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy">
+What are the energies of hydrogen's levels $n = 3$ and $n = 4$?
+
+<Solution>
+$E_{3} = -13.6/9 = -1.51$ eV; $E_{4} = -13.6/16 = -0.85$ eV.
+</Solution>
+</Problem>
+
+<Problem n={4} level="easy">
+A distant galaxy's H-alpha line (656.279 nm at rest) is seen at 660.0 nm. Is it approaching or receding, and how fast?
+
+<Solution>
+Longer wavelength: redshift, so receding. $v = c\,\Delta\lambda/\lambda = 2.998 \times 10^{5}\ \text{km/s} \times 3.72/656.279 = 1700$ km/s.
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium">
+Find the wavelength of hydrogen's $5 \to 2$ line from the energy levels.
+
+<Solution>
+$\Delta E = 13.6(1/4 - 1/25) = 2.856$ eV, so $\lambda = 1240/2.856 = 434$ nm (violet; measured 434.0 nm).
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium">
+Find the energy and wavelength of the photon from hydrogen's $2 \to 1$ drop. Why can't telescopes on the ground see this line from stars?
+
+<Solution>
+$\Delta E = 13.6(1 - 1/4) = 10.2$ eV, $\lambda = 1240/10.2 = 122$ nm, in the ultraviolet. Earth's atmosphere absorbs ultraviolet this short, so the line can only be observed from space.
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium">
+For the 600 lines/mm grating of Example 2, find the angle of H-alpha in the second order. Is there a third order?
+
+<Solution>
+$\sin\theta = 2 \times 656.3 \times 10^{-9}/1.667 \times 10^{-6} = 0.788$, $\theta = 52.0°$. Third order would need $\sin\theta = 1.18$, more than 1, so there is none.
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium">
+Sodium's D lines are at 588.995 nm and 589.592 nm. How far apart are their first-order angles with the 600 lines/mm grating?
+
+<Solution>
+$\theta_{1} = \sin^{-1}(588.995 \times 10^{-9}/1.667 \times 10^{-6}) = 20.695°$ and $\theta_{2} = 20.717°$, only $0.022°$ apart. Separating them needs a sharp, well-made spectrograph.
+</Solution>
+</Problem>
+
+<Problem n={9} level="medium" book>
+Find the photon energies of carbon dioxide's 4.26 µm and 15 µm bands. How do they compare with a Petrova photon (0.0477 eV)?
+
+<Solution>
+$1240/4260 = 0.291$ eV and $1240/14\,990 = 0.0827$ eV. The Petrova photon, 0.0477 eV, is smaller than both, so Petrova light isn't absorbed by CO₂'s strongest bands, a good thing for a cell that travels through the CO₂ air of Venus.
+</Solution>
+</Problem>
+
+<Problem n={10} level="challenging" book>
+The Petrova line is said to have no variation in wavelength. Suppose the cells in it moved towards or away from Earth at up to 1% of the speed of light. How wide a spread of wavelengths would that cause? What does a perfectly sharp line suggest?
+
+<Solution>
+$\Delta\lambda = 0.01 \times 25.984\ \mu\text{m} = 0.26$ µm each way, a spread from about 25.72 to 26.24 µm. A perfectly sharp line would mean the emitting cells hardly move along our line of sight, or that the observation couldn't resolve the spread; real Astrophage-like travellers moving at large speeds would smear their line.
+</Solution>
+</Problem>
+
+<Problem n={11} level="challenging">
+Earth (5.97 × 10²⁴ kg) orbits the Sun (1.99 × 10³⁰ kg) at 29.78 km/s. How fast does it make the Sun wobble? Could today's best measurements, down to about 30 cm/s for Tau Ceti, find an Earth twin?
+
+<Solution>
+$v_{\odot} = (5.97 \times 10^{24}/1.99 \times 10^{30}) \times 29\,780 = 0.089$ m/s, about 9 cm/s, three times smaller than the smallest signals claimed for Tau Ceti. Finding true Earth twins this way is just beyond current instruments.
+</Solution>
+</Problem>
+
+<Problem n={12} level="challenging">
+How much energy frees hydrogen's electron from the $n = 2$ level, and what is the longest wavelength that can do it? Compare with the measured "Balmer limit", 364.5 nm.
+
+<Solution>
+$E_{2} = -13.6/4 = -3.40$ eV, so it takes 3.40 eV, and $\lambda = 1240/3.40 = 365$ nm. That matches the Balmer limit, where hydrogen's visible series crowds together and ends.
+</Solution>
+</Problem>
+
+## Summary
+
+- A prism (dispersion) or a grating ($d\sin\theta = m\lambda$) spreads light into a spectrum.
+- Hot, dense objects give continuous spectra; hot, thin gases give bright emission lines; cooler gas in front of a hot source gives dark absorption lines at the same wavelengths.
+- Lines come from jumps between fixed energy levels: $hc/\lambda = E_{\text{upper}} - E_{\text{lower}}$. Hydrogen's levels are $-13.6\ \text{eV}/n^{2}$, and its drops to $n = 2$ give lines at 656, 486, 434 and 410 nm.
+- Molecules' vibrations give infrared fingerprints (CO₂ at 4.26 and 15 µm), used to read the air of other planets.
+- Motion along the line of sight shifts lines by $\Delta\lambda/\lambda = v/c$: redshift away, blueshift towards. A planet's tug makes its star wobble at $v_{\star} = (m_{\text{p}}/M_{\star})v_{\text{p}}$, which is how Tau Ceti's candidate planets were found.
+
+**Formulas from this chapter**
+
+$$
+d\sin\theta = m\lambda \qquad \frac{hc}{\lambda} = E_{\text{upper}} - E_{\text{lower}} \qquad E_{n} = -\frac{13.6\ \text{eV}}{n^{2}} \qquad \frac{\Delta\lambda}{\lambda} = \frac{v}{c} \qquad v_{\star} = \frac{m_{\text{p}}}{M_{\star}}v_{\text{p}}
+$$
+
+## Sources
+
+- Dispersion: OpenStax, [*University Physics Volume 3*, §1.5](https://openstax.org/books/university-physics-volume-3/pages/1-5-dispersion). Diffraction gratings, $d\sin\theta = m\lambda$: OpenStax, [§4.4](https://openstax.org/books/university-physics-volume-3/pages/4-4-diffraction-gratings). Hydrogen's energy levels and spectral series: OpenStax, [§6.4](https://openstax.org/books/university-physics-volume-3/pages/6-4-bohrs-model-of-the-hydrogen-atom).
+- Fraunhofer lines (Wollaston 1802, Fraunhofer 1814, more than 570 lines, Kirchhoff and Bunsen about 1859; C = H-alpha 656.281 nm, D1 589.592, D2 588.995, F = H-beta 486.134, helium D3 587.5618 nm): Wikipedia, [Fraunhofer lines](https://en.wikipedia.org/wiki/Fraunhofer_lines). Balmer series (656.279, 486.135, 434.0472, 410.1734 nm, limit 364.5 nm, the Rydberg formula): Wikipedia, [Balmer series](https://en.wikipedia.org/wiki/Balmer_series). Rydberg constant: NIST, [CODATA](https://physics.nist.gov/cgi-bin/cuu/Value?ryd).
+- Helium found in the Sun's spectrum (1868) and on Earth (1895): Wikipedia, [Helium](https://en.wikipedia.org/wiki/Helium). Helium and mercury line wavelengths: NIST, [strong lines of helium](https://physics.nist.gov/PhysRefData/Handbook/Tables/heliumtable2.htm) and [of mercury](https://physics.nist.gov/PhysRefData/Handbook/Tables/mercurytable2.htm).
+- Carbon dioxide's bands at 4.26 and 14.99 µm: Wikipedia, [Carbon dioxide](https://en.wikipedia.org/wiki/Carbon_dioxide). Webb's detection of CO₂ on WASP-39 b (August 2022, about 700 light-years away): NASA, ["Webb Sees Carbon Dioxide in Exoplanet's Atmosphere"](https://exoplanets.nasa.gov/news/1711/webb-sees-carbon-dioxide-in-exoplanets-atmosphere).
+- The Doppler effect: OpenStax, [*University Physics Volume 1*, §17.7](https://openstax.org/books/university-physics-volume-1/pages/17-7-the-doppler-effect).
+- Tau Ceti's candidate planets found by radial velocity (Tuomi 2012, Feng 2017), signals as small as 30 cm/s, its radial velocity of −16.68 km/s: Wikipedia, [Tau Ceti](https://en.wikipedia.org/wiki/Tau_Ceti). Our model Adrian (3.93 M⊕, 35.9 km/s, Tau Ceti 0.800 M☉): this course, [Chapter 4.3](/part-4/keplers-laws/) and [Chapter 4.4](/part-4/escape-velocity/).
+- Astrophage finds Venus by its CO₂ signature: readifyai reader guide, [Astrophage](https://readifyai.com/en/books/Project%20Hail%20Mary/wiki/Astrophage) (not an official source). The Petrova line's single, unvarying wavelength: readifyai, [Petrova line](https://readifyai.com/en/books/Project%20Hail%20Mary/wiki/Petrova%20line).

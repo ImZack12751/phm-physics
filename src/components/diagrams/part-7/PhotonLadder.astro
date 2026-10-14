@@ -1,0 +1,53 @@
+---
+// Photon energy E = hf on a log scale (10⁻⁷ eV to 10⁸ eV), with bands and the energies that matter for what light can do.
+const L = 40, R = 570, lo = -7, hi = 8;
+const X = (eV: number) => L + ((Math.log10(eV) - lo) / (hi - lo)) * (R - L);
+const hc = 1239.84198; // eV nm
+const band = (lamA: number, lamB: number) => [hc / (lamA * 1e9), hc / (lamB * 1e9)]; // from wavelengths in m
+const bands = [
+	{ name: 'radio', lam: [1e3, 0.1], cls: 'f-green-soft' },
+	{ name: 'microwave', lam: [0.1, 1e-3], cls: 'f-amber-soft' },
+	{ name: 'infrared', lam: [1e-3, 7.5e-7], cls: 'f-rose-soft' },
+	{ name: '', lam: [7.5e-7, 4e-7], cls: 'f-amber' },
+	{ name: 'UV', lam: [4e-7, 1e-8], cls: 'f-violet-soft' },
+	{ name: 'X-ray', lam: [1e-8, 1e-11], cls: 'f-sky' },
+	{ name: 'gamma', lam: [1e-11, 1e-15], cls: 'f-violet' },
+].map((b) => ({ ...b, e: band(b.lam[0], b.lam[1]) }));
+const BY = 110, BH = 26;
+const marks = [
+	{ e: 0.0477, label: 'Petrova photon 0.048 eV', sub: '≈ ³⁄₂kT at 96 °C: warms things', y: 182, anchor: 't-end' },
+	{ e: 2.3, label: 'green 2.3 eV: vision,', sub: 'photosynthesis, photoelectrons', y: 238, anchor: 't-end' },
+	{ e: 13.6, label: '13.6 eV: knocks the electron', sub: 'out of a hydrogen atom', y: 182, anchor: '' },
+	{ e: 4.14e-7, label: 'FM radio 4 × 10⁻⁷ eV', sub: '', y: 276, anchor: '' },
+];
+---
+
+<svg class="dg" viewBox="0 0 600 290" xmlns="http://www.w3.org/2000/svg">
+	{bands.map((b) => {
+		const x0 = Math.max(L, X(Math.min(...b.e))), x1 = Math.min(R, X(Math.max(...b.e)));
+		return (
+			<>
+				<rect x={x0} y={BY} width={x1 - x0} height={BH} class={b.cls} />
+				{b.name && <text x={(x0 + x1) / 2} y={BY + 17} class="t-mid t-sm t-b halo">{b.name}</text>}
+			</>
+		);
+	})}
+	<rect x={L} y={BY} width={R - L} height={BH} class="s-fg w1" fill="none" />
+	{[-6, -4, -2, 0, 2, 4, 6, 8].map((p) => (
+		<>
+			<line x1={X(10 ** p)} y1={BY} x2={X(10 ** p)} y2={BY - 6} class="s-fg w1" />
+			<text x={X(10 ** p)} y={BY - 10} class="t-mid t-sm f-muted">{p === 0 ? '1 eV' : `10${String(p).replace('-', '⁻').replace(/\d/g, (d) => '⁰¹²³⁴⁵⁶⁷⁸⁹'[+d])}`}</text>
+		</>
+	))}
+	<text x={L} y="40" class="t-sm t-b">energy of one photon, E = hf (electronvolts)</text>
+	<text x={L} y="60" class="t-sm f-muted">each labelled tick ×100; higher frequency, shorter wavelength →</text>
+	<text x={X(2.3)} y={BY - 26} class="t-mid t-sm f-amber">visible</text>
+	{marks.map((m) => (
+		<>
+			<line x1={X(m.e)} y1={BY + BH} x2={X(m.e)} y2={m.y - 14} class="s-rose w1" />
+			<circle cx={X(m.e)} cy={BY + BH} r="3" class="f-rose" />
+			<text x={X(m.e) + (m.anchor === 't-end' ? -4 : 4)} y={m.y} class={`t-sm f-rose ${m.anchor}`}>{m.label}</text>
+			{m.sub && <text x={X(m.e) + (m.anchor === 't-end' ? -4 : 4)} y={m.y + 16} class={`t-sm f-muted ${m.anchor}`}>{m.sub}</text>}
+		</>
+	))}
+</svg>

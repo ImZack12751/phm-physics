@@ -1,0 +1,37 @@
+---
+// Kirchhoff's three kinds of spectrum, using hydrogen's visible (Balmer) lines, 410.2, 434.0, 486.1 and 656.3 nm.
+const X0 = 230, X1 = 570, L0 = 400, L1 = 700;
+const X = (nm: number) => X0 + ((nm - L0) / (L1 - L0)) * (X1 - X0);
+const lines = [410.17, 434.05, 486.13, 656.28];
+const col = (nm: number) => (nm < 450 ? '#8b5cf6' : nm < 500 ? '#22d3ee' : nm < 570 ? '#22c55e' : nm < 620 ? '#eab308' : '#ef4444');
+const rows = [
+	{ y: 42, title: 'continuous', sub: 'a hot, dense glow (lamp filament, a star’s surface)' },
+	{ y: 130, title: 'emission lines', sub: 'a hot, thin gas: bright lines only' },
+	{ y: 220, title: 'absorption lines', sub: 'cooler gas in front of a hot glow: dark lines' },
+];
+const rainbow = [[0, '#7c3aed'], [0.2, '#3b82f6'], [0.35, '#06b6d4'], [0.5, '#22c55e'], [0.65, '#eab308'], [0.82, '#f97316'], [1, '#dc2626']] as const;
+---
+
+<svg class="dg" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+	<defs>
+		<linearGradient id="ts-vis" x1="0" x2="1" y1="0" y2="0">
+			{rainbow.map(([o, c]) => <stop offset={o} stop-color={c} />)}
+		</linearGradient>
+	</defs>
+	{rows.map((r) => (
+		<>
+			<text x="20" y={r.y + 14} class="t-sm t-b">{r.title}</text>
+			<text x="20" y={r.y + 62} class="t-sm f-muted">{r.sub}</text>
+		</>
+	))}
+	<rect x={X0} y={rows[0].y} width={X1 - X0} height="34" fill="url(#ts-vis)" />
+	<rect x={X0} y={rows[1].y} width={X1 - X0} height="34" class="f-bg" />
+	<rect x={X0} y={rows[1].y} width={X1 - X0} height="34" class="s-muted w1" fill="none" />
+	{lines.map((nm) => <rect x={X(nm) - 2} y={rows[1].y} width="4" height="34" fill={col(nm)} />)}
+	<rect x={X0} y={rows[2].y} width={X1 - X0} height="34" fill="url(#ts-vis)" />
+	{lines.map((nm) => <rect x={X(nm) - 2} y={rows[2].y} width="4" height="34" fill="#000" />)}
+	{lines.map((nm) => <text x={X(nm)} y={rows[1].y + 48} class="t-mid t-sm f-muted">{Math.round(nm)}</text>)}
+	<text x={X0} y="32" class="t-sm f-muted">400 nm</text>
+	<text x={X1} y="32" class="t-end t-sm f-muted">700 nm</text>
+	<text x={X1} y="192" class="t-end t-sm f-muted">hydrogen’s lines, in nm</text>
+</svg>

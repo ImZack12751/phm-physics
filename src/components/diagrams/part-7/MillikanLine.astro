@@ -1,0 +1,39 @@
+---
+// Maximum kinetic energy of photoelectrons against light frequency: K = hf − φ, straight lines of slope h
+// (4.136 × 10⁻¹⁵ eV s) for sodium (φ = 2.46 eV) and silver (φ = 4.73 eV), extended (dashed) back to the intercept −φ.
+const h = 4.135667696e-15; // eV s
+const L = 70, R = 560, T = 20, B = 270, fMax = 1.6e15, kMin = -5, kMax = 4.5;
+const px = (f: number) => L + (f / fMax) * (R - L);
+const py = (k: number) => B - ((k - kMin) / (kMax - kMin)) * (B - T);
+const metals = [
+	{ name: 'sodium', phi: 2.46, cls: 's-amber', fc: 'f-amber' },
+	{ name: 'silver', phi: 4.73, cls: 's-sky', fc: 'f-sky' },
+];
+---
+
+<svg class="dg" viewBox="0 0 600 316" xmlns="http://www.w3.org/2000/svg">
+	{[-4, -2, 0, 2, 4].map((k) => (
+		<>
+			<line x1={L} y1={py(k)} x2={R} y2={py(k)} class={k === 0 ? 's-fg w2' : 's-grid w1'} />
+			<text x={L - 8} y={py(k) + 4} class="t-end t-sm f-muted">{k}</text>
+		</>
+	))}
+	{[0, 0.4, 0.8, 1.2, 1.6].map((f) => <><line x1={px(f * 1e15)} y1={py(0) - 4} x2={px(f * 1e15)} y2={py(0) + 4} class="s-fg w1" /><text x={px(f * 1e15)} y={B + 26} class="t-mid t-sm f-muted">{f.toFixed(1)}</text></>)}
+	<line x1={L} y1={T} x2={L} y2={B} class="s-fg w2" />
+	{metals.map((m) => {
+		const f0 = m.phi / h;
+		return (
+			<>
+				<line x1={px(0)} y1={py(-m.phi)} x2={px(f0)} y2={py(0)} class={`${m.cls} w2 dash`} />
+				<line x1={px(f0)} y1={py(0)} x2={px(fMax)} y2={py(h * fMax - m.phi)} class={`${m.cls} w3`} />
+				<circle cx={px(f0)} cy={py(0)} r="5" class={m.fc} />
+				<text x={L + 8} y={py(-m.phi) + 18} class={`t-sm ${m.fc}`}>−φ = −{m.phi} eV</text>
+				<text x={m.name === 'sodium' ? px(f0) - 8 : R} y={m.name === 'sodium' ? py(0) - 10 : py(0) + 20} class={`t-end t-sm halo ${m.fc}`}>{m.name}: f₀ = {(f0 / 1e15).toFixed(2)} × 10¹⁵ Hz</text>
+			</>
+		);
+	})}
+	<text x={px(1.38e15)} y={py(h * 1.38e15 - 2.46) - 12} class="t-end t-sm">slope = h for every metal</text>
+	<text x={(L + R) / 2} y="312" class="t-mid t-sm">frequency of the light (10¹⁵ Hz)</text>
+	<text x="22" y={(T + B) / 2} class="t-mid t-sm" transform={`rotate(-90 22 ${(T + B) / 2})`}>top electron energy (eV)</text>
+	<text x={R} y={py(-1.6)} class="t-end t-sm f-muted">below f₀: no electrons at all</text>
+</svg>

@@ -1,0 +1,367 @@
+---
+title: Photons
+description: The photoelectric puzzle that waves can't explain, Einstein's photons with energy E = hf, the Planck constant and the electronvolt, the photoelectric equation K = hf − φ and Millikan's straight line, counting photons in a beam and in the Hail Mary's drive, why ultraviolet burns and infrared only warms, wave–particle duality, how h now defines the kilogram, and a remarkable coincidence in Astrophage's numbers.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import PhotoelectricPanels from '../../../components/diagrams/part-7/PhotoelectricPanels.astro';
+import MillikanLine from '../../../components/diagrams/part-7/MillikanLine.astro';
+import PhotonLadder from '../../../components/diagrams/part-7/PhotonLadder.astro';
+import PhotoelectricLab from '../../../components/sims/PhotoelectricLab.astro';
+
+## The scene
+
+Astrophage is a living battery. It soaks up starlight, stores the energy, and later lets it out again, always as infrared light of exactly one wavelength, 25.984 µm. In the novel, scientists studying it find that it stores the energy in an exotic form and releases it in identical little packets: each packet of Petrova light, they say, carries exactly the energy equivalent of one neutrino's mass.
+
+"Packets of light" sounds odd after Chapter 7.2, where light was a smooth electromagnetic wave. But light really does come in packets, called photons, and the size of each packet is set by its frequency. That idea, more than a century old, explains why sunlight burns skin and infrared doesn't, how solar panels and eyes work, and what it means for Astrophage to emit at one sharp wavelength.
+
+## Prerequisites
+
+<Prereqs notes={{ 'em-spectrum': 'light as an electromagnetic wave, c = fλ and the spectrum', 'kinetic-potential-energy': 'kinetic energy and energy in joules', power: 'power as energy per second, P = E/t', 'scientific-notation': 'very small numbers such as 10⁻³⁴', graphs: 'gradient and intercept of a straight line', 'temperature-heat': 'the average molecular energy ³⁄₂kT' }} />
+
+## The concept
+
+### A puzzle with metal and light
+
+In 1887 Heinrich Hertz noticed that light shining on metal can knock electrons out of it. This is the <Term id="photoelectric-effect">photoelectric effect</Term>. Careful experiments over the next twenty years found four facts:
+
+1. **There is a cut-off.** Each metal has a threshold frequency. Light below it ejects no electrons at all, **however bright it is**. Bright red light does nothing to sodium; dim violet light ejects electrons at once.
+2. **Brightness sets the number, not the energy.** Brighter light (above the threshold) ejects more electrons per second, but the fastest ones are no faster.
+3. **Frequency sets the energy.** Higher-frequency light ejects faster electrons.
+4. **It's instant.** Even very dim light ejects its first electrons with no measurable delay.
+
+For a wave, every one of these is wrong. A brighter wave has a bigger amplitude and should shake the electrons harder, whatever its frequency; dim light should take time to build up enough energy to free an electron.
+
+<Figure caption="The photoelectric puzzle on sodium. However many red photons arrive, none can free an electron, because each carries only 1.77 eV and freeing one costs 2.46 eV. A few violet photons, 3.10 eV each, free electrons immediately, with up to 0.64 eV left over as kinetic energy." alt="Two panels. Left, titled bright red light, 700 nanometres: seven red wavy arrows rain onto a grey plate labelled sodium, phi equals 2.46 eV; no electrons leave; captions: each photon 1.77 eV, too little; no electrons, however bright. Right, titled dim violet light, 400 nanometres: only two violet wavy arrows hit the same kind of plate, and two blue electrons fly up and away, labelled electrons out; captions: each photon 3.10 eV, enough; electrons out at once, up to 0.64 eV.">
+	<PhotoelectricPanels />
+</Figure>
+
+### Einstein's photons
+
+In 1905 Albert Einstein proposed that light's energy isn't spread smoothly through the wave but comes in lumps, later called <Term id="photon">photons</Term>. Each photon of light with frequency $f$ carries energy
+
+$$
+E = hf,
+$$
+
+where $h$ is the <Term id="planck-constant">Planck constant</Term>,
+
+$$
+h = 6.626\,070\,15 \times 10^{-34}\ \text{J·s}
+$$
+
+(exact, by definition, since 2019). Using $c = f\lambda$, the same energy is $E = hc/\lambda$: shorter wavelength, more energetic photons.
+
+Now the puzzle dissolves. An electron is freed by absorbing **one** photon, all at once. If that one photon has less energy than it costs to pull an electron out of the metal, nothing happens, and sending more photons doesn't help, because they don't team up. A brighter beam is simply **more photons per second**, so it frees more electrons, but each still gets one photon's worth. And the first photon to arrive can free an electron at once. Einstein won the 1921 Nobel Prize for this explanation, and Robert Millikan confirmed it with precise measurements in 1914–1916.
+
+Every colour of light is a stream of photons: **brightness is how many, colour is how big each one is.**
+
+### The electronvolt
+
+Photon energies in joules are awkwardly small, so physicists use the <Term id="electronvolt">electronvolt</Term>, the energy an electron picks up from a 1-volt battery:
+
+$$
+1\ \text{eV} = 1.602\,176\,634 \times 10^{-19}\ \text{J}.
+$$
+
+A handy shortcut: $hc = 1240\ \text{eV·nm}$, so a photon's energy in electronvolts is $1240$ divided by its wavelength in nanometres. Visible photons run from about 1.65 eV (750 nm, red) to 3.10 eV (400 nm, violet).
+
+### Work function and the photoelectric equation
+
+Electrons are held inside a metal. The least energy needed to pull one out is the metal's <Term id="work-function">work function</Term> $\varphi$ (Greek "phi"): 2.46 eV for sodium, 4.73 eV for silver, 6.35 eV for platinum. When a photon frees an electron, the energy left over becomes the electron's kinetic energy. For the electrons that escape most easily,
+
+$$
+K_{\text{max}} = hf - \varphi.
+$$
+
+This is a straight line (Chapter 0.9) in a graph of $K_{\text{max}}$ against $f$: gradient $h$, the same for every metal, and an intercept of $-\varphi$. Millikan measured exactly these lines and got $h$ from their slope.
+
+<Figure caption="The photoelectric equation as a graph. Top electron energy rises in a straight line with the light's frequency. Every metal gives the same slope, the Planck constant; the metal only sets where the line crosses zero (the threshold f₀ = φ/h). Extended backwards, each line meets the vertical axis at −φ." alt="A graph with frequency of the light from 0 to 1.6 times 10 to the 15 hertz across and top electron energy in eV from minus 5 to plus 4.5 up. Two parallel straight lines: an orange one for sodium crossing zero at f nought equals 0.59 times 10 to the 15 hertz, and a blue one for silver crossing zero at 1.14 times 10 to the 15 hertz. Both continue to the left as dashed lines down to the vertical axis at minus 2.46 eV and minus 4.73 eV, labelled minus phi. A label reads slope equals h for every metal, and another: below f nought, no electrons at all.">
+	<MillikanLine />
+</Figure>
+
+### What one photon can do
+
+Many processes, not just the photoelectric effect, are switched on by single photons, so the energy **per photon** decides what light can do:
+
+- **Radio and microwave photons** (millionths of an eV) can only nudge molecules: they warm things.
+- **Infrared photons** (around 0.01 to 1 eV) set molecules vibrating, which is why CO₂ absorbs them (Chapter 6.5) and why they warm you. A Petrova photon, 0.048 eV, is one of these.
+- **Visible photons** (1.65 to 3.1 eV) are just right to rearrange electrons in molecules. That is what triggers the cells in your eyes and drives photosynthesis in plants.
+- **Ultraviolet photons** (3 to 100 eV) can break chemical bonds, including those in DNA, which is why ultraviolet light causes sunburn while far brighter infrared from a heater doesn't. From about 10 eV up, photons can knock electrons right out of atoms: 13.6 eV is enough for hydrogen. Part 13 picks up this "ionizing radiation".
+
+<Figure caption="The energy of one photon across the spectrum, on a logarithmic scale. The same kind of thing, light, does very different jobs depending on its photon energy: warming, seeing, burning, ionizing." alt="A horizontal bar on a logarithmic scale of photon energy from 10 to the minus 7 to 10 to the 8 electronvolts, with ticks every factor of 100 and 1 eV marked. Coloured bands from left to right: radio, microwave, infrared, a narrow visible strip, UV, X-ray, gamma. Red markers below: FM radio at 4 times 10 to the minus 7 eV; a Petrova photon at 0.048 eV, about three halves k T at 96 degrees Celsius, warms things; green light at 2.3 eV, vision, photosynthesis, photoelectrons; 13.6 eV, knocks the electron out of a hydrogen atom.">
+	<PhotonLadder />
+</Figure>
+
+### Counting photons
+
+Because each photon carries $hf$, a beam of power $P$ delivers
+
+$$
+N = \frac{P}{hf}
+$$
+
+photons per second. For ordinary light this is enormous: a 1 mW laser pointer emits over $10^{15}$ photons every second, so the lumpiness is far too fine to notice, and light looks smooth.
+
+### Wave or particle?
+
+So is light a wave (it interferes, Chapter 7.2) or a stream of particles (photons)? It is both, or rather it is something that behaves like a wave in how it travels and like a particle in how it is absorbed. In 1909 G. I. Taylor repeated Young's two-slit experiment with light so feeble that only about one photon at a time was in the apparatus. Over a long exposure, the interference stripes still built up. Each photon lands at one spot, like a particle, but where the spots pile up is set by the wave. This is <Term id="wave-particle-duality">wave–particle duality</Term>, the doorway to quantum physics.
+
+### How h defines the kilogram
+
+Chapter 0.2 promised that the kilogram is defined by fixing the Planck constant, and that quantum physics would show how. Here it is. The second is defined by a caesium atom's frequency and the metre by $c$. Since 2019, $h$ is fixed at exactly $6.626\,070\,15 \times 10^{-34}\ \text{J·s}$, and a joule second is a $\text{kg·m}^{2}/\text{s}$. With the metre and the second already pinned down, fixing a number with units of $\text{kg·m}^{2}/\text{s}$ pins down the kilogram too.
+
+One way to picture it uses $E = mc^{2}$, which Chapter 5.3 used for the drive (Part 9 explains it). A photon of frequency $f$ has energy $hf$, equivalent to a mass $hf/c^{2}$. So one kilogram is, by definition, the mass whose energy equals that of a single photon of frequency $c^{2}/h \approx 1.36 \times 10^{50}$ Hz. No such photon exists in practice; laboratories realise the kilogram with an instrument called a Kibble balance, which weighs a mass against electrical forces that are themselves measured in terms of $h$.
+
+### Astrophage's packets
+
+Every Petrova photon has the same energy, $hc/\lambda = 7.645 \times 10^{-21}$ J, or 0.0477 eV. Something odd turns up if you compare it with Chapter 6.1. There, Example 1 found the average kinetic energy of a molecule at Astrophage's set-point temperature of 96.415 °C: $\tfrac{3}{2}kT = 7.654 \times 10^{-21}$ J. The two agree to about 0.1%. Whether Weir chose the temperature to make this work we don't know; it may be a coincidence, but it's a remarkable one.
+
+The novel's other claim, that each Petrova photon carries the mass-energy of one neutrino, can be checked against real experiments. Neutrinos are real, almost massless particles. The KATRIN experiment in Germany found in 2025 that the electron neutrino's mass-energy is less than 0.45 eV. The novel's 0.0477 eV is well under that limit, so real measurements don't rule it out.
+
+## Formulas
+
+### Photon energy
+
+$$
+\boxed{E = hf = \frac{hc}{\lambda}} \qquad h = 6.626\,070\,15 \times 10^{-34}\ \text{J·s} = 4.136 \times 10^{-15}\ \text{eV·s}
+$$
+
+$$
+1\ \text{eV} = 1.602 \times 10^{-19}\ \text{J} \qquad hc = 1.986 \times 10^{-25}\ \text{J·m} = 1240\ \text{eV·nm} \qquad \boxed{E_{\text{eV}} = \frac{1240}{\lambda_{\text{nm}}}}
+$$
+
+### The photoelectric equation
+
+Energy is conserved (Chapter 5.4): the photon's energy goes into freeing the electron, at a cost of at least $\varphi$, and the rest is kinetic energy.
+
+$$
+hf = \varphi + K_{\text{max}} \qquad\Rightarrow\qquad \boxed{K_{\text{max}} = hf - \varphi}
+$$
+
+Electrons come out only if $K_{\text{max}} > 0$, so the threshold is where $hf_{0} = \varphi$:
+
+$$
+\boxed{f_{0} = \frac{\varphi}{h} \qquad \lambda_{0} = \frac{hc}{\varphi}}
+$$
+
+Compare with the straight line $y = mx + c$ (Chapter 0.9): $y = K_{\text{max}}$, $x = f$, gradient $m = h$, intercept $-\varphi$.
+
+### Photons per second
+
+A power $P$ is $P$ joules per second (Chapter 5.3), and each photon carries $hf$:
+
+$$
+\boxed{N = \frac{P}{hf} = \frac{P\lambda}{hc}} \qquad \text{photons per second}
+$$
+
+## Worked examples
+
+<Example n={1} title="One Petrova photon" book>
+Find the energy of one photon of Petrova light ($\lambda = 25.984$ µm) in joules and in electronvolts, and compare it with $\tfrac{3}{2}kT$ at 96.415 °C.
+
+$$
+E = \frac{hc}{\lambda} = \frac{6.626 \times 10^{-34}\ \text{J·s} \times 2.998 \times 10^{8}\ \text{m/s}}{25.984 \times 10^{-6}\ \text{m}} = 7.645 \times 10^{-21}\ \text{J}
+$$
+
+$$
+E = \frac{7.645 \times 10^{-21}\ \text{J}}{1.602 \times 10^{-19}\ \text{J/eV}} = 0.0477\ \text{eV}
+$$
+
+$$
+\tfrac{3}{2}kT = 1.5 \times 1.381 \times 10^{-23}\ \text{J/K} \times 369.565\ \text{K} = 7.654 \times 10^{-21}\ \text{J}
+$$
+
+The ratio is $7.645/7.654 = 0.9989$: the two differ by about 0.1%. A Petrova photon carries almost exactly the average jiggling energy of a molecule at Astrophage's temperature.
+</Example>
+
+<Example n={2} title="Green light and radio">
+Compare the photon energies of green light (540 nm) and FM radio (100 MHz).
+
+$$
+E_{\text{green}} = \frac{1240\ \text{eV·nm}}{540\ \text{nm}} = 2.30\ \text{eV} = 3.68 \times 10^{-19}\ \text{J}
+$$
+
+$$
+E_{\text{FM}} = hf = 6.626 \times 10^{-34}\ \text{J·s} \times 1.00 \times 10^{8}\ \text{Hz} = 6.63 \times 10^{-26}\ \text{J} = 4.14 \times 10^{-7}\ \text{eV}
+$$
+
+A green photon carries more than five million times the energy of a radio photon. That's why radio passes harmlessly through you, while green light can trigger a chemical change in your eye.
+</Example>
+
+<Example n={3} title="Sodium in violet light">
+Violet light of 400 nm falls on sodium ($\varphi = 2.46$ eV). Find the electrons' top kinetic energy and the threshold wavelength. Could Petrova light ever free electrons from sodium?
+
+$$
+E = \frac{1240\ \text{eV·nm}}{400\ \text{nm}} = 3.10\ \text{eV} \qquad K_{\text{max}} = 3.10\ \text{eV} - 2.46\ \text{eV} = 0.64\ \text{eV}
+$$
+
+$$
+\lambda_{0} = \frac{hc}{\varphi} = \frac{1240\ \text{eV·nm}}{2.46\ \text{eV}} = 504\ \text{nm}
+$$
+
+Anything longer than 504 nm (green-blue) does nothing to sodium. A Petrova photon has 0.0477 eV, about fifty times too little, so no amount of Petrova light could ever eject a single electron. Infrared detectors have to use other effects, often materials whose electrons need only a fraction of an electronvolt to move.
+</Example>
+
+<Example n={4} title="Photons from the drive" book>
+Chapter 5.3 found that the *Hail Mary*'s drive puts out about $5.40 \times 10^{14}$ W of Petrova light. How many photons per second is that?
+
+$$
+N = \frac{P}{E} = \frac{5.40 \times 10^{14}\ \text{J/s}}{7.645 \times 10^{-21}\ \text{J}} = 7.06 \times 10^{34}\ \text{per second}
+$$
+
+Seventy billion trillion trillion photons every second, all identical. Even at the drive's colossal power, each photon is so feeble that it would take about 48 of them to equal one green photon.
+</Example>
+
+<Example n={5} title="A laser pointer">
+A red laser pointer emits 1.0 mW at 650 nm. How many photons does it emit each second?
+
+$$
+E = \frac{hc}{\lambda} = \frac{1.986 \times 10^{-25}\ \text{J·m}}{650 \times 10^{-9}\ \text{m}} = 3.06 \times 10^{-19}\ \text{J}
+$$
+
+$$
+N = \frac{1.0 \times 10^{-3}\ \text{J/s}}{3.06 \times 10^{-19}\ \text{J}} = 3.27 \times 10^{15}\ \text{per second}
+$$
+
+Three thousand trillion photons per second. The beam is lumpy, but the lumps are far too small and too many to notice.
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** The photoelectric effect (Hertz 1887), Einstein's photons (1905, Nobel Prize 1921), Millikan's confirmation (1914–1916), $E = hf$, the work functions (OpenStax: sodium 2.46 eV, silver 4.73 eV), the electronvolt, Taylor's single-photon interference (1909) and the 2019 definition of the kilogram by fixing $h$ are all standard physics. Visible photons drive vision and photosynthesis; ultraviolet ones damage DNA. KATRIN's 2025 upper limit on the neutrino's mass-energy, 0.45 eV, is a published measurement.
+
+**Weir's inventions.** Astrophage, its storage of energy and its single-wavelength emission are fiction. The claim that a Petrova photon carries exactly a neutrino's mass-energy is the novel's, from a reader guide. The near-equality of the photon's energy and $\tfrac{3}{2}kT$ at Astrophage's temperature is our own observation; the novel doesn't mention it.
+
+**How realistic are the numbers?** The physics is consistent. Emitting at one exact wavelength means every photon has the same energy, which is what lasers do, and quite unlike a hot object, which glows over a broad range (Part 8). A neutrino mass-energy of 0.048 eV is within what laboratory experiments allow.
+</RealVsBook>
+
+## Interactive simulation
+
+<PhotoelectricLab />
+
+Things to try: choose zinc, set red light at full brightness, and watch nothing happen. Shorten the wavelength until electrons start appearing: that is the threshold. Then turn the brightness down: fewer electrons, but they come out just as fast. Press the Petrova button for any metal.
+
+## Practice set
+
+<Problem n={1} level="easy">
+Find the energy of a microwave-oven photon (2.45 GHz) in joules and in electronvolts.
+
+<Solution>
+$E = hf = 6.626 \times 10^{-34} \times 2.45 \times 10^{9} = 1.62 \times 10^{-24}$ J $= 1.01 \times 10^{-5}$ eV. Microwaves warm food by shaking water molecules, not by breaking anything.
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy">
+Why doesn't very bright red light eject electrons from zinc, while dim ultraviolet light does?
+
+<Solution>
+Each electron is freed by a single photon. Red photons each carry less energy (about 1.8 eV) than zinc's work function (4.31 eV), and they can't combine their energy. Brightness only adds more of these too-small photons. Each ultraviolet photon carries more than 4.31 eV, so even a few free electrons.
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy">
+Convert 2.0 eV into joules.
+
+<Solution>
+$2.0 \times 1.602 \times 10^{-19} = 3.20 \times 10^{-19}$ J.
+</Solution>
+</Problem>
+
+<Problem n={4} level="easy">
+What wavelength of light has photons of exactly 1.0 eV? In which band is it?
+
+<Solution>
+$\lambda = 1240/1.0 = 1240$ nm $= 1.24$ µm, in the near infrared, just beyond red.
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium">
+Sunlight delivers 1361 W to each square metre at Earth's distance. If its photons averaged 2.0 eV each, how many would arrive on a square metre each second?
+
+<Solution>
+$N = 1361/(2.0 \times 1.602 \times 10^{-19}) = 4.25 \times 10^{21}$ per second.
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium">
+Find silver's threshold wavelength ($\varphi = 4.73$ eV), and the top kinetic energy of electrons freed by 200 nm ultraviolet light.
+
+<Solution>
+$\lambda_{0} = 1240/4.73 = 262$ nm. At 200 nm, $E = 1240/200 = 6.20$ eV, so $K_{\text{max}} = 6.20 - 4.73 = 1.47$ eV.
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium">
+In a photoelectric experiment, light of frequency $7.0 \times 10^{14}$ Hz gives a top electron energy of 0.44 eV, and $1.0 \times 10^{15}$ Hz gives 1.68 eV. Find the Planck constant (in eV·s and J·s) and the work function. Which metal could it be?
+
+<Solution>
+The gradient is $h = (1.68 - 0.44)\ \text{eV}/(1.0 \times 10^{15} - 7.0 \times 10^{14})\ \text{Hz} = 1.24/3.0 \times 10^{14} = 4.13 \times 10^{-15}$ eV·s $= 6.62 \times 10^{-34}$ J·s. Then $\varphi = hf - K = 4.13 \times 10^{-15} \times 7.0 \times 10^{14} - 0.44 = 2.89 - 0.44 = 2.45$ eV: sodium (2.46 eV).
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium" book>
+Dimitri's Astrophage test released $1.8 \times 10^{9}$ J of light (Chapter 5.5). If it was all Petrova light, how many photons was that?
+
+<Solution>
+$N = 1.8 \times 10^{9}/7.645 \times 10^{-21} = 2.35 \times 10^{29}$ photons.
+</Solution>
+</Problem>
+
+<Problem n={9} level="challenging" book>
+Suppose Astrophage's set-point temperature were chosen so that $\tfrac{3}{2}kT$ exactly equalled a Petrova photon's energy. What would the temperature be, in kelvins and degrees Celsius? How far is that from the novel's 96.415 °C?
+
+<Solution>
+$T = \dfrac{2E}{3k} = \dfrac{2 \times 7.645 \times 10^{-21}}{3 \times 1.381 \times 10^{-23}} = 369.1$ K $= 96.0$ °C, only about 0.4 °C below the novel's figure.
+</Solution>
+</Problem>
+
+<Problem n={10} level="challenging" book>
+KATRIN found that the neutrino's mass-energy is below 0.45 eV. If a neutrino were right at that limit, what wavelength of photon would match its energy? How many times bigger is that limit than the novel's 0.0477 eV?
+
+<Solution>
+$\lambda = 1240/0.45 = 2760$ nm $= 2.76$ µm (infrared). $0.45/0.0477 = 9.4$: the novel's value is about nine times below the experimental limit, so it isn't ruled out.
+</Solution>
+</Problem>
+
+<Problem n={11} level="challenging">
+Find the frequency of a photon whose energy equals the mass-energy of one kilogram, $f = c^{2}/h$.
+
+<Solution>
+$f = (2.998 \times 10^{8})^{2}/6.626 \times 10^{-34} = 8.988 \times 10^{16}/6.626 \times 10^{-34} = 1.36 \times 10^{50}$ Hz.
+</Solution>
+</Problem>
+
+<Problem n={12} level="challenging" book>
+How many Petrova photons carry the same total energy as one green photon (540 nm)? Can 48 Petrova photons absorbed by a green-sensitive cell in your eye together make you see green?
+
+<Solution>
+$2.296/0.0477 = 48.1$, so about 48. But no: each photon is absorbed on its own, and none of them has enough energy to trigger the light-sensitive molecule. The eye would only feel the 48 photons as a tiny warming.
+</Solution>
+</Problem>
+
+## Summary
+
+- The photoelectric effect has a frequency threshold, an instant response and electron energies set by frequency, not brightness. A wave can't explain it.
+- Light comes in photons, each with $E = hf = hc/\lambda$, with $h = 6.626 \times 10^{-34}$ J·s. Brightness is the number of photons; colour is the energy of each.
+- $1\ \text{eV} = 1.602 \times 10^{-19}$ J and $E_{\text{eV}} = 1240/\lambda_{\text{nm}}$. Visible photons are 1.65–3.1 eV; a Petrova photon is 0.0477 eV.
+- $K_{\text{max}} = hf - \varphi$: a straight line of slope $h$. A beam of power $P$ carries $P/hf$ photons per second.
+- Photon energy decides what light does: warm (radio, infrared), trigger chemistry (visible), break bonds (ultraviolet), ionize (above about 10 eV).
+- Light behaves as a wave as it travels and as particles when absorbed. Fixing $h$ defines the kilogram.
+
+**Formulas from this chapter**
+
+$$
+E = hf = \frac{hc}{\lambda} \qquad E_{\text{eV}} = \frac{1240}{\lambda_{\text{nm}}} \qquad K_{\text{max}} = hf - \varphi \qquad f_{0} = \frac{\varphi}{h} \qquad N = \frac{P}{hf}
+$$
+
+## Sources
+
+- The four facts of the photoelectric effect, $K_{\text{max}} = hf - \varphi$, and the work functions (Table 6.1: Na 2.46, Al 4.08, Zn 4.31, Fe 4.50, Cu 4.70, Ag 4.73, Pt 6.35 eV; sodium's cut-off 504 nm, silver's 262 nm): OpenStax, [*University Physics Volume 3*, §6.2 "Photoelectric Effect"](https://openstax.org/books/university-physics-volume-3/pages/6-2-photoelectric-effect).
+- Hertz (1887), Einstein (1905), the 1921 Nobel Prize, Millikan (1914, 1916): Wikipedia, [Photoelectric effect](https://en.wikipedia.org/wiki/Photoelectric_effect). Photons: Wikipedia, [Photon](https://en.wikipedia.org/wiki/Photon).
+- $h$ and the electronvolt (exact): NIST, [CODATA value of h](https://physics.nist.gov/cgi-bin/cuu/Value?h) and [electron volt](https://physics.nist.gov/cgi-bin/cuu/Value?evj). The kilogram defined by fixing $h$ (2019): BIPM, [The kilogram](https://www.bipm.org/en/si-base-units/kilogram); Wikipedia, [Kibble balance](https://en.wikipedia.org/wiki/Kibble_balance).
+- Taylor's feeble-light interference experiment (1909): Wikipedia, [Double-slit experiment](https://en.wikipedia.org/wiki/Double-slit_experiment).
+- Ultraviolet damages DNA and causes sunburn: Wikipedia, [Ultraviolet](https://en.wikipedia.org/wiki/Ultraviolet). Plants absorb blue and red light for photosynthesis: Royal Institution, ["Project Hail Mary: the science behind the fiction"](https://www.rigb.org/node/6363).
+- KATRIN: the neutrino's mass is less than 0.45 eV (*Science* 388, 180, 2025): KIT press release, ["Neutrinos weigh less than 0.45 electronvolts"](https://www.kit.edu/kit/english/pi_2025_029_astroparticle-physics-neutrinos-weigh-less-than-0-45-electronvolts.php).
+- The novel's claim that a Petrova photon carries one neutrino's mass-energy: readifyai reader guide, [Neutrino energy storage](https://readifyai.com/en/books/Project%20Hail%20Mary/wiki/Neutrino%20energy%20storage) (not an official source). Astrophage's 96.415 °C: Royal Institution article above. The drive's 540 TW and Dimitri's 1.8 × 10⁹ J: this course, [Chapter 5.3](/part-5/power/) and [Chapter 5.5](/part-5/momentum/). $\tfrac{3}{2}kT$ at 96.415 °C: [Chapter 6.1](/part-6/temperature-heat/).

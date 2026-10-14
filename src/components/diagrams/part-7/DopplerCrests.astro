@@ -1,0 +1,24 @@
+---
+// The Doppler effect: a source moving right at speed v emits crests every period T. Each crest is a circle centred on
+// where the source was when it was emitted, so crests bunch up ahead (shorter λ, blueshift) and spread out behind (redshift).
+// Drawn with v = 0.35 × the wave speed so the effect is easy to see.
+const CY = 150, vT = 0.35, LAM = 40, N = 6;
+const x0 = 330; // source now
+const circles = Array.from({ length: N }, (_, k) => {
+	const age = k + 1; // emitted (k+1) periods ago
+	return { cx: x0 - age * vT * LAM, r: age * LAM };
+});
+---
+
+<svg class="dg" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+	{circles.map((c) => <circle cx={c.cx} cy={CY} r={c.r} class="s-sky w2" fill="none" />)}
+	<circle cx={x0} cy={CY} r="8" class="f-amber" />
+	<line x1={x0 + 12} y1={CY} x2={x0 + 50} y2={CY} class="s-amber w3" />
+	<polygon points={`${x0 + 62},${CY} ${x0 + 50},${CY - 6} ${x0 + 50},${CY + 6}`} class="f-amber" />
+	<text x={x0 + 4} y={CY - 14} class="t-sm f-amber halo">source, speed v</text>
+	<text x="590" y="40" class="t-end t-sm f-violet halo">ahead: crests bunched,</text>
+	<text x="590" y="58" class="t-end t-sm f-violet halo">shorter λ: blueshift</text>
+	<text x="10" y="40" class="t-sm f-rose halo">behind: crests spread,</text>
+	<text x="10" y="58" class="t-sm f-rose halo">longer λ: redshift</text>
+	<text x="300" y="292" class="t-mid t-sm">Δλ/λ = v/c (for v much less than c)</text>
+</svg>

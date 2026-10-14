@@ -1,0 +1,33 @@
+---
+// Transverse vs longitudinal waves, drawn as a row of beads (pieces of the medium).
+// Top: beads displaced up/down (transverse). Bottom: beads displaced left/right, bunching into compressions (longitudinal).
+const N = 31, L = 40, R = 560, sp = (R - L) / (N - 1), LAM = 260;
+const top = Array.from({ length: N }, (_, i) => {
+	const x0 = L + i * sp;
+	return { x: x0, y: 80 - 28 * Math.cos((2 * Math.PI * (x0 - L)) / LAM) };
+});
+const bot = Array.from({ length: N }, (_, i) => {
+	const x0 = L + i * sp;
+	return { x: x0 - 9 * Math.sin((2 * Math.PI * (x0 - L)) / LAM), y: 215 };
+});
+// Compression where beads bunch: displacement s = −9 sin(kx) gives density highest where ds/dx is most negative, i.e. cos(kx) = 1.
+const comp = [L, L + LAM, L + 2 * LAM].filter((x) => x <= R);
+const rare = [L + LAM / 2, L + 1.5 * LAM].filter((x) => x <= R);
+---
+
+<svg class="dg" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+	<text x={L} y="22" class="t-sm t-b">transverse: the medium moves across the direction of travel</text>
+	{top.map((b) => <circle cx={b.x} cy={b.y} r="5" class="f-sky" />)}
+	<line x1={top[22].x} y1={top[22].y - 10} x2={top[22].x} y2={top[22].y - 28} class="s-rose w2" />
+	<line x1={top[22].x} y1={top[22].y + 10} x2={top[22].x} y2={top[22].y + 28} class="s-rose w2" />
+	<text x={top[22].x + 10} y={top[22].y - 18} class="t-sm f-rose halo">up and down</text>
+	<text x={R} y="142" class="t-end t-sm f-muted">a wave on a rope, a ripple on water</text>
+	<text x={L} y="175" class="t-sm t-b">longitudinal: the medium moves along the direction of travel</text>
+	{bot.map((b) => <circle cx={b.x} cy={b.y} r="5" class="f-amber" />)}
+	{comp.map((x) => <text x={x} y="245" class="t-mid t-sm f-green">compression</text>)}
+	{rare.map((x) => <text x={x} y="245" class="t-mid t-sm f-violet">rarefaction</text>)}
+	<text x={R} y="282" class="t-end t-sm f-muted">a sound wave in air</text>
+	<line x1={L} y1="282" x2={L + 90} y2="282" class="s-fg w2" />
+	<polygon points={`${L + 102},282 ${L + 90},276 ${L + 90},288`} class="f-fg" />
+	<text x={L + 110} y="286" class="t-sm">travel</text>
+</svg>

@@ -1,0 +1,35 @@
+---
+// Snapshot of a travelling wave y = A cos(kx) with wavelength, amplitude, the rest line, the direction of travel
+// and one marked piece of the medium that only moves up and down.
+const L = 50, R = 560, Y0 = 150, A = 70, LAM = 200; // px: 2.5 wavelengths across
+const y = (x: number) => Y0 - A * Math.cos((2 * Math.PI * (x - L)) / LAM);
+const pts = Array.from({ length: 256 }, (_, i) => {
+	const x = L + ((R - L) * i) / 255;
+	return `${x.toFixed(1)},${y(x).toFixed(1)}`;
+}).join(' ');
+const c1 = L + LAM, c2 = L + 2 * LAM; // two crests
+const mx = L + LAM / 4 + LAM * 1.0, my = y(mx); // a piece of the medium at the rest line, moving
+---
+
+<svg class="dg" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+	<line x1={L} y1={Y0} x2={R} y2={Y0} class="s-muted w1 dash" />
+	<text x={L + LAM / 2} y={Y0 - 8} class="t-mid t-sm f-muted">rest position</text>
+	<polyline points={pts} class="s-sky w3" fill="none" />
+	<line x1={c1} y1={Y0 - A - 22} x2={c2} y2={Y0 - A - 22} class="s-amber w2" />
+	<line x1={c1} y1={Y0 - A - 30} x2={c1} y2={Y0 - A - 14} class="s-amber w2" />
+	<line x1={c2} y1={Y0 - A - 30} x2={c2} y2={Y0 - A - 14} class="s-amber w2" />
+	<text x={(c1 + c2) / 2} y={Y0 - A - 30} class="t-mid t-sm f-amber">wavelength λ (crest to crest)</text>
+	<line x1={L + LAM / 2} y1={Y0} x2={L + LAM / 2} y2={Y0 + A} class="s-green w2" />
+	<text x={L + LAM / 2} y={Y0 + A + 18} class="t-mid t-sm f-green">amplitude A</text>
+	<circle cx={mx} cy={my} r="7" class="f-rose" />
+	<line x1={mx} y1={my - 14} x2={mx} y2={my - 40} class="s-rose w2" />
+	<line x1={mx} y1={my + 14} x2={mx} y2={my + 40} class="s-rose w2" />
+	<polygon points={`${mx},${my - 48} ${mx - 6},${my - 36} ${mx + 6},${my - 36}`} class="f-rose" />
+	<polygon points={`${mx},${my + 48} ${mx - 6},${my + 36} ${mx + 6},${my + 36}`} class="f-rose" />
+	<text x={L} y="262" class="t-sm f-rose">red dot: a piece of the rope only moves up and down</text>
+	<line x1={430} y1="286" x2={540} y2="286" class="s-fg w2" />
+	<polygon points="552,286 540,280 540,292" class="f-fg" />
+	<text x="425" y="290" class="t-end t-sm">the wave pattern moves at speed v</text>
+	<text x={c1} y={Y0 - A - 6} class="t-mid t-sm f-muted">crest</text>
+	<text x={c1 + LAM / 2} y={Y0 + A + 18} class="t-mid t-sm f-muted">trough</text>
+</svg>

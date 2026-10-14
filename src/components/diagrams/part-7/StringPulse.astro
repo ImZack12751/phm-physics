@@ -1,0 +1,42 @@
+---
+// Deriving the speed of a wave on a string. In the frame moving with the pulse, the string flows through the
+// pulse's rounded top at speed v. A short piece at the top, an arc of radius R spanning angle 2θ, is pulled by
+// tension T at both ends; the two pulls add up to 2T sin θ towards the centre of the arc.
+const CX = 300, CY = 330, RAD = 230, TH = (16 * Math.PI) / 180;
+const P = (a: number, r = RAD) => ({ x: CX + r * Math.sin(a), y: CY - r * Math.cos(a) });
+const arc = (a0: number, a1: number, r = RAD) => {
+	const p0 = P(a0, r), p1 = P(a1, r);
+	return `M${p0.x.toFixed(1)},${p0.y.toFixed(1)} A${r},${r} 0 0 1 ${p1.x.toFixed(1)},${p1.y.toFixed(1)}`;
+};
+const pl = P(-TH), pr = P(TH), top = P(0);
+// tension arrows along the tangent, pointing away from the piece
+const tl = { x: pl.x - 95 * Math.cos(TH), y: pl.y + 95 * Math.sin(TH) };
+const tr = { x: pr.x + 95 * Math.cos(TH), y: pr.y + 95 * Math.sin(TH) };
+const head = (x: number, y: number, dx: number, dy: number) => {
+	const n = Math.hypot(dx, dy), ux = dx / n, uy = dy / n;
+	return `${x},${y} ${x - 12 * ux + 6 * uy},${y - 12 * uy - 6 * ux} ${x - 12 * ux - 6 * uy},${y - 12 * uy + 6 * ux}`;
+};
+---
+
+<svg class="dg" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+	<path d={arc(-0.55, 0.55)} class="s-muted w2" fill="none" />
+	<path d={arc(-TH, TH)} class="s-amber w3" fill="none" />
+	<line x1={CX} y1={CY} x2={pl.x} y2={pl.y} class="s-grid w1 dash" />
+	<line x1={CX} y1={CY} x2={pr.x} y2={pr.y} class="s-grid w1 dash" />
+	<text x={CX + 6} y="240" class="t-sm f-muted">2θ</text>
+	<text x={(CX + pr.x) / 2 + 10} y="210" class="t-sm f-muted">R</text>
+	<line x1={pl.x} y1={pl.y} x2={tl.x} y2={tl.y} class="s-sky w3" />
+	<polygon points={head(tl.x, tl.y, tl.x - pl.x, tl.y - pl.y)} class="f-sky" />
+	<line x1={pr.x} y1={pr.y} x2={tr.x} y2={tr.y} class="s-sky w3" />
+	<polygon points={head(tr.x, tr.y, tr.x - pr.x, tr.y - pr.y)} class="f-sky" />
+	<text x={tl.x - 6} y={tl.y + 20} class="t-mid t-sm f-sky">T</text>
+	<text x={tr.x + 6} y={tr.y + 20} class="t-mid t-sm f-sky">T</text>
+	<line x1={CX} y1={top.y + 8} x2={CX} y2={top.y + 62} class="s-rose w3" />
+	<polygon points={head(CX, top.y + 72, 0, 1)} class="f-rose" />
+	<text x={CX + 10} y={top.y + 52} class="t-sm f-rose halo">net pull 2T sin θ</text>
+	<text x={CX} y={top.y - 12} class="t-mid t-sm f-amber">piece of length 2Rθ, mass 2μRθ</text>
+	<line x1="60" y1="40" x2="150" y2="40" class="s-fg w2" />
+	<polygon points="162,40 150,34 150,46" class="f-fg" />
+	<text x="60" y="26" class="t-sm">string flows at speed v</text>
+	<text x="590" y="26" class="t-end t-sm f-muted">seen riding along with the pulse</text>
+</svg>

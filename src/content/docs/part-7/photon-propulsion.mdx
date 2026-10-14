@@ -1,0 +1,371 @@
+---
+title: The momentum of light and photon propulsion
+description: Why light pushes on what it hits, p = E/c and p = h/λ, radiation pressure on absorbers and mirrors, sunlight's push compared with the Sun's gravity, the IKAROS solar sail, whether sunlight could blow Astrophage away, and the photon rocket that drives the Hail Mary.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import LightPush from '../../../components/diagrams/part-7/LightPush.astro';
+import AbsorbReflect from '../../../components/diagrams/part-7/AbsorbReflect.astro';
+import SailBalance from '../../../components/diagrams/part-7/SailBalance.astro';
+import SolarSailLab from '../../../components/sims/SolarSailLab.astro';
+
+## The scene
+
+The *Hail Mary* has no exhaust gas. Its engines turn Astrophage into a blinding beam of infrared light, and the light itself pushes the ship. Astrophage cells do the same thing on their own, on a microscopic scale: they travel between the Sun and Venus, and even between stars, by shining light out behind them. In the novel they can reach about 92% of the speed of light.
+
+Part 5 discovered from the novel's own numbers that a light drive pushes with $F = P/c$, and that a burst of light of energy $E$ carries momentum $E/c$. It promised to explain why. Light has no mass. How can it carry momentum and push a ship?
+
+## Prerequisites
+
+<Prereqs notes={{ photons: 'photons and E = hf', momentum: 'momentum, impulse and F = dp/dt', thrust: 'thrust F = ṁvₑ and the light drive F = P/c', 'rocket-equation': 'the rocket equation with exhaust speed vₑ', 'ratios-proportionality': 'the inverse-square law for light', gravitation: 'F = GMm/r²' }} />
+
+## The concept
+
+### Light pushes
+
+Shine a torch on something and you are pushing it, very gently. This was predicted by James Clerk Maxwell in the 1870s and measured in 1901 by Ernest Nichols and Gordon Hull, who hung tiny mirrors from a fine fibre in a vacuum and watched light twist them. Their measured push agreed with theory to within about 0.6%. Today spacecraft navigators must allow for sunlight's push to steer probes accurately, and some spacecraft use it on purpose.
+
+### Why light pushes: the wave picture
+
+Chapter 7.2 described light as an electric field and a magnetic field waving together. Think about what that wave does to one charged particle in a material it hits.
+
+1. The **electric field** pushes the charge sideways (across the beam), so the charge starts moving sideways with some velocity $v$.
+2. A charge **moving** through a magnetic field feels a force at right angles to both its motion and the field, of size $qvB$ (Part 14 has more on magnetic forces). In a light wave, the magnetic field is at right angles to the electric field, and this force points **forwards**, along the beam.
+
+<Figure caption="Why light pushes, following Feynman. The wave's electric field drives a charge sideways; the wave's magnetic field then pushes the moving charge forwards. The forward push turns out to be exactly the power the charge absorbs, divided by c." alt="On the left, an orange sine wave with an arrow below pointing right, labelled light wave travelling right, at c. On the right, a blue circle labelled q. An orange arrow pointing up beside it is labelled electric field E. A green arrow pointing up from the charge is labelled 1, E drives the charge, velocity v. Below, a blue circle with a cross is labelled magnetic field B equals E over c, into page. A red arrow from the charge points right, labelled 2, B pushes the moving charge forward, q v B. Text at the top: power absorbed equals force times velocity equals q E v; forward push equals q v B equals q v E over c equals power absorbed over c. At the bottom: so light carrying energy E delivers momentum E over c.">
+	<LightPush />
+</Figure>
+
+The beautiful part is how the numbers line up. In a light wave, the magnetic field's strength is exactly $B = E/c$ (here $E$ means the electric field). The electric force on the charge is $qE$, and the charge moves at $v$, so the electric field does work on it at a rate (power, Chapter 5.3) of $qEv$. The forward magnetic push is $qvB = qvE/c$. So
+
+$$
+\text{forward push} = \frac{\text{power absorbed}}{c}.
+$$
+
+Over a time $\Delta t$, the push delivers momentum $F\,\Delta t$ (impulse, Chapter 5.5) while the energy absorbed is $P\,\Delta t$. Light that delivers energy $E$ delivers momentum $E/c$.
+
+### Why light pushes: the photon picture
+
+In the photon picture, each photon carries a definite momentum. Since a photon with energy $E$ carries momentum $E/c$, and $E = hf = hc/\lambda$,
+
+$$
+p = \frac{E}{c} = \frac{hf}{c} = \frac{h}{\lambda}.
+$$
+
+In 1923 Arthur Compton fired X-rays at electrons and found that they bounce off exactly like colliding billiard balls with momentum $h/\lambda$, losing energy and gaining wavelength in just the way momentum conservation (Chapter 5.5) predicts. Light's momentum is as real as a cricket ball's.
+
+A light beam of power $P$ carries $P/hf$ photons per second (Chapter 7.3), each with momentum $hf/c$, so it carries momentum $P/c$ every second. Absorbing that beam, a surface feels a force $F = P/c$, which is exactly Chapter 5.3's light-drive formula.
+
+### Absorbing versus reflecting
+
+A black surface absorbs a photon and takes all its momentum, $p$. A mirror sends the photon back the way it came: the photon's momentum changes from $+p$ to $-p$, a change of $2p$, and by conservation of momentum the mirror receives $2p$. A mirror gets **twice** the push of a black surface.
+
+<Figure caption="Momentum given to a surface by one photon. A black surface absorbs the photon and receives its momentum p. A mirror reverses the photon, a change of 2p, so it receives 2p." alt="Two panels. Left, titled absorbed, push p equals E over c: an orange wavy arrow labelled photon, momentum p, hits a black block labelled black surface; a red arrow points right from the block; caption: photon gone, all its p handed over. Right, titled reflected, push 2 p equals 2 E over c: an orange wavy arrow labelled in, plus p, hits a blue mirror and a dashed orange wavy arrow labelled out, minus p, returns to the left; a red arrow points right from the mirror; caption: change in photon's momentum, 2 p.">
+	<AbsorbReflect />
+</Figure>
+
+### Radiation pressure
+
+Spread a beam over an area and its push becomes a pressure (force per area). Light of intensity $I$ (watts per square metre, Chapter 0.5) delivers $I$ joules per second to each square metre, and so momentum $I/c$ per second. This <Term id="radiation-pressure">radiation pressure</Term> is
+
+$$
+P_{\text{rad}} = \frac{I}{c}\ \text{(absorbed)} \qquad P_{\text{rad}} = \frac{2I}{c}\ \text{(reflected)}.
+$$
+
+Sunlight at Earth's distance, $1361\ \text{W/m}^{2}$, presses with only $4.5 \times 10^{-6}$ pascals on a black surface: about a hundred-billionth of air pressure. You'd never feel it. But in space, with no air and no friction, a small push applied for months adds up.
+
+### Solar sails
+
+A <Term id="solar-sail">solar sail</Term> is a large, thin, light mirror that sails on sunlight. In 2010 the Japanese space agency JAXA launched IKAROS, a 310 kg probe with a square sail 14 m on a side (196 m²) made of plastic film thinner than a human hair. JAXA measured sunlight pushing it with 1.12 millinewtons, roughly the weight of a few grains of rice, and over three years it changed its speed by about 400 m/s, without any fuel.
+
+### Light versus gravity
+
+Here's a neat fact. Sunlight's intensity falls as $1/r^{2}$ (the inverse-square law), and so does the Sun's gravity, $GMm/r^{2}$ (Chapter 4.1). So the **ratio** of light's push to gravity is the same at every distance from the Sun. Call it $\beta$ (Greek "beta"). If $\beta > 1$, sunlight wins everywhere and the object is blown out of the solar system. If $\beta \lt 1$, it still falls towards the Sun, just as if the Sun were a little lighter.
+
+<Figure caption="Sunlight's push (amber) and the Sun's gravity (violet) on a sail at three distances. Both shrink as 1/r², so their ratio β stays the same. Only the sail's mass per square metre sets β." alt="The Sun on the left and three vertical blue lines representing sails at increasing distances, labelled r equals 1, 1.6 and 2.4 units. At each sail a violet arrow points left towards the Sun, for gravity, and an amber arrow half as long points right, for light's push; both pairs of arrows get shorter with distance. Text at the top: gravity proportional to 1 over r squared and light's push proportional to 1 over r squared, so beta, push divided by gravity, is the same at every distance, here beta equals 0.5. Text at the bottom: beta depends only on mass per area; beta equals 1 for a perfect mirror of 1.53 grams per square metre; above 1, blown outwards; below 1, still falls towards the Sun, but more gently.">
+	<SailBalance />
+</Figure>
+
+The Formulas section shows that $\beta$ depends only on how many kilograms the object has per square metre facing the Sun. A perfect mirror would need to weigh less than 1.53 grams per square metre to float on sunlight, lighter than a sheet of tissue paper. Small things have more area per kilogram than big ones (area grows as size squared, mass as size cubed), so the tiniest dust grains are the ones sunlight blows away.
+
+### Photon rockets
+
+Turn the idea round: instead of catching light, **emit** it. A beam leaving a ship carries momentum $P/c$ per second backwards, so the ship gets a forward thrust
+
+$$
+F = \frac{P}{c}.
+$$
+
+This is a <Term id="photon-rocket">photon rocket</Term>. A torch shone into space is a photon rocket, with a thrust of a few billionths of a newton per watt. That is miserable compared with a chemical rocket: the Space Shuttle's main engine produced over a hundred thousand times more thrust per watt. But a photon rocket's "exhaust" leaves at $c$, the fastest exhaust possible, so it gets far more speed out of each kilogram of fuel (Chapter 5.7). If your fuel can turn mass completely into light, as Astrophage does, the photon rocket is the best rocket physics allows. Its only cost is the colossal power: holding a 100-tonne ship at 1.5 g needs over $10^{14}$ watts.
+
+## Formulas
+
+### Momentum of light
+
+From the wave argument: force = (power absorbed)/$c$, so over any time the momentum delivered is (energy delivered)/$c$. For one photon, with $E = hf$ and $c = f\lambda$:
+
+$$
+\boxed{p = \frac{E}{c} = \frac{h}{\lambda}}
+$$
+
+### Radiation pressure and force
+
+Intensity $I$ means $I$ joules each second on each square metre, which carries momentum $I/c$. For a surface of area $A$ facing the light:
+
+$$
+\boxed{F = \frac{IA}{c}\ \text{(absorbed)} \qquad F = \frac{2IA}{c}\ \text{(perfect mirror)}}
+$$
+
+### Push versus gravity
+
+Write the push as $kIA/c$, with $k = 1$ for a black surface and $k = 2$ for a mirror. At distance $r$ from a star of luminosity $L$, $I = L/(4\pi r^{2})$ (Chapter 0.5). Dividing by the star's gravity $GMm/r^{2}$:
+
+$$
+\beta = \frac{kLA/(4\pi r^{2}c)}{GMm/r^{2}} \qquad\Rightarrow\qquad \boxed{\beta = \frac{kLA}{4\pi cGMm}}
+$$
+
+The $r^{2}$ cancels. Setting $\beta = 1$ for a mirror ($k = 2$) gives the largest mass per area that sunlight can hold up:
+
+$$
+\frac{m}{A} = \frac{2L}{4\pi cGM} = \frac{L}{2\pi cGM} = \frac{3.828 \times 10^{26}\ \text{W}}{2\pi \times 2.998 \times 10^{8}\ \text{m/s} \times 1.327 \times 10^{20}\ \text{m}^{3}/\text{s}^{2}} = 1.53 \times 10^{-3}\ \text{kg/m}^{2}
+$$
+
+### The photon rocket
+
+A beam of power $P$ leaving the ship carries momentum $P/c$ per second, so (Chapter 5.5, $F = dp/dt$):
+
+$$
+\boxed{F = \frac{P}{c}} \qquad \text{compared with a gas rocket's } \frac{F}{P} = \frac{\dot{m}v_{\text{e}}}{\tfrac{1}{2}\dot{m}v_{\text{e}}^{2}} = \frac{2}{v_{\text{e}}}
+$$
+
+(using $P = \tfrac{1}{2}Fv_{\text{e}}$ from Chapter 5.6). Gas rockets give more thrust per watt because their exhaust is slow; light gives the most speed per kilogram because its exhaust is as fast as anything can be.
+
+## Worked examples
+
+<Example n={1} title="The drive's push, photon by photon" book>
+One Petrova photon carries $7.645 \times 10^{-21}$ J (Chapter 7.3). Find its momentum. Then find the thrust of the *Hail Mary*'s 540 TW drive, and the ship mass it can hold at 1.5 g.
+
+$$
+p = \frac{E}{c} = \frac{7.645 \times 10^{-21}\ \text{J}}{2.998 \times 10^{8}\ \text{m/s}} = 2.55 \times 10^{-29}\ \text{kg·m/s}
+$$
+
+The drive emits $7.06 \times 10^{34}$ photons per second (Chapter 7.3), so
+
+$$
+F = 7.06 \times 10^{34}\ \text{s}^{-1} \times 2.55 \times 10^{-29}\ \text{kg·m/s} = 1.80 \times 10^{6}\ \text{N} \qquad \left(= \frac{P}{c} = \frac{5.40 \times 10^{14}\ \text{W}}{2.998 \times 10^{8}\ \text{m/s}}\ \checkmark\right)
+$$
+
+$$
+m = \frac{F}{a} = \frac{1.80 \times 10^{6}\ \text{N}}{1.5 \times 9.81\ \text{m/s}^{2}} = 1.22 \times 10^{5}\ \text{kg}
+$$
+
+That matches the ship's mass inferred in Chapter 5.6. Counting photons and treating the beam as a wave give the same push, as they must.
+</Example>
+
+<Example n={2} title="Sunlight's pressure">
+Find the radiation pressure of sunlight at 1 au on a black surface and on a perfect mirror, and compare it with air pressure (101 325 Pa).
+
+$$
+P_{\text{black}} = \frac{I}{c} = \frac{1361\ \text{W/m}^{2}}{2.998 \times 10^{8}\ \text{m/s}} = 4.54 \times 10^{-6}\ \text{Pa} \qquad P_{\text{mirror}} = \frac{2I}{c} = 9.08 \times 10^{-6}\ \text{Pa}
+$$
+
+$$
+\frac{4.54 \times 10^{-6}\ \text{Pa}}{101\,325\ \text{Pa}} = 4.5 \times 10^{-11}
+$$
+
+Units check: $\text{W/m}^{2} \div \text{m/s} = \text{J/(s·m}^{2}) \times \text{s/m} = \text{N·m/m}^{3} = \text{N/m}^{2} = \text{Pa}$ ✓. Sunlight presses with about a twenty-billionth of the air's pressure.
+</Example>
+
+<Example n={3} title="IKAROS">
+IKAROS had a 196 m² sail and a mass of 310 kg. Find the push of sunlight at 1 au on a perfect mirror of that size, and compare it with the measured 1.12 mN. Using the measured value, what acceleration did the sail give, and how much speed would it add in a year?
+
+$$
+F_{\text{ideal}} = \frac{2IA}{c} = \frac{2 \times 1361\ \text{W/m}^{2} \times 196\ \text{m}^{2}}{2.998 \times 10^{8}\ \text{m/s}} = 1.78 \times 10^{-3}\ \text{N}
+$$
+
+The measured 1.12 mN is 63% of this: the real sail wasn't a perfect mirror (parts were solar cells), and it wasn't always face-on to the Sun.
+
+$$
+a = \frac{F}{m} = \frac{1.12 \times 10^{-3}\ \text{N}}{310\ \text{kg}} = 3.61 \times 10^{-6}\ \text{m/s}^{2}
+$$
+
+$$
+\Delta v_{\text{1 yr}} = a\,t = 3.61 \times 10^{-6}\ \text{m/s}^{2} \times 3.156 \times 10^{7}\ \text{s} = 114\ \text{m/s}
+$$
+
+A third of a metre per second each day, over a hundred metres per second each year, and about 340 m/s in three years, consistent with JAXA's "about 400 m/s".
+</Example>
+
+<Example n={4} title="Can sunlight blow Astrophage away?" book>
+Model an Astrophage cell as a black sphere 10 µm across with the density of water, 1000 kg/m³ (our assumption). Find $\beta$. Can sunlight alone push it from the Sun to Venus?
+
+$$
+m = \tfrac{4}{3}\pi r^{3}\rho = \tfrac{4}{3}\pi (5.0 \times 10^{-6}\ \text{m})^{3} \times 1000\ \text{kg/m}^{3} = 5.24 \times 10^{-13}\ \text{kg}
+$$
+
+$$
+A = \pi r^{2} = \pi (5.0 \times 10^{-6}\ \text{m})^{2} = 7.85 \times 10^{-11}\ \text{m}^{2}
+$$
+
+$$
+\beta = \frac{LA}{4\pi cGMm} = \frac{3.828 \times 10^{26} \times 7.85 \times 10^{-11}}{4\pi \times 2.998 \times 10^{8} \times 1.327 \times 10^{20} \times 5.24 \times 10^{-13}} = 0.115
+$$
+
+Sunlight pushes a cell with only 11% of the Sun's pull, so it can't blow Astrophage outwards. To climb away from the Sun and reach Venus, Astrophage must fire its own light, as the novel says it does.
+</Example>
+
+<Example n={5} title="Photon rocket versus chemical rocket">
+The Space Shuttle's RS-25 engine gave 2.279 MN of thrust with exhaust at 4.436 km/s and 514.49 kg/s of propellant (Chapter 5.6). Compare its thrust per watt of exhaust power with a photon rocket's, and its exhaust speed with light's.
+
+$$
+P = \tfrac{1}{2}\dot{m}v_{\text{e}}^{2} = \tfrac{1}{2} \times 514.49\ \text{kg/s} \times (4436\ \text{m/s})^{2} = 5.06 \times 10^{9}\ \text{W}
+$$
+
+$$
+\left(\frac{F}{P}\right)_{\text{RS-25}} = \frac{2.279 \times 10^{6}\ \text{N}}{5.06 \times 10^{9}\ \text{W}} = 4.50 \times 10^{-4}\ \text{N/W} \qquad \left(\frac{F}{P}\right)_{\text{light}} = \frac{1}{c} = 3.34 \times 10^{-9}\ \text{N/W}
+$$
+
+$$
+\frac{4.50 \times 10^{-4}}{3.34 \times 10^{-9}} = 1.35 \times 10^{5} \qquad \frac{c}{v_{\text{e}}} = \frac{2.998 \times 10^{8}\ \text{m/s}}{4436\ \text{m/s}} = 6.76 \times 10^{4}
+$$
+
+Per watt, the chemical engine gives 135 000 times the thrust. Per kilogram of propellant, light's exhaust is 67 600 times faster, and by the rocket equation that is what decides how fast a ship can finally go. A photon rocket trades power for fuel.
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** Light carries momentum $E/c$, or $h/\lambda$ per photon. Radiation pressure was measured by Nichols and Hull (1901, within about 0.6%); Compton's X-ray scattering (1923) confirmed photon momentum. The wave argument for $F = P/c$ is from the *Feynman Lectures* (Vol. I, §34-9) and OpenStax (§16.4). IKAROS (2010, 196 m², 310 kg, 1.12 mN measured, about 400 m/s gained by 2013) really flew. Photon rockets are a real, if impractical, idea: their thrust per watt is tiny, but their exhaust is the fastest possible.
+
+**Weir's inventions.** Astrophage, which turns stored mass entirely into a beam of light, is fiction; no real fuel does that. The cells' speed of up to 0.92 c is the novel's figure (from a reader guide). Our model cell (water's density) is an assumption.
+
+**How realistic are the numbers?** The novel gets the physics right: its drive power and thrust obey $F = P/c$, and the ship mass that follows is consistent. Sunlight genuinely can't push a 10 µm cell outwards ($\beta \approx 0.1$), so the novel is right that Astrophage needs its own propulsion. Reaching 0.92 c is another matter: even an ideal photon rocket must convert most of its own mass into light to go that fast, as Problem 11 shows.
+</RealVsBook>
+
+## Interactive simulation
+
+<SolarSailLab />
+
+Things to try: load IKAROS and slide the distance from 0.2 to 5 au. The push changes by a factor of over 600, yet β doesn't change at all. Then load the Astrophage cell and see how close it comes to floating. Finally, make a mirror sail of 10 000 m² and find the largest mass that sunlight can hold up.
+
+## Practice set
+
+<Problem n={1} level="easy">
+Find the momentum of one photon of green light, 540 nm.
+
+<Solution>
+$p = h/\lambda = 6.626 \times 10^{-34}/540 \times 10^{-9} = 1.23 \times 10^{-27}$ kg·m/s.
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy">
+Why does a mirror feel twice the push of a black surface in the same light?
+
+<Solution>
+A black surface stops each photon, so the photon's momentum changes by $p$. A mirror reverses it, from $+p$ to $-p$, a change of $2p$. By conservation of momentum, the surface receives whatever momentum the photons lose.
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy">
+What thrust does a 1.0 W torch produce if all its light leaves in one direction?
+
+<Solution>
+$F = P/c = 1.0/2.998 \times 10^{8} = 3.34 \times 10^{-9}$ N, a few billionths of a newton.
+</Solution>
+</Problem>
+
+<Problem n={4} level="easy">
+Sunlight at Mars has an intensity of 586.2 W/m². What pressure does it exert on a black surface there?
+
+<Solution>
+$I/c = 586.2/2.998 \times 10^{8} = 1.96 \times 10^{-6}$ Pa.
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium" book>
+Dimitri's test released $1.8 \times 10^{9}$ J of light in one direction (Chapter 5.5). What momentum did it carry? Check with the novel's 60 000 N for 100 µs.
+
+<Solution>
+$p = E/c = 1.8 \times 10^{9}/2.998 \times 10^{8} = 6.0$ N·s. And $60\,000\ \text{N} \times 100 \times 10^{-6}\ \text{s} = 6.0$ N·s ✓.
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium">
+How large a perfect mirror, facing the Sun at 1 au, would feel a push of 1.0 mN?
+
+<Solution>
+$A = Fc/(2I) = 1.0 \times 10^{-3} \times 2.998 \times 10^{8}/(2 \times 1361) = 110\ \text{m}^{2}$, about a 10.5 m square.
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium">
+A sail is moved from Earth's distance to Venus's, where sunlight is 2601.3 W/m². By what factor does the push grow? What happens to β?
+
+<Solution>
+The push grows by $2601.3/1361 = 1.91$. So does the Sun's gravity (both go as $1/r^{2}$), so β stays exactly the same.
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium" book>
+Near the end of the trip the ship is about $1.0 \times 10^{5}$ kg (Chapter 5.6). What drive power holds it at 1.5 g, and what fuel rate does that need ($P = \dot{m}c^{2}$)?
+
+<Solution>
+$F = 1.0 \times 10^{5} \times 1.5 \times 9.81 = 1.47 \times 10^{6}$ N. $P = Fc = 1.47 \times 10^{6} \times 2.998 \times 10^{8} = 4.41 \times 10^{14}$ W. $\dot{m} = P/c^{2} = F/c = 4.9 \times 10^{-3}$ kg/s, about 4.9 g/s.
+</Solution>
+</Problem>
+
+<Problem n={9} level="challenging">
+IKAROS's sail film was 7.5 µm thick. Take its density to be about 1400 kg/m³ (typical of such plastics; our assumption). What is the film's mass per square metre, and what β would a perfect mirror of film alone have? What does that tell you about the rest of the probe?
+
+<Solution>
+$m/A = 7.5 \times 10^{-6} \times 1400 = 1.05 \times 10^{-2}$ kg/m² (10.5 g/m²). $\beta = 1.53/10.5 = 0.146$. Even the bare film is seven times too heavy to float, and the whole probe, at 310/196 = 1.58 kg/m², has β of only about 0.001. Real sails don't escape the Sun; they use the small push to slowly change their orbits.
+</Solution>
+</Problem>
+
+<Problem n={10} level="challenging" book>
+In the novel, Astrophage absorbs light as if it were bigger than it is ("super cross-sectionality"). By what factor would its effective area have to exceed its real cross-section for sunlight alone to balance the Sun's gravity (β = 1), using Example 4's model?
+
+<Solution>
+β grows in proportion to area, so the factor is $1/0.115 = 8.7$: an effective area about nine times its real cross-section.
+</Solution>
+</Problem>
+
+<Problem n={11} level="challenging" book>
+Astrophage reaches 0.92 c in the novel. Use the rocket equation (Chapter 5.7) with exhaust speed $c$ to estimate the ratio of its starting mass to its final mass, and what fraction of its mass it must turn into light. (Relativity, in Part 10, changes the answer to a mass ratio of about 4.9.)
+
+<Solution>
+$m_{0}/m_{\text{f}} = e^{\Delta v/v_{\text{e}}} = e^{0.92} = 2.51$, so it must convert $1 - 1/2.51 = 60\%$ of its mass into light. With relativity the ratio is $\sqrt{(1 + 0.92)/(1 - 0.92)} = 4.90$, so about 80% of the cell must become light: Astrophage spends most of itself to cross between stars.
+</Solution>
+</Problem>
+
+<Problem n={12} level="challenging">
+A 10 GW laser on the ground shines on a 1.0 g perfectly reflecting sail in space. Find the push, the acceleration (in m/s² and in g), and, ignoring relativity, how long it would take to reach 0.20 c.
+
+<Solution>
+$F = 2P/c = 2 \times 10^{10}/2.998 \times 10^{8} = 66.7$ N. $a = 66.7/1.0 \times 10^{-3} = 6.67 \times 10^{4}$ m/s², about 6800 g. $t = 0.20 \times 2.998 \times 10^{8}/6.67 \times 10^{4} = 899$ s, about 15 minutes. Tiny light sails pushed by enormous lasers are the one way known to reach a sizeable fraction of light speed.
+</Solution>
+</Problem>
+
+## Summary
+
+- Light carries momentum: $p = E/c$ for any light, and $p = h/\lambda$ for one photon. In the wave picture, the electric field moves charges and the magnetic field pushes the moving charges forwards with force (power absorbed)/$c$.
+- A black surface receives $p$ per photon, a mirror $2p$. Radiation pressure is $I/c$ (absorbed) or $2I/c$ (reflected): $4.5 \times 10^{-6}$ Pa for sunlight at 1 au.
+- Light's push and gravity both fall as $1/r^{2}$, so their ratio $\beta = kLA/(4\pi cGMm)$ depends only on mass per area. A mirror lighter than 1.53 g/m² would float on sunlight.
+- Solar sails like IKAROS use sunlight's push; Astrophage cells are too heavy for sunlight to blow them away (β ≈ 0.1).
+- A photon rocket gets thrust $F = P/c$: poor thrust per watt, but the fastest possible exhaust.
+
+**Formulas from this chapter**
+
+$$
+p = \frac{E}{c} = \frac{h}{\lambda} \qquad F = \frac{IA}{c}\ \text{or}\ \frac{2IA}{c} \qquad \beta = \frac{kLA}{4\pi cGMm} \qquad F = \frac{P}{c}
+$$
+
+## Sources
+
+- Momentum and radiation pressure of electromagnetic waves, $p = E/c$, $P = I/c$ and $2I/c$: OpenStax, [*University Physics Volume 2*, §16.4](https://openstax.org/books/university-physics-volume-2/pages/16-4-momentum-and-radiation-pressure). The electric field drives charges and the magnetic field pushes them forward, with force = power absorbed / c: R. P. Feynman, [*The Feynman Lectures on Physics*, Vol. I, §34-9 "The momentum of light"](https://www.feynmanlectures.caltech.edu/I_34.html).
+- Compton scattering and photon momentum $h/\lambda$: OpenStax, [*University Physics Volume 3*, §6.3](https://openstax.org/books/university-physics-volume-3/pages/6-3-the-compton-effect).
+- Nichols and Hull (1901), agreement within about 0.6%: Wikipedia, [Nichols radiometer](https://en.wikipedia.org/wiki/Nichols_radiometer). Radiation pressure and solar sails: Wikipedia, [Radiation pressure](https://en.wikipedia.org/wiki/Radiation_pressure).
+- IKAROS (launched 2010, 14 m × 14 m sail of 196 m², 7.5 µm film, 310 kg, 1.12 mN measured, about 400 m/s by August 2013): Wikipedia, [IKAROS](https://en.wikipedia.org/wiki/IKAROS).
+- Sunlight at 1 au (1361 W/m²), at Mars (586.2) and Venus (2601.3), the Sun's luminosity (3.828 × 10²⁶ W) and mass: NASA, [Sun](https://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html), [Mars](https://nssdc.gsfc.nasa.gov/planetary/factsheet/marsfact.html) and [Venus](https://nssdc.gsfc.nasa.gov/planetary/factsheet/venusfact.html) fact sheets. $G$: NIST, [CODATA](https://physics.nist.gov/cgi-bin/cuu/Value?bg).
+- The RS-25 figures and the inferred ship mass: this course, [Chapter 5.6](/part-5/thrust/). Dimitri's test: [Chapter 5.5](/part-5/momentum/). The Petrova photon: [Chapter 7.3](/part-7/photons/).
+- Astrophage travels by emitting light and reaches up to 0.92 c: readifyai reader guide, [Astrophage](https://readifyai.com/en/books/Project%20Hail%20Mary/wiki/Astrophage) (not an official source); Looper, ["What Is Astrophage From Project Hail Mary?"](https://www.looper.com/2127301/project-hail-mary-astrophage-explained).

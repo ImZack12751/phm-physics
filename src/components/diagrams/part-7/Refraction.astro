@@ -1,0 +1,49 @@
+---
+// Refraction of a light ray from air (n = 1.00) into glass (n = 1.50) at 50° from the normal. Wavefronts (crests) are drawn
+// across the ray: spacing λ in air and λ/n in glass. Snell's law: sin 50° = 1.5 sin θ₂ → θ₂ = 30.7°.
+const deg = Math.PI / 180;
+const t1 = 50 * deg, t2 = Math.asin(Math.sin(t1) / 1.5);
+const BX = 300, BY = 150; // where the ray meets the surface
+const d1 = { x: Math.sin(t1), y: Math.cos(t1) }; // direction of travel (down-right) in air
+const d2 = { x: Math.sin(t2), y: Math.cos(t2) };
+const LAM = 34;
+const inStart = { x: BX - 175 * d1.x, y: BY - 175 * d1.y };
+const outEnd = { x: BX + 150 * d2.x, y: BY + 150 * d2.y };
+const fronts1 = [1, 2, 3, 4].map((k) => {
+	const cx = BX - k * LAM * d1.x, cy = BY - k * LAM * d1.y;
+	return { x1: cx - 22 * d1.y, y1: cy + 22 * d1.x, x2: cx + 22 * d1.y, y2: cy - 22 * d1.x };
+});
+const fronts2 = [1, 2, 3, 4, 5].map((k) => {
+	const cx = BX + k * (LAM / 1.5) * d2.x, cy = BY + k * (LAM / 1.5) * d2.y;
+	return { x1: cx - 22 * d2.y, y1: cy + 22 * d2.x, x2: cx + 22 * d2.y, y2: cy - 22 * d2.x };
+});
+const arc = (r: number, a0: number, a1: number, down: boolean) => {
+	// angles measured from the normal; up-left for the incoming side, down-right for the outgoing side
+	const p = (a: number) => (down ? { x: BX + r * Math.sin(a), y: BY + r * Math.cos(a) } : { x: BX - r * Math.sin(a), y: BY - r * Math.cos(a) });
+	const s = p(a0), e = p(a1);
+	return `M${s.x.toFixed(1)},${s.y.toFixed(1)} A${r},${r} 0 0 ${down ? 0 : 0} ${e.x.toFixed(1)},${e.y.toFixed(1)}`;
+};
+const head = (x: number, y: number, ux: number, uy: number) => `${x},${y} ${x - 12 * ux + 6 * uy},${y - 12 * uy - 6 * ux} ${x - 12 * ux - 6 * uy},${y - 12 * uy + 6 * ux}`;
+---
+
+<svg class="dg" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+	<rect x="20" y={BY} width="560" height="140" class="f-sky-soft" />
+	<line x1="20" y1={BY} x2="580" y2={BY} class="s-sky w2" />
+	<text x="30" y="30" class="t-sm t-b">air, n = 1.00: light at c</text>
+	<text x="30" y={BY + 24} class="t-sm t-b">glass, n = 1.50: light at c/1.5</text>
+	<line x1={BX} y1="20" x2={BX} y2="285" class="s-muted w1 dash" />
+	<text x={BX + 6} y="34" class="t-sm f-muted">normal</text>
+	<line x1={inStart.x} y1={inStart.y} x2={BX} y2={BY} class="s-amber w3" />
+	<polygon points={head(BX - 70 * d1.x, BY - 70 * d1.y, d1.x, d1.y)} class="f-amber" />
+	<line x1={BX} y1={BY} x2={outEnd.x} y2={outEnd.y} class="s-amber w3" />
+	<polygon points={head(outEnd.x, outEnd.y, d2.x, d2.y)} class="f-amber" />
+	{fronts1.map((f) => <line {...f} class="s-fg w1" />)}
+	{fronts2.map((f) => <line {...f} class="s-fg w1" />)}
+	<path d={arc(55, 0, t1, false)} class="s-green w2" fill="none" />
+	<text x={BX - 64} y={BY - 62} class="t-sm f-green halo">θ₁ = 50°</text>
+	<path d={arc(70, 0, t2, true)} class="s-green w2" fill="none" />
+	<text x={BX + 66} y={BY + 86} class="t-sm f-green halo">θ₂ = 30.7°</text>
+	<text x="575" y="200" class="t-end t-sm">crests bunch up: λ/1.5</text>
+	<text x="575" y="218" class="t-end t-sm">the ray bends towards the normal</text>
+	<text x="575" y="90" class="t-end t-sm">crests λ apart</text>
+</svg>

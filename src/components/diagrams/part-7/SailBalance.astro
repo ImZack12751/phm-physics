@@ -1,0 +1,26 @@
+---
+// A sail at three distances from the Sun. Sunlight's push and the Sun's gravity both fall as 1/r², so their ratio β
+// is the same everywhere; drawn here for β = 0.5 (gravity arrow twice the light arrow at every distance).
+const SX = 60, SY = 150;
+const head = (x: number, y: number, ux: number, uy: number) => `${x},${y} ${x - 10 * ux + 5 * uy},${y - 10 * uy - 5 * ux} ${x - 10 * ux - 5 * uy},${y - 10 * uy + 5 * ux}`;
+const sails = [1, 1.6, 2.4].map((r) => ({ r, x: SX + 150 * r, g: 100 / (r * r) }));
+---
+
+<svg class="dg" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+	<circle cx={SX} cy={SY} r="30" class="f-amber" />
+	<text x={SX} y={SY + 52} class="t-mid t-sm">Sun</text>
+	{sails.map((s) => (
+		<>
+			<line x1={s.x} y1={SY - 34} x2={s.x} y2={SY + 34} class="s-sky w3" />
+			<line x1={s.x - 4} y1={SY - 14} x2={s.x - 4 - s.g} y2={SY - 14} class="s-violet w3" />
+			<polygon points={head(s.x - 6 - s.g, SY - 14, -1, 0)} class="f-violet" />
+			<line x1={s.x + 4} y1={SY + 14} x2={s.x + 4 + s.g / 2} y2={SY + 14} class="s-amber w3" />
+			<polygon points={head(s.x + 6 + s.g / 2, SY + 14, 1, 0)} class="f-amber" />
+			<text x={s.x} y={SY + 60} class="t-mid t-sm f-muted">r = {s.r}</text>
+		</>
+	))}
+	<text x="300" y="40" class="t-mid t-sm"><tspan class="f-violet">gravity ∝ 1/r²</tspan> and <tspan class="f-amber">light’s push ∝ 1/r²</tspan></text>
+	<text x="300" y="60" class="t-mid t-sm">so β = push ÷ gravity is the same at every distance (here β = 0.5)</text>
+	<text x="300" y="250" class="t-mid t-sm">β depends only on mass per area: β = 1 for a perfect mirror of 1.53 g/m²</text>
+	<text x="300" y="270" class="t-mid t-sm f-muted">β above 1: blown outwards; below 1: still falls towards the Sun, but more gently</text>
+</svg>

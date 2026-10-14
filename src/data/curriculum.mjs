@@ -116,11 +116,11 @@ export const parts = [
 		id: 'part-7', icon: 'λ', dir: 'part-7', code: '7', label: 'Part 7 · Waves and light',
 		blurb: 'Waves, the electromagnetic spectrum, photons and pushing a ship with light.',
 		chapters: [
-			{ slug: 'wave-properties', title: 'Wave properties', prereqs: [], status: 'planned' },
-			{ slug: 'em-spectrum', title: 'c = fλ and the EM spectrum', prereqs: [], status: 'planned' },
-			{ slug: 'photons', title: 'Photons', prereqs: [], status: 'planned' },
-			{ slug: 'photon-propulsion', title: 'The momentum of light and photon propulsion', prereqs: [], status: 'planned' },
-			{ slug: 'spectroscopy', title: 'Spectroscopy', prereqs: [], status: 'planned' },
+			{ slug: 'wave-properties', title: 'Wave properties', prereqs: ['pendulums-shm', 'centripetal-acceleration', 'trigonometry', 'vectors', 'kinetic-potential-energy', 'ratios-proportionality'], status: 'review' },
+			{ slug: 'em-spectrum', title: 'c = fλ and the EM spectrum', prereqs: ['wave-properties', 'scientific-notation', 'si-units', 'exponentials-logarithms', 'trigonometry', 'kinematics'], status: 'review' },
+			{ slug: 'photons', title: 'Photons', prereqs: ['em-spectrum', 'kinetic-potential-energy', 'power', 'scientific-notation', 'graphs', 'temperature-heat'], status: 'review' },
+			{ slug: 'photon-propulsion', title: 'The momentum of light and photon propulsion', prereqs: ['photons', 'momentum', 'thrust', 'rocket-equation', 'ratios-proportionality', 'gravitation'], status: 'review' },
+			{ slug: 'spectroscopy', title: 'Spectroscopy', prereqs: ['photons', 'em-spectrum', 'wave-properties', 'trigonometry', 'momentum', 'keplers-laws'], status: 'review' },
 		],
 	},
 	{

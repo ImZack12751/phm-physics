@@ -234,3 +234,37 @@ export const THERMAL = {
 	saharaPanels: 2e12, saharaArea: 9e12, // m² (reader guide: a quarter of the Sahara)
 	iceAgeYears: 30, // Wikipedia plot summary: ice age within thirty years
 };
+
+// Part 7 (waves and light). Checked October 2026.
+// NIST CODATA 2022: eV exact, Rydberg constant. OpenStax University Physics Vol. 1 §17.2 Table 17.1 (speeds of sound),
+// Vol. 2 §16.5 (spectrum: visible about 400–750 nm, microwave oven 2.45 GHz), Vol. 3 §1.3 (n: water 1.33, diamond 2.419),
+// Vol. 3 §6.2 Table 6.1 (work functions). Wikipedia: Speed of light (glass about 1.5), Balmer series, Fraunhofer lines,
+// Helium (D3 line, 1868), Carbon dioxide (IR bands 4.26 and 14.99 µm), IKAROS, Nichols radiometer, Tau Ceti.
+// KIT press release 029/2025 and Science 388, 180 (2025): KATRIN neutrino mass below 0.45 eV (90% CL).
+export const WAVES = {
+	eV: 1.602176634e-19, // J (exact)
+	rydberg: 10_973_731.568157, // 1/m (CODATA 2022, R∞)
+	hydrogenIonization: 13.6, // eV (rounded; hcR∞ = 13.606 eV)
+	soundAir20: 343, soundAir0: 331, soundWater: 1480, soundSeaWater: 1540, soundSteel: 5960, soundHelium: 965, // m/s
+	hearingLow: 20, hearingHigh: 20_000, // Hz
+	visibleShort: 400e-9, visibleLong: 750e-9, // m (OpenStax: about 400 to 750 nm)
+	microwaveOven: 2.45e9, // Hz
+	nWater: 1.33, nGlass: 1.5, nDiamond: 2.419,
+	// Work functions, eV (OpenStax Table 6.1)
+	phiNa: 2.46, phiAl: 4.08, phiZn: 4.31, phiFe: 4.5, phiCu: 4.7, phiAg: 4.73, phiPt: 6.35,
+	// Spectral lines (air wavelengths, m)
+	hAlpha: 656.279e-9, hBeta: 486.135e-9, hGamma: 434.0472e-9, hDelta: 410.1734e-9, balmerLimit: 364.50682e-9,
+	naD1: 589.592e-9, naD2: 588.995e-9, heD3: 587.5618e-9,
+	co2Stretch: 4.26e-6, co2Bend: 14.99e-6, // m
+	// IKAROS solar sail (JAXA, 2010)
+	ikarosArea: 196, ikarosMass: 310, ikarosForce: 1.12e-3, ikarosDv: 400, // m², kg, N, m/s by Aug 2013
+	nicholsHull: 0.006, // agreement with theory, 1901
+	katrinLimit: 0.45, // eV
+	tauCetiRV: -16.68e3, // m/s, systemic radial velocity (approaching)
+	tauCetiSignal: 0.3, // m/s, smallest planet-candidate signals (Feng 2017)
+	tauCetiE: { period: 168, a: 0.552 }, // days, au (Part 4)
+	// BOOK (fan guides: readifyai Petrova line, Petrovascope and Astrophage pages; Looper). Approximate.
+	petrova: 25.984e-6, // m, the Petrova wavelength
+	astrophageSpeed: 0.92, // fraction of c
+	co2SignatureBook: [4.26e-6, 18.31e-6], // m, the reader guide's figures for Venus's CO₂ "signature"
+};

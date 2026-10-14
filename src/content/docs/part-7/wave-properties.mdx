@@ -1,0 +1,426 @@
+---
+title: Wave properties
+description: What a wave is, transverse and longitudinal waves, wavelength, frequency and amplitude, the wave speed v = fλ, the wave equation y = A cos(kx − ωt), the speed of a wave on a string derived from circular motion, energy that grows as the amplitude squared, superposition, interference and standing waves, all built on Rocky's musical voice and the Hail Mary's centrifuge cable.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import WaveAnatomy from '../../../components/diagrams/part-7/WaveAnatomy.astro';
+import WaveTypes from '../../../components/diagrams/part-7/WaveTypes.astro';
+import StringPulse from '../../../components/diagrams/part-7/StringPulse.astro';
+import Superposition from '../../../components/diagrams/part-7/Superposition.astro';
+import WaveMachine from '../../../components/sims/WaveMachine.astro';
+
+## The scene
+
+When Grace first meets Rocky, the two of them are separated by a wall of xenonite, and Rocky has no eyes. He talks in musical notes, several at once, like chords. Grace has to learn a language made of pitches, and the sound has to cross a wall and two different atmospheres to reach him. At the same moment, far across space, Grace watches the faint infrared glow of Astrophage and of an alien ship's engines through a telescope.
+
+Sound and light are the two ways information reaches Grace in this story, and both are **waves**. Before we can understand light (the rest of Part 7) we need the ideas that every wave shares: what is moving, how fast, how often, and what happens when two waves meet.
+
+## Prerequisites
+
+<Prereqs notes={{ 'pendulums-shm': 'simple harmonic motion, x = A cos(ωt), period, frequency and ω = 2πf', 'centripetal-acceleration': 'a = v²/r, used to find the speed of a wave on a string', 'trigonometry': 'cosine graphs and the small-angle approximation', 'vectors': 'relative velocity: changing to a moving point of view', 'kinetic-potential-energy': 'the energy of a spring, ½kx²', 'ratios-proportionality': 'the inverse-square law' }} />
+
+## The concept
+
+### A disturbance that travels
+
+Flick one end of a long rope and a bump runs along it to the other end. Drop a stone in a pond and rings spread outwards. Talk, and the air near your mouth is squeezed and stretched, and the squeezes spread out to the listener's ear. Each of these is a <Term id="wave">wave</Term>: a disturbance that travels from place to place, carrying energy and information, **without carrying the material along with it**.
+
+The material the wave travels through, such as the rope, the water or the air, is called the <Term id="medium">medium</Term>. Watch a cork on a pond as ripples pass: it bobs up and down but stays where it is. Each bit of the medium only moves a little way around its rest position. What travels is the **pattern**.
+
+Picture a stadium crowd doing a "Mexican wave". Each person stands up and sits down, staying in their seat, but the wave sweeps around the stadium. That is all a wave is.
+
+### Two ways to wiggle
+
+There are two basic kinds. In a <Term id="transverse-wave">transverse wave</Term> the medium moves **across** the direction the wave travels: a wave on a rope goes sideways along the rope while each bit of rope moves up and down. In a <Term id="longitudinal-wave">longitudinal wave</Term> the medium moves **along** the direction of travel, back and forth. Sound is longitudinal: air molecules are pushed together into **compressions** and pulled apart into **rarefactions**, and these regions of high and low pressure travel outwards.
+
+<Figure caption="Two kinds of wave, drawn as rows of beads, one bead per small piece of the medium. In a transverse wave (top) the beads move up and down while the wave travels to the right. In a longitudinal wave (bottom) they move left and right, bunching into compressions and spreading into rarefactions." alt="Top row: thirty-one blue beads arranged along a cosine curve, with a red double arrow on one bead labelled up and down, and a note: a wave on a rope, a ripple on water. Bottom row: thirty-one orange beads on a straight line, bunched together in some places labelled compression and spread apart in others labelled rarefaction, with a note: a sound wave in air. An arrow at the bottom left shows the direction of travel, to the right.">
+	<WaveTypes />
+</Figure>
+
+Rocky's chords are longitudinal pressure waves. So is any sound that crosses the xenonite wall between him and Grace: the wall's own molecules are squeezed and stretched, and they pass the squeeze on. Part 11 is all about sound. Light, as Chapter 7.2 shows, is a transverse wave that needs no medium at all.
+
+### Wavelength, amplitude, period and frequency
+
+Freeze a wave on a rope at one instant and it looks like a cosine graph. The high points are **crests** and the low points are **troughs**.
+
+- The <Term id="wavelength">wavelength</Term> $\lambda$ (Greek "lambda") is the distance from one crest to the next, or between any two neighbouring points that are doing the same thing. It is measured in metres.
+- The <Term id="amplitude">amplitude</Term> $A$ is the greatest distance any piece of the medium moves from its rest position.
+
+<Figure caption="A snapshot of a travelling wave. The wavelength is the length of one full repeat of the pattern; the amplitude is the height of a crest above the rest position. The red piece of rope only moves up and down, while the whole pattern slides to the right." alt="A blue cosine wave drawn across the width, two and a half wavelengths long, around a dashed horizontal line labelled rest position. An orange bracket above spans two crests and is labelled wavelength lambda, crest to crest. A green vertical line from the rest line down to the bottom of a trough is labelled amplitude A. A crest and a trough are labelled. A red dot sits on the rest line with arrows pointing up and down; a note says the red dot, a piece of the rope, only moves up and down. An arrow at the bottom says the wave pattern moves at speed v.">
+	<WaveAnatomy />
+</Figure>
+
+Now watch one piece of rope over time instead. It moves up and down in **simple harmonic motion**, exactly like the mass on a spring in Chapter 2.4. So the ideas from that chapter carry straight over:
+
+- The <Term id="period">period</Term> $T$ is the time for one full up-and-down cycle.
+- The <Term id="frequency">frequency</Term> $f = 1/T$ is the number of cycles per second, in <Term id="hertz">hertz</Term>. It is also the number of crests that pass a fixed point each second.
+
+People hear sound waves with frequencies from about 20 Hz to 20 000 Hz. Higher frequency sounds higher-pitched. Rocky's chords are several frequencies at once.
+
+### The wave speed
+
+The pattern moves at the <Term id="wave-speed">wave speed</Term> $v$. How is it connected to $f$ and $\lambda$? In one period $T$, each piece of rope completes one cycle, and in that time the pattern moves forward by exactly one wavelength: the crest that was here has been replaced by the next one. Speed is distance over time, so
+
+$$
+v = \frac{\lambda}{T} = f\lambda.
+$$
+
+This is the most-used formula in this part of the course. Sound in air at 20 °C travels at about $343\ \text{m/s}$. A 343 Hz note therefore has a wavelength of exactly 1 m, and a 20 000 Hz squeak a wavelength of under 2 cm.
+
+Two facts make $v = f\lambda$ powerful:
+
+- **The speed is set by the medium**, not by the source. Every sound in the same air travels at the same speed, whatever its pitch. (If high notes travelled faster than low ones, music heard from far away would arrive scrambled.)
+- **The frequency is set by the source** and doesn't change when the wave enters a new medium. The rate of wiggling at a boundary has to match on both sides, or the boundary would tear. So when a wave moves into a medium where it travels faster, its wavelength gets longer in proportion.
+
+Sound in water travels at about $1480\ \text{m/s}$, more than four times faster than in air, so Rocky's chords would have wavelengths more than four times longer under water, at the same pitch.
+
+### What sets the speed: a wave on a string
+
+Why does a wave go faster on a tight string than on a slack one? Think about what makes the pattern move. A bent piece of string is pulled back towards straight by the tension, and it overshoots because it has inertia. More tension means a stronger pull back and a faster wave. More mass per metre means more inertia and a slower wave. The Formulas section turns this into an exact result using circular motion:
+
+$$
+v = \sqrt{\frac{F_{\text{T}}}{\mu}},
+$$
+
+where $F_{\text{T}}$ is the tension (we add the subscript so it isn't confused with the period $T$) and $\mu$ (Greek "mu") is the mass per metre of the string, in kg/m. Every kind of wave follows the same idea: the speed is set by how stiffly the medium springs back against how much inertia it has.
+
+### Waves carry energy
+
+Each piece of the medium is a little oscillator, and an oscillator's energy is $\tfrac{1}{2}kA^{2}$ (Chapter 5.2). Double the amplitude and each piece carries **four times** the energy. So the power a wave carries is proportional to the **square** of its amplitude:
+
+$$
+P \propto A^{2}.
+$$
+
+A wave spreading out in all directions from a small source shares its power over a sphere of area $4\pi r^{2}$, so its <Term id="intensity">intensity</Term> (power per square metre) falls as $1/r^{2}$, the inverse-square law of Chapter 0.5. Since intensity goes as $A^{2}$, the amplitude itself falls as $1/r$.
+
+### When waves meet: superposition
+
+Two waves can pass through the same place at the same time. Where they overlap, the medium's displacement is simply the **sum** of the two displacements. This is the <Term id="superposition">principle of superposition</Term>. After they've passed, each wave carries on as if the other had never been there. (You can hear two people talking at once, and their voices don't bounce off each other.)
+
+When two waves of the same frequency overlap, their sum depends on how they line up, and this is called <Term id="interference">interference</Term>:
+
+- If crest meets crest and trough meets trough (the waves are **in step**), they add up to a wave of double the amplitude. This is **constructive interference**.
+- If crest meets trough (the waves are **half a wavelength out of step**), they cancel. This is **destructive interference**.
+
+<Figure caption="Superposition of two equal waves. In step, the sum has twice the amplitude. Shifted by half a wavelength, every crest of one meets a trough of the other and the sum is zero everywhere." alt="Two panels stacked. Top panel, labelled in step, crest meets crest: a blue wave and an orange dashed wave lie exactly on top of each other, and a bold green wave of twice the height is their sum; labelled constructive, amplitude 2 A. Bottom panel, labelled out of step by lambda over 2, crest meets trough: the blue and orange dashed waves are mirror images, and the green sum is a flat line; labelled destructive, they cancel. A key: wave 1 plus wave 2 equals sum.">
+	<Superposition />
+</Figure>
+
+Which happens depends on the **path difference**: how much farther one wave has travelled than the other to reach the spot. A path difference of a whole number of wavelengths ($0, \lambda, 2\lambda, \dots$) puts the waves back in step. A path difference of half a wavelength more than that ($\tfrac{1}{2}\lambda, \tfrac{3}{2}\lambda, \dots$) puts them out of step. Interference is how noise-cancelling headphones work, and in Chapter 7.5 it is how a grating spreads starlight into a spectrum.
+
+### Standing waves
+
+Send a wave down a rope tied to a wall, and it reflects back. The outgoing and returning waves overlap and superpose. At certain points they always cancel: those points never move at all and are called **nodes**. Halfway between the nodes the rope swings with double amplitude. The pattern no longer seems to travel; it just throbs in place. This is a <Term id="standing-wave">standing wave</Term>, and the nodes are always half a wavelength apart. Guitar strings and organ pipes use standing waves to sing particular notes, which Part 11 explores.
+
+## Formulas
+
+### The wave speed
+
+In one period $T$ the pattern advances by one wavelength $\lambda$:
+
+$$
+v = \frac{\text{distance}}{\text{time}} = \frac{\lambda}{T}, \qquad f = \frac{1}{T} \qquad\Rightarrow\qquad \boxed{v = f\lambda}
+$$
+
+Rearranged: $\lambda = v/f$ and $f = v/\lambda$.
+
+### The equation of a travelling wave
+
+Start with a snapshot of the rope at time $t = 0$: a cosine with wavelength $\lambda$,
+
+$$
+y(x, 0) = A\cos\left(\frac{2\pi x}{\lambda}\right).
+$$
+
+The cosine repeats every time its angle grows by $2\pi$, which happens every time $x$ grows by $\lambda$, as it should. Write $k = 2\pi/\lambda$, the <Term id="wavenumber">wavenumber</Term>, in radians per metre.
+
+Now let the pattern slide to the right at speed $v$. After a time $t$, the crest that was at $x = 0$ is at $x = vt$, and the whole shape has moved over by $vt$. Shifting a graph to the right by $vt$ means replacing $x$ by $x - vt$:
+
+$$
+y(x, t) = A\cos\big(k(x - vt)\big) = A\cos(kx - kvt).
+$$
+
+And $kv = \dfrac{2\pi}{\lambda} \times f\lambda = 2\pi f = \omega$, the angular frequency of Chapter 2.4. So
+
+$$
+\boxed{y(x, t) = A\cos(kx - \omega t)} \qquad k = \frac{2\pi}{\lambda} \qquad \omega = 2\pi f \qquad v = \frac{\omega}{k}
+$$
+
+Check: at a fixed place, say $x = 0$, this is $y = A\cos(-\omega t) = A\cos(\omega t)$, which is simple harmonic motion, as each piece of rope should do. A wave moving to the **left** has $kx + \omega t$ instead. The angle $kx - \omega t$ is called the wave's <Term id="phase">phase</Term>.
+
+The up-and-down velocity of one piece of rope is $\dfrac{dy}{dt} = A\omega\sin(kx - \omega t)$ (Chapter C.3), with a top speed of $A\omega$. That is **not** the wave speed: one is how fast the rope moves, the other how fast the pattern moves.
+
+### The speed of a wave on a string
+
+Send a single bump along a string at speed $v$, and ride along with it (Chapter 0.7's change of viewpoint). From the bump's point of view, the bump stands still and the string streams through it at speed $v$, from right to left.
+
+Look at a short piece right at the top of the bump. Its curve is close to an arc of a circle of radius $R$, spanning a small angle $2\theta$, so its length is $2R\theta$ (arc length, Chapter 0.6) and its mass is $2\mu R\theta$. This piece is moving at speed $v$ around a circle, so something must give it a centripetal force $mv^{2}/R$ towards the centre (Chapter 3.2).
+
+<Figure caption="Riding along with a pulse on a string. The string flows over the rounded top at speed v. A short piece at the top, an arc of radius R, is pulled by the tension at both ends. The two pulls are tilted down by θ, so together they give a net pull of 2T sin θ towards the centre of the circle: exactly the centripetal force the piece needs." alt="A large grey arc, part of a circle whose centre lies below the picture. The top part of the arc is highlighted orange and labelled piece of length 2 R theta, mass 2 mu R theta. Two dashed radii from the centre to the ends of the piece make an angle labelled 2 theta, and one is labelled R. Blue arrows at each end of the piece point outwards and slightly down along the arc, each labelled T. A red arrow points down from the top towards the centre, labelled net pull 2 T sine theta. At the top left an arrow shows the string flows at speed v; a note says seen riding along with the pulse.">
+	<StringPulse />
+</Figure>
+
+The tension pulls along the string at each end of the piece. Each pull is tilted by the angle $\theta$ below the horizontal. Their horizontal parts cancel, and their downward parts add up to $2F_{\text{T}}\sin\theta \approx 2F_{\text{T}}\theta$ for a small angle (Chapter 0.6). This net pull is the centripetal force:
+
+$$
+2F_{\text{T}}\theta = \frac{(2\mu R\theta)\,v^{2}}{R} = 2\mu\theta\,v^{2}
+$$
+
+The $2\theta$ cancels, and so, remarkably, does $R$: the answer doesn't depend on the shape of the bump.
+
+$$
+F_{\text{T}} = \mu v^{2} \qquad\Rightarrow\qquad \boxed{v = \sqrt{\frac{F_{\text{T}}}{\mu}}}
+$$
+
+Units check: $\sqrt{\text{N}/(\text{kg/m})} = \sqrt{\text{kg·m/s}^{2} \times \text{m/kg}} = \sqrt{\text{m}^{2}/\text{s}^{2}} = \text{m/s}$ ✓.
+
+### Energy and amplitude
+
+A piece of the medium of mass $m$ moves in simple harmonic motion, which behaves like a spring with $k = m\omega^{2}$ (Chapter 2.4). Its energy is $\tfrac{1}{2}kA^{2}$ (Chapter 5.2):
+
+$$
+E = \tfrac{1}{2}m\omega^{2}A^{2} \qquad\Rightarrow\qquad \boxed{P \propto A^{2}\ \text{(at a fixed frequency)}}
+$$
+
+For a wave spreading from a small source, $I = P/(4\pi r^{2})$ and $I \propto A^{2}$, so $A \propto 1/r$.
+
+### Interference and standing waves
+
+Two equal waves meeting with a path difference $\Delta$:
+
+$$
+\boxed{\text{constructive: } \Delta = m\lambda \qquad \text{destructive: } \Delta = \left(m + \tfrac{1}{2}\right)\lambda} \qquad m = 0, 1, 2, \dots
+$$
+
+Two equal waves travelling in opposite directions add up (using the cosine addition rule) to
+
+$$
+A\cos(kx - \omega t) + A\cos(kx + \omega t) = 2A\cos(kx)\cos(\omega t),
+$$
+
+a shape $2A\cos(kx)$ that just grows and shrinks in time. It is zero for all time wherever $\cos(kx) = 0$, at $kx = \tfrac{\pi}{2}, \tfrac{3\pi}{2}, \dots$, which are spaced $\pi/k = \lambda/2$ apart:
+
+$$
+\boxed{\text{node spacing} = \frac{\lambda}{2}}
+$$
+
+## Worked examples
+
+<Example n={1} title="Rocky's note" book>
+Suppose one of the notes in Rocky's chords has a frequency of 440 Hz (our choice: the novel doesn't give his pitches). What is its period, and its wavelength in Grace's air at 20 °C?
+
+$$
+T = \frac{1}{f} = \frac{1}{440\ \text{Hz}} = 2.27 \times 10^{-3}\ \text{s} = 2.27\ \text{ms}
+$$
+
+$$
+\lambda = \frac{v}{f} = \frac{343\ \text{m/s}}{440\ \text{Hz}} = 0.780\ \text{m}
+$$
+
+The crests of this note are 78 cm apart. In the denser, hotter ammonia air on Rocky's side of the wall, sound travels at a different speed, so the same note has a different wavelength there, but still the same 440 Hz: the frequency is set by Rocky, not by the air.
+</Example>
+
+<Example n={2} title="Plucking the centrifuge cable" book>
+Part 3's model centrifuge hangs the crew section on cables 104 m long, with a tension of $1.96 \times 10^{6}$ N (Chapter 3.3). Suppose the cable has a mass of 10 kg per metre (our assumption). If something jolts one end, how fast does the kink run along it, and how long does it take to reach the other end?
+
+$$
+v = \sqrt{\frac{F_{\text{T}}}{\mu}} = \sqrt{\frac{1.96 \times 10^{6}\ \text{N}}{10\ \text{kg/m}}} = \sqrt{1.96 \times 10^{5}\ \text{m}^{2}/\text{s}^{2}} = 443\ \text{m/s}
+$$
+
+$$
+t = \frac{104\ \text{m}}{443\ \text{m/s}} = 0.235\ \text{s}
+$$
+
+A jolt crosses the cable in under a quarter of a second, faster than sound in air, because the cable is so tight. Engineers have to think about this: a wave that reflects back and forth in under half a second could build up if the ship's motion jolted the cable at the same rhythm.
+</Example>
+
+<Example n={3} title="Reading a wave equation">
+A wave on a rope is described by $y = (0.020\ \text{m})\cos\big((3.0\ \text{rad/m})x - (12\ \text{rad/s})t\big)$. Find its amplitude, wavelength, frequency, speed and direction, and the top speed of a piece of rope.
+
+Matching with $y = A\cos(kx - \omega t)$: $A = 0.020$ m, $k = 3.0$ rad/m, $\omega = 12$ rad/s.
+
+$$
+\lambda = \frac{2\pi}{k} = \frac{2\pi}{3.0\ \text{rad/m}} = 2.09\ \text{m} \qquad f = \frac{\omega}{2\pi} = \frac{12\ \text{rad/s}}{2\pi} = 1.91\ \text{Hz}
+$$
+
+$$
+v = \frac{\omega}{k} = \frac{12\ \text{rad/s}}{3.0\ \text{rad/m}} = 4.0\ \text{m/s}, \text{ to the right (the sign is } kx - \omega t\text{)}
+$$
+
+$$
+v_{\text{rope, max}} = A\omega = 0.020\ \text{m} \times 12\ \text{rad/s} = 0.24\ \text{m/s}
+$$
+
+The pattern moves at 4.0 m/s, but no piece of rope ever moves faster than 0.24 m/s. Check: $f\lambda = 1.91 \times 2.09 = 4.0$ m/s ✓.
+</Example>
+
+<Example n={4} title="A quiet spot">
+Two loudspeakers play the same 686 Hz note in step. You stand 3.00 m from one and 3.25 m from the other. Is it loud or quiet where you are?
+
+$$
+\lambda = \frac{343\ \text{m/s}}{686\ \text{Hz}} = 0.500\ \text{m} \qquad \Delta = 3.25\ \text{m} - 3.00\ \text{m} = 0.25\ \text{m} = \tfrac{1}{2}\lambda
+$$
+
+Half a wavelength: the crests from one speaker arrive with the troughs from the other, and they cancel. It is quiet (in a real room, not perfectly silent, because echoes from the walls also arrive). Step sideways until the path difference is 0.50 m, one whole wavelength, and it is loud again.
+</Example>
+
+<Example n={5} title="Turning up the volume" book>
+Rocky speaks twice as loudly, doubling the amplitude of his sound wave. By what factor does the power carried increase? And if Grace then moves from 1.0 m to 3.0 m away, what happens to the amplitude she hears?
+
+$$
+\frac{P_{2}}{P_{1}} = \left(\frac{A_{2}}{A_{1}}\right)^{2} = 2^{2} = 4
+$$
+
+$$
+\frac{A_{\text{far}}}{A_{\text{near}}} = \frac{r_{\text{near}}}{r_{\text{far}}} = \frac{1.0\ \text{m}}{3.0\ \text{m}} = \frac{1}{3}
+$$
+
+Four times the power; and three times the distance cuts the amplitude to a third and the intensity to a ninth. (This ignores the wall between them, which reflects much of the sound.)
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** Everything in this chapter is standard wave physics (OpenStax University Physics Vol. 1, chapter 16): transverse and longitudinal waves, $v = f\lambda$, $y = A\cos(kx - \omega t)$, $v = \sqrt{F_{\text{T}}/\mu}$ for a string, power proportional to amplitude squared, superposition, interference and standing waves. The speeds of sound (343 m/s in air at 20 °C, 1480 m/s in fresh water) and the hearing range of about 20 Hz to 20 kHz are from OpenStax.
+
+**Weir's inventions.** Rocky's chord-based language is the novel's invention, and a lovely one: a language of several pitches at once is physically possible for a creature with several sound-making organs. The novel doesn't give his frequencies, so the 440 Hz note is our choice, as are the cable's 10 kg/m.
+
+**How realistic are the numbers?** Sound does cross solid walls, though a thick, stiff wall between two very different gases reflects most of it, so Grace and Rocky would hear each other faintly. A 443 m/s kink on a cable under nearly two million newtons of tension is a sensible engineering figure.
+</RealVsBook>
+
+## Interactive simulation
+
+<WaveMachine />
+
+Things to try: watch the red dot and convince yourself it never moves sideways. Halve the wavelength and see the speed halve. Add a second wave in the same direction and shift it by 0.5 λ to cancel it, then by 1.0 λ to double it. Switch to "opposite direction" and look for the nodes, half a wavelength apart.
+
+## Practice set
+
+<Problem n={1} level="easy">
+Is each of these transverse or longitudinal? (a) a ripple on a pond (b) the sound of Rocky's voice (c) a wave sent along a rope by shaking one end sideways.
+
+<Solution>
+(a) Transverse: the water moves up and down while the ripple moves outwards. (Real water waves also move the water a little back and forth, but up and down is the main motion.) (b) Longitudinal: air is squeezed and stretched along the direction of travel. (c) Transverse.
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy">
+A wave has a frequency of 5.0 Hz and a wavelength of 0.40 m. What is its speed?
+
+<Solution>
+$v = f\lambda = 5.0\ \text{Hz} \times 0.40\ \text{m} = 2.0\ \text{m/s}$.
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy">
+What is the period of a 250 Hz sound?
+
+<Solution>
+$T = 1/f = 1/250\ \text{Hz} = 0.0040\ \text{s} = 4.0\ \text{ms}$.
+</Solution>
+</Problem>
+
+<Problem n={4} level="easy">
+People hear from about 20 Hz to 20 000 Hz. What range of wavelengths is that in air at 20 °C?
+
+<Solution>
+$\lambda = 343/20 = 17.2$ m down to $\lambda = 343/20\,000 = 0.0172$ m $= 1.72$ cm. Audible sound spans wavelengths from the size of a building to the width of a finger.
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium" book>
+The 440 Hz note of Example 1 enters water, where sound travels at 1480 m/s. What are its frequency and wavelength in the water?
+
+<Solution>
+The frequency stays 440 Hz (it is set by the source). $\lambda = 1480/440 = 3.36$ m, more than four times its 0.780 m in air.
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium">
+A wave is given by $y = (0.05\ \text{m})\cos\big((0.50\ \text{rad/m})x - (4.0\ \text{rad/s})t\big)$. Find its wavelength, frequency and speed.
+
+<Solution>
+$\lambda = 2\pi/0.50 = 12.6$ m. $f = 4.0/2\pi = 0.637$ Hz. $v = \omega/k = 4.0/0.50 = 8.0$ m/s (check: $0.637 \times 12.6 = 8.0$ ✓).
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium">
+A string with a mass of 0.010 kg per metre is stretched with a tension of 100 N. (a) How fast do waves travel on it? (b) By what factor must the tension change to double the wave speed?
+
+<Solution>
+(a) $v = \sqrt{100/0.010} = \sqrt{10\,000} = 100$ m/s. (b) $v \propto \sqrt{F_{\text{T}}}$, so doubling $v$ needs four times the tension, 400 N.
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium" book>
+If the centrifuge cable of Example 2 were four times heavier, 40 kg/m, at the same tension, how fast would a kink travel, and how long would it take to cross 104 m?
+
+<Solution>
+$v = \sqrt{1.96 \times 10^{6}/40} = 221$ m/s, half as fast (four times the inertia, $v \propto 1/\sqrt{\mu}$). $t = 104/221 = 0.47$ s.
+</Solution>
+</Problem>
+
+<Problem n={9} level="medium">
+Two pulses on a rope approach each other: one is a 3 cm bump upwards, the other a 3 cm dip downwards, with the same shape. At the instant they exactly overlap, the rope is perfectly straight. Where has the energy gone? What happens next?
+
+<Solution>
+At that instant the displacements cancel, so there is no stretching energy, but the rope is moving fast up and down there (one half moving up, the other down), so all the energy is kinetic. A moment later the pulses reappear and carry on, each as if the other had never been there.
+</Solution>
+</Problem>
+
+<Problem n={10} level="challenging">
+A standing wave on a string vibrating at 200 Hz has nodes 0.35 m apart. What are the wavelength and the speed of the waves on the string?
+
+<Solution>
+Nodes are $\lambda/2$ apart, so $\lambda = 0.70$ m and $v = f\lambda = 200 \times 0.70 = 140$ m/s.
+</Solution>
+</Problem>
+
+<Problem n={11} level="challenging">
+Two loudspeakers play the same note in step. A listener's distances from them differ by 0.40 m. What is the lowest frequency for which the listener is at a quiet spot? (Sound at 343 m/s.)
+
+<Solution>
+The smallest destructive path difference is $\tfrac{1}{2}\lambda$, so the largest wavelength that is quiet there is $\lambda = 2 \times 0.40 = 0.80$ m, giving the lowest frequency $f = 343/0.80 = 429$ Hz.
+</Solution>
+</Problem>
+
+<Problem n={12} level="challenging">
+Show that the ratio of a piece of rope's top speed to the wave speed is $Ak$, and find it for the wave in Example 3. What does a small value tell you about the shape of the wave?
+
+<Solution>
+$\dfrac{A\omega}{\omega/k} = Ak = 2\pi A/\lambda$. For Example 3, $Ak = 0.020 \times 3.0 = 0.060$. It is small when the amplitude is small compared with the wavelength: a gentle, shallow wave, which is exactly when the small-angle steps in the string derivation are accurate.
+</Solution>
+</Problem>
+
+<Problem n={13} level="challenging" book>
+Rocky's voice carries 4 times the power when he shouts. Grace stands 1.5 m from him normally. How far away could she stand to hear his shout with the same amplitude as his normal voice at 1.5 m?
+
+<Solution>
+Intensity $\propto P/r^{2}$, and the same amplitude means the same intensity. $4P/r^{2} = P/1.5^{2}$ gives $r = 1.5 \times \sqrt{4} = 3.0$ m. (Equivalently, the shout's amplitude is 2 times larger, and amplitude falls as $1/r$.)
+</Solution>
+</Problem>
+
+## Summary
+
+- A wave is a travelling disturbance that carries energy and information, not material. Transverse waves move the medium across the direction of travel; longitudinal waves (like sound) move it along.
+- Wavelength $\lambda$ is crest to crest, amplitude $A$ is the biggest displacement, period $T$ is the time for one cycle, and frequency $f = 1/T$.
+- In one period the pattern advances one wavelength, so $v = f\lambda$. The medium sets the speed; the source sets the frequency.
+- A travelling wave is $y = A\cos(kx - \omega t)$ with $k = 2\pi/\lambda$, $\omega = 2\pi f$ and $v = \omega/k$. Each piece of the medium does simple harmonic motion.
+- On a string, $v = \sqrt{F_{\text{T}}/\mu}$, derived from circular motion. Power goes as $A^{2}$.
+- Waves superpose: path differences of $m\lambda$ interfere constructively, $(m + \tfrac{1}{2})\lambda$ destructively. Opposite waves make standing waves with nodes $\lambda/2$ apart.
+
+**Formulas from this chapter**
+
+$$
+v = f\lambda \qquad y = A\cos(kx - \omega t),\ \ k = \frac{2\pi}{\lambda},\ \ \omega = 2\pi f \qquad v = \sqrt{\frac{F_{\text{T}}}{\mu}} \qquad P \propto A^{2} \qquad \Delta = m\lambda \text{ or } \left(m + \tfrac{1}{2}\right)\lambda
+$$
+
+## Sources
+
+- Waves, transverse and longitudinal; $v = f\lambda$; the wave function; the speed of a wave on a string; energy and power in waves; interference and standing waves: OpenStax, [*University Physics Volume 1*, chapter 16 "Waves"](https://openstax.org/books/university-physics-volume-1/pages/16-introduction).
+- Speeds of sound (343 m/s in air at 20 °C; 1480 m/s in fresh water, Table 17.1) and the hearing range of about 20 Hz to 20 kHz: OpenStax, [*University Physics Volume 1*, §17.2 "Speed of Sound"](https://openstax.org/books/university-physics-volume-1/pages/17-2-speed-of-sound).
+- Rocky communicates in musical chords, and Grace learns the language by ear: LitCharts, [*Project Hail Mary*: Rocky](https://www.litcharts.com/lit/project-hail-mary/characters/rocky). Rocky is eyeless, and Grace builds a system to communicate with him: Wikipedia, [*Project Hail Mary*](https://en.wikipedia.org/wiki/Project_Hail_Mary).
+- Rocky's side of the wall holds Erid's hot, dense ammonia air: /Film, ["Project Hail Mary: Why Rocky and Grace can't be in the same space"](https://slashfilm.com/2125069/project-hail-mary-why-rocky-grace-not-same-space).
+- The model centrifuge cable (104 m, tension $1.96 \times 10^{6}$ N): this course, [Chapter 3.3](/part-3/spin-gravity/).

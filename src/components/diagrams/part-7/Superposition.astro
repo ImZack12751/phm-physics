@@ -1,0 +1,30 @@
+---
+// Superposition of two equal waves. Top: in step (path difference 0, λ, 2λ …) → amplitude doubles.
+// Bottom: half a wavelength out of step (path difference λ/2, 3λ/2 …) → they cancel.
+const L = 150, R = 570, LAM = 140, A = 22;
+const wave = (y0: number, amp: number, shift: number) =>
+	Array.from({ length: 200 }, (_, i) => {
+		const x = L + ((R - L) * i) / 199;
+		return `${x.toFixed(1)},${(y0 - amp * Math.cos((2 * Math.PI * (x - L)) / LAM + shift)).toFixed(1)}`;
+	}).join(' ');
+const Y1 = 80, Y2 = 220;
+---
+
+<svg class="dg" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+	<text x="20" y={Y1 - 30} class="t-sm t-b">in step</text>
+	<text x="20" y={Y1 - 12} class="t-sm f-muted">crest meets crest</text>
+	<text x="20" y={Y1 + 6} class="t-sm f-green">constructive:</text>
+	<text x="20" y={Y1 + 24} class="t-sm f-green">amplitude 2A</text>
+	<line x1={L} y1={Y1} x2={R} y2={Y1} class="s-grid w1" />
+	<polyline points={wave(Y1, A, 0)} class="s-sky w2" fill="none" />
+	<polyline points={wave(Y1, A, 0)} class="s-amber w2 dash" fill="none" />
+	<polyline points={wave(Y1, 2 * A, 0)} class="s-green w3" fill="none" />
+	<text x="20" y={Y2 - 30} class="t-sm t-b">out of step by λ/2</text>
+	<text x="20" y={Y2 - 12} class="t-sm f-muted">crest meets trough</text>
+	<text x="20" y={Y2 + 6} class="t-sm f-green">destructive:</text>
+	<text x="20" y={Y2 + 24} class="t-sm f-green">they cancel</text>
+	<polyline points={wave(Y2, A, 0)} class="s-sky w2" fill="none" />
+	<polyline points={wave(Y2, A, Math.PI)} class="s-amber w2 dash" fill="none" />
+	<line x1={L} y1={Y2} x2={R} y2={Y2} class="s-green w3" />
+	<text x={R} y="292" class="t-end t-sm"><tspan class="f-sky">wave 1</tspan> + <tspan class="f-amber">wave 2</tspan> = <tspan class="f-green">sum</tspan></text>
+</svg>

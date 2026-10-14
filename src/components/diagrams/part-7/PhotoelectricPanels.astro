@@ -1,0 +1,60 @@
+---
+// The photoelectric puzzle on sodium (work function 2.46 eV, OpenStax Table 6.1).
+// Left: bright red light (700 nm, 1.77 eV per photon): many photons, no electrons. Right: dim violet light (400 nm, 3.10 eV): few photons, electrons out with up to 0.64 eV.
+const squig = (x0: number, y0: number, ang: number, len: number, waves: number) => {
+	const ux = Math.cos(ang), uy = Math.sin(ang), nx = -uy, ny = ux;
+	return Array.from({ length: 41 }, (_, i) => {
+		const s = (len * i) / 40, w = 5 * Math.sin((2 * Math.PI * waves * i) / 40);
+		return `${(x0 + ux * s + nx * w).toFixed(1)},${(y0 + uy * s + ny * w).toFixed(1)}`;
+	}).join(' ');
+};
+const ang = (60 * Math.PI) / 180;
+const PY = 200; // plate top
+const left = [50, 90, 130, 170, 70, 110, 150].map((x, i) => ({ x, y: 50 + (i % 3) * 22 }));
+const right = [370, 450].map((x, i) => ({ x, y: 60 + i * 30 }));
+const end = (p: { x: number; y: number }, len: number) => ({ x: p.x + Math.cos(ang) * len, y: p.y + Math.sin(ang) * len });
+const head = (x: number, y: number, ux: number, uy: number, cls: string) => ({ points: `${x},${y} ${x - 10 * ux + 5 * uy},${y - 10 * uy - 5 * ux} ${x - 10 * ux - 5 * uy},${y - 10 * uy + 5 * ux}`, class: cls });
+const ux = Math.cos(ang), uy = Math.sin(ang);
+const elec = [[445, 190, 392, 132], [512, 190, 562, 132]];
+---
+
+<svg class="dg" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+	<text x="150" y="22" class="t-mid t-sm t-b">bright red light, 700 nm</text>
+	<text x="450" y="22" class="t-mid t-sm t-b">dim violet light, 400 nm</text>
+	<line x1="300" y1="10" x2="300" y2="290" class="s-grid w1 dash" />
+	{left.map((p) => {
+		const len = (PY - 6 - p.y) / uy;
+		const e = end(p, len);
+		return (
+			<>
+				<polyline points={squig(p.x, p.y, ang, len - 8, 3)} class="s-rose w2" fill="none" />
+				<polygon {...head(e.x, e.y, ux, uy, 'f-rose')} />
+			</>
+		);
+	})}
+	{right.map((p) => {
+		const len = (PY - 6 - p.y) / uy;
+		const e = end(p, len);
+		return (
+			<>
+				<polyline points={squig(p.x, p.y, ang, len - 8, 6)} class="s-violet w2" fill="none" />
+				<polygon {...head(e.x, e.y, ux, uy, 'f-violet')} />
+			</>
+		);
+	})}
+	<rect x="30" y={PY} width="250" height="26" class="f-muted" fill-opacity="0.35" />
+	<rect x="330" y={PY} width="250" height="26" class="f-muted" fill-opacity="0.35" />
+	<text x="155" y={PY + 18} class="t-mid t-sm halo">sodium, φ = 2.46 eV</text>
+	<text x="455" y={PY + 18} class="t-mid t-sm halo">sodium, φ = 2.46 eV</text>
+	{elec.map(([x1, y1, x2, y2]) => (
+		<>
+			<line x1={x1} y1={y1} x2={x2} y2={y2} class="s-sky w2" />
+			<circle cx={x2} cy={y2} r="6" class="f-sky" />
+		</>
+	))}
+	<text x="555" y="112" class="t-end t-sm f-sky">electrons out</text>
+	<text x="150" y="252" class="t-mid t-sm">each photon 1.77 eV: too little</text>
+	<text x="150" y="272" class="t-mid t-sm f-rose">no electrons, however bright</text>
+	<text x="450" y="252" class="t-mid t-sm">each photon 3.10 eV: enough</text>
+	<text x="450" y="272" class="t-mid t-sm f-sky">electrons out at once, up to 0.64 eV</text>
+</svg>

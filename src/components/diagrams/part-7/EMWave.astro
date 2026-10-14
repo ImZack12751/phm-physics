@@ -1,0 +1,31 @@
+---
+// An electromagnetic wave drawn in perspective: the electric field (vertical, amber) and magnetic field
+// (horizontal, drawn slanted to suggest depth, sky) oscillate in step, at right angles to each other and to the direction of travel.
+const L = 70, R = 540, Y0 = 150, A = 75, LAM = 235;
+const dx = 0.55, dy = 0.42; // screen direction of the "into the page" axis, scaled
+const N = 160;
+const xs = Array.from({ length: N + 1 }, (_, i) => L + ((R - L) * i) / N);
+const s = (x: number) => Math.sin((2 * Math.PI * (x - L)) / LAM);
+const E = xs.map((x) => `${x.toFixed(1)},${(Y0 - A * s(x)).toFixed(1)}`).join(' ');
+const B = xs.map((x) => `${(x - dx * 0.8 * A * s(x)).toFixed(1)},${(Y0 + dy * 0.8 * A * s(x)).toFixed(1)}`).join(' ');
+// a few field arrows (stems) for E and B
+const stems = [0.25, 0.75, 1.25, 1.75].map((k) => L + k * LAM).filter((x) => x < R);
+---
+
+<svg class="dg" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+	<line x1={L - 20} y1={Y0} x2={R + 30} y2={Y0} class="s-fg w1" />
+	<polygon points={`${R + 42},${Y0} ${R + 30},${Y0 - 6} ${R + 30},${Y0 + 6}`} class="f-fg" />
+	<text x={R + 42} y={Y0 + 40} class="t-end t-sm">travel, at c</text>
+	{stems.map((x) => <line x1={x} y1={Y0} x2={x} y2={Y0 - A * s(x)} class="s-amber w1" stroke-opacity="0.6" />)}
+	{stems.map((x) => <line x1={x} y1={Y0} x2={x - dx * 0.8 * A * s(x)} y2={Y0 + dy * 0.8 * A * s(x)} class="s-sky w1" stroke-opacity="0.6" />)}
+	<polyline points={E} class="s-amber w3" fill="none" />
+	<polyline points={B} class="s-sky w3" fill="none" />
+	<text x={L + 0.25 * LAM} y={Y0 - A - 12} class="t-mid t-sm f-amber">electric field</text>
+	<text x={L + 0.25 * LAM - dx * 0.8 * A - 8} y={Y0 + dy * 0.8 * A + 22} class="t-sm f-sky">magnetic field</text>
+	<line x1={L + 0.75 * LAM} y1={Y0 + A + 30} x2={L + 1.75 * LAM} y2={Y0 + A + 30} class="s-green w2" />
+	<line x1={L + 0.75 * LAM} y1={Y0 + A + 22} x2={L + 0.75 * LAM} y2={Y0 + A + 38} class="s-green w2" />
+	<line x1={L + 1.75 * LAM} y1={Y0 + A + 22} x2={L + 1.75 * LAM} y2={Y0 + A + 38} class="s-green w2" />
+	<text x={L + 1.25 * LAM} y={Y0 + A + 54} class="t-mid t-sm f-green">wavelength λ</text>
+	<text x="590" y="24" class="t-end t-sm f-muted">no medium needed:</text>
+	<text x="590" y="42" class="t-end t-sm f-muted">the fields themselves wave</text>
+</svg>

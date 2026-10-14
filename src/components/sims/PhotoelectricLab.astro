@@ -1,0 +1,163 @@
+---
+// Simulation: the photoelectric effect. Photons of energy hf = 1239.84 eV·nm / λ hit a metal plate; if hf > φ, each
+// can free one electron with up to K = hf − φ. Brightness sets how many photons arrive, not how much energy each carries.
+// Work functions from OpenStax University Physics Vol. 3, Table 6.1.
+---
+
+<div
+	class="sim pe"
+	data-title="Photoelectric lab"
+	data-description="Light of a chosen wavelength (100 to 1000 nanometres, plus the Petrova wavelength of 25 984 nanometres from a button) and brightness (0 to 100%) shines on a plate of a chosen metal: sodium, aluminium, zinc, iron, copper, silver or platinum, with work functions from 2.46 to 6.35 electronvolts. Photons are drawn as dots raining onto the plate, more of them when brighter. If a photon's energy hf is more than the metal's work function φ, it knocks out an electron, drawn flying off faster for more energy; otherwise nothing comes out, however bright the light. The readout gives each photon's energy in joules and electronvolts, the work function, the threshold wavelength, the electrons' top kinetic energy hf − φ, and the number of photons per second in a 1 milliwatt beam at that brightness. The animation stops if reduced motion is requested."
+>
+	<p class="sim-title">Simulation: photoelectric lab</p>
+	<p class="sim-help">Turn the brightness right up with red light on zinc: nothing. Then try a dim ultraviolet beam.</p>
+	<div class="sim-controls">
+		<label>Wavelength λ <input type="range" class="pe-l" min="100" max="1000" step="1" value="400" /> <output class="pe-lv"></output></label>
+		<label>Brightness <input type="range" class="pe-i" min="0" max="100" step="1" value="40" /> <output class="pe-iv"></output></label>
+		<label>Metal <select class="pe-m">
+			<option value="2.46">sodium (φ = 2.46 eV)</option>
+			<option value="4.08">aluminium (4.08 eV)</option>
+			<option value="4.31">zinc (4.31 eV)</option>
+			<option value="4.50">iron (4.50 eV)</option>
+			<option value="4.70">copper (4.70 eV)</option>
+			<option value="4.73">silver (4.73 eV)</option>
+			<option value="6.35">platinum (6.35 eV)</option>
+		</select></label>
+		<button type="button" class="pe-petrova" aria-pressed="false">Petrova light (25.984 µm)</button>
+	</div>
+	<svg class="dg pe-svg" viewBox="0 0 600 250" role="img" aria-label="Photons hitting a metal plate and electrons being ejected"></svg>
+	<div class="readout pe-out" aria-live="polite"></div>
+</div>
+
+<script>
+	const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+	const HC = 1239.84198; // eV nm
+	const EV = 1.602176634e-19; // J
+	function colour(nm: number) {
+		if (nm < 400) return 'f-violet';
+		if (nm < 500) return 'f-sky';
+		if (nm < 570) return 'f-green';
+		if (nm < 620) return 'f-amber';
+		return 'f-rose';
+	}
+	document.querySelectorAll<HTMLElement>('.sim.pe').forEach((root) => {
+		const q = <T extends Element>(s: string) => root.querySelector<T>(s)!;
+		const svg = q<SVGSVGElement>('.pe-svg'), out = q<HTMLElement>('.pe-out');
+		const Ls = q<HTMLInputElement>('.pe-l'), Is = q<HTMLInputElement>('.pe-i'), Ms = q<HTMLSelectElement>('.pe-m');
+		const Pb = q<HTMLButtonElement>('.pe-petrova');
+		const NS = 'http://www.w3.org/2000/svg';
+		const el = (tag: string, at: Record<string, string | number>, text?: string) => {
+			const e = document.createElementNS(NS, tag);
+			Object.entries(at).forEach(([k, v]) => e.setAttribute(k, String(v)));
+			if (text) e.textContent = text;
+			svg.append(e);
+			return e;
+		};
+		const PY = 190;
+		el('rect', { x: 60, y: PY, width: 480, height: 30, class: 'f-muted', 'fill-opacity': 0.35 });
+		const plateLabel = el('text', { x: 300, y: PY + 20, class: 't-mid t-sm halo' });
+		const verdict = el('text', { x: 300, y: 244, class: 't-mid t-sm t-b' });
+		// pools of moving dots, created once
+		const NP = 40, NE = 30;
+		const photons = Array.from({ length: NP }, () => ({ e: el('circle', { r: 4, class: 'f-violet', opacity: 0 }), x: 0, y: -10, live: false }));
+		const electrons = Array.from({ length: NE }, () => ({ e: el('circle', { r: 5, class: 'f-sky', opacity: 0 }), x: 0, y: 0, vx: 0, vy: 0, live: false }));
+		let petrova = false, acc = 0, last = 0;
+		const state = () => {
+			const lam = petrova ? 25984 : +Ls.value;
+			const E = HC / lam, phi = +Ms.value, I = +Is.value / 100;
+			return { lam, E, phi, I, K: E - phi };
+		};
+		function draw() {
+			const s = state();
+			q('.pe-lv').textContent = petrova ? '25 984 nm (Petrova)' : `${s.lam} nm`;
+			q('.pe-iv').textContent = `${Math.round(s.I * 100)}%`;
+			Pb.setAttribute('aria-pressed', String(petrova));
+			const metal = Ms.options[Ms.selectedIndex].text.split(' (')[0];
+			plateLabel.textContent = `${metal}, φ = ${s.phi.toFixed(2)} eV`;
+			const cls = colour(s.lam);
+			photons.forEach((p) => p.e.setAttribute('class', s.lam > 750 ? 'f-rose' : cls));
+			verdict.textContent = s.I === 0 ? 'no light' : s.K > 0 ? `electrons out, up to ${s.K.toFixed(2)} eV each` : 'no electrons: each photon has too little energy';
+			verdict.setAttribute('class', `t-mid t-sm t-b ${s.K > 0 && s.I > 0 ? 'f-sky' : 'f-rose'}`);
+			const thr = HC / s.phi;
+			const perS = (1e-3 * s.I) / (s.E * EV);
+			out.innerHTML =
+				`<span class="k">photon energy E = hf = hc/λ</span> = <b>${s.E.toFixed(s.E < 0.1 ? 4 : 2)} eV</b> = ${(s.E * EV).toExponential(3)} J<br>` +
+				`<span class="k">work function φ</span> = ${s.phi.toFixed(2)} eV &nbsp; <span class="k">threshold wavelength hc/φ</span> = ${thr.toFixed(0)} nm (longer than this does nothing)<br>` +
+				`<span class="k">top electron energy hf − φ</span> = <b>${s.K > 0 ? `${s.K.toFixed(2)} eV` : 'none: no electrons'}</b>` +
+				` &nbsp; <span class="k">photons per second in a 1 mW beam at this brightness</span> = ${s.I > 0 ? perS.toExponential(2) : '0'}`;
+			if (reduce) staticPicture(s);
+		}
+		function staticPicture(s: ReturnType<typeof state>) {
+			// with reduced motion, show a still frame: a few photons on their way and, if possible, electrons leaving
+			const n = Math.round(s.I * 12);
+			photons.forEach((p, i) => {
+				const on = i < n;
+				p.e.setAttribute('opacity', on ? '1' : '0');
+				p.e.setAttribute('cx', String(90 + i * 36));
+				p.e.setAttribute('cy', String(40 + ((i * 53) % 130)));
+			});
+			electrons.forEach((e, i) => {
+				const on = s.K > 0 && i < Math.ceil(n / 2);
+				e.e.setAttribute('opacity', on ? '1' : '0');
+				e.e.setAttribute('cx', String(100 + i * 70));
+				e.e.setAttribute('cy', String(PY - 30 - 20 * Math.min(4, s.K)));
+			});
+		}
+		function frame(now: number) {
+			const dt = last ? Math.min(0.05, (now - last) / 1000) : 0;
+			last = now;
+			const s = state();
+			acc += dt * 30 * s.I; // photons per second on screen
+			while (acc >= 1) {
+				acc -= 1;
+				const p = photons.find((p) => !p.live);
+				if (p) Object.assign(p, { live: true, x: 80 + Math.random() * 440, y: -6 });
+			}
+			photons.forEach((p) => {
+				if (!p.live) return;
+				p.y += 220 * dt;
+				if (p.y >= PY) {
+					p.live = false;
+					p.e.setAttribute('opacity', '0');
+					if (s.K > 0) {
+						const e = electrons.find((e) => !e.live);
+						const sp = 60 + 70 * Math.sqrt(s.K) * Math.random();
+						const a = (-Math.PI / 2) + (Math.random() - 0.5) * 1.6;
+						if (e) Object.assign(e, { live: true, x: p.x, y: PY - 4, vx: sp * Math.cos(a), vy: sp * Math.sin(a) });
+					}
+					return;
+				}
+				p.e.setAttribute('opacity', '1');
+				p.e.setAttribute('cx', p.x.toFixed(1));
+				p.e.setAttribute('cy', p.y.toFixed(1));
+			});
+			electrons.forEach((e) => {
+				if (!e.live) return;
+				e.x += e.vx * dt;
+				e.y += e.vy * dt;
+				if (e.y < -10 || e.x < -10 || e.x > 610) {
+					e.live = false;
+					e.e.setAttribute('opacity', '0');
+					return;
+				}
+				e.e.setAttribute('opacity', '1');
+				e.e.setAttribute('cx', e.x.toFixed(1));
+				e.e.setAttribute('cy', e.y.toFixed(1));
+			});
+			requestAnimationFrame(frame);
+		}
+		Ls.addEventListener('input', () => {
+			petrova = false;
+			draw();
+		});
+		Is.addEventListener('input', draw);
+		Ms.addEventListener('change', draw);
+		Ms.addEventListener('input', draw);
+		Pb.addEventListener('click', () => {
+			petrova = !petrova;
+			draw();
+		});
+		draw();
+		if (!reduce) requestAnimationFrame(frame);
+	});
+</script>

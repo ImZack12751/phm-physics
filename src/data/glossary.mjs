@@ -1229,4 +1229,195 @@ export const glossary = {
 		def: 'When a system’s state depends on its history: under the same Sun, the Earth can be warm or frozen, depending on which it was before.',
 		chapter: 'feedback-loops',
 	},
+	// ---- 7.1 Wave properties ----
+	wave: {
+		term: 'Wave',
+		def: 'A disturbance that travels from place to place, carrying energy and information but not the material it passes through. Each bit of the medium only moves a little around its rest position.',
+		chapter: 'wave-properties',
+	},
+	medium: {
+		term: 'Medium (of a wave)',
+		def: 'The material a wave travels through, such as a rope, water or air. Light is the exception: it needs no medium and crosses empty space.',
+		chapter: 'wave-properties',
+	},
+	'transverse-wave': {
+		term: 'Transverse wave',
+		def: 'A wave in which the medium moves across the direction the wave travels, like a wave on a rope. Light is transverse.',
+		chapter: 'wave-properties',
+	},
+	'longitudinal-wave': {
+		term: 'Longitudinal wave',
+		def: 'A wave in which the medium moves back and forth along the direction of travel, forming compressions and rarefactions. Sound is longitudinal.',
+		chapter: 'wave-properties',
+	},
+	wavelength: {
+		term: 'Wavelength (λ)',
+		def: 'The distance from one crest of a wave to the next (one full repeat of the pattern), in metres.',
+		chapter: 'wave-properties',
+	},
+	'wave-speed': {
+		term: 'Wave speed (v)',
+		def: 'How fast a wave’s pattern moves: v = fλ. It is set by the medium; the frequency is set by the source.',
+		chapter: 'wave-properties',
+	},
+	wavenumber: {
+		term: 'Wavenumber (k)',
+		def: 'k = 2π/λ, the number of radians of phase per metre along a wave. With ω = 2πf, a travelling wave is y = A cos(kx − ωt) and v = ω/k.',
+		chapter: 'wave-properties',
+	},
+	phase: {
+		term: 'Phase',
+		def: 'Where a wave or oscillation is in its cycle, measured as the angle inside the cosine, kx − ωt. Two waves “in phase” reach their crests together.',
+		chapter: 'wave-properties',
+	},
+	superposition: {
+		term: 'Superposition',
+		def: 'Where waves overlap, the total displacement is the sum of the separate displacements; afterwards each wave carries on unchanged.',
+		chapter: 'wave-properties',
+	},
+	interference: {
+		term: 'Interference',
+		def: 'The adding of overlapping waves. In step (path difference mλ) they reinforce: constructive. Half a wavelength out of step ((m + ½)λ) they cancel: destructive.',
+		chapter: 'wave-properties',
+	},
+	'standing-wave': {
+		term: 'Standing wave',
+		def: 'The pattern made by two equal waves travelling in opposite directions: it throbs in place without travelling, with motionless nodes half a wavelength apart.',
+		chapter: 'wave-properties',
+	},
+	// ---- 7.2 c = fλ and the EM spectrum ----
+	'electric-charge': {
+		term: 'Electric charge',
+		def: 'A property of particles that makes them push or pull on each other: electrons are negative, protons positive. Like charges repel, opposite charges attract.',
+		chapter: 'em-spectrum',
+	},
+	'electric-field': {
+		term: 'Electric field',
+		def: 'The push a small test charge would feel at each point in space, per unit of its charge. Charges make electric fields; changing fields can travel as light.',
+		chapter: 'em-spectrum',
+	},
+	'electromagnetic-wave': {
+		term: 'Electromagnetic wave',
+		def: 'A self-sustaining ripple of electric and magnetic fields, at right angles to each other and to the direction of travel. It needs no medium and travels at c in a vacuum. Light, radio and X-rays are all electromagnetic waves.',
+		chapter: 'em-spectrum',
+	},
+	'speed-of-light': {
+		term: 'Speed of light (c)',
+		def: 'c = 299 792 458 m/s exactly in a vacuum, the same for every electromagnetic wave. Since 1983 it defines the metre.',
+		chapter: 'em-spectrum',
+	},
+	'electromagnetic-spectrum': {
+		term: 'Electromagnetic spectrum',
+		def: 'The full range of electromagnetic waves by wavelength: gamma rays, X-rays, ultraviolet, visible light (about 400–750 nm), infrared, microwaves and radio.',
+		chapter: 'em-spectrum',
+	},
+	infrared: {
+		term: 'Infrared',
+		def: 'Electromagnetic waves a little longer than red light, from about 750 nm to 1 mm. Warm objects glow in the infrared; the Petrova line is at 25.984 µm.',
+		chapter: 'em-spectrum',
+	},
+	'refractive-index': {
+		term: 'Refractive index (n)',
+		def: 'How many times slower light travels in a material than in a vacuum: n = c/v. Water 1.33, glass about 1.5, diamond 2.419.',
+		chapter: 'em-spectrum',
+	},
+	refraction: {
+		term: 'Refraction',
+		def: 'The bending of a wave as it crosses into a material where it travels at a different speed. Light entering a slower material bends towards the normal.',
+		chapter: 'em-spectrum',
+	},
+	'snells-law': {
+		term: 'Snell’s law',
+		def: 'n₁ sin θ₁ = n₂ sin θ₂, with angles measured from the normal: the rule for how much light bends at a boundary.',
+		chapter: 'em-spectrum',
+	},
+	'total-internal-reflection': {
+		term: 'Total internal reflection',
+		def: 'When light inside a dense material meets its surface at more than the critical angle (sin θc = 1/n) and is reflected back completely. Optical fibres use it.',
+		chapter: 'em-spectrum',
+	},
+	// ---- 7.3 Photons ----
+	'photoelectric-effect': {
+		term: 'Photoelectric effect',
+		def: 'Light knocking electrons out of a metal. It happens only above a threshold frequency, however bright the light, which showed that light comes in photons.',
+		chapter: 'photons',
+	},
+	photon: {
+		term: 'Photon',
+		def: 'A single packet of light energy, E = hf. Brightness is how many photons arrive; colour (frequency) is how much energy each carries.',
+		chapter: 'photons',
+	},
+	'planck-constant': {
+		term: 'Planck constant (h)',
+		def: 'h = 6.626 070 15 × 10⁻³⁴ J·s exactly: the constant in a photon’s energy E = hf. Fixing it defines the kilogram (since 2019).',
+		chapter: 'photons',
+	},
+	electronvolt: {
+		term: 'Electronvolt (eV)',
+		def: 'A unit for tiny energies: 1 eV = 1.602 × 10⁻¹⁹ J, the energy an electron gains from 1 volt. Visible photons carry 1.65–3.1 eV.',
+		chapter: 'photons',
+	},
+	'work-function': {
+		term: 'Work function (φ)',
+		def: 'The least energy needed to pull an electron out of a metal: 2.46 eV for sodium, 4.73 eV for silver. Freed electrons have up to hf − φ of kinetic energy.',
+		chapter: 'photons',
+	},
+	'wave-particle-duality': {
+		term: 'Wave–particle duality',
+		def: 'Light (and matter) travels like a wave, interfering and diffracting, but is absorbed and emitted in single lumps, like particles.',
+		chapter: 'photons',
+	},
+	// ---- 7.4 The momentum of light and photon propulsion ----
+	'radiation-pressure': {
+		term: 'Radiation pressure',
+		def: 'The push of light per square metre: I/c on a surface that absorbs it, 2I/c on a perfect mirror. Sunlight at 1 au gives about 4.5 × 10⁻⁶ Pa.',
+		chapter: 'photon-propulsion',
+	},
+	'solar-sail': {
+		term: 'Solar sail',
+		def: 'A large, thin, light mirror that is pushed by sunlight. IKAROS (2010) was the first to fly between planets.',
+		chapter: 'photon-propulsion',
+	},
+	'photon-rocket': {
+		term: 'Photon rocket',
+		def: 'A rocket whose exhaust is light. Its thrust is F = P/c: tiny per watt, but the exhaust speed c is the highest possible. The Hail Mary is one.',
+		chapter: 'photon-propulsion',
+	},
+	// ---- 7.5 Spectroscopy ----
+	dispersion: {
+		term: 'Dispersion',
+		def: 'The spreading of light into its colours because a material’s refractive index is slightly different for each wavelength (violet bends more than red in glass).',
+		chapter: 'spectroscopy',
+	},
+	spectrum: {
+		term: 'Spectrum',
+		def: 'Light spread out by wavelength, by a prism or a grating; or the pattern of how much light there is at each wavelength.',
+		chapter: 'spectroscopy',
+	},
+	'emission-spectrum': {
+		term: 'Emission spectrum',
+		def: 'The bright lines given out by a hot, thin gas, at wavelengths set by its atoms’ energy levels: a fingerprint of the element.',
+		chapter: 'spectroscopy',
+	},
+	'absorption-spectrum': {
+		term: 'Absorption spectrum',
+		def: 'A continuous spectrum with dark lines where a cooler gas in front has absorbed light, at the same wavelengths that gas would emit.',
+		chapter: 'spectroscopy',
+	},
+	'energy-level': {
+		term: 'Energy level',
+		def: 'One of the fixed energies an electron in an atom (or a vibrating molecule) can have. Jumping between levels emits or absorbs a photon of the energy difference. Hydrogen: Eₙ = −13.6 eV/n².',
+		chapter: 'spectroscopy',
+	},
+	'doppler-effect': {
+		term: 'Doppler effect',
+		def: 'The change in wavelength when a source moves along the line of sight: shorter (blueshift) when approaching, longer (redshift) when receding. Δλ/λ = v/c for v much less than c.',
+		chapter: 'spectroscopy',
+	},
+	'radial-velocity': {
+		term: 'Radial-velocity method',
+		def: 'Finding a planet by the small, regular Doppler shifts of its star as the planet tugs it back and forth. It gives the planet’s minimum mass.',
+		chapter: 'spectroscopy',
+	},
 };
+

@@ -200,11 +200,11 @@ Teaching order follows logical dependency, not plot order. Planned chapters have
 
 | # | Chapter | Path | Prerequisites | Status |
 |---|---|---|---|---|
-| 7.1 | Wave properties | `part-7/wave-properties` | – | planned |
-| 7.2 | c = fλ and the EM spectrum | `part-7/em-spectrum` | – | planned |
-| 7.3 | Photons | `part-7/photons` | – | planned |
-| 7.4 | The momentum of light and photon propulsion | `part-7/photon-propulsion` | – | planned |
-| 7.5 | Spectroscopy | `part-7/spectroscopy` | – | planned |
+| 7.1 | Wave properties | `part-7/wave-properties` | 2.4, 3.2, 0.6, 0.7, 5.2, 0.5 | written, awaiting review |
+| 7.2 | c = fλ and the EM spectrum | `part-7/em-spectrum` | 7.1, 0.1, 0.2, 0.8, 0.6, 1.1 | written, awaiting review |
+| 7.3 | Photons | `part-7/photons` | 7.2, 5.2, 5.3, 0.1, 0.9, 6.1 | written, awaiting review |
+| 7.4 | The momentum of light and photon propulsion | `part-7/photon-propulsion` | 7.3, 5.5, 5.6, 5.7, 0.5, 4.1 | written, awaiting review |
+| 7.5 | Spectroscopy | `part-7/spectroscopy` | 7.3, 7.2, 7.1, 0.6, 5.5, 4.3 | written, awaiting review |
 
 **Part 8 · Thermal radiation and stars**
 
@@ -282,7 +282,7 @@ Brief biology and chemistry sidebars are added only where the plot's physics dep
 Source of truth: `src/data/glossary.mjs`.
 
 <!-- AUTO:glossary -->
-232 terms.
+269 terms.
 
 | Term | id | First chapter |
 |---|---|---|
@@ -518,6 +518,43 @@ Source of truth: `src/data/glossary.mjs`.
 | Climate sensitivity | `climate-sensitivity` | 6.6 |
 | Tipping point | `tipping-point` | 6.6 |
 | Hysteresis | `hysteresis` | 6.6 |
+| Wave | `wave` | 7.1 |
+| Medium (of a wave) | `medium` | 7.1 |
+| Transverse wave | `transverse-wave` | 7.1 |
+| Longitudinal wave | `longitudinal-wave` | 7.1 |
+| Wavelength (λ) | `wavelength` | 7.1 |
+| Wave speed (v) | `wave-speed` | 7.1 |
+| Wavenumber (k) | `wavenumber` | 7.1 |
+| Phase | `phase` | 7.1 |
+| Superposition | `superposition` | 7.1 |
+| Interference | `interference` | 7.1 |
+| Standing wave | `standing-wave` | 7.1 |
+| Electric charge | `electric-charge` | 7.2 |
+| Electric field | `electric-field` | 7.2 |
+| Electromagnetic wave | `electromagnetic-wave` | 7.2 |
+| Speed of light (c) | `speed-of-light` | 7.2 |
+| Electromagnetic spectrum | `electromagnetic-spectrum` | 7.2 |
+| Infrared | `infrared` | 7.2 |
+| Refractive index (n) | `refractive-index` | 7.2 |
+| Refraction | `refraction` | 7.2 |
+| Snell’s law | `snells-law` | 7.2 |
+| Total internal reflection | `total-internal-reflection` | 7.2 |
+| Photoelectric effect | `photoelectric-effect` | 7.3 |
+| Photon | `photon` | 7.3 |
+| Planck constant (h) | `planck-constant` | 7.3 |
+| Electronvolt (eV) | `electronvolt` | 7.3 |
+| Work function (φ) | `work-function` | 7.3 |
+| Wave–particle duality | `wave-particle-duality` | 7.3 |
+| Radiation pressure | `radiation-pressure` | 7.4 |
+| Solar sail | `solar-sail` | 7.4 |
+| Photon rocket | `photon-rocket` | 7.4 |
+| Dispersion | `dispersion` | 7.5 |
+| Spectrum | `spectrum` | 7.5 |
+| Emission spectrum | `emission-spectrum` | 7.5 |
+| Absorption spectrum | `absorption-spectrum` | 7.5 |
+| Energy level | `energy-level` | 7.5 |
+| Doppler effect | `doppler-effect` | 7.5 |
+| Radial-velocity method | `radial-velocity` | 7.5 |
 <!-- /AUTO:glossary -->
 
 ---
@@ -527,7 +564,7 @@ Source of truth: `src/data/glossary.mjs`.
 Source of truth: `src/data/formulas.mjs`.
 
 <!-- AUTO:formulas -->
-137 formulas.
+152 formulas.
 
 | Formula | id | First chapter | LaTeX |
 |---|---|---|---|
@@ -668,6 +705,21 @@ Source of truth: `src/data/formulas.mjs`.
 | Forcing from carbon dioxide | `co2-forcing` | 6.5 | `\Delta F = 5.35\ \text{W/m}^{2} \times \ln\dfrac{C}{C_{0}}` |
 | Feedback gain | `feedback-gain` | 6.6 | `\Delta T = \dfrac{\Delta T_{0}}{1 - f} = \dfrac{\Delta F}{\lambda_{0} - \sum\lambda_{i}} \qquad f = \dfrac{\sum\lambda_{i}}{\lambda_{0}}` |
 | Response time with feedbacks | `feedback-response-time` | 6.6 | `\tau = \dfrac{C}{\lambda_{0} - \sum\lambda_{i}}` |
+| Wave speed | `wave-speed` | 7.1 | `v = f\lambda = \dfrac{\lambda}{T}` |
+| Travelling wave | `travelling-wave` | 7.1 | `y = A\cos(kx - \omega t) \qquad k = \dfrac{2\pi}{\lambda} \qquad \omega = 2\pi f \qquad v = \dfrac{\omega}{k}` |
+| Waves on a string, and energy | `string-wave-speed` | 7.1 | `v = \sqrt{\dfrac{F_{\text{T}}}{\mu}} \qquad P \propto A^{2}` |
+| Interference and standing waves | `interference` | 7.1 | `\text{constructive: } \Delta = m\lambda \qquad \text{destructive: } \Delta = \left(m + \tfrac{1}{2}\right)\lambda \qquad \text{node spacing} = \dfrac{\lambda}{2}` |
+| Electromagnetic waves | `c-f-lambda` | 7.2 | `c = f\lambda \qquad c = 299\,792\,458\ \text{m/s}` |
+| Light in a material | `refractive-index` | 7.2 | `n = \dfrac{c}{v} \qquad \lambda_{\text{medium}} = \dfrac{\lambda}{n}` |
+| Snell’s law and the critical angle | `snell` | 7.2 | `n_{1}\sin\theta_{1} = n_{2}\sin\theta_{2} \qquad \sin\theta_{\text{c}} = \dfrac{1}{n}` |
+| Photon energy | `photon-energy` | 7.3 | `E = hf = \dfrac{hc}{\lambda} \qquad E_{\text{eV}} = \dfrac{1240}{\lambda_{\text{nm}}} \qquad 1\ \text{eV} = 1.602 \times 10^{-19}\ \text{J}` |
+| Photoelectric equation | `photoelectric` | 7.3 | `K_{\text{max}} = hf - \varphi \qquad f_{0} = \dfrac{\varphi}{h} \qquad \lambda_{0} = \dfrac{hc}{\varphi}` |
+| Photons per second | `photon-rate` | 7.3 | `N = \dfrac{P}{hf} = \dfrac{P\lambda}{hc}` |
+| Momentum of light | `photon-momentum` | 7.4 | `p = \dfrac{E}{c} = \dfrac{h}{\lambda} \qquad F = \dfrac{P}{c}` |
+| Radiation pressure and the sail number | `radiation-pressure` | 7.4 | `F = \dfrac{kIA}{c} \qquad \beta = \dfrac{kLA}{4\pi cGMm}` |
+| Diffraction grating | `grating` | 7.5 | `d\sin\theta = m\lambda` |
+| Spectral lines from energy levels | `energy-levels` | 7.5 | `\dfrac{hc}{\lambda} = E_{\text{upper}} - E_{\text{lower}} \qquad E_{n} = -\dfrac{13.6\ \text{eV}}{n^{2}} \qquad \dfrac{1}{\lambda} = R\left(\dfrac{1}{n_{1}^{2}} - \dfrac{1}{n_{2}^{2}}\right)` |
+| Doppler shift and a star’s wobble | `doppler` | 7.5 | `\dfrac{\Delta\lambda}{\lambda} = \dfrac{v}{c} \qquad v_{\star} = \dfrac{m_{\text{p}}}{M_{\star}}\,v_{\text{p}}` |
 <!-- /AUTO:formulas -->
 
 ---
@@ -691,6 +743,7 @@ All constants and book figures used so far, each with its source, are in `script
 - Part 5 figures (`ENERGY` in `constants.mjs`). Book (reader summary trangnkp.substack.com, Goodreads highlights, Nick Frass's Substack): display 20,862 kg at 6.043 g/s (Grace: ~40 days); drive power 540 TW (Grace's E = mc²); Dimitri 1.8 × 10⁹ J, ~20 µg, 60,000 N for 100 µs (obeys F = P/c and p = E/c exactly); a manoeuvre "will consume 130 kilograms of fuel"; ~2 × 10⁶ kg of fuel; trip "at least three years" of ship time. Real: RS-25 514.49 kg/s, 4.436 km/s, 2279 kN vac; SRB 2.63 km/s; NSTAR 92 mN / 2.3 kW, ion exhausts 20–50 km/s (we use 30); Deep Space 1 486 kg launch, 73.4 kg Xe, 4.3 km/s; world energy 19.6 TW (2021); human ~100 W; ISS 419,725 kg; TNT 4.184 MJ/kg. **Our inference (5.6):** if 6.043 g/s holds 1.5 g with light exhaust, the ship is 1.23 × 10⁵ kg at the reading and ~1.02 × 10⁵ kg empty; the course uses **1.0 × 10⁵ kg empty** (and ~1.2 × 10⁵ kg in 5.4/5.5 examples). Assumed: Grace 200 kg with suit, Blip-A 5.0 × 10⁵ kg, 3.0 m deck height.
 - **Fuel question answered (5.7):** the 6 g/s is a late-trip rate; holding 1.5 g needs ṁ = ma/c (103 g/s at launch), so fuel decays as e^(−at/c) and the 20,862 kg lasts 43.8 days, not 40. On the ship's clock (exact for a photon rocket), R = 21 buys only 1.97 yr at 1.5 g; 3.75 yr needs R = 333 (3.3 × 10⁷ kg fuel), and even 3 yr needs R = 104. The chapters say the novel's budget doesn't quite add up for 1.5 g throughout. Part 10 should revisit this with relativity (a coast phase changes the numbers).
 - Part 6 figures (`THERMAL` in `constants.mjs`). Real: k, N_A exact, σ = 5.670 374 419 × 10⁻⁸ (CODATA); OpenStax Vol. 2 tables (specific heats: water 4186, ice 2090, steam 2020, air 1015, Al 900, glass 840, iron 452, Cu 387; latent heats 334 / 2256 kJ/kg, ammonia 332 / 1370 kJ/kg, boils −33.4 °C; conductivities Cu 390 … air 0.023; α steel 12, Al 25 × 10⁻⁶; skin emissivity 0.97 and the 99 W example); ice 917 kg/m³; atmosphere 5.1 × 10¹⁸ kg; NASA Bond albedo / black-body / mean T: Earth 0.294 / 254.0 / 288 K, Venus 0.77 / 226.6 / 737 K (92 bar), Mars 0.250 / 209.8 / 214 K; NASA energy budget 340 W/m², 29% reflected, surface 117% (398), back 100% (340); albedos (Wikipedia): ocean 0.06, sand 0.40, sea ice 0.5–0.7, snow 0.8; ECS 3 °C (2.5–4), 3.7 W/m² per doubling, about 1 °C no-feedback, 0.8 K per W/m²; ΔF = 5.35 ln(C/C₀) (Myhre 1998); CO₂ 280 → 421 ppm (NOAA 2022); methane 1911.8 ppb (2022), 722 (1750), GWP 84/28, lifetime about 12 yr, forcing about 0.5 W/m²; feedbacks (AR6 via Wikipedia) Planck about −3.8, water vapour about +1.8, surface albedo +0.35, clouds +0.42 (−0.10 to +0.94); LGM −6 °C, Tambora 0.4–0.7 °C, faint young Sun 70%, Budyko runaway when ice reaches 30° of the equator; 40 Eridani A 0.78 M☉, 0.40 L☉, 42-day signal (likely stellar activity) → "Erid" orbit 0.218 au, 11 490 W/m², T_e 434 K. Book: Astrophage's 96.415 °C set point (excess energy → mass, deficit → infrared; RI article); Erid 210 °C, 29 atm ammonia, melting tape measure, heat felt through the xenonite wall (/Film); Antarctic operation 241 bombs, 50 m deep, 3 km apart, methane breaks down in about 10 years, nearby ocean cools about 1 degree; Sahara blackpanels about 2 × 10¹² m² (a quarter of the Sahara); Leclerc: 3.5 billion dead within 19 years (readifyai reader guide, flagged as unofficial); ice age within thirty years (Wikipedia); 10% dimming → "terminal ice age" (RI). Our results: Earth T_e 255 K; dimming 1/5/10% → −0.64/−3.3/−6.6 K without feedbacks, −1.9/−9.6/−19 K with 0.8 K per W/m²; response time 3.5 yr (no feedback) and 10.6 yr (with), for 100 m of ocean; one-layer ε = 0.77 for Earth, 0.70 for Erid; Venus needs about 111 opaque layers. **Toy climate model (6.6, figure TwoClimates and sim SnowballLab):** α(T) = 0.4417 − 0.1583 tanh((T − 254.42)/20), emission 240.2 + 1.58(T − 288) W/m², C = 4.19 × 10⁸ J/(m² K); equilibria 226 / 252 / 288 K at today's Sun; tips to snowball at about 6% dimming (labelled as a toy, not a forecast). Our assumptions: xenonite conducting like glass, partition 2.0 m² × 1 cm, panel emissivity 0.9, coffee τ = 20 min, radiator 5 kW, blackpanel albedo 0.05.
+- Part 7 figures (`WAVES` in `constants.mjs`). Real: eV exact, R∞ (CODATA); OpenStax speeds of sound (343 m/s air at 20 °C, 1480 water), hearing 20 Hz–20 kHz, visible about 400–750 nm, microwave oven 2.45 GHz, n water 1.33 / diamond 2.419 (glass about 1.5, Wikipedia), work functions (Na 2.46 … Pt 6.35 eV); Balmer lines 656.279/486.135/434.0472/410.1734 nm, limit 364.5 nm; Na D 588.995/589.592, He D3 587.5618 (Fraunhofer lines); He and Hg lines from NIST strong-line tables; CO₂ bands 4.26 and 14.99 µm; IKAROS 196 m², 310 kg, 1.12 mN, about 400 m/s by 2013; Nichols–Hull 1901 within 0.6%; KATRIN 2025 neutrino mass below 0.45 eV; Tau Ceti radial velocity −16.68 km/s, planet signals down to 30 cm/s; Webb CO₂ on WASP-39 b (2022). Book (reader guides, flagged): Petrova wavelength 25.984 µm, Petrovascope sees only that wavelength (metal plate blocks the star), Astrophage up to 0.92 c, Venus's CO₂ "signature" 4.26 and 18.31 µm (the 18.31 doesn't match a strong real band; the chapter says so), a Petrova photon equals one neutrino's mass-energy; Rocky speaks in chords (LitCharts). Our results: Petrova f = 11.54 THz, photon 7.645 × 10⁻²¹ J = 0.0477 eV, **within 0.11% of ³⁄₂kT at 96.415 °C** (our observation, stated as possibly coincidental); drive 7.06 × 10³⁴ photons/s, F = 1.80 MN, ship 1.22 × 10⁵ kg at 1.5 g; sunlight pressure 4.54 µPa; β for a mirror floats below 1.53 g/m²; our model Astrophage cell (water density) β = 0.115; Adrian's tug on Tau Ceti 0.53 m/s. Our assumptions: Rocky's 440 Hz note, centrifuge cable 10 kg/m (kink 443 m/s), IKAROS film density 1400 kg/m³. The rocket equation with vₑ = c gives a mass ratio of 2.51 for 0.92 c; the relativistic value 4.90 is quoted ahead of Part 10.
 
 ---
 
@@ -706,3 +759,4 @@ All constants and book figures used so far, each with its source, are in `script
 - **Session 7 (2026-10-13).** Wrote Part 4: 4.1 Newton's law of gravitation (F = GMm/r² from the Moon test, G and Cavendish, the shell theorem, g = GM/r², weighing Earth, g with height, g = 4/3 πGρR), 4.2 Orbital speed (Newton's cannon, orbit as free fall, v = √(GM/r) two ways, T = 2π√(r³/GM), skimming and geostationary orbits, tidal pull on a hanging probe), 4.3 Kepler's laws (ellipse anatomy, Newton's geometric proof of equal areas, r_p v_p = r_a v_a, T² = a³ and T² = a³/M for other stars), 4.4 Escape velocity (derived without energy: Δ(v²) = 2aΔr summed as an integral, √2 × circular speed, r_max, v∞, escaping a star from a planet's orbit, Michell's dark stars), 4.5 Finding a planet's mass from an orbit (M = 4π²a³/GT², radius from angular size, the density clock T = √(3π/Gρ), ΔM/M = 3Δr/r + 2ΔT/T), 4.6 Orbital manoeuvring (v² − 2GM/r constant along any path via the along-path component, vis-viva derived, Hohmann transfers, lead angle, phasing orbits, drag speeds satellites up). 72 practice problems, 6 simulations (GravityExplorer, OrbitCannon, KeplerOrbit, EscapeLauncher, WeighPlanet, HohmannPlanner) and 14 diagrams. Tooling note: registering several chapters as `review` before their files exist breaks the build (Starlight sidebar), so mark unwritten ones `planned` until written. **Next:** Part 5, starting with 5.1 Work as an integral (4.4 and 4.6 promise that Part 5 recasts v² − 2GM/r = constant as energy conservation and proves escape speed is direction-independent; 4.6 says Part 5 shows how fuel sets delta-v).
 - **Session 8 (2026-10-13).** Wrote Part 5: 5.1 Work as an integral (W = Fd cos θ, zero work at right angles, W = ∫F dx as area, springs ½kx², lifting GMm(1/r₁ − 1/r₂), Dimitri's huge force doing 0.036 J), 5.2 Kinetic and potential energy (work–energy theorem via ∫mv dv, U = mgh, ½kx², −GMm/r, F = −dU/dx, v² − 2GM/r recast as energy, escape speed direction-independent, as promised in 4.4), 5.3 Power (P = dW/dt = Fv, kWh, efficiency, P = ṁc² = 543 TW, F = P/c discovered from Dimitri's figures, only v/c of a light drive's power goes into motion), 5.4 Conservation laws (energy bookkeeping, friction → thermal, E = −GMm/2a, K = −E and U = 2E, the drag paradox explained, angular momentum = Kepler II, Noether), 5.5 Momentum (p = mv, F = dp/dt, impulse, conservation and recoil, elastic/inelastic collisions, p = E/c), 5.6 Thrust (F = ṁv_e, I_sp, P/F = v_e/2 vs c, F = ṁc, ṁ = ma/c, the ship's mass inferred from the fuel display), 5.7 The Tsiolkovsky rocket equation (derivation, tyranny of the exponential, staging, m = m₀e^(−at/v_e), 43.8 not 40 days, the trip's fuel budget checked). 70 practice problems, 7 simulations (WorkArea, EnergyLaunch, DrivePower, EnergyTrack, CollisionLab, ThrustLab, RocketEquation) and 14 diagrams. All of Part 4's promises to Part 5 are kept. Tooling note: Python heredocs in Bash also mangle backslashes (\t, \D), so edit LaTeX with the Edit tool or a Python file written with Write. **Next:** Part 6, starting with 6.1 Temperature and heat (5.4 promises Part 6 measures the warming that friction causes).
 - **Session 9 (2026-10-13).** Wrote Part 6: 6.1 Temperature and heat (temperature as jiggling, thermal equilibrium and the zeroth law, pressure from molecular collisions, ⟨KE⟩ = 3/2 kT and v_rms, why absolute zero exists (promised in 0.3 and the glossary), heat vs internal energy, Joule and the calorie, the first law, thermal expansion), 6.2 Specific and latent heat (Q = mcΔT, mixing, Q = mL, heating curves, the friction warming promised in 5.4, melting Antarctic ice, the ocean's heat capacity), 6.3 Heat transfer (conduction and layered walls, convection, Newton's law of cooling, P = eσAT⁴ and net radiation, heat in space, Rocky's hot xenonite wall), 6.4 Planetary energy balance and albedo (S/4, T_e = 255 K, sensitivity ΔT/T = ¼ ΔS/S, the forecast dimming as promised in 0.5, the Sahara blackpanels, response time, Venus, Adrian, Erid), 6.5 The greenhouse effect (short waves in and long waves out, why N₂ and O₂ don't absorb, one-layer and many-layer models, forcing 5.35 ln(C/C₀), cancelling the dimming, why methane, Venus and Erid), 6.6 Feedback loops (Planck response, feedback factor and gain 1/(1 − f), water vapour, ice–albedo and clouds, sensitivity 3 °C, the dimming with feedbacks, tipping points, snowball Earth, hysteresis, faint young Sun). 72 practice problems, 6 simulations (GasBox, HeatingLab, WallHeatFlow, PlanetThermostat, GreenhouseSim, SnowballLab) and 12 diagrams. The Stefan–Boltzmann law is introduced in 6.3 as a measured law; Part 8 (8.1–8.2) should derive its context (blackbody, Wien) and use it for stars rather than introduce it from scratch. **Next:** Part 7, starting with 7.1 Wave properties (6.5 says Part 8 explains why hotter objects glow at shorter wavelengths; 6.2 says Part 9 covers c² as energy per kilogram).
+- **Session 10 (2026-10-14).** Wrote Part 7: 7.1 Wave properties (transverse and longitudinal, λ, A, T, f, v = fλ, y = A cos(kx − ωt), v = √(F_T/μ) derived from circular motion in the pulse's frame, P ∝ A², superposition, interference, standing waves; tension written F_T to avoid clashing with the period), 7.2 c = fλ and the EM spectrum (Young, fields as the medium, Maxwell, Rømer/Fizeau/1983 metre, the spectrum, Petrova line and Petrovascope, n = c/v, Snell's law derived from crests, total internal reflection), 7.3 Photons (photoelectric facts, E = hf, eV and 1240 eV·nm, K = hf − φ as Millikan's line, photons per second, what one photon can do, duality, h defines the kilogram (promised in 0.2), the Petrova photon ≈ ³⁄₂kT coincidence and the KATRIN check), 7.4 Momentum of light and photon propulsion (Feynman's qvB argument for F = P/c, as promised in 5.3 and 5.5; p = h/λ and Compton; absorb vs reflect; radiation pressure; IKAROS; β independent of distance; sunlight can't blow Astrophage away; photon vs chemical rockets), 7.5 Spectroscopy (dispersion, gratings d sin θ = mλ, Kirchhoff's three spectra, Fraunhofer and helium, energy levels and hydrogen's Balmer lines, molecular IR fingerprints and Webb, Doppler Δλ/λ = v/c, radial-velocity wobble of Tau Ceti from Adrian). 61 practice problems, 5 simulations (WaveMachine, SpectrumExplorer, PhotoelectricLab, SolarSailLab, SpectrumLab) and 17 diagrams. Electric charge and electric field are now glossary terms (7.2); magnetic forces (qvB) are stated, not derived, and point to Part 14. Tooling note: a range slider with `step="any"` is fine for the browser check (it falls back to step 1). One run of `check:browser` crashed with a timeout while screenshots ran at the same time; it passed when run alone. **Next:** Part 8, starting with 8.1 Blackbody radiation and Wien's law (6.5 and 7.2 promise that Part 8 explains why hotter objects glow at shorter wavelengths; 7.3 says thermal glow is broad, unlike Astrophage's single line). Part 10 should revisit 7.4 Problem 11 (Astrophage's relativistic mass ratio 4.90) and the relativistic Doppler shift promised in 7.5.

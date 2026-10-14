@@ -1,0 +1,385 @@
+---
+title: c = fλ and the EM spectrum
+description: Light as an electromagnetic wave that needs no medium, the speed of light and how it was measured, c = fλ, the whole spectrum from gamma rays to radio, the Petrova line at 25.984 µm and carbon dioxide's infrared fingerprints, light slowing in glass and water, Snell's law of refraction and total internal reflection.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import EMWave from '../../../components/diagrams/part-7/EMWave.astro';
+import SpectrumBar from '../../../components/diagrams/part-7/SpectrumBar.astro';
+import Refraction from '../../../components/diagrams/part-7/Refraction.astro';
+import SpectrumExplorer from '../../../components/sims/SpectrumExplorer.astro';
+
+## The scene
+
+The crisis begins with a measurement. Dr. Irina Petrova, an astronomer in St. Petersburg, notices a faint glow arcing from the Sun's north pole towards Venus. Nobody can see it with their eyes. It shows up only in the infrared, and at one single, perfectly steady wavelength: 25.984 micrometres. That number becomes the signature of Astrophage. The *Hail Mary* carries a special telescope, the Petrovascope, that sees only light of that wavelength, so Grace can spot Astrophage, and the engines of other Astrophage-powered ships, against the glare of a star.
+
+In the novel, Astrophage even finds Venus by looking for the infrared signature of its carbon dioxide. What kind of thing is "infrared light", what does it mean for light to have a wavelength, and how is 25.984 µm related to the light our eyes see?
+
+## Prerequisites
+
+<Prereqs notes={{ 'wave-properties': 'wavelength, frequency, v = fλ, interference', 'scientific-notation': 'very large and very small numbers', 'si-units': 'prefixes such as nano and micro', 'exponentials-logarithms': 'logarithmic scales', 'trigonometry': 'sines, for the law of refraction', 'kinematics': 'speed, distance and time' }} />
+
+## The concept
+
+### Light is a wave
+
+In 1801 Thomas Young shone light through two narrow slits close together, and on a screen beyond them he saw a pattern of bright and dark stripes. Bright stripes are where the light from the two slits arrives in step and interferes constructively; dark stripes are where it arrives half a wavelength out of step and cancels (Chapter 7.1). Particles can't do that: two streams of pebbles never add up to no pebbles. **Light plus light can make darkness**, so light must be a wave. From the spacing of the stripes, Young worked out that visible light has a wavelength of under a millionth of a metre.
+
+### What is waving?
+
+A rope wave needs a rope and sound needs air. Light crosses the empty space between the Sun and the Earth. So what is it a wave **in**?
+
+The answer involves electric charge. Matter is built from tiny particles that carry <Term id="electric-charge">electric charge</Term>: electrons are negative and protons positive (Part 13 looks inside the atom). Charges push and pull on each other across empty space. To describe that, physicists say every charge is surrounded by an <Term id="electric-field">electric field</Term>: at each point in space, the push that a small test charge would feel there, per unit of its charge. Moving charges also make a magnetic field, the influence that turns a compass needle (Part 14 has more on magnetism).
+
+Now shake a charge up and down. Its field can't change everywhere at once; the change spreads outwards, like the bump spreading along a flicked rope. The ripple is a changing electric field, and a changing electric field creates a magnetic field, whose change in turn creates more electric field, so the ripple keeps itself going. That self-sustaining ripple is an <Term id="electromagnetic-wave">electromagnetic wave</Term>. Nothing material moves along with it: **the fields themselves are what wave**, which is why light needs no medium.
+
+<Figure caption="An electromagnetic wave. The electric field (amber) and the magnetic field (blue, drawn slanted to suggest that it points into and out of the page) rise and fall together, at right angles to each other and to the direction the wave travels. So light is a transverse wave." alt="A horizontal arrow to the right labelled travel, at c. Along it, an amber sine wave rises and falls vertically, labelled electric field, with thin amber stems from the axis to the curve. A blue sine wave of the same wavelength is drawn slanting down and to the left, as if pointing into the page, labelled magnetic field, with thin blue stems. Both waves peak at the same places. A green bracket below spans one wavelength, labelled wavelength lambda. A note at the top right: no medium needed, the fields themselves wave.">
+	<EMWave />
+</Figure>
+
+In the 1860s, James Clerk Maxwell wrote down the laws of electricity and magnetism and found that they predict exactly such waves. Their speed comes out of numbers measured with magnets and batteries on a lab bench, and it matched the measured speed of light. Light, Maxwell concluded, is an electromagnetic wave.
+
+### The speed of light
+
+Light is so fast that it seemed instant until 1676, when Ole Rømer noticed that eclipses of Jupiter's moon Io came early when the Earth was near Jupiter and late when it was far away. The light was taking about 22 minutes, he reckoned, to cross the Earth's orbit. Later, Hippolyte Fizeau timed light over a few kilometres on Earth by sending it through the gaps of a fast-spinning toothed wheel to a distant mirror and back.
+
+Today the speed of light in a vacuum, written $c$, is known so precisely that it is used to **define** the metre. Since 1983 the metre has been the distance light travels in $1/299\,792\,458$ of a second, so by definition
+
+$$
+c = 299\,792\,458\ \text{m/s} \approx 3.00 \times 10^{8}\ \text{m/s}.
+$$
+
+Light from the Sun takes about 8.3 minutes to reach us. Light from Tau Ceti takes 11.9 years, which is what "11.9 light-years away" means (Chapter 0.1). That is why Grace can't phone home: a radio message from Tau Ceti would take nearly twelve years to arrive, and the reply another twelve. The novel's answer is to send the results back on small automated ships, the "beetles".
+
+### One speed, many wavelengths: c = fλ
+
+Every electromagnetic wave travels at the same speed $c$ in a vacuum, whatever its wavelength. Applying $v = f\lambda$ from Chapter 7.1:
+
+$$
+c = f\lambda.
+$$
+
+Because $c$ is fixed, frequency and wavelength are inversely proportional (Chapter 0.5): a wave with a longer wavelength has a lower frequency, in exact proportion. One number is enough to label any electromagnetic wave. Astronomers tend to quote wavelengths; radio engineers quote frequencies. For the Petrova line,
+
+$$
+f = \frac{c}{\lambda} = \frac{3.00 \times 10^{8}\ \text{m/s}}{25.984 \times 10^{-6}\ \text{m}} = 1.15 \times 10^{13}\ \text{Hz},
+$$
+
+about 11.5 trillion wiggles of the field per second.
+
+### The electromagnetic spectrum
+
+The <Term id="electromagnetic-spectrum">electromagnetic spectrum</Term> is the whole range of electromagnetic waves, laid out by wavelength. It covers more than twenty powers of ten, so it is always drawn on a logarithmic scale (Chapter 0.8). The bands have names for historical reasons, and their edges are blurry:
+
+| Band | Wavelength (roughly) | Made by, used for |
+|---|---|---|
+| Radio | longer than about 0.1 m | broadcasting, radar, radio astronomy |
+| Microwave | about 1 mm to 0.1 m | ovens (2.45 GHz), mobile phones, Wi-Fi |
+| Infrared | about 750 nm to 1 mm | warm objects, TV remotes, the Petrova line |
+| Visible | about 400 nm to 750 nm | what our eyes detect: violet to red |
+| Ultraviolet | about 10 nm to 400 nm | sunburn, black lights |
+| X-rays | about $10^{-12}$ m to $10^{-8}$ m | medical images |
+| Gamma rays | shorter still, about $10^{-12}$ m and below | radioactive nuclei, exploding stars |
+
+<Figure caption="The electromagnetic spectrum on a logarithmic scale, with each labelled tick a factor of 1000 in wavelength. Frequency (top) rises as wavelength (bottom) falls, because c = fλ. Visible light is a thin sliver, enlarged above. The Petrova line and carbon dioxide's two strong absorption bands are all in the infrared." alt="A long horizontal bar divided into coloured bands from left to right: gamma, X-ray, UV, a thin rainbow strip, infrared, microwave, radio. Below it, wavelength ticks: 1 picometre, 1 nanometre, 1 micrometre, 1 millimetre, 1 metre, 1 kilometre. Above it, frequency ticks from 10 to the 21 hertz on the left down to 10 to the 6 on the right. Dashed lines from the thin rainbow strip lead up to an enlarged rainbow bar labelled visible light, from 400 nanometres (violet) to 750 nanometres (red). Red markers below the bar in the infrared: CO2 4.26 micrometres, CO2 15 micrometres and Petrova 25.984 micrometres; further right, microwave oven and FM radio.">
+	<SpectrumBar />
+</Figure>
+
+Within the visible band, wavelength is what we see as **colour**: about 400 nm looks violet, then blue, green, yellow, orange, and about 700 nm looks red. Our eyes see less than a factor of two in wavelength, less than one "octave", out of a spectrum that spans more than fifty octaves in the figure alone.
+
+The Petrova wavelength, 25.984 µm, is about 35 to 65 times longer than visible light, deep in the infrared. This is the kind of light that warm objects give off (Chapter 6.3, and Part 8 shows why). Carbon dioxide molecules absorb infrared strongly at about 4.26 µm and 15 µm, which is why CO₂ is a greenhouse gas (Chapter 6.5), and also why a planet rich in CO₂, like Venus, has a recognisable infrared fingerprint.
+
+### The Petrovascope
+
+A detector that sees "only one wavelength" is really a detector behind a very narrow filter, one that lets through light in a tiny band around 25.984 µm and blocks everything else. A star is enormously bright overall, but almost none of its light falls in that sliver. Astrophage, by contrast, puts **all** of its light there. So through the filter, faint Astrophage outshines the star. The novel's Petrovascope also blocks the star itself with a metal plate. Engineers use the same trick in real infrared astronomy, filtering for the wavelengths that a target emits and its surroundings don't.
+
+### Light slows down in matter
+
+In glass or water, light travels more slowly than $c$. The ratio is the material's <Term id="refractive-index">refractive index</Term> $n$:
+
+$$
+n = \frac{c}{v}.
+$$
+
+Water has $n = 1.33$, glass about 1.5 and diamond 2.419, so light in diamond travels at well under half of $c$. (Air has $n = 1.0003$, so close to 1 that we usually ignore it.) As Chapter 7.1 showed, the **frequency stays the same** when a wave enters a new medium, so the wavelength must shrink in proportion: $\lambda_{\text{in material}} = \lambda/n$.
+
+### Refraction: bending at a boundary
+
+When light meets a surface at an angle, the slowing-down makes it change direction. This bending is called <Term id="refraction">refraction</Term>. Think of a line of marchers walking at an angle from a pavement onto mud. The ones who reach the mud first slow down first, while the others are still striding along the pavement, so the whole line swings round. Light does the same: entering a slower material, it bends **towards the normal** (the line at right angles to the surface).
+
+<Figure caption="Refraction from air into glass. The crests (black lines across the ray) are a wavelength apart. Each crest reaches the glass on its left end first, which slows down first, so the crest swings round and the ray bends towards the normal. In glass the crests are 1.5 times closer together. Snell's law gives the new angle." alt="A horizontal boundary across the middle: air above, glass (light blue) below, labelled air, n equals 1.00, light at c, and glass, n equals 1.50, light at c over 1.5. A dashed vertical line through the point where the ray hits the boundary is labelled normal. An orange ray comes down from the upper left at 50 degrees to the normal, marked theta 1 equals 50 degrees with a green arc, and continues into the glass at a steeper angle, 30.7 degrees to the normal, marked theta 2. Short black lines across the ray mark crests, more widely spaced in air (labelled crests lambda apart) and bunched closer in glass (labelled crests bunch up, lambda over 1.5). A note: the ray bends towards the normal.">
+	<Refraction />
+</Figure>
+
+The exact rule, derived in the Formulas section from the geometry of the crests, is <Term id="snells-law">Snell's law</Term>:
+
+$$
+n_{1}\sin\theta_{1} = n_{2}\sin\theta_{2},
+$$
+
+with both angles measured from the normal. It is why a straw looks bent in a glass of water, how lenses focus light, and, because $n$ is slightly different for different colours, how a prism spreads white light into a rainbow (Chapter 7.5).
+
+### Trapped light: total internal reflection
+
+Going the other way, from glass or water out into air, light bends **away** from the normal. At a steep enough angle, Snell's law would need $\sin\theta_{2}$ bigger than 1, which is impossible: the light can't get out at all and is reflected back completely. This is <Term id="total-internal-reflection">total internal reflection</Term>. The angle at which it starts, the **critical angle**, has $\sin\theta_{\text{c}} = 1/n$ for a material in air. Optical fibres, which carry the internet under the oceans, trap light this way, and diamonds sparkle because their small critical angle traps light inside and sends it out of the top.
+
+## Formulas
+
+### The speed of light and c = fλ
+
+$$
+\boxed{c = f\lambda} \qquad c = 299\,792\,458\ \text{m/s} \text{ (exact)} \qquad \lambda = \frac{c}{f}, \quad f = \frac{c}{\lambda}
+$$
+
+The time for light to travel a distance $d$ is $t = d/c$.
+
+### Refractive index
+
+$$
+\boxed{n = \frac{c}{v}} \qquad v = \frac{c}{n} \qquad \lambda_{\text{medium}} = \frac{v}{f} = \frac{c/n}{f} = \frac{\lambda}{n}
+$$
+
+### Snell's law
+
+Let a crest reach the surface. One end of it, A, touches the surface first. The other end is still a distance $\lambda_{1}$ away from the surface along the ray, and reaches it at B one period $T$ later. Call the distance along the surface from A to B $d$.
+
+In air the far end covers $\lambda_{1}$ to reach B. The crest makes the angle $\theta_{1}$ with the surface (the same as the ray's angle with the normal, since both are turned by a right angle), so in the right-angled triangle with hypotenuse $d$:
+
+$$
+\sin\theta_{1} = \frac{\lambda_{1}}{d}
+$$
+
+In the same period, the end at A travels $\lambda_{2}$ into the glass. The new crest runs from B to that point, and the same reasoning gives
+
+$$
+\sin\theta_{2} = \frac{\lambda_{2}}{d}
+$$
+
+Divide, and use $\lambda = v/f$ with the same $f$ on both sides and $v = c/n$:
+
+$$
+\frac{\sin\theta_{1}}{\sin\theta_{2}} = \frac{\lambda_{1}}{\lambda_{2}} = \frac{v_{1}}{v_{2}} = \frac{c/n_{1}}{c/n_{2}} = \frac{n_{2}}{n_{1}} \qquad\Rightarrow\qquad \boxed{n_{1}\sin\theta_{1} = n_{2}\sin\theta_{2}}
+$$
+
+### The critical angle
+
+Leaving a material of index $n$ into air ($n_{2} = 1$), the outgoing angle reaches $90°$ when
+
+$$
+n\sin\theta_{\text{c}} = 1 \times \sin 90° = 1 \qquad\Rightarrow\qquad \boxed{\sin\theta_{\text{c}} = \frac{1}{n}}
+$$
+
+At any steeper angle all the light is reflected back inside.
+
+## Worked examples
+
+<Example n={1} title="The Petrova frequency" book>
+Find the frequency and period of Petrova-wavelength light, $\lambda = 25.984$ µm.
+
+$$
+f = \frac{c}{\lambda} = \frac{2.998 \times 10^{8}\ \text{m/s}}{25.984 \times 10^{-6}\ \text{m}} = 1.154 \times 10^{13}\ \text{Hz} = 11.54\ \text{THz}
+$$
+
+$$
+T = \frac{1}{f} = \frac{1}{1.154 \times 10^{13}\ \text{Hz}} = 8.67 \times 10^{-14}\ \text{s}
+$$
+
+The electric field of Petrova light swings back and forth in less than a tenth of a trillionth of a second. No electronic circuit can follow that, which is why infrared detectors measure the light's energy rather than tracking its wiggles.
+</Example>
+
+<Example n={2} title="The edges of the visible">
+Find the frequencies at the two ends of the visible band, 400 nm and 750 nm. How many times longer than these is the Petrova wavelength?
+
+$$
+f_{400} = \frac{2.998 \times 10^{8}\ \text{m/s}}{400 \times 10^{-9}\ \text{m}} = 7.49 \times 10^{14}\ \text{Hz} \qquad f_{750} = \frac{2.998 \times 10^{8}\ \text{m/s}}{750 \times 10^{-9}\ \text{m}} = 4.00 \times 10^{14}\ \text{Hz}
+$$
+
+$$
+\frac{25.984\ \mu\text{m}}{0.750\ \mu\text{m}} = 34.6 \qquad \frac{25.984\ \mu\text{m}}{0.400\ \mu\text{m}} = 65.0
+$$
+
+Our eyes see from 400 to 750 THz. The Petrova line is 35 to 65 times longer in wavelength, so 35 to 65 times lower in frequency, far below red.
+</Example>
+
+<Example n={3} title="Phoning home" book>
+Tau Ceti's parallax is 273.81 milliarcseconds, which puts it 11.91 light-years from Earth (Chapter 0.6). How long would a radio question and its answer take to go there and back? How long does sunlight take to reach Earth?
+
+By the definition of a light-year, radio (also an electromagnetic wave, travelling at $c$) takes 11.91 years each way:
+
+$$
+t_{\text{round trip}} = 2 \times 11.91\ \text{yr} = 23.8\ \text{yr}
+$$
+
+$$
+t_{\text{Sun}} = \frac{1\ \text{au}}{c} = \frac{1.496 \times 10^{11}\ \text{m}}{2.998 \times 10^{8}\ \text{m/s}} = 499\ \text{s} = 8.3\ \text{min}
+$$
+
+A conversation with Earth would take almost 24 years per exchange: longer than the dimming forecast gives humanity. The beetles carry the answers home instead.
+</Example>
+
+<Example n={4} title="Into the water">
+A ray of yellow sodium light (589 nm in air) enters a pool of water at $40°$ to the normal. Find its angle in the water, and its speed and wavelength there.
+
+$$
+\sin\theta_{2} = \frac{n_{1}\sin\theta_{1}}{n_{2}} = \frac{1.00 \times \sin 40°}{1.33} = \frac{0.643}{1.33} = 0.483 \qquad \theta_{2} = 28.9°
+$$
+
+$$
+v = \frac{c}{n} = \frac{2.998 \times 10^{8}\ \text{m/s}}{1.33} = 2.25 \times 10^{8}\ \text{m/s} \qquad \lambda = \frac{589\ \text{nm}}{1.33} = 443\ \text{nm}
+$$
+
+The ray bends towards the normal. Its wavelength in water, 443 nm, would look violet-blue in air, yet the light still looks yellow to a swimmer, because the eye responds to the light's frequency, which hasn't changed.
+</Example>
+
+<Example n={5} title="Hot spots in a microwave oven">
+A microwave oven runs at 2.45 GHz. The waves reflect off the metal walls and form standing waves (Chapter 7.1). Find the wavelength and the distance between the cold spots (nodes).
+
+$$
+\lambda = \frac{c}{f} = \frac{2.998 \times 10^{8}\ \text{m/s}}{2.45 \times 10^{9}\ \text{Hz}} = 0.122\ \text{m} = 12.2\ \text{cm}
+$$
+
+$$
+\text{node spacing} = \frac{\lambda}{2} = 6.1\ \text{cm}
+$$
+
+Food sitting at a node barely heats, which is why ovens have turntables. Melt a tray of chocolate without the turntable and the melted patches come out about 6 cm apart: a kitchen measurement of $c = f\lambda$.
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** Young's interference experiment (1801), light as an electromagnetic wave (Maxwell), Rømer's and Fizeau's measurements, the 1983 definition of the metre that fixes $c = 299\,792\,458$ m/s exactly, the bands of the spectrum (OpenStax), refractive indices (water 1.33, glass about 1.5, diamond 2.419), Snell's law and total internal reflection are standard physics. Carbon dioxide's strong infrared bands at 4.26 µm and 14.99 µm are measured.
+
+**Weir's inventions.** The Petrova line, its 25.984 µm wavelength and the Petrovascope are fiction. A reader guide gives the novel's carbon dioxide "signature" as 4.26 and 18.31 µm. The first matches real CO₂; we couldn't match the second to a strong real CO₂ band (the main one is near 15 µm), so treat it as the novel's figure.
+
+**How realistic are the numbers?** Very. 25.984 µm is a sensible far-infrared wavelength, and filtering for one narrow band to pick a faint source out of a bright background is exactly how astronomers work. Light delays are not a guess: radio from Tau Ceti really would take 11.9 years, so the novel is right that Grace can't simply call home.
+</RealVsBook>
+
+## Interactive simulation
+
+<SpectrumExplorer />
+
+Things to try: press "Petrova line" and read off the frequency. Drag towards shorter wavelengths until the swatch shows a colour, and note how little of the slider is visible light. Choose "diamond" and see the speed of light drop below half of $c$ while the frequency stays put.
+
+## Practice set
+
+<Problem n={1} level="easy">
+How long does sunlight take to cross the 1 au from the Sun to the Earth?
+
+<Solution>
+$t = 1.496 \times 10^{11}\ \text{m} / 2.998 \times 10^{8}\ \text{m/s} = 499$ s, about 8.3 minutes.
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy">
+An FM radio station broadcasts at 100 MHz. What is its wavelength?
+
+<Solution>
+$\lambda = c/f = 2.998 \times 10^{8} / 1.00 \times 10^{8} = 3.00$ m.
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy">
+Which has the higher frequency, red light or blue light? Which has the longer wavelength?
+
+<Solution>
+Blue light has the higher frequency (shorter wavelength, about 450 nm); red light has the longer wavelength (about 700 nm) and lower frequency. With $c$ fixed, $f$ and $\lambda$ go in opposite directions.
+</Solution>
+</Problem>
+
+<Problem n={4} level="easy" book>
+In which band is light of wavelength 25.984 µm? And 4.26 µm? And 589 nm?
+
+<Solution>
+25.984 µm and 4.26 µm are both infrared (between 750 nm and 1 mm). 589 nm is visible (yellow).
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium">
+How fast does light travel in glass ($n = 1.5$) and in diamond ($n = 2.419$)?
+
+<Solution>
+Glass: $2.998 \times 10^{8}/1.5 = 2.00 \times 10^{8}$ m/s. Diamond: $2.998 \times 10^{8}/2.419 = 1.24 \times 10^{8}$ m/s.
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium">
+Light passes from air into glass ($n = 1.5$) at $30°$ to the normal. At what angle does it travel in the glass?
+
+<Solution>
+$\sin\theta_{2} = \sin 30°/1.5 = 0.5/1.5 = 0.333$, so $\theta_{2} = 19.5°$.
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium">
+Find the frequencies of carbon dioxide's two strong infrared bands, at 4.26 µm and 14.99 µm.
+
+<Solution>
+$f = c/\lambda$: $2.998 \times 10^{8}/4.26 \times 10^{-6} = 7.04 \times 10^{13}$ Hz and $2.998 \times 10^{8}/14.99 \times 10^{-6} = 2.00 \times 10^{13}$ Hz.
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium" book>
+The *Hail Mary* orbits Adrian, which orbits Tau Ceti at 0.552 au (Chapter 4.3). How old is the light from Tau Ceti when it reaches the Petrovascope?
+
+<Solution>
+$t = 0.552 \times 1.496 \times 10^{11}\ \text{m} / 2.998 \times 10^{8}\ \text{m/s} = 275$ s, about 4.6 minutes. Grace sees the star as it was four and a half minutes earlier.
+</Solution>
+</Problem>
+
+<Problem n={9} level="medium">
+Rømer estimated that light takes 22 minutes to cross the diameter of the Earth's orbit (2 au). What speed of light does that give, and how far off is it?
+
+<Solution>
+$c \approx 2 \times 1.496 \times 10^{11}\ \text{m}/(22 \times 60\ \text{s}) = 2.27 \times 10^{8}$ m/s, about 76% of the true value, or 24% low. The true crossing time is about 16.6 minutes; the idea was right, the timing was rough.
+</Solution>
+</Problem>
+
+<Problem n={10} level="challenging">
+Find the critical angle for light trying to leave water ($n = 1.33$) and diamond ($n = 2.419$) into air. Why does diamond sparkle more?
+
+<Solution>
+Water: $\sin\theta_{\text{c}} = 1/1.33$, $\theta_{\text{c}} = 48.8°$. Diamond: $\sin\theta_{\text{c}} = 1/2.419$, $\theta_{\text{c}} = 24.4°$. In diamond, any light hitting a face at more than 24.4° from the normal is trapped and reflected, so light bounces around inside a cut diamond many times and comes out of the top in bright flashes.
+</Solution>
+</Problem>
+
+<Problem n={11} level="challenging" book>
+Petrova light passes into a material with $n = 1.5$. What are its wavelength and frequency there? Would a filter that worked by frequency still recognise it?
+
+<Solution>
+$\lambda = 25.984/1.5 = 17.3$ µm; the frequency stays $1.154 \times 10^{13}$ Hz. Yes: the frequency is the light's true identity, unchanged by the material, so anything that responds to the frequency (or to the photon energy, Chapter 7.3) still picks it out.
+</Solution>
+</Problem>
+
+<Problem n={12} level="challenging" book>
+An Astrophage cell is about 10 µm across. How does that compare with the wavelength of the light it emits? Why is that surprising? (Hint: radio aerials work best when they are about half a wavelength long.)
+
+<Solution>
+$10/25.984 = 0.385$: the cell is only about 0.38 wavelengths across, smaller than half a wavelength of its own light. Real emitters much smaller than half a wavelength radiate and absorb poorly, and a 10 µm speck should hardly interact with 26 µm light at all. The novel gives Astrophage an unexplained ability to absorb light as if it were much bigger than it is, "super cross-sectionality", which papers over exactly this problem.
+</Solution>
+</Problem>
+
+## Summary
+
+- Light is a wave: it interferes (Young, 1801). It is an electromagnetic wave, a self-sustaining ripple of electric and magnetic fields at right angles to each other and to the direction of travel, so it needs no medium.
+- In a vacuum every electromagnetic wave travels at $c = 299\,792\,458$ m/s exactly (this defines the metre), so $c = f\lambda$ and frequency and wavelength are inversely proportional.
+- The spectrum runs from gamma rays (shortest) through X-rays, ultraviolet, visible (400–750 nm), infrared and microwaves to radio (longest). The Petrova line, 25.984 µm, and CO₂'s bands at 4.26 and 15 µm are infrared.
+- In a material light slows to $v = c/n$; its frequency stays the same and its wavelength shrinks to $\lambda/n$.
+- At a boundary light refracts by Snell's law, $n_{1}\sin\theta_{1} = n_{2}\sin\theta_{2}$. Leaving a dense material beyond the critical angle, $\sin\theta_{\text{c}} = 1/n$, it is totally reflected.
+
+**Formulas from this chapter**
+
+$$
+c = f\lambda \qquad n = \frac{c}{v} \qquad \lambda_{\text{medium}} = \frac{\lambda}{n} \qquad n_{1}\sin\theta_{1} = n_{2}\sin\theta_{2} \qquad \sin\theta_{\text{c}} = \frac{1}{n}
+$$
+
+## Sources
+
+- Young's two-slit experiment (1801): Wikipedia, [Young's interference experiment](https://en.wikipedia.org/wiki/Young%27s_interference_experiment); OpenStax, [*University Physics Volume 3*, §3.1](https://openstax.org/books/university-physics-volume-3/pages/3-1-youngs-double-slit-interference).
+- Light as an electromagnetic wave, Maxwell's prediction of its speed: OpenStax, [*University Physics Volume 2*, §16.1](https://openstax.org/books/university-physics-volume-2/pages/16-1-maxwells-equations-and-electromagnetic-waves) and [§16.2](https://openstax.org/books/university-physics-volume-2/pages/16-2-plane-electromagnetic-waves); Wikipedia, [Electromagnetic radiation](https://en.wikipedia.org/wiki/Electromagnetic_radiation).
+- Rømer (1676, about 22 minutes across Earth's orbit), Fizeau's toothed wheel, the 1983 definition of the metre: Wikipedia, [Speed of light](https://en.wikipedia.org/wiki/Speed_of_light); BIPM, [The metre](https://www.bipm.org/en/si-base-units/metre). $c$ exact: NIST, [CODATA value of c](https://physics.nist.gov/cgi-bin/cuu/Value?c).
+- The bands of the spectrum, visible light from about 400 to 750 nm, microwave ovens at 2.45 GHz: OpenStax, [*University Physics Volume 2*, §16.5](https://openstax.org/books/university-physics-volume-2/pages/16-5-the-electromagnetic-spectrum).
+- Refractive index, water 1.33 and diamond 2.419, Snell's law: OpenStax, [*University Physics Volume 3*, §1.3](https://openstax.org/books/university-physics-volume-3/pages/1-3-refraction). Glass about 1.5: Wikipedia, [Speed of light](https://en.wikipedia.org/wiki/Speed_of_light). Total internal reflection, fibres and diamonds: OpenStax, [§1.4](https://openstax.org/books/university-physics-volume-3/pages/1-4-total-internal-reflection).
+- Carbon dioxide's infrared bands at 4.26 µm and 14.99 µm: Wikipedia, [Carbon dioxide](https://en.wikipedia.org/wiki/Carbon_dioxide).
+- Tau Ceti's parallax (273.81 mas): this course, [Chapter 0.6](/part-0/trigonometry/). Adrian's orbit (0.552 au): [Chapter 4.3](/part-4/keplers-laws/).
+- The Petrova line (one steady wavelength of 25.984 µm, arcing from the Sun's north pole to Venus, discovered at Pulkovo Observatory) and Astrophage finding Venus by its CO₂ signature (4.26 and 18.31 µm in the reader guide): readifyai reader guides, [Petrova line](https://readifyai.com/en/books/Project%20Hail%20Mary/wiki/Petrova%20line) and [Astrophage](https://readifyai.com/en/books/Project%20Hail%20Mary/wiki/Astrophage) (not official sources). The Petrovascope (sees only 25.984 µm light, blocks the star with a metal plate): readifyai, [Petrovascope](https://readifyai.com/en/books/Project%20Hail%20Mary/wiki/Petrovascope). The beetles carry results home: Wikipedia, [*Project Hail Mary*](https://en.wikipedia.org/wiki/Project_Hail_Mary).

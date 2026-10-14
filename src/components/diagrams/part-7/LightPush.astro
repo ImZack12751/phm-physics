@@ -1,0 +1,37 @@
+---
+// Why light pushes (after Feynman Lectures I §34-9). A light wave travels to the right. Its electric field E (up) drives a
+// charge, which moves with velocity v up. The wave's magnetic field B (into the page) then pushes the moving charge with
+// force qvB = qvE/c along the direction of travel. The charge absorbs power qEv, so push = (power absorbed)/c.
+const QX = 330, QY = 170;
+const head = (x: number, y: number, ux: number, uy: number) => `${x},${y} ${x - 12 * ux + 6 * uy},${y - 12 * uy - 6 * ux} ${x - 12 * ux - 6 * uy},${y - 12 * uy + 6 * ux}`;
+const wave = Array.from({ length: 121 }, (_, i) => {
+	const x = 40 + (200 * i) / 120;
+	return `${x.toFixed(1)},${(QY - 40 * Math.sin((2 * Math.PI * i) / 60)).toFixed(1)}`;
+}).join(' ');
+---
+
+<svg class="dg" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+	<polyline points={wave} class="s-amber w2" fill="none" />
+	<line x1="40" y1={QY + 70} x2="220" y2={QY + 70} class="s-fg w2" />
+	<polygon points={head(232, QY + 70, 1, 0)} class="f-fg" />
+	<text x="40" y={QY + 92} class="t-sm">light wave travelling right, at c</text>
+	<circle cx={QX} cy={QY} r="14" class="f-sky" />
+	<text x={QX} y={QY + 5} class="t-mid t-sm t-b">q</text>
+	<line x1={QX - 50} y1={QY + 50} x2={QX - 50} y2={QY - 50} class="s-amber w3" />
+	<polygon points={head(QX - 50, QY - 62, 0, -1)} class="f-amber" />
+	<text x={QX - 58} y={QY - 66} class="t-end t-sm f-amber">electric field E</text>
+	<line x1={QX} y1={QY - 18} x2={QX} y2={QY - 70} class="s-green w3" />
+	<polygon points={head(QX, QY - 82, 0, -1)} class="f-green" />
+	<text x={QX + 10} y={QY - 74} class="t-sm f-green">1. E drives the charge: velocity v</text>
+	<circle cx={QX - 20} cy={QY + 60} r="11" class="s-sky w2" fill="none" />
+	<line x1={QX - 27} y1={QY + 53} x2={QX - 13} y2={QY + 67} class="s-sky w2" />
+	<line x1={QX - 13} y1={QY + 53} x2={QX - 27} y2={QY + 67} class="s-sky w2" />
+	<text x={QX - 2} y={QY + 64} class="t-sm f-sky">magnetic field B = E/c, into page</text>
+	<line x1={QX + 18} y1={QY} x2={QX + 110} y2={QY} class="s-rose w3" />
+	<polygon points={head(QX + 122, QY, 1, 0)} class="f-rose" />
+	<text x="590" y={QY - 30} class="t-end t-sm f-rose">2. B pushes the moving</text>
+	<text x="590" y={QY - 12} class="t-end t-sm f-rose">charge forward: qvB</text>
+	<text x="300" y="24" class="t-mid t-sm">power absorbed = force × velocity = qEv</text>
+	<text x="300" y="44" class="t-mid t-sm t-b">forward push = qvB = qvE/c = (power absorbed)/c</text>
+	<text x="300" y="290" class="t-mid t-sm f-muted">so light carrying energy E delivers momentum E/c</text>
+</svg>
