@@ -1,0 +1,35 @@
+---
+// Specific energy (energy per kilogram) of fuels on a log scale, from Wikipedia's "Energy density" table, with
+// mass–energy (c² = 8.988 × 10¹⁶ J/kg) at the top. Li-ion drawn at the top of its 0.36–0.875 MJ/kg range.
+const rows = [
+	{ n: 'lithium-ion battery', e: 0.875e6, cls: 'f-sky' },
+	{ n: 'TNT', e: 4.184e6, cls: 'f-rose' },
+	{ n: 'wood', e: 18.0e6, cls: 'f-green' },
+	{ n: 'body fat', e: 38e6, cls: 'f-amber' },
+	{ n: 'gasoline', e: 46.4e6, cls: 'f-amber' },
+	{ n: 'hydrogen (burned)', e: 141.86e6, cls: 'f-sky' },
+	{ n: 'uranium (fission)', e: 80.62e12, cls: 'f-violet' },
+	{ n: 'D–T fusion', e: 337.387e12, cls: 'f-violet' },
+	{ n: 'mass–energy: antimatter, Astrophage', e: 8.988e16, cls: 'f-rose' },
+];
+const L = 230, R = 570, lo = 5, hi = 17.2, T0 = 20, RH = 27;
+const X = (e: number) => L + ((Math.log10(e) - lo) / (hi - lo)) * (R - L);
+const fmt = (e: number) => (e >= 1e15 ? `${(e / 1e15).toFixed(0)} PJ/kg` : e >= 1e12 ? `${(e / 1e12).toFixed(0)} TJ/kg` : `${(e / 1e6).toPrecision(3)} MJ/kg`);
+---
+
+<svg class="dg" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+	{rows.map((r, i) => (
+		<>
+			<text x={L - 8} y={T0 + i * RH + 15} class="t-end t-sm">{r.n}</text>
+			<rect x={L} y={T0 + i * RH + 3} width={X(r.e) - L} height="16" class={r.cls} fill-opacity="0.8" />
+			<text x={Math.min(X(r.e) + 6, 520)} y={T0 + i * RH + 15} class={`t-sm halo ${X(r.e) > 515 ? 't-end' : ''}`}>{fmt(r.e)}</text>
+		</>
+	))}
+	{([[1e6, '10⁶'], [1e9, '10⁹'], [1e12, '10¹²'], [1e15, '10¹⁵']] as [number, string][]).map(([e, t]) => (
+		<>
+			<line x1={X(e)} y1={T0} x2={X(e)} y2={T0 + rows.length * RH} class="s-grid w1 dash" />
+			<text x={X(e)} y={T0 + rows.length * RH + 16} class="t-mid t-sm f-muted">{t} J/kg</text>
+		</>
+	))}
+	<text x={(L + R) / 2} y="292" class="t-mid t-sm">energy per kilogram (log scale): each grid line ×1000</text>
+</svg>

@@ -28,6 +28,7 @@
 
 <script>
 	const sigma = 5.670374419e-8, AU = 149597870700, Rsun = 6.957e8;
+	const p3 = (x: number) => (x >= 1000 ? Math.round(x).toLocaleString('en') : x.toPrecision(3));
 	// luminosity (L☉), radius (R☉), temperature (K): NASA and Wikipedia; Tau Ceti uses the course's 0.52 L☉;
 	// 40 Eridani A: 0.40 L☉, 0.804 R☉, 5126 K (Wikipedia).
 	const STARS: Record<string, { n: string; L: number; R: number; T: number; col: string }> = {
@@ -81,7 +82,7 @@
 			dot.setAttribute('cx', String(X(d)));
 			const inHZ = rel <= 1.02 && rel >= 0.36;
 			out.innerHTML =
-				`<span class="k">starlight S = L/4πd²</span> = <b>${S >= 100 ? S.toFixed(0) : S.toPrecision(3)} W/m²</b> = ${rel.toPrecision(3)} × Earth's &nbsp; <span class="k">star's angular diameter 2R/d</span> = ${angDeg.toPrecision(3)}° (${(angDeg / 0.5329).toPrecision(3)} × the Sun's from Earth)<br>` +
+				`<span class="k">starlight S = L/4πd²</span> = <b>${S >= 100 ? S.toFixed(0) : S.toPrecision(3)} W/m²</b> = ${p3(rel)} × Earth's &nbsp; <span class="k">star's angular diameter 2R/d</span> = ${p3(angDeg)}° (${p3(angDeg / 0.5329)} × the Sun's from Earth)<br>` +
 				`<span class="k">planet's equilibrium temperature</span> = <b>${Te.toFixed(0)} K</b> (${(Te - 273.15).toFixed(0)} °C, before any greenhouse effect) &nbsp; <span class="k">habitable zone for ${st.n}</span>: ${hzIn.toPrecision(2)} to ${hzOut.toPrecision(2)} au, so this planet is <b>${inHZ ? 'inside it' : rel > 1.02 ? 'too close' : 'too far'}</b>`;
 		}
 		[Ds, As].forEach((i) => i.addEventListener('input', draw));

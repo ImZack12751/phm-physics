@@ -1473,5 +1473,37 @@ export const glossary = {
 		def: 'How much of a star is made of elements heavier than helium (“metals” to astronomers), measured from its spectral lines. Tau Ceti has about a third of the Sun’s.',
 		chapter: 'sun-vs-tau-ceti',
 	},
+	// ---- 9.1 E = mc² ----
+	'mass-energy-equivalence': {
+		term: 'Mass–energy equivalence (E = mc²)',
+		def: 'Mass is a form of energy: a mass m stores energy mc², and any energy E carries mass E/c². Derived from light’s momentum and the centre of mass (Einstein, 1905–06).',
+		chapter: 'mass-energy',
+	},
+	'rest-energy': {
+		term: 'Rest energy',
+		def: 'The energy a body has just by having mass, at rest: mc². For 1 kg it is 8.988 × 10¹⁶ J.',
+		chapter: 'mass-energy',
+	},
+	'mass-defect': {
+		term: 'Mass defect',
+		def: 'How much lighter the products of a nuclear reaction are than what went in. Times c², it is the energy released: 0.712% for hydrogen fusing to helium.',
+		chapter: 'mass-energy',
+	},
+	antimatter: {
+		term: 'Antimatter',
+		def: 'Particles with the same mass as ordinary ones but opposite charge, such as the positron. Matter meeting antimatter turns its whole mass into energy.',
+		chapter: 'mass-energy',
+	},
+	// ---- 9.2 Energy density ----
+	'specific-energy': {
+		term: 'Specific energy',
+		def: 'Energy a fuel releases per kilogram, in J/kg: gasoline 46 MJ/kg, uranium fission 81 TJ/kg, complete mass–energy c² = 90 PJ/kg.',
+		chapter: 'energy-density',
+	},
+	'energy-density': {
+		term: 'Energy density',
+		def: 'Energy stored per volume, in J/m³ or MJ/L: density × specific energy. Petrol holds 34 MJ per litre; hydrogen gas at room pressure only 0.012.',
+		chapter: 'energy-density',
+	},
 };
 

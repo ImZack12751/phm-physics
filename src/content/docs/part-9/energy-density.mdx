@@ -1,0 +1,311 @@
+---
+title: 'Energy density: chemical to Astrophage'
+description: Energy per kilogram and per litre for batteries, food, fuels, fission, fusion and total mass–energy; why the energy in a fuel limits its exhaust speed (vₑ = √(2ε)); what the rocket equation then demands for interstellar speeds; and why Astrophage, a perfect mass-to-light converter, is the only fuel in the novel that could reach Tau Ceti.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import SpecificEnergyBars from '../../../components/diagrams/part-9/SpecificEnergyBars.astro';
+import ExhaustLimit from '../../../components/diagrams/part-9/ExhaustLimit.astro';
+import FuelCalculator from '../../../components/sims/FuelCalculator.astro';
+
+## The scene
+
+Before the *Hail Mary* can fly, the world has to make its fuel. The novel's answer is a vast farm of black panels covering a quarter of the Sahara, breeding Astrophage in sunlight until there are about two million kilograms of it. Why go to such lengths for one fuel? Why not fill the tanks with something we already have: hydrogen, uranium, or the best batteries money can buy?
+
+The answer is a single number for each fuel: how much energy it holds per kilogram. Chapter 9.1 showed that the absolute limit is $c^{2}$, ninety thousand trillion joules per kilogram. This chapter compares every fuel with that limit and shows why, for a trip to the stars, nothing else comes close.
+
+## Prerequisites
+
+<Prereqs notes={{ 'mass-energy': 'E = mc², rest energy and mass defects', 'rocket-equation': 'the Tsiolkovsky rocket equation, m₀/m_f = e^(Δv/vₑ)', thrust: 'exhaust speed and P = ½Fvₑ', 'kinetic-potential-energy': 'kinetic energy ½mv²', 'exponentials-logarithms': 'logarithmic scales and huge exponentials', 'energy-balance': 'sunlight per square metre and the Sahara blackpanels' }} />
+
+## The concept
+
+### Two ways to measure a fuel
+
+The <Term id="specific-energy">specific energy</Term> of a fuel is the energy it releases per kilogram, in J/kg (often MJ/kg). Its <Term id="energy-density">energy density</Term> is the energy per volume, in J/m³ (often MJ/L). For a spacecraft, where every kilogram must be pushed, specific energy is what matters most. For a car's tank, where space is limited, energy density matters too. Hydrogen shows the difference: it has the highest specific energy of any chemical fuel, 142 MJ/kg, but as a gas at room pressure a litre of it holds only 0.012 MJ, three thousand times less than a litre of petrol.
+
+### The ladder of fuels
+
+<Figure caption="Energy per kilogram, on a log scale. Chemical fuels and batteries all lie within a factor of a few hundred of each other. Nuclear fuels are about a million times better. Complete conversion of mass to energy, which only antimatter and the novel's Astrophage achieve, is a thousand times better again." alt="A horizontal bar chart on a logarithmic scale of energy per kilogram from 10 to the 5 to 10 to the 17 joules per kilogram. Bars from shortest to longest: lithium-ion battery 0.875 MJ/kg; TNT 4.18; wood 18.0; body fat 38.0; gasoline 46.4; hydrogen burned 142 MJ/kg; uranium fission 81 TJ/kg; deuterium–tritium fusion 337 TJ/kg; mass–energy, antimatter and Astrophage, 90 PJ/kg.">
+	<SpecificEnergyBars />
+</Figure>
+
+The ladder has three steps, each a factor of about a million or a thousand:
+
+- **Chemical** energy comes from rearranging the electrons that bind atoms together. Batteries, food, wood, petrol and hydrogen all live here, between about 1 and 150 MJ/kg. Even the best release only about a billionth of their rest energy (Chapter 9.1).
+- **Nuclear** energy comes from rearranging the protons and neutrons inside nuclei, where the forces are far stronger. Uranium fission gives 80 million MJ/kg, and fusing deuterium with tritium 340 million MJ/kg: about a thousandth of the rest energy.
+- **Mass–energy** itself, $c^{2} = 9.0 \times 10^{10}$ MJ/kg, is released in full only when matter meets antimatter. In the novel, Astrophage converts its stored mass to light completely, so as a fuel it sits at the very top.
+
+A gram of Astrophage holds as much energy as 21 000 tonnes of TNT, or about 100 000 tonnes of the best lithium-ion batteries.
+
+### Energy limits exhaust speed
+
+Chapter 5.7's rocket equation says what a rocket can do depends on its exhaust speed $v_{\text{e}}$: the mass ratio it needs for a change of speed $\Delta v$ is $e^{\Delta v/v_{\text{e}}}$. And the exhaust speed is limited by the fuel's specific energy $\varepsilon$. If every joule of the fuel went into the kinetic energy of the exhaust (which is the best you can hope for), then each kilogram of exhaust would have $\tfrac{1}{2}v_{\text{e}}^{2} = \varepsilon$, so
+
+$$
+v_{\text{e}} \le \sqrt{2\varepsilon}.
+$$
+
+<Figure caption="The fastest exhaust each kind of fuel could give, if all its energy became motion of the exhaust. Chemistry is stuck at a few kilometres per second; nuclear fuels could reach a few percent of the speed of light; only light itself, the exhaust of a mass-to-light drive, leaves at c." alt="A horizontal bar chart on a logarithmic scale of exhaust speed from 1 to 100 000 km/s and beyond. Bars: hydrogen plus oxygen, ideal, 5.6 km/s; RS-25 engine, real, 4.4 km/s; ion thruster, real, 30 km/s; fission, ideal, 12 698 km/s, 4.2% of c; deuterium–tritium fusion, ideal, 25 976 km/s, 8.7% of c; light, Astrophage, c equals 300 000 km/s.">
+	<ExhaustLimit />
+</Figure>
+
+The Space Shuttle's main engine burned hydrogen with oxygen, about 15.8 MJ per kilogram of propellant, giving an ideal limit of 5.6 km/s. It achieved 4.44 km/s, 79% of the limit: chemical engines are already close to as good as they can get. Ion thrusters beat this (Chapter 5.6) only because they take their energy from a separate power supply, not from the propellant.
+
+For a fuel that releases its whole rest energy, the formula $\sqrt{2\varepsilon} = \sqrt{2}\,c$ would claim an exhaust faster than light. That's a sign that $\tfrac{1}{2}mv^{2}$ no longer applies (Part 10). The real answer is simpler: a mass-to-light drive's exhaust is light, which leaves at exactly $c$, carrying momentum $E/c$ (Chapter 7.4).
+
+### What the rocket equation demands
+
+Put the two together. To change speed by 10% of the speed of light, the mass ratio $e^{\Delta v/v_{\text{e}}}$ is:
+
+| Drive | $v_{\text{e}}$ | $\Delta v/v_{\text{e}}$ | Mass ratio |
+|---|---|---|---|
+| Hydrogen–oxygen (real) | 4.44 km/s | 6758 | about $10^{2935}$: impossible |
+| Ion thruster | 30 km/s | 999 | about $10^{434}$: impossible |
+| Ideal fission | 12 700 km/s | 2.36 | 10.6 |
+| Ideal D–T fusion | 26 000 km/s | 1.15 | 3.2 |
+| Light (Astrophage) | 300 000 km/s | 0.10 | 1.105 |
+
+A mass ratio of $10^{2935}$ means the fuel would outweigh the observable Universe by an unimaginable margin. Chemical rockets can never reach the stars in a human lifetime; that isn't an engineering problem but a consequence of where their energy comes from. Ideal nuclear rockets could, in principle, reach 10% of light speed, though nobody knows how to build one that turns most of its nuclear energy into exhaust. A mass-to-light drive needs only about a tenth of its dry mass in fuel for the same job.
+
+The novel's trip needs far more than 10% of light speed (Part 10 works out how much), which is why only Astrophage will do.
+
+## Formulas
+
+### Specific energy and energy density
+
+$$
+\boxed{\varepsilon = \frac{E}{m}\ (\text{J/kg})} \qquad \boxed{u = \frac{E}{V} = \rho\,\varepsilon\ (\text{J/m}^{3})}
+$$
+
+with $\rho$ the density (Chapter 0.4). The upper limit is $\varepsilon_{\text{max}} = c^{2} = 8.988 \times 10^{16}$ J/kg. The fraction of the rest energy a fuel releases is $\varepsilon/c^{2}$.
+
+### The exhaust limit
+
+If all the energy $\varepsilon$ in each kilogram becomes the exhaust's kinetic energy (Chapter 5.2),
+
+$$
+\tfrac{1}{2}v_{\text{e}}^{2} = \varepsilon \qquad\Rightarrow\qquad \boxed{v_{\text{e,max}} = \sqrt{2\varepsilon}}
+$$
+
+valid while $v_{\text{e}}$ is much less than $c$. For light, $v_{\text{e}} = c$.
+
+### Fuel for a change of speed
+
+From the rocket equation (Chapter 5.7), a ship of dry mass $m_{\text{f}}$ needs fuel
+
+$$
+\boxed{m_{\text{fuel}} = m_{\text{f}}\left(e^{\Delta v/v_{\text{e}}} - 1\right)}
+$$
+
+For a light drive near the speed of light, relativity changes the mass ratio to $\sqrt{(1 + \beta)/(1 - \beta)}$, where $\beta = \Delta v/c$ (Part 10 derives it); at $\beta = 0.1$ that is 1.106 instead of 1.105.
+
+## Worked examples
+
+<Example n={1} title="A gram of Astrophage as a battery" book>
+How much energy, in joules and gigawatt-hours, is in 1 g of Astrophage? What mass of the best lithium-ion batteries (0.875 MJ/kg) holds the same?
+
+$$
+E = 1.0 \times 10^{-3}\ \text{kg} \times 8.988 \times 10^{16}\ \text{J/kg} = 8.99 \times 10^{13}\ \text{J} = \frac{8.99 \times 10^{13}\ \text{J}}{3.6 \times 10^{12}\ \text{J/GWh}} = 25.0\ \text{GWh}
+$$
+
+$$
+m_{\text{battery}} = \frac{8.99 \times 10^{13}\ \text{J}}{0.875 \times 10^{6}\ \text{J/kg}} = 1.03 \times 10^{8}\ \text{kg}
+$$
+
+One gram against a hundred thousand tonnes of batteries: Astrophage is about a hundred billion times better per kilogram than the best battery.
+</Example>
+
+<Example n={2} title="The Hail Mary's fuel in petrol" book>
+The ship carries about $2 \times 10^{6}$ kg of Astrophage. What mass of petrol (46.4 MJ/kg) holds the same energy? If Astrophage has about the density of water (our assumption), how big a tank does the real fuel need?
+
+$$
+E = 2 \times 10^{6}\ \text{kg} \times 8.988 \times 10^{16}\ \text{J/kg} = 1.80 \times 10^{23}\ \text{J} \qquad m_{\text{petrol}} = \frac{1.80 \times 10^{23}\ \text{J}}{4.64 \times 10^{7}\ \text{J/kg}} = 3.9 \times 10^{15}\ \text{kg}
+$$
+
+$$
+V = \frac{2 \times 10^{6}\ \text{kg}}{1000\ \text{kg/m}^{3}} = 2000\ \text{m}^{3} \qquad \text{a cube } \sqrt[3]{2000}\ \text{m} = 12.6\ \text{m on a side}
+$$
+
+The same energy as petrol would weigh four trillion tonnes; as Astrophage it fits in a cube the height of a four-storey house.
+</Example>
+
+<Example n={3} title="How good is a chemical rocket?">
+In the Space Shuttle's main engine, each 1 kg of hydrogen burns with 8 kg of oxygen, releasing 141.86 MJ. Find the energy per kilogram of propellant and the ideal exhaust speed. The RS-25 achieved 4.436 km/s. What fraction of the ideal is that?
+
+$$
+\varepsilon = \frac{141.86\ \text{MJ}}{9\ \text{kg}} = 15.8\ \text{MJ/kg} \qquad v_{\text{e,max}} = \sqrt{2 \times 1.576 \times 10^{7}\ \text{J/kg}} = 5.61 \times 10^{3}\ \text{m/s}
+$$
+
+$$
+\frac{4.436\ \text{km/s}}{5.61\ \text{km/s}} = 0.79
+$$
+
+Chemistry is already pushed to 79% of its limit. No better chemical rocket can be much better.
+</Example>
+
+<Example n={4} title="Ten percent of light speed">
+A ship with a dry mass of 100 tonnes must change speed by $0.1c = 3.0 \times 10^{7}$ m/s. Find the fuel needed with an ideal fission rocket ($v_{\text{e}} = 1.27 \times 10^{7}$ m/s), an ideal fusion rocket ($2.60 \times 10^{7}$ m/s) and a light drive.
+
+$$
+\text{fission: } e^{3.0/1.27} - 1 = e^{2.36} - 1 = 9.6 \qquad m_{\text{fuel}} = 9.6 \times 100\ \text{t} = 960\ \text{t}
+$$
+
+$$
+\text{fusion: } e^{3.0/2.60} - 1 = e^{1.154} - 1 = 2.17 \qquad m_{\text{fuel}} = 217\ \text{t}
+$$
+
+$$
+\text{light: } e^{0.100} - 1 = 0.105 \qquad m_{\text{fuel}} = 10.5\ \text{t}
+$$
+
+Even a perfect fusion rocket needs twenty times the fuel of a light drive. A chemical rocket would need a mass ratio of $10^{2935}$.
+</Example>
+
+<Example n={5} title="Breeding the fuel" book>
+The novel's blackpanels cover about $2 \times 10^{12}$ m² of the Sahara. Suppose they average 250 W/m² of sunlight over day and night (our assumption) and every joule becomes Astrophage mass. How long would $2 \times 10^{6}$ kg take?
+
+$$
+P = 2 \times 10^{12}\ \text{m}^{2} \times 250\ \text{W/m}^{2} = 5.0 \times 10^{14}\ \text{W} \qquad \dot{m} = \frac{P}{c^{2}} = \frac{5.0 \times 10^{14}\ \text{W}}{8.988 \times 10^{16}\ \text{J/kg}} = 5.6 \times 10^{-3}\ \text{kg/s}
+$$
+
+$$
+t = \frac{2 \times 10^{6}\ \text{kg}}{5.6 \times 10^{-3}\ \text{kg/s}} = 3.6 \times 10^{8}\ \text{s} = 11\ \text{years}
+$$
+
+A farm covering a quarter of the Sahara, converting sunlight with perfect efficiency, makes only about half a tonne of fuel a day. The energy per kilogram is so vast that even this enormous solar farm needs about a decade, which shows why the novel's engineers had to think on a continental scale.
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** The specific energies (Wikipedia's energy density table: lithium-ion 0.36–0.875, TNT 4.184, wood 18, fat 38, gasoline 46.4, hydrogen 141.86 MJ/kg; uranium fission 80.6 TJ/kg; D–T fusion 337 TJ/kg; antimatter 90 PJ/kg), the RS-25's 4.44 km/s and the rocket equation are established. The exhaust limit $\sqrt{2\varepsilon}$ is a simple energy bound, and real chemical engines come close to it.
+
+**Weir's inventions.** Astrophage is the only "fuel" in the list that doesn't exist. Turning mass into light completely is possible in principle (antimatter does it), but no one can make, store or control antimatter in useful amounts. The farm's 250 W/m² and perfect conversion are our assumptions.
+
+**How realistic are the numbers?** The physics is honest about why the novel needs Astrophage: no chemical fuel could ever reach another star in a human lifetime, and even ideal nuclear rockets would struggle. A 100% mass-to-light fuel is the theoretical best. The breeding estimate shows how demanding the fuel programme is: about a decade for two million kilograms even with perfect conversion of the panels' sunlight, so the farm has to be continental in scale.
+</RealVsBook>
+
+## Interactive simulation
+
+<FuelCalculator />
+
+Things to try: start at 10 km/s, a typical orbital manoeuvre, and see that the chemical engine needs a sensible mass ratio. Raise Δv to 100 km/s and watch it become impossible. Push towards 90% of light speed and compare the simple and relativistic answers for the light drive.
+
+## Practice set
+
+<Problem n={1} level="easy">
+What is the difference between specific energy and energy density? Which matters more for a spacecraft?
+
+<Solution>
+Specific energy is energy per kilogram; energy density is energy per volume. For a spacecraft, where every kilogram has to be accelerated, specific energy matters more.
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy" book>
+How many kilograms of TNT hold as much energy as 1 kg of Astrophage?
+
+<Solution>
+$8.988 \times 10^{16}/4.184 \times 10^{6} = 2.15 \times 10^{10}$ kg: 21 million tonnes.
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy" book>
+A person uses about 100 W, or 8.64 MJ a day. How much body fat (38 MJ/kg) is that? How much Astrophage?
+
+<Solution>
+Fat: $8.64/38 = 0.23$ kg. Astrophage: $8.64 \times 10^{6}/8.988 \times 10^{16} = 9.6 \times 10^{-11}$ kg, a tenth of a nanogram.
+</Solution>
+</Problem>
+
+<Problem n={4} level="easy">
+Petrol holds 34.2 MJ per litre. Taking Astrophage at the density of water (1 kg per litre, our assumption), how many times more energy is in a litre of Astrophage?
+
+<Solution>
+$8.988 \times 10^{16}/3.42 \times 10^{7} = 2.6 \times 10^{9}$ times.
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium">
+Find the ideal exhaust speed for uranium fission (80.62 TJ/kg), in km/s and as a fraction of $c$.
+
+<Solution>
+$\sqrt{2 \times 8.062 \times 10^{13}} = 1.27 \times 10^{7}$ m/s $= 12\,700$ km/s, 4.2% of $c$.
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium">
+Kerosene (43 MJ/kg) burns with oxygen in the ratio of about 3.48 kg of oxygen per kg of fuel (from C₁₂H₂₆ + 18.5 O₂). Find the energy per kilogram of propellant and the ideal exhaust speed.
+
+<Solution>
+$\varepsilon = 43/4.48 = 9.6$ MJ/kg; $v_{\text{e,max}} = \sqrt{2 \times 9.6 \times 10^{6}} = 4.4$ km/s, lower than hydrogen–oxygen's 5.6 km/s.
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium">
+What mass ratio does an RS-25-type engine (4.436 km/s) need for a Δv of 10 km/s?
+
+<Solution>
+$e^{10/4.436} = e^{2.25} = 9.5$: the rocket must be about 90% fuel.
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium" book>
+A single Astrophage cell in our model (10 µm across, the density of water) has a mass of $5.24 \times 10^{-13}$ kg. How much energy would it release if fully converted? How long would that run a 1 kW heater?
+
+<Solution>
+$E = 5.24 \times 10^{-13} \times 8.988 \times 10^{16} = 4.7 \times 10^{4}$ J, enough for a 1 kW heater for 47 seconds, from one speck far too small to see.
+</Solution>
+</Problem>
+
+<Problem n={9} level="medium">
+Why does $v_{\text{e}} = \sqrt{2\varepsilon}$ give a nonsensical answer for a fuel that converts all its mass to energy? What is the true exhaust speed?
+
+<Solution>
+With $\varepsilon = c^{2}$ it gives $\sqrt{2}\,c$, faster than light, because $\tfrac{1}{2}mv^{2}$ is only valid for speeds much less than $c$. A mass-to-light drive's exhaust is light, which travels at exactly $c$.
+</Solution>
+</Problem>
+
+<Problem n={10} level="challenging">
+With a 4.436 km/s chemical engine, what mass ratio would a Δv of just 1% of light speed (3000 km/s) need? Write it as a power of ten.
+
+<Solution>
+$\Delta v/v_{\text{e}} = 3.0 \times 10^{6}/4436 = 676$, so the ratio is $e^{676} = 10^{676/2.303} = 10^{294}$. Impossible: there are only about $10^{80}$ atoms in the observable Universe.
+</Solution>
+</Problem>
+
+<Problem n={11} level="challenging">
+An ideal fusion rocket ($2.60 \times 10^{7}$ m/s) with a 100 t dry mass must reach 0.3c. How much fuel does the simple rocket equation say? Compare with a light drive (simple rocket equation).
+
+<Solution>
+Fusion: $e^{9.0/2.6} - 1 = e^{3.46} - 1 = 30.9$, so 3090 t of fuel. Light: $e^{0.3} - 1 = 0.35$, so 35 t. (Relativity raises both a little.)
+</Solution>
+</Problem>
+
+<Problem n={12} level="challenging" book>
+As an absolute upper limit, suppose the Sahara panels received the full 1361 W/m² of sunlight above the atmosphere, all day and night, and converted it perfectly. How long would $2 \times 10^{6}$ kg of Astrophage take?
+
+<Solution>
+$P = 2 \times 10^{12} \times 1361 = 2.72 \times 10^{15}$ W, so $\dot{m} = 2.72 \times 10^{15}/8.988 \times 10^{16} = 0.030$ kg/s, and $t = 2 \times 10^{6}/0.030 = 6.6 \times 10^{7}$ s $= 2.1$ years. Even this impossible best case takes two years.
+</Solution>
+</Problem>
+
+## Summary
+
+- Specific energy is energy per kilogram; energy density is energy per volume. Chemical fuels and batteries give about 1–150 MJ/kg, nuclear fuels about $10^{8}$ MJ/kg, and complete mass–energy conversion $c^{2} = 9.0 \times 10^{10}$ MJ/kg.
+- A fuel's energy caps its exhaust speed at $v_{\text{e}} \le \sqrt{2\varepsilon}$: about 5.6 km/s for hydrogen–oxygen, a few percent of $c$ for nuclear fuels. A mass-to-light drive's exhaust is light, at $c$.
+- By the rocket equation, $m_{\text{fuel}} = m_{\text{f}}(e^{\Delta v/v_{\text{e}}} - 1)$, so chemical rockets can never reach interstellar speeds; light drives need only modest fuel.
+- A gram of Astrophage holds 25 GWh, as much as 100 000 tonnes of batteries. Breeding it from sunlight is slow: about half a tonne a day from a quarter of the Sahara.
+
+**Formulas from this chapter**
+
+$$
+\varepsilon = \frac{E}{m} \qquad u = \rho\varepsilon \qquad v_{\text{e,max}} = \sqrt{2\varepsilon} \qquad m_{\text{fuel}} = m_{\text{f}}\left(e^{\Delta v/v_{\text{e}}} - 1\right)
+$$
+
+## Sources
+
+- Specific energies and energy densities (lithium-ion, TNT, wood, body fat, gasoline 46.4 MJ/kg and 34.2 MJ/L, kerosene, hydrogen 141.86 MJ/kg and its densities, uranium fission, D–T fusion, antimatter): Wikipedia, [Energy density](https://en.wikipedia.org/wiki/Energy_density).
+- The RS-25 (4.436 km/s in vacuum), ion thrusters (20–50 km/s) and the rocket equation: this course, [Chapter 5.6](/part-5/thrust/) and [Chapter 5.7](/part-5/rocket-equation/). The mass of a model Astrophage cell: [Chapter 7.4](/part-7/photon-propulsion/).
+- The Sahara blackpanel farm (about $2 \times 10^{12}$ m², a quarter of the Sahara) breeding Astrophage: readifyai reader guide, [Sahara Desert](https://readifyai.com/books/Project%20Hail%20Mary/wiki/Sahara%20Desert) (not an official source); this course, [Chapter 6.4](/part-6/energy-balance/). The fuel load of about $2 \times 10^{6}$ kg: [Chapter 5.3](/part-5/power/).
+- The number of atoms in the observable Universe (about $10^{80}$): Wikipedia, [Observable universe](https://en.wikipedia.org/wiki/Observable_universe).

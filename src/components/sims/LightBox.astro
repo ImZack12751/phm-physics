@@ -1,0 +1,91 @@
+---
+// Simulation: Einstein's light-in-a-box. A flash of energy E crosses a box of mass M and length L. The box recoils with
+// v = E/(Mc) for the crossing time L/c, so it shifts by Δx = EL/(Mc²); keeping the centre of mass still needs the flash
+// to carry mass m = MΔx/L = E/c². The drawn drift is exaggerated so it can be seen; the readout gives the true numbers.
+---
+
+<div
+	class="sim lb"
+	data-title="Light in a box"
+	data-description="A flash of light with energy E (10³ to 10¹⁸ joules, log scale) is emitted from the left wall of a closed box of mass M (1 to 10⁶ kilograms, log scale) and length L (1 to 100 metres) and absorbed at the right wall, again and again. While the flash crosses, the box recoils to the left; the drawn recoil is greatly exaggerated. The readout gives the flash's momentum E/c, the box's recoil speed E/(Mc), the crossing time L/c, the box's true shift Δx = EL/(Mc²), and the mass the flash must have carried to keep the centre of mass still, m = MΔx/L, which always comes out as E/c² whatever M and L are. The animation stops if reduced motion is requested."
+>
+	<p class="sim-title">Simulation: light in a box</p>
+	<p class="sim-help">Change the box's mass and length: the box's shift changes, but the mass carried by the light never does. It is always E/c².</p>
+	<div class="sim-controls">
+		<label>Flash energy E (log) <input type="range" class="lb-e" min="3" max="18" step="any" value="9.255" /> <output class="lb-ev"></output></label>
+		<label>Box mass M (log) <input type="range" class="lb-m" min="0" max="6" step="any" value="3" /> <output class="lb-mv"></output></label>
+		<label>Box length L <input type="range" class="lb-l" min="1" max="100" step="1" value="10" /> <output class="lb-lv"></output></label>
+	</div>
+	<svg class="dg lb-svg" viewBox="0 0 600 160" role="img" aria-label="A box with a flash of light crossing it, recoiling as it goes"></svg>
+	<div class="readout lb-out" aria-live="polite"></div>
+</div>
+
+<script>
+	const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+	const C = 299792458;
+	const sci = (x: number) => {
+		const e = Math.floor(Math.log10(Math.abs(x))), m = x / 10 ** e;
+		if (e >= -2 && e <= 3) return x.toPrecision(Math.max(3, e + 1));
+		return `${m.toFixed(2)} × 10${String(e).replace('-', '⁻').replace(/\d/g, (d) => '⁰¹²³⁴⁵⁶⁷⁸⁹'[+d])}`;
+	};
+	document.querySelectorAll<HTMLElement>('.sim.lb').forEach((root) => {
+		const q = <T extends Element>(s: string) => root.querySelector<T>(s)!;
+		const svg = q<SVGSVGElement>('.lb-svg'), out = q<HTMLElement>('.lb-out');
+		const Es = q<HTMLInputElement>('.lb-e'), Ms = q<HTMLInputElement>('.lb-m'), Ls = q<HTMLInputElement>('.lb-l');
+		const NS = 'http://www.w3.org/2000/svg';
+		const el = (tag: string, at: Record<string, string | number>, text?: string) => {
+			const e = document.createElementNS(NS, tag);
+			Object.entries(at).forEach(([k, v]) => e.setAttribute(k, String(v)));
+			if (text) e.textContent = text;
+			svg.append(e);
+			return e;
+		};
+		const BX = 150, BW = 300, BY = 40, BH = 60, DRIFT = 40; // drawn drift: 40 px per crossing (exaggerated)
+		el('line', { x1: BX, y1: BY + BH + 8, x2: BX, y2: BY + BH + 24, class: 's-muted w1 dash' });
+		el('text', { x: BX, y: BY + BH + 38, class: 't-mid t-sm f-muted' }, 'start');
+		const box = el('g', {});
+		const mk = (tag: string, at: Record<string, string | number>) => {
+			const e = document.createElementNS(NS, tag);
+			Object.entries(at).forEach(([k, v]) => e.setAttribute(k, String(v)));
+			box.append(e);
+			return e;
+		};
+		mk('rect', { x: BX, y: BY, width: BW, height: BH, class: 's-sky w2', fill: 'none' });
+		mk('rect', { x: BX, y: BY, width: 8, height: BH, class: 'f-sky' });
+		mk('rect', { x: BX + BW - 8, y: BY, width: 8, height: BH, class: 'f-sky' });
+		const flash = mk('circle', { cy: BY + BH / 2, r: 7, class: 'f-amber' });
+		el('text', { x: 300, y: 152, class: 't-mid t-sm f-muted' }, 'the box’s drift is drawn hugely exaggerated');
+		let phase = 0, last = 0; // 0..1 across, then reset
+		function place() {
+			const off = -DRIFT * phase;
+			box.setAttribute('transform', `translate(${off.toFixed(1)},0)`);
+			flash.setAttribute('cx', String(BX + 14 + (BW - 28) * phase));
+		}
+		function draw() {
+			const E = 10 ** +Es.value, M = 10 ** +Ms.value, L = +Ls.value;
+			q('.lb-ev').textContent = `${sci(E)} J`;
+			q('.lb-mv').textContent = `${sci(M)} kg`;
+			q('.lb-lv').textContent = `${L} m`;
+			const p = E / C, v = E / (M * C), t = L / C, dx = v * t, m = (M * dx) / L;
+			out.innerHTML =
+				`<span class="k">flash momentum E/c</span> = ${sci(p)} kg·m/s &nbsp; <span class="k">box recoil speed E/(Mc)</span> = ${sci(v)} m/s<br>` +
+				`<span class="k">crossing time L/c</span> = ${sci(t)} s &nbsp; <span class="k">box's true shift Δx = EL/(Mc²)</span> = ${sci(dx)} m<br>` +
+				`<span class="k">mass the flash carried, MΔx/L</span> = <b>${sci(m)} kg</b> = E/c² ✓ (independent of M and L)`;
+			place();
+		}
+		function frame(now: number) {
+			if (last) phase += (now - last) / 2500;
+			last = now;
+			if (phase > 1.25) phase = 0;
+			const shown = Math.min(1, phase);
+			const save = phase;
+			phase = shown;
+			place();
+			phase = save;
+			requestAnimationFrame(frame);
+		}
+		[Es, Ms, Ls].forEach((i) => i.addEventListener('input', draw));
+		draw();
+		if (reduce) { phase = 0.5; place(); } else requestAnimationFrame(frame);
+	});
+</script>

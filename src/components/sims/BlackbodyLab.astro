@@ -53,7 +53,7 @@
 	const sci = (x: number) => {
 		if (!(x > 0)) return '0';
 		const e = Math.floor(Math.log10(x)), m = x / 10 ** e;
-		if (e >= -2 && e <= 4) return x.toPrecision(3);
+		if (e >= -2 && e <= 4) return x.toPrecision(Math.max(3, e + 1));
 		return `${m.toFixed(2)} × 10${String(e).replace('-', '⁻').replace(/\d/g, (d) => '⁰¹²³⁴⁵⁶⁷⁸⁹'[+d])}`;
 	};
 	document.querySelectorAll<HTMLElement>('.sim.bb').forEach((root) => {

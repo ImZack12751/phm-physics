@@ -137,8 +137,8 @@ export const parts = [
 		id: 'part-9', icon: 'mc²', dir: 'part-9', code: '9', label: 'Part 9 · Mass–energy',
 		blurb: 'E = mc² and why Astrophage is the ultimate fuel tank.',
 		chapters: [
-			{ slug: 'mass-energy', title: 'E = mc²', prereqs: [], status: 'planned' },
-			{ slug: 'energy-density', title: 'Energy density: chemical to Astrophage', prereqs: [], status: 'planned' },
+			{ slug: 'mass-energy', title: 'E = mc²', prereqs: ['photon-propulsion', 'momentum', 'spin-gravity', 'power', 'specific-latent-heat', 'scientific-notation'], status: 'review' },
+			{ slug: 'energy-density', title: 'Energy density: chemical to Astrophage', prereqs: ['mass-energy', 'rocket-equation', 'thrust', 'kinetic-potential-energy', 'exponentials-logarithms', 'energy-balance'], status: 'review' },
 		],
 	},
 	{

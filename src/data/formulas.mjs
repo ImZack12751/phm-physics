@@ -1188,4 +1188,34 @@ export const formulas = [
 		where: 'N cells of radius a on a shell of radius r block a fraction f of the light; far fewer are needed close to the star.',
 		chapter: 'sun-vs-tau-ceti',
 	},
+	// ---- 9.1 E = mc² ----
+	{
+		id: 'mass-energy',
+		name: 'Mass–energy equivalence',
+		tex: 'E = mc^{2} \\qquad \\Delta m = \\dfrac{\\Delta E}{c^{2}} \\qquad c^{2} = 8.988 \\times 10^{16}\\ \\text{J/kg}',
+		where: 'Derived by Einstein’s light-in-a-box argument: a flash carrying momentum E/c must carry mass E/c².',
+		chapter: 'mass-energy',
+	},
+	{
+		id: 'mass-defect',
+		name: 'Energy from a mass defect',
+		tex: 'Q = (m_{\\text{before}} - m_{\\text{after}})\\,c^{2} \\qquad 1\\ \\text{u}\\times c^{2} = 931.5\\ \\text{MeV}',
+		where: '4 ¹H → ⁴He: 0.0287 u, 26.7 MeV (0.712%). D + T → ⁴He + n: 17.6 MeV.',
+		chapter: 'mass-energy',
+	},
+	// ---- 9.2 Energy density ----
+	{
+		id: 'exhaust-limit',
+		name: 'Specific energy and the exhaust limit',
+		tex: '\\varepsilon = \\dfrac{E}{m} \\qquad u = \\rho\\,\\varepsilon \\qquad v_{\\text{e,max}} = \\sqrt{2\\varepsilon}',
+		where: 'H₂/O₂ (15.8 MJ/kg) → 5.6 km/s; fission → 4.2% c; D–T fusion → 8.7% c. A mass-to-light drive’s exhaust leaves at c.',
+		chapter: 'energy-density',
+	},
+	{
+		id: 'fuel-for-dv',
+		name: 'Fuel for a change of speed',
+		tex: 'm_{\\text{fuel}} = m_{\\text{f}}\\left(e^{\\Delta v/v_{\\text{e}}} - 1\\right)',
+		where: 'From the rocket equation; m_f: dry mass. At 0.1c a chemical rocket needs a mass ratio of about 10²⁹³⁵.',
+		chapter: 'energy-density',
+	},
 ];

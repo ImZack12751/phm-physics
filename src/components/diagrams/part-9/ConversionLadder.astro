@@ -1,0 +1,41 @@
+---
+// What fraction of a fuel's mass becomes energy (specific energy ÷ c²), on a log scale: chemical fuels ~10⁻¹⁰,
+// uranium fission ~10⁻³, D–T fusion ~4 × 10⁻³, matter–antimatter (and Astrophage in the novel) 1.
+const c2 = 299792458 ** 2;
+const L = 60, R = 570, lo = -11, hi = 0;
+const X = (f: number) => L + ((Math.log10(f) - lo) / (hi - lo)) * (R - L);
+const items = [
+	{ n: 'TNT', f: 4.184e6 / c2, y: 70 },
+	{ n: 'gasoline', f: 46.4e6 / c2, y: 120 },
+	{ n: 'hydrogen burning', f: 141.86e6 / c2, y: 170 },
+	{ n: 'uranium fission', f: 80.62e12 / c2, y: 70 },
+	{ n: 'D–T fusion', f: 337.4e12 / c2, y: 120 },
+	{ n: 'antimatter, Astrophage', f: 1, y: 170 },
+];
+const pct = (v: number) => {
+	if (v >= 0.01) return `${v.toPrecision(2)}%`;
+	const e = Math.floor(Math.log10(v));
+	return `${(v / 10 ** e).toFixed(1)} × 10${sup(e)}%`;
+};
+const sup = (n: number) => String(n).replace('-', '⁻').replace(/\d/g, (d) => '⁰¹²³⁴⁵⁶⁷⁸⁹'[+d]);
+---
+
+<svg class="dg" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+	<line x1={L} y1="230" x2={R} y2="230" class="s-fg w2" />
+	{[-10, -8, -6, -4, -2, 0].map((p) => (
+		<>
+			<line x1={X(10 ** p)} y1="230" x2={X(10 ** p)} y2="236" class="s-fg w1" />
+			<text x={X(10 ** p)} y="252" class="t-mid t-sm f-muted">{p === 0 ? '1' : `10${sup(p)}`}</text>
+		</>
+	))}
+	{items.map((it) => <line x1={X(it.f)} y1={it.y + 24} x2={X(it.f)} y2="230" class="s-grid w1" />)}
+	{items.map((it) => (
+		<>
+			<circle cx={X(it.f)} cy="230" r="5" class="f-amber" />
+			<text x={Math.min(X(it.f), 500)} y={it.y} class="t-mid t-sm t-b halo">{it.n}</text>
+			<text x={Math.min(X(it.f), 500)} y={it.y + 16} class="t-mid t-sm f-sky halo">{it.f >= 0.999 ? 'all of it' : pct(it.f * 100)}</text>
+		</>
+	))}
+	<text x="300" y="282" class="t-mid t-sm">fraction of the fuel’s mass turned into energy (log scale)</text>
+	<text x={L} y="30" class="t-sm f-muted">each labelled tick ×100</text>
+</svg>

@@ -289,3 +289,18 @@ export const STARS = {
 	sunLifeGyr: 10, sunAgeGyr: 4.6,
 	courseTauCetiL: 0.52, // the value used throughout the course so far (upper end of published estimates)
 };
+
+// Part 9 (mass–energy). Checked October 2026.
+// NIST atomic masses (Atomic Weights and Isotopic Compositions): ¹H 1.007 825 032 23 u, ²H 2.014 101 778 12 u,
+// ³H 3.016 049 2779 u, ⁴He 4.002 603 254 13 u. CODATA 2022: neutron 1.008 664 916 06 u, u = 931.494 103 72 MeV/c²,
+// electron 0.510 998 950 69 MeV. Wikipedia "Energy density" table (specific energies, MJ/kg): antimatter 89 875 517 874,
+// D–T fusion 337 387 388, uranium fission 80 620 000, hydrogen 141.86 HHV / 119.93 LHV, gasoline 46.4, kerosene 43,
+// natural gas 53.6, fat 38, coal (anthracite) 26–33, wood 18.0, ethanol 30, TNT 4.184, Li-ion 0.36–0.875.
+// Wikipedia "Mass–energy equivalence": Einstein 1905; a kilogram standard gains ~1.5 pg per °C.
+export const MASSENERGY = {
+	mH: 1.00782503223, mD: 2.01410177812, mT: 3.0160492779, mHe4: 4.00260325413, mn: 1.00866491606, // u
+	uMeV: 931.49410372, // MeV per u
+	MeV: 1.602176634e-13, // J
+	electronMeV: 0.51099895069,
+	spec: { antimatter: 89875517874e6, dtFusion: 337387388e6, uranium: 80620000e6, h2: 141.86e6, h2LHV: 119.93e6, gasoline: 46.4e6, kerosene: 43e6, natGas: 53.6e6, fat: 38e6, coal: [26e6, 33e6], wood: 18.0e6, ethanol: 30e6, tnt: 4.184e6, liion: [0.36e6, 0.875e6] }, // J/kg
+};

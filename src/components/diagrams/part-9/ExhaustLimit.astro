@@ -1,0 +1,34 @@
+---
+// The fastest exhaust a fuel can give, if all its energy became the exhaust's kinetic energy: vₑ = √(2ε) (log scale).
+// H₂/O₂ propellant (15.8 MJ/kg of mixture) → 5.6 km/s (the RS-25 reaches 4.44 km/s); fission 12 700 km/s;
+// D–T fusion 26 000 km/s; mass-to-light: c, the limit.
+const c = 299792458;
+const rows = [
+	{ n: 'hydrogen + oxygen (ideal)', v: Math.sqrt(2 * (141.86e6 / 9)), cls: 'f-sky' },
+	{ n: 'RS-25 engine (real)', v: 4436, cls: 'f-sky' },
+	{ n: 'ion thruster (real)', v: 30000, cls: 'f-green' },
+	{ n: 'fission (ideal)', v: Math.sqrt(2 * 80.62e12), cls: 'f-violet' },
+	{ n: 'D–T fusion (ideal)', v: Math.sqrt(2 * 337.387e12), cls: 'f-violet' },
+	{ n: 'light: Astrophage', v: c, cls: 'f-rose' },
+];
+const L = 200, R = 560, lo = 3, hi = 8.6, T0 = 30, RH = 36;
+const X = (v: number) => L + ((Math.log10(v) - lo) / (hi - lo)) * (R - L);
+const fmt = (v: number) => (v >= 0.99 * c ? 'c = 300 000 km/s' : v >= 1e6 ? `${Math.round(v / 1e3).toLocaleString('en')} km/s (${((v / c) * 100).toFixed(1)}% c)` : `${(v / 1e3).toPrecision(2)} km/s`);
+---
+
+<svg class="dg" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+	{rows.map((r, i) => (
+		<>
+			<text x={L - 8} y={T0 + i * RH + 15} class="t-end t-sm">{r.n}</text>
+			<rect x={L} y={T0 + i * RH + 3} width={X(r.v) - L} height="16" class={r.cls} fill-opacity="0.8" />
+			<text x={X(r.v) > 420 ? X(r.v) - 6 : X(r.v) + 6} y={T0 + i * RH + 15} class={`t-sm halo ${X(r.v) > 420 ? 't-end' : ''}`}>{fmt(r.v)}</text>
+		</>
+	))}
+	{([[1e3, '1'], [1e4, '10'], [1e5, '100'], [1e6, '1000'], [1e7, '10⁴'], [1e8, '10⁵']] as [number, string][]).map(([v, t]) => (
+		<>
+			<line x1={X(v)} y1={T0} x2={X(v)} y2={T0 + rows.length * RH} class="s-grid w1 dash" />
+			<text x={X(v)} y={T0 + rows.length * RH + 16} class="t-mid t-sm f-muted">{t}</text>
+		</>
+	))}
+	<text x={(L + R) / 2} y="290" class="t-mid t-sm">fastest possible exhaust, vₑ = √(2 × energy per kg), in km/s (log scale)</text>
+</svg>

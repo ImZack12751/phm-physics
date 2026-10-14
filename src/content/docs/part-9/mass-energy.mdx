@@ -1,0 +1,340 @@
+---
+title: E = mc²
+description: Why mass and energy are the same thing, derived from the momentum of light and the centre of mass (Einstein's light-in-a-box); why c² makes everyday mass changes invisible; mass defects in fusion; matter and antimatter; the Sun losing four million tonnes a second; and how the novel's numbers for Astrophage, Dimitri's test and the Hail Mary's drive all obey E = mc².
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import EinsteinBox from '../../../components/diagrams/part-9/EinsteinBox.astro';
+import MassDefect from '../../../components/diagrams/part-9/MassDefect.astro';
+import ConversionLadder from '../../../components/diagrams/part-9/ConversionLadder.astro';
+import LightBox from '../../../components/sims/LightBox.astro';
+
+## The scene
+
+Astrophage does something no living thing on Earth can: it stores energy as **mass**. When it soaks up more energy than it needs to stay at 96.415 °C, the extra becomes mass; when it needs energy, it turns mass back into light. In the novel, Dimitri's first test destroys about 20 micrograms of Astrophage and releases enough light to push his apparatus with 60 000 newtons. And the *Hail Mary*'s drive burns about six grams a second for 540 trillion watts.
+
+Since Chapter 5.3 this course has used Einstein's $E = mc^{2}$ to connect those numbers, and promised to explain it. With the momentum of light (Chapter 7.4) and the centre of mass (Chapter 3.3) we can now derive it, in a few lines, with no relativity needed.
+
+## Prerequisites
+
+<Prereqs notes={{ 'photon-propulsion': 'light carries momentum p = E/c', momentum: 'conservation of momentum and recoil', 'spin-gravity': 'the centre of mass', power: 'power as energy per second', 'specific-latent-heat': 'Q = mcΔT', 'scientific-notation': 'very large and very small numbers' }} />
+
+## The concept
+
+### A puzzle about a box
+
+Take a closed box floating in space, far from everything. A lamp on its left wall sends a flash of light to its right wall, where the flash is absorbed. Nothing outside touched the box. So, by conservation of momentum (Chapter 5.5), its **centre of mass** (Chapter 3.3) can't move.
+
+But light carries momentum, $E/c$ (Chapter 7.4). When the flash leaves the left wall, the box recoils to the left, like a gun firing. While the flash crosses, the box drifts left. When the flash hits the right wall, it hands its momentum over and the box stops. The box has **moved to the left**, and nothing else seems to have moved. The centre of mass has shifted, which is impossible.
+
+### The way out: light carries mass
+
+The only escape is that the flash carried some mass from the left wall to the right wall. Then the box shifting left while a little mass moves right leaves the centre of mass exactly where it was. Working through the numbers (Formulas section) gives the mass the flash must carry:
+
+$$
+m = \frac{E}{c^{2}}.
+$$
+
+The size of the box, its mass and the length all cancel out. Any energy $E$, moved from one place to another, carries mass $E/c^{2}$ with it. Turn it around: a mass $m$ is a store of energy
+
+$$
+E = mc^{2}.
+$$
+
+<Figure caption="Einstein's light-in-a-box argument. A flash crossing a box pushes the box backwards for as long as it is in flight. Since no outside force acts, the centre of mass can't move, so the flash must have carried mass to the other side: exactly E/c²." alt="Three snapshots of a box, one above the other, each slightly further left than the one before, with a dashed mark at the starting position. Top: a flash of light, an orange wavy arrow, leaves the left wall; a red arrow shows the box recoiling left; text: 1, flash of energy E; box recoils, M v equals E over c. Middle: the flash is halfway across and the box has drifted left; text: 2, crossing takes L over c; box drifts delta x equals v times L over c. Bottom: the flash, an orange dot, is absorbed at the right wall; text: 3, flash absorbed, box stops, delta x equals E L over M c squared. On the right: centre of mass can't move, so energy carried mass m to the right, m L equals M delta x; m equals E over c squared.">
+	<EinsteinBox />
+</Figure>
+
+Einstein first reached the result in 1905, in a paper asking "Does the inertia of a body depend upon its energy content?", and in 1906 he gave a centre-of-mass argument much like this one. The answer to his question is yes: energy has inertia. This is the principle of <Term id="mass-energy-equivalence">mass–energy equivalence</Term>.
+
+### Mass is a form of energy
+
+$E = mc^{2}$ says more than "you can turn mass into energy". It says mass **is** energy, counted in different units. Every form of energy a body contains adds to its mass: heat it and it gets heavier; wind up a spring inside it and it gets heavier; charge a battery and it gets heavier. The energy a body has simply by existing, at rest, is its <Term id="rest-energy">rest energy</Term> $mc^{2}$. (Part 10 adds what happens when it moves fast.)
+
+### Why nobody noticed: c² is enormous
+
+$c^{2} = (2.998 \times 10^{8}\ \text{m/s})^{2} = 8.988 \times 10^{16}\ \text{J/kg}$. That is the energy in each kilogram: about ninety thousand trillion joules, as much as the whole world uses in an hour and a quarter (Example 1).
+
+So everyday energy changes make almost no difference to mass. Heating a cup of coffee adds less than a nanogram. Burning fuel releases only about a billionth of the fuel's rest energy: the products weigh less than the fuel and oxygen did, but by far too little to weigh. The rule "mass is conserved" in chemistry is an excellent approximation precisely because $c^{2}$ is so large.
+
+### Where the mass really changes: nuclei
+
+Inside atomic nuclei the forces are millions of times stronger than in chemistry, and the mass changes become measurable. Weigh a helium-4 atom and it comes out **lighter** than the four hydrogen atoms that the Sun fuses to make it, by 0.7%. That missing mass, the <Term id="mass-defect">mass defect</Term>, left as energy.
+
+<Figure caption="Fusion in the Sun, overall: four hydrogen atoms become one helium-4 atom. The helium weighs 0.712% less. That missing mass, 0.0287 atomic mass units, comes out as 26.7 MeV of energy for every helium atom made." alt="Two bars on a scale starting at 3.9 atomic mass units. A blue bar labelled 4 hydrogen atoms reaches 4.031 30 u. An orange bar labelled 1 helium-4 atom reaches 4.002 60 u, with a red section on top filling up to the level of the first bar, labelled missing 0.028 70 u equals 0.712%, giving 26.7 MeV of energy. A dashed line marks the hydrogen level. Note: bars start at 3.9 u so the small difference shows.">
+	<MassDefect />
+</Figure>
+
+This is what powers the Sun. Its luminosity, $3.828 \times 10^{26}$ W, means it loses $L/c^{2} = 4.26 \times 10^{9}$ kg of mass every second: over four million tonnes. Splitting uranium (fission) releases about 0.09% of the fuel's mass; fusing deuterium and tritium about 0.4%.
+
+### All of it: antimatter
+
+Every particle has an antiparticle with the same mass and opposite charge. When an electron meets its antiparticle, the positron, both vanish and their entire rest energy appears as two gamma-ray photons of 511 keV each. Hospitals use exactly this in PET scanners. Matter meeting antimatter is the only known way to turn **all** of a mass into energy.
+
+<Figure caption="What fraction of a fuel's mass becomes energy, on a log scale. Chemical fuels release about a billionth; nuclear fuels about a thousandth; only matter–antimatter, and the novel's Astrophage, release it all." alt="A horizontal logarithmic axis from 10 to the minus 11 up to 1. Markers with labels: TNT, 4.7 times 10 to the minus 9 percent; gasoline, 5.2 times 10 to the minus 8 percent; hydrogen burning, 1.6 times 10 to the minus 7 percent; uranium fission, 0.090%; deuterium–tritium fusion, 0.38%; antimatter and Astrophage, all of it.">
+	<ConversionLadder />
+</Figure>
+
+### Astrophage obeys the rule
+
+The novel's Astrophage is, in effect, a perfect mass–energy converter: it turns light into its own mass and back again. Its invention is the mechanism, not the bookkeeping. All of the novel's numbers obey $E = mc^{2}$: Dimitri's 20 µg makes $1.8 \times 10^{9}$ J, and the drive's 6.043 g/s makes 543 TW (Example 2). In the novel, the energy is stored as neutrinos inside the cell, which is fiction, but by $E = mc^{2}$ any stored energy, however it is held, would add exactly $E/c^{2}$ to the cell's mass.
+
+## Formulas
+
+### Light in a box
+
+A box of mass $M$ and length $L$ sends a flash of energy $E$ from its left wall to its right wall.
+
+**Recoil.** The flash carries momentum $E/c$ to the right, so by conservation of momentum the box moves left with
+
+$$
+Mv = \frac{E}{c} \qquad\Rightarrow\qquad v = \frac{E}{Mc}
+$$
+
+(the box moves so slowly that $L$ barely changes, and its shift is tiny compared with $L$).
+
+**Drift.** The flash takes $t = L/c$ to cross, so the box shifts left by
+
+$$
+\Delta x = vt = \frac{E}{Mc}\cdot\frac{L}{c} = \frac{EL}{Mc^{2}}.
+$$
+
+**Centre of mass.** With no outside force, the centre of mass stays put (Chapter 3.3: $m_{1}r_{1} = m_{2}r_{2}$ about it). If the flash carried a mass $m$ a distance $L$ to the right while the box's mass $M$ moved $\Delta x$ to the left, then
+
+$$
+mL = M\,\Delta x = M\cdot\frac{EL}{Mc^{2}} = \frac{EL}{c^{2}} \qquad\Rightarrow\qquad \boxed{m = \frac{E}{c^{2}}} \qquad \boxed{E = mc^{2}}
+$$
+
+### Energy and mass changes
+
+Any change in a body's energy changes its mass:
+
+$$
+\boxed{\Delta m = \frac{\Delta E}{c^{2}}} \qquad c^{2} = 8.988 \times 10^{16}\ \text{J/kg}
+$$
+
+A steady power $P$ means a steady mass change $\dot{m} = P/c^{2}$ (Chapter 5.3's $P = \dot{m}c^{2}$ the other way round).
+
+### Mass defect
+
+For a nuclear reaction, add up the masses before and after; the difference, times $c^{2}$, is the energy released. In atomic mass units, $1\ \text{u} \times c^{2} = 931.5$ MeV:
+
+$$
+\boxed{Q = (m_{\text{before}} - m_{\text{after}})\,c^{2}} \qquad E_{\text{MeV}} = 931.5 \times \Delta m_{\text{u}}
+$$
+
+## Worked examples
+
+<Example n={1} title="The energy in a kilogram">
+Find the rest energy of 1 kg and of 1 g. The world uses about 19.6 TW on average. How long would 1 kg run the world? What mass of fuel, fully converted, would run it for a year?
+
+$$
+E = mc^{2} = 1\ \text{kg} \times (2.998 \times 10^{8}\ \text{m/s})^{2} = 8.988 \times 10^{16}\ \text{J} \qquad 1\ \text{g}: 8.988 \times 10^{13}\ \text{J}
+$$
+
+$$
+t = \frac{8.988 \times 10^{16}\ \text{J}}{1.96 \times 10^{13}\ \text{W}} = 4590\ \text{s} \approx 1.3\ \text{hours}
+$$
+
+$$
+E_{\text{year}} = 1.96 \times 10^{13}\ \text{W} \times 3.156 \times 10^{7}\ \text{s} = 6.19 \times 10^{20}\ \text{J} \qquad m = \frac{6.19 \times 10^{20}\ \text{J}}{8.988 \times 10^{16}\ \text{J/kg}} = 6880\ \text{kg}
+$$
+
+About seven tonnes of matter, completely converted, would power human civilisation for a year.
+</Example>
+
+<Example n={2} title="Checking the novel's numbers" book>
+Dimitri destroys about 20 µg of Astrophage, and the drive burns 6.043 g/s. Find the energy of the first and the power of the second.
+
+$$
+E = mc^{2} = 20 \times 10^{-9}\ \text{kg} \times 8.988 \times 10^{16}\ \text{J/kg} = 1.80 \times 10^{9}\ \text{J}
+$$
+
+$$
+P = \dot{m}c^{2} = 6.043 \times 10^{-3}\ \text{kg/s} \times 8.988 \times 10^{16}\ \text{J/kg} = 5.43 \times 10^{14}\ \text{W}
+$$
+
+The novel's $1.8 \times 10^{9}$ J and 540 TW are exactly what $E = mc^{2}$ demands (Grace's 540 TW used 6 g/s and $c = 3 \times 10^{8}$ m/s). Twenty micrograms, a speck you could barely see, holds as much energy as about 430 kg of TNT.
+</Example>
+
+<Example n={3} title="The Sun is getting lighter">
+The Sun's luminosity is $3.828 \times 10^{26}$ W. How much mass does it lose each second as light? Over its 4.6 billion years, what fraction of its $1.988 \times 10^{30}$ kg is that?
+
+$$
+\dot{m} = \frac{L}{c^{2}} = \frac{3.828 \times 10^{26}\ \text{W}}{8.988 \times 10^{16}\ \text{J/kg}} = 4.26 \times 10^{9}\ \text{kg/s}
+$$
+
+$$
+\Delta m = 4.26 \times 10^{9}\ \text{kg/s} \times 4.6 \times 10^{9} \times 3.156 \times 10^{7}\ \text{s} = 6.2 \times 10^{26}\ \text{kg} \qquad \frac{6.2 \times 10^{26}}{1.988 \times 10^{30}} = 0.031\%
+$$
+
+Four million tonnes a second, about a hundred times the Earth's mass over the Sun's lifetime so far, yet only three hundredths of a percent of the Sun.
+</Example>
+
+<Example n={4} title="The Sun's fuel">
+Four hydrogen atoms (1.007 825 u each) fuse, in steps, into one helium-4 atom (4.002 603 u). Find the mass defect, the fraction of the mass released and the energy per helium atom. How much hydrogen does the Sun fuse each second?
+
+$$
+\Delta m = 4 \times 1.007\,825\ \text{u} - 4.002\,603\ \text{u} = 4.031\,300\ \text{u} - 4.002\,603\ \text{u} = 0.028\,697\ \text{u}
+$$
+
+$$
+\frac{\Delta m}{m} = \frac{0.028\,697}{4.031\,300} = 0.712\% \qquad E = 0.028\,697 \times 931.5\ \text{MeV} = 26.7\ \text{MeV}
+$$
+
+$$
+\dot{m}_{\text{H}} = \frac{4.26 \times 10^{9}\ \text{kg/s}}{0.00712} = 6.0 \times 10^{11}\ \text{kg/s}
+$$
+
+The Sun turns about 600 million tonnes of hydrogen into helium every second, and 0.7% of it vanishes as light.
+</Example>
+
+<Example n={5} title="Hot coffee weighs more">
+A 250 g cup of coffee (treat it as water, $c = 4186$ J/(kg·K)) is heated by 60 K. How much heavier is it?
+
+$$
+Q = mc\,\Delta T = 0.250\ \text{kg} \times 4186\ \text{J/(kg·K)} \times 60\ \text{K} = 6.28 \times 10^{4}\ \text{J}
+$$
+
+$$
+\Delta m = \frac{Q}{c^{2}} = \frac{6.28 \times 10^{4}\ \text{J}}{8.988 \times 10^{16}\ \text{J/kg}} = 7.0 \times 10^{-13}\ \text{kg}
+$$
+
+0.7 nanograms, about three parts in a trillion of the coffee's mass. Real, but far beyond any kitchen scale (and Chapter 6.2's $c$ for specific heat is not the speed of light, despite the shared letter).
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** $E = mc^{2}$ (Einstein, 1905, with a centre-of-mass argument in 1906) is one of the best-tested laws in physics. Atomic masses (NIST) give the 0.712% mass defect of fusing hydrogen into helium; the Sun's mass loss follows from its luminosity; electron–positron annihilation into 511 keV photons is used in PET scanners; and heated or compressed objects really do gain mass, though far too little to weigh in daily life.
+
+**Weir's inventions.** Astrophage converting light into mass and back, at will, is fiction, and so is its neutrino storage. No known process does it. But the novel's numbers for Dimitri's test and the drive obey $E = mc^{2}$ exactly.
+
+**How realistic are the numbers?** Completely, given the premise. A 100% mass–energy converter would be the most powerful fuel physics allows, which is why the novel's choice of Astrophage as a fuel makes a starship possible at all. Chapter 9.2 compares it with every real fuel.
+</RealVsBook>
+
+## Interactive simulation
+
+<LightBox />
+
+Things to try: keep the flash energy fixed and change the box's mass by a factor of a million: the box's shift changes by a million, but the mass carried stays $E/c^{2}$. Then make the box longer. The default flash is Dimitri's $1.8 \times 10^{9}$ J: it carries 20 µg across the box.
+
+## Practice set
+
+<Problem n={1} level="easy">
+What is the rest energy of 1 mg of matter?
+
+<Solution>
+$10^{-6}\ \text{kg} \times 8.988 \times 10^{16} = 8.99 \times 10^{10}$ J.
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy">
+A battery stores 1 kWh ($3.6 \times 10^{6}$ J). How much heavier is it when fully charged?
+
+<Solution>
+$\Delta m = 3.6 \times 10^{6}/8.988 \times 10^{16} = 4.0 \times 10^{-11}$ kg, 40 nanograms.
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy">
+In the light-in-a-box argument, why must the flash carry mass?
+
+<Solution>
+Light carries momentum, so the box recoils while the flash crosses and ends up shifted. No outside force acted, so the centre of mass can't have moved; that is only possible if mass moved the other way, carried by the flash.
+</Solution>
+</Problem>
+
+<Problem n={4} level="easy">
+An electron's mass is $9.109 \times 10^{-31}$ kg. Find its rest energy in joules and in MeV ($1\ \text{MeV} = 1.602 \times 10^{-13}$ J).
+
+<Solution>
+$9.109 \times 10^{-31} \times 8.988 \times 10^{16} = 8.187 \times 10^{-14}$ J $= 0.511$ MeV.
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium">
+An electron and a positron at rest annihilate into two photons of equal energy. What is each photon's energy and wavelength? (Use $E_{\text{eV}} = 1240/\lambda_{\text{nm}}$.)
+
+<Solution>
+Each photon carries one rest energy, 511 keV $= 5.11 \times 10^{5}$ eV. $\lambda = 1240/5.11 \times 10^{5} = 2.43 \times 10^{-3}$ nm $= 2.43$ pm: a gamma ray. (Two photons are needed so that their momenta, in opposite directions, add to zero.)
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium">
+In deuterium–tritium fusion, D (2.014 102 u) + T (3.016 049 u) → helium-4 (4.002 603 u) + a neutron (1.008 665 u). Find the energy released in MeV, and the energy per kilogram of fuel.
+
+<Solution>
+$\Delta m = 5.030\,151 - 5.011\,268 = 0.018\,883$ u, so $Q = 0.018\,883 \times 931.5 = 17.6$ MeV. As a fraction of the fuel, $0.018\,883/5.030\,151 = 0.375\%$, so $0.003\,754 \times 8.988 \times 10^{16} = 3.37 \times 10^{14}$ J/kg.
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium" book>
+The *Hail Mary* launches with about $2 \times 10^{6}$ kg of Astrophage. What is its energy, and how many years of the world's energy use (19.6 TW) is that?
+
+<Solution>
+$E = 2 \times 10^{6} \times 8.988 \times 10^{16} = 1.80 \times 10^{23}$ J. One year of world use is $6.19 \times 10^{20}$ J, so this is about 290 years' worth.
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium" book>
+Chapter 8.2 found that Astrophage eating 1% of the Sun's light gains $4.26 \times 10^{7}$ kg per second. Compare that with the Sun's own mass loss through shining.
+
+<Solution>
+The Sun loses $4.26 \times 10^{9}$ kg/s; Astrophage catching 1% of the light catches 1% of that mass, $4.26 \times 10^{7}$ kg/s. The light's mass simply moves from the Sun into the cells.
+</Solution>
+</Problem>
+
+<Problem n={9} level="medium">
+Dimitri's $1.8 \times 10^{9}$ J flash crosses a 1000 kg box 10 m long. How far does the box shift?
+
+<Solution>
+$\Delta x = EL/(Mc^{2}) = 1.8 \times 10^{9} \times 10/(1000 \times 8.988 \times 10^{16}) = 2.0 \times 10^{-10}$ m, about the width of an atom.
+</Solution>
+</Problem>
+
+<Problem n={10} level="challenging">
+A car's 50 L tank of petrol releases 34.2 MJ per litre when burned. How much mass disappears? What fraction of the petrol's mass (about 37 kg) is that?
+
+<Solution>
+$E = 50 \times 34.2 \times 10^{6} = 1.71 \times 10^{9}$ J, so $\Delta m = 1.71 \times 10^{9}/8.988 \times 10^{16} = 1.9 \times 10^{-8}$ kg, 19 µg. As a fraction of 37 kg, $5.1 \times 10^{-10}$: half a billionth.
+</Solution>
+</Problem>
+
+<Problem n={11} level="challenging" book>
+The novel says a neutrino's mass-energy equals one Petrova photon's, 0.0477 eV. What mass is that? How many times lighter than an electron would such a neutrino be?
+
+<Solution>
+$m = 0.0477 \times 1.602 \times 10^{-19}/8.988 \times 10^{16} = 8.5 \times 10^{-38}$ kg. The electron's $0.511 \times 10^{6}$ eV is $1.07 \times 10^{7}$ times larger: about ten million times heavier.
+</Solution>
+</Problem>
+
+<Problem n={12} level="challenging">
+The old international kilogram, a platinum–iridium cylinder, gained about 1.5 picograms for every 1 °C it was warmed. Taking its specific heat as about 133 J/(kg·K), show that $E = mc^{2}$ predicts this.
+
+<Solution>
+Warming 1 kg by 1 K stores $Q = 1 \times 133 \times 1 = 133$ J, so $\Delta m = 133/8.988 \times 10^{16} = 1.5 \times 10^{-15}$ kg $= 1.5$ pg ✓.
+</Solution>
+</Problem>
+
+## Summary
+
+- Light carries momentum $E/c$, so a flash crossing a closed box makes the box shift. The centre of mass can't move, so the flash must carry mass $E/c^{2}$: $E = mc^{2}$.
+- Mass is a form of energy. Every energy a body holds adds $E/c^{2}$ to its mass; its rest energy is $mc^{2}$.
+- $c^{2} = 8.988 \times 10^{16}$ J/kg is huge, so chemical and thermal energy changes alter mass by parts in a billion or less.
+- In nuclear reactions the mass defect is measurable: hydrogen fusing to helium loses 0.712%, 26.7 MeV per helium atom. The Sun loses $4.26 \times 10^{9}$ kg/s.
+- Matter–antimatter annihilation converts all of the mass. The novel's Astrophage is a perfect converter, and all its numbers obey $E = mc^{2}$.
+
+**Formulas from this chapter**
+
+$$
+E = mc^{2} \qquad \Delta m = \frac{\Delta E}{c^{2}} \qquad P = \dot{m}c^{2} \qquad Q = (m_{\text{before}} - m_{\text{after}})c^{2},\ \ 1\ \text{u}\,c^{2} = 931.5\ \text{MeV}
+$$
+
+## Sources
+
+- Einstein's 1905 paper "Does the inertia of a body depend upon its energy content?", his 1906 centre-of-mass argument, heated and compressed bodies gaining mass, the kilogram prototype gaining about 1.5 pg per °C, and nuclear mass defects: Wikipedia, [Mass–energy equivalence](https://en.wikipedia.org/wiki/Mass%E2%80%93energy_equivalence).
+- Atomic masses (¹H 1.007 825 032 23 u, ²H 2.014 101 778 12 u, ³H 3.016 049 2779 u, ⁴He 4.002 603 254 13 u): NIST, [Atomic Weights and Isotopic Compositions](https://physics.nist.gov/cgi-bin/Compositions/stand_alone.pl?ele=H) and [helium](https://physics.nist.gov/cgi-bin/Compositions/stand_alone.pl?ele=He). The neutron mass, atomic mass unit (931.494 MeV) and electron rest energy (0.510 998 950 MeV): NIST, [CODATA](https://physics.nist.gov/cgi-bin/cuu/Value?mec2mev).
+- Fuel energies (TNT 4.184 MJ/kg, gasoline 34.2 MJ/L, D–T fusion, uranium fission, antimatter): Wikipedia, [Energy density](https://en.wikipedia.org/wiki/Energy_density). Electron–positron annihilation in PET scanners: Wikipedia, [Positron emission tomography](https://en.wikipedia.org/wiki/Positron_emission_tomography).
+- The Sun's luminosity and mass: NASA, [Sun Fact Sheet](https://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html); its age: Wikipedia, [Sun](https://en.wikipedia.org/wiki/Sun). World energy use (19.6 TW): this course, [Chapter 5.3](/part-5/power/).
+- Astrophage stores excess energy as mass and releases it as light: Royal Institution, ["Project Hail Mary: the science behind the fiction"](https://www.rigb.org/node/6363). Dimitri's test (about 20 µg, $1.8 \times 10^{9}$ J), the 6.043 g/s display and 540 TW, the 2 million kg of fuel: this course, [Chapter 5.3](/part-5/power/) and [Chapter 5.5](/part-5/momentum/). Neutrino storage and the Petrova photon's neutrino mass-energy: readifyai reader guide, [Neutrino energy storage](https://readifyai.com/en/books/Project%20Hail%20Mary/wiki/Neutrino%20energy%20storage) (not an official source).

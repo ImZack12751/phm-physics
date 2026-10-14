@@ -1,0 +1,42 @@
+---
+// Einstein's light-in-a-box argument. Top: a flash of energy E leaves the left wall; the box (mass M) recoils left with
+// momentum E/c. Middle: while the flash crosses (time L/c), the box drifts left by Δx = EL/(Mc²). Bottom: the flash is
+// absorbed at the right wall and the box stops. No outside force acted, so the centre of mass can't have moved:
+// the energy E must have carried mass m to the right, with mL = MΔx, so m = E/c².
+const BX = 200, BW = 200, rows = [50, 140, 230], dx = 22;
+const head = (x: number, y: number, d: number) => `${x},${y} ${x - 10 * d},${y - 5} ${x - 10 * d},${y + 5}`;
+const wave = (x0: number, y: number) =>
+	Array.from({ length: 31 }, (_, i) => `${(x0 + i).toFixed(1)},${(y - 5 * Math.sin((2 * Math.PI * i) / 10)).toFixed(1)}`).join(' ');
+---
+
+<svg class="dg" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+	{rows.map((y, i) => {
+		const shift = i === 0 ? 0 : i === 1 ? -dx / 2 : -dx;
+		const fx = i === 0 ? BX + 14 : i === 1 ? BX + BW / 2 - 20 + shift : BX + BW - 40 + shift;
+		return (
+			<>
+				<rect x={BX + shift} y={y} width={BW} height="44" class="s-sky w2" fill="none" />
+				<rect x={BX + shift} y={y} width="8" height="44" class="f-sky" />
+				<rect x={BX + BW - 8 + shift} y={y} width="8" height="44" class="f-sky" />
+				{i < 2 && <polyline points={wave(fx, y + 22)} class="s-amber w2" fill="none" />}
+				{i < 2 && <polygon points={head(fx + 40, y + 22, 1)} class="f-amber" />}
+				{i === 2 && <circle cx={BX + BW - 14 + shift} cy={y + 22} r="5" class="f-amber" />}
+			</>
+		);
+	})}
+	<line x1={BX - 6} y1={rows[0] + 22} x2={BX - 40} y2={rows[0] + 22} class="s-rose w2" />
+	<polygon points={head(BX - 46, rows[0] + 22, -1)} class="f-rose" />
+	<text x="20" y={rows[0] + 18} class="t-sm">1. flash of energy E</text>
+	<text x="20" y={rows[0] + 36} class="t-sm f-rose">box recoils: Mv = E/c</text>
+	<text x="20" y={rows[1] + 18} class="t-sm">2. crossing takes L/c</text>
+	<text x="20" y={rows[1] + 36} class="t-sm f-rose">box drifts Δx = v·L/c</text>
+	<text x="20" y={rows[2] + 18} class="t-sm">3. flash absorbed:</text>
+	<text x="20" y={rows[2] + 36} class="t-sm">box stops, Δx = EL/Mc²</text>
+	<text x={BX + BW / 2} y={rows[0] - 10} class="t-mid t-sm">box of mass M, length L</text>
+	<text x="590" y="110" class="t-end t-sm">centre of mass can't move,</text>
+	<text x="590" y="128" class="t-end t-sm">so energy carried mass m</text>
+	<text x="590" y="146" class="t-end t-sm">to the right: mL = MΔx</text>
+	<text x="590" y="172" class="t-end t-sm t-b">m = E/c²</text>
+	<line x1={BX} y1="36" x2={BX} y2="280" class="s-muted w1 dash" />
+	<text x={BX} y="294" class="t-mid t-sm f-muted">starting position of the left wall</text>
+</svg>

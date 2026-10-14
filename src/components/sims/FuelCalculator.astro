@@ -1,0 +1,77 @@
+---
+// Simulation: how much fuel a 1.0 × 10⁵ kg ship (the course's model Hail Mary) needs for a chosen Δv, by the rocket equation
+// m₀/m_f = e^(Δv/vₑ) (Chapter 5.7), for real and ideal exhaust speeds. For the light drive the exact relativistic mass ratio
+// √((1 + β)/(1 − β)) (Part 10) is shown too. Energy per kg from Wikipedia's "Energy density" table.
+---
+
+<div
+	class="sim fc"
+	data-title="Fuel calculator"
+	data-description="Choose a change of speed, Δv, from 1 kilometre per second to 90% of the speed of light on a logarithmic scale, and a dry ship mass (10 to 10⁶ tonnes). For five ways of making exhaust (a hydrogen–oxygen rocket engine at 4.44 km/s, an ion thruster at 30 km/s, an ideal fission rocket at 12 700 km/s, an ideal fusion rocket at 26 000 km/s and a light drive at the speed of light) the readout gives the mass ratio from the rocket equation, the fuel needed, and whether it is possible at all. Bars on a logarithmic scale compare the fuel masses with the dry ship. For the light drive the exact relativistic mass ratio is also given, because the simple rocket equation underestimates fuel near the speed of light."
+>
+	<p class="sim-title">Simulation: fuel calculator</p>
+	<p class="sim-help">The rocket equation punishes slow exhaust exponentially. Push Δv up and watch the chemical rocket's fuel need explode long before the light drive notices.</p>
+	<div class="sim-controls">
+		<label>Δv (log) <input type="range" class="fc-v" min="3" max="8.431" step="any" value="7.477" /> <output class="fc-vv"></output></label>
+		<label>Dry ship mass (log) <input type="range" class="fc-m" min="1" max="6" step="any" value="2" /> <output class="fc-mv"></output></label>
+	</div>
+	<svg class="dg fc-svg" viewBox="0 0 600 200" role="img" aria-label="Bars comparing fuel needed by different drives"></svg>
+	<div class="readout fc-out" aria-live="polite"></div>
+</div>
+
+<script>
+	const C = 299792458;
+	const DRIVES: [string, number][] = [
+		['H₂/O₂ engine (4.44 km/s)', 4436],
+		['ion thruster (30 km/s)', 30000],
+		['ideal fission (12 700 km/s)', Math.sqrt(2 * 80.62e12)],
+		['ideal D–T fusion (26 000 km/s)', Math.sqrt(2 * 337.387e12)],
+		['light drive (c)', C],
+	];
+	const sci = (x: number) => {
+		if (!isFinite(x)) return '∞';
+		const e = Math.floor(Math.log10(x)), m = x / 10 ** e;
+		if (e >= -2 && e <= 3) return x.toPrecision(Math.max(3, e + 1));
+		return `${m.toFixed(2)} × 10${String(e).replace('-', '⁻').replace(/\d/g, (d) => '⁰¹²³⁴⁵⁶⁷⁸⁹'[+d])}`;
+	};
+	const sup = (n: number) => String(n).replace('-', '⁻').replace(/\d/g, (d) => '⁰¹²³⁴⁵⁶⁷⁸⁹'[+d]);
+	document.querySelectorAll<HTMLElement>('.sim.fc').forEach((root) => {
+		const q = <T extends Element>(s: string) => root.querySelector<T>(s)!;
+		const svg = q<SVGSVGElement>('.fc-svg'), out = q<HTMLElement>('.fc-out');
+		const Vs = q<HTMLInputElement>('.fc-v'), Ms = q<HTMLInputElement>('.fc-m');
+		const NS = 'http://www.w3.org/2000/svg';
+		const el = (tag: string, at: Record<string, string | number>, text?: string) => {
+			const e = document.createElementNS(NS, tag);
+			Object.entries(at).forEach(([k, v]) => e.setAttribute(k, String(v)));
+			if (text) e.textContent = text;
+			svg.append(e);
+			return e;
+		};
+		const L0 = 210, R0 = 580, lo = 0, hi = 12; // log10 of fuel ÷ dry mass from 10⁰... drawn as log10(1 + fuel/dry) scaled
+		const bars = DRIVES.map(([n], i) => {
+			el('text', { x: L0 - 8, y: 30 + i * 32, class: 't-end t-sm' }, n);
+			return { r: el('rect', { x: L0, y: 18 + i * 32, height: 16, class: i === 4 ? 'f-rose' : 'f-sky', 'fill-opacity': 0.8 }), t: el('text', { y: 30 + i * 32, class: 't-sm halo' }) };
+		});
+		el('text', { x: L0, y: 190, class: 't-sm f-muted' }, 'bar length: log₁₀ of the mass ratio (each step ×10); full width = 10¹²');
+		function draw() {
+			const dv = 10 ** +Vs.value, dry = 10 ** +Ms.value * 1000;
+			q('.fc-vv').textContent = dv >= 1e6 ? `${sci(dv / 1e3)} km/s = ${((dv / C) * 100).toPrecision(3)}% c` : `${sci(dv / 1e3)} km/s`;
+			q('.fc-mv').textContent = `${sci(dry / 1000)} t`;
+			const rows: string[] = [];
+			DRIVES.forEach(([n, ve], i) => {
+				const x = dv / ve, log10R = x / Math.LN10;
+				const w = Math.max(2, Math.min(1, log10R / hi) * (R0 - L0));
+				bars[i].r.setAttribute('width', String(w));
+				const label = log10R > 12 ? `ratio 10${sup(Math.round(log10R))}: impossible` : `ratio ${sci(Math.exp(x))}, fuel ${sci((dry * Math.expm1(x)) / 1000)} t`;
+				bars[i].t.setAttribute('x', String(Math.min(L0 + w + 6, 420)));
+				bars[i].t.textContent = label;
+				rows.push(`<span class="k">${n}</span>: ${log10R > 300 ? `mass ratio 10${sup(Math.round(log10R))} (more atoms than exist)` : `mass ratio ${sci(Math.exp(x))}, fuel ${sci((dry * Math.expm1(x)) / 1000)} tonnes`}`);
+			});
+			const b = dv / C, rel = Math.sqrt((1 + b) / (1 - b));
+			rows.push(`<span class="k">light drive, exact (relativity, Part 10)</span>: mass ratio ${sci(rel)}, fuel ${sci((dry * (rel - 1)) / 1000)} tonnes`);
+			out.innerHTML = rows.join('<br>');
+		}
+		[Vs, Ms].forEach((i) => i.addEventListener('input', draw));
+		draw();
+	});
+</script>

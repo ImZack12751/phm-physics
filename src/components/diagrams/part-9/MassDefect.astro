@@ -1,0 +1,23 @@
+---
+// Fusion in the Sun, overall: four hydrogen atoms (4 × 1.007 825 u = 4.031 30 u) become one helium-4 atom (4.002 60 u).
+// The missing 0.028 70 u (0.712%) leaves as energy: 26.7 MeV. Bars drawn to scale above a broken baseline at 3.9 u.
+const L = 120, BW = 110, base = 3.9, top = 4.06, Y0 = 250, Y1 = 50;
+const y = (m: number) => Y0 - ((m - base) / (top - base)) * (Y0 - Y1);
+const m4H = 4 * 1.00782503223, mHe = 4.00260325413;
+---
+
+<svg class="dg" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+	<rect x={L} y={y(m4H)} width={BW} height={Y0 - y(m4H)} class="f-sky-soft s-sky w2" />
+	<rect x={L + 190} y={y(mHe)} width={BW} height={Y0 - y(mHe)} class="f-amber-soft s-amber w2" />
+	<rect x={L + 190} y={y(m4H)} width={BW} height={y(mHe) - y(m4H)} class="f-rose" fill-opacity="0.7" />
+	<line x1={L - 20} y1={Y0} x2={L + 330} y2={Y0} class="s-fg w2" />
+	<line x1={L - 20} y1={y(m4H)} x2={L + 330} y2={y(m4H)} class="s-muted w1 dash" />
+	<text x={L + BW / 2} y={Y0 + 20} class="t-mid t-sm t-b">4 hydrogen atoms</text>
+	<text x={L + BW / 2} y={y(m4H) - 8} class="t-mid t-sm">4.031 30 u</text>
+	<text x={L + 190 + BW / 2} y={Y0 + 20} class="t-mid t-sm t-b">1 helium-4 atom</text>
+	<text x={L + 190 + BW / 2} y={y(mHe) + 20} class="t-mid t-sm">4.002 60 u</text>
+	<text x={L + 310} y={(y(m4H) + y(mHe)) / 2 + 4} class="t-sm f-rose">missing 0.028 70 u = 0.712%</text>
+	<text x={L + 310} y={(y(m4H) + y(mHe)) / 2 + 22} class="t-sm f-rose">→ 26.7 MeV of energy</text>
+	<text x={L - 24} y={Y0 + 4} class="t-end t-sm f-muted">3.9 u</text>
+	<text x="300" y="292" class="t-mid t-sm f-muted">bars start at 3.9 u so the small difference shows</text>
+</svg>

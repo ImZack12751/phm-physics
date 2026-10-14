@@ -36,7 +36,7 @@
 	const sci = (x: number, d = 2) => {
 		if (x === 0) return '0';
 		const e = Math.floor(Math.log10(Math.abs(x))), m = x / 10 ** e;
-		if (e >= -2 && e <= 3) return x.toPrecision(d + 1);
+		if (e >= -2 && e <= 3) return x.toPrecision(Math.max(d + 1, e + 1));
 		const sup = String(e).replace(/-/g, '⁻').replace(/\d/g, (k) => '⁰¹²³⁴⁵⁶⁷⁸⁹'[+k]);
 		return `${m.toFixed(d)} × 10${sup}`;
 	};
