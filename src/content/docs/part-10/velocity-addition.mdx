@@ -1,0 +1,395 @@
+---
+title: Velocity addition
+description: The Lorentz transformation derived with algebra from the two postulates, the simultaneity offset, how velocities really add, (u′ + v)/(1 + u′v/c²), rapidity and the hyperbolic functions, the relativistic Doppler shift, and the exact mass ratio of a photon rocket, √((1 + β)/(1 − β)), promised in Chapters 7.4 and 9.2.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import TanhCurve from '../../../components/diagrams/part-10/TanhCurve.astro';
+import RelDoppler from '../../../components/diagrams/part-10/RelDoppler.astro';
+import VelocityAdder from '../../../components/sims/VelocityAdder.astro';
+
+## The scene
+
+Astrophage can travel at 0.92c on its own. Suppose the *Hail Mary*, already moving at half the speed of light, released a cell straight ahead. Does Earth see it go at 1.42c? And when the cell shines Petrova light back towards Earth, what wavelength arrives?
+
+Chapter 10.1 showed that the everyday rule $u = u' + v$ must fail near the speed of light, because it would let light itself go faster than $c$. This chapter finds the rule that replaces it, and the same mathematics gives the exact Doppler shift and the exact fuel needed by a light-driven rocket.
+
+## Prerequisites
+
+<Prereqs notes={{ 'length-contraction': 'length contraction and proper length', 'time-dilation': 'time dilation and γ', vectors: 'relative velocity', 'exponentials-logarithms': 'eˣ and natural logarithms', spectroscopy: 'the Doppler shift Δλ/λ = v/c', 'photon-propulsion': 'the photon rocket and F = P/c' }} />
+
+## The concept
+
+### Translating between frames
+
+The **Lorentz transformation** is the dictionary that translates where and when an event happens in one frame ($x$, $t$) into another frame moving at $v$ ($x'$, $t'$):
+
+$$
+x' = \gamma(x - vt), \qquad t' = \gamma\left(t - \frac{vx}{c^{2}}\right).
+$$
+
+At low speed, $\gamma \to 1$ and $vx/c^{2} \to 0$, and these become the everyday Galilean rules $x' = x - vt$, $t' = t$ (Chapter 10.1). The Formulas section derives them using nothing but the two postulates and algebra.
+
+The extra term $-vx/c^{2}$ in the time is the relativity of simultaneity: events at the same $t$ but different $x$ happen at different $t'$. Time dilation and length contraction both follow from these two equations too.
+
+### How velocities really add
+
+Differentiating the Lorentz transformation (Formulas) gives the true rule for combining velocities. If the ship moves at $v$ relative to Earth and launches a probe at $u'$ relative to the ship, Earth sees the probe moving at
+
+$$
+u = \frac{u' + v}{1 + u'v/c^{2}}.
+$$
+
+<Term id="velocity-addition">Relativistic velocity addition</Term> has three key properties:
+
+- At low speeds, the bottom is almost exactly 1 and $u \approx u' + v$.
+- If either speed is $c$, the answer is $c$: $(c + v)/(1 + v/c) = c$. Light is $c$ for everyone, as the second postulate demands.
+- If both speeds are less than $c$, the answer is always less than $c$. Speeds pile up, but never past the limit.
+
+So the Astrophage cell launched at 0.92c from a ship moving at 0.5c moves, for Earth, at 0.973c, not 1.42c.
+
+### Rapidity: the speed that does add
+
+Velocities don't add, but there is a measure of speed that does: the <Term id="rapidity">rapidity</Term> $\varphi$ (Greek "phi"). It's defined so that
+
+$$
+\beta = \tanh\varphi,
+$$
+
+where $\tanh$ is the **hyperbolic tangent**, built from the exponential function (Chapter 0.8):
+
+$$
+\cosh\varphi = \frac{e^{\varphi} + e^{-\varphi}}{2}, \qquad \sinh\varphi = \frac{e^{\varphi} - e^{-\varphi}}{2}, \qquad \tanh\varphi = \frac{\sinh\varphi}{\cosh\varphi}.
+$$
+
+These <Term id="hyperbolic-functions">hyperbolic functions</Term> behave a lot like sine and cosine. The Formulas section shows that when a ship with rapidity $\varphi_{1}$ launches a probe with rapidity $\varphi_{2}$, the probe's rapidity is simply $\varphi_{1} + \varphi_{2}$.
+
+<Figure caption="Speed against rapidity. Rapidities add like ordinary numbers; the speeds they stand for always stay below c. A ship at 0.5c launching a probe at 0.92c gives a probe at 0.973c." alt="A graph of speed beta from 0 to 1 against rapidity phi from 0 to 3. An orange curve, beta equals tanh phi, rises steeply then flattens towards a dashed line at 1, labelled c, never reached. Marked points: 0.5c at phi equals 0.549; 0.92c at phi equals 1.589; and the sum, phi equals 2.138, giving 0.973c, in green. A bar near the bottom shows the two rapidities laid end to end, labelled rapidities add like ordinary numbers.">
+	<TanhCurve />
+</Figure>
+
+At low speed $\tanh\varphi \approx \varphi$, so rapidity and $\beta$ are the same thing for slow motion. Near $c$, rapidity grows without limit while the speed creeps towards 1. It also makes $\gamma$ beautifully simple: $\gamma = \cosh\varphi$ and $\gamma\beta = \sinh\varphi$.
+
+### The Doppler shift near c
+
+Chapter 7.5 found that light from a receding source is stretched by a factor $1 + \beta$, valid for low speeds. Near $c$ there are two effects: the source moves away between crests, **and** its clock runs slow. Together (Formulas):
+
+$$
+\frac{\lambda_{\text{observed}}}{\lambda_{\text{emitted}}} = \sqrt{\frac{1 + \beta}{1 - \beta}} = e^{\varphi}
+$$
+
+for a source receding at $\beta$ (and the inverse for one approaching). This is the <Term id="relativistic-doppler">relativistic Doppler shift</Term>.
+
+<Figure caption="How much light from a receding source is stretched. The low-speed rule 1 + β (dashed) and relativity's √((1 + β)/(1 − β)) (orange) agree for slow sources, but near c the relativistic stretch grows without limit: 4.90 at 0.92c." alt="A graph of wavelength observed divided by wavelength emitted, from 1 to 8, against the speed of a receding source from 0 to 1. A dashed blue straight line from 1 to 2, labelled Chapter 7.5's 1 plus beta. An orange curve starting at 1 that curves up steeply, marked at 0.92c with the label relativity, square root of 1 plus beta over 1 minus beta, 4.90 at 0.92c.">
+	<RelDoppler />
+</Figure>
+
+### The exact photon rocket
+
+Chapters 7.4 and 9.2 quoted, without proof, the mass ratio a light-driven rocket needs to reach speed $\beta$: $\sqrt{(1 + \beta)/(1 - \beta)}$. Rapidity explains it. In the ship's own frame, each small burst of light changes the ship's rapidity by an amount proportional to the fraction of its mass it burns. Adding up rapidities (which we're allowed to do), the total rapidity is $\ln(m_{0}/m)$, and so
+
+$$
+\frac{m_{0}}{m} = e^{\varphi} = \sqrt{\frac{1 + \beta}{1 - \beta}}.
+$$
+
+It is the same factor as the Doppler shift. For Astrophage to reach 0.92c by its own light, it must burn all but $1/4.90$ of itself.
+
+## Formulas
+
+### Deriving the Lorentz transformation
+
+Let frame S′ move at $v$ along $x$, with origins together at $t = t' = 0$. Assume the transformation is linear (so that steady motion stays steady) and reduces to $x' = x - vt$ at low speed:
+
+$$
+x' = \gamma(x - vt)
+$$
+
+for some factor $\gamma$ to be found. By the principle of relativity, S moves at $-v$ relative to S′, so the reverse must have the same form:
+
+$$
+x = \gamma(x' + vt')
+$$
+
+Now send a flash of light along $x$ from the origin at time 0. By the second postulate it travels at $c$ in both frames: $x = ct$ and $x' = ct'$. Substituting:
+
+$$
+ct' = \gamma(c - v)t \qquad ct = \gamma(c + v)t'
+$$
+
+Multiply the two equations and cancel $tt'$:
+
+$$
+c^{2} = \gamma^{2}(c^{2} - v^{2}) \qquad\Rightarrow\qquad \boxed{\gamma = \frac{1}{\sqrt{1 - v^{2}/c^{2}}}}
+$$
+
+the same $\gamma$ as Chapter 10.2's light clock. To find $t'$, put $x' = \gamma(x - vt)$ into $x = \gamma(x' + vt')$ and solve:
+
+$$
+vt' = \frac{x}{\gamma} - \gamma(x - vt) = \gamma\left[x\left(\frac{1}{\gamma^{2}} - 1\right) + vt\right] = \gamma\left[vt - \frac{v^{2}}{c^{2}}x\right]
+$$
+
+using $1/\gamma^{2} - 1 = -v^{2}/c^{2}$. Dividing by $v$:
+
+$$
+\boxed{x' = \gamma(x - vt) \qquad t' = \gamma\left(t - \frac{vx}{c^{2}}\right)}
+$$
+
+and the reverse, $x = \gamma(x' + vt')$, $t = \gamma(t' + vx'/c^{2})$.
+
+**Simultaneity.** Two events at the same ship time ($\Delta t' = 0$) a distance $L_{0}$ apart on the ship happen, for Earth, $\Delta t = \gamma(0 + vL_{0}/c^{2}) = \gamma L_{0}v/c^{2}$ apart: Chapter 10.1's offset.
+
+### Velocity addition
+
+A probe moves at $u' = dx'/dt'$ in S′. Small changes in the reverse transformation give $dx = \gamma(dx' + v\,dt')$ and $dt = \gamma(dt' + v\,dx'/c^{2})$, so
+
+$$
+u = \frac{dx}{dt} = \frac{dx' + v\,dt'}{dt' + v\,dx'/c^{2}} = \frac{u' + v}{1 + u'v/c^{2}} \qquad\Rightarrow\qquad \boxed{u = \frac{u' + v}{1 + u'v/c^{2}}}
+$$
+
+(dividing top and bottom by $dt'$).
+
+### Rapidities add
+
+From $\beta = \tanh\varphi = \dfrac{e^{\varphi} - e^{-\varphi}}{e^{\varphi} + e^{-\varphi}} = \dfrac{e^{2\varphi} - 1}{e^{2\varphi} + 1}$, solving for $e^{2\varphi}$:
+
+$$
+e^{2\varphi} = \frac{1 + \beta}{1 - \beta} \qquad \varphi = \tfrac{1}{2}\ln\frac{1 + \beta}{1 - \beta}
+$$
+
+Write $k(\beta) = (1 + \beta)/(1 - \beta)$. With $\beta_{u} = (\beta_{1} + \beta_{2})/(1 + \beta_{1}\beta_{2})$:
+
+$$
+1 + \beta_{u} = \frac{(1 + \beta_{1})(1 + \beta_{2})}{1 + \beta_{1}\beta_{2}} \qquad 1 - \beta_{u} = \frac{(1 - \beta_{1})(1 - \beta_{2})}{1 + \beta_{1}\beta_{2}}
+$$
+
+so $k(\beta_{u}) = k(\beta_{1})\,k(\beta_{2})$: the factors multiply, so their logarithms, $2\varphi$, add:
+
+$$
+\boxed{\varphi_{u} = \varphi_{1} + \varphi_{2}} \qquad \gamma = \cosh\varphi \qquad \gamma\beta = \sinh\varphi
+$$
+
+(the last two from $\cosh^{2}\varphi - \sinh^{2}\varphi = 1$, which matches $\gamma^{2} - \gamma^{2}\beta^{2} = 1$).
+
+### The relativistic Doppler shift
+
+A source receding at $v$ emits crests every period $T_{0}$ of its own clock. In the observer's frame that is $\gamma T_{0}$, and in that time the source moves $v\gamma T_{0}$ further away, so each crest has that much further to travel. The crests arrive spaced in time by
+
+$$
+T = \gamma T_{0} + \frac{v\gamma T_{0}}{c} = \gamma(1 + \beta)T_{0} = \frac{(1 + \beta)}{\sqrt{(1 - \beta)(1 + \beta)}}T_{0} = \sqrt{\frac{1 + \beta}{1 - \beta}}\,T_{0}
+$$
+
+and $\lambda = cT$, so
+
+$$
+\boxed{\frac{\lambda_{\text{obs}}}{\lambda_{\text{emit}}} = \sqrt{\frac{1 + \beta}{1 - \beta}} = e^{\varphi}\ \text{(receding)}} \qquad \text{approaching: } \sqrt{\frac{1 - \beta}{1 + \beta}} = e^{-\varphi}
+$$
+
+For small $\beta$ this is $\approx 1 + \beta$, Chapter 7.5's rule.
+
+### The photon rocket
+
+In the ship's momentary rest frame, it turns a small mass $dm$ of fuel into light of energy $c^{2}\,dm$, which carries momentum $c\,dm$ backwards (Chapter 7.4). The ship, of mass $m$, gains a small speed $dv'$ with $m\,dv' = c\,dm$, so its rapidity grows by $d\varphi = dv'/c = dm/m$ (for small changes, rapidity and $\beta$ are the same). Adding up all the bursts, as rapidities may be added (Chapter C.5's $\int dm/m = \ln m$):
+
+$$
+\varphi = \int_{m}^{m_{0}} \frac{dm}{m} = \ln\frac{m_{0}}{m} \qquad\Rightarrow\qquad \boxed{\frac{m_{0}}{m} = e^{\varphi} = \sqrt{\frac{1 + \beta}{1 - \beta}}}
+$$
+
+At low speed $\varphi \approx \beta$ and this is Chapter 5.7's $e^{\Delta v/c}$.
+
+## Worked examples
+
+<Example n={1} title="Launching Astrophage from a fast ship" book>
+The ship moves at 0.5c relative to Earth and releases a cell that flies ahead at 0.92c relative to the ship. How fast does Earth see it go? Check with rapidities.
+
+$$
+u = \frac{0.92c + 0.5c}{1 + 0.92 \times 0.5} = \frac{1.42c}{1.46} = 0.973c
+$$
+
+$$
+\varphi = \operatorname{artanh} 0.5 + \operatorname{artanh} 0.92 = 0.549 + 1.589 = 2.138 \qquad \tanh 2.138 = 0.973\ \checkmark
+$$
+
+0.973c, not the Galilean 1.42c.
+</Example>
+
+<Example n={2} title="A ball thrown on a fast ship">
+On the ship, moving at 0.5c, Grace throws a ball forward at 10 m/s. By how much faster than the ship does Earth see the ball move?
+
+$$
+u - v = \frac{u' + v}{1 + u'v/c^{2}} - v \approx u'(1 - v^{2}/c^{2}) = \frac{u'}{\gamma^{2}} = 10\ \text{m/s} \times 0.75 = 7.5\ \text{m/s}
+$$
+
+Earth sees the ball pull ahead of the ship at only 7.5 m/s, because the ship's clocks run slow and its rulers are short: the crew's 10 m/s is Earth's 7.5 m/s.
+</Example>
+
+<Example n={3} title="Petrova light from a speeding cell" book>
+An Astrophage cell moving away from Earth at 0.92c emits Petrova light (25.984 µm). What wavelength arrives at Earth? What if the cell were approaching?
+
+$$
+\sqrt{\frac{1 + 0.92}{1 - 0.92}} = \sqrt{\frac{1.92}{0.08}} = \sqrt{24} = 4.899
+$$
+
+$$
+\text{receding: } 25.984\ \mu\text{m} \times 4.899 = 127.3\ \mu\text{m} \qquad \text{approaching: } \frac{25.984\ \mu\text{m}}{4.899} = 5.30\ \mu\text{m}
+$$
+
+Shifted that far, the light would be invisible to a detector tuned to 25.984 µm. The Petrova line's sharp, unshifted wavelength (Chapter 7.5) means the cells that make it are not moving fast along our line of sight.
+</Example>
+
+<Example n={4} title="Astrophage's own fuel bill" book>
+What fraction of its mass must Astrophage turn into light to reach 0.92c from rest? Compare with the simple rocket equation's $e^{0.92}$.
+
+$$
+\frac{m_{0}}{m} = \sqrt{\frac{1.92}{0.08}} = 4.90 \qquad \frac{m}{m_{0}} = 0.204 \qquad \text{burned: } 1 - 0.204 = 80\%
+$$
+
+$$
+\text{simple: } e^{0.92} = 2.51,\ \text{burned } 60\%
+$$
+
+Relativity nearly doubles the mass ratio: the cell must burn four-fifths of itself, as Chapter 7.4 previewed.
+</Example>
+
+<Example n={5} title="Two ships meeting">
+Two ships each approach Earth from opposite sides at 0.6c. How fast does each crew see the other approaching?
+
+$$
+u = \frac{0.6c + 0.6c}{1 + 0.6 \times 0.6} = \frac{1.2c}{1.36} = 0.882c
+$$
+
+Not 1.2c. From Earth they close the gap at 1.2c (two things can approach each other faster than $c$ as seen by a third), but no observer measures any object moving faster than light.
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** The Lorentz transformation, velocity addition and the relativistic Doppler shift are standard (OpenStax *University Physics* Vol. 3, §5.5–5.7), as is rapidity and the relativistic rocket equation $m_{0}/m = \sqrt{(1 + \beta)/(1 - \beta)}$ for an ideal photon rocket. Velocity addition is checked in particle physics, where fast-moving particles decay into products that never exceed $c$.
+
+**Weir's inventions.** Astrophage, its 0.92c and its single-wavelength light. The launch from a moving ship is our illustration.
+
+**How realistic are the numbers?** A photon rocket's mass ratio is the best any rocket can do, because its exhaust is as fast as possible. Even so, reaching 0.92c from rest costs 80% of the starting mass. Reaching and then stopping from that speed (needed for a trip with a destination) costs $4.90^{2} = 24$, which is why the *Hail Mary*'s fuel budget matters so much in Chapter 10.6.
+</RealVsBook>
+
+## Interactive simulation
+
+<VelocityAdder />
+
+Things to try: set both sliders to 0.99. The Galilean sum is 1.98c; the true sum is 0.99995c. Set the probe to −0.5 with the ship at 0.5: it ends up at rest relative to Earth. Watch the rapidity bars simply add.
+
+## Practice set
+
+<Problem n={1} level="easy">
+A ship at 0.6c fires a probe forward at 0.6c relative to the ship. How fast is the probe relative to the starting point?
+
+<Solution>
+$1.2c/1.36 = 0.882c$.
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy">
+A ship at 0.8c shines a lamp forward. How fast does the light travel relative to Earth? Use the formula.
+
+<Solution>
+$(c + 0.8c)/(1 + 0.8) = 1.8c/1.8 = c$.
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy">
+Show that for $u' = 30$ m/s and $v = 40$ m/s the relativistic sum is indistinguishable from 70 m/s.
+
+<Solution>
+The bottom is $1 + 1200/(9 \times 10^{16}) = 1 + 1.3 \times 10^{-14}$, so $u = 70 \times (1 - 1.3 \times 10^{-14})$ m/s.
+</Solution>
+</Problem>
+
+<Problem n={4} level="easy">
+Find the rapidity for $\beta = 0.5$ and check that $\cosh\varphi = \gamma$.
+
+<Solution>
+$\varphi = \tfrac{1}{2}\ln(1.5/0.5) = \tfrac{1}{2}\ln 3 = 0.549$. $\cosh 0.549 = (1.732 + 0.577)/2 = 1.155 = \gamma$ ✓.
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium">
+Two ships head in the same direction: the first at 0.9c relative to Earth, the second at 0.9c relative to the first. How fast is the second relative to Earth?
+
+<Solution>
+$1.8c/1.81 = 0.9945c$.
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium" book>
+The ship, receding from Earth at 0.995c, has its drive pointed back towards Earth. What wavelength does Earth receive from its 25.984 µm exhaust?
+
+<Solution>
+$\sqrt{1.995/0.005} = 19.97$, so $25.984 \times 19.97 = 519$ µm, deep in the far infrared, nearly microwaves.
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium" book>
+An Astrophage cell moves at 0.92c relative to Earth, and the ship moves the same way at 0.5c. How fast is the cell relative to the ship?
+
+<Solution>
+Use $u' = (u - v)/(1 - uv/c^{2}) = (0.92 - 0.5)/(1 - 0.46) = 0.42/0.54 = 0.778c$.
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium">
+Tau Ceti approaches the Sun at 16.68 km/s. Compare the relativistic Doppler factor with Chapter 7.5's $1 - \beta$.
+
+<Solution>
+$\beta = 5.564 \times 10^{-5}$. $\sqrt{(1 - \beta)/(1 + \beta)} = 0.999\,944\,4$ and $1 - \beta = 0.999\,944\,4$: identical to seven figures. Relativity matters only at much higher speeds.
+</Solution>
+</Problem>
+
+<Problem n={9} level="medium">
+Using the Lorentz transformation, find where and when, in the ship's frame (moving at 0.6c), an event happens that Earth places at $x = 3.0 \times 10^{8}$ m, $t = 2.0$ s.
+
+<Solution>
+$\gamma = 1.25$. $x' = 1.25(3.0 \times 10^{8} - 0.6 \times 3.0 \times 10^{8} \times 2.0) = 1.25(3.0 - 3.6) \times 10^{8} = -7.5 \times 10^{7}$ m. $t' = 1.25(2.0 - 0.6 \times 3.0 \times 10^{8}/3.0 \times 10^{8}) = 1.25 \times 1.4 = 1.75$ s.
+</Solution>
+</Problem>
+
+<Problem n={10} level="challenging" book>
+A photon rocket accelerates from rest to 0.9c and then decelerates to rest again. What overall mass ratio does it need? Use rapidities.
+
+<Solution>
+Each burn needs $e^{\varphi} = \sqrt{1.9/0.1} = 4.36$; rapidity changes add, so the total is $e^{2\varphi} = 4.36^{2} = 19$. The ship must start with 19 times its final mass.
+</Solution>
+</Problem>
+
+<Problem n={11} level="challenging" book>
+Chapter 5.7 found that the novel's fuel load gives a mass ratio of about 21. If a photon rocket spends it on speeding up and then slowing down equally, what is its top speed?
+
+<Solution>
+Each burn gets $e^{\varphi} = \sqrt{21} = 4.58$, so $\varphi = 1.522$ and $\beta = \tanh 1.522 = 0.909$. (Exactly $\beta = 20/22 = 10/11$, since $e^{2\varphi} = 21 = (1 + \beta)/(1 - \beta)$.)
+</Solution>
+</Problem>
+
+<Problem n={12} level="challenging">
+Show that $(1 + \beta_{u})$ really equals $(1 + \beta_{1})(1 + \beta_{2})/(1 + \beta_{1}\beta_{2})$ for $\beta_{u} = (\beta_{1} + \beta_{2})/(1 + \beta_{1}\beta_{2})$.
+
+<Solution>
+$1 + \beta_{u} = \dfrac{1 + \beta_{1}\beta_{2} + \beta_{1} + \beta_{2}}{1 + \beta_{1}\beta_{2}}$, and the top factorises: $1 + \beta_{1} + \beta_{2} + \beta_{1}\beta_{2} = (1 + \beta_{1})(1 + \beta_{2})$ ✓.
+</Solution>
+</Problem>
+
+## Summary
+
+- The Lorentz transformation $x' = \gamma(x - vt)$, $t' = \gamma(t - vx/c^{2})$ follows from the two postulates; it contains time dilation, length contraction and the relativity of simultaneity.
+- Velocities combine as $u = (u' + v)/(1 + u'v/c^{2})$: nearly $u' + v$ when slow, never above $c$, and exactly $c$ for light.
+- Rapidity $\varphi$, with $\beta = \tanh\varphi$, simply adds. $\gamma = \cosh\varphi$, $\gamma\beta = \sinh\varphi$, $e^{2\varphi} = (1 + \beta)/(1 - \beta)$.
+- Relativistic Doppler: $\lambda_{\text{obs}}/\lambda_{\text{emit}} = \sqrt{(1 + \beta)/(1 - \beta)} = e^{\varphi}$ for a receding source.
+- An ideal photon rocket needs $m_{0}/m = e^{\varphi} = \sqrt{(1 + \beta)/(1 - \beta)}$: 4.90 for 0.92c.
+
+**Formulas from this chapter**
+
+$$
+x' = \gamma(x - vt),\ t' = \gamma\left(t - \frac{vx}{c^{2}}\right) \qquad u = \frac{u' + v}{1 + u'v/c^{2}} \qquad \beta = \tanh\varphi,\ \varphi_{u} = \varphi_{1} + \varphi_{2} \qquad \frac{\lambda_{\text{obs}}}{\lambda} = \frac{m_{0}}{m} = \sqrt{\frac{1 + \beta}{1 - \beta}}
+$$
+
+## Sources
+
+- The Lorentz transformation, velocity addition and the relativistic Doppler effect: OpenStax, [*University Physics Volume 3*, §5.5](https://openstax.org/books/university-physics-volume-3/pages/5-5-the-lorentz-transformation), [§5.6](https://openstax.org/books/university-physics-volume-3/pages/5-6-relativistic-velocity-transformation) and [§5.7](https://openstax.org/books/university-physics-volume-3/pages/5-7-doppler-effect-for-light).
+- Rapidity and the hyperbolic functions: Wikipedia, [Rapidity](https://en.wikipedia.org/wiki/Rapidity). The ideal relativistic photon rocket: Wikipedia, [Relativistic rocket](https://en.wikipedia.org/wiki/Relativistic_rocket).
+- Tau Ceti's radial velocity: this course, [Chapter 7.5](/part-7/spectroscopy/). The fuel mass ratio of about 21: [Chapter 5.7](/part-5/rocket-equation/). Astrophage at up to 0.92c and the Petrova wavelength: readifyai reader guides, [Astrophage](https://readifyai.com/en/books/Project%20Hail%20Mary/wiki/Astrophage) and [Petrova line](https://readifyai.com/en/books/Project%20Hail%20Mary/wiki/Petrova%20line) (not official sources).

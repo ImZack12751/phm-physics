@@ -1,0 +1,27 @@
+---
+// Relativity of simultaneity. A flash in the middle of a moving ship. Top (ship frame): light reaches both ends at once.
+// Bottom (Earth frame): the rear end moves towards the light and the front end away, so light reaches the rear first.
+const L = 300, X0 = 150, top = 70, bot = 200, H = 40, shift = 60;
+---
+
+<svg class="dg" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+	<text x="20" y={top - 30} class="t-sm t-b">in the ship's frame</text>
+	<rect x={X0} y={top} width={L} height={H} class="s-sky w2" fill="none" />
+	<circle cx={X0 + L / 2} cy={top + H / 2} r="6" class="f-amber" />
+	<line x1={X0 + L / 2 - 10} y1={top + H / 2} x2={X0 + 12} y2={top + H / 2} class="s-amber w2" />
+	<line x1={X0 + L / 2 + 10} y1={top + H / 2} x2={X0 + L - 12} y2={top + H / 2} class="s-amber w2" />
+	<text x={X0} y={top + H + 20} class="t-sm f-green">rear: hit at t</text>
+	<text x={X0 + L} y={top + H + 20} class="t-end t-sm f-green">front: hit at the same t</text>
+	<text x="20" y={bot - 30} class="t-sm t-b">in Earth's frame (ship moving right at v)</text>
+	<rect x={X0 + shift / 2} y={bot} width={L} height={H} class="s-sky w2" fill="none" stroke-dasharray="6 4" />
+	<line x1={X0 + L / 2} y1={bot - 8} x2={X0 + L / 2} y2={bot + H + 8} class="s-muted w1 dash" />
+	<text x={X0 + L / 2} y={bot - 12} class="t-mid t-sm f-muted">where the flash happened</text>
+	<line x1={X0 + L + shift / 2 + 6} y1={bot + H / 2} x2={X0 + L + shift / 2 + 50} y2={bot + H / 2} class="s-fg w2" />
+	<polygon points={`${X0 + L + shift / 2 + 60},${bot + H / 2} ${X0 + L + shift / 2 + 48},${bot + H / 2 - 6} ${X0 + L + shift / 2 + 48},${bot + H / 2 + 6}`} class="f-fg" />
+	<text x={X0 + L + shift / 2 + 14} y={bot - 6} class="t-sm">v</text>
+	<text x={X0 + shift / 2 - 6} y={bot + 60} class="t-sm f-rose">rear rushes towards the light:</text>
+	<text x={X0 + shift / 2 - 6} y={bot + 76} class="t-sm f-rose">hit first</text>
+	<text x={X0 + L + shift / 2} y={bot + 76} class="t-end t-sm f-rose">front runs away: hit later</text>
+	<text x="590" y="20" class="t-end t-sm">light goes at c in both frames,</text>
+	<text x="590" y="38" class="t-end t-sm">so the two frames disagree about "at the same time"</text>
+</svg>

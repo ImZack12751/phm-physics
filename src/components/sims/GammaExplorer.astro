@@ -1,0 +1,69 @@
+---
+// Simulation: the Lorentz factor and what it does. γ = 1/√(1 − β²); time dilation γ, length contraction 1/γ; kinetic energy
+// (γ − 1)mc² compared with Newton's ½mv²; momentum γmv vs mv; for 1 kg and for the course's 1.0 × 10⁵ kg ship.
+---
+
+<div
+	class="sim gx"
+	data-title="Gamma explorer"
+	data-description="A slider sets a speed from 0 to 0.9999 times the speed of light. A graph shows the Lorentz factor γ against speed with a marker at the chosen speed. The readout gives γ, how much slower moving clocks run and how much shorter moving lengths are, the kinetic energy of 1 kilogram from relativity, (γ − 1)mc², compared with Newton's ½mv², the momentum γmv compared with mv, and the kinetic energy of the course's 100 tonne model Hail Mary at that speed compared with the energy of its 2 million kilograms of fuel."
+>
+	<p class="sim-title">Simulation: gamma explorer</p>
+	<p class="sim-help">Below about 0.1c, Newton is fine. Above about 0.5c, he isn't. Close to c, the energy needed runs away to infinity.</p>
+	<div class="sim-controls">
+		<label>Speed v/c <input type="range" class="gx-b" min="0" max="0.9999" step="0.0001" value="0.92" /> <output class="gx-bv"></output></label>
+	</div>
+	<svg class="dg gx-svg" viewBox="0 0 600 200" role="img" aria-label="Graph of the Lorentz factor with a marker at the chosen speed"></svg>
+	<div class="readout gx-out" aria-live="polite"></div>
+</div>
+
+<script>
+	const C2 = 299792458 ** 2;
+	const sci = (x: number) => {
+		const e = Math.floor(Math.log10(Math.abs(x))), m = x / 10 ** e;
+		if (e >= -2 && e <= 3) return x.toPrecision(Math.max(3, e + 1));
+		return `${m.toFixed(2)} × 10${String(e).replace('-', '⁻').replace(/\d/g, (d) => '⁰¹²³⁴⁵⁶⁷⁸⁹'[+d])}`;
+	};
+	document.querySelectorAll<HTMLElement>('.sim.gx').forEach((root) => {
+		const q = <T extends Element>(s: string) => root.querySelector<T>(s)!;
+		const svg = q<SVGSVGElement>('.gx-svg'), out = q<HTMLElement>('.gx-out'), Bs = q<HTMLInputElement>('.gx-b');
+		const NS = 'http://www.w3.org/2000/svg';
+		const el = (tag: string, at: Record<string, string | number>, text?: string) => {
+			const e = document.createElementNS(NS, tag);
+			Object.entries(at).forEach(([k, v]) => e.setAttribute(k, String(v)));
+			if (text) e.textContent = text;
+			svg.append(e);
+			return e;
+		};
+		const L = 50, R = 580, T = 15, B = 170, lgMax = 2; // log10 γ from 0 to 2 (γ up to 100)
+		const X = (b: number) => L + b * (R - L);
+		const Y = (g: number) => B - (Math.log10(g) / lgMax) * (B - T);
+		const gam = (b: number) => 1 / Math.sqrt(1 - b * b);
+		[1, 2, 5, 10, 20, 50, 100].forEach((g) => {
+			el('line', { x1: L, y1: Y(g), x2: R, y2: Y(g), class: 's-grid w1' });
+			el('text', { x: L - 6, y: Y(g) + 4, class: 't-end t-sm f-muted' }, String(g));
+		});
+		[0, 0.25, 0.5, 0.75, 1].forEach((b) => el('text', { x: X(b), y: B + 16, class: 't-mid t-sm f-muted' }, String(b)));
+		el('polyline', {
+			points: Array.from({ length: 500 }, (_, i) => { const b = (0.99995 * i) / 499; return `${X(b).toFixed(1)},${Y(gam(b)).toFixed(1)}`; }).join(' '),
+			class: 's-amber w3', fill: 'none',
+		});
+		el('text', { x: R, y: 196, class: 't-end t-sm f-muted' }, 'γ on a log scale; speed v/c across');
+		const dot = el('circle', { r: 6, class: 'f-sky' });
+		function draw() {
+			const b = +Bs.value, g = gam(b);
+			q('.gx-bv').textContent = b.toFixed(4);
+			dot.setAttribute('cx', String(X(b)));
+			dot.setAttribute('cy', String(Math.max(T, Y(g))));
+			const KE = (g - 1) * C2, KN = 0.5 * b * b * C2, p = g * b * 299792458, pn = b * 299792458;
+			const ship = (g - 1) * 1e5 * C2, fuel = 2e6 * C2;
+			out.innerHTML =
+				`<span class="k">γ</span> = <b>${g.toFixed(g < 10 ? 4 : 2)}</b>: moving clocks run ${g.toFixed(3)}× slow; moving lengths are ${(1 / g).toFixed(3)} of their rest length<br>` +
+				`<span class="k">kinetic energy of 1 kg</span>: relativity (γ − 1)mc² = <b>${b > 0 ? sci(KE) : '0'} J</b>; Newton ½mv² = ${b > 0 ? sci(KN) : '0'} J (${b > 0 ? (KE / KN).toFixed(3) : '1.000'}×)<br>` +
+				`<span class="k">momentum of 1 kg</span>: γmv = ${b > 0 ? sci(p) : '0'} kg·m/s; Newton mv = ${b > 0 ? sci(pn) : '0'}<br>` +
+				`<span class="k">100 t ship's kinetic energy</span> = ${b > 0 ? sci(ship) : '0'} J = ${((100 * ship) / fuel).toFixed(2)}% of the energy in 2 × 10⁶ kg of Astrophage`;
+		}
+		Bs.addEventListener('input', draw);
+		draw();
+	});
+</script>

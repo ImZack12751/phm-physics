@@ -1,0 +1,105 @@
+---
+// Simulation: plan an interstellar trip at constant felt (proper) acceleration a. Rapidity φ = aτ/c; v = c tanh φ;
+// Earth time t = (c/a) sinh φ; distance x = (c²/a)(cosh φ − 1). Two plans: flip-and-burn all the way, or a fixed photon-rocket
+// mass ratio R split equally between speeding up and slowing down, with a coast in between. Newton's answer for comparison.
+---
+
+<div
+	class="sim tp"
+	data-title="Trip planner"
+	data-description="Choose a destination distance (1 to 30 light-years), the acceleration the crew feel (0.1 to 3 g), and a plan: accelerate to the halfway point then decelerate, or spend a fixed photon-rocket mass ratio (2 to 1000, log scale) half on speeding up and half on slowing down, coasting in between. A graph shows the ship's speed against its own clock, with Newton's straight-line speed for comparison. The readout gives the ship time, Earth time, top speed, top Lorentz factor, the mass ratio needed or used, the fuel for a 100 tonne ship, and Newton's (wrong) trip time and top speed."
+>
+	<p class="sim-title">Simulation: trip planner</p>
+	<p class="sim-help">The crew feel the same push the whole time, yet they never reach c. The faster they go, the more Earth's clocks run ahead.</p>
+	<div class="sim-controls">
+		<label>Distance <input type="range" class="tp-d" min="1" max="30" step="0.001" value="11.912" /> <output class="tp-dv"></output></label>
+		<label>Felt acceleration <input type="range" class="tp-a" min="0.1" max="3" step="0.01" value="1.5" /> <output class="tp-av"></output></label>
+		<label>Plan <select class="tp-p">
+			<option value="flip">accelerate, flip, decelerate</option>
+			<option value="fuel">fixed mass ratio, coast between</option>
+		</select></label>
+		<label>Mass ratio for the fuel plan (log) <input type="range" class="tp-r" min="0.301" max="3" step="any" value="1.3222" /> <output class="tp-rv"></output></label>
+	</div>
+	<svg class="dg tp-svg" viewBox="0 0 600 200" role="img" aria-label="Speed against ship time for the planned trip"></svg>
+	<div class="readout tp-out" aria-live="polite"></div>
+</div>
+
+<script>
+	const C = 299792458, G0 = 9.80665, YR = 365.25 * 86400;
+	const sci = (x: number) => {
+		const e = Math.floor(Math.log10(Math.abs(x))), m = x / 10 ** e;
+		if (e >= -2 && e <= 3) return x.toPrecision(Math.max(3, e + 1));
+		return `${m.toFixed(2)} × 10${String(e).replace('-', '⁻').replace(/\d/g, (d) => '⁰¹²³⁴⁵⁶⁷⁸⁹'[+d])}`;
+	};
+	document.querySelectorAll<HTMLElement>('.sim.tp').forEach((root) => {
+		const q = <T extends Element>(s: string) => root.querySelector<T>(s)!;
+		const svg = q<SVGSVGElement>('.tp-svg'), out = q<HTMLElement>('.tp-out');
+		const Ds = q<HTMLInputElement>('.tp-d'), As = q<HTMLInputElement>('.tp-a'), Ps = q<HTMLSelectElement>('.tp-p'), Rs = q<HTMLInputElement>('.tp-r');
+		const NS = 'http://www.w3.org/2000/svg';
+		const el = (tag: string, at: Record<string, string | number>, text?: string) => {
+			const e = document.createElementNS(NS, tag);
+			Object.entries(at).forEach(([k, v]) => e.setAttribute(k, String(v)));
+			if (text) e.textContent = text;
+			svg.append(e);
+			return e;
+		};
+		const L = 50, R = 580, T = 15, B = 170, vMax = 1.2;
+		const Y = (v: number) => B - (v / vMax) * (B - T);
+		[0, 0.5, 1].forEach((v) => {
+			el('line', { x1: L, y1: Y(v), x2: R, y2: Y(v), class: v === 1 ? 's-rose w1 dash' : 's-grid w1' });
+			el('text', { x: L - 6, y: Y(v) + 4, class: 't-end t-sm f-muted' }, v === 1 ? 'c' : `${v}c`);
+		});
+		el('line', { x1: L, y1: B, x2: R, y2: B, class: 's-fg w2' });
+		const relL = el('polyline', { class: 's-amber w3', fill: 'none' });
+		const newL = el('polyline', { class: 's-sky w2 dash', fill: 'none' });
+		const tEnd = el('text', { x: R, y: B + 18, class: 't-end t-sm f-muted' });
+		el('text', { x: L, y: B + 18, class: 't-sm f-muted' }, '0');
+		el('text', { x: 300, y: 196, class: 't-mid t-sm f-muted' }, 'speed against ship time; dashed: Newton');
+		function plan() {
+			const D = +Ds.value, a = +As.value * G0, ca = C / a / YR; // c/a in years = c²/a in light-years
+			if (Ps.value === 'flip') {
+				const ph = Math.acosh(1 + D / (2 * ca));
+				return { ph, tb: ph * ca, tauCoast: 0, tauTot: 2 * ph * ca, tTot: 2 * ca * Math.sinh(ph), Rneed: Math.exp(2 * ph), ca, D, a, coastV: 0 };
+			}
+			const Rm = 10 ** +Rs.value, ph = Math.log(Math.sqrt(Rm)), xb = ca * (Math.cosh(ph) - 1);
+			if (2 * xb >= D) {
+				const ph2 = Math.acosh(1 + D / (2 * ca));
+				return { ph: ph2, tb: ph2 * ca, tauCoast: 0, tauTot: 2 * ph2 * ca, tTot: 2 * ca * Math.sinh(ph2), Rneed: Math.exp(2 * ph2), ca, D, a, coastV: 0, spare: true };
+			}
+			const vC = Math.tanh(ph), xc = D - 2 * xb, tc = xc / vC;
+			return { ph, tb: ph * ca, tauCoast: tc / Math.cosh(ph), tauTot: 2 * ph * ca + tc / Math.cosh(ph), tTot: 2 * ca * Math.sinh(ph) + tc, Rneed: Rm, ca, D, a, coastV: vC };
+		}
+		function draw() {
+			q('.tp-dv').textContent = `${(+Ds.value).toFixed(2)} ly`;
+			q('.tp-av').textContent = `${(+As.value).toFixed(2)} g`;
+			q('.tp-rv').textContent = (10 ** +Rs.value).toFixed(1);
+			Rs.disabled = Ps.value !== 'fuel';
+			const s = plan();
+			const X = (tau: number) => L + (tau / s.tauTot) * (R - L);
+			const pts: string[] = [], npts: string[] = [];
+			for (let i = 0; i <= 300; i++) {
+				const tau = (s.tauTot * i) / 300;
+				let ph;
+				if (tau <= s.tb) ph = tau / s.ca;
+				else if (tau <= s.tb + s.tauCoast) ph = s.ph;
+				else ph = Math.max(0, s.ph - (tau - s.tb - s.tauCoast) / s.ca);
+				pts.push(`${X(tau).toFixed(1)},${Y(Math.tanh(ph)).toFixed(1)}`);
+				const vn = tau <= s.tauTot / 2 ? tau / s.ca : (s.tauTot - tau) / s.ca;
+				npts.push(`${X(tau).toFixed(1)},${Math.max(T - 10, Y(vn)).toFixed(1)}`);
+			}
+			relL.setAttribute('points', pts.join(' '));
+			newL.setAttribute('points', s.tauCoast > 0 ? '' : npts.join(' '));
+			tEnd.textContent = `${s.tauTot.toFixed(2)} years of ship time`;
+			const ly = C * YR, aN = s.a, tN = (2 * Math.sqrt((s.D * ly) / aN)) / YR, vN = Math.sqrt(aN * s.D * ly) / C;
+			const fuel = 1e5 * (s.Rneed - 1);
+			out.innerHTML =
+				`<span class="k">ship time</span> = <b>${s.tauTot.toFixed(2)} yr</b> &nbsp; <span class="k">Earth time</span> = <b>${s.tTot.toFixed(2)} yr</b> &nbsp; <span class="k">top speed</span> = ${Math.tanh(s.ph).toFixed(4)}c (γ = ${Math.cosh(s.ph).toFixed(2)})<br>` +
+				`<span class="k">photon-rocket mass ratio ${Ps.value === 'flip' || s.spare ? 'needed' : 'used'}</span> = ${sci(s.Rneed)}; fuel for a 100 t ship = ${sci(fuel / 1000)} t${s.spare ? ' (this much fuel is more than the trip needs, so it flips at the halfway point)' : ''}${s.tauCoast > 0 ? `; coasting ${s.tauCoast.toFixed(2)} yr of ship time at ${s.coastV.toFixed(3)}c` : ''}<br>` +
+				`<span class="k">Newton would say</span>: ${tN.toFixed(2)} yr with a top speed of ${vN.toFixed(2)}c${vN > 1 ? ' (impossible)' : ''}`;
+		}
+		[Ds, As, Rs].forEach((i) => i.addEventListener('input', draw));
+		Ps.addEventListener('change', draw);
+		Ps.addEventListener('input', draw);
+		draw();
+	});
+</script>

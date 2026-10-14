@@ -1,0 +1,342 @@
+---
+title: Ship time vs Earth time
+description: The Hail Mary's trip worked out properly. Constant felt acceleration in relativity — rapidity grows steadily, v = c tanh(aτ/c), Earth time (c/a) sinh(aτ/c), distance (c²/a)(cosh(aτ/c) − 1) — the 1.5 g flip-and-burn to Tau Ceti (3.9 years aboard, 13.1 on Earth, top speed 0.995c), the fuel it needs, what the novel's fuel load really allows, Grace's age at the end, and why the Eridians brought so much fuel.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import SpeedVsShipTime from '../../../components/diagrams/part-10/SpeedVsShipTime.astro';
+import TripBars from '../../../components/diagrams/part-10/TripBars.astro';
+import TripPlanner from '../../../components/sims/TripPlanner.astro';
+
+## The scene
+
+This whole course began with one trip: 11.9 light-years to Tau Ceti, at a steady 1.5 g. Chapter 1.2 did it with Newton and got nonsense (a top speed of 4.29c). Chapters C.1 to C.6 kept warning that $v = 14.7t$ couldn't last. Chapter 5.7 checked the fuel and found it didn't quite add up.
+
+Now we can do it properly. The crew feel 1.5 g the whole way, but their speed relative to Earth bends over and never reaches $c$, while Earth's clocks race ahead. At the end, we'll see how well the novel's figures (about four years for Grace, about thirteen on Earth) hold up, and even work out Grace's age.
+
+## Prerequisites
+
+<Prereqs notes={{ 'velocity-addition': 'rapidity, the hyperbolic functions and the photon-rocket mass ratio', 'rocket-equation': 'the fuel budget and m = m₀e^(−aτ/c)', 'equations-of-motion': 'the Newtonian flip-and-burn', 'apparent-weight': 'acceleration felt as weight', integrals: 'integrating to find distance and time', derivatives: 'derivatives of eˣ' }} />
+
+## The concept
+
+### What "constant 1.5 g" means
+
+The crew feel 1.5 g all the time: a pendulum on board (Chapter 1.4) would always swing as in 1.5 g. That is their <Term id="proper-acceleration">proper acceleration</Term>: the acceleration measured on board, in the ship's own momentary rest frame. In each tick of the ship's clock, the ship gains a little speed relative to where it was a moment before.
+
+But speeds don't add simply (Chapter 10.5). Rapidities do. Each moment adds the same small rapidity, $a\,d\tau/c$, so the ship's rapidity relative to Earth grows steadily with ship time:
+
+$$
+\varphi = \frac{a\tau}{c}.
+$$
+
+Everything else follows from the hyperbolic functions: the speed is $v = c\tanh\varphi$, the time-dilation factor is $\gamma = \cosh\varphi$, and integrating gives the Earth time and the distance.
+
+<Figure caption="Speed against the ship's own clock at a constant felt 1.5 g. Newton's straight line passes the speed of light after eight months. Relativity's curve bends over: by the flip point, after 1.95 years aboard, the ship is at 0.995c, and it never reaches c." alt="A graph of speed relative to Earth, from 0 to 1.5 times c, against ship time from 0 to 2 years. A dashed blue straight line labelled Newton, v equals a tau, rises from the origin past c at about 0.65 years and off the top. An orange curve labelled relativity, v equals c tanh of a tau over c, rises along the same line at first, then bends over and flattens just below a dashed line at c. A dot near 1.95 years is labelled flip point, 0.995c after 1.95 years.">
+	<SpeedVsShipTime />
+</Figure>
+
+### A handy coincidence
+
+The natural time scale is $c/a$. At 1.5 g, $c/a = 2.04 \times 10^{7}$ s $= 0.646$ years. The natural distance is $c^{2}/a = 0.646$ light-years (the same number, because light goes one light-year in one year). So, at 1.5 g, after about 0.65 years aboard relativity has started to matter a lot, and every few tenths of a light-year counts.
+
+### The trip
+
+For a flip-and-burn, the ship accelerates for half the distance and decelerates for the other half. The Formulas section gives the halfway rapidity from the distance; then the times follow. For Tau Ceti at 1.5 g:
+
+- **ship time:** 3.89 years;
+- **Earth time:** 13.14 years;
+- **top speed:** 0.9952c, with $\gamma = 10.2$ at the flip.
+
+The novel's figures are about 3.75 years and about 13 years. The relativistic flip-and-burn reproduces them to within 4%. (An astrophysicist who checked the novel, Dr. Becky Smethurst, concluded that its timeline "fully checks out".)
+
+### The fuel
+
+A photon rocket needs a mass ratio $e^{\Delta\varphi}$ for a rapidity change $\Delta\varphi$ (Chapter 10.5). Speeding up and then slowing down is a total change of $2\varphi$, so the flip-and-burn needs
+
+$$
+\frac{m_{0}}{m} = e^{2\varphi} = 416.
+$$
+
+For the course's 100 tonne ship, that is 41 500 tonnes of Astrophage, against the novel's roughly 2000 tonnes (a mass ratio of about 21). This confirms what Chapter 5.7 found from the ship's clock: at 1.5 g all the way, the novel's fuel would run out early.
+
+What could the novel's fuel actually do? Spend the ratio of 21 half on speeding up and half on slowing down: each burn gets $e^{\varphi} = \sqrt{21}$, so the ship coasts at $\tanh(\ln\sqrt{21}) = 0.909c$ (exactly $10/11$ of $c$). Then the trip takes 6.6 years aboard and 13.9 on Earth. The Earth time matches the novel, but the ship time is almost twice as long.
+
+<Figure caption="The trip to Tau Ceti on Earth's clocks (blue) and the ship's (orange). A relativistic 1.5 g flip-and-burn matches the novel's times but needs a mass ratio of 416; the novel's fuel, with a coast at 0.909c, gives a much longer ship time. Newton's 5.55 years is impossible." alt="A bar chart with four rows, each with a blue Earth-time bar and an orange ship-time bar. The novel (about): 13 years and 3.75 years. 1.5 g all the way, mass ratio 416: 13.14 and 3.89 years. Novel's fuel, with a coast, mass ratio 21, coast at 0.909c: 13.93 and 6.6 years. Newton, impossible, peak 4.29c: 5.55 and 5.55 years.">
+	<TripBars />
+</Figure>
+
+### Grace's age
+
+The novel ends with Grace living on Erid. By then, according to Inverse's summary of the novel, 71 years have passed since his birth on Earth's calendar, yet he is 54. That 17-year gap should be the time dilation of his two voyages: Earth to Tau Ceti, and Tau Ceti on to Erid. Example 5 checks it.
+
+### Why the Eridians overpacked
+
+The Eridians planned with Newton's physics. For a flip-and-burn at constant acceleration, Newton predicts a top speed of $\sqrt{ad}$ and, for a photon rocket, a mass ratio of $e^{2\sqrt{ad}/c}$. Because Newton's speeds run far past $c$, his fuel bill is enormously bigger than the real one. A crew who planned with Newton would carry several times the fuel they actually needed: just what the novel describes on Blip-A, whose surplus is enough to bring both ships home (Example 6).
+
+## Formulas
+
+### Constant proper acceleration
+
+In the ship's momentary rest frame, a small step of ship time $d\tau$ adds a speed $a\,d\tau$, so a rapidity $d\varphi = a\,d\tau/c$ (for small changes, rapidity and $\beta$ are the same). Rapidities add (Chapter 10.5), so starting from rest:
+
+$$
+\boxed{\varphi = \frac{a\tau}{c} \qquad v = c\tanh\frac{a\tau}{c} \qquad \gamma = \cosh\frac{a\tau}{c}}
+$$
+
+**Earth time.** Each tick of ship time is $\gamma$ ticks of Earth time (Chapter 10.2): $dt = \gamma\,d\tau = \cosh(a\tau/c)\,d\tau$. Since $\dfrac{d}{d\varphi}\sinh\varphi = \cosh\varphi$ (differentiate the exponentials; Chapter C.3) and the scaling rule handles the $a/c$:
+
+$$
+\boxed{t = \int_{0}^{\tau} \cosh\frac{a\tau'}{c}\,d\tau' = \frac{c}{a}\sinh\frac{a\tau}{c}}
+$$
+
+**Distance.** $dx = v\,dt = c\tanh\varphi \cdot \cosh\varphi\,d\tau = c\sinh\varphi\,d\tau$, and $\dfrac{d}{d\varphi}\cosh\varphi = \sinh\varphi$:
+
+$$
+\boxed{x = \int_{0}^{\tau} c\sinh\frac{a\tau'}{c}\,d\tau' = \frac{c^{2}}{a}\left(\cosh\frac{a\tau}{c} - 1\right)}
+$$
+
+**Low-speed check.** For small $\varphi$, $\sinh\varphi \approx \varphi$ and $\cosh\varphi - 1 \approx \tfrac{1}{2}\varphi^{2}$, giving $t \approx \tau$ and $x \approx \tfrac{1}{2}a\tau^{2}$: Newton's $s = \tfrac{1}{2}at^{2}$ (Chapter 1.2).
+
+### Flip-and-burn
+
+Accelerate for distance $d/2$, then decelerate symmetrically. At the flip, $\cosh\varphi_{\text{max}} = 1 + \dfrac{ad}{2c^{2}}$, so
+
+$$
+\boxed{\varphi_{\text{max}} = \cosh^{-1}\!\left(1 + \frac{ad}{2c^{2}}\right) \qquad \tau = \frac{2c}{a}\varphi_{\text{max}} \qquad t = \frac{2c}{a}\sinh\varphi_{\text{max}} \qquad \frac{m_{0}}{m} = e^{2\varphi_{\text{max}}}}
+$$
+
+($\cosh^{-1}y = \ln(y + \sqrt{y^{2} - 1})$.) The mass ratio agrees with Chapter 5.7's $m = m_{0}e^{-a\tau/c}$, since $2\varphi_{\text{max}} = a\tau/c$ for the whole trip.
+
+### Burn, coast, burn
+
+With a mass ratio $R$ split evenly, each burn reaches $\varphi_{\text{b}} = \ln\sqrt{R}$, covering $x_{\text{b}} = \dfrac{c^{2}}{a}(\cosh\varphi_{\text{b}} - 1)$ and taking ship time $\dfrac{c}{a}\varphi_{\text{b}}$ and Earth time $\dfrac{c}{a}\sinh\varphi_{\text{b}}$. The coast covers $d - 2x_{\text{b}}$ at $v_{\text{c}} = c\tanh\varphi_{\text{b}}$, taking Earth time $(d - 2x_{\text{b}})/v_{\text{c}}$ and ship time that divided by $\cosh\varphi_{\text{b}}$.
+
+## Worked examples
+
+<Example n={1} title="The first year at 1.5 g" book>
+After one year of ship time at 1.5 g ($c/a = 0.6458$ yr), find the speed, the Earth time and the distance travelled. Compare with Newton.
+
+$$
+\varphi = \frac{1\ \text{yr}}{0.6458\ \text{yr}} = 1.548 \qquad v = c\tanh 1.548 = 0.914c
+$$
+
+$$
+t = 0.6458\ \text{yr} \times \sinh 1.548 = 0.6458 \times 2.246\ \text{yr} = 1.450\ \text{yr} \qquad x = 0.6458\ \text{ly} \times (\cosh 1.548 - 1) = 0.6458 \times 1.459\ \text{ly} = 0.942\ \text{ly}
+$$
+
+Newton says $v = a\tau = 1.548c$ and $x = \tfrac{1}{2}a\tau^{2} = 0.774$ ly. Relativity gives a lower speed but a greater distance, because Earth's clocks have run 1.45 years while the ship's ran one.
+</Example>
+
+<Example n={2} title="Flip-and-burn to Tau Ceti" book>
+Do the trip properly: 11.912 ly at 1.5 g, flipping halfway.
+
+$$
+\cosh\varphi_{\text{max}} = 1 + \frac{11.912\ \text{ly}}{2 \times 0.6458\ \text{ly}} = 10.22 \qquad \varphi_{\text{max}} = \ln\!\left(10.22 + \sqrt{10.22^{2} - 1}\right) = 3.015
+$$
+
+$$
+\tau = 2 \times 0.6458\ \text{yr} \times 3.015 = 3.89\ \text{yr} \qquad t = 2 \times 0.6458\ \text{yr} \times \sinh 3.015 = 2 \times 0.6458 \times 10.17\ \text{yr} = 13.14\ \text{yr}
+$$
+
+$$
+v_{\text{max}} = c\tanh 3.015 = 0.9952c \qquad \gamma_{\text{max}} = 10.22
+$$
+
+3.89 years for Grace, 13.1 for Earth, against the novel's "about 3.75" and "about 13". At the flip the ship is within half a percent of light speed.
+</Example>
+
+<Example n={3} title="The fuel for the flip-and-burn" book>
+What mass ratio does a photon rocket need for Example 2's trip? How much fuel for the course's 100 t ship? Compare with the novel's $2 \times 10^{6}$ kg.
+
+$$
+\frac{m_{0}}{m} = e^{2 \times 3.015} = e^{6.031} = 416 \qquad m_{\text{fuel}} = 1.0 \times 10^{5}\ \text{kg} \times 415 = 4.15 \times 10^{7}\ \text{kg}
+$$
+
+$$
+\text{novel: } \frac{1.0 \times 10^{5} + 2.0 \times 10^{6}}{1.0 \times 10^{5}} = 21
+$$
+
+The trip as described needs about twenty times more fuel than the novel's ship carries (for our 100 t estimate of its dry mass, Chapter 5.6).
+</Example>
+
+<Example n={4} title="What the novel's fuel can do" book>
+With a mass ratio of 21, split evenly between two 1.5 g burns with a coast between, find the coasting speed and the trip times.
+
+$$
+\varphi_{\text{b}} = \ln\sqrt{21} = 1.522 \qquad v_{\text{c}} = c\tanh 1.522 = 0.909c \qquad \gamma_{\text{c}} = \cosh 1.522 = 2.400
+$$
+
+$$
+x_{\text{b}} = 0.6458\ \text{ly} \times (2.400 - 1) = 0.904\ \text{ly} \qquad \text{coast } 11.912 - 1.809 = 10.10\ \text{ly}
+$$
+
+$$
+\tau = 2 \times 0.6458 \times 1.522 + \frac{10.10/0.909}{2.400} = 1.966 + 4.630 = 6.60\ \text{yr} \qquad t = 2 \times 0.6458 \times \sinh 1.522 + \frac{10.10}{0.909} = 2.819 + 11.11 = 13.93\ \text{yr}
+$$
+
+The Earth time still matches the novel's "about 13", but Grace would spend 6.6 years aboard, not about four. With 2000 t of fuel, the novel's trip needs a lighter ship, or a fuel that delivers more than its own rest energy, which nothing can.
+</Example>
+
+<Example n={5} title="Grace's missing 17 years" book>
+Grace's first trip gave $13.14 - 3.89 = 9.25$ years of difference between Earth's clock and his. Suppose the second trip, about 10.08 ly from Tau Ceti to 40 Eridani (Chapter 10.4), was also a 1.5 g flip-and-burn (our assumption). How much more difference does that add?
+
+$$
+\cosh\varphi = 1 + \frac{10.08}{2 \times 0.6458} = 8.80 \qquad \varphi = 2.865 \qquad \tau = 2 \times 0.6458 \times 2.865 = 3.70\ \text{yr} \qquad t = 2 \times 0.6458 \times \sinh 2.865 = 11.29\ \text{yr}
+$$
+
+$$
+\text{difference: } 11.29 - 3.70 = 7.59\ \text{yr} \qquad \text{total: } 9.25 + 7.59 = 16.8\ \text{yr}
+$$
+
+About 17 years: just the gap between the 71 years since his birth and his age of 54. Relativity explains where Grace's missing years went.
+</Example>
+
+<Example n={6} title="Eridian arithmetic" book>
+Suppose Blip-A made its 10.08 ly trip as a flip-and-burn at 1.5 g (our assumption; the novel doesn't say). Compare the photon-rocket mass ratio an Eridian, planning with Newton, would load with the one relativity says is needed.
+
+$$
+\text{Newton: } v_{\text{max}} = \sqrt{ad} = \sqrt{14.71\ \text{m/s}^{2} \times 10.08 \times 9.461 \times 10^{15}\ \text{m}} = 3.95c \qquad R_{\text{Newton}} = e^{2 \times 3.95} = 2700
+$$
+
+$$
+\text{relativity: } R = e^{2 \times 2.865} = 308
+$$
+
+Planning with Newton, the Eridians would carry about nine times the fuel they needed. That surplus is the novel's plot twist: Blip-A has enough Astrophage left to send both ships home.
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** The equations for constant proper acceleration (rapidity $a\tau/c$, $v = c\tanh(a\tau/c)$, $t = (c/a)\sinh(a\tau/c)$, $x = (c^{2}/a)(\cosh(a\tau/c) - 1)$) and the ideal photon-rocket mass ratio $e^{\Delta\varphi}$ are standard special relativity (see Wikipedia's "Relativistic rocket" for the same results).
+
+**Weir's inventions.** The *Hail Mary*, Blip-A and their Astrophage drives. Our 100 t dry mass for the ship (Chapter 5.6), the 1.5 g second trip and Blip-A's 1.5 g are assumptions. The 2 million kg of fuel, the 3.75 and 13 years and Grace's 71 years and age of 54 are the novel's figures as reported in reader summaries and by Inverse.
+
+**How realistic are the numbers?** The trip times are excellent: a 1.5 g flip-and-burn gives 3.9 years aboard and 13.1 on Earth, matching the novel, and the same calculation reproduces Grace's 17 missing years. The fuel doesn't quite fit: that trip needs a mass ratio of about 400, while the novel's fuel gives about 21 for a 100 t ship. Either the ship is much lighter than Chapter 5.6 inferred, or the story stretches its fuel budget. The Eridians' Newtonian overpacking is exactly what you'd expect.
+</RealVsBook>
+
+## Interactive simulation
+
+<TripPlanner />
+
+Things to try: the default is the novel's trip. Switch to "fixed mass ratio" with the novel's 21 and watch the ship time grow. Find the mass ratio that brings the ship time back to about 4 years. Try a 1000 ly trip at 1 g: under 14 years aboard.
+
+## Practice set
+
+<Problem n={1} level="easy">
+What is $c/a$ for $a = 1$ g (9.81 m/s²), in seconds and years?
+
+<Solution>
+$2.998 \times 10^{8}/9.807 = 3.06 \times 10^{7}$ s $= 0.969$ yr: a convenient fact, 1 g for a year gets you close to light speed.
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy">
+What does "the crew feel a constant 1.5 g" mean in relativity?
+
+<Solution>
+The proper acceleration, measured on board in the ship's momentary rest frame, is constant. Relative to Earth, the ship's acceleration falls as it nears $c$.
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy">
+Why doesn't the ship's speed keep growing as $v = a\tau$?
+
+<Solution>
+Each moment adds a fixed amount of rapidity, not speed. Speed is $c\tanh\varphi$, which approaches but never reaches $c$.
+</Solution>
+</Problem>
+
+<Problem n={4} level="easy">
+After one year aboard at 1 g, how fast is a ship going relative to Earth?
+
+<Solution>
+$\varphi = 1/0.969 = 1.032$, $v = c\tanh 1.032 = 0.775c$.
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium" book>
+At 1.5 g, after 0.5 years aboard, find the speed, Earth time and distance.
+
+<Solution>
+$\varphi = 0.5/0.6458 = 0.7742$. $v = c\tanh 0.7742 = 0.649c$; $t = 0.6458\sinh 0.7742 = 0.6458 \times 0.8541 = 0.552$ yr; $x = 0.6458(\cosh 0.7742 - 1) = 0.6458 \times 0.3150 = 0.203$ ly.
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium">
+Check that for small $\varphi$ the distance formula gives Newton's $\tfrac{1}{2}a\tau^{2}$: compute both for $\tau = 0.05$ yr at 1.5 g.
+
+<Solution>
+$\varphi = 0.05/0.6458 = 0.07742$. Relativity: $0.6458(\cosh 0.07742 - 1) = 0.6458 \times 0.002998 = 0.001936$ ly. Newton: $\tfrac{1}{2}\varphi^{2} \times 0.6458 = 0.001935$ ly. They agree to 0.05%.
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium" book>
+The novel's "about 3.75 years" aboard is a little less than our 3.89. What constant acceleration would make a flip-and-burn to Tau Ceti take exactly 3.75 years aboard? (Use the simulation or trial and error.)
+
+<Solution>
+About 1.58 g. Then the Earth time is 13.08 years and the top speed 0.9957c. The novel's figures are consistent with an acceleration a little above 1.5 g, or with its numbers being approximate.
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium">
+Why does the burn–coast–burn plan in Example 4 take almost the same Earth time as the flip-and-burn, but much more ship time?
+
+<Solution>
+Both plans spend most of the trip near the speed of light, so Earth sees them take about $d/c$ plus a little. But the coasting ship moves at 0.909c ($\gamma = 2.4$), while the flip-and-burn ship spends much of its time near 0.995c ($\gamma$ up to 10), so its clocks run far slower on average.
+</Solution>
+</Problem>
+
+<Problem n={9} level="medium" book>
+Using Example 2's numbers, what is Tau Ceti's distance in the crew's frame at the flip point?
+
+<Solution>
+$11.912/10.22 = 1.17$ ly (Chapter 10.4).
+</Solution>
+</Problem>
+
+<Problem n={10} level="challenging">
+A 1 g flip-and-burn to a star 1000 ly away. Find the ship time, the Earth time, and the mass ratio for a photon rocket.
+
+<Solution>
+$c/a = 0.969$ yr. $\cosh\varphi = 1 + 1000/(2 \times 0.969) = 517$, so $\varphi = \ln(517 + \sqrt{517^{2} - 1}) = 6.94$. $\tau = 2 \times 0.969 \times 6.94 = 13.4$ yr; $t = 2 \times 0.969 \times \sinh 6.94 = 1002$ yr; mass ratio $e^{13.9} = 1.07 \times 10^{6}$. A lifetime's journey for the crew, a millennium for Earth, and a million kilograms of fuel per kilogram of ship.
+</Solution>
+</Problem>
+
+<Problem n={11} level="challenging" book>
+Using Example 3 and Chapter 5.7, what dry mass would let the novel's 2000 tonnes of fuel do the 1.5 g flip-and-burn?
+
+<Solution>
+$m_{\text{dry}} = 2.0 \times 10^{6}/415 = 4.8 \times 10^{3}$ kg, about 5 tonnes: far too light for a crewed ship with a centrifuge, a lab and three astronauts' supplies.
+</Solution>
+</Problem>
+
+<Problem n={12} level="challenging" book>
+Show that Example 3's mass ratio equals Chapter 5.7's $e^{a\tau/c}$ for the whole trip's ship time, and explain why the two methods had to agree.
+
+<Solution>
+$a\tau/c = 3.895/0.6458 = 6.031$, so $e^{6.031} = 416$ ✓. Both describe the same thing: at constant proper acceleration the photon rocket loses a fixed fraction of its mass per unit of ship time, and each burn's rapidity is exactly $a\tau/c$, so the mass ratio is $e^{a\tau/c}$ either way.
+</Solution>
+</Problem>
+
+## Summary
+
+- Constant felt (proper) acceleration $a$ adds rapidity at a steady rate: $\varphi = a\tau/c$, so $v = c\tanh(a\tau/c)$, $\gamma = \cosh(a\tau/c)$.
+- Earth time and distance: $t = (c/a)\sinh(a\tau/c)$ and $x = (c^{2}/a)(\cosh(a\tau/c) - 1)$; for small $\tau$ these reduce to Newton.
+- At 1.5 g, $c/a = 0.646$ yr and $c^{2}/a = 0.646$ ly. The flip-and-burn to Tau Ceti takes 3.89 years aboard and 13.14 on Earth, with a top speed of 0.995c: the novel's figures.
+- A photon rocket needs $e^{2\varphi_{\text{max}}} = 416$ for that trip; the novel's fuel (ratio about 21) would give a 0.909c coast and 6.6 years aboard.
+- The same physics accounts for Grace's 17 missing years and for the Eridians' Newtonian over-fuelling.
+
+**Formulas from this chapter**
+
+$$
+\varphi = \frac{a\tau}{c} \qquad v = c\tanh\varphi \qquad t = \frac{c}{a}\sinh\varphi \qquad x = \frac{c^{2}}{a}(\cosh\varphi - 1) \qquad \cosh\varphi_{\text{max}} = 1 + \frac{ad}{2c^{2}},\ \ \frac{m_{0}}{m} = e^{2\varphi_{\text{max}}}
+$$
+
+## Sources
+
+- Constant proper acceleration and the ideal photon rocket: Wikipedia, [Relativistic rocket](https://en.wikipedia.org/wiki/Relativistic_rocket); rapidity: Wikipedia, [Rapidity](https://en.wikipedia.org/wiki/Rapidity).
+- The novel's ship time (about 3.75 years) and Earth time (about 13), and fuel (about 2 × 10⁶ kg): this course, [Chapter 1.2](/part-1/equations-of-motion/) and [Chapter 5.7](/part-5/rocket-equation/). The ship's dry mass estimate: [Chapter 5.6](/part-5/thrust/). The Tau Ceti–40 Eridani distance: [Chapter 10.4](/part-10/length-contraction/).
+- Grace's age (71 years since his birth, but 54 years old) and Dr. Becky Smethurst's verdict that the timeline checks out: Inverse, ["Reel Science: Project Hail Mary"](https://inverse.com/entertainment/project-hail-mary-time-dilation-relativity).
+- The Eridians planned with Newtonian physics and overestimated their fuel, leaving enough for both ships: Looper, ["How Long Was Rocky In The Tau Ceti System?"](https://www.looper.com/2267197/how-long-rocky-tau-ceti-system-project-hail-mary/).

@@ -1,0 +1,23 @@
+---
+// Length contraction happens only along the motion. A ship and a round planet at rest, and as seen moving at 0.9c
+// (γ = 2.29): lengths along the motion shrink to 1/γ = 0.44, sizes across the motion are unchanged.
+const g = 1 / Math.sqrt(1 - 0.81);
+const shipL = 220, shipH = 40, R = 50;
+---
+
+<svg class="dg" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+	<text x="20" y="30" class="t-sm t-b">at rest</text>
+	<rect x="40" y="60" width={shipL} height={shipH} rx="18" class="s-sky w2" fill="none" />
+	<text x={40 + shipL / 2} y="120" class="t-mid t-sm">length L₀</text>
+	<circle cx={420} cy="80" r={R} class="s-amber w2" fill="none" />
+	<text x="420" y="150" class="t-mid t-sm">round</text>
+	<text x="20" y="190" class="t-sm t-b">moving right at 0.9c (γ = 2.29)</text>
+	<rect x="40" y="220" width={shipL / g} height={shipH} rx={18 / g} class="s-sky w2" fill="none" />
+	<text x={40 + shipL / g / 2} y="280" class="t-mid t-sm">L₀/γ = 0.44 L₀</text>
+	<ellipse cx="420" cy="232" rx={R / g} ry={R} class="s-amber w2" fill="none" />
+	<text x="420" y="298" class="t-mid t-sm">squashed along v</text>
+	<line x1="480" y1="240" x2="560" y2="240" class="s-fg w2" />
+	<polygon points="572,240 560,234 560,246" class="f-fg" />
+	<text x="520" y="228" class="t-mid t-sm">v</text>
+	<text x="300" y="250" class="t-mid t-sm f-muted">height unchanged</text>
+</svg>

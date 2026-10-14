@@ -1505,5 +1505,106 @@ export const glossary = {
 		def: 'Energy stored per volume, in J/m³ or MJ/L: density × specific energy. Petrol holds 34 MJ per litre; hydrogen gas at room pressure only 0.012.',
 		chapter: 'energy-density',
 	},
+	// ---- 10.1 The postulates of relativity ----
+	'inertial-frame': {
+		term: 'Inertial frame',
+		def: 'A frame of reference that is not accelerating, where Newton’s first law holds. A coasting spacecraft is one; the Hail Mary under thrust is not.',
+		chapter: 'postulates',
+	},
+	'principle-of-relativity': {
+		term: 'Principle of relativity',
+		def: 'The laws of physics are the same in every inertial frame, so no experiment can reveal absolute rest or absolute steady motion (Galileo, 1632).',
+		chapter: 'postulates',
+	},
+	'postulates-of-relativity': {
+		term: 'Postulates of special relativity',
+		def: 'Einstein (1905): (1) the laws of physics are the same in every inertial frame; (2) light in a vacuum travels at c in every inertial frame.',
+		chapter: 'postulates',
+	},
+	event: {
+		term: 'Event',
+		def: 'Something that happens at one place at one moment, described by a position and a time in some frame.',
+		chapter: 'postulates',
+	},
+	'relativity-of-simultaneity': {
+		term: 'Relativity of simultaneity',
+		def: 'Two events that happen at the same time in one frame happen at different times in a frame moving relative to it. There is no universal “now”.',
+		chapter: 'postulates',
+	},
+	// ---- 10.2 Time dilation ----
+	'time-dilation': {
+		term: 'Time dilation',
+		def: 'A clock moving relative to you runs slow by the Lorentz factor: Δt = γΔτ. At 0.92c, each year on the ship is 2.55 years on Earth.',
+		chapter: 'time-dilation',
+	},
+	'proper-time': {
+		term: 'Proper time (τ)',
+		def: 'The time between two events measured by a clock present at both, such as the ship’s own clock for a trip. It is the shortest time any observer measures.',
+		chapter: 'time-dilation',
+	},
+	'lorentz-factor': {
+		term: 'Lorentz factor (γ)',
+		def: 'γ = 1/√(1 − v²/c²): 1 at rest, 1.25 at 0.6c, 2.55 at 0.92c, growing without limit as v approaches c. It sets time dilation and length contraction.',
+		chapter: 'time-dilation',
+	},
+	'twin-paradox': {
+		term: 'Twin paradox',
+		def: 'A traveller who goes away fast and comes back ages less than a twin who stays home. Not a contradiction: the traveller accelerates to turn round, so the two situations aren’t symmetric.',
+		chapter: 'time-dilation',
+	},
+	// ---- 10.3 The Lorentz factor ----
+	'relativistic-momentum': {
+		term: 'Relativistic momentum',
+		def: 'p = γmv, the momentum that is conserved in every inertial frame. Close to mv at low speed; grows without limit near c.',
+		chapter: 'lorentz-factor',
+	},
+	'relativistic-energy': {
+		term: 'Relativistic energy',
+		def: 'A body’s total energy E = γmc²: its rest energy mc² plus kinetic energy (γ − 1)mc², which becomes ½mv² at low speed. E² = (pc)² + (mc²)².',
+		chapter: 'lorentz-factor',
+	},
+	// ---- 10.4 Length contraction ----
+	'length-contraction': {
+		term: 'Length contraction',
+		def: 'A moving object or distance is shorter along its motion by the Lorentz factor: L = L₀/γ. Sizes across the motion don’t change.',
+		chapter: 'length-contraction',
+	},
+	'proper-length': {
+		term: 'Proper length (L₀)',
+		def: 'The length of an object or distance measured in the frame where it is at rest: the longest length any observer measures.',
+		chapter: 'length-contraction',
+	},
+	// ---- 10.5 Velocity addition ----
+	'lorentz-transformation': {
+		term: 'Lorentz transformation',
+		def: 'The rules translating an event’s position and time between frames: x′ = γ(x − vt), t′ = γ(t − vx/c²). They replace Galileo’s x′ = x − vt, t′ = t.',
+		chapter: 'velocity-addition',
+	},
+	'velocity-addition': {
+		term: 'Relativistic velocity addition',
+		def: 'u = (u′ + v)/(1 + u′v/c²): how velocities combine between frames. Nearly u′ + v when slow; never more than c; exactly c for light.',
+		chapter: 'velocity-addition',
+	},
+	rapidity: {
+		term: 'Rapidity (φ)',
+		def: 'A measure of speed that simply adds between frames: β = tanh φ. At low speed φ ≈ v/c; it grows without limit as v approaches c. γ = cosh φ.',
+		chapter: 'velocity-addition',
+	},
+	'hyperbolic-functions': {
+		term: 'Hyperbolic functions',
+		def: 'cosh φ = (eᵠ + e⁻ᵠ)/2, sinh φ = (eᵠ − e⁻ᵠ)/2, tanh φ = sinh φ / cosh φ. They satisfy cosh² − sinh² = 1 and describe motion near the speed of light.',
+		chapter: 'velocity-addition',
+	},
+	'relativistic-doppler': {
+		term: 'Relativistic Doppler shift',
+		def: 'Light from a source receding at β is stretched by √((1 + β)/(1 − β)) = eᵠ (squeezed by the inverse when approaching): 4.90 at 0.92c.',
+		chapter: 'velocity-addition',
+	},
+	// ---- 10.6 Ship time vs Earth time ----
+	'proper-acceleration': {
+		term: 'Proper acceleration',
+		def: 'The acceleration measured on board, in the ship’s own momentary rest frame: what the crew feel as weight. Holding it constant adds rapidity steadily, φ = aτ/c.',
+		chapter: 'ship-time-earth-time',
+	},
 };
 

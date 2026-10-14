@@ -1,0 +1,31 @@
+---
+// Speed against ship time at a constant felt acceleration of 1.5 g. Newton: v = aτ, a straight line that passes c after
+// 0.65 years. Relativity: v = c tanh(aτ/c), which bends over and never reaches c. Drawn for the first half of the
+// flip-and-burn to Tau Ceti (1.95 years of ship time).
+const ca = 0.6458; // c/a in years at 1.5 g
+const L = 70, R = 560, T = 20, B = 250, tMax = 2.0, vMax = 1.6;
+const X = (t: number) => L + (t / tMax) * (R - L);
+const Y = (v: number) => B - (v / vMax) * (B - T);
+const rel = Array.from({ length: 200 }, (_, i) => { const t = (tMax * i) / 199; return `${X(t).toFixed(1)},${Y(Math.tanh(t / ca)).toFixed(1)}`; }).join(' ');
+const tN = vMax * ca; // Newton line reaches vMax
+---
+
+<svg class="dg" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+	{[0, 0.5, 1, 1.5].map((v) => (
+		<>
+			<line x1={L} y1={Y(v)} x2={R} y2={Y(v)} class={v === 1 ? 's-rose w1 dash' : 's-grid w1'} />
+			<text x={L - 8} y={Y(v) + 4} class="t-end t-sm f-muted">{v === 1 ? 'c' : `${v}c`}</text>
+		</>
+	))}
+	{[0, 0.5, 1, 1.5, 2].map((t) => <text x={X(t)} y={B + 18} class="t-mid t-sm f-muted">{t}</text>)}
+	<line x1={L} y1={B} x2={R} y2={B} class="s-fg w2" />
+	<line x1={L} y1={B} x2={L} y2={T} class="s-fg w2" />
+	<line x1={X(0)} y1={Y(0)} x2={X(tN)} y2={Y(vMax)} class="s-sky w2 dash" />
+	<text x={X(tN) + 8} y={Y(vMax) + 14} class="t-sm f-sky halo">Newton: v = aτ</text>
+	<polyline points={rel} class="s-amber w3" fill="none" />
+	<text x={X(1.5)} y={Y(Math.tanh(1.5 / ca)) + 22} class="t-mid t-sm f-amber halo">relativity: v = c tanh(aτ/c)</text>
+	<circle cx={X(1.947)} cy={Y(0.9952)} r="5" class="f-amber" />
+	<text x={X(1.947) - 6} y={Y(0.9952) - 10} class="t-end t-sm halo">flip point: 0.995c after 1.95 years</text>
+	<text x={(L + R) / 2} y="290" class="t-mid t-sm">ship time τ (years) at 1.5 g</text>
+	<text x="22" y={(T + B) / 2} class="t-mid t-sm" transform={`rotate(-90 22 ${(T + B) / 2})`}>speed relative to Earth</text>
+</svg>

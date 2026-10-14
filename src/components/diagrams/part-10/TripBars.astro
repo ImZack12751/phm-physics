@@ -1,0 +1,26 @@
+---
+// Ship time and Earth time for the trip to Tau Ceti (11.912 ly): the novel's figures (about 3.75 and 13 years),
+// a 1.5 g flip-and-burn the whole way (3.89 and 13.14 years, mass ratio 416), and burn–coast–burn with the novel's
+// mass ratio of 21 (6.60 and 13.93 years, coasting at 0.909c). Newton's impossible 5.55 years shown for comparison.
+const rows = [
+	{ n: 'the novel (about)', s: 3.75, e: 13 },
+	{ n: '1.5 g all the way', s: 3.89, e: 13.14, note: 'mass ratio 416' },
+	{ n: 'novel’s fuel, with a coast', s: 6.6, e: 13.93, note: 'mass ratio 21, coast at 0.909c' },
+	{ n: 'Newton (impossible)', s: 5.55, e: 5.55, note: 'peak 4.29c' },
+];
+const L = 210, PX = 22, T0 = 40, RH = 60;
+---
+
+<svg class="dg" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+	{rows.map((r, i) => (
+		<>
+			<text x={L - 10} y={T0 + i * RH + 16} class="t-end t-sm t-b">{r.n}</text>
+			<rect x={L} y={T0 + i * RH} width={r.e * PX} height="12" class="f-sky" fill-opacity="0.75" />
+			<rect x={L} y={T0 + i * RH + 16} width={r.s * PX} height="12" class="f-amber" fill-opacity="0.85" />
+			<text x={L + r.e * PX + 6} y={T0 + i * RH + 11} class="t-sm f-sky halo">{r.e} yr</text>
+			<text x={L + r.s * PX + 6} y={T0 + i * RH + 27} class="t-sm f-amber halo">{r.s} yr</text>
+			{r.note && <text x={L - 10} y={T0 + i * RH + 34} class="t-end t-sm f-muted">{r.note}</text>}
+		</>
+	))}
+	<text x={L} y="22" class="t-sm"><tspan class="f-sky">Earth time</tspan> and <tspan class="f-amber">ship time</tspan> for 11.912 light-years</text>
+</svg>

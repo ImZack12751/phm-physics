@@ -1,0 +1,309 @@
+---
+title: Time dilation and the light clock
+description: Why a moving clock runs slow, derived from a light clock and Pythagoras; proper time and the Lorentz factor γ; muons that survive the fall through the atmosphere; atomic clocks flown on airliners; GPS satellites that would drift without relativity; and why Grace ages years less than the people he left behind.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import LightClock from '../../../components/diagrams/part-10/LightClock.astro';
+import MuonJourney from '../../../components/diagrams/part-10/MuonJourney.astro';
+import LightClockSim from '../../../components/sims/LightClockSim.astro';
+
+## The scene
+
+Grace spends about four years on the way to Tau Ceti, by his own body and the ship's clocks. On Earth, over a decade passes. Rocky's case is even starker: the Eridians, not knowing relativity, believe time is the same everywhere, but Blip-A travelled so fast that far less time passed for its crew than for the people back on Erid.
+
+How can two clocks, both working perfectly, disagree about how much time has passed? The answer follows from Einstein's second postulate (Chapter 10.1) and a single right-angled triangle.
+
+## Prerequisites
+
+<Prereqs notes={{ postulates: 'light travels at c in every inertial frame', trigonometry: 'Pythagoras’ theorem', 'exponentials-logarithms': 'exponential decay and half-life', kinematics: 'speed, distance and time', 'orbital-speed': 'orbital speeds of satellites', 'scientific-notation': 'very small numbers' }} />
+
+## The concept
+
+### The simplest clock
+
+Imagine a clock made of light: two mirrors facing each other a distance $D$ apart, with a pulse of light bouncing between them. Each round trip is one "tick". For a clock at rest the pulse goes straight up and straight down, a distance $2D$ at speed $c$, so one tick takes
+
+$$
+\Delta\tau = \frac{2D}{c}.
+$$
+
+With $D = 1.5$ m that is 10 nanoseconds per tick: a perfectly good, if very fast, clock. Any real clock (a pendulum, a quartz crystal, an atom, a heart) can be compared with it, so whatever happens to the light clock happens to all of them.
+
+### The same clock, moving
+
+Now put the clock on the *Hail Mary* and watch it from Earth as the ship flies past at speed $v$, sideways to the mirrors. During one tick, the mirrors move along. The pulse, which must stay between them, follows a zigzag: diagonally up, diagonally down. The diagonal is longer than $D$.
+
+<Figure caption="The light clock. At rest (left), the pulse goes straight up and down: one tick is 2D/c. Moving (right, seen from Earth), the pulse follows a longer zigzag. But the second postulate says it still travels at c, so each tick takes longer. Pythagoras gives exactly how much." alt="Left: two horizontal mirrors a distance D apart with a light pulse going straight up and down, labelled clock at rest, one tick: delta tau equals 2 D over c. Right, labelled the same clock moving at v, Earth's view: the mirrors drawn at three positions as they move right; the pulse goes diagonally up from the lower mirror to the upper mirror at the middle position, then diagonally down, forming a triangle. The slanted side is labelled c delta t over 2, the height D, and the horizontal base, in green, v delta t over 2. A note: longer path at the same speed c, so a longer tick, delta t equals gamma delta tau.">
+	<LightClock />
+</Figure>
+
+Here is the key step. By the second postulate, the Earth observer also measures the pulse moving at $c$, not faster. A longer path at the same speed takes longer. So **Earth sees the moving clock tick slowly**. Since every other clock on the ship must keep pace with the light clock (if not, the crew could tell they were moving, breaking the first postulate), everything on the ship runs slow as seen from Earth: its clocks, its machines, the crew's heartbeats and ageing.
+
+This is <Term id="time-dilation">time dilation</Term>. The Formulas section uses Pythagoras to get the exact factor:
+
+$$
+\Delta t = \gamma\,\Delta\tau, \qquad \gamma = \frac{1}{\sqrt{1 - v^{2}/c^{2}}}.
+$$
+
+$\gamma$ (Greek "gamma") is the <Term id="lorentz-factor">Lorentz factor</Term>. It is 1 at rest, grows slowly at first, and shoots up towards infinity as $v$ approaches $c$. Chapter 10.3 explores it in detail.
+
+### Proper time
+
+The two times have names. $\Delta\tau$ (Greek "tau") is the <Term id="proper-time">proper time</Term>: the time measured by a clock that is present at both events, here the clock riding with the ship. $\Delta t$ is the time between the same two events measured by clocks in a frame where the events happen at different places. Proper time is always the shortest.
+
+### Who is really slow?
+
+If Earth sees the ship's clocks running slow, the crew, by the principle of relativity, see **Earth's** clocks running slow. Both are right while they move steadily apart. The disagreement can only be settled when the two clocks come back together, and to do that, someone has to turn around, which means accelerating. The one who accelerates (the traveller) ends up younger. This is the famous **twin paradox**, which isn't a contradiction at all. For the *Hail Mary*, which accelerates the whole way, Chapter 10.6 works out the exact answer.
+
+### Evidence 1: muons from the sky
+
+Cosmic rays hitting the top of the atmosphere make particles called **muons**, which fall towards the ground at nearly the speed of light. A muon at rest decays, on average, after 2.197 microseconds. At almost $c$, in that time it could travel only about 660 m. So from production heights of many kilometres, almost none should reach the ground. Yet about 10 000 muons pass through every square metre of the Earth's surface every minute. In 1941 Bruno Rossi and David Hall measured how many survive at different heights, and the numbers matched time dilation: the muons' clocks run slow, so they live long enough to reach the ground.
+
+<Figure caption="Muons made 15 km up and falling at 0.995c. If their clocks ran normally, only about one in ten billion would reach the ground. Their clocks actually run 10 times slow, so about one in ten does." alt="A vertical height scale from 15 km at the top to 0 km at the bottom, with horizontal lines at 15, 10, 5 and 0 km. Two columns of bars. Left, labelled if clocks didn't slow: a full red bar at 15 km labelled 100%, then tiny bars labelled 5 times 10 to the minus 4, 2 times 10 to the minus 7 and 1 times 10 to the minus 10 at 10, 5 and 0 km. Right, labelled what really happens: green bars shrinking slowly, labelled 100%, 47%, 22% and 10%. A note: fraction of muons still alive at each height, falling at 0.995c, lifetime 2.197 µs.">
+	<MuonJourney />
+</Figure>
+
+### Evidence 2: clocks on planes and satellites
+
+In 1971 Joseph Hafele and Richard Keating flew four atomic clocks around the world on ordinary airliners, once eastwards and once westwards, and compared them with clocks on the ground. They differed by tens to hundreds of nanoseconds, matching relativity's predictions (which include a gravity effect from general relativity, beyond this course).
+
+GPS satellites orbit at about 3.9 km/s. Their clocks therefore lose about 7.2 microseconds a day from their speed alone (with a larger gain from being higher in Earth's gravity). That sounds tiny, but GPS works by timing radio signals, and in 7 µs light travels over 2 km. Without correcting for relativity, satellite navigation would drift by kilometres every day.
+
+## Formulas
+
+### The time-dilation formula
+
+In the moving clock, as seen from Earth, one tick takes $\Delta t$. In half a tick, the pulse travels $c\,\Delta t/2$ along the slant, while the clock moves $v\,\Delta t/2$ sideways. The mirrors are still $D$ apart (distances at right angles to the motion don't change; Chapter 10.4). Pythagoras:
+
+$$
+\left(\frac{c\,\Delta t}{2}\right)^{2} = D^{2} + \left(\frac{v\,\Delta t}{2}\right)^{2}
+$$
+
+Substitute $D = c\,\Delta\tau/2$ from the resting clock, and multiply through by $4/c^{2}$:
+
+$$
+\Delta t^{2} = \Delta\tau^{2} + \frac{v^{2}}{c^{2}}\Delta t^{2} \qquad\Rightarrow\qquad \Delta t^{2}\left(1 - \frac{v^{2}}{c^{2}}\right) = \Delta\tau^{2}
+$$
+
+$$
+\boxed{\Delta t = \frac{\Delta\tau}{\sqrt{1 - v^{2}/c^{2}}} = \gamma\,\Delta\tau} \qquad \boxed{\gamma = \frac{1}{\sqrt{1 - \beta^{2}}}} \qquad \beta = \frac{v}{c}
+$$
+
+### Small speeds
+
+For $\beta$ much less than 1, $\gamma \approx 1 + \tfrac{1}{2}\beta^{2}$ (Chapter 10.3 shows why). A clock moving at $v$ for a time $t$ falls behind by about
+
+$$
+\boxed{\Delta t - \Delta\tau \approx \tfrac{1}{2}\beta^{2}\,t}
+$$
+
+### Decay with time dilation
+
+A particle with proper lifetime $\tau_{0}$, moving at $v$ for an Earth time $t$, ages only $t/\gamma$, so the surviving fraction is
+
+$$
+\boxed{\frac{N}{N_{0}} = e^{-t/(\gamma\tau_{0})}}
+$$
+
+(exponential decay, Chapter 0.8, with the clock slowed by $\gamma$).
+
+## Worked examples
+
+<Example n={1} title="A light clock on the Hail Mary" book>
+A light clock on the ship has mirrors 1.0 m apart. How long is one tick for the crew? How long does Earth measure each tick when the ship passes at 0.5c?
+
+$$
+\Delta\tau = \frac{2D}{c} = \frac{2.0\ \text{m}}{3.00 \times 10^{8}\ \text{m/s}} = 6.67\ \text{ns}
+$$
+
+$$
+\gamma = \frac{1}{\sqrt{1 - 0.5^{2}}} = \frac{1}{\sqrt{0.75}} = 1.155 \qquad \Delta t = 1.155 \times 6.67\ \text{ns} = 7.70\ \text{ns}
+$$
+
+At half the speed of light, ship clocks run about 15% slow as seen from Earth.
+</Example>
+
+<Example n={2} title="Grace at 0.92c" book>
+Suppose the ship cruised at 0.92c, the top speed the novel gives for Astrophage. For each year on the ship's clock, how much time passes on Earth?
+
+$$
+\gamma = \frac{1}{\sqrt{1 - 0.92^{2}}} = \frac{1}{\sqrt{0.1536}} = \frac{1}{0.3919} = 2.55
+$$
+
+Each ship year is 2.55 Earth years. (The real *Hail Mary* speeds up and slows down the whole way, so its speed keeps changing; Chapter 10.6 handles that.)
+</Example>
+
+<Example n={3} title="Muons that shouldn't make it">
+Muons are made 15 km up (a typical round number) and fall at 0.995c. Their lifetime at rest is 2.197 µs. Find $\gamma$, the Earth time to fall 15 km, and the fraction surviving with and without time dilation.
+
+$$
+\gamma = \frac{1}{\sqrt{1 - 0.995^{2}}} = \frac{1}{\sqrt{0.009975}} = 10.0 \qquad t = \frac{1.5 \times 10^{4}\ \text{m}}{0.995 \times 3.00 \times 10^{8}\ \text{m/s}} = 50.3\ \mu\text{s}
+$$
+
+$$
+\text{without: } e^{-50.3/2.197} = e^{-22.9} = 1.1 \times 10^{-10} \qquad \text{with: } e^{-50.3/(10.0 \times 2.197)} = e^{-2.29} = 0.10
+$$
+
+Without time dilation, one muon in ten billion; with it, one in ten. The measured numbers agree with the second.
+</Example>
+
+<Example n={4} title="Why GPS must correct for speed">
+A GPS satellite moves at 3874 m/s. How much does its clock fall behind each day from speed alone? How far does light travel in that time?
+
+$$
+\Delta t - \Delta\tau \approx \tfrac{1}{2}\beta^{2}t = \tfrac{1}{2}\left(\frac{3874}{2.998 \times 10^{8}}\right)^{2} \times 86\,400\ \text{s} = \tfrac{1}{2} \times 1.670 \times 10^{-10} \times 86\,400\ \text{s} = 7.2\ \mu\text{s}
+$$
+
+$$
+c \times 7.2\ \mu\text{s} = 2.998 \times 10^{8}\ \text{m/s} \times 7.2 \times 10^{-6}\ \text{s} = 2.2\ \text{km}
+$$
+
+Exactly the 7.2 µs/day engineers correct for. Uncorrected, positions would drift by kilometres a day.
+</Example>
+
+<Example n={5} title="Clocks on an airliner">
+An airliner flies at about 250 m/s. How far behind would a clock on board fall in 45 hours, from speed alone (ignoring Earth's rotation and gravity)?
+
+$$
+\tfrac{1}{2}\beta^{2}t = \tfrac{1}{2}\left(\frac{250}{3.00 \times 10^{8}}\right)^{2} \times 45 \times 3600\ \text{s} = \tfrac{1}{2} \times 6.94 \times 10^{-13} \times 1.62 \times 10^{5}\ \text{s} = 5.6 \times 10^{-8}\ \text{s} = 56\ \text{ns}
+$$
+
+Tens of nanoseconds, the same size as the speed effects Hafele and Keating measured (their analysis gave −184 ns eastwards and +96 ns westwards, because Earth's own rotation must be included).
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** Time dilation, $\Delta t = \gamma\Delta\tau$, is derived exactly as here in standard textbooks (OpenStax *University Physics* Vol. 3, §5.3) and has been measured many ways: cosmic-ray muons (Rossi and Hall, 1941; lifetime 2.197 µs), atomic clocks on airliners (Hafele and Keating, 1971), particle accelerators, and every day by GPS, whose clocks lose 7.2 µs a day from their speed.
+
+**Weir's inventions.** The *Hail Mary* and Blip-A. The novel's Eridians not realising that time passes differently on a fast ship is the story's invention, though it fits their Newtonian planning (Chapter 10.1). The 15 km production height is our round number.
+
+**How realistic are the numbers?** The novel's figures, about four years for Grace and over a decade on Earth, need average Lorentz factors of around three, which a ship accelerating to well over 0.9c provides. The calculation is in Chapter 10.6.
+</RealVsBook>
+
+## Interactive simulation
+
+<LightClockSim />
+
+Things to try: set 0.6c and count: the moving clock ticks 4 times for every 5 of the resting one ($\gamma = 1.25$). At 0.99c, watch how flat the zigzag becomes, and how rarely it ticks.
+
+## Practice set
+
+<Problem n={1} level="easy">
+Find $\gamma$ for $v = 0.6c$ and $v = 0.8c$.
+
+<Solution>
+$1/\sqrt{1 - 0.36} = 1/0.8 = 1.25$; $1/\sqrt{1 - 0.64} = 1/0.6 = 1.667$.
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy">
+Which is the proper time: the time a muon's own clock measures between its birth and decay, or the time measured by clocks on the ground?
+
+<Solution>
+The muon's own clock: it is present at both events (its birth and its decay).
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy">
+Why does Earth see a moving light clock tick slowly, rather than see the light move faster?
+
+<Solution>
+By the second postulate the light moves at $c$ for Earth too, but its zigzag path is longer, so each tick must take longer.
+</Solution>
+</Problem>
+
+<Problem n={4} level="easy" book>
+At 0.8c, how many Earth years pass for every year on the ship?
+
+<Solution>
+$\gamma = 1.667$, so 1.67 Earth years per ship year.
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium">
+A muon moving at 0.950c (as in OpenStax's example) lives 2.20 µs by its own clock. How long does it live as measured from Earth, and how far does it travel?
+
+<Solution>
+$\gamma = 1/\sqrt{1 - 0.9025} = 3.20$; $\Delta t = 3.20 \times 2.20 = 7.05$ µs; distance $= 0.950 \times 3.00 \times 10^{8} \times 7.05 \times 10^{-6} = 2.0$ km, instead of 630 m without dilation.
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium">
+What speed gives $\gamma = 2$?
+
+<Solution>
+$1 - \beta^{2} = 1/4$, so $\beta = \sqrt{0.75} = 0.866$: about 87% of the speed of light.
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium">
+A car drives at 30 m/s for a whole year. By how much does its clock fall behind one at rest?
+
+<Solution>
+$\tfrac{1}{2}(30/3.00 \times 10^{8})^{2} \times 3.156 \times 10^{7} = \tfrac{1}{2} \times 10^{-14} \times 3.156 \times 10^{7} = 1.6 \times 10^{-7}$ s, about 0.16 µs.
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium">
+The ISS orbits at about 7.67 km/s. How much does an astronaut's clock fall behind in a 6-month (182-day) stay, from speed alone?
+
+<Solution>
+$\tfrac{1}{2}(7670/2.998 \times 10^{8})^{2} \times 182 \times 86\,400 = \tfrac{1}{2} \times 6.55 \times 10^{-10} \times 1.572 \times 10^{7} = 5.1 \times 10^{-3}$ s: about 5 milliseconds younger.
+</Solution>
+</Problem>
+
+<Problem n={9} level="medium">
+Using Example 3, what fraction of muons would survive to 5 km above the ground (a fall of 10 km)?
+
+<Solution>
+$t = 10^{4}/(0.995 \times 3.00 \times 10^{8}) = 33.5$ µs; with dilation, $e^{-33.5/21.97} = e^{-1.525} = 0.22$, so 22%.
+</Solution>
+</Problem>
+
+<Problem n={10} level="challenging" book>
+Rocky spent 46 years in the Tau Ceti system. If he had spent the same 46 years on Blip-A cruising at 0.92c instead, how much time would have passed on Erid?
+
+<Solution>
+$46 \times 2.55 = 117$ years. (This is only an illustration: in the novel he was parked near Adrian, not cruising.)
+</Solution>
+</Problem>
+
+<Problem n={11} level="challenging">
+Show that for small $\beta$, the GPS formula $\tfrac{1}{2}\beta^{2}t$ agrees with $(\gamma - 1)t$ by computing both for $\beta = 0.01$.
+
+<Solution>
+$\gamma - 1 = 1/\sqrt{1 - 10^{-4}} - 1 = 5.0004 \times 10^{-5}$; $\tfrac{1}{2}\beta^{2} = 5.0 \times 10^{-5}$. They agree to about one part in ten thousand.
+</Solution>
+</Problem>
+
+<Problem n={12} level="challenging" book>
+The novel says Grace experienced about 3.75 years and Earth about 13 years. What average $\gamma$ is that, and what steady speed would give it?
+
+<Solution>
+$\gamma = 13/3.75 = 3.47$. Then $1 - \beta^{2} = 1/3.47^{2} = 0.0831$, so $\beta = 0.957$. (A steady cruise isn't what the ship does, but it shows the speeds involved are well over 0.9c.)
+</Solution>
+</Problem>
+
+## Summary
+
+- A light clock ticks in $\Delta\tau = 2D/c$ at rest. Moving at $v$, its pulse follows a longer path at the same speed $c$, so Earth sees it tick in $\Delta t = \gamma\Delta\tau$, with $\gamma = 1/\sqrt{1 - v^{2}/c^{2}}$.
+- Every process on a moving ship slows by the same factor: clocks, machines and ageing. Proper time, measured by the clock present at both events, is the shortest.
+- Each frame sees the other's clocks slow; the traveller who turns round (accelerates) ends up younger.
+- For small speeds, a clock falls behind by about $\tfrac{1}{2}\beta^{2}t$: 7.2 µs a day for GPS satellites.
+- Muons (Rossi and Hall, 1941), atomic clocks on airliners (Hafele and Keating, 1971) and GPS all confirm it.
+
+**Formulas from this chapter**
+
+$$
+\Delta t = \gamma\,\Delta\tau \qquad \gamma = \frac{1}{\sqrt{1 - \beta^{2}}} \qquad \Delta t - \Delta\tau \approx \tfrac{1}{2}\beta^{2}t \qquad \frac{N}{N_{0}} = e^{-t/(\gamma\tau_{0})}
+$$
+
+## Sources
+
+- The light-clock derivation, proper time, the muon example (0.950c, 2.20 µs to 7.05 µs) and Hafele–Keating: OpenStax, [*University Physics Volume 3*, §5.3 "Time Dilation"](https://openstax.org/books/university-physics-volume-3/pages/5-3-time-dilation).
+- The muon's lifetime (2.1969811 µs), about 10 000 per square metre per minute at the surface, and the Rossi–Hall experiment (1941): Wikipedia, [Muon](https://en.wikipedia.org/wiki/Muon).
+- Hafele–Keating (1971: east −59 ± 10 ns measured, west +273 ± 7 ns; kinematic parts −184 and +96 ns): Wikipedia, [Hafele–Keating experiment](https://en.wikipedia.org/wiki/Hafele%E2%80%93Keating_experiment).
+- GPS satellites (3874 m/s; −7.2 µs/day from speed, +45.8 from gravity, +38.6 net): Wikipedia, [Error analysis for the Global Positioning System](https://en.wikipedia.org/wiki/Error_analysis_for_the_Global_Positioning_System). The ISS's speed: this course, [Chapter 4.2](/part-4/orbital-speed/).
+- Grace's ship time (about 3.75 years) and Earth time (about 13 years): this course, [Chapter 1.2](/part-1/equations-of-motion/); Inverse, ["Reel Science: Project Hail Mary"](https://inverse.com/entertainment/project-hail-mary-time-dilation-relativity). Rocky's 46 years at Tau Ceti: Wikipedia, [*Project Hail Mary*](https://en.wikipedia.org/wiki/Project_Hail_Mary). Eridians unaware of relativity: Looper, ["How Long Was Rocky In The Tau Ceti System?"](https://www.looper.com/2267197/how-long-rocky-tau-ceti-system-project-hail-mary/).

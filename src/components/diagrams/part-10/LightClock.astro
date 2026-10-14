@@ -1,0 +1,32 @@
+---
+// The light clock. Left: at rest, a light pulse bounces straight up and down between mirrors D apart: one tick takes
+// Δτ = 2D/c. Right: the same clock moving right at v, seen from Earth. The pulse follows a longer zigzag; each half-tick it
+// moves cΔt/2 along a slant while the clock moves vΔt/2, so (cΔt/2)² = D² + (vΔt/2)².
+const Y0 = 60, Y1 = 220, D = Y1 - Y0;
+const LX = 110, RX0 = 280, half = 120; // right: half-tick horizontal shift
+---
+
+<svg class="dg" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+	<text x={LX} y="30" class="t-mid t-sm t-b">clock at rest</text>
+	<line x1={LX - 40} y1={Y0} x2={LX + 40} y2={Y0} class="s-sky w3" />
+	<line x1={LX - 40} y1={Y1} x2={LX + 40} y2={Y1} class="s-sky w3" />
+	<line x1={LX - 6} y1={Y1} x2={LX - 6} y2={Y0} class="s-amber w2" />
+	<line x1={LX + 6} y1={Y0} x2={LX + 6} y2={Y1} class="s-amber w2 dash" />
+	<text x={LX + 50} y={(Y0 + Y1) / 2} class="t-sm">D</text>
+	<text x={LX} y={Y1 + 26} class="t-mid t-sm">one tick: Δτ = 2D/c</text>
+	<text x={(RX0 + 540) / 2} y="30" class="t-mid t-sm t-b">the same clock moving at v (Earth's view)</text>
+	{[0, 1, 2].map((k) => (
+		<>
+			<line x1={RX0 + k * half - 30} y1={Y0} x2={RX0 + k * half + 30} y2={Y0} class="s-sky w1" stroke-opacity={k === 1 ? 1 : 0.4} />
+			<line x1={RX0 + k * half - 30} y1={Y1} x2={RX0 + k * half + 30} y2={Y1} class="s-sky w1" stroke-opacity={k === 1 ? 1 : 0.4} />
+		</>
+	))}
+	<line x1={RX0} y1={Y1} x2={RX0 + half} y2={Y0} class="s-amber w3" />
+	<line x1={RX0 + half} y1={Y0} x2={RX0 + 2 * half} y2={Y1} class="s-amber w3 dash" />
+	<line x1={RX0 + half} y1={Y0} x2={RX0 + half} y2={Y1} class="s-muted w1 dash" />
+	<line x1={RX0} y1={Y1 + 12} x2={RX0 + half} y2={Y1 + 12} class="s-green w2" />
+	<text x={RX0 + half / 2} y={Y1 + 30} class="t-mid t-sm f-green">vΔt/2</text>
+	<text x={RX0 + half + 8} y={(Y0 + Y1) / 2 + 30} class="t-sm f-muted">D</text>
+	<text x={RX0 + half / 2 - 18} y={(Y0 + Y1) / 2 - 6} class="t-end t-sm f-amber halo">cΔt/2</text>
+	<text x={(RX0 + 540) / 2} y="290" class="t-mid t-sm">longer path at the same speed c, so a longer tick: Δt = γΔτ</text>
+</svg>

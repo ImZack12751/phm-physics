@@ -1,0 +1,89 @@
+---
+// Simulation: two identical light clocks, one at rest and one moving at v, seen from Earth. Each tick of the moving clock
+// takes γ times as long. Slow-motion animation: the resting clock ticks once per 1.2 s of screen time.
+---
+
+<div
+	class="sim lcs"
+	data-title="Light clocks"
+	data-description="Two identical light clocks: a pulse of light bouncing between two mirrors. The top clock is at rest; the bottom one moves to the right at a chosen speed, from 0 to 0.99 times the speed of light, wrapping round the screen. Seen from Earth, the moving clock's pulse follows a longer zigzag path at the same speed c, so it ticks more slowly. Each clock counts its ticks. The readout gives the Lorentz factor γ, how long one tick of the moving clock takes in Earth's time compared with the resting clock, and how much time passes on Earth while the moving clock counts one year. The animation stops if reduced motion is requested."
+>
+	<p class="sim-title">Simulation: light clocks</p>
+	<p class="sim-help">Both pulses move at the same speed. The moving one has farther to go each tick, so its clock falls behind.</p>
+	<div class="sim-controls">
+		<label>Speed of the lower clock, v/c <input type="range" class="lc-b" min="0" max="0.99" step="0.01" value="0.8" /> <output class="lc-bv"></output></label>
+	</div>
+	<svg class="dg lc-svg" viewBox="0 0 600 260" role="img" aria-label="A resting and a moving light clock"></svg>
+	<div class="readout lc-out" aria-live="polite"></div>
+</div>
+
+<script>
+	const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+	document.querySelectorAll<HTMLElement>('.sim.lcs').forEach((root) => {
+		const q = <T extends Element>(s: string) => root.querySelector<T>(s)!;
+		const svg = q<SVGSVGElement>('.lc-svg'), out = q<HTMLElement>('.lc-out'), Bs = q<HTMLInputElement>('.lc-b');
+		const NS = 'http://www.w3.org/2000/svg';
+		const el = (tag: string, at: Record<string, string | number>, text?: string) => {
+			const e = document.createElementNS(NS, tag);
+			Object.entries(at).forEach(([k, v]) => e.setAttribute(k, String(v)));
+			if (text) e.textContent = text;
+			svg.append(e);
+			return e;
+		};
+		const D = 70, T0 = 1.2; // px between mirrors; seconds of screen time per rest tick
+		const c = (2 * D) / T0; // px per second for light (screen units)
+		// top clock (rest)
+		const R = { x: 300, y0: 20 };
+		el('line', { x1: R.x - 30, y1: R.y0, x2: R.x + 30, y2: R.y0, class: 's-sky w3' });
+		el('line', { x1: R.x - 30, y1: R.y0 + D, x2: R.x + 30, y2: R.y0 + D, class: 's-sky w3' });
+		const rp = el('circle', { cx: R.x, r: 6, class: 'f-amber' });
+		const rc = el('text', { x: 20, y: 60, class: 't-sm' });
+		el('text', { x: 20, y: 40, class: 't-sm t-b' }, 'at rest');
+		// bottom clock (moving)
+		const M = { y0: 140 };
+		const mt = el('line', { y1: M.y0, y2: M.y0, class: 's-sky w3' });
+		const mb = el('line', { y1: M.y0 + D, y2: M.y0 + D, class: 's-sky w3' });
+		const trail = el('polyline', { class: 's-amber w1', fill: 'none', 'stroke-opacity': 0.6 });
+		const mp = el('circle', { r: 6, class: 'f-amber' });
+		const mc = el('text', { x: 20, y: 180, class: 't-sm' });
+		el('text', { x: 20, y: 160, class: 't-sm t-b' }, 'moving');
+		let t = 0, last = 0, pts: [number, number][] = [];
+		function place() {
+			const b = +Bs.value, g = 1 / Math.sqrt(1 - b * b);
+			// rest clock: triangle wave of period T0
+			const fr = (t % T0) / T0, ry = fr < 0.5 ? R.y0 + D - 2 * fr * D : R.y0 + 2 * (fr - 0.5) * D;
+			rp.setAttribute('cy', String(ry));
+			rc.textContent = `ticks: ${Math.floor(t / T0)}`;
+			// moving clock: period γT0, moves at b·c (screen px/s), wraps
+			const T = g * T0, fm = (t % T) / T, my = fm < 0.5 ? M.y0 + D - 2 * fm * D : M.y0 + 2 * (fm - 0.5) * D;
+			const span = 560, x = 20 + ((b * c * t) % span);
+			mt.setAttribute('x1', String(x - 30)); mt.setAttribute('x2', String(x + 30));
+			mb.setAttribute('x1', String(x - 30)); mb.setAttribute('x2', String(x + 30));
+			mp.setAttribute('cx', String(x)); mp.setAttribute('cy', String(my));
+			if (pts.length && x < pts[pts.length - 1][0]) pts = [];
+			pts.push([x, my]);
+			if (pts.length > 240) pts.shift();
+			trail.setAttribute('points', pts.map(([a, bb]) => `${a.toFixed(1)},${bb.toFixed(1)}`).join(' '));
+			mc.textContent = `ticks: ${Math.floor(t / T)}`;
+		}
+		function draw() {
+			const b = +Bs.value, g = 1 / Math.sqrt(1 - b * b);
+			q('.lc-bv').textContent = b.toFixed(2);
+			pts = [];
+			out.innerHTML =
+				`<span class="k">Lorentz factor γ = 1/√(1 − v²/c²)</span> = <b>${g.toFixed(3)}</b><br>` +
+				`<span class="k">one tick of the moving clock lasts</span> ${g.toFixed(3)} × a tick of the resting clock (in Earth's time)<br>` +
+				`<span class="k">while the moving clock counts 1 year, Earth's clocks count</span> <b>${g.toFixed(2)} years</b>`;
+			place();
+		}
+		function frame(now: number) {
+			if (last) t += Math.min(0.05, (now - last) / 1000);
+			last = now;
+			place();
+			requestAnimationFrame(frame);
+		}
+		Bs.addEventListener('input', draw);
+		draw();
+		if (reduce) { t = 0.9; place(); } else requestAnimationFrame(frame);
+	});
+</script>

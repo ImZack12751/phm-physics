@@ -1,0 +1,28 @@
+---
+// Stretch factor of wavelength for a receding source: classical 1 + β (Chapter 7.5's Δλ/λ = β) against relativistic
+// √((1 + β)/(1 − β)) = e^φ. They agree at low speed and part company above about 0.3c; at 0.92c the relativistic factor is 4.9.
+const L = 60, R = 560, T = 30, B = 240, fMax = 8;
+const X = (b: number) => L + b * (R - L);
+const Y = (f: number) => B - ((f - 1) / (fMax - 1)) * (B - T);
+const rel = (b: number) => Math.sqrt((1 + b) / (1 - b));
+const pr = Array.from({ length: 200 }, (_, i) => { const b = (0.969 * i) / 199; return `${X(b).toFixed(1)},${Y(rel(b)).toFixed(1)}`; }).join(' ');
+---
+
+<svg class="dg" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+	{[1, 2, 4, 6, 8].map((f) => (
+		<>
+			<line x1={L} y1={Y(f)} x2={R} y2={Y(f)} class="s-grid w1" />
+			<text x={L - 8} y={Y(f) + 4} class="t-end t-sm f-muted">{f}</text>
+		</>
+	))}
+	{[0, 0.25, 0.5, 0.75, 1].map((b) => <text x={X(b)} y={B + 18} class="t-mid t-sm f-muted">{b}</text>)}
+	<line x1={L} y1={B} x2={R} y2={B} class="s-fg w2" />
+	<line x1={L} y1={B} x2={L} y2={T} class="s-fg w2" />
+	<line x1={X(0)} y1={Y(1)} x2={X(1)} y2={Y(2)} class="s-sky w2 dash" />
+	<polyline points={pr} class="s-amber w3" fill="none" />
+	<circle cx={X(0.92)} cy={Y(rel(0.92))} r="5" class="f-amber" />
+	<text x={X(0.92) - 8} y={Y(rel(0.92)) - 6} class="t-end t-sm f-amber halo">relativity: √((1+β)/(1−β)), 4.90 at 0.92c</text>
+	<text x={X(0.6)} y={Y(1.6) + 20} class="t-mid t-sm f-sky halo">Chapter 7.5's 1 + β</text>
+	<text x={(L + R) / 2} y="288" class="t-mid t-sm">speed of a receding source, β</text>
+	<text x="22" y={(T + B) / 2} class="t-mid t-sm" transform={`rotate(-90 22 ${(T + B) / 2})`}>λ observed ÷ λ emitted</text>
+</svg>

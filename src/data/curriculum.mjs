@@ -145,12 +145,12 @@ export const parts = [
 		id: 'part-10', icon: 'γ', dir: 'part-10', code: '10', label: 'Part 10 · Special relativity',
 		blurb: 'Light clocks, time dilation and how long the trip really took.',
 		chapters: [
-			{ slug: 'postulates', title: 'The postulates of relativity', prereqs: [], status: 'planned' },
-			{ slug: 'time-dilation', title: 'Time dilation and the light clock', prereqs: [], status: 'planned' },
-			{ slug: 'lorentz-factor', title: 'The Lorentz factor', prereqs: [], status: 'planned' },
-			{ slug: 'length-contraction', title: 'Length contraction', prereqs: [], status: 'planned' },
-			{ slug: 'velocity-addition', title: 'Velocity addition', prereqs: [], status: 'planned' },
-			{ slug: 'ship-time-earth-time', title: 'Ship time vs Earth time', prereqs: [], status: 'planned' },
+			{ slug: 'postulates', title: 'The postulates of relativity', prereqs: ['equations-of-motion', 'vectors', 'newtons-laws', 'apparent-weight', 'em-spectrum', 'wave-properties'], status: 'review' },
+			{ slug: 'time-dilation', title: 'Time dilation and the light clock', prereqs: ['postulates', 'trigonometry', 'exponentials-logarithms', 'kinematics', 'orbital-speed', 'scientific-notation'], status: 'review' },
+			{ slug: 'lorentz-factor', title: 'The Lorentz factor', prereqs: ['time-dilation', 'kinetic-potential-energy', 'momentum', 'mass-energy', 'slopes-and-limits', 'derivatives'], status: 'review' },
+			{ slug: 'length-contraction', title: 'Length contraction', prereqs: ['time-dilation', 'lorentz-factor', 'scientific-notation', 'kinematics', 'trigonometry'], status: 'review' },
+			{ slug: 'velocity-addition', title: 'Velocity addition', prereqs: ['length-contraction', 'time-dilation', 'vectors', 'exponentials-logarithms', 'spectroscopy', 'photon-propulsion'], status: 'review' },
+			{ slug: 'ship-time-earth-time', title: 'Ship time vs Earth time', prereqs: ['velocity-addition', 'rocket-equation', 'equations-of-motion', 'apparent-weight', 'integrals', 'derivatives'], status: 'review' },
 		],
 	},
 	{

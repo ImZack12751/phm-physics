@@ -304,3 +304,21 @@ export const MASSENERGY = {
 	electronMeV: 0.51099895069,
 	spec: { antimatter: 89875517874e6, dtFusion: 337387388e6, uranium: 80620000e6, h2: 141.86e6, h2LHV: 119.93e6, gasoline: 46.4e6, kerosene: 43e6, natGas: 53.6e6, fat: 38e6, coal: [26e6, 33e6], wood: 18.0e6, ethanol: 30e6, tnt: 4.184e6, liion: [0.36e6, 0.875e6] }, // J/kg
 };
+
+// Part 10 (special relativity). Checked October 2026.
+// OpenStax University Physics Vol. 3 ch. 5 (postulates, simultaneity, time dilation incl. muon example 0.950c, 2.20 µs →
+// 7.05 µs, length contraction, Lorentz transformation, velocity addition, Doppler, momentum, energy). Wikipedia:
+// Michelson–Morley (1887, expected ~0.4 fringe, observed < 0.02), Galileo's ship (1632), Hafele–Keating (1971:
+// east −59 ± 10 ns measured, −40 ± 23 predicted; west +273 ± 7 measured, +275 ± 21 predicted; kinematic parts −184 / +96),
+// GPS error analysis (orbital speed 3874 m/s, −7.2 µs/day special, +45.8 general, +38.6 net), Muon (2.1969811 µs,
+// 105.658 MeV, ~10 000 per m² per minute at sea level, Rossi–Hall 1941). CERN: LHC 6.8 TeV per proton (2022–).
+// CODATA: proton 938.272 088 943 MeV. BOOK (Wikipedia plot summary): the Eridians don't understand relativity, so
+// Blip-A carries enough fuel for both ships; Rocky spent 46 years at Tau Ceti.
+export const REL = {
+	mmExpected: 0.4, mmObserved: 0.02, mmArm: 11, // fringes, fringes, m (effective arm length)
+	muonLife: 2.1969811e-6, muonMeV: 105.6583755, muonFluxPerM2Min: 10000,
+	gpsSpeed: 3874, gpsSR: 7.2, gpsGR: 45.8, gpsNet: 38.6, // m/s, µs/day
+	hkEast: { meas: -59, pred: -40, kin: -184 }, hkWest: { meas: 273, pred: 275, kin: 96 }, // ns
+	lhcTeV: 6.8, protonMeV: 938.27208943,
+	rockyYears: 46,
+};

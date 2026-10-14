@@ -226,12 +226,12 @@ Teaching order follows logical dependency, not plot order. Planned chapters have
 
 | # | Chapter | Path | Prerequisites | Status |
 |---|---|---|---|---|
-| 10.1 | The postulates of relativity | `part-10/postulates` | – | planned |
-| 10.2 | Time dilation and the light clock | `part-10/time-dilation` | – | planned |
-| 10.3 | The Lorentz factor | `part-10/lorentz-factor` | – | planned |
-| 10.4 | Length contraction | `part-10/length-contraction` | – | planned |
-| 10.5 | Velocity addition | `part-10/velocity-addition` | – | planned |
-| 10.6 | Ship time vs Earth time | `part-10/ship-time-earth-time` | – | planned |
+| 10.1 | The postulates of relativity | `part-10/postulates` | 1.2, 0.7, 2.1, 2.3, 7.2, 7.1 | written, awaiting review |
+| 10.2 | Time dilation and the light clock | `part-10/time-dilation` | 10.1, 0.6, 0.8, 1.1, 4.2, 0.1 | written, awaiting review |
+| 10.3 | The Lorentz factor | `part-10/lorentz-factor` | 10.2, 5.2, 5.5, 9.1, C.2, C.3 | written, awaiting review |
+| 10.4 | Length contraction | `part-10/length-contraction` | 10.2, 10.3, 0.1, 1.1, 0.6 | written, awaiting review |
+| 10.5 | Velocity addition | `part-10/velocity-addition` | 10.4, 10.2, 0.7, 0.8, 7.5, 7.4 | written, awaiting review |
+| 10.6 | Ship time vs Earth time | `part-10/ship-time-earth-time` | 10.5, 5.7, 1.2, 2.3, C.5, C.3 | written, awaiting review |
 
 **Part 11 · Sound**
 
@@ -282,7 +282,7 @@ Brief biology and chemistry sidebars are added only where the plot's physics dep
 Source of truth: `src/data/glossary.mjs`.
 
 <!-- AUTO:glossary -->
-285 terms.
+304 terms.
 
 | Term | id | First chapter |
 |---|---|---|
@@ -571,6 +571,25 @@ Source of truth: `src/data/glossary.mjs`.
 | Antimatter | `antimatter` | 9.1 |
 | Specific energy | `specific-energy` | 9.2 |
 | Energy density | `energy-density` | 9.2 |
+| Inertial frame | `inertial-frame` | 10.1 |
+| Principle of relativity | `principle-of-relativity` | 10.1 |
+| Postulates of special relativity | `postulates-of-relativity` | 10.1 |
+| Event | `event` | 10.1 |
+| Relativity of simultaneity | `relativity-of-simultaneity` | 10.1 |
+| Time dilation | `time-dilation` | 10.2 |
+| Proper time (τ) | `proper-time` | 10.2 |
+| Lorentz factor (γ) | `lorentz-factor` | 10.2 |
+| Twin paradox | `twin-paradox` | 10.2 |
+| Relativistic momentum | `relativistic-momentum` | 10.3 |
+| Relativistic energy | `relativistic-energy` | 10.3 |
+| Length contraction | `length-contraction` | 10.4 |
+| Proper length (L₀) | `proper-length` | 10.4 |
+| Lorentz transformation | `lorentz-transformation` | 10.5 |
+| Relativistic velocity addition | `velocity-addition` | 10.5 |
+| Rapidity (φ) | `rapidity` | 10.5 |
+| Hyperbolic functions | `hyperbolic-functions` | 10.5 |
+| Relativistic Doppler shift | `relativistic-doppler` | 10.5 |
+| Proper acceleration | `proper-acceleration` | 10.6 |
 <!-- /AUTO:glossary -->
 
 ---
@@ -580,7 +599,7 @@ Source of truth: `src/data/glossary.mjs`.
 Source of truth: `src/data/formulas.mjs`.
 
 <!-- AUTO:formulas -->
-164 formulas.
+176 formulas.
 
 | Formula | id | First chapter | LaTeX |
 |---|---|---|---|
@@ -748,6 +767,18 @@ Source of truth: `src/data/formulas.mjs`.
 | Energy from a mass defect | `mass-defect` | 9.1 | `Q = (m_{\text{before}} - m_{\text{after}})\,c^{2} \qquad 1\ \text{u}\times c^{2} = 931.5\ \text{MeV}` |
 | Specific energy and the exhaust limit | `exhaust-limit` | 9.2 | `\varepsilon = \dfrac{E}{m} \qquad u = \rho\,\varepsilon \qquad v_{\text{e,max}} = \sqrt{2\varepsilon}` |
 | Fuel for a change of speed | `fuel-for-dv` | 9.2 | `m_{\text{fuel}} = m_{\text{f}}\left(e^{\Delta v/v_{\text{e}}} - 1\right)` |
+| Galilean transformation | `galilean` | 10.1 | `x' = x - vt \qquad t' = t \qquad u' = u - v` |
+| Michelson–Morley expected shift | `michelson-morley` | 10.1 | `\Delta t \approx \dfrac{L}{c}\,\beta^{2} \qquad \text{fringe shift} = \dfrac{2L\beta^{2}}{\lambda}` |
+| Time dilation | `time-dilation` | 10.2 | `\Delta t = \gamma\,\Delta\tau \qquad \gamma = \dfrac{1}{\sqrt{1 - v^{2}/c^{2}}} \qquad \Delta t - \Delta\tau \approx \tfrac{1}{2}\beta^{2}t` |
+| Decay of fast particles | `dilated-decay` | 10.2 | `\dfrac{N}{N_{0}} = e^{-t/(\gamma\tau_{0})}` |
+| Relativistic momentum and energy | `relativistic-momentum-energy` | 10.3 | `p = \gamma mv \qquad E = \gamma mc^{2} \qquad K = (\gamma - 1)mc^{2} \qquad E^{2} = (pc)^{2} + (mc^{2})^{2}` |
+| The Lorentz factor at low and high speed | `gamma-approx` | 10.3 | `\gamma \approx 1 + \tfrac{1}{2}\beta^{2}\ (\beta \ll 1) \qquad \beta = \sqrt{1 - 1/\gamma^{2}} \qquad 1 - \beta \approx \dfrac{1}{2\gamma^{2}}\ (\gamma \gg 1)` |
+| Length contraction | `length-contraction` | 10.4 | `L = \dfrac{L_{0}}{\gamma} \qquad t_{\text{Earth}} = \dfrac{L_{0}}{v} \qquad \tau_{\text{ship}} = \dfrac{L_{0}}{\gamma v}` |
+| Lorentz transformation | `lorentz-transformation` | 10.5 | `x' = \gamma(x - vt) \qquad t' = \gamma\left(t - \dfrac{vx}{c^{2}}\right)` |
+| Velocity addition and rapidity | `velocity-addition` | 10.5 | `u = \dfrac{u' + v}{1 + u'v/c^{2}} \qquad \beta = \tanh\varphi \qquad \varphi_{u} = \varphi_{1} + \varphi_{2} \qquad e^{2\varphi} = \dfrac{1 + \beta}{1 - \beta}` |
+| Relativistic Doppler shift and photon rocket | `relativistic-doppler-rocket` | 10.5 | `\dfrac{\lambda_{\text{obs}}}{\lambda_{\text{emit}}} = \sqrt{\dfrac{1 + \beta}{1 - \beta}} = e^{\varphi} \qquad \dfrac{m_{0}}{m} = e^{\varphi} = \sqrt{\dfrac{1 + \beta}{1 - \beta}}` |
+| Constant proper acceleration | `constant-proper-acceleration` | 10.6 | `\varphi = \dfrac{a\tau}{c} \qquad v = c\tanh\varphi \qquad t = \dfrac{c}{a}\sinh\varphi \qquad x = \dfrac{c^{2}}{a}\left(\cosh\varphi - 1\right)` |
+| Relativistic flip-and-burn | `relativistic-flip-and-burn` | 10.6 | `\cosh\varphi_{\text{max}} = 1 + \dfrac{ad}{2c^{2}} \qquad \tau = \dfrac{2c}{a}\varphi_{\text{max}} \qquad t = \dfrac{2c}{a}\sinh\varphi_{\text{max}} \qquad \dfrac{m_{0}}{m} = e^{2\varphi_{\text{max}}}` |
 <!-- /AUTO:formulas -->
 
 ---
@@ -792,3 +823,4 @@ All constants and book figures used so far, each with its source, are in `script
 - **Session 10 (2026-10-14).** Wrote Part 7: 7.1 Wave properties (transverse and longitudinal, λ, A, T, f, v = fλ, y = A cos(kx − ωt), v = √(F_T/μ) derived from circular motion in the pulse's frame, P ∝ A², superposition, interference, standing waves; tension written F_T to avoid clashing with the period), 7.2 c = fλ and the EM spectrum (Young, fields as the medium, Maxwell, Rømer/Fizeau/1983 metre, the spectrum, Petrova line and Petrovascope, n = c/v, Snell's law derived from crests, total internal reflection), 7.3 Photons (photoelectric facts, E = hf, eV and 1240 eV·nm, K = hf − φ as Millikan's line, photons per second, what one photon can do, duality, h defines the kilogram (promised in 0.2), the Petrova photon ≈ ³⁄₂kT coincidence and the KATRIN check), 7.4 Momentum of light and photon propulsion (Feynman's qvB argument for F = P/c, as promised in 5.3 and 5.5; p = h/λ and Compton; absorb vs reflect; radiation pressure; IKAROS; β independent of distance; sunlight can't blow Astrophage away; photon vs chemical rockets), 7.5 Spectroscopy (dispersion, gratings d sin θ = mλ, Kirchhoff's three spectra, Fraunhofer and helium, energy levels and hydrogen's Balmer lines, molecular IR fingerprints and Webb, Doppler Δλ/λ = v/c, radial-velocity wobble of Tau Ceti from Adrian). 61 practice problems, 5 simulations (WaveMachine, SpectrumExplorer, PhotoelectricLab, SolarSailLab, SpectrumLab) and 17 diagrams. Electric charge and electric field are now glossary terms (7.2); magnetic forces (qvB) are stated, not derived, and point to Part 14. Tooling note: a range slider with `step="any"` is fine for the browser check (it falls back to step 1). One run of `check:browser` crashed with a timeout while screenshots ran at the same time; it passed when run alone. **Next:** Part 8, starting with 8.1 Blackbody radiation and Wien's law (6.5 and 7.2 promise that Part 8 explains why hotter objects glow at shorter wavelengths; 7.3 says thermal glow is broad, unlike Astrophage's single line). Part 10 should revisit 7.4 Problem 11 (Astrophage's relativistic mass ratio 4.90) and the relativistic Doppler shift promised in 7.5.
 - **Session 11 (2026-10-14).** Wrote Part 8: 8.1 Blackbody radiation and Wien's law (glowing colours and the Draper point, the cavity blackbody, the ultraviolet catastrophe, Planck's law with the photon-cost argument, Wien's law derived by setting the derivative to zero and iterating x = 5(1 − e⁻ˣ), star colours, why Astrophage's single line is not thermal; promised in 6.5 and 7.2), 8.2 The Stefan–Boltzmann law and luminosity (T⁴ from the squeeze-and-stretch of Planck's curve, σ = 2π⁵k⁴/15c²h³ via a change of variable with the pure-number integral π⁴/15 quoted, L = 4πR²σT⁴, star radii, ΔL/L ≈ 4ΔT/T, the power Astrophage eats, the drive's waste heat; promised in 6.3), 8.3 The inverse-square law and the solar constant (cavity radiometers, solar cycle and orbital swing, S = σT⁴(R/d)², the Sun's temperature from Earth, T_e = T★(1 − α)^¼√(R★/2d), L = 4πd²S, the habitable zone, how faint Tau Ceti is), 8.4 The Sun vs Tau Ceti (comparison table, colours, the 0.454 vs 0.488 vs 0.52 luminosity spread and its uncertainty, Kepler mass from Adrian, M/L lifetimes, metallicity and the debris disc, habitable zones, Adrian's sky, cells needed to dim a star, why Taumoeba matters). 48 practice problems, 4 simulations (BlackbodyLab, StarBuilder, StarlightLab, StarCompare) and 12 diagrams. Fixed a Part 7 bug found on the way: SpectrumExplorer's colour swatch was invisible because scoped Astro styles don't reach elements created with `innerHTML`; such styles must be `<style is:global>` (BlackbodyLab too). **Next:** Part 9, starting with 9.1 E = mc² (5.3 and 7.3 have used E = mc² and promised Part 9 explains it; 8.2 has Astrophage turning 3.8 × 10²⁴ W into 4.3 × 10⁷ kg/s).
 - **Session 12 (2026-10-14).** Wrote Part 9: 9.1 E = mc² (Einstein's light-in-a-box derivation from p = E/c and the fixed centre of mass, mass as a form of energy, rest energy, why c² hides everyday mass changes, mass defects in fusion, antimatter and PET, the Sun's mass loss, the novel's Dimitri test and drive checked; promised in 5.3, 5.4 and 6.2), 9.2 Energy density: chemical to Astrophage (specific energy vs energy density, the three-step ladder chemical/nuclear/mass–energy, the exhaust limit √(2ε), the rocket equation at 0.1c for each drive, Astrophage as a battery, the fuel in petrol, breeding the fuel on the Sahara). 24 practice problems, 2 simulations (LightBox, FuelCalculator) and 5 diagrams. Fixed a number-format bug in several Part 8/9 sims: `x.toPrecision(3)` prints values of 1000 and up as "1.00e+3", so the shared `sci` helpers now use `toPrecision(Math.max(3, e + 1))`. **Next:** Part 10, starting with 10.1 The postulates of relativity (9.2 and the fuel calculator quote the relativistic photon-rocket mass ratio √((1 + β)/(1 − β)) and say Part 10 derives it; 7.4 Problem 11 and 7.5 also point ahead; 5.7 says Part 10 should revisit the fuel budget with a coast phase).
+- **Session 13 (2026-10-14).** Wrote Part 10 (special relativity): 10.1 Postulates (Galileo's ship, Michelson–Morley expected 0.4 fringe derived, simultaneity), 10.2 Time dilation (light clock, muons, GPS 7.2 µs/day, Hafele–Keating), 10.3 Lorentz factor (γ ≈ 1 + β²/2, p = γmv, E = γmc², E² = (pc)² + (mc²)²), 10.4 Length contraction, 10.5 Velocity addition (Lorentz transformation derived, rapidity and hyperbolic functions, relativistic Doppler, photon-rocket ratio √((1+β)/(1−β)) as promised in 7.4/9.2), 10.6 Ship time vs Earth time (φ = aτ/c; 1.5 g flip-and-burn to Tau Ceti: 3.89 yr aboard, 13.14 yr on Earth, 0.995c, mass ratio 416 vs the novel's ~21; novel's fuel with a coast: 0.909c, 6.6 yr aboard; Grace's 17 missing years reproduced; Eridians' Newtonian over-fuelling ×9). 72 problems, 6 sims (SimultaneityLab, LightClockSim, GammaExplorer, ContractionLab, VelocityAdder, TripPlanner), 12 diagrams. `REL` constants added. **Not yet done:** `check:browser` timed out once on navigation (not investigated; rerun it, and if it repeats suspect one of the animated Part 10 sims blocking network idle), and the Part 10 diagrams/sims have not been screenshotted. **Next:** finish those checks, then Part 11 (sound).

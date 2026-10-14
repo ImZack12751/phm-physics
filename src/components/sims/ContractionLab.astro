@@ -1,0 +1,64 @@
+---
+// Simulation: length contraction on the way to Tau Ceti. At a steady speed β (no acceleration), the crew measure the
+// distance as 11.912 ly / γ and the trip as that divided by v; Earth measures 11.912 ly and 11.912/β years. A 100 m ship
+// (our round number) is drawn at its contracted length as seen from Earth, and Tau Ceti's distance as seen by the crew.
+---
+
+<div
+	class="sim cl"
+	data-title="Contraction lab"
+	data-description="A slider sets a steady cruising speed from 0 to 0.999 times the speed of light. The top drawing shows a 100 metre ship at rest and as Earth sees it moving, shortened along its motion by 1/γ. The bottom bar shows the distance from Earth to Tau Ceti, 11.912 light-years, as Earth measures it and as the crew measure it, contracted by the same factor. The readout gives γ, the ship's length seen from Earth, the distance to Tau Ceti in the crew's frame, and the trip time on Earth's clocks and the ship's clocks, which agree with each other through time dilation."
+>
+	<p class="sim-title">Simulation: contraction lab</p>
+	<p class="sim-help">From Earth, the moving ship is short and its clocks are slow. From the ship, the trip is short. Both give the same ship time.</p>
+	<div class="sim-controls">
+		<label>Cruising speed v/c <input type="range" class="cl-b" min="0" max="0.999" step="0.001" value="0.92" /> <output class="cl-bv"></output></label>
+	</div>
+	<svg class="dg cl-svg" viewBox="0 0 600 200" role="img" aria-label="A ship and the distance to Tau Ceti, shortened along the motion"></svg>
+	<div class="readout cl-out" aria-live="polite"></div>
+</div>
+
+<script>
+	const D = 11.912;
+	document.querySelectorAll<HTMLElement>('.sim.cl').forEach((root) => {
+		const q = <T extends Element>(s: string) => root.querySelector<T>(s)!;
+		const svg = q<SVGSVGElement>('.cl-svg'), out = q<HTMLElement>('.cl-out'), Bs = q<HTMLInputElement>('.cl-b');
+		const NS = 'http://www.w3.org/2000/svg';
+		const el = (tag: string, at: Record<string, string | number>, text?: string) => {
+			const e = document.createElementNS(NS, tag);
+			Object.entries(at).forEach(([k, v]) => e.setAttribute(k, String(v)));
+			if (text) e.textContent = text;
+			svg.append(e);
+			return e;
+		};
+		const SL = 260; // px for 100 m
+		el('text', { x: 20, y: 20, class: 't-sm f-muted' }, 'ship at rest (100 m)');
+		el('rect', { x: 20, y: 28, width: SL, height: 22, rx: 10, class: 's-sky w2', fill: 'none' });
+		el('text', { x: 320, y: 20, class: 't-sm f-muted' }, 'as Earth sees it moving');
+		const ship = el('rect', { x: 320, y: 28, height: 22, class: 'f-sky', 'fill-opacity': 0.5 });
+		const BL = 540;
+		el('text', { x: 20, y: 90, class: 't-sm' }, 'distance to Tau Ceti, Earth’s frame: 11.912 ly');
+		el('rect', { x: 20, y: 98, width: BL, height: 14, class: 'f-amber', 'fill-opacity': 0.6 });
+		const dl = el('text', { x: 20, y: 140, class: 't-sm' });
+		const dist = el('rect', { x: 20, y: 148, height: 14, class: 'f-rose', 'fill-opacity': 0.7 });
+		el('circle', { cx: 20 + BL, cy: 105, r: 6, class: 'f-amber' });
+		const star = el('circle', { cy: 155, r: 6, class: 'f-amber' });
+		el('text', { x: 580, y: 196, class: 't-end t-sm f-muted' }, 'steady cruise, no acceleration');
+		function draw() {
+			const b = +Bs.value, g = 1 / Math.sqrt(1 - b * b);
+			q('.cl-bv').textContent = b.toFixed(3);
+			ship.setAttribute('width', String(SL / g)); ship.setAttribute('rx', String(10 / g));
+			dist.setAttribute('width', String(BL / g));
+			star.setAttribute('cx', String(20 + BL / g));
+			dl.textContent = `distance in the crew’s frame: ${(D / g).toFixed(2)} ly`;
+			const tE = b > 0 ? D / b : Infinity, tS = tE / g;
+			out.innerHTML =
+				`<span class="k">γ</span> = ${g.toFixed(3)} &nbsp; <span class="k">ship’s length seen from Earth</span> = <b>${(100 / g).toFixed(1)} m</b><br>` +
+				`<span class="k">distance to Tau Ceti for the crew</span> = <b>${(D / g).toFixed(2)} ly</b><br>` +
+				`<span class="k">trip time</span>: Earth ${b > 0 ? tE.toFixed(2) : '∞'} years; ship ${b > 0 ? tS.toFixed(2) : '∞'} years ` +
+				`(= crew distance ÷ v = Earth time ÷ γ)`;
+		}
+		Bs.addEventListener('input', draw);
+		draw();
+	});
+</script>

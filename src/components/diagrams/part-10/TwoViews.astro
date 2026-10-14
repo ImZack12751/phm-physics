@@ -1,0 +1,31 @@
+---
+// The muon journey from two frames (γ = 10). Earth: atmosphere 15 km thick, muon's clock slowed, lives 22 µs.
+// Muon: its clock normal (2.2 µs), so for it to cross, the atmosphere rushing past must be only 1.5 km thick.
+const B = 260, T = 40;
+const E = { x: 150 }, M = { x: 430 };
+---
+
+<svg class="dg" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+	<text x={E.x} y="24" class="t-mid t-sm t-b">Earth's view</text>
+	<rect x={E.x - 70} y={T} width="140" height={B - T} class="f-sky-soft" />
+	<line x1={E.x - 70} y1={B} x2={E.x + 70} y2={B} class="s-green w3" />
+	<text x={E.x} y={B + 18} class="t-mid t-sm">ground</text>
+	<text x={E.x - 78} y={(T + B) / 2} class="t-end t-sm">15 km</text>
+	<circle cx={E.x} cy={T + 10} r="6" class="f-amber" />
+	<line x1={E.x} y1={T + 20} x2={E.x} y2={B - 14} class="s-amber w2 dash" />
+	<polygon points={`${E.x},${B - 4} ${E.x - 6},${B - 16} ${E.x + 6},${B - 16}`} class="f-amber" />
+	<text x={E.x + 14} y={T + 40} class="t-sm f-amber halo">muon at 0.995c</text>
+	<text x={E.x + 14} y={T + 58} class="t-sm halo">its clock runs 10× slow:</text>
+	<text x={E.x + 14} y={T + 76} class="t-sm halo">lives 22 µs, goes 6.6 km</text>
+	<text x={M.x} y="24" class="t-mid t-sm t-b">the muon's view</text>
+	<rect x={M.x - 70} y={T + 120} width="140" height={(B - T) / 10} class="f-sky-soft" />
+	<line x1={M.x - 70} y1={T + 120 + (B - T) / 10} x2={M.x + 70} y2={T + 120 + (B - T) / 10} class="s-green w3" />
+	<text x={M.x - 78} y={T + 126} class="t-end t-sm">1.5 km</text>
+	<circle cx={M.x} cy={T + 100} r="6" class="f-amber" />
+	<line x1={M.x + 80} y1={T + 150} x2={M.x + 80} y2={T + 100} class="s-fg w2" />
+	<polygon points={`${M.x + 80},${T + 92} ${M.x + 74},${T + 104} ${M.x + 86},${T + 104}`} class="f-fg" />
+	<text x={M.x + 70} y={T + 75} class="t-end t-sm">Earth rushes up</text>
+	<text x={M.x} y={T + 190} class="t-mid t-sm halo">its clock is normal: lives 2.2 µs,</text>
+	<text x={M.x} y={T + 208} class="t-mid t-sm halo">but the atmosphere is 10× thinner</text>
+	<text x="300" y="292" class="t-mid t-sm f-muted">both agree the muon reaches the ground</text>
+</svg>

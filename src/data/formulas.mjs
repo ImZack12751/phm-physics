@@ -1218,4 +1218,94 @@ export const formulas = [
 		where: 'From the rocket equation; m_f: dry mass. At 0.1c a chemical rocket needs a mass ratio of about 10²⁹³⁵.',
 		chapter: 'energy-density',
 	},
+	// ---- 10.1 The postulates of relativity ----
+	{
+		id: 'galilean',
+		name: 'Galilean transformation',
+		tex: "x' = x - vt \\qquad t' = t \\qquad u' = u - v",
+		where: 'The everyday rules for a frame moving at v; accurate only when all speeds are much less than c.',
+		chapter: 'postulates',
+	},
+	{
+		id: 'michelson-morley',
+		name: 'Michelson–Morley expected shift',
+		tex: '\\Delta t \\approx \\dfrac{L}{c}\\,\\beta^{2} \\qquad \\text{fringe shift} = \\dfrac{2L\\beta^{2}}{\\lambda}',
+		where: 'For arms of length L moving at β = v/c through a supposed aether; about 0.4 fringe expected in 1887, less than 0.02 seen.',
+		chapter: 'postulates',
+	},
+	// ---- 10.2 Time dilation ----
+	{
+		id: 'time-dilation',
+		name: 'Time dilation',
+		tex: '\\Delta t = \\gamma\\,\\Delta\\tau \\qquad \\gamma = \\dfrac{1}{\\sqrt{1 - v^{2}/c^{2}}} \\qquad \\Delta t - \\Delta\\tau \\approx \\tfrac{1}{2}\\beta^{2}t',
+		where: 'Δτ: proper time (the moving clock); Δt: time in the frame where the clock moves. GPS: 7.2 µs/day.',
+		chapter: 'time-dilation',
+	},
+	{
+		id: 'dilated-decay',
+		name: 'Decay of fast particles',
+		tex: '\\dfrac{N}{N_{0}} = e^{-t/(\\gamma\\tau_{0})}',
+		where: 'τ₀: lifetime at rest (muon 2.197 µs); t: time in the lab frame.',
+		chapter: 'time-dilation',
+	},
+	// ---- 10.3 The Lorentz factor ----
+	{
+		id: 'relativistic-momentum-energy',
+		name: 'Relativistic momentum and energy',
+		tex: 'p = \\gamma mv \\qquad E = \\gamma mc^{2} \\qquad K = (\\gamma - 1)mc^{2} \\qquad E^{2} = (pc)^{2} + (mc^{2})^{2}',
+		where: 'For light (m = 0), E = pc. At low speed K → ½mv² and p → mv.',
+		chapter: 'lorentz-factor',
+	},
+	{
+		id: 'gamma-approx',
+		name: 'The Lorentz factor at low and high speed',
+		tex: '\\gamma \\approx 1 + \\tfrac{1}{2}\\beta^{2}\\ (\\beta \\ll 1) \\qquad \\beta = \\sqrt{1 - 1/\\gamma^{2}} \\qquad 1 - \\beta \\approx \\dfrac{1}{2\\gamma^{2}}\\ (\\gamma \\gg 1)',
+		where: 'LHC protons: γ = 7247, 1 − β ≈ 10⁻⁸.',
+		chapter: 'lorentz-factor',
+	},
+	// ---- 10.4 Length contraction ----
+	{
+		id: 'length-contraction',
+		name: 'Length contraction',
+		tex: 'L = \\dfrac{L_{0}}{\\gamma} \\qquad t_{\\text{Earth}} = \\dfrac{L_{0}}{v} \\qquad \\tau_{\\text{ship}} = \\dfrac{L_{0}}{\\gamma v}',
+		where: 'L₀: proper length. A steady cruise to Tau Ceti at 0.92c: 12.95 yr on Earth, 5.07 yr on board, across 4.67 ly in the crew’s frame.',
+		chapter: 'length-contraction',
+	},
+	// ---- 10.5 Velocity addition ----
+	{
+		id: 'lorentz-transformation',
+		name: 'Lorentz transformation',
+		tex: "x' = \\gamma(x - vt) \\qquad t' = \\gamma\\left(t - \\dfrac{vx}{c^{2}}\\right)",
+		where: 'For frame S′ moving at v along x; reverse with v → −v. Simultaneity offset γL₀v/c².',
+		chapter: 'velocity-addition',
+	},
+	{
+		id: 'velocity-addition',
+		name: 'Velocity addition and rapidity',
+		tex: "u = \\dfrac{u' + v}{1 + u'v/c^{2}} \\qquad \\beta = \\tanh\\varphi \\qquad \\varphi_{u} = \\varphi_{1} + \\varphi_{2} \\qquad e^{2\\varphi} = \\dfrac{1 + \\beta}{1 - \\beta}",
+		where: '0.5c + 0.92c = 0.973c. γ = cosh φ, γβ = sinh φ.',
+		chapter: 'velocity-addition',
+	},
+	{
+		id: 'relativistic-doppler-rocket',
+		name: 'Relativistic Doppler shift and photon rocket',
+		tex: '\\dfrac{\\lambda_{\\text{obs}}}{\\lambda_{\\text{emit}}} = \\sqrt{\\dfrac{1 + \\beta}{1 - \\beta}} = e^{\\varphi} \\qquad \\dfrac{m_{0}}{m} = e^{\\varphi} = \\sqrt{\\dfrac{1 + \\beta}{1 - \\beta}}',
+		where: 'Receding source (inverse when approaching). An ideal photon rocket needs mass ratio 4.90 to reach 0.92c.',
+		chapter: 'velocity-addition',
+	},
+	// ---- 10.6 Ship time vs Earth time ----
+	{
+		id: 'constant-proper-acceleration',
+		name: 'Constant proper acceleration',
+		tex: '\\varphi = \\dfrac{a\\tau}{c} \\qquad v = c\\tanh\\varphi \\qquad t = \\dfrac{c}{a}\\sinh\\varphi \\qquad x = \\dfrac{c^{2}}{a}\\left(\\cosh\\varphi - 1\\right)',
+		where: 'τ: ship time; t, x: Earth time and distance. At 1.5 g, c/a = 0.646 yr and c²/a = 0.646 ly.',
+		chapter: 'ship-time-earth-time',
+	},
+	{
+		id: 'relativistic-flip-and-burn',
+		name: 'Relativistic flip-and-burn',
+		tex: '\\cosh\\varphi_{\\text{max}} = 1 + \\dfrac{ad}{2c^{2}} \\qquad \\tau = \\dfrac{2c}{a}\\varphi_{\\text{max}} \\qquad t = \\dfrac{2c}{a}\\sinh\\varphi_{\\text{max}} \\qquad \\dfrac{m_{0}}{m} = e^{2\\varphi_{\\text{max}}}',
+		where: 'Tau Ceti at 1.5 g: 3.89 years aboard, 13.14 on Earth, top speed 0.995c, photon-rocket mass ratio 416.',
+		chapter: 'ship-time-earth-time',
+	},
 ];

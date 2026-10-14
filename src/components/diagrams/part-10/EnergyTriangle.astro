@@ -1,0 +1,22 @@
+---
+// E² = (pc)² + (mc²)² as a right-angled triangle: rest energy mc² (vertical), momentum term pc (horizontal), total energy E
+// (hypotenuse). Drawn for v = 0.8c: γ = 5/3, so E = 5/3 mc², pc = 4/3 mc². For light (m = 0) the triangle flattens: E = pc.
+const S = 120, OX = 120, OY = 240;
+const mc2 = 1, pc = 4 / 3;
+const A = { x: OX, y: OY }, Bp = { x: OX + pc * S, y: OY }, Cp = { x: OX, y: OY - mc2 * S };
+---
+
+<svg class="dg" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+	<line x1={A.x} y1={A.y} x2={Bp.x} y2={Bp.y} class="s-sky w3" />
+	<line x1={A.x} y1={A.y} x2={Cp.x} y2={Cp.y} class="s-green w3" />
+	<line x1={Cp.x} y1={Cp.y} x2={Bp.x} y2={Bp.y} class="s-amber w3" />
+	<rect x={A.x} y={A.y - 14} width="14" height="14" class="s-muted w1" fill="none" />
+	<text x={(A.x + Bp.x) / 2} y={A.y + 22} class="t-mid t-sm f-sky">momentum term pc = 4/3 mc²</text>
+	<text x={A.x - 10} y={(A.y + Cp.y) / 2} class="t-end t-sm f-green">rest energy mc²</text>
+	<text x={(Cp.x + Bp.x) / 2 + 14} y={(Cp.y + Bp.y) / 2 - 10} class="t-sm f-amber halo">total energy E = γmc² = 5/3 mc²</text>
+	<text x="360" y="60" class="t-sm t-b">E² = (pc)² + (mc²)²</text>
+	<text x="360" y="84" class="t-sm f-muted">drawn for v = 0.8c (γ = 5/3)</text>
+	<text x="360" y="120" class="t-sm">at rest: p = 0, so E = mc²</text>
+	<text x="360" y="144" class="t-sm">light: m = 0, so E = pc</text>
+	<text x="360" y="168" class="t-sm f-muted">(Chapter 7.4’s p = E/c)</text>
+</svg>

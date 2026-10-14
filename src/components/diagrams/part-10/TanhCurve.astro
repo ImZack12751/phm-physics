@@ -1,0 +1,37 @@
+---
+// Speed β = tanh φ against rapidity φ. Rapidities add simply; speeds don't. 0.5c (φ = 0.549) plus 0.92c (φ = 1.589)
+// gives φ = 2.138, which is 0.9726c, not 1.42c.
+const L = 60, R = 560, T = 30, B = 240, pMax = 3;
+const X = (p: number) => L + (p / pMax) * (R - L);
+const Y = (b: number) => B - b * (B - T);
+const curve = Array.from({ length: 200 }, (_, i) => { const p = (pMax * i) / 199; return `${X(p).toFixed(1)},${Y(Math.tanh(p)).toFixed(1)}`; }).join(' ');
+const p1 = Math.atanh(0.5), p2 = Math.atanh(0.92), ps = p1 + p2;
+---
+
+<svg class="dg" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+	{[0, 0.5, 1].map((b) => (
+		<>
+			<line x1={L} y1={Y(b)} x2={R} y2={Y(b)} class={b === 1 ? 's-rose w1 dash' : 's-grid w1'} />
+			<text x={L - 8} y={Y(b) + 4} class="t-end t-sm f-muted">{b}</text>
+		</>
+	))}
+	{[0, 1, 2, 3].map((p) => <text x={X(p)} y={B + 18} class="t-mid t-sm f-muted">{p}</text>)}
+	<text x={R} y={Y(1) - 6} class="t-end t-sm f-rose">c: never reached</text>
+	<line x1={L} y1={B} x2={R} y2={B} class="s-fg w2" />
+	<line x1={L} y1={B} x2={L} y2={T} class="s-fg w2" />
+	<polyline points={curve} class="s-amber w3" fill="none" />
+	{[[p1, 0.5, 'f-sky'], [p2, 0.92, 'f-sky'], [ps, Math.tanh(ps), 'f-green']].map(([p, b, cls]) => (
+		<>
+			<line x1={X(p as number)} y1={B} x2={X(p as number)} y2={Y(b as number)} class="s-muted w1 dash" />
+			<circle cx={X(p as number)} cy={Y(b as number)} r="5" class={cls as string} />
+		</>
+	))}
+	<text x={X(p1) + 8} y={Y(0.5) + 16} class="t-sm halo">0.5c: φ = 0.549</text>
+	<text x={X(p2) + 8} y={Y(0.92) + 18} class="t-sm halo">0.92c: φ = 1.589</text>
+	<text x={X(ps) + 8} y={Y(Math.tanh(ps)) + 26} class="t-sm f-green halo">sum: φ = 2.138 → 0.973c</text>
+	<line x1={X(0)} y1={B - 30} x2={X(p1)} y2={B - 30} class="s-sky w2" />
+	<line x1={X(p1)} y1={B - 30} x2={X(ps)} y2={B - 30} class="s-violet w2" />
+	<text x={X(ps / 2)} y={B - 36} class="t-mid t-sm f-muted">rapidities add like ordinary numbers</text>
+	<text x={(L + R) / 2} y="288" class="t-mid t-sm">rapidity φ</text>
+	<text x="22" y={(T + B) / 2} class="t-mid t-sm" transform={`rotate(-90 22 ${(T + B) / 2})`}>speed β = tanh φ</text>
+</svg>

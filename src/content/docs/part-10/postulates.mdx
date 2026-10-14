@@ -1,0 +1,316 @@
+---
+title: The postulates of relativity
+description: Galileo's ship and the principle of relativity, why adding speeds the everyday way fails for light, the Michelson–Morley experiment and its missing fringe shift, Einstein's two postulates, the cosmic speed limit, and why two observers can disagree about whether two events happened at the same time.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import Interferometer from '../../../components/diagrams/part-10/Interferometer.astro';
+import TrainFlash from '../../../components/diagrams/part-10/TrainFlash.astro';
+import SimultaneityLab from '../../../components/sims/SimultaneityLab.astro';
+
+## The scene
+
+Chapter 1.2 planned the *Hail Mary*'s trip with Newton's equations of motion: speed up at 1.5 g to the halfway point, flip, slow down. The answer was 5.55 years, with a top speed of **4.29 times the speed of light**. That is impossible, and the novel knows it: Grace experiences only about four years on the way, while more than a decade passes on Earth.
+
+The novel also has an alien who gets this wrong. Rocky's people never discovered relativity; to him, time is simply the same everywhere. So the Eridians planned their mission with Newton's physics, and, as it turns out, loaded far more fuel than they needed. This part of the course works out why. It starts here, with the two simple ideas that overturned Newton's absolute time.
+
+## Prerequisites
+
+<Prereqs notes={{ 'equations-of-motion': 'the flip-and-burn trip and its impossible 4.29c', vectors: 'relative velocity: adding and subtracting velocities', 'newtons-laws': 'Newton’s first law and inertia', 'apparent-weight': 'why acceleration can be felt but steady motion cannot', 'em-spectrum': 'light as an electromagnetic wave travelling at c', 'wave-properties': 'interference of waves' }} />
+
+## The concept
+
+### Galileo's ship
+
+In 1632 Galileo asked his readers to imagine shutting themselves in a cabin below decks on a large ship. Watch flies buzzing, fish swimming in a bowl, drops falling from a bottle into a narrow jar. Now let the ship move at a steady speed on a calm sea. Nothing changes: the drops still fall straight into the jar, the fish swim just as easily in every direction. **No experiment inside the cabin can tell you whether the ship is moving steadily or at rest.**
+
+A place that is not accelerating, where Newton's first law holds, is called an <Term id="inertial-frame">inertial frame</Term>. Galileo's idea, the <Term id="principle-of-relativity">principle of relativity</Term>, is that the laws of physics are the same in every inertial frame. There is no "truly at rest". Only **relative** motion means anything.
+
+Grace knows this from experience. When the *Hail Mary*'s engines are on, he feels 1.5 g, because acceleration can be felt (Chapter 2.3). When they are off and the ship coasts, he floats, and nothing inside the ship can tell him how fast it is going.
+
+### Adding speeds the everyday way
+
+Chapter 0.7 added velocities in the obvious way. If the ship moves at $v$ relative to Earth, and Grace throws a ball forward at $u'$ relative to the ship, then relative to Earth the ball moves at
+
+$$
+u = u' + v.
+$$
+
+This rule, and the idea that time ticks at the same rate for everyone, together make up the **Galilean** picture of motion. It works brilliantly for ships, cars and planets. But apply it to light. If the ship shines a lamp forward, the rule says Earth should see the light moving at $c + v$. Shine it backwards, $c - v$.
+
+### What is light moving relative to?
+
+In the 1800s most physicists assumed that light, being a wave, must travel through a medium, as sound does through air (Chapter 7.1). They called it the **aether**. Its speed $c$ would then be relative to the aether, and as the Earth moves around the Sun at 30 km/s, we should feel an "aether wind" and measure light moving at slightly different speeds in different directions.
+
+In 1887 Albert Michelson and Edward Morley built an instrument to measure that difference. It split a beam of light into two, sent the halves along two arms at right angles, reflected them back and recombined them so that they interfered (Chapter 7.1). If one arm pointed into the aether wind, its round trip would take slightly longer, and rotating the instrument would shift the interference pattern.
+
+<Figure caption="The Michelson–Morley experiment (schematic). A half-silvered mirror splits the light into two arms at right angles; the two beams reflect and recombine to make interference fringes. An aether wind would make one round trip longer than the other, and turning the instrument by 90° should have shifted the fringes by about 0.4. They moved by less than 0.02." alt="A lamp on the left sends a beam to a half-silvered mirror set at 45 degrees. One beam continues right to mirror A and back; the other goes up to mirror B and back. Both return to the half-silvered mirror and go down to the eye, labelled to the eye: interference fringes. A red arrow at the bottom right is labelled aether wind, with a question mark, and a note: arm along Earth's motion? Text at the top left: expected shift on turning, about 0.4 fringe; observed, less than 0.02.">
+	<Interferometer />
+</Figure>
+
+The Formulas section works out the expected shift: about 0.4 of a fringe. They saw less than 0.02. Michelson called it a "decidedly negative" result. Light travelled at the same speed in every direction, whichever way the Earth was moving. Many later, far more precise experiments agree.
+
+### Einstein's two postulates
+
+In 1905 Albert Einstein took the result at face value and built a theory on two statements, the <Term id="postulates-of-relativity">postulates of special relativity</Term>:
+
+1. **The principle of relativity.** The laws of physics are the same in every inertial frame. (Galileo's idea, extended to electricity, magnetism and light.)
+2. **The constancy of the speed of light.** Light in a vacuum travels at $c$ in every inertial frame, whatever the motion of its source or of the observer.
+
+Each sounds harmless. Together they are explosive, because they contradict $u = u' + v$. If a ship moving at half the speed of light shines a lamp forward, the crew measure the light at $c$, and so does Earth. Something in our everyday picture of space and time must give way. The rest of Part 10 shows what: moving clocks run slow (Chapter 10.2), moving objects are shortened (Chapter 10.4), and speeds add in a new way (Chapter 10.5), all so that light always travels at $c$.
+
+### A speed limit
+
+One consequence is that nothing with mass can be accelerated up to the speed of light (Chapter 10.3 shows the energy needed grows without limit). Newton's equations, which let speed grow forever, are only an approximation for speeds much less than $c$. That is why Chapter 1.2's 4.29c can't be right, and why the novel's numbers come out the way they do (Chapter 10.6).
+
+### "At the same time" depends on who's asking
+
+The strangest consequence is about time itself. An <Term id="event">event</Term> is something that happens at one place and one moment, like a flash going off. Are two events **simultaneous**? In Newton's world, yes or no, for everyone. In Einstein's, it depends on the observer.
+
+<Figure caption="Relativity of simultaneity. A flash goes off in the middle of a moving ship. In the ship's frame, light reaches both ends at the same moment. In Earth's frame, the rear end moves towards the light and the front end away from it, while the light still travels at c, so the rear is hit first." alt="Top: a ship drawn as a rectangle, labelled in the ship's frame, with a flash in the middle and light going both ways; notes: rear hit at t, front hit at the same t. Bottom: the same ship, labelled in Earth's frame, ship moving right at v, slightly shifted right with a dashed line marking where the flash happened and an arrow labelled v; notes: rear rushes towards the light, hit first; front runs away, hit later. A note at the top right: light goes at c in both frames, so the two frames disagree about at the same time.">
+	<TrainFlash />
+</Figure>
+
+Imagine a flash in the exact middle of the *Hail Mary*. For Grace, light runs at $c$ to both ends, which are equally far away, so it arrives at the front and the back at the same moment. Now watch from Earth as the ship flies past. The light still travels at $c$ in both directions (postulate 2). But while it travels, the rear of the ship moves **towards** the place where the flash happened and the front moves **away**. So, for the Earth observer, the light reaches the rear first.
+
+Both are right. Two events that are simultaneous in one frame are not simultaneous in another moving relative to it. This is the <Term id="relativity-of-simultaneity">relativity of simultaneity</Term>, and it means there is no universal "now". The size of the effect is $\gamma L_{0}v/c^{2}$, tiny for everyday speeds and huge near $c$, as the simulation shows (and Chapter 10.5 derives).
+
+## Formulas
+
+### The Galilean transformation
+
+For a frame moving at $v$ along $x$, the everyday rules are
+
+$$
+\boxed{x' = x - vt \qquad t' = t \qquad u' = u - v}
+$$
+
+Applied to light ($u = c$), they would give $u' = c - v$: the prediction the Michelson–Morley experiment ruled out.
+
+### The expected Michelson–Morley shift
+
+Suppose the apparatus moves at $v$ through an aether, with each arm of length $L$. For the arm along the motion, light goes out against the wind at $c - v$ and back at $c + v$:
+
+$$
+t_{\parallel} = \frac{L}{c - v} + \frac{L}{c + v} = \frac{2Lc}{c^{2} - v^{2}} = \frac{2L}{c}\cdot\frac{1}{1 - \beta^{2}} \qquad \beta = \frac{v}{c}
+$$
+
+For the arm across the motion, the light must aim slightly upstream; by Pythagoras its speed across is $\sqrt{c^{2} - v^{2}}$:
+
+$$
+t_{\perp} = \frac{2L}{\sqrt{c^{2} - v^{2}}} = \frac{2L}{c}\cdot\frac{1}{\sqrt{1 - \beta^{2}}}
+$$
+
+For small $\beta$, $1/(1 - \beta^{2}) \approx 1 + \beta^{2}$ and $1/\sqrt{1 - \beta^{2}} \approx 1 + \tfrac{1}{2}\beta^{2}$ (Chapter C.2's linear approximation), so
+
+$$
+\boxed{\Delta t = t_{\parallel} - t_{\perp} \approx \frac{2L}{c}\left(\beta^{2} - \tfrac{1}{2}\beta^{2}\right) = \frac{L}{c}\,\beta^{2}}
+$$
+
+The path difference is $c\,\Delta t = L\beta^{2}$, and turning the apparatus by 90° swaps the arms, doubling the change to $2L\beta^{2}$. Dividing by the wavelength gives the expected fringe shift.
+
+### The simultaneity offset
+
+For a flash in the middle of a ship of rest length $L_{0}$, the Earth observer sees the ends hit at times differing by (Chapter 10.5 derives it)
+
+$$
+\boxed{\Delta t = \frac{\gamma L_{0}v}{c^{2}}} \qquad \gamma = \frac{1}{\sqrt{1 - v^{2}/c^{2}}}\ \text{(Chapter 10.2)}
+$$
+
+## Worked examples
+
+<Example n={1} title="The impossible trip" book>
+Chapter 1.2's Newtonian flip-and-burn to Tau Ceti (11.912 ly) at 1.5 g reached a peak speed of $v = \sqrt{ad}$. Find it, and the Galilean prediction for the speed of light from the ship's forward lamp at that moment.
+
+$$
+v_{\text{peak}} = \sqrt{14.71\ \text{m/s}^{2} \times 11.912 \times 9.461 \times 10^{15}\ \text{m}} = 1.288 \times 10^{9}\ \text{m/s} = 4.29\,c
+$$
+
+$$
+u_{\text{Galilean}} = c + v = 5.29\,c
+$$
+
+Both are wrong. The second postulate says the lamp's light moves at $c$ for everyone, and Chapter 10.6 shows that the ship never quite reaches $c$.
+</Example>
+
+<Example n={2} title="What Michelson and Morley expected">
+Their light paths were about 11 m long, the Earth moves at about 30 km/s, and take the light's wavelength as 550 nm. Find the expected time difference, path difference and fringe shift on turning.
+
+$$
+\beta = \frac{3.0 \times 10^{4}\ \text{m/s}}{3.0 \times 10^{8}\ \text{m/s}} = 1.0 \times 10^{-4} \qquad \Delta t = \frac{L}{c}\beta^{2} = \frac{11\ \text{m}}{3.0 \times 10^{8}\ \text{m/s}} \times 1.0 \times 10^{-8} = 3.7 \times 10^{-16}\ \text{s}
+$$
+
+$$
+c\,\Delta t = L\beta^{2} = 1.1 \times 10^{-7}\ \text{m} \qquad \text{shift} = \frac{2L\beta^{2}}{\lambda} = \frac{2.2 \times 10^{-7}\ \text{m}}{5.5 \times 10^{-7}\ \text{m}} = 0.40\ \text{fringe}
+$$
+
+A time difference of less than a millionth of a billionth of a second, yet interference made it measurable. They saw less than a twentieth of the expected shift.
+</Example>
+
+<Example n={3} title="Light from Astrophage" book>
+Astrophage can travel at 0.92c. A cell moving towards a detector shines Petrova light ahead of it. By the Galilean rule, how fast should that light arrive? How fast does it?
+
+$$
+u_{\text{Galilean}} = c + 0.92c = 1.92c \qquad u_{\text{measured}} = c
+$$
+
+The light arrives at exactly $c$. What changes is its wavelength: it is strongly blueshifted (Chapter 10.5), but its speed never changes.
+</Example>
+
+<Example n={4} title="Simultaneity on the Hail Mary" book>
+A flash goes off in the middle of a ship 100 m long (our round number). For the crew, light reaches both ends after how long? If the ship passes Earth at 0.6c ($\gamma = 1.25$), by how much do the two arrivals differ for Earth?
+
+$$
+t_{\text{ship}} = \frac{50\ \text{m}}{3.0 \times 10^{8}\ \text{m/s}} = 1.7 \times 10^{-7}\ \text{s} = 167\ \text{ns}
+$$
+
+$$
+\Delta t = \frac{\gamma L_{0}v}{c^{2}} = \frac{1.25 \times 100\ \text{m} \times 0.6}{3.0 \times 10^{8}\ \text{m/s}} = 2.5 \times 10^{-7}\ \text{s} = 250\ \text{ns}
+$$
+
+For Grace the two ends light up together; for Earth the rear lights up a quarter of a microsecond earlier than the front.
+</Example>
+
+<Example n={5} title="Why everyday life looks Galilean">
+A car passes at 30 m/s with a 4 m flash-to-ends set-up like Example 4 ($L_{0} = 4$ m, $\gamma \approx 1$). How big is the simultaneity offset?
+
+$$
+\Delta t \approx \frac{L_{0}v}{c^{2}} = \frac{4\ \text{m} \times 30\ \text{m/s}}{(3.0 \times 10^{8}\ \text{m/s})^{2}} = 1.3 \times 10^{-15}\ \text{s}
+$$
+
+About a femtosecond: far too small to notice. Relativity's effects scale with $v/c$ or $v^{2}/c^{2}$, so at everyday speeds Newton and Galileo are excellent approximations.
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** Galileo's ship (1632), the Michelson–Morley null result (1887; expected about 0.4 fringe, observed less than 0.02), Einstein's two postulates (1905) and the relativity of simultaneity are the foundations of special relativity, confirmed by countless experiments since (OpenStax *University Physics* Vol. 3, chapter 5).
+
+**Weir's inventions.** In the novel, the Eridians are brilliant engineers who never discovered relativity, so they planned their trip with Newton's physics and carried far more fuel than they needed. An astrophysicist interviewed about the novel, Dr. Becky Smethurst, finds this plausible: engineering can run ahead of theory. The 100 m ship is our round number.
+
+**How realistic are the numbers?** The novel's ship time (about four years) and Earth time (over a decade) are what relativity predicts, and Smethurst found the novel's timeline checks out. Chapter 10.6 does the calculation.
+</RealVsBook>
+
+## Interactive simulation
+
+<SimultaneityLab />
+
+Things to try: set the speed to 0 and check that both ends light up together in either view. At 0.6c, switch between the ship's and Earth's views. At 0.99c the Earth view shows the rear hit long before the front.
+
+## Practice set
+
+<Problem n={1} level="easy">
+State Einstein's two postulates in your own words.
+
+<Solution>
+(1) The laws of physics are the same for every observer moving at a steady velocity. (2) Every such observer measures light in a vacuum to travel at the same speed, $c$, whatever the motion of the light's source.
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy" book>
+With its engines off, the *Hail Mary* coasts at a steady speed. Can Grace do an experiment inside the ship to find that speed? With the engines on?
+
+<Solution>
+Coasting: no, by the principle of relativity; only motion relative to something outside (stars, Earth) can be measured. Engines on: he can measure the acceleration (he feels 1.5 g), but still not the speed.
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy">
+A train moves at 40 m/s and a passenger walks forward at 1.5 m/s. What is the passenger's speed relative to the ground, in the everyday (Galilean) picture? Why is that fine here?
+
+<Solution>
+$40 + 1.5 = 41.5$ m/s. Both speeds are so much less than $c$ that relativistic corrections are about $10^{-14}$, far too small to matter.
+</Solution>
+</Problem>
+
+<Problem n={4} level="easy">
+What does it mean for two events to be simultaneous, and why can observers disagree about it?
+
+<Solution>
+They happen at the same time in a given frame. Because light (and any signal) travels at the same speed $c$ for all observers, while the observers are moving relative to each other, they reach different conclusions about which of two distant events came first, or whether they were at the same time.
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium">
+Repeat Example 2's estimate for an apparatus with 30 m arms (as in later, improved versions). What fringe shift would an aether wind of 30 km/s give?
+
+<Solution>
+$2L\beta^{2}/\lambda = 2 \times 30 \times 10^{-8}/5.5 \times 10^{-7} = 1.1$ fringes, larger and easier to see. Nothing was seen either way.
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium">
+Check the arm times in Example 2 exactly: with $L = 11$ m and $\beta = 10^{-4}$, find $t_{\parallel}$ and $t_{\perp}$. Why do you need many significant figures?
+
+<Solution>
+$2L/c = 7.34 \times 10^{-8}$ s. $t_{\parallel} = 7.34 \times 10^{-8}/(1 - 10^{-8})$ and $t_{\perp} = 7.34 \times 10^{-8}/\sqrt{1 - 10^{-8}}$ differ only in the ninth significant figure, by $3.7 \times 10^{-16}$ s. The difference is a few parts in a billion of each time, which is why the approximation $\Delta t \approx (L/c)\beta^{2}$ is the practical way to compute it.
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium" book>
+The ship in Example 4 passes Earth at 0.9c ($\gamma = 2.29$). By how much do the arrivals at the two ends differ for Earth?
+
+<Solution>
+$\Delta t = 2.29 \times 100 \times 0.9/3.0 \times 10^{8} = 6.9 \times 10^{-7}$ s $= 690$ ns.
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium" book>
+The Galilean rule says light from a lamp on a ship moving at $v$ travels at $c + v$ forwards and $c - v$ backwards for Earth. If Earth timed light along the ship's length (100 m) both ways at 0.6c, what would Galileo predict for the two times (ignoring the ship's motion during the trip)? What does relativity predict for the speeds?
+
+<Solution>
+Galilean: $100/(1.6c) = 208$ ns forwards and $100/(0.4c) = 833$ ns backwards. Relativity: the speed is $c$ in both directions in both frames, though the times still differ in Earth's frame because the ship moves during the flight (and is shortened, Chapter 10.4).
+</Solution>
+</Problem>
+
+<Problem n={9} level="medium">
+Earth's orbital speed is 30 km/s. Find $\beta$ and $\beta^{2}$. Why are relativistic effects in the Solar System so hard to see?
+
+<Solution>
+$\beta = 10^{-4}$, $\beta^{2} = 10^{-8}$. Most relativistic effects scale as $\beta^{2}$, so they change measurements by parts in a hundred million, detectable only with very precise instruments like interferometers and atomic clocks.
+</Solution>
+</Problem>
+
+<Problem n={10} level="challenging" book>
+The Eridians planned with Newton's physics. Using Chapter 1.2's Newtonian formulas, what top speed would a 1.5 g flip-and-burn to Tau Ceti predict, and what would a Newtonian engineer conclude about a trip from Erid that is a few times longer?
+
+<Solution>
+$v = \sqrt{ad} = 4.29c$ for 11.9 ly; for longer trips, more still, growing as $\sqrt{d}$. A Newtonian engineer would expect speeds of several times $c$ and correspondingly short trips, so would plan fuel for enormous speed changes. In reality the ship never reaches $c$ (Chapter 10.6), so the real fuel need is very different.
+</Solution>
+</Problem>
+
+<Problem n={11} level="challenging">
+For the simultaneity offset $\Delta t = \gamma L_{0}v/c^{2}$, show that the units are seconds, and find $\Delta t$ for $L_{0} = 1$ light-year and $v = 0.5c$ ($\gamma = 1.155$).
+
+<Solution>
+$\text{m} \times (\text{m/s})/(\text{m/s})^{2} = \text{s}$ ✓. With $L_{0} = c \times 1$ yr: $\Delta t = 1.155 \times c(1\ \text{yr}) \times 0.5c/c^{2} = 0.577$ yr, about seven months. Over interstellar distances, "now" differs by months between frames.
+</Solution>
+</Problem>
+
+<Problem n={12} level="challenging">
+In Example 2, why does the answer depend on the wavelength of the light used, while the expected time difference does not?
+
+<Solution>
+The time (and path) difference depends only on $L$, $v$ and $c$. Interference fringes measure that path difference in units of wavelengths, so a shorter wavelength gives a bigger fringe shift for the same path difference.
+</Solution>
+</Problem>
+
+## Summary
+
+- Galileo: no experiment inside a smoothly moving ship reveals its speed. The laws of physics are the same in every inertial (non-accelerating) frame.
+- The everyday rule $u = u' + v$ would make light's speed depend on the observer. Michelson and Morley (1887) looked for that and found nothing: expected about 0.4 fringe, observed less than 0.02.
+- Einstein's postulates (1905): the laws of physics are the same in every inertial frame, and light travels at $c$ in every inertial frame.
+- Consequences: Newtonian motion is only an approximation for $v \ll c$; nothing with mass reaches $c$; and simultaneity is relative, with an offset $\gamma L_{0}v/c^{2}$.
+
+**Formulas from this chapter**
+
+$$
+x' = x - vt,\ \ t' = t\ \ \text{(Galilean, for } v \ll c\text{)} \qquad \Delta t_{\text{MM}} \approx \frac{L}{c}\beta^{2} \qquad \Delta t_{\text{sim}} = \frac{\gamma L_{0}v}{c^{2}}
+$$
+
+## Sources
+
+- Galileo's ship (1632): Wikipedia, [Galileo's ship](https://en.wikipedia.org/wiki/Galileo%27s_ship). The postulates, simultaneity and Galilean relativity: OpenStax, [*University Physics Volume 3*, §5.1](https://openstax.org/books/university-physics-volume-3/pages/5-1-invariance-of-physical-laws) and [§5.2](https://openstax.org/books/university-physics-volume-3/pages/5-2-relativity-of-simultaneity). Einstein's 1905 paper: Wikipedia, [Special relativity](https://en.wikipedia.org/wiki/Special_relativity).
+- The Michelson–Morley experiment (1887; expected about 0.4 fringe, observed less than 0.02; an 11 m light path): Wikipedia, [Michelson–Morley experiment](https://en.wikipedia.org/wiki/Michelson%E2%80%93Morley_experiment).
+- The Newtonian trip and its 4.29c: this course, [Chapter 1.2](/part-1/equations-of-motion/). Astrophage at up to 0.92c: readifyai reader guide, [Astrophage](https://readifyai.com/en/books/Project%20Hail%20Mary/wiki/Astrophage) (not an official source).
+- The Eridians don't know relativity and planned with Newtonian physics, so Blip-A carries surplus fuel: Looper, ["How Long Was Rocky In The Tau Ceti System?"](https://www.looper.com/2267197/how-long-rocky-tau-ceti-system-project-hail-mary/); Inverse, ["Reel Science: Project Hail Mary"](https://inverse.com/entertainment/project-hail-mary-time-dilation-relativity) (with astrophysicist Dr. Becky Smethurst, who finds the novel's timeline checks out).

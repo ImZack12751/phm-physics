@@ -1,0 +1,33 @@
+---
+// The Michelson–Morley interferometer (schematic). Light is split into two beams at right angles, sent to mirrors and back,
+// and recombined. If Earth moved through a light-carrying "aether", the two round trips would take different times and the
+// fringes would shift by about 0.4 when the apparatus was turned; less than 0.02 was seen.
+const SX = 70, SY = 160, BX = 280, BY = 160, MX = 500, MY = 40;
+const head = (x: number, y: number, dx: number, dy: number) => `${x},${y} ${x - 10 * dx + 5 * dy},${y - 10 * dy - 5 * dx} ${x - 10 * dx - 5 * dy},${y - 10 * dy + 5 * dx}`;
+---
+
+<svg class="dg" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+	<circle cx={SX} cy={SY} r="12" class="f-amber" />
+	<text x={SX} y={SY + 30} class="t-mid t-sm">lamp</text>
+	<line x1={SX + 14} y1={SY} x2={BX - 6} y2={BY} class="s-amber w2" />
+	<polygon points={head(BX - 30, BY, 1, 0)} class="f-amber" />
+	<line x1={BX - 18} y1={BY + 18} x2={BX + 18} y2={BY - 18} class="s-sky w3" />
+	<text x={BX + 20} y={BY + 34} class="t-sm">half-silvered mirror</text>
+	<line x1={BX} y1={BY} x2={MX - 6} y2={BY} class="s-amber w2" />
+	<line x1={BX} y1={BY - 4} x2={MX - 6} y2={BY - 4} class="s-amber w1 dash" />
+	<rect x={MX} y={BY - 26} width="8" height="52" class="f-sky" />
+	<text x={MX + 14} y={BY + 4} class="t-sm">mirror A</text>
+	<line x1={BX} y1={BY} x2={BX} y2={MY + 6} class="s-amber w2" />
+	<line x1={BX - 4} y1={BY} x2={BX - 4} y2={MY + 6} class="s-amber w1 dash" />
+	<rect x={BX - 26} y={MY - 2} width="52" height="8" class="f-sky" />
+	<text x={BX + 32} y={MY + 6} class="t-sm">mirror B</text>
+	<line x1={BX} y1={BY} x2={BX} y2="270" class="s-amber w2" />
+	<polygon points={head(BX, 270, 0, 1)} class="f-amber" />
+	<text x={BX + 12} y="270" class="t-sm">to the eye: interference fringes</text>
+	<text x={MX - 120} y="215" class="t-mid t-sm f-muted">arm along Earth's motion?</text>
+	<line x1="380" y1="250" x2="470" y2="250" class="s-rose w2" />
+	<polygon points="482,250 470,244 470,256" class="f-rose" />
+	<text x="380" y="240" class="t-sm f-rose">"aether wind"?</text>
+	<text x="20" y="40" class="t-sm">expected shift on turning: about 0.4 fringe</text>
+	<text x="20" y="60" class="t-sm t-b">observed: less than 0.02</text>
+</svg>

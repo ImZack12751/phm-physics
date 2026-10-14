@@ -1,0 +1,33 @@
+---
+// Muons made 15 km up (our round number) falling at 0.995c. Without time dilation, a fraction e^(−t/τ) with t = 50.3 µs and
+// τ = 2.197 µs survives: about 1 in 10¹⁰. With their clocks slowed by γ = 10.0, they age only 5.03 µs: about 10% survive.
+const G = 20, B = 270, X1 = 230, X2 = 430;
+const H = (km: number) => B - (km / 15) * (B - 40);
+const surv = (km: number, gamma: number) => Math.exp(-((15 - km) * 1e3) / (0.995 * 299792458) / (2.197e-6 * gamma));
+const levels = [15, 10, 5, 0];
+---
+
+<svg class="dg" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+	<line x1="60" y1={H(15)} x2="60" y2={B} class="s-fg w2" />
+	{levels.map((k) => (
+		<>
+			<line x1="55" y1={H(k)} x2="65" y2={H(k)} class="s-fg w1" />
+			<text x="50" y={H(k) + 4} class="t-end t-sm f-muted">{k} km</text>
+			<line x1="80" y1={H(k)} x2="560" y2={H(k)} class="s-grid w1" />
+		</>
+	))}
+	<text x={X1} y="26" class="t-mid t-sm t-b">if clocks didn't slow</text>
+	<text x={X2} y="26" class="t-mid t-sm t-b">what really happens</text>
+	{levels.map((k) => {
+		const w1 = 120 * surv(k, 1), w2 = 120 * surv(k, 10.01);
+		return (
+			<>
+				<rect x={X1 - w1 / 2} y={H(k) - 8} width={Math.max(1, w1)} height="16" class="f-rose" />
+				<text x={X1 + 70} y={H(k) + 5} class="t-sm f-rose halo">{surv(k, 1) > 0.01 ? `${Math.round(surv(k, 1) * 100)}%` : `${surv(k, 1).toExponential(0).replace('e-', ' × 10⁻').replace(/\d+$/, (d) => d.replace(/\d/g, (x) => '⁰¹²³⁴⁵⁶⁷⁸⁹'[+x]))}`}</text>
+				<rect x={X2 - w2 / 2} y={H(k) - 8} width={Math.max(1, w2)} height="16" class="f-green" />
+				<text x={X2 + 70} y={H(k) + 5} class="t-sm f-green halo">{Math.round(surv(k, 10.01) * 100)}%</text>
+			</>
+		);
+	})}
+	<text x="300" y="292" class="t-mid t-sm f-muted">fraction of muons still alive at each height (falling at 0.995c, lifetime 2.197 µs)</text>
+</svg>

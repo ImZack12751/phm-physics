@@ -1,0 +1,80 @@
+---
+// Simulation: adding velocities. A ship moves at v relative to Earth; it launches a probe (or Astrophage) at u' relative to
+// the ship. Earth sees u = (u' + v)/(1 + u'v/c²), versus the Galilean u' + v. Rapidities add: φ = artanh β. Also the
+// relativistic Doppler factor for light from the ship.
+---
+
+<div
+	class="sim va"
+	data-title="Velocity adder"
+	data-description="Two sliders set a ship's velocity relative to Earth, v, and the velocity of a probe relative to the ship, u′, each from −0.99 to 0.99 times the speed of light (negative means backwards). A diagram shows three arrows on a speed line from −c to +c: the ship, the probe's Galilean sum u′ + v (which can go beyond c), and the relativistic sum (u′ + v)/(1 + u′v/c²), which never does. A second line shows the rapidities, which simply add. The readout gives the Galilean and relativistic answers, the three rapidities, and the factor by which light emitted from the ship towards Earth is stretched or squeezed, √((1 + β)/(1 − β)) for a receding ship."
+>
+	<p class="sim-title">Simulation: velocity adder</p>
+	<p class="sim-help">Speeds don't add; rapidities do. However close to c you push both sliders, the sum stays below c.</p>
+	<div class="sim-controls">
+		<label>Ship relative to Earth, v/c <input type="range" class="va-v" min="-0.99" max="0.99" step="0.01" value="0.5" /> <output class="va-vv"></output></label>
+		<label>Probe relative to ship, u′/c <input type="range" class="va-u" min="-0.99" max="0.99" step="0.01" value="0.92" /> <output class="va-uv"></output></label>
+	</div>
+	<svg class="dg va-svg" viewBox="0 0 600 190" role="img" aria-label="Speed and rapidity lines showing how velocities combine"></svg>
+	<div class="readout va-out" aria-live="polite"></div>
+</div>
+
+<script>
+	document.querySelectorAll<HTMLElement>('.sim.va').forEach((root) => {
+		const q = <T extends Element>(s: string) => root.querySelector<T>(s)!;
+		const svg = q<SVGSVGElement>('.va-svg'), out = q<HTMLElement>('.va-out');
+		const Vs = q<HTMLInputElement>('.va-v'), Us = q<HTMLInputElement>('.va-u');
+		const NS = 'http://www.w3.org/2000/svg';
+		const el = (tag: string, at: Record<string, string | number>, text?: string) => {
+			const e = document.createElementNS(NS, tag);
+			Object.entries(at).forEach(([k, v]) => e.setAttribute(k, String(v)));
+			if (text) e.textContent = text;
+			svg.append(e);
+			return e;
+		};
+		const C0 = 300, HW = 200; // speed line: ±c at ±200 px; Galilean up to ±2c drawn to ±400 (clipped)
+		const X = (b: number) => C0 + b * HW;
+		el('text', { x: 20, y: 22, class: 't-sm t-b' }, 'speed, as seen from Earth');
+		el('line', { x1: X(-1.4), y1: 50, x2: X(1.4), y2: 50, class: 's-fg w1' });
+		[-1, 1].forEach((b) => {
+			el('line', { x1: X(b), y1: 34, x2: X(b), y2: 66, class: 's-rose w2 dash' });
+			el('text', { x: X(b), y: 80, class: 't-mid t-sm f-rose' }, b > 0 ? '+c' : '−c');
+		});
+		el('text', { x: C0, y: 80, class: 't-mid t-sm f-muted' }, '0');
+		const ar = (y: number, cls: string) => ({ l: el('line', { y1: y, y2: y, class: `${cls} w3` }), h: el('polygon', { class: cls.replace('s-', 'f-') }) });
+		const aShip = ar(40, 's-sky'), aGal = ar(50, 's-muted'), aRel = ar(60, 's-green');
+		const setA = (a: { l: SVGElement; h: SVGElement }, b: number, y: number) => {
+			const x = Math.max(10, Math.min(590, X(b))), d = x >= C0 ? 1 : -1;
+			a.l.setAttribute('x1', String(C0)); a.l.setAttribute('x2', String(x - d * 8));
+			a.h.setAttribute('points', `${x},${y} ${x - d * 10},${y - 5} ${x - d * 10},${y + 5}`);
+		};
+		el('text', { x: 20, y: 112, class: 't-sm t-b' }, 'rapidity φ (these simply add)');
+		const PX = 50, Y2 = 140;
+		el('line', { x1: C0 - 280, y1: Y2, x2: C0 + 280, y2: Y2, class: 's-fg w1' });
+		[-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5].forEach((p) => {
+			el('line', { x1: C0 + p * PX, y1: Y2 - 4, x2: C0 + p * PX, y2: Y2 + 4, class: 's-fg w1' });
+			el('text', { x: C0 + p * PX, y: Y2 + 18, class: 't-mid t-sm f-muted' }, String(p));
+		});
+		const r1 = el('line', { y1: Y2 - 8, y2: Y2 - 8, class: 's-sky w3' });
+		const r2 = el('line', { y1: Y2 - 8, y2: Y2 - 8, class: 's-violet w3' });
+		el('text', { x: 580, y: 184, class: 't-end t-sm f-muted' }, 'blue: ship; violet: probe relative to ship; green arrow: true sum');
+		function draw() {
+			const v = +Vs.value, u = +Us.value;
+			q('.va-vv').textContent = v.toFixed(2);
+			q('.va-uv').textContent = u.toFixed(2);
+			const gal = u + v, rel = (u + v) / (1 + u * v);
+			const pv = Math.atanh(v), pu = Math.atanh(u);
+			setA(aShip, v, 40); setA(aGal, gal, 50); setA(aRel, rel, 60);
+			const cl = (x: number) => Math.max(C0 - 280, Math.min(C0 + 280, x));
+			r1.setAttribute('x1', String(C0)); r1.setAttribute('x2', String(cl(C0 + pv * PX)));
+			r2.setAttribute('x1', String(cl(C0 + pv * PX))); r2.setAttribute('x2', String(cl(C0 + (pv + pu) * PX)));
+			const dop = Math.sqrt((1 + v) / (1 - v));
+			out.innerHTML =
+				`<span class="k">Galilean u′ + v</span> = ${gal.toFixed(3)}c${Math.abs(gal) > 1 ? ' (faster than light: wrong)' : ''} &nbsp; <span class="k">relativity (u′ + v)/(1 + u′v/c²)</span> = <b>${rel.toFixed(4)}c</b><br>` +
+				`<span class="k">rapidities</span>: ship ${pv.toFixed(3)} + probe ${pu.toFixed(3)} = ${(pv + pu).toFixed(3)}, and tanh(${(pv + pu).toFixed(3)}) = ${Math.tanh(pv + pu).toFixed(4)} ✓<br>` +
+				`<span class="k">light sent from the ship back to Earth</span>: wavelength × ${dop.toFixed(3)} (${v >= 0 ? 'stretched, ship receding' : 'squeezed, ship approaching'}); a Petrova photon arrives at ${(25.984 * dop).toFixed(2)} µm`;
+		}
+		[Vs, Us].forEach((i) => i.addEventListener('input', draw));
+		draw();
+	});
+</script>

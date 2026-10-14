@@ -1,0 +1,42 @@
+---
+// The Lorentz factor γ = 1/√(1 − β²) against β = v/c, with marked speeds. Flat near 1 for everyday speeds, then rising
+// steeply towards infinity as β → 1.
+const L = 70, R = 560, T = 20, B = 250, gMax = 8;
+const X = (b: number) => L + b * (R - L);
+const Y = (g: number) => B - ((g - 1) / (gMax - 1)) * (B - T);
+const gam = (b: number) => 1 / Math.sqrt(1 - b * b);
+const pts = Array.from({ length: 400 }, (_, i) => {
+	const b = (0.9905 * i) / 399;
+	return `${X(b).toFixed(1)},${Y(gam(b)).toFixed(1)}`;
+}).join(' ');
+const marks = [
+	{ b: 0.5, t: '0.5c: 1.15', dx: 8, dy: -10 },
+	{ b: 0.8, t: '0.8c: 1.67', dx: -10, dy: -12, end: true },
+	{ b: 0.92, t: '0.92c (Astrophage): 2.55', dx: -10, dy: -10, end: true },
+	{ b: 0.99, t: '0.99c: 7.09', dx: -10, dy: 4, end: true },
+];
+---
+
+<svg class="dg" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+	{[1, 2, 4, 6, 8].map((g) => (
+		<>
+			<line x1={L} y1={Y(g)} x2={R} y2={Y(g)} class="s-grid w1" />
+			<text x={L - 8} y={Y(g) + 4} class="t-end t-sm f-muted">{g}</text>
+		</>
+	))}
+	{[0, 0.2, 0.4, 0.6, 0.8, 1].map((b) => <text x={X(b)} y={B + 18} class="t-mid t-sm f-muted">{b}</text>)}
+	<line x1={X(1)} y1={T} x2={X(1)} y2={B} class="s-rose w1 dash" />
+	<text x={X(1) - 6} y={T + 12} class="t-end t-sm f-rose">c: γ → ∞</text>
+	<line x1={L} y1={B} x2={R} y2={B} class="s-fg w2" />
+	<line x1={L} y1={B} x2={L} y2={T} class="s-fg w2" />
+	<polyline points={pts} class="s-amber w3" fill="none" />
+	{marks.map((m) => (
+		<>
+			<circle cx={X(m.b)} cy={Y(gam(m.b))} r="5" class="f-sky" />
+			<text x={X(m.b) + m.dx} y={Y(gam(m.b)) + m.dy} class={`t-sm halo ${m.end ? 't-end' : ''}`}>{m.t}</text>
+		</>
+	))}
+	<text x={X(0.2)} y={Y(1) - 10} class="t-mid t-sm f-muted">everyday speeds: γ ≈ 1</text>
+	<text x={(L + R) / 2} y="290" class="t-mid t-sm">speed as a fraction of light, β = v/c</text>
+	<text x="22" y={(T + B) / 2} class="t-mid t-sm" transform={`rotate(-90 22 ${(T + B) / 2})`}>Lorentz factor γ</text>
+</svg>

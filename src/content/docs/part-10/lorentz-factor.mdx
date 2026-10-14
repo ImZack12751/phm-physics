@@ -1,0 +1,328 @@
+---
+title: The Lorentz factor
+description: Getting to know γ = 1/√(1 − v²/c²) — when it matters and when it doesn't, the low-speed approximation γ ≈ 1 + v²/2c², relativistic momentum γmv and energy γmc², kinetic energy (γ − 1)mc² and how it turns into ½mv², the energy–momentum triangle E² = (pc)² + (mc²)², and why nothing with mass can reach the speed of light.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import GammaCurve from '../../../components/diagrams/part-10/GammaCurve.astro';
+import EnergyTriangle from '../../../components/diagrams/part-10/EnergyTriangle.astro';
+import GammaExplorer from '../../../components/sims/GammaExplorer.astro';
+
+## The scene
+
+Astrophage can travel at up to 92% of the speed of light. Why not 100%, or 150%? It has the energy: each cell is its own fuel tank of $mc^{2}$. Something about high speeds makes going faster harder and harder, until the last few percent cost more than any fuel tank holds.
+
+That something is the Lorentz factor, $\gamma$, which appeared in Chapter 10.2's time dilation. The same factor turns up in momentum and energy, and it explains both the speed limit and why Newton's physics works so well at everyday speeds.
+
+## Prerequisites
+
+<Prereqs notes={{ 'time-dilation': 'the Lorentz factor γ from the light clock', 'kinetic-potential-energy': 'kinetic energy ½mv²', momentum: 'momentum mv and its conservation', 'mass-energy': 'E = mc² and rest energy', 'slopes-and-limits': 'the tangent-line approximation', derivatives: 'the power rule' }} />
+
+## The concept
+
+### The shape of γ
+
+$$
+\gamma = \frac{1}{\sqrt{1 - v^{2}/c^{2}}} = \frac{1}{\sqrt{1 - \beta^{2}}}
+$$
+
+At everyday speeds, $\beta$ is tiny and $\gamma$ is so close to 1 that no one could notice. It reaches 1.005 only at 10% of the speed of light, 1.155 at 50%, 2 at 86.6%, and then soars: 7.09 at 99%, 22.4 at 99.9%. As $v \to c$, $\gamma \to \infty$.
+
+<Figure caption="The Lorentz factor against speed. It stays very close to 1 for most of the range, then climbs steeply and heads to infinity at the speed of light." alt="A graph of gamma from 1 to 8 against v over c from 0 to 1. An orange curve stays almost flat near 1 up to about 0.5, then curves up steeply towards a dashed vertical line at 1 labelled c, gamma goes to infinity. Marked points: 0.5c, 1.15; 0.8c, 1.67; 0.92c, Astrophage, 2.55; 0.99c, 7.09. A label near the left: everyday speeds, gamma approximately 1.">
+	<GammaCurve />
+</Figure>
+
+### Why Newton works: γ at low speed
+
+For small $\beta$, the Formulas section shows that
+
+$$
+\gamma \approx 1 + \tfrac{1}{2}\beta^{2}.
+$$
+
+After a whole day of accelerating at 1.5 g, the *Hail Mary* is moving at 1270 km/s, faster than anything humans have built. Even so, $\gamma - 1$ is only about $9 \times 10^{-6}$: a correction of nine parts in a million. That is why Newton's laws, which correspond to $\gamma = 1$, work so well everywhere except near light speed.
+
+### Momentum
+
+Chapter 5.5 defined momentum as $mv$ and showed it is conserved in collisions. If we keep that definition at high speed, momentum turns out **not** to be conserved when the same collision is described from different moving frames: the relativity of time spoils the bookkeeping. The quantity that is conserved in every frame is the <Term id="relativistic-momentum">relativistic momentum</Term>
+
+$$
+p = \gamma mv.
+$$
+
+At low speed $\gamma \approx 1$ and this is just $mv$. Near $c$, momentum grows without limit even though the speed barely changes.
+
+### Energy
+
+The same goes for energy. The total energy of a body of mass $m$ moving at $v$ is
+
+$$
+E = \gamma mc^{2}.
+$$
+
+At rest, $\gamma = 1$, and this is the rest energy $mc^{2}$ of Chapter 9.1. The extra, due to motion, is the kinetic energy:
+
+$$
+K = E - mc^{2} = (\gamma - 1)mc^{2}.
+$$
+
+Put in $\gamma \approx 1 + \tfrac{1}{2}\beta^{2}$: $K \approx \tfrac{1}{2}\beta^{2}mc^{2} = \tfrac{1}{2}mv^{2}$. Newton's kinetic energy is the low-speed form of Einstein's.
+
+### The speed limit
+
+Now the reason nothing with mass reaches $c$. To get a body to speed $v$ you must give it kinetic energy $(\gamma - 1)mc^{2}$, and as $v \to c$, $\gamma \to \infty$. Reaching $c$ would take infinite energy. Each extra push adds energy and momentum, but less and less speed. For Astrophage, reaching 0.99c takes almost four times the kinetic energy of reaching 0.92c, for less than 8% more speed.
+
+### The energy–momentum triangle
+
+$E$ and $p$ are linked by a relation that holds at every speed (proved in the Formulas section):
+
+$$
+E^{2} = (pc)^{2} + (mc^{2})^{2}.
+$$
+
+<Figure caption="Energy, momentum and mass fit a right-angled triangle: the total energy is the hypotenuse, the rest energy and pc are the other two sides. At rest the triangle is just a vertical line, E = mc². For light, with no mass, it is just a horizontal line, E = pc." alt="A right-angled triangle. The vertical side, green, is labelled rest energy m c squared. The horizontal side, blue, is labelled momentum term p c equals four thirds m c squared. The hypotenuse, orange, is labelled total energy E equals gamma m c squared equals five thirds m c squared. Text on the right: E squared equals p c squared plus m c squared squared; drawn for v equals 0.8 c, gamma equals five thirds; at rest, p equals 0, so E equals m c squared; light, m equals 0, so E equals p c (Chapter 7.4's p equals E over c).">
+	<EnergyTriangle />
+</Figure>
+
+For light, which has no mass, $E = pc$: exactly the $p = E/c$ that Chapter 7.4 found for light and that drives the *Hail Mary*. Relativity ties the light drive, $E = mc^{2}$ and Newton's mechanics into one picture.
+
+## Formulas
+
+### The low-speed approximation
+
+Let $x = \beta^{2}$ and $f(x) = (1 - x)^{-1/2}$. By the power rule (Chapter C.3, with the scaling rule for the minus sign), $f'(x) = -\tfrac{1}{2}(1 - x)^{-3/2} \times (-1) = \tfrac{1}{2}(1 - x)^{-3/2}$, so $f(0) = 1$ and $f'(0) = \tfrac{1}{2}$. The tangent-line approximation (Chapter C.2) gives
+
+$$
+\boxed{\gamma = (1 - \beta^{2})^{-1/2} \approx 1 + \tfrac{1}{2}\beta^{2}} \qquad (\beta \ll 1)
+$$
+
+### Momentum and energy
+
+$$
+\boxed{p = \gamma mv \qquad E = \gamma mc^{2} \qquad K = (\gamma - 1)mc^{2}}
+$$
+
+Low speed: $K \approx \left(1 + \tfrac{1}{2}\beta^{2} - 1\right)mc^{2} = \tfrac{1}{2}mv^{2}$ ✓, and $p \approx mv$ ✓.
+
+### The energy–momentum relation
+
+$$
+E^{2} - (pc)^{2} = \gamma^{2}m^{2}c^{4} - \gamma^{2}m^{2}v^{2}c^{2} = \gamma^{2}m^{2}c^{4}\left(1 - \frac{v^{2}}{c^{2}}\right) = m^{2}c^{4}
+$$
+
+since $\gamma^{2}(1 - \beta^{2}) = 1$. So
+
+$$
+\boxed{E^{2} = (pc)^{2} + (mc^{2})^{2}} \qquad m = 0 \ \Rightarrow\ E = pc
+$$
+
+### Speed from energy
+
+Rearranging $\gamma = E/mc^{2}$:
+
+$$
+\boxed{\beta = \sqrt{1 - \frac{1}{\gamma^{2}}}} \qquad 1 - \beta \approx \frac{1}{2\gamma^{2}} \ \text{for large } \gamma
+$$
+
+## Worked examples
+
+<Example n={1} title="One day at 1.5 g" book>
+After 24 hours at 1.5 g from rest (ignoring relativity in the speed), the ship moves at $14.71 \times 86\,400 = 1.27 \times 10^{6}$ m/s. Find $\beta$ and $\gamma - 1$.
+
+$$
+\beta = \frac{1.27 \times 10^{6}\ \text{m/s}}{3.00 \times 10^{8}\ \text{m/s}} = 4.24 \times 10^{-3} \qquad \gamma - 1 \approx \tfrac{1}{2}\beta^{2} = \tfrac{1}{2}(4.24 \times 10^{-3})^{2} = 9.0 \times 10^{-6}
+$$
+
+Nine parts in a million. After a day, the crew's clocks have lost less than a second, and Newton's formulas are still excellent.
+</Example>
+
+<Example n={2} title="Pushing a ship to 0.92c" book>
+How much kinetic energy does the course's 100 tonne model ship ($1.0 \times 10^{5}$ kg) need at 0.92c? Compare with Newton's ½mv² and with the energy in the novel's $2 \times 10^{6}$ kg of fuel.
+
+$$
+K = (\gamma - 1)mc^{2} = (2.552 - 1) \times 1.0 \times 10^{5}\ \text{kg} \times 8.988 \times 10^{16}\ \text{J/kg} = 1.39 \times 10^{22}\ \text{J}
+$$
+
+$$
+K_{\text{Newton}} = \tfrac{1}{2}mv^{2} = \tfrac{1}{2} \times 1.0 \times 10^{5} \times (0.92 \times 2.998 \times 10^{8})^{2}\ \text{J} = 3.80 \times 10^{21}\ \text{J}
+$$
+
+$$
+\frac{K}{E_{\text{fuel}}} = \frac{1.39 \times 10^{22}\ \text{J}}{1.80 \times 10^{23}\ \text{J}} = 7.8\%
+$$
+
+Relativity's answer is 3.7 times Newton's. The ship's motion holds about 8% of the fuel's energy; the rest leaves with the exhaust light, as a rocket's energy always mostly does (Chapter 5.6).
+</Example>
+
+<Example n={3} title="The LHC's protons">
+Protons in the Large Hadron Collider each have 6.8 TeV of energy, and a proton's rest energy is 938.3 MeV. Find $\gamma$ and how close to $c$ they move.
+
+$$
+\gamma = \frac{E}{mc^{2}} = \frac{6.8 \times 10^{6}\ \text{MeV}}{938.3\ \text{MeV}} = 7247 \qquad 1 - \beta \approx \frac{1}{2\gamma^{2}} = \frac{1}{2 \times 7247^{2}} = 9.5 \times 10^{-9}
+$$
+
+The protons move at 99.999 999% of the speed of light, short of it by under one part in a hundred million. Doubling their energy would barely change their speed at all; it would double their $\gamma$.
+</Example>
+
+<Example n={4} title="1 kg at half light speed">
+For 1 kg moving at 0.5c, find $\gamma$, the total energy, the kinetic energy, the momentum, and check $E^{2} = (pc)^{2} + (mc^{2})^{2}$.
+
+$$
+\gamma = 1.155 \qquad E = \gamma mc^{2} = 1.155 \times 8.988 \times 10^{16}\ \text{J} = 1.038 \times 10^{17}\ \text{J} \qquad K = 0.155 \times 8.988 \times 10^{16} = 1.39 \times 10^{16}\ \text{J}
+$$
+
+$$
+p = \gamma mv = 1.155 \times 1\ \text{kg} \times 1.499 \times 10^{8}\ \text{m/s} = 1.731 \times 10^{8}\ \text{kg·m/s} \qquad pc = 5.19 \times 10^{16}\ \text{J}
+$$
+
+$$
+\sqrt{(5.19 \times 10^{16})^{2} + (8.988 \times 10^{16})^{2}}\ \text{J} = 1.038 \times 10^{17}\ \text{J} \ \checkmark
+$$
+
+Newton would give $K = 1.12 \times 10^{16}$ J, already 19% too low at half light speed.
+</Example>
+
+<Example n={5} title="When does relativity matter?">
+At what speed does Newton's ½mv² underestimate the kinetic energy by 1%?
+
+For small $\beta$ the next correction gives $K/K_{\text{Newton}} \approx 1 + \tfrac{3}{4}\beta^{2}$ (check numerically: at $\beta = 0.5$, $1.39 \times 10^{16}/1.12 \times 10^{16} = 1.24$, and $1 + \tfrac{3}{4} \times 0.25 = 1.19$). Setting $\tfrac{3}{4}\beta^{2} = 0.01$:
+
+$$
+\beta = \sqrt{0.0133} = 0.115
+$$
+
+At about 12% of the speed of light, Newton's kinetic energy is off by 1%. Below a few percent of $c$, it is almost exact.
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** The Lorentz factor, relativistic momentum $\gamma mv$, energy $\gamma mc^{2}$, kinetic energy $(\gamma - 1)mc^{2}$ and $E^{2} = (pc)^{2} + (mc^{2})^{2}$ are standard (OpenStax *University Physics* Vol. 3, §5.8–5.9) and tested daily in particle accelerators; the LHC's 6.8 TeV protons have $\gamma$ above 7000.
+
+**Weir's inventions.** Astrophage reaching 0.92c by its own light is the novel's (reader-guide) figure. The 100 tonne ship is the course's model from Part 5.
+
+**How realistic are the numbers?** A 100 tonne spacecraft at 0.92c carries $1.4 \times 10^{22}$ J of kinetic energy, about 23 years of humanity's entire energy use ($6.2 \times 10^{20}$ J a year). Only a fuel with mass–energy, like Astrophage, could supply it.
+</RealVsBook>
+
+## Interactive simulation
+
+<GammaExplorer />
+
+Things to try: find the speed where the relativistic kinetic energy is twice Newton's. Then slide up to 0.9999c and watch the ship's kinetic energy approach the fuel's whole energy.
+
+## Practice set
+
+<Problem n={1} level="easy">
+Find $\gamma$ for $\beta = 0.1$ and compare with $1 + \tfrac{1}{2}\beta^{2}$.
+
+<Solution>
+$\gamma = 1/\sqrt{0.99} = 1.00504$; approximation $1.005$. They agree to 0.004%.
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy">
+At what speed is $\gamma = 2$? What is the kinetic energy then, in units of $mc^{2}$?
+
+<Solution>
+$\beta = \sqrt{1 - 1/4} = 0.866$; $K = (2 - 1)mc^{2} = mc^{2}$: the kinetic energy equals the rest energy.
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy">
+Why can't a spacecraft be pushed to exactly $c$?
+
+<Solution>
+Its kinetic energy $(\gamma - 1)mc^{2}$ grows without limit as $v \to c$, so it would need infinite energy.
+</Solution>
+</Problem>
+
+<Problem n={4} level="easy">
+What is the total energy of a body at rest? Of a photon with momentum $p$?
+
+<Solution>
+At rest, $E = mc^{2}$. A photon has $m = 0$, so $E = pc$.
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium" book>
+Find the momentum of one Astrophage cell (our model, $5.24 \times 10^{-13}$ kg) at 0.92c. Compare with Newton's $mv$.
+
+<Solution>
+$p = \gamma mv = 2.552 \times 5.24 \times 10^{-13} \times 0.92 \times 2.998 \times 10^{8} = 3.7 \times 10^{-4}$ kg·m/s; $mv = 1.4 \times 10^{-4}$ kg·m/s, 2.55 times less.
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium">
+Find $\gamma$ for 0.99c and 0.999c. By what factor does the kinetic energy grow between them?
+
+<Solution>
+$\gamma = 7.09$ and $22.37$. $K$ grows from $6.09mc^{2}$ to $21.37mc^{2}$, a factor of 3.5, for a speed increase of less than 1%.
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium">
+A muon at 0.995c (Chapter 10.2) has rest energy 105.7 MeV. What is its total energy?
+
+<Solution>
+$E = \gamma mc^{2} = 10.01 \times 105.7 = 1058$ MeV, about 1.06 GeV.
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium">
+An electron (rest energy 0.511 MeV) moves at 0.99c. Find its kinetic energy in MeV.
+
+<Solution>
+$K = (\gamma - 1)mc^{2} = (7.089 - 1) \times 0.511 = 3.11$ MeV.
+</Solution>
+</Problem>
+
+<Problem n={9} level="medium" book>
+Example 2 found the ship's kinetic energy at 0.92c. What fraction of the fuel's energy would it be at 0.995c?
+
+<Solution>
+$(\gamma - 1) = 9.01$, so $K = 9.01 \times 10^{5} \times 8.988 \times 10^{16} = 8.1 \times 10^{22}$ J, 45% of the fuel's $1.8 \times 10^{23}$ J.
+</Solution>
+</Problem>
+
+<Problem n={10} level="challenging">
+Prove that $\gamma^{2}(1 - \beta^{2}) = 1$, and use it to show that $\gamma^{2}\beta^{2} = \gamma^{2} - 1$.
+
+<Solution>
+$\gamma^{2} = 1/(1 - \beta^{2})$, so $\gamma^{2}(1 - \beta^{2}) = 1$. Expanding, $\gamma^{2} - \gamma^{2}\beta^{2} = 1$, so $\gamma^{2}\beta^{2} = \gamma^{2} - 1$. (This is why $pc = \gamma\beta mc^{2} = \sqrt{\gamma^{2} - 1}\,mc^{2}$.)
+</Solution>
+</Problem>
+
+<Problem n={11} level="challenging">
+A body has total energy $E = 3mc^{2}$. Find its speed and its momentum (in units of $mc$).
+
+<Solution>
+$\gamma = 3$, $\beta = \sqrt{1 - 1/9} = 0.943$. $p = \gamma\beta mc = 3 \times 0.943\,mc = 2.83\,mc$, or from the triangle $pc = \sqrt{9 - 1}\,mc^{2} = 2.83\,mc^{2}$ ✓.
+</Solution>
+</Problem>
+
+<Problem n={12} level="challenging" book>
+The novel's ship time and Earth time (3.75 and 13 years) need an average $\gamma$ of 3.47 (Chapter 10.2, Problem 12). What kinetic energy would the 100 t ship have at that $\gamma$? Could the novel's fuel provide it?
+
+<Solution>
+$K = (3.47 - 1) \times 10^{5} \times 8.988 \times 10^{16} = 2.2 \times 10^{22}$ J, about 12% of the fuel's energy. Energy alone isn't the problem; Chapter 10.6 shows the real constraint is the rocket equation, because most of the fuel's energy leaves as exhaust.
+</Solution>
+</Problem>
+
+## Summary
+
+- $\gamma = 1/\sqrt{1 - \beta^{2}}$ is almost exactly 1 at everyday speeds ($\gamma \approx 1 + \tfrac{1}{2}\beta^{2}$), 1.155 at 0.5c, 2.55 at 0.92c, and infinite at $c$.
+- Momentum is $p = \gamma mv$ and energy $E = \gamma mc^{2}$; kinetic energy $(\gamma - 1)mc^{2}$ becomes $\tfrac{1}{2}mv^{2}$ at low speed.
+- $E^{2} = (pc)^{2} + (mc^{2})^{2}$; for light, $E = pc$.
+- Reaching $c$ would need infinite energy, so nothing with mass can. Near $c$, extra energy adds momentum, not speed.
+
+**Formulas from this chapter**
+
+$$
+\gamma = \frac{1}{\sqrt{1 - \beta^{2}}} \approx 1 + \tfrac{1}{2}\beta^{2} \qquad p = \gamma mv \qquad E = \gamma mc^{2} \qquad K = (\gamma - 1)mc^{2} \qquad E^{2} = (pc)^{2} + (mc^{2})^{2}
+$$
+
+## Sources
+
+- Relativistic momentum and energy, $E^{2} = (pc)^{2} + (mc^{2})^{2}$: OpenStax, [*University Physics Volume 3*, §5.8](https://openstax.org/books/university-physics-volume-3/pages/5-8-relativistic-momentum) and [§5.9](https://openstax.org/books/university-physics-volume-3/pages/5-9-relativistic-energy).
+- The LHC's 6.8 TeV per proton: CERN, [The Large Hadron Collider](https://home.cern/science/accelerators/large-hadron-collider). Proton, electron and muon rest energies: NIST, [CODATA](https://physics.nist.gov/cgi-bin/cuu/Value?mec2mev); Wikipedia, [Muon](https://en.wikipedia.org/wiki/Muon).
+- The model ship (100 t) and the novel's 2 × 10⁶ kg of fuel: this course, [Chapter 5.6](/part-5/thrust/) and [Chapter 9.2](/part-9/energy-density/). Astrophage at up to 0.92c: readifyai reader guide, [Astrophage](https://readifyai.com/en/books/Project%20Hail%20Mary/wiki/Astrophage) (not an official source).

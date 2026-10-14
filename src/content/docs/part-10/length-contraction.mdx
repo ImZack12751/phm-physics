@@ -1,0 +1,264 @@
+---
+title: Length contraction
+description: Why moving things are shorter along their motion, derived from the muon's point of view; proper length; why the distance to Tau Ceti shrinks for the crew; how time dilation and length contraction always agree; and why nothing is squashed sideways.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import TwoViews from '../../../components/diagrams/part-10/TwoViews.astro';
+import Squashed from '../../../components/diagrams/part-10/Squashed.astro';
+import ContractionLab from '../../../components/sims/ContractionLab.astro';
+
+## The scene
+
+Tau Ceti is 11.9 light-years from Earth. Nothing can go faster than light, so surely no traveller could get there in less than 11.9 years? Yet Grace gets there in about four years of his own time. Chapter 10.2 explained it from Earth's point of view: the ship's clocks run slow. But what does Grace himself see? His clocks seem perfectly normal to him. For him to cross the gap in four years at less than the speed of light, the gap itself must be shorter than 11.9 light-years.
+
+It is. Moving distances shrink along the direction of motion, and this chapter shows by how much.
+
+## Prerequisites
+
+<Prereqs notes={{ 'time-dilation': 'time dilation, proper time and the muon experiment', 'lorentz-factor': 'the Lorentz factor γ', 'scientific-notation': 'light-years', kinematics: 'distance = speed × time', trigonometry: 'directions along and across the motion' }} />
+
+## The concept
+
+### The muon's point of view
+
+Go back to the muons of Chapter 10.2, falling through 15 km of air at 0.995c. From the ground, the explanation was time dilation: the muons' clocks run ten times slow, so they live long enough to reach the ground.
+
+Now ride along with a muon. In its own frame, it is at rest, and its clock runs normally: it lives only 2.2 µs on average. The Earth, with its atmosphere, rushes up at 0.995c. In 2.2 µs the ground can only move about 660 m. But the muons do reach the ground; every observer must agree on that. The only way is if, in the muon's frame, the atmosphere is **thinner**: not 15 km but 1.5 km, ten times less.
+
+<Figure caption="The same muon journey from two frames, with γ = 10. Earth sees a 15 km atmosphere and a muon whose clock runs ten times slow. The muon sees its own clock running normally, and the atmosphere rushing past ten times thinner. Both agree that it reaches the ground." alt="Two panels. Left, Earth's view: a tall blue column labelled 15 km above a green ground line, with an orange muon at the top and a dashed arrow down, labelled muon at 0.995c, its clock runs 10 times slow, lives 22 microseconds, goes 6.6 km. Right, the muon's view: the muon at rest above a much thinner blue layer labelled 1.5 km with the ground below it, and an arrow pointing up labelled Earth rushes up; text: its clock is normal, lives 2.2 microseconds, but the atmosphere is 10 times thinner. Bottom: both agree the muon reaches the ground.">
+	<TwoViews />
+</Figure>
+
+This is <Term id="length-contraction">length contraction</Term>: a length that is moving relative to you is shorter, along the direction of motion, by the factor $\gamma$:
+
+$$
+L = \frac{L_{0}}{\gamma}.
+$$
+
+$L_{0}$ is the <Term id="proper-length">proper length</Term>, measured in the frame where the object is at rest (the atmosphere's 15 km, measured on Earth). Every other observer, moving relative to it, measures it shorter.
+
+### Two descriptions, one answer
+
+Time dilation and length contraction are two sides of the same coin. Earth explains the muons' survival with slow clocks; the muon explains it with a short atmosphere. Each description is right in its own frame, and they always give the same answers for things everyone can check, such as whether the muon reaches the ground, or what its own clock reads when it gets there.
+
+The same goes for the *Hail Mary*. Earth says: the trip takes 13 years, but the ship's clocks run slow, so Grace ages only about 4. Grace says: my clocks are fine, but the distance to Tau Ceti is much shorter than 11.9 light-years, so I get there in 4 years. At the ship's top speed, about 0.995c, with $\gamma \approx 10$, the whole gap between Earth and Tau Ceti is only about 1.2 light-years in the crew's frame.
+
+### Only along the motion
+
+Lengths **across** the motion don't change. Imagine two hoops of the same size flying towards each other along their common axis. If moving shrank sizes sideways, each would see the other's hoop as smaller, and pass inside it; but by symmetry, each would also say the other passed outside. Both can't be true, so neither shrinks sideways. Moving objects are squashed only in the direction they move. (This is why the light clock's mirrors in Chapter 10.2 stayed a distance $D$ apart.)
+
+<Figure caption="Length contraction happens only along the motion. At 0.9c (γ = 2.29) a ship is 0.44 of its rest length, and a round planet is squashed into an oval, but heights across the motion are unchanged." alt="Top, labelled at rest: a long rounded rectangle, a ship, labelled length L nought, and a circle labelled round. Bottom, labelled moving right at 0.9c, gamma equals 2.29: the same ship drawn 0.44 times as long, labelled L nought over gamma equals 0.44 L nought, and the circle squashed into a narrow upright ellipse labelled squashed along v, with an arrow labelled v pointing right. A label between them: height unchanged.">
+	<Squashed />
+</Figure>
+
+(What you would actually **see** with your eyes is more complicated, because light from the near and far parts of a fast object reaches you at different times. Length contraction is about what you measure after correcting for that.)
+
+## Formulas
+
+### Length contraction from time dilation
+
+Earth measures the atmosphere's proper length $L_{0}$ and sees the muon cross it at speed $v$ in a time $\Delta t = L_{0}/v$. The muon's own clock reads the proper time $\Delta\tau = \Delta t/\gamma$ (Chapter 10.2). In the muon's frame, the ground approaches at the same speed $v$, and arrives after $\Delta\tau$, so the atmosphere's thickness in the muon's frame is
+
+$$
+L = v\,\Delta\tau = v\,\frac{\Delta t}{\gamma} = \frac{v}{\gamma}\cdot\frac{L_{0}}{v} \qquad\Rightarrow\qquad \boxed{L = \frac{L_{0}}{\gamma} = L_{0}\sqrt{1 - \frac{v^{2}}{c^{2}}}}
+$$
+
+### Trip times at a steady speed
+
+For a trip of proper length $L_{0}$ at a steady speed $v$:
+
+$$
+\boxed{t_{\text{Earth}} = \frac{L_{0}}{v} \qquad \tau_{\text{ship}} = \frac{L_{0}/\gamma}{v} = \frac{t_{\text{Earth}}}{\gamma}}
+$$
+
+The ship's time can be found either way: the shortened distance at speed $v$, or the Earth time divided by $\gamma$.
+
+## Worked examples
+
+<Example n={1} title="The muon's atmosphere">
+At 0.995c ($\gamma = 10.0$), how thick is a 15 km atmosphere in the muon's frame? How far does the ground travel in the muon's 2.197 µs lifetime?
+
+$$
+L = \frac{15\ \text{km}}{10.0} = 1.5\ \text{km} \qquad d = 0.995 \times 2.998 \times 10^{8}\ \text{m/s} \times 2.197 \times 10^{-6}\ \text{s} = 655\ \text{m}
+$$
+
+In one average lifetime the ground comes 655 m closer, about 44% of the 1.5 km, so a good fraction of muons (about 10%, as in Chapter 10.2) reach it. Same answer as Earth's description.
+</Example>
+
+<Example n={2} title="A steady cruise to Tau Ceti" book>
+Suppose the ship could travel the whole 11.912 ly at a steady 0.92c. Find the Earth time, the distance in the crew's frame, and the ship time.
+
+$$
+t_{\text{Earth}} = \frac{11.912\ \text{ly}}{0.92\,c} = 12.95\ \text{yr} \qquad L = \frac{11.912\ \text{ly}}{2.552} = 4.67\ \text{ly}
+$$
+
+$$
+\tau_{\text{ship}} = \frac{4.67\ \text{ly}}{0.92\,c} = 5.07\ \text{yr} \qquad \text{check: } \frac{12.95\ \text{yr}}{2.552} = 5.07\ \text{yr}\ \checkmark
+$$
+
+For the crew, Tau Ceti is only 4.67 light-years away, and they cross it in about five years at 0.92c.
+</Example>
+
+<Example n={3} title="The universe at top speed" book>
+At the *Hail Mary*'s peak speed in the next chapter's calculation, $\gamma = 10.2$. How far away are Earth and Tau Ceti, together, in the crew's frame at that moment?
+
+$$
+L = \frac{11.912\ \text{ly}}{10.2} = 1.17\ \text{ly}
+$$
+
+At top speed the whole journey has shrunk, for the crew, to just over a light-year.
+</Example>
+
+<Example n={4} title="How long is the ship?" book>
+A 100 m ship (our round number) passes Earth at 0.995c. How long is it in Earth's frame? How tall, if it is 20 m tall?
+
+$$
+L = \frac{100\ \text{m}}{10.0} = 10.0\ \text{m} \qquad \text{height: } 20\ \text{m (unchanged)}
+$$
+
+To Earth's instruments, the ship is a 10 m long, 20 m tall disc rushing past.
+</Example>
+
+<Example n={5} title="Earth seen from the ship" book>
+At $\gamma = 10.2$, Earth's 12 742 km diameter along the ship's motion is contracted. To what?
+
+$$
+\frac{12\,742\ \text{km}}{10.2} = 1249\ \text{km}
+$$
+
+Earth is a flattened pancake, 1249 km thick along the line of flight but still 12 742 km across.
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** Length contraction, $L = L_{0}/\gamma$, follows from the postulates and time dilation (OpenStax *University Physics* Vol. 3, §5.4). It is confirmed indirectly in every high-speed experiment: muons, particle accelerators (where beams of particles are measured as flattened) and the agreement of all the relativistic formulas with experiment.
+
+**Weir's inventions.** The ship. The novel's ship-time figures imply contraction factors of around three on average and ten at top speed (Chapter 10.6). The 100 m length and 20 m height are our round numbers.
+
+**How realistic are the numbers?** For the crew, interstellar distances genuinely shrink at high speed: that is the only way a four-year trip to a star twelve light-years away can be consistent with the speed limit. Nothing is ever seen moving faster than light, in either frame.
+</RealVsBook>
+
+## Interactive simulation
+
+<ContractionLab />
+
+Things to try: at 0.6c the ship is 80 m long; at 0.866c, half its length. Check that "crew distance ÷ speed" and "Earth time ÷ γ" always give the same ship time. Push to 0.999c and see the trip shrink to about half a light-year.
+
+## Practice set
+
+<Problem n={1} level="easy">
+A 1.0 m ruler moves past you along its length at 0.6c. How long is it in your frame?
+
+<Solution>
+$\gamma = 1.25$, so $L = 1.0/1.25 = 0.80$ m.
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy">
+The same ruler moves past sideways (at right angles to its length) at 0.6c. How long is it?
+
+<Solution>
+1.0 m: lengths across the motion don't change.
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy">
+Which is the proper length of the Earth–Tau Ceti distance: the 11.912 ly measured from Earth, or the distance measured by the crew of a passing ship?
+
+<Solution>
+The 11.912 ly measured in the frame where Earth and Tau Ceti are at rest (relative to each other, approximately).
+</Solution>
+</Problem>
+
+<Problem n={4} level="easy">
+At what speed is a moving length halved?
+
+<Solution>
+When $\gamma = 2$: $\beta = 0.866$.
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium" book>
+Find the crew-frame distance and ship time for a steady cruise to Tau Ceti at 0.5c.
+
+<Solution>
+$\gamma = 1.155$: distance $11.912/1.155 = 10.32$ ly; ship time $10.32/0.5 = 20.6$ yr (Earth time $23.8$ yr).
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium">
+In the muon's frame (0.995c), how long does the 15 km atmosphere take to pass it? Compare with Earth's time for the crossing.
+
+<Solution>
+$1.5\ \text{km}/(0.995 \times 2.998 \times 10^{8}\ \text{m/s}) = 5.03$ µs; Earth measures 50.3 µs, ten times longer, the same factor $\gamma$.
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium" book>
+What steady speed would let the crew reach Tau Ceti in 3.75 years of ship time? (Hint: $\gamma\beta = L_{0}/(c\tau)$.)
+
+<Solution>
+$\gamma\beta = 11.912/3.75 = 3.177$. Since $\gamma^{2}\beta^{2} = \gamma^{2} - 1$, $\gamma = \sqrt{1 + 3.177^{2}} = 3.33$ and $\beta = 3.177/3.33 = 0.954$. The Earth time is $11.912/0.954 = 12.5$ years.
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium">
+A spaceship 50 m long passes Earth and is measured as 30 m long. How fast is it going?
+
+<Solution>
+$\gamma = 50/30 = 1.667$, so $\beta = \sqrt{1 - 1/1.667^{2}} = \sqrt{1 - 0.36} = 0.80$.
+</Solution>
+</Problem>
+
+<Problem n={9} level="medium">
+Show that for small speeds a moving length shrinks by about $\tfrac{1}{2}\beta^{2}L_{0}$. How much shorter is a 300 m train at 100 m/s?
+
+<Solution>
+$1/\gamma = \sqrt{1 - \beta^{2}} \approx 1 - \tfrac{1}{2}\beta^{2}$, so $L_{0} - L \approx \tfrac{1}{2}\beta^{2}L_{0}$. For the train: $\tfrac{1}{2}(100/3.00 \times 10^{8})^{2} \times 300 = 1.7 \times 10^{-11}$ m, about a sixth of the width of a hydrogen atom.
+</Solution>
+</Problem>
+
+<Problem n={10} level="challenging" book>
+At 0.92c, what does Earth look like from Astrophage (the novel's top speed for it)? Give Earth's thickness along the line of motion.
+
+<Solution>
+$12\,742/2.552 = 4990$ km thick along the motion, 12 742 km across.
+</Solution>
+</Problem>
+
+<Problem n={11} level="challenging">
+Two hoops of equal rest size fly towards each other along their axis. Explain why length contraction can't shrink them sideways, using only the principle of relativity.
+
+<Solution>
+If moving hoops shrank sideways, each would find the other's hoop smaller and conclude the other passes inside it. By symmetry (no frame is special) both would claim this, which is a contradiction about a physical fact: which hoop ends up inside. So sizes across the motion can't change.
+</Solution>
+</Problem>
+
+<Problem n={12} level="challenging" book>
+Rocky's journey from 40 Eridani (16.34 ly from Earth) to Tau Ceti covered about 10 ly (our calculation from the two stars' positions in the sky and their distances). If Blip-A had cruised at 0.92c, how long would the trip take for Rocky and for Erid?
+
+<Solution>
+Erid (and Tau Ceti): $10/0.92 = 10.9$ years. Rocky: $10.9/2.552 = 4.3$ years, crossing a distance contracted to $10/2.552 = 3.9$ ly. (Illustration only.)
+</Solution>
+</Problem>
+
+## Summary
+
+- A moving length is shorter along its motion: $L = L_{0}/\gamma$, where the proper length $L_{0}$ is measured where the object is at rest.
+- Lengths across the motion are unchanged.
+- Time dilation (Earth's description) and length contraction (the traveller's description) always agree on what can be checked: muons reach the ground; the crew age about four years on the way to Tau Ceti.
+- At a steady speed, $t_{\text{Earth}} = L_{0}/v$ and $\tau_{\text{ship}} = (L_{0}/\gamma)/v = t_{\text{Earth}}/\gamma$. At $\gamma = 10$, Earth–Tau Ceti shrinks to about 1.2 light-years for the crew.
+
+**Formulas from this chapter**
+
+$$
+L = \frac{L_{0}}{\gamma} = L_{0}\sqrt{1 - \frac{v^{2}}{c^{2}}} \qquad t_{\text{Earth}} = \frac{L_{0}}{v} \qquad \tau_{\text{ship}} = \frac{L_{0}}{\gamma v}
+$$
+
+## Sources
+
+- Length contraction and proper length: OpenStax, [*University Physics Volume 3*, §5.4 "Length Contraction"](https://openstax.org/books/university-physics-volume-3/pages/5-4-length-contraction).
+- The muon lifetime: Wikipedia, [Muon](https://en.wikipedia.org/wiki/Muon). Earth's diameter: NASA, [Earth Fact Sheet](https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html). Tau Ceti's distance: this course, [Chapter 0.6](/part-0/trigonometry/). 40 Eridani's distance (16.34 ly) and sky position: Wikipedia, [40 Eridani](https://en.wikipedia.org/wiki/40_Eridani); Tau Ceti's sky position: Wikipedia, [Tau Ceti](https://en.wikipedia.org/wiki/Tau_Ceti).
+- Grace's trip of about 4 years of ship time: Inverse, ["Reel Science: Project Hail Mary"](https://inverse.com/entertainment/project-hail-mary-time-dilation-relativity). Astrophage up to 0.92c: readifyai reader guide, [Astrophage](https://readifyai.com/en/books/Project%20Hail%20Mary/wiki/Astrophage) (not an official source).
