@@ -1,0 +1,79 @@
+---
+// Simulation: compare Tau Ceti with the Sun. Choose Tau Ceti's temperature and radius within and beyond the published
+// uncertainties; L = R²(T/T☉)⁴ L☉ is compared with the published 0.488 and the course's 0.52; the two stars' whole-star
+// spectra (R² × Planck's law) are drawn; and Adrian's starlight and equilibrium temperature follow (0.552 au, albedo 0.294).
+---
+
+<div
+	class="sim scmp"
+	data-title="Sun and Tau Ceti"
+	data-description="Two sliders set Tau Ceti's surface temperature (5200 to 5600 kelvins) and radius (0.75 to 0.85 times the Sun's). The graph shows the whole-star spectrum of the Sun and of Tau Ceti, drawn as radius squared times Planck's law, from 100 to 2000 nanometres, with the visible band shaded and the peaks marked. The readout gives Tau Ceti's luminosity from L = R²(T/T☉)⁴ compared with the published 0.488 and the course's 0.52 solar luminosities, its Wien peak, the starlight and equilibrium temperature at Adrian's distance of 0.552 au with an Earth-like albedo, how big Tau Ceti looks from Adrian compared with the Sun from Earth, and a rough main-sequence lifetime scaled as mass divided by luminosity from the Sun's 10 billion years."
+>
+	<p class="sim-title">Simulation: the Sun and Tau Ceti</p>
+	<p class="sim-help">Tau Ceti's temperature and radius are measured to within about 1% and 0.5%. See how much those small uncertainties move its luminosity, and Adrian's climate.</p>
+	<div class="sim-controls">
+		<label>Tau Ceti's temperature <input type="range" class="sc-t" min="5200" max="5600" step="5" value="5320" /> <output class="sc-tv"></output></label>
+		<label>Tau Ceti's radius <input type="range" class="sc-r" min="0.75" max="0.85" step="0.001" value="0.793" /> <output class="sc-rv"></output></label>
+	</div>
+	<svg class="dg sc-svg" viewBox="0 0 600 230" role="img" aria-label="Spectra of the Sun and Tau Ceti"></svg>
+	<div class="readout sc-out" aria-live="polite"></div>
+</div>
+
+<script>
+	const h = 6.62607015e-34, c = 299792458, k = 1.380649e-23, b = 2.897771955e-3;
+	const B = (l: number, T: number) => (2 * h * c * c) / l ** 5 / Math.expm1((h * c) / (l * k * T));
+	const Tsun = 5772;
+	document.querySelectorAll<HTMLElement>('.sim.scmp').forEach((root) => {
+		const q = <T extends Element>(s: string) => root.querySelector<T>(s)!;
+		const svg = q<SVGSVGElement>('.sc-svg'), out = q<HTMLElement>('.sc-out');
+		const Ts = q<HTMLInputElement>('.sc-t'), Rs = q<HTMLInputElement>('.sc-r');
+		const NS = 'http://www.w3.org/2000/svg';
+		const el = (tag: string, at: Record<string, string | number>, text?: string) => {
+			const e = document.createElementNS(NS, tag);
+			Object.entries(at).forEach(([key, v]) => e.setAttribute(key, String(v)));
+			if (text) e.textContent = text;
+			svg.append(e);
+			return e;
+		};
+		const L0 = 40, R0 = 580, T0 = 20, B0 = 190, lMax = 2000e-9;
+		const top = B(b / Tsun, Tsun) * 1.15;
+		const px = (l: number) => L0 + (l / lMax) * (R0 - L0);
+		const py = (v: number) => B0 - (v / top) * (B0 - T0);
+		const pts = (T: number, r: number) =>
+			Array.from({ length: 240 }, (_, i) => {
+				const l = 100e-9 + ((lMax - 100e-9) * i) / 239;
+				return `${px(l).toFixed(1)},${py(r * r * B(l, T)).toFixed(1)}`;
+			}).join(' ');
+		el('rect', { x: px(400e-9), y: T0, width: px(750e-9) - px(400e-9), height: B0 - T0, class: 'f-amber', 'fill-opacity': 0.12 });
+		el('line', { x1: L0, y1: B0, x2: R0, y2: B0, class: 's-fg w2' });
+		[500, 1000, 1500].forEach((n) => {
+			el('line', { x1: px(n * 1e-9), y1: B0, x2: px(n * 1e-9), y2: B0 + 5, class: 's-fg w1' });
+			el('text', { x: px(n * 1e-9), y: B0 + 18, class: 't-mid t-sm f-muted' }, `${n} nm`);
+		});
+		el('polyline', { points: pts(Tsun, 1), class: 's-amber w3', fill: 'none' });
+		el('text', { x: px(b / Tsun) + 8, y: py(B(b / Tsun, Tsun)) - 4, class: 't-sm f-amber halo' }, 'Sun');
+		const tc = el('polyline', { class: 's-rose w3', fill: 'none' });
+		const tcT = el('text', { class: 't-sm f-rose halo' }, 'Tau Ceti');
+		const tcL = el('line', { y2: B0, class: 's-rose w1 dash' });
+		el('text', { x: R0, y: 224, class: 't-end t-sm f-muted' }, 'whole-star output: R² × Planck’s law');
+		function draw() {
+			const T = +Ts.value, r = +Rs.value;
+			q('.sc-tv').textContent = `${T} K`;
+			q('.sc-rv').textContent = `${r.toFixed(3)} R☉`;
+			tc.setAttribute('points', pts(T, r));
+			const lp = b / T, yp = py(r * r * B(lp, T));
+			tcL.setAttribute('x1', String(px(lp))); tcL.setAttribute('x2', String(px(lp))); tcL.setAttribute('y1', String(yp));
+			tcT.setAttribute('x', String(px(lp) + 10)); tcT.setAttribute('y', String(yp + 20));
+			const L = r * r * (T / Tsun) ** 4;
+			const S = (1361 * L) / 0.552 ** 2, Te = 255.13 * (S / 1361) ** 0.25;
+			const ang = (r / 0.552) / 1; // relative to the Sun's angular radius from 1 au (R☉/1 au)
+			const life = (0.8 / L) * 10;
+			out.innerHTML =
+				`<span class="k">Tau Ceti's luminosity R²(T/T☉)⁴</span> = <b>${L.toFixed(3)} L☉</b> (published 0.488 ± 0.010; the course has used 0.52) &nbsp; <span class="k">peak</span> ${(lp * 1e9).toFixed(0)} nm (Sun 502 nm)<br>` +
+				`<span class="k">at Adrian, 0.552 au</span>: starlight ${S.toFixed(0)} W/m² = ${(S / 1361).toFixed(2)} × Earth's; equilibrium temperature <b>${Te.toFixed(0)} K</b> (albedo 0.294); Tau Ceti looks ${ang.toFixed(2)} × as wide as the Sun from Earth<br>` +
+				`<span class="k">rough lifetime, 10 Gyr × (M/M☉)/(L/L☉) with M = 0.80 M☉</span> = ${life.toFixed(0)} Gyr (Tau Ceti is 8–10 Gyr old; the Sun 4.6 of about 10)`;
+		}
+		[Ts, Rs].forEach((i) => i.addEventListener('input', draw));
+		draw();
+	});
+</script>

@@ -1,0 +1,39 @@
+---
+// The Sun's and Tau Ceti's inner systems on the same distance scale. Shaded: habitable zones (Sun: Kopparapu 2013,
+// 0.99–1.67 au; Tau Ceti: 0.55–1.16 au quoted by Wikipedia, and 0.71–1.20 au from √L scaling with 0.52 L☉).
+const X0 = 70, PX = 270; // px per au
+const X = (au: number) => X0 + au * PX;
+const rows = [
+	{ y: 80, star: 'Sun', r: 14, hz: [[0.99, 1.67]], planets: [{ n: 'Venus', a: 0.723 }, { n: 'Earth', a: 1.0 }, { n: 'Mars', a: 1.524 }] },
+	{ y: 210, star: 'Tau Ceti', r: 11, hz: [[0.55, 1.16], [0.71, 1.2]], planets: [{ n: 'Adrian (Tau Ceti e)', a: 0.552 }] },
+];
+---
+
+<svg class="dg" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+	{rows.map((r) => (
+		<>
+			{r.hz.map(([a, b], i) => (
+				<rect x={X(a)} y={i ? r.y + 26 : r.y - 22} width={X(b) - X(a)} height={i ? 10 : 44} class="f-green-soft" fill-opacity={i ? 0.9 : 0.6} />
+			))}
+			<line x1={X0} y1={r.y} x2={X(1.9)} y2={r.y} class="s-grid w1" />
+			<circle cx={X0} cy={r.y} r={r.r} class="f-amber" />
+			<text x={X0} y={r.y - 22} class="t-mid t-sm t-b">{r.star}</text>
+			{r.planets.map((p) => (
+				<>
+					<circle cx={X(p.a)} cy={r.y} r="5" class="f-sky" />
+					<text x={X(p.a)} y={r.y < 150 ? r.y + 38 : r.y - 12} class="t-mid t-sm halo">{p.n}</text>
+				</>
+			))}
+		</>
+	))}
+	{[0, 0.5, 1, 1.5].map((a) => (
+		<>
+			<line x1={X(a)} y1="268" x2={X(a)} y2="274" class="s-fg w1" />
+			<text x={X(a)} y="288" class="t-mid t-sm f-muted">{a} au</text>
+		</>
+	))}
+	<line x1={X0} y1="268" x2={X(1.9)} y2="268" class="s-fg w1" />
+	<text x={X(1.33)} y="50" class="t-mid t-sm f-green">habitable zone, 0.99–1.67 au</text>
+	<text x={X(0.86)} y="180" class="t-mid t-sm f-green">0.55–1.16 au (Wikipedia)</text>
+	<text x={X(1.25)} y="245" class="t-sm f-green">0.71–1.20 au (√0.52 scaling)</text>
+</svg>

@@ -1,0 +1,31 @@
+---
+// Sunlight at each planet (NASA fact-sheet values) on log–log axes, against the inverse-square line S = 1361 W/m² × (1 au/r)².
+const L0 = 80, R0 = 560, T0 = 20, B0 = 240;
+const xlo = Math.log10(0.3), xhi = Math.log10(40), ylo = 0, yhi = 4.2;
+const X = (r: number) => L0 + ((Math.log10(r) - xlo) / (xhi - xlo)) * (R0 - L0);
+const Y = (s: number) => B0 - ((Math.log10(s) - ylo) / (yhi - ylo)) * (B0 - T0);
+const planets = [
+	{ n: 'Mercury', r: 0.387, s: 9082.7 },
+	{ n: 'Venus', r: 0.723, s: 2601.3 },
+	{ n: 'Earth', r: 1.0, s: 1361.0 },
+	{ n: 'Mars', r: 1.524, s: 586.2 },
+	{ n: 'Jupiter', r: 5.203, s: 50.26 },
+	{ n: 'Saturn', r: 9.537, s: 14.82 },
+];
+---
+
+<svg class="dg" viewBox="0 0 600 290" xmlns="http://www.w3.org/2000/svg">
+	<rect x={L0} y={T0} width={R0 - L0} height={B0 - T0} class="s-muted w1" fill="none" />
+	<line x1={X(0.3)} y1={Y(1361 / 0.09)} x2={X(40)} y2={Y(1361 / 1600)} class="s-amber w2 dash" />
+	{[1, 10, 100, 1000, 10000].map((s) => <text x={L0 - 6} y={Y(s) + 4} class="t-end t-sm f-muted">{s}</text>)}
+	{[0.5, 1, 2, 5, 10, 20].map((r) => <text x={X(r)} y={B0 + 18} class="t-mid t-sm f-muted">{r}</text>)}
+	{planets.map((p) => (
+		<>
+			<circle cx={X(p.r)} cy={Y(p.s)} r="6" class="f-sky" />
+			<text x={X(p.r) + 12} y={Y(p.s) - 10} class="t-sm halo">{p.n}</text>
+		</>
+	))}
+	<text x={X(1.2)} y={Y(40)} class="t-mid t-sm f-amber halo">1361 × (1 au / r)²</text>
+	<text x={(L0 + R0) / 2} y="282" class="t-mid t-sm">distance from the Sun (au, log scale)</text>
+	<text x="22" y={(T0 + B0) / 2} class="t-mid t-sm" transform={`rotate(-90 22 ${(T0 + B0) / 2})`}>sunlight (W/m², log)</text>
+</svg>

@@ -1,0 +1,36 @@
+---
+// Why the total glow goes as T⁴. The Planck curve at 1.5T is the curve at T squeezed sideways by 1.5 (peak at λ/1.5)
+// and stretched upwards by 1.5⁵ = 7.6, so its area is 1.5⁵/1.5 = 1.5⁴ = 5.1 times bigger. Drawn for T = 3000 K and 4500 K.
+const h = 6.62607015e-34, c = 299792458, k = 1.380649e-23, b = 2.897771955e-3;
+const B = (l: number, T: number) => (2 * h * c * c) / l ** 5 / Math.expm1((h * c) / (l * k * T));
+const L = 60, R = 570, T0 = 30, BOT = 240, lMax = 3000e-9;
+const top = B(b / 4500, 4500);
+const px = (l: number) => L + (l / lMax) * (R - L);
+const py = (v: number) => BOT - (v / top) * (BOT - T0 - 10);
+const area = (T: number) => {
+	const pts = Array.from({ length: 300 }, (_, i) => {
+		const l = 50e-9 + ((lMax - 50e-9) * i) / 299;
+		return `${px(l).toFixed(1)},${py(B(l, T)).toFixed(1)}`;
+	});
+	return `M${px(50e-9)},${BOT} L${pts.join(' L')} L${px(lMax)},${BOT} Z`;
+};
+---
+
+<svg class="dg" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+	<path d={area(4500)} class="f-amber-soft s-amber w2" />
+	<path d={area(3000)} class="f-rose s-rose w2" fill-opacity="0.6" />
+	<line x1={L} y1={BOT} x2={R} y2={BOT} class="s-fg w2" />
+	<line x1={L} y1={BOT} x2={L} y2={T0} class="s-fg w2" />
+	{[1000, 2000, 3000].map((n) => (
+		<>
+			<line x1={px(n * 1e-9)} y1={BOT} x2={px(n * 1e-9)} y2={BOT + 5} class="s-fg w1" />
+			<text x={px(n * 1e-9)} y={BOT + 18} class="t-mid t-sm f-muted">{n}</text>
+		</>
+	))}
+	<text x={(L + R) / 2} y="284" class="t-mid t-sm">wavelength (nm)</text>
+	<text x={px(b / 4500) + 40} y={py(top) + 30} class="t-sm f-amber halo">4500 K: peak 1.5× further left, 1.5⁵ = 7.6× taller</text>
+	<text x={px(b / 3000) + 20} y={py(B(b / 3000, 3000)) - 10} class="t-sm f-rose halo">3000 K</text>
+	<text x={R} y="120" class="t-end t-sm">area = total power per m²</text>
+	<text x={R} y="140" class="t-end t-sm">7.6 ÷ 1.5 = 1.5⁴ = 5.1 times more</text>
+	<text x={R} y="160" class="t-end t-sm t-b">so total glow ∝ T⁴</text>
+</svg>

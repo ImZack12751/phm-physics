@@ -127,10 +127,10 @@ export const parts = [
 		id: 'part-8', icon: '★', dir: 'part-8', code: '8', label: 'Part 8 · Thermal radiation and stars',
 		blurb: 'Why hot things glow, how bright stars are, and the Sun compared with Tau Ceti.',
 		chapters: [
-			{ slug: 'blackbody-wien', title: 'Blackbody radiation and Wien’s law', prereqs: [], status: 'planned' },
-			{ slug: 'stefan-boltzmann', title: 'The Stefan–Boltzmann law and luminosity', prereqs: [], status: 'planned' },
-			{ slug: 'solar-constant', title: 'The inverse-square law and the solar constant', prereqs: [], status: 'planned' },
-			{ slug: 'sun-vs-tau-ceti', title: 'The Sun vs Tau Ceti', prereqs: [], status: 'planned' },
+			{ slug: 'blackbody-wien', title: 'Blackbody radiation and Wien’s law', prereqs: ['photons', 'em-spectrum', 'heat-transfer', 'temperature-heat', 'derivatives', 'exponentials-logarithms'], status: 'review' },
+			{ slug: 'stefan-boltzmann', title: 'The Stefan–Boltzmann law and luminosity', prereqs: ['blackbody-wien', 'heat-transfer', 'integrals', 'ratios-proportionality', 'power', 'derivatives'], status: 'review' },
+			{ slug: 'solar-constant', title: 'The inverse-square law and the solar constant', prereqs: ['stefan-boltzmann', 'ratios-proportionality', 'energy-balance', 'keplers-laws', 'trigonometry', 'photons'], status: 'review' },
+			{ slug: 'sun-vs-tau-ceti', title: 'The Sun vs Tau Ceti', prereqs: ['solar-constant', 'stefan-boltzmann', 'blackbody-wien', 'planet-mass-from-orbit', 'spectroscopy', 'exponentials-logarithms'], status: 'review' },
 		],
 	},
 	{

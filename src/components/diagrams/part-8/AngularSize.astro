@@ -1,0 +1,24 @@
+---
+// Starlight from a star of radius R and surface temperature T, seen from distance d. The star's power L = 4πR²σT⁴ spreads over
+// a sphere of area 4πd², so the flux is S = σT⁴ (R/d)²: the surface brightness σT⁴ times the square of the star's angular radius.
+const SX = 110, SY = 150, R = 60, OX = 540;
+const th = Math.atan(R / (OX - SX));
+---
+
+<svg class="dg" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+	<circle cx={SX} cy={SY} r={R} class="f-amber" />
+	<line x1={SX} y1={SY} x2={SX} y2={SY - R} class="s-fg w2" />
+	<text x={SX + 6} y={SY - R / 2} class="t-sm halo">R</text>
+	<text x={SX} y={SY + R + 22} class="t-mid t-sm">surface glows at σT⁴ per m²</text>
+	<line x1={SX} y1={SY - R} x2={OX} y2={SY} class="s-muted w1 dash" />
+	<line x1={SX} y1={SY + R} x2={OX} y2={SY} class="s-muted w1 dash" />
+	<line x1={SX} y1={SY} x2={OX} y2={SY} class="s-fg w1" />
+	<text x={(SX + OX) / 2} y={SY + 18} class="t-mid t-sm">d</text>
+	<circle cx={OX} cy={SY} r="6" class="f-sky" />
+	<text x={OX} y={SY + 26} class="t-mid t-sm">you</text>
+	<path d={`M${OX - 70},${SY} A70,70 0 0 0 ${OX - 70 * Math.cos(th)},${SY - 70 * Math.sin(th)}`} class="s-green w2" fill="none" />
+	<text x={OX - 82} y={SY - 14} class="t-end t-sm f-green halo">angular radius ≈ R/d</text>
+	<text x="300" y="40" class="t-mid t-sm">flux reaching you: S = L / 4πd² = 4πR²σT⁴ / 4πd²</text>
+	<text x="300" y="62" class="t-mid t-sm t-b">S = σT⁴ (R/d)²</text>
+	<text x="300" y="270" class="t-mid t-sm f-muted">measure S and the angular size R/d, and you have the star’s temperature</text>
+</svg>

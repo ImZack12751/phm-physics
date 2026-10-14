@@ -1,0 +1,92 @@
+---
+// Simulation: starlight at a distance. S = L/(4πd²) = σT⁴(R/d)²; planet equilibrium temperature T_e = [S(1 − α)/4σ]^(1/4)
+// (Chapter 6.4); the star's angular diameter 2R/d; and a simple habitable-zone check by flux (0.36 to 1.02 times Earth's,
+// from Kopparapu et al. 2013's conservative zone for the Sun, 0.99–1.67 au).
+---
+
+<div
+	class="sim sl8"
+	data-title="Starlight lab"
+	data-description="Choose a star (the Sun, Tau Ceti with the course's 0.52 solar luminosities, 40 Eridani A, Sirius A or Proxima Centauri), a distance from it (0.01 to 100 astronomical units, logarithmic) and a planet's albedo (0 to 0.9). The diagram shows the star's disc as it would look from that distance compared with the Sun seen from Earth, and the distance on a log scale with the habitable zone shaded. The readout gives the starlight intensity in watts per square metre and as a multiple of Earth's 1361 W/m², the star's angular diameter, the planet's equilibrium temperature, and whether the flux is inside the conservative habitable zone (between 0.36 and 1.02 times Earth's sunlight)."
+>
+	<p class="sim-title">Simulation: starlight lab</p>
+	<p class="sim-help">Move a planet out from a star: sunlight falls as 1/d², the star's disc shrinks as 1/d, and the planet's temperature falls as 1/√d.</p>
+	<div class="sim-controls">
+		<label>Distance (log) <input type="range" class="s8-d" min="-2" max="2" step="any" value="0" /> <output class="s8-dv"></output></label>
+		<label>Star <select class="s8-s">
+			<option value="sun">Sun</option>
+			<option value="tc">Tau Ceti</option>
+			<option value="eri">40 Eridani A</option>
+			<option value="sirius">Sirius A</option>
+			<option value="prox">Proxima Centauri</option>
+		</select></label>
+		<label>Albedo <input type="range" class="s8-a" min="0" max="0.9" step="0.01" value="0.29" /> <output class="s8-av"></output></label>
+	</div>
+	<svg class="dg s8-svg" viewBox="0 0 600 190" role="img" aria-label="The star's apparent size and the planet's distance"></svg>
+	<div class="readout s8-out" aria-live="polite"></div>
+</div>
+
+<script>
+	const sigma = 5.670374419e-8, AU = 149597870700, Rsun = 6.957e8;
+	// luminosity (L☉), radius (R☉), temperature (K): NASA and Wikipedia; Tau Ceti uses the course's 0.52 L☉;
+	// 40 Eridani A: 0.40 L☉, 0.804 R☉, 5126 K (Wikipedia).
+	const STARS: Record<string, { n: string; L: number; R: number; T: number; col: string }> = {
+		sun: { n: 'the Sun', L: 1, R: 1, T: 5772, col: '#fff4e0' },
+		tc: { n: 'Tau Ceti', L: 0.52, R: 0.793, T: 5320, col: '#ffe9c4' },
+		eri: { n: '40 Eridani A', L: 0.4, R: 0.804, T: 5126, col: '#ffdcae' },
+		sirius: { n: 'Sirius A', L: 24.74, R: 1.7144, T: 9845, col: '#d8e6ff' },
+		prox: { n: 'Proxima Centauri', L: 0.001567, R: 0.1542, T: 2992, col: '#ffb27a' },
+	};
+	document.querySelectorAll<HTMLElement>('.sim.sl8').forEach((root) => {
+		const q = <T extends Element>(s: string) => root.querySelector<T>(s)!;
+		const svg = q<SVGSVGElement>('.s8-svg'), out = q<HTMLElement>('.s8-out');
+		const Ds = q<HTMLInputElement>('.s8-d'), Ss = q<HTMLSelectElement>('.s8-s'), As = q<HTMLInputElement>('.s8-a');
+		const NS = 'http://www.w3.org/2000/svg';
+		const el = (tag: string, at: Record<string, string | number>, text?: string) => {
+			const e = document.createElementNS(NS, tag);
+			Object.entries(at).forEach(([k, v]) => e.setAttribute(k, String(v)));
+			if (text) e.textContent = text;
+			svg.append(e);
+			return e;
+		};
+		// left: discs; right: log distance axis with habitable zone
+		el('circle', { cx: 70, cy: 70, r: 20, fill: '#fff4e0' });
+		el('text', { x: 70, y: 118, class: 't-mid t-sm f-muted' }, 'Sun from Earth');
+		const disc = el('circle', { cx: 190, cy: 70 });
+		const discT = el('text', { x: 190, y: 118, class: 't-mid t-sm' });
+		const AX0 = 300, AX1 = 580, AY = 150;
+		const X = (d: number) => AX0 + ((Math.log10(d) + 2) / 4) * (AX1 - AX0);
+		const hz = el('rect', { y: AY - 16, height: 16, class: 'f-green-soft' });
+		el('line', { x1: AX0, y1: AY, x2: AX1, y2: AY, class: 's-fg w2' });
+		([[0.01, '0.01'], [0.1, '0.1'], [1, '1 au'], [10, '10'], [100, '100']] as [number, string][]).forEach(([d, t]) => {
+			el('line', { x1: X(d), y1: AY, x2: X(d), y2: AY + 5, class: 's-fg w1' });
+			el('text', { x: X(d), y: AY + 19, class: 't-mid t-sm f-muted' }, t);
+		});
+		el('text', { x: AX0, y: AY - 24, class: 't-sm f-green' }, 'green: habitable zone (by sunlight)');
+		const dot = el('circle', { cy: AY - 8, r: 6, class: 'f-sky' });
+		function draw() {
+			const d = 10 ** +Ds.value, st = STARS[Ss.value], a = +As.value;
+			q('.s8-dv').textContent = `${d < 0.1 ? d.toFixed(3) : d.toPrecision(3)} au`;
+			q('.s8-av').textContent = a.toFixed(2);
+			const S = (1361 * st.L) / (d * d), rel = S / 1361;
+			const ang = (2 * st.R * Rsun) / (d * AU), angDeg = (ang * 180) / Math.PI;
+			const Te = ((S * (1 - a)) / (4 * sigma)) ** 0.25;
+			const r = Math.max(1.5, Math.min(60, 20 * (angDeg / 0.5329)));
+			disc.setAttribute('r', String(r));
+			disc.setAttribute('fill', st.col);
+			discT.textContent = `${st.n} from here${angDeg / 0.5329 > 3 ? ' (drawn capped)' : ''}`;
+			const hzIn = Math.sqrt(st.L / 1.02), hzOut = Math.sqrt(st.L / 0.36);
+			hz.setAttribute('x', String(Math.max(AX0, X(hzIn))));
+			hz.setAttribute('width', String(Math.max(0, Math.min(AX1, X(hzOut)) - Math.max(AX0, X(hzIn)))));
+			dot.setAttribute('cx', String(X(d)));
+			const inHZ = rel <= 1.02 && rel >= 0.36;
+			out.innerHTML =
+				`<span class="k">starlight S = L/4πd²</span> = <b>${S >= 100 ? S.toFixed(0) : S.toPrecision(3)} W/m²</b> = ${rel.toPrecision(3)} × Earth's &nbsp; <span class="k">star's angular diameter 2R/d</span> = ${angDeg.toPrecision(3)}° (${(angDeg / 0.5329).toPrecision(3)} × the Sun's from Earth)<br>` +
+				`<span class="k">planet's equilibrium temperature</span> = <b>${Te.toFixed(0)} K</b> (${(Te - 273.15).toFixed(0)} °C, before any greenhouse effect) &nbsp; <span class="k">habitable zone for ${st.n}</span>: ${hzIn.toPrecision(2)} to ${hzOut.toPrecision(2)} au, so this planet is <b>${inHZ ? 'inside it' : rel > 1.02 ? 'too close' : 'too far'}</b>`;
+		}
+		[Ds, As].forEach((i) => i.addEventListener('input', draw));
+		Ss.addEventListener('change', draw);
+		Ss.addEventListener('input', draw);
+		draw();
+	});
+</script>

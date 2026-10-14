@@ -1,0 +1,318 @@
+---
+title: The inverse-square law and the solar constant
+description: How the solar constant is measured from space and why it isn't quite constant, Earth's yearly 7% swing, the flux from a star as surface brightness times angular size (S = σT⁴(R/d)²), taking the Sun's temperature from Earth, a planet's temperature from its star's, measuring stars' luminosities, the habitable zone, and how faint Tau Ceti really is.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import OrbitFlux from '../../../components/diagrams/part-8/OrbitFlux.astro';
+import AngularSize from '../../../components/diagrams/part-8/AngularSize.astro';
+import PlanetFluxes from '../../../components/diagrams/part-8/PlanetFluxes.astro';
+import StarlightLab from '../../../components/sims/StarlightLab.astro';
+
+## The scene
+
+The first hard evidence of the crisis is a number on a satellite's instrument: the sunlight reaching the Earth, which has hovered around 1361 watts per square metre for as long as anyone has measured it, starts to fall. The forecast is a 1% drop within about nine years. How do we measure sunlight that precisely, how much does it normally wobble, and how can the same kind of measurement tell us about a star twelve light-years away?
+
+Chapter 0.5 introduced the inverse-square law, $I = L/4\pi r^{2}$, and used it to find the solar constant from the Sun's power. This chapter puts it to work with what Part 8 has added: blackbody glow and the Stefan–Boltzmann law.
+
+## Prerequisites
+
+<Prereqs notes={{ 'stefan-boltzmann': 'L = 4πR²σT⁴', 'ratios-proportionality': 'the inverse-square law and the solar constant', 'energy-balance': 'a planet’s equilibrium temperature', 'keplers-laws': 'Earth’s slightly elliptical orbit, perihelion and aphelion', trigonometry: 'angles in radians and angular size', photons: 'photon energy and photons per second' }} />
+
+## The concept
+
+### Measuring the solar constant
+
+The <Term id="solar-constant">solar constant</Term> is the sunlight falling on one square metre facing the Sun, just outside the atmosphere, at Earth's average distance. It can't be measured well from the ground, because the air absorbs and scatters a changing fraction (on a clear day with the Sun overhead, only about three-quarters of it reaches the ground as direct sunlight). So it has been measured from space by more than ten instruments on satellites, over several solar cycles.
+
+They work on a lovely principle. Sunlight falls into a blackened cavity, a small blackbody like the one in Chapter 8.1, and warms it. Then the shutter closes and an electric heater is turned up until the cavity is exactly as warm as before. The electrical power needed equals the sunlight's power, and electrical power can be measured very accurately. The best value today is about $1361\ \text{W/m}^{2}$. In 2011 better instruments revised it down from the earlier 1365.4 to 1360.9, a change of a third of a percent, which shows how hard it is to measure absolutely.
+
+### Not quite constant
+
+Two things make the "constant" vary.
+
+**The Sun's activity.** The Sun goes through an 11-year cycle of sunspots and bright patches. Its total output rises and falls by only about 0.1% peak to peak, about $1.4\ \text{W/m}^{2}$.
+
+**Earth's distance.** Earth's orbit is a slightly squashed ellipse (Chapter 4.3). At perihelion, in early January, we are 0.983 au from the Sun; at aphelion, in early July, 1.017 au. By the inverse-square law, the sunlight changes by about 7% over the year.
+
+<Figure caption="Earth's distance from the Sun changes slightly over the year, and so does the sunlight it receives, by about 7%, from 1408 W/m² in January to 1317 W/m² in July. (The shape is exaggerated; the real orbit is almost a circle.)" alt="A schematic ellipse with the Sun at a focus to the left of centre. Earth is marked at the near point on the left, labelled perihelion (January), 0.983 au, 1408 watts per square metre, and at the far point on the right, labelled aphelion (July), 1.017 au, 1317 watts per square metre. Dashed lines join the Sun to both points. Text: the constant swings by about 7% over the year; shape exaggerated, the real orbit is almost a circle.">
+	<OrbitFlux />
+</Figure>
+
+The Northern Hemisphere has winter when the Earth is **closest** to the Sun, so the seasons aren't caused by distance; they come from the tilt of Earth's axis, which changes how high the Sun climbs and how long it stays up. But the yearly swing is real, and instruments correct for it, quoting everything at 1 au.
+
+Against this background, the novel's forecast stands out sharply. A 1% drop is $13.6\ \text{W/m}^{2}$, ten times the whole swing of a solar cycle and not tied to Earth's distance. Satellites would see it unmistakably.
+
+### Surface brightness and angular size
+
+Now combine the inverse-square law with the Stefan–Boltzmann law. A star of radius $R$ and temperature $T$ gives out $L = 4\pi R^{2}\sigma T^{4}$ (Chapter 8.2). At distance $d$ that power is spread over $4\pi d^{2}$:
+
+$$
+S = \frac{L}{4\pi d^{2}} = \frac{4\pi R^{2}\sigma T^{4}}{4\pi d^{2}} = \sigma T^{4}\left(\frac{R}{d}\right)^{2}.
+$$
+
+The factor $R/d$ is the star's **angular radius** in radians (Chapter 0.6), half the angle it appears to span in the sky. So the light reaching you is the brightness of the star's surface, $\sigma T^{4}$, times the square of how big the star looks.
+
+<Figure caption="The light reaching you from a star is its surface brightness, σT⁴, times the square of its angular radius, R/d. Moving away makes the star look smaller, not dimmer per square degree of sky." alt="An orange disc on the left, the star, with its radius R drawn and a label: surface glows at sigma T to the fourth per square metre. Dashed lines run from its top and bottom edges to a small blue dot on the right labelled you, with a straight line between them labelled d. A green arc at the observer is labelled angular radius approximately R over d. Text at the top: flux reaching you, S equals L over 4 pi d squared equals 4 pi R squared sigma T to the fourth over 4 pi d squared; S equals sigma T to the fourth times R over d squared. At the bottom: measure S and the angular size R over d, and you have the star's temperature.">
+	<AngularSize />
+</Figure>
+
+This has a surprising consequence: a star's surface looks **equally bright from any distance**. From Mars, the Sun's disc is smaller than from Earth, but each bit of it is just as dazzling; there's simply less of it. It also gives a way to take the Sun's temperature from Earth: measure the sunlight $S$ and the Sun's angular size, and solve for $T$ (Example 1).
+
+### From star to planet
+
+Chapter 6.4 found a planet's equilibrium temperature, $T_{\text{e}} = [S(1 - \alpha)/4\sigma]^{1/4}$. Put in $S = \sigma T_{\star}^{4}(R_{\star}/d)^{2}$ and the $\sigma$ cancels:
+
+$$
+T_{\text{e}} = T_{\star}\,(1 - \alpha)^{1/4}\sqrt{\frac{R_{\star}}{2d}}.
+$$
+
+A planet's temperature is its star's temperature, scaled down by the square root of how far away it is, measured in star radii. Earth sits 215 solar radii from the Sun, so $\sqrt{1/430} = 0.048$ and the Sun's 5772 K becomes 255 K, the same answer as Chapter 6.4. This also shows that $T_{\text{e}} \propto 1/\sqrt{d}$: four times farther away is half as warm.
+
+<Figure caption="Sunlight at each planet, on log scales. The measured values lie on a single straight line of slope −2: the inverse-square law, S = 1361 W/m² × (1 au / r)², holds across the Solar System." alt="A log–log graph of sunlight in watts per square metre, from 1 to 10 000, against distance from the Sun in au, from 0.3 to 40. A dashed orange straight line falls from upper left to lower right, labelled 1361 times 1 au over r, squared. Blue dots for Mercury, Venus, Earth, Mars, Jupiter and Saturn lie on the line.">
+	<PlanetFluxes />
+</Figure>
+
+### Measuring a star's luminosity
+
+Turn the inverse-square law around and it becomes a measuring tool. If we know a star's distance (by parallax, Chapter 0.6) and measure the starlight it delivers, its luminosity follows: $L = 4\pi d^{2}S$. That is how the luminosities in Chapter 8.2 were found, and how we know Tau Ceti puts out about half the Sun's power.
+
+### The habitable zone
+
+The <Term id="habitable-zone">habitable zone</Term> is the range of distances from a star where a planet like Earth, with an atmosphere like ours, could keep liquid water on its surface. Too close and the water boils away; too far and it freezes. Detailed climate models (Kopparapu and others, 2013) put the Sun's conservative zone at about 0.99 to 1.67 au. In terms of starlight, that is between about 1.02 and 0.36 times what Earth receives. Since the starlight at distance $d$ is $S_{\oplus}(L/L_{\odot})/(d/\text{au})^{2}$, the zone for another star scales with $\sqrt{L}$, as Chapter 0.5 found.
+
+## Formulas
+
+### Starlight at a distance
+
+$$
+\boxed{S = \frac{L}{4\pi d^{2}} = \sigma T^{4}\left(\frac{R}{d}\right)^{2}} \qquad S = 1361\ \text{W/m}^{2} \times \frac{L/L_{\odot}}{(d/\text{au})^{2}}
+$$
+
+### A star's temperature from its light and size
+
+$$
+\boxed{T = \left(\frac{S}{\sigma}\right)^{1/4}\sqrt{\frac{d}{R}}}
+$$
+
+### A planet's temperature from its star's
+
+Substituting $S$ into $T_{\text{e}} = [S(1 - \alpha)/4\sigma]^{1/4}$:
+
+$$
+T_{\text{e}}^{4} = \frac{(1 - \alpha)\,\sigma T_{\star}^{4}(R_{\star}/d)^{2}}{4\sigma} = (1 - \alpha)\,T_{\star}^{4}\,\frac{R_{\star}^{2}}{4d^{2}} \qquad\Rightarrow\qquad \boxed{T_{\text{e}} = T_{\star}\,(1 - \alpha)^{1/4}\sqrt{\frac{R_{\star}}{2d}}}
+$$
+
+### Luminosity from flux
+
+$$
+\boxed{L = 4\pi d^{2}S}
+$$
+
+## Worked examples
+
+<Example n={1} title="Taking the Sun's temperature from Earth">
+Sunlight at Earth is $1361\ \text{W/m}^{2}$, and the Sun's radius is $1/215.0$ of its distance (it spans 0.533°). Find the temperature of its surface.
+
+$$
+\left(\frac{S}{\sigma}\right)^{1/4} = \left(\frac{1361\ \text{W/m}^{2}}{5.670 \times 10^{-8}\ \text{W/(m}^{2}\text{K}^{4})}\right)^{1/4} = (2.400 \times 10^{10}\ \text{K}^{4})^{1/4} = 393.6\ \text{K}
+$$
+
+$$
+T = 393.6\ \text{K} \times \sqrt{215.0} = 393.6\ \text{K} \times 14.66 = 5772\ \text{K}
+$$
+
+A light meter and a protractor are enough to take the temperature of the Sun's surface. (The 393.6 K is the temperature of a blackbody that radiates as much as the sunlight it receives, from every square metre: a sunlit black plate would reach roughly that if it could lose heat only by radiating from its front face.)
+</Example>
+
+<Example n={2} title="January and July">
+Earth's perihelion is 147.1 million km and its aphelion 152.1 million km. Find the sunlight at each, and the percentage change.
+
+$$
+S_{\text{p}} = 1361\ \text{W/m}^{2} \times \left(\frac{149.6}{147.1}\right)^{2} = 1408\ \text{W/m}^{2} \qquad S_{\text{a}} = 1361\ \text{W/m}^{2} \times \left(\frac{149.6}{152.1}\right)^{2} = 1317\ \text{W/m}^{2}
+$$
+
+$$
+\frac{S_{\text{p}}}{S_{\text{a}}} = \left(\frac{152.1}{147.1}\right)^{2} = 1.069
+$$
+
+A 7% swing every year, much bigger than the solar cycle's 0.1%, yet the Northern Hemisphere is in winter when the sunlight is strongest. The seasons are a matter of tilt, not distance.
+</Example>
+
+<Example n={3} title="Telling a real dimming from the usual wobbles" book>
+Compare the novel's 1% drop with the solar cycle (0.1% peak to peak) and with the 2011 revision of the solar constant (1365.4 to 1360.9 W/m²).
+
+$$
+1\%:\ 0.01 \times 1361\ \text{W/m}^{2} = 13.6\ \text{W/m}^{2} \qquad \text{cycle: } 0.001 \times 1361\ \text{W/m}^{2} = 1.4\ \text{W/m}^{2}
+$$
+
+$$
+\text{revision: } \frac{1365.4 - 1360.9}{1365.4} = 0.33\%
+$$
+
+The forecast drop is ten times a solar cycle and three times the size of the correction that came from building better instruments. A single satellite tracking the change over months, rather than measuring the absolute value, would see it clearly.
+</Example>
+
+<Example n={4} title="How faint is Tau Ceti?" book>
+Using the course's $0.52\ L_{\odot}$ and a distance of 11.912 ly ($1.127 \times 10^{17}$ m), find the starlight from Tau Ceti at Earth. If 39% of it is visible (Chapter 8.1's fraction for a 5320 K blackbody) and we treat visible photons as 550 nm, how many enter a dark-adapted eye, with a pupil 7.0 mm across, each second?
+
+$$
+S = \frac{0.52 \times 3.828 \times 10^{26}\ \text{W}}{4\pi (1.127 \times 10^{17}\ \text{m})^{2}} = 1.25 \times 10^{-9}\ \text{W/m}^{2}
+$$
+
+$$
+A = \pi (3.5 \times 10^{-3}\ \text{m})^{2} = 3.85 \times 10^{-5}\ \text{m}^{2} \qquad E_{\gamma} = \frac{hc}{550\ \text{nm}} = 3.61 \times 10^{-19}\ \text{J}
+$$
+
+$$
+N = \frac{0.39 \times 1.25 \times 10^{-9}\ \text{W/m}^{2} \times 3.85 \times 10^{-5}\ \text{m}^{2}}{3.61 \times 10^{-19}\ \text{J}} = 5.2 \times 10^{4}\ \text{per second}
+$$
+
+About fifty thousand photons a second: plenty to see. Tau Ceti is a modest naked-eye star, a trillion times fainter than the Sun.
+</Example>
+
+<Example n={5} title="Weighing Sirius's power">
+Sirius A is 8.61 ly away ($8.146 \times 10^{16}$ m), and its light at Earth is $1.136 \times 10^{-7}\ \text{W/m}^{2}$. Find its luminosity.
+
+$$
+L = 4\pi d^{2}S = 4\pi (8.146 \times 10^{16}\ \text{m})^{2} \times 1.136 \times 10^{-7}\ \text{W/m}^{2} = 9.47 \times 10^{27}\ \text{W} = 24.7\ L_{\odot}
+$$
+
+Combined with its temperature, this is exactly how Chapter 8.2's radius of 1.71 Suns was found.
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** The solar constant of about 1361 W/m², its measurement by cavity radiometers on satellites, the 2011 revision from 1365.4 to 1360.9 W/m², the 0.1% solar-cycle variation and the ±3.4% yearly swing are from the measured record (Wikipedia's summary of the instruments and papers). Planet irradiances are NASA's. The habitable zone of 0.99 to 1.67 au is Kopparapu and others (2013), one model among several.
+
+**Weir's inventions.** The dimming itself. Its first detection by measuring the Sun's output is exactly how a real dimming would be found.
+
+**How realistic are the numbers?** A 1% drop in nine years would stand far above every natural variation in the satellite record, so the novel is right that scientists would be certain quickly. The photons-per-second estimate for Tau Ceti is rough (we lumped all visible light at one wavelength), but it shows why a star twelve light-years away is still easy to see.
+</RealVsBook>
+
+## Interactive simulation
+
+<StarlightLab />
+
+Things to try: with the Sun selected, move the planet from 1 au to 4 au and check that the starlight falls by 16 and the temperature halves. Then choose Tau Ceti and find the distance where it gives Earth's sunlight. Try Proxima Centauri: how close must a planet be to stay warm?
+
+## Practice set
+
+<Problem n={1} level="easy">
+Jupiter is 5.203 au from the Sun. What sunlight does the inverse-square law give there? Compare with NASA's 50.26 W/m².
+
+<Solution>
+$1361/5.203^{2} = 50.3$ W/m², in agreement.
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy">
+If Earth were moved to 2 au, how much sunlight would it get, and what would its equilibrium temperature be (now 255 K)?
+
+<Solution>
+$1361/4 = 340$ W/m². $T_{\text{e}} \propto 1/\sqrt{d}$, so $255/\sqrt{2} = 180$ K.
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy">
+Why does the Sun's surface look just as bright (per patch of sky) from Mars as from Earth, even though Mars gets less than half the sunlight?
+
+<Solution>
+Both the light received and the Sun's apparent area fall as $1/d^{2}$, so their ratio, the brightness of each patch of the Sun's disc, stays the same. From Mars the disc is simply smaller.
+</Solution>
+</Problem>
+
+<Problem n={4} level="easy" book>
+How many watts per square metre is the forecast 5% dimming?
+
+<Solution>
+$0.05 \times 1361 = 68$ W/m².
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium">
+How big does the Sun look from Mars (1.524 au)? (From Earth it spans 0.533°.)
+
+<Solution>
+Angular size falls as $1/d$: $0.533°/1.524 = 0.350°$.
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium">
+Use $T_{\text{e}} \propto 1/\sqrt{d}$ to estimate Mars's equilibrium temperature from Earth's 255 K. NASA gives 209.8 K. Why is the real value a little higher?
+
+<Solution>
+$255.1/\sqrt{1.524} = 207$ K. Mars's albedo (0.25) is lower than Earth's (0.294), so it absorbs a larger fraction of its sunlight and ends up slightly warmer.
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium">
+Use $T_{\text{e}} = T_{\star}(1 - \alpha)^{1/4}\sqrt{R_{\star}/2d}$ with $T_{\star} = 5772$ K, $\alpha = 0.294$ and $d/R_{\star} = 215.0$ to find Earth's equilibrium temperature.
+
+<Solution>
+$(0.706)^{1/4} = 0.9167$; $\sqrt{1/430.0} = 0.04822$; $T_{\text{e}} = 5772 \times 0.9167 \times 0.04822 = 255$ K, as in Chapter 6.4.
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium" book>
+How bright is the Sun as seen from Tau Ceti? Compare with Tau Ceti seen from Earth (Example 4).
+
+<Solution>
+$S = 3.828 \times 10^{26}/(4\pi(1.127 \times 10^{17})^{2}) = 2.40 \times 10^{-9}$ W/m². That is $1/0.52 = 1.92$ times Tau Ceti's light at Earth: from Adrian's skies the Sun would be a modest star, about twice as bright as Tau Ceti looks to us.
+</Solution>
+</Problem>
+
+<Problem n={9} level="medium" book>
+Scale the Sun's habitable zone (0.99 to 1.67 au) to Tau Ceti with $\sqrt{L}$ and the course's $0.52\ L_{\odot}$. Wikipedia quotes 0.55 to 1.16 au. Why might estimates differ?
+
+<Solution>
+$\sqrt{0.52} = 0.721$: 0.71 to 1.20 au. Different studies use different climate models, different luminosities (published values for Tau Ceti range from about 0.45 to 0.52) and different edge criteria, so the zones disagree. Adrian, at 0.552 au, is inside the zone by one estimate and too close by another.
+</Solution>
+</Problem>
+
+<Problem n={10} level="challenging" book>
+Without feedbacks, $\Delta T/T \approx \tfrac{1}{4}\Delta S/S$ (Chapter 6.4). Find Earth's change in equilibrium temperature for the 0.1% solar cycle and for the 1% dimming.
+
+<Solution>
+Cycle: $255 \times 0.001/4 = 0.064$ K. Dimming: $255 \times 0.01/4 = 0.64$ K, ten times as much, before feedbacks multiply it (Chapter 6.6).
+</Solution>
+</Problem>
+
+<Problem n={11} level="challenging">
+The 2011 revision lowered the solar constant by 0.33%. By how much did that lower the computed equilibrium temperature of the Earth? Did the Earth get colder?
+
+<Solution>
+$255 \times 0.0033/4 = 0.21$ K. No: only the number changed, because the instruments got better. The Earth was the same; our estimate of the input moved.
+</Solution>
+</Problem>
+
+<Problem n={12} level="challenging" book>
+A planet orbits Tau Ceti at the distance where the star looks as big as the Sun does from Earth. Use surface brightness, $S \propto T^{4}$ for the same angular size, to find the starlight there, with Tau Ceti at 5320 K.
+
+<Solution>
+Same angular size, so $S = 1361 \times (5320/5772)^{4} = 1361 \times 0.7217 = 982$ W/m². Tau Ceti's surface is cooler, so each patch of its disc is about 28% dimmer than the Sun's.
+</Solution>
+</Problem>
+
+## Summary
+
+- The solar constant, about 1361 W/m², is measured by cavity radiometers on satellites. It varies by about 0.1% over a solar cycle and by about 7% over Earth's elliptical orbit; the novel's 1% dimming is ten times the solar cycle.
+- Starlight at distance $d$ is $S = L/4\pi d^{2} = \sigma T^{4}(R/d)^{2}$: surface brightness times the square of the angular radius. A star's surface looks equally bright from any distance.
+- From the sunlight and the Sun's angular size, $T = (S/\sigma)^{1/4}\sqrt{d/R} = 5772$ K.
+- A planet's equilibrium temperature is $T_{\star}(1 - \alpha)^{1/4}\sqrt{R_{\star}/2d}$, falling as $1/\sqrt{d}$.
+- $L = 4\pi d^{2}S$ measures stars' luminosities; the habitable zone (about 0.99–1.67 au for the Sun) scales with $\sqrt{L}$.
+
+**Formulas from this chapter**
+
+$$
+S = \frac{L}{4\pi d^{2}} = \sigma T^{4}\left(\frac{R}{d}\right)^{2} \qquad T = \left(\frac{S}{\sigma}\right)^{1/4}\sqrt{\frac{d}{R}} \qquad T_{\text{e}} = T_{\star}(1 - \alpha)^{1/4}\sqrt{\frac{R_{\star}}{2d}} \qquad L = 4\pi d^{2}S
+$$
+
+## Sources
+
+- The solar constant (about 1361 W/m²), cavity radiometers on satellites, the 2011 revision (1365.4 to 1360.9 W/m²), the 0.1% solar-cycle variation, the ±3.4% yearly variation and the fraction reaching the ground: Wikipedia, [Solar irradiance](https://en.wikipedia.org/wiki/Solar_irradiance).
+- Earth's perihelion and aphelion, and the irradiances of the planets (Mercury 9082.7, Venus 2601.3, Earth 1361, Mars 586.2, Jupiter 50.26, Saturn 14.82 W/m²): NASA, [Earth](https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html), [Mars](https://nssdc.gsfc.nasa.gov/planetary/factsheet/marsfact.html), [Jupiter](https://nssdc.gsfc.nasa.gov/planetary/factsheet/jupiterfact.html) and [Saturn](https://nssdc.gsfc.nasa.gov/planetary/factsheet/saturnfact.html) fact sheets. The Sun's radius, temperature and luminosity: NASA, [Sun Fact Sheet](https://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html).
+- The Sun's angular diameter (0.527° to 0.545°) and white colour: Wikipedia, [Sun](https://en.wikipedia.org/wiki/Sun).
+- The habitable zone (Kopparapu and others 2013: 0.99 to 1.67 au for the Sun; scaling with √L): Wikipedia, [Circumstellar habitable zone](https://en.wikipedia.org/wiki/Circumstellar_habitable_zone). Tau Ceti's habitable zone (0.55 to 1.16 au), distance and temperature: Wikipedia, [Tau Ceti](https://en.wikipedia.org/wiki/Tau_Ceti). Sirius A's distance and luminosity: Wikipedia, [Sirius](https://en.wikipedia.org/wiki/Sirius). 40 Eridani A (simulation): Wikipedia, [40 Eridani](https://en.wikipedia.org/wiki/40_Eridani).
+- The dimming forecast and the course's Tau Ceti luminosity (0.52 L☉): this course, [Chapter 0.5](/part-0/ratios-proportionality/). The equilibrium temperature: [Chapter 6.4](/part-6/energy-balance/).

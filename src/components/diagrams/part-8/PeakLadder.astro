@@ -1,0 +1,38 @@
+---
+// Wien's law across the Universe: temperature (log scale) against peak wavelength λmax = b/T.
+const b = 2.897771955e-3;
+const L = 50, R = 560, lo = 0, hi = 4.3; // log10 T from 1 K to 20 000 K
+const X = (T: number) => L + ((Math.log10(T) - lo) / (hi - lo)) * (R - L);
+const items = [
+	{ T: 2.72548, name: 'cosmic background', y: 50 },
+	{ T: 111.5, name: 'peak at the Petrova λ', y: 150 },
+	{ T: 288, name: 'Earth', y: 50 },
+	{ T: 369.565, name: 'Astrophage, 96 °C', y: 100 },
+	{ T: 798, name: 'first visible glow', y: 200 },
+	{ T: 2400, name: 'bulb filament', y: 150 },
+	{ T: 5772, name: 'Sun', y: 50 },
+	{ T: 9845, name: 'Sirius A', y: 100 },
+];
+const fmt = (m: number) => (m >= 1e-3 ? `${(m * 1e3).toFixed(2)} mm` : m >= 1e-6 ? `${(m * 1e6).toFixed(m >= 1e-5 ? 1 : 2)} µm` : `${Math.round(m * 1e9)} nm`);
+---
+
+<svg class="dg" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+	<line x1={L} y1="240" x2={R} y2="240" class="s-fg w2" />
+	{[1, 10, 100, 1000, 10000].map((T) => (
+		<>
+			<line x1={X(T)} y1="240" x2={X(T)} y2="246" class="s-fg w1" />
+			<text x={X(T)} y="260" class="t-mid t-sm f-muted">{T >= 1000 ? `${T / 1000} 000 K` : `${T} K`}</text>
+		</>
+	))}
+	<text x={(L + R) / 2} y="284" class="t-mid t-sm">temperature (log scale): peak wavelength λmax = b / T</text>
+	{items.map((it) => <line x1={X(it.T)} y1={it.y + 26} x2={X(it.T)} y2="240" class="s-grid w1" />)}
+	{items.map((it) => (
+		<>
+			<circle cx={X(it.T)} cy="240" r="4" class="f-amber" />
+			<text x={X(it.T)} y={it.y} class="t-mid t-sm t-b halo">{it.name}</text>
+			<text x={X(it.T)} y={it.y + 18} class="t-mid t-sm f-sky halo">{fmt(b / it.T)}</text>
+		</>
+	))}
+	<text x={L} y="28" class="t-sm f-muted">hotter →</text>
+	<text x={R} y="28" class="t-end t-sm f-muted">peak wavelengths get shorter</text>
+</svg>

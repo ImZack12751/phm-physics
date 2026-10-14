@@ -1,0 +1,120 @@
+---
+// Simulation: Planck's law for a blackbody at temperature T, drawn on a log wavelength axis (100 nm to 1 mm), each curve scaled
+// to its own peak. Readout: Wien peak b/T, typical photon energy 4.965 kT, σT⁴, the fraction emitted as visible light
+// (numerical integration of Planck's law), and an approximate glow colour.
+---
+
+<div
+	class="sim bb"
+	data-title="Blackbody lab"
+	data-description="A slider sets a blackbody's temperature from 10 kelvins to 30 000 kelvins on a logarithmic scale. The graph shows its spectrum from Planck's law on a logarithmic wavelength axis from 100 nanometres to 1 millimetre, scaled so the peak is always at the top, with the visible band shaded, a dashed line at the peak (Wien's law), a faint copy of the Sun's 5772 K spectrum for comparison, and a marker at the Petrova wavelength, 25.984 micrometres. Buttons jump to the cosmic background, Earth, Astrophage's 96.415 °C, a bulb filament, the Sun and Sirius A. The readout gives the peak wavelength b/T, the energy of a typical photon at the peak, the total power per square metre σT⁴ compared with the Sun's surface, the percentage of the light that is visible, and a swatch of the approximate glow colour (for hot enough objects)."
+>
+	<p class="sim-title">Simulation: blackbody lab</p>
+	<p class="sim-help">Heat it up and watch the peak slide to shorter wavelengths, and the glow reach the visible band.</p>
+	<div class="sim-controls">
+		<label>Temperature (log) <input type="range" class="bb-t" min="1" max="4.477" step="any" value="3.76133" /> <output class="bb-tv"></output></label>
+		<span class="bb-pre">
+			<button type="button" data-t="2.72548">cosmic background</button>
+			<button type="button" data-t="288">Earth</button>
+			<button type="button" data-t="369.565">Astrophage</button>
+			<button type="button" data-t="2400">bulb</button>
+			<button type="button" data-t="5772">Sun</button>
+			<button type="button" data-t="9845">Sirius A</button>
+		</span>
+	</div>
+	<svg class="dg bb-svg" viewBox="0 0 600 240" role="img" aria-label="The blackbody spectrum at the chosen temperature"></svg>
+	<div class="readout bb-out" aria-live="polite"></div>
+</div>
+
+<style is:global>
+	.bb-pre { display: inline-flex; gap: 0.4rem; flex-wrap: wrap; }
+	.bb-swatch { display: inline-block; width: 1.2em; height: 1.2em; vertical-align: -0.2em; border: 1px solid currentColor; border-radius: 50%; }
+</style>
+
+<script>
+	const h = 6.62607015e-34, c = 299792458, k = 1.380649e-23, b = 2.897771955e-3, sigma = 5.670374419e-8, EV = 1.602176634e-19;
+	const B = (l: number, T: number) => (2 * h * c * c) / l ** 5 / Math.expm1((h * c) / (l * k * T));
+	function visibleFraction(T: number) {
+		let s = 0;
+		const n = 400, a = 400e-9, z = 750e-9;
+		for (let i = 0; i < n; i++) s += B(a + ((z - a) * (i + 0.5)) / n, T) * ((z - a) / n);
+		return (Math.PI * s) / (sigma * T ** 4);
+	}
+	// approximate colour of a glowing blackbody (after Tanner Helland's widely used fit, 1000–40 000 K)
+	function glow(T: number) {
+		const t = T / 100;
+		let r, g, bl;
+		if (t <= 66) { r = 255; g = 99.47 * Math.log(t) - 161.12; bl = t <= 19 ? 0 : 138.52 * Math.log(t - 10) - 305.04; }
+		else { r = 329.7 * (t - 60) ** -0.1332; g = 288.12 * (t - 60) ** -0.0755; bl = 255; }
+		const cl = (x: number) => Math.round(Math.max(0, Math.min(255, x)));
+		return `rgb(${cl(r)},${cl(g)},${cl(bl)})`;
+	}
+	const fmtL = (m: number) => (m >= 1e-3 ? `${(m * 1e3).toPrecision(3)} mm` : m >= 1e-6 ? `${(m * 1e6).toPrecision(3)} µm` : `${(m * 1e9).toPrecision(3)} nm`);
+	const sci = (x: number) => {
+		if (!(x > 0)) return '0';
+		const e = Math.floor(Math.log10(x)), m = x / 10 ** e;
+		if (e >= -2 && e <= 4) return x.toPrecision(3);
+		return `${m.toFixed(2)} × 10${String(e).replace('-', '⁻').replace(/\d/g, (d) => '⁰¹²³⁴⁵⁶⁷⁸⁹'[+d])}`;
+	};
+	document.querySelectorAll<HTMLElement>('.sim.bb').forEach((root) => {
+		const q = <T extends Element>(s: string) => root.querySelector<T>(s)!;
+		const svg = q<SVGSVGElement>('.bb-svg'), out = q<HTMLElement>('.bb-out'), Ts = q<HTMLInputElement>('.bb-t');
+		const NS = 'http://www.w3.org/2000/svg';
+		const el = (tag: string, at: Record<string, string | number>, text?: string) => {
+			const e = document.createElementNS(NS, tag);
+			Object.entries(at).forEach(([key, v]) => e.setAttribute(key, String(v)));
+			if (text) e.textContent = text;
+			svg.append(e);
+			return e;
+		};
+		const X0 = 30, X1 = 580, Y0 = 20, Y1 = 190, lo = -7, hi = -3;
+		const X = (l: number) => X0 + ((Math.log10(l) - lo) / (hi - lo)) * (X1 - X0);
+		const pts = (T: number) => {
+			const peak = B(b / T, T);
+			return Array.from({ length: 400 }, (_, i) => {
+				const l = 10 ** (lo + ((hi - lo) * i) / 399);
+				return `${X(l).toFixed(1)},${(Y1 - (B(l, T) / peak) * (Y1 - Y0)).toFixed(1)}`;
+			}).join(' ');
+		};
+		// static parts
+		el('rect', { x: X(400e-9), y: Y0, width: X(750e-9) - X(400e-9), height: Y1 - Y0, class: 'f-amber', 'fill-opacity': 0.15 });
+		el('text', { x: (X(400e-9) + X(750e-9)) / 2, y: Y0 - 6, class: 't-mid t-sm f-muted' }, 'visible');
+		el('line', { x1: X0, y1: Y1, x2: X1, y2: Y1, class: 's-fg w2' });
+		([[1e-7, '100 nm'], [1e-6, '1 µm'], [1e-5, '10 µm'], [1e-4, '100 µm'], [1e-3, '1 mm']] as [number, string][]).forEach(([l, t]) => {
+			el('line', { x1: X(l), y1: Y1, x2: X(l), y2: Y1 + 5, class: 's-fg w1' });
+			el('text', { x: X(l), y: Y1 + 19, class: 't-mid t-sm f-muted' }, t);
+		});
+		el('line', { x1: X(25.984e-6), y1: Y0 + 10, x2: X(25.984e-6), y2: Y1, class: 's-rose w1 dash' });
+		el('text', { x: X(25.984e-6) + 4, y: Y0 + 20, class: 't-sm f-rose' }, 'Petrova λ');
+		el('polyline', { points: pts(5772), class: 's-muted w1', fill: 'none' });
+		el('text', { x: X0, y: 234, class: 't-sm f-muted' }, 'grey: the Sun (5772 K); each curve scaled to its own peak');
+		const curve = el('polyline', { class: 's-amber w3', fill: 'none' });
+		const peakL = el('line', { y1: Y0, y2: Y1, class: 's-sky w2 dash' });
+		const peakT = el('text', { y: Y0 + 4, class: 't-sm f-sky halo' });
+		function draw() {
+			const T = 10 ** +Ts.value, lm = b / T;
+			q('.bb-tv').textContent = `${T >= 100 ? Math.round(T) : T.toPrecision(3)} K`;
+			curve.setAttribute('points', pts(T));
+			const x = X(lm);
+			const inside = lm >= 1e-7 && lm <= 1e-3;
+			peakL.setAttribute('x1', String(x)); peakL.setAttribute('x2', String(x));
+			peakL.setAttribute('opacity', inside ? '1' : '0');
+			peakT.setAttribute('x', String(Math.min(x + 6, 470)));
+			peakT.textContent = inside ? `peak ${fmtL(lm)}` : '';
+			const vf = visibleFraction(T), flux = sigma * T ** 4, fs = flux / (sigma * 5772 ** 4);
+			const sw = T >= 1000 ? ` <span class="bb-swatch" style="background:${glow(T)}"></span>` : ' (too cool to glow visibly)';
+			out.innerHTML =
+				`<span class="k">peak wavelength b/T</span> = <b>${fmtL(lm)}</b> &nbsp; <span class="k">typical photon at the peak, 4.965 kT</span> = ${sci((4.965 * k * T) / EV)} eV<br>` +
+				`<span class="k">power per square metre σT⁴</span> = ${sci(flux)} W/m² = ${sci(fs)} × the Sun's surface<br>` +
+				`<span class="k">visible fraction</span> = <b>${vf < 1e-4 ? sci(vf * 100) : (vf * 100).toFixed(1)}%</b> &nbsp; <span class="k">glow</span>${sw}`;
+		}
+		Ts.addEventListener('input', draw);
+		root.querySelectorAll<HTMLButtonElement>('.bb-pre button').forEach((btn) =>
+			btn.addEventListener('click', () => {
+				Ts.value = String(Math.log10(+btn.dataset.t!));
+				draw();
+			}),
+		);
+		draw();
+	});
+</script>

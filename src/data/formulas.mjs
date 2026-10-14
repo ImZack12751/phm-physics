@@ -1128,4 +1128,64 @@ export const formulas = [
 		where: 'v: speed along the line of sight, positive receding (redshift); valid for v much less than c.',
 		chapter: 'spectroscopy',
 	},
+	// ---- 8.1 Blackbody radiation and Wien's law ----
+	{
+		id: 'planck-law',
+		name: 'Planck’s law',
+		tex: 'B_{\\lambda}(T) = \\dfrac{2hc^{2}}{\\lambda^{5}}\\,\\dfrac{1}{e^{hc/\\lambda kT} - 1}',
+		where: 'Spectral radiance of a blackbody; π B_λ is the power per square metre per metre of wavelength.',
+		chapter: 'blackbody-wien',
+	},
+	{
+		id: 'wien',
+		name: 'Wien’s displacement law',
+		tex: '\\lambda_{\\text{max}} = \\dfrac{b}{T} \\qquad b = \\dfrac{hc}{4.965\\,k} = 2.898 \\times 10^{-3}\\ \\text{m·K} \\qquad E_{\\text{peak}} = 4.965\\,kT',
+		where: 'The Sun (5772 K) peaks at 502 nm; Earth (288 K) at 10.1 µm.',
+		chapter: 'blackbody-wien',
+	},
+	// ---- 8.2 The Stefan–Boltzmann law and luminosity ----
+	{
+		id: 'stefan-boltzmann',
+		name: 'Stefan–Boltzmann law',
+		tex: '\\dfrac{P}{A} = \\sigma T^{4} \\qquad \\sigma = \\dfrac{2\\pi^{5}k^{4}}{15c^{2}h^{3}} = 5.670 \\times 10^{-8}\\ \\text{W/(m}^{2}\\text{K}^{4})',
+		where: 'The area under Planck’s curve; multiply by the emissivity e for a real surface.',
+		chapter: 'stefan-boltzmann',
+	},
+	{
+		id: 'luminosity',
+		name: 'Luminosity of a star',
+		tex: 'L = 4\\pi R^{2}\\sigma T^{4} \\qquad \\dfrac{L}{L_{\\odot}} = \\left(\\dfrac{R}{R_{\\odot}}\\right)^{2}\\left(\\dfrac{T}{T_{\\odot}}\\right)^{4} \\qquad \\dfrac{\\Delta L}{L} \\approx 4\\,\\dfrac{\\Delta T}{T}',
+		where: 'R: radius; T: effective temperature. The Sun: 6.957 × 10⁸ m, 5772 K, 3.828 × 10²⁶ W.',
+		chapter: 'stefan-boltzmann',
+	},
+	// ---- 8.3 The inverse-square law and the solar constant ----
+	{
+		id: 'starlight-flux',
+		name: 'Starlight at a distance',
+		tex: 'S = \\dfrac{L}{4\\pi d^{2}} = \\sigma T^{4}\\left(\\dfrac{R}{d}\\right)^{2} \\qquad L = 4\\pi d^{2}S \\qquad T = \\left(\\dfrac{S}{\\sigma}\\right)^{1/4}\\sqrt{\\dfrac{d}{R}}',
+		where: 'R/d: the star’s angular radius. From Earth, S = 1361 W/m² and d/R = 215 give the Sun’s 5772 K.',
+		chapter: 'solar-constant',
+	},
+	{
+		id: 'planet-temperature-from-star',
+		name: 'Planet temperature from its star',
+		tex: 'T_{\\text{e}} = T_{\\star}\\,(1 - \\alpha)^{1/4}\\sqrt{\\dfrac{R_{\\star}}{2d}}',
+		where: 'α: albedo. Falls as 1/√d. Earth: 5772 K × 0.917 × 0.0482 = 255 K.',
+		chapter: 'solar-constant',
+	},
+	// ---- 8.4 The Sun vs Tau Ceti ----
+	{
+		id: 'comparing-stars',
+		name: 'Comparing stars',
+		tex: '\\dfrac{\\Delta L}{L} \\approx 4\\,\\dfrac{\\Delta T}{T} + 2\\,\\dfrac{\\Delta R}{R} \\qquad t_{\\text{life}} \\approx 10\\ \\text{Gyr} \\times \\dfrac{M/M_{\\odot}}{L/L_{\\odot}}',
+		where: 'Uncertainty in luminosity from temperature and radius; a rough main-sequence lifetime. Tau Ceti: 0.454 ± 0.018 L☉ from R and T; about 16 Gyr.',
+		chapter: 'sun-vs-tau-ceti',
+	},
+	{
+		id: 'dimming-shell',
+		name: 'Cells needed to dim a star',
+		tex: 'N = \\dfrac{4fr^{2}}{a^{2}}',
+		where: 'N cells of radius a on a shell of radius r block a fraction f of the light; far fewer are needed close to the star.',
+		chapter: 'sun-vs-tau-ceti',
+	},
 ];

@@ -268,3 +268,24 @@ export const WAVES = {
 	astrophageSpeed: 0.92, // fraction of c
 	co2SignatureBook: [4.26e-6, 18.31e-6], // m, the reader guide's figures for Venus's CO₂ "signature"
 };
+
+// Part 8 (thermal radiation and stars). Checked October 2026.
+// CODATA 2022: Wien displacement constant b = 2.897 771 955 × 10⁻³ m K (exact from h, c, k).
+// Wikipedia infoboxes: Tau Ceti (5320 ± 40 K, 0.793 ± 0.004 R☉, 0.488 ± 0.010 L☉, 0.800 M☉, 8–10 Gyr, rotation 46 d,
+// debris disk > 10× the Solar System's dust, habitable zone 0.55–1.16 au); Sirius A (9845 K, 1.7144 R☉, 24.74 L☉);
+// Proxima Centauri (2992 K, 0.1542 R☉, 0.001567 L☉); CMB 2.72548 K; Draper point 798 K (1847).
+// Solar irradiance: about 1361 W/m², ~0.1% peak-to-peak over a solar cycle, ±3.4% over the orbit, 1365.4 → 1360.9 (2011).
+// Habitable zone of the Sun (Kopparapu 2013 conservative): 0.99–1.67 au. Sun: main-sequence life about 10 Gyr, age 4.6 Gyr.
+export const STARS = {
+	wienB: 2.897771955e-3, // m K
+	cmbT: 2.72548, // K
+	draperT: 798, // K
+	tauCeti: { T: 5320, R: 0.793, L: 0.488, M: 0.8, age: [8, 10], rotationDays: 46, hz: [0.55, 1.16] },
+	sirius: { T: 9845, R: 1.7144, L: 24.74, M: 2.063, ly: 8.61 },
+	proxima: { T: 2992, R: 0.1542, L: 0.001567, M: 0.1221, ly: 4.2465 },
+	tsiCycle: 0.001, // fraction, peak-to-peak
+	tsiOld: 1365.4, tsiNew: 1360.9, // W/m²
+	sunHZ: [0.99, 1.67], // au
+	sunLifeGyr: 10, sunAgeGyr: 4.6,
+	courseTauCetiL: 0.52, // the value used throughout the course so far (upper end of published estimates)
+};

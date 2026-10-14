@@ -1,0 +1,49 @@
+---
+// The total output per wavelength of the Sun (5772 K, 1 R☉) and Tau Ceti (5320 K, 0.793 R☉): R² × Planck's law.
+// Tau Ceti's curve is lower (smaller and cooler) and peaks at a longer wavelength (545 nm vs 502 nm).
+const h = 6.62607015e-34, c = 299792458, k = 1.380649e-23, b = 2.897771955e-3;
+const B = (l: number, T: number) => (2 * h * c * c) / l ** 5 / Math.expm1((h * c) / (l * k * T));
+const L = 60, R = 570, T0 = 30, BOT = 240, lMax = 2000e-9;
+const top = B(b / 5772, 5772);
+const px = (l: number) => L + (l / lMax) * (R - L);
+const py = (v: number) => BOT - (v / top) * (BOT - T0 - 10);
+const stars = [
+	{ T: 5772, r: 1, cls: 's-amber', fc: 'f-amber', n: 'Sun' },
+	{ T: 5320, r: 0.793, cls: 's-rose', fc: 'f-rose', n: 'Tau Ceti' },
+];
+const curve = (T: number, r: number) =>
+	Array.from({ length: 300 }, (_, i) => {
+		const l = 100e-9 + ((lMax - 100e-9) * i) / 299;
+		return `${px(l).toFixed(1)},${py(r * r * B(l, T)).toFixed(1)}`;
+	}).join(' ');
+const rainbow = [[0, '#7c3aed'], [0.2, '#3b82f6'], [0.35, '#06b6d4'], [0.5, '#22c55e'], [0.65, '#eab308'], [0.82, '#f97316'], [1, '#dc2626']] as const;
+---
+
+<svg class="dg" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+	<defs>
+		<linearGradient id="ts2-vis" x1="0" x2="1" y1="0" y2="0">
+			{rainbow.map(([o, col]) => <stop offset={o} stop-color={col} />)}
+		</linearGradient>
+	</defs>
+	<rect x={px(400e-9)} y={T0} width={px(750e-9) - px(400e-9)} height={BOT - T0} fill="url(#ts2-vis)" fill-opacity="0.16" />
+	<line x1={L} y1={BOT} x2={R} y2={BOT} class="s-fg w2" />
+	<line x1={L} y1={BOT} x2={L} y2={T0} class="s-fg w2" />
+	{[500, 1000, 1500, 2000].map((n) => (
+		<>
+			<line x1={px(n * 1e-9)} y1={BOT} x2={px(n * 1e-9)} y2={BOT + 5} class="s-fg w1" />
+			<text x={px(n * 1e-9)} y={BOT + 18} class="t-mid t-sm f-muted">{n}</text>
+		</>
+	))}
+	{stars.map((s) => (
+		<>
+			<polyline points={curve(s.T, s.r)} class={`${s.cls} w3`} fill="none" />
+			<line x1={px(b / s.T)} y1={py(s.r * s.r * B(b / s.T, s.T))} x2={px(b / s.T)} y2={BOT} class={`${s.cls} w1 dash`} />
+		</>
+	))}
+	<text x={px(b / 5772) + 10} y={py(top) + 4} class="t-sm f-amber halo">Sun, 5772 K: peak 502 nm</text>
+	<text x={px(b / 5320) + 14} y={py(0.793 ** 2 * B(b / 5320, 5320)) + 22} class="t-sm f-rose halo">Tau Ceti, 5320 K: peak 545 nm</text>
+	<text x={R} y="100" class="t-end t-sm f-muted">Tau Ceti: smaller (0.63 × the area)</text>
+	<text x={R} y="118" class="t-end t-sm f-muted">and cooler (0.72 × per m²): 0.45 × the Sun</text>
+	<text x={(L + R) / 2} y="284" class="t-mid t-sm">wavelength (nm)</text>
+	<text x="22" y={(T0 + BOT) / 2} class="t-mid t-sm" transform={`rotate(-90 22 ${(T0 + BOT) / 2})`}>whole star’s output</text>
+</svg>

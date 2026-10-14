@@ -1,0 +1,23 @@
+---
+// Earth's orbit (eccentricity exaggerated for clarity) with the sunlight it receives at perihelion (early January, 0.983 au,
+// 1408 W/m²) and aphelion (early July, 1.017 au, 1317 W/m²), from S = 1361 W/m² × (1 au / r)².
+const CX = 300, CY = 150, A = 230, E = 0.3; // schematic: eccentricity and flattening exaggerated (real e = 0.0167)
+const Bm = 110, F = A * E; // Sun at the focus
+const SX = CX - F;
+---
+
+<svg class="dg" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+	<ellipse cx={CX} cy={CY} rx={A} ry={Bm} class="s-sky w2" fill="none" />
+	<circle cx={SX} cy={CY} r="16" class="f-amber" />
+	<text x={SX} y={CY + 34} class="t-mid t-sm">Sun</text>
+	<circle cx={CX - A} cy={CY} r="7" class="f-sky" />
+	<circle cx={CX + A} cy={CY} r="7" class="f-sky" />
+	<line x1={SX - 18} y1={CY} x2={CX - A + 9} y2={CY} class="s-amber w2 dash" />
+	<line x1={SX + 18} y1={CY} x2={CX + A - 9} y2={CY} class="s-amber w2 dash" />
+	<text x={CX - A + 14} y={CY - 18} class="t-sm t-b">perihelion (January)</text>
+	<text x={CX - A + 14} y={CY + 26} class="t-sm f-amber">0.983 au, 1408 W/m²</text>
+	<text x={CX + A - 14} y={CY - 18} class="t-end t-sm t-b">aphelion (July)</text>
+	<text x={CX + A - 14} y={CY + 26} class="t-end t-sm f-amber">1.017 au, 1317 W/m²</text>
+	<text x="300" y="28" class="t-mid t-sm">the "constant" swings by about 7% over the year</text>
+	<text x="300" y="290" class="t-mid t-sm f-muted">shape exaggerated: the real orbit is almost a circle</text>
+</svg>

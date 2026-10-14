@@ -1,0 +1,328 @@
+---
+title: Blackbody radiation and Wien's law
+description: Why hot things glow red, then yellow, then white; what a blackbody is; the shape of its spectrum and the ultraviolet catastrophe; Planck's law; Wien's law λmax = b/T derived from it with calculus; the colours of stars; and why Astrophage, the blackest thing in the novel, glows in a way no blackbody ever could.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import PlanckCurves from '../../../components/diagrams/part-8/PlanckCurves.astro';
+import CavityHole from '../../../components/diagrams/part-8/CavityHole.astro';
+import PeakLadder from '../../../components/diagrams/part-8/PeakLadder.astro';
+import BlackbodyLab from '../../../components/sims/BlackbodyLab.astro';
+
+## The scene
+
+Astrophage is the darkest thing Grace has ever seen. It absorbs every kind of light that falls on it, from ultraviolet to infrared, which is exactly what makes it such a good fuel tank and, later, such good radiation shielding. A perfect absorber has a name in physics: a **blackbody**. And physics says something surprising about blackbodies: the best absorbers are also the best emitters, and the light they give off depends only on their temperature.
+
+So here is a puzzle. Astrophage keeps itself at 96.415 °C, and it shines all its light at one wavelength, 25.984 µm. A blackbody at 96.415 °C would shine at **every** wavelength, brightest near 8 µm. To see why that makes Astrophage so strange, and why the Sun is the colour it is, we need the physics of glowing.
+
+## Prerequisites
+
+<Prereqs notes={{ photons: 'photons with energy hf', 'em-spectrum': 'wavelength, frequency and the bands of the spectrum', 'heat-transfer': 'thermal radiation, P = eσAT⁴ and emissivity', 'temperature-heat': 'temperature, kelvins and the energy kT', derivatives: 'finding a maximum by setting the derivative to zero', 'exponentials-logarithms': 'the exponential function' }} />
+
+## The concept
+
+### Everything glows
+
+Chapter 6.3 found that every object radiates energy, with a power $e\sigma AT^{4}$. That radiation isn't at one wavelength but spread over a range, a **spectrum**. At room temperature it is all far infrared, invisible to us. Heat a lump of iron and something changes. At around 800 K (the "Draper point", noted by John Draper in 1847) it begins to glow dull red. Hotter, it turns orange, then yellow, and a light-bulb filament at about 2400 K glows yellowish-white. Stars hotter than the Sun look bluish-white.
+
+Two things happen as the temperature rises: the object gets **much brighter** at every wavelength, and the **peak** of its spectrum moves to **shorter** wavelengths, from infrared into the visible.
+
+### The perfect absorber
+
+Chapter 6.3 also said that good absorbers are good emitters. A <Term id="blackbody">blackbody</Term> is the ideal: an object that absorbs every bit of light falling on it, at every wavelength ($e = 1$). Gustav Kirchhoff showed in 1860 that the light such an object gives off when it is hot depends **only on its temperature**, not on what it is made of. That makes the blackbody spectrum one of the few truly universal shapes in physics.
+
+The best real blackbody is surprisingly simple: a small hole in the side of a closed box.
+
+<Figure caption="A blackbody: a small hole in a heated box. Light that enters the hole bounces around inside, losing some of its energy at every bounce, and almost never finds its way back out. So the hole absorbs everything and looks perfectly black. The light that does come out of the hole is the walls' own glow, and its spectrum depends only on their temperature." alt="A rectangular box with reddish walls labelled walls at temperature T, glowing inside. A small gap in the left wall is the hole. An orange line labelled light in enters the hole from the left and zigzags between the walls, with dots at each bounce getting fainter. Text on the right: each bounce absorbs some of the light; it never gets back out. Text on the left, with a line to the hole: the hole looks perfectly black, and the glow escaping from it depends only on T: a blackbody.">
+	<CavityHole />
+</Figure>
+
+The Sun is not a box, but its glowing surface behaves very nearly like a blackbody, and so does the faint glow left over from the Big Bang, which fills all of space at 2.725 K.
+
+### The shape of the spectrum
+
+Measure how much power a blackbody gives out at each wavelength and you always get the same lopsided hump: nothing at very short wavelengths, a steep rise to a peak, then a long tail into the infrared.
+
+<Figure caption="Blackbody spectra at three temperatures. Raising the temperature makes the object brighter at every wavelength, and moves the peak to shorter wavelengths. The Sun's surface, at 5772 K, peaks near 500 nm, in the middle of the visible band." alt="A graph of power per wavelength against wavelength from 0 to 2500 nanometres, with the visible band from 400 to 750 nanometres shaded in rainbow colours and labelled visible. Three humped curves: an orange one for 5772 K, the Sun, peaking at 502 nanometres and tallest; a red one for 5000 K peaking at 580 nanometres; a violet one for 4000 K peaking at 724 nanometres and lowest. Each peak is marked with a dot and a dashed line down to the axis. A note: hotter, brighter at every wavelength, peak moves left.">
+	<PlanckCurves />
+</Figure>
+
+Around 1900 this shape was a crisis. Treating light as smooth waves, classical physics predicted that a hot object should give out more and more energy at shorter and shorter wavelengths without limit, an infinite glow of ultraviolet. This absurd prediction became known as the **ultraviolet catastrophe**. Real objects don't do that; the curve turns down.
+
+### Planck's way out
+
+In 1900 Max Planck found a formula that fitted the measurements perfectly. To explain it he had to assume that light's energy is emitted in lumps of $hf$, the idea Einstein later turned into photons (Chapter 7.3).
+
+Here is the key idea in words. In a hot object, the typical energy available to jiggle anything is about $kT$ (Chapter 6.1). Making a photon of frequency $f$ costs a whole lump $hf$ at once. Low-frequency photons are cheap, so they are made freely. But when $hf$ is many times $kT$, the lump is unaffordable, and such photons are almost never made. That is what cuts off the short-wavelength end of the spectrum and avoids the catastrophe. The result is <Term id="plancks-law">Planck's law</Term>:
+
+$$
+B_{\lambda}(T) = \frac{2hc^{2}}{\lambda^{5}}\,\frac{1}{e^{hc/\lambda kT} - 1}.
+$$
+
+$B_{\lambda}$ measures how brightly the surface glows at wavelength $\lambda$ (multiplied by $\pi$, it gives the power per square metre of surface per metre of wavelength). The exponential in the bottom is the photon-cost factor: $hc/\lambda$ is the energy of one photon, and when it is much bigger than $kT$, $e^{hc/\lambda kT}$ is enormous and the glow is tiny.
+
+### Wien's law: the peak
+
+Where is the peak? The Formulas section finds it with calculus. The answer is beautifully simple: the peak wavelength is inversely proportional to the temperature,
+
+$$
+\lambda_{\text{max}} = \frac{b}{T}, \qquad b = 2.898 \times 10^{-3}\ \text{m·K}.
+$$
+
+This is <Term id="wiens-law">Wien's displacement law</Term>, after Wilhelm Wien. Double the temperature and the peak moves to half the wavelength.
+
+<Figure caption="Wien's law across the Universe. The coldest things peak in microwaves, people and planets in the far infrared, and stars in the visible or ultraviolet. Astrophage, at 96 °C, would peak near 7.8 µm if it glowed like a blackbody; to peak at the Petrova wavelength, a blackbody would need to be at only 111 K." alt="A horizontal temperature axis on a logarithmic scale from 1 K to 20 000 K. Markers with labels and peak wavelengths: cosmic background at 2.7 K, 1.06 millimetres; peak at the Petrova lambda at 111.5 K, 26.0 micrometres; Earth at 288 K, 10.1 micrometres; Astrophage at 96 degrees Celsius, 7.8 micrometres; first visible glow at 798 K, 3.63 micrometres; bulb filament at 2400 K, 1.21 micrometres; Sun at 5772 K, 502 nanometres; Sirius A at 9845 K, 294 nanometres. Notes: hotter to the right; peak wavelengths get shorter.">
+	<PeakLadder />
+</Figure>
+
+### The colours of stars
+
+Wien's law turns colour into a thermometer. The Sun's surface, at 5772 K, peaks at about 500 nm, in the green, yet the Sun looks white from space, because its broad hump covers the whole visible band and our eyes blend all those colours. A star at 3000 K, such as Proxima Centauri, peaks in the near infrared and looks orange-red; Sirius A, at 9845 K, peaks in the ultraviolet and looks bluish-white. A star's colour tells astronomers its surface temperature without anyone ever going there.
+
+The spectrum has another feature: only part of it is visible. A blackbody at the Sun's 5772 K puts about 42% of its light into the visible band, 12% into the ultraviolet and 44% into the infrared. A 2400 K filament puts out only about 4% of its power as visible light, which is why old-fashioned bulbs were such good heaters and such poor lamps.
+
+### Astrophage is not a blackbody
+
+Now the puzzle from the scene. Astrophage absorbs everything, so it is black. But a black object at 96.415 °C (369.6 K) should glow with a broad hump peaking near 7.8 µm, with only a fraction of a percent of its light within half a percent of 25.984 µm. Astrophage instead puts all of its output into that one wavelength. Its glow isn't thermal at all: it comes from the novel's invented biology, releasing stored energy as identical photons, more like a laser than a hot coal. That is also why the Petrova line stood out so sharply: no natural hot object makes a single sharp line.
+
+## Formulas
+
+### Planck's law
+
+$$
+\boxed{B_{\lambda}(T) = \frac{2hc^{2}}{\lambda^{5}}\,\frac{1}{e^{hc/\lambda kT} - 1}}
+$$
+
+For long wavelengths ($hc/\lambda \ll kT$), $e^{x} - 1 \approx x$ (Chapter C.2's linear approximation), and $B_{\lambda} \approx 2ckT/\lambda^{4}$: the classical formula, which keeps growing at short wavelengths. The exponential is what tames it.
+
+### Deriving Wien's law
+
+Fix $T$ and let $x = \dfrac{hc}{\lambda kT}$, so $\lambda = \dfrac{hc}{xkT}$. Then
+
+$$
+B_{\lambda} = \frac{2hc^{2}}{\lambda^{5}}\,\frac{1}{e^{x} - 1} = \frac{2(kT)^{5}}{h^{4}c^{3}}\cdot\frac{x^{5}}{e^{x} - 1}.
+$$
+
+The front factor is fixed, so the peak is where $g(x) = \dfrac{x^{5}}{e^{x} - 1}$ is largest (a maximum in $x$ is a maximum in $\lambda$, since one goes down when the other goes up). Set $g'(x) = 0$ using the quotient rule (Chapter C.3's rules applied to $u/v$: $(u'v - uv')/v^{2}$):
+
+$$
+g'(x) = \frac{5x^{4}(e^{x} - 1) - x^{5}e^{x}}{(e^{x} - 1)^{2}} = 0 \qquad\Rightarrow\qquad 5(e^{x} - 1) = xe^{x} \qquad\Rightarrow\qquad x = 5\left(1 - e^{-x}\right)
+$$
+
+This can't be solved with algebra, but it can be solved by repeating it: start with $x = 5$ and keep feeding the answer back in.
+
+$$
+x_{1} = 5(1 - e^{-5}) = 4.9663 \qquad x_{2} = 5(1 - e^{-4.9663}) = 4.9652 \qquad x_{3} = 4.9651 \qquad \dots \qquad x = 4.9651
+$$
+
+So the peak is at $\dfrac{hc}{\lambda_{\text{max}}kT} = 4.9651$, which gives
+
+$$
+\boxed{\lambda_{\text{max}} = \frac{hc}{4.9651\,k}\cdot\frac{1}{T} = \frac{b}{T}} \qquad b = \frac{6.626 \times 10^{-34} \times 2.998 \times 10^{8}}{4.9651 \times 1.381 \times 10^{-23}}\ \text{m·K} = 2.898 \times 10^{-3}\ \text{m·K}
+$$
+
+### Photons at the peak
+
+At the peak, a photon's energy is $hc/\lambda_{\text{max}} = 4.965\,kT$. The light a body gives out is made of photons with energies of a few $kT$, as Planck's photon-cost argument suggested.
+
+## Worked examples
+
+<Example n={1} title="The colour of the Sun">
+Find the peak wavelength of the Sun's surface, 5772 K, and the energy of a photon there.
+
+$$
+\lambda_{\text{max}} = \frac{2.898 \times 10^{-3}\ \text{m·K}}{5772\ \text{K}} = 5.02 \times 10^{-7}\ \text{m} = 502\ \text{nm}
+$$
+
+$$
+E = 4.965\,kT = 4.965 \times 1.381 \times 10^{-23}\ \text{J/K} \times 5772\ \text{K} = 3.96 \times 10^{-19}\ \text{J} = 2.47\ \text{eV}
+$$
+
+The peak is blue-green, in the middle of the visible band. Our eyes evolved under this light, and their sensitivity is centred on just this part of the spectrum.
+</Example>
+
+<Example n={2} title="Earth and Grace glow too" book>
+Find the peak wavelengths for the Earth's surface (288 K) and for Grace's skin (310 K).
+
+$$
+\lambda_{\text{Earth}} = \frac{2.898 \times 10^{-3}\ \text{m·K}}{288\ \text{K}} = 1.01 \times 10^{-5}\ \text{m} = 10.1\ \mu\text{m} \qquad \lambda_{\text{Grace}} = \frac{2.898 \times 10^{-3}\ \text{m·K}}{310\ \text{K}} = 9.35\ \mu\text{m}
+$$
+
+Both are about twenty times longer than the Sun's peak, as Chapter 6.5 said, and deep in the infrared. That's why carbon dioxide's band near 15 µm traps Earth's heat but lets sunlight in, and why thermal cameras that "see" people work in the long-wave infrared, around 8 to 14 µm.
+</Example>
+
+<Example n={3} title="Astrophage's two temperatures" book>
+(a) Where would a blackbody at Astrophage's 96.415 °C peak? (b) What temperature would a blackbody need to peak at the Petrova wavelength, 25.984 µm?
+
+$$
+\text{(a)}\quad T = 96.415 + 273.15 = 369.565\ \text{K} \qquad \lambda_{\text{max}} = \frac{2.898 \times 10^{-3}\ \text{m·K}}{369.565\ \text{K}} = 7.84\ \mu\text{m}
+$$
+
+$$
+\text{(b)}\quad T = \frac{b}{\lambda} = \frac{2.898 \times 10^{-3}\ \text{m·K}}{25.984 \times 10^{-6}\ \text{m}} = 111.5\ \text{K} = -161.6\ °\text{C}
+$$
+
+If Astrophage glowed like a hot object at its own temperature, its light would peak more than three times shorter than the Petrova line. A blackbody peaking at 25.984 µm would be about as cold as liquid methane. And even then it would glow over a broad range: no temperature makes a blackbody shine at one wavelength.
+</Example>
+
+<Example n={4} title="Hot and cool stars">
+Find the peak wavelengths of Sirius A (9845 K) and Proxima Centauri (2992 K). Which bands are they in?
+
+$$
+\lambda_{\text{Sirius}} = \frac{2.898 \times 10^{-3}\ \text{m·K}}{9845\ \text{K}} = 294\ \text{nm} \qquad \lambda_{\text{Proxima}} = \frac{2.898 \times 10^{-3}\ \text{m·K}}{2992\ \text{K}} = 969\ \text{nm}
+$$
+
+Sirius peaks in the ultraviolet and looks blue-white; Proxima peaks in the near infrared and looks orange-red. Proxima puts only about 11% of its light into the visible band, so although it is the nearest star to the Sun, it is far too faint to see without a telescope.
+</Example>
+
+<Example n={5} title="The coldest glow">
+The cosmic microwave background, the leftover glow of the Big Bang, is a blackbody at 2.725 K. Find its peak wavelength and its typical photon energy.
+
+$$
+\lambda_{\text{max}} = \frac{2.898 \times 10^{-3}\ \text{m·K}}{2.725\ \text{K}} = 1.06 \times 10^{-3}\ \text{m} = 1.06\ \text{mm}
+$$
+
+$$
+E = 4.965\,kT = 4.965 \times 1.381 \times 10^{-23}\ \text{J/K} \times 2.725\ \text{K} = 1.87 \times 10^{-22}\ \text{J} = 1.17 \times 10^{-3}\ \text{eV}
+$$
+
+A millimetre-wave microwave, with photons a two-thousandth of the energy of visible light. Measured by the COBE satellite, its spectrum is the most perfect blackbody ever seen.
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** Blackbody radiation, Kirchhoff's law (good absorbers are good emitters), Planck's law (1900), Wien's law with $b = 2.898 \times 10^{-3}$ m·K (NIST), the Draper point (798 K, 1847), the cosmic background at 2.725 K, and the temperatures of the Sun, Sirius A and Proxima Centauri are all established. The Sun's spectrum peaks in the green, yet the Sun looks white.
+
+**Weir's inventions.** Astrophage absorbing every wavelength makes it, in physics terms, a near-perfect blackbody, which is consistent and clever. But its emission, all at 25.984 µm, is not thermal radiation; the novel's biology turns stored energy into identical photons, which no blackbody can do.
+
+**How realistic are the numbers?** The Petrova wavelength is the peak of a 111.5 K blackbody, not a 369.6 K one, so anyone measuring the Petrova line would know at once it isn't simply warm stuff glowing. That fits the novel: the line's sharpness is what convinces scientists something new is going on.
+</RealVsBook>
+
+## Interactive simulation
+
+<BlackbodyLab />
+
+Things to try: start at Earth's temperature and slowly raise it until the visible fraction stops being a tiny number and a glow colour appears. Compare the Sun and Sirius: how much does the peak move when the temperature rises by 70%? Then press "Astrophage" and see how far its thermal peak is from the Petrova line.
+
+## Practice set
+
+<Problem n={1} level="easy">
+What happens to a blackbody's peak wavelength if its temperature doubles?
+
+<Solution>
+It halves, because $\lambda_{\text{max}} = b/T$.
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy">
+Why does a small hole in a hot box behave like a perfect blackbody?
+
+<Solution>
+Light entering the hole bounces around inside, being partly absorbed at each bounce, so almost none ever comes back out: the hole absorbs everything. A perfect absorber is also a perfect emitter, so the glow from the hole has the ideal blackbody spectrum for the walls' temperature.
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy">
+Find the peak wavelength for an object at the Draper point, 798 K. Why does it still look only dull red?
+
+<Solution>
+$\lambda_{\text{max}} = 2.898 \times 10^{-3}/798 = 3.63$ µm, in the infrared. Only the far short-wavelength tail of its spectrum reaches the red end of the visible band, so it glows faintly red.
+</Solution>
+</Problem>
+
+<Problem n={4} level="easy">
+A star's spectrum peaks at 400 nm. What is its surface temperature?
+
+<Solution>
+$T = b/\lambda_{\text{max}} = 2.898 \times 10^{-3}/400 \times 10^{-9} = 7240$ K.
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium">
+Find the peak wavelength for a 2400 K bulb filament. Roughly what fraction of its power is visible? Why were such bulbs called "heaters that give off a little light"?
+
+<Solution>
+$\lambda_{\text{max}} = 2.898 \times 10^{-3}/2400 = 1.21$ µm, in the infrared. Only about 4% of its power falls between 400 and 750 nm; the other 96% is mostly infrared, felt as heat.
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium" book>
+Tau Ceti's surface is at about 5320 K. Find its peak wavelength and compare it with the Sun's.
+
+<Solution>
+$\lambda_{\text{max}} = 2.898 \times 10^{-3}/5320 = 545$ nm, about 43 nm longer than the Sun's 502 nm: a slightly yellower star. Chapter 8.4 compares the two stars in detail.
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium">
+Show that at long wavelengths Planck's law becomes $B_{\lambda} \approx 2ckT/\lambda^{4}$. Why is this formula a "catastrophe" at short wavelengths?
+
+<Solution>
+When $x = hc/\lambda kT$ is small, $e^{x} - 1 \approx x$, so $B_{\lambda} \approx \dfrac{2hc^{2}}{\lambda^{5}}\cdot\dfrac{\lambda kT}{hc} = \dfrac{2ckT}{\lambda^{4}}$. This grows without limit as $\lambda \to 0$, so the total glow, the area under the curve, would be infinite.
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium">
+Use the peak photon energy $4.965\,kT$ to find the typical photon energy, in eV, given out by Earth's surface at 288 K. Compare it with a carbon dioxide photon at 15 µm (0.083 eV, Chapter 7.5).
+
+<Solution>
+$4.965 \times 1.381 \times 10^{-23} \times 288 = 1.97 \times 10^{-20}$ J $= 0.123$ eV. That's the same order as CO₂'s 0.083 eV band, which is why CO₂ absorbs so much of Earth's glow.
+</Solution>
+</Problem>
+
+<Problem n={9} level="medium" book>
+How much colder than Astrophage's set point would a blackbody have to be to peak at the Petrova wavelength? Give the ratio of the two temperatures.
+
+<Solution>
+$369.565 - 111.5 = 258$ K colder; the ratio is $369.565/111.5 = 3.31$, the same as the ratio of the two peak wavelengths, $25.984/7.84 = 3.31$.
+</Solution>
+</Problem>
+
+<Problem n={10} level="challenging">
+Carry out the iteration $x_{n+1} = 5(1 - e^{-x_{n}})$ starting from $x_{0} = 3$. Does it reach the same answer? Use it to recompute $b$.
+
+<Solution>
+$x_{1} = 5(1 - e^{-3}) = 4.751$, $x_{2} = 4.957$, $x_{3} = 4.965$, then $4.965$: the same 4.9651. $b = hc/(4.9651k) = 1.986 \times 10^{-25}/(4.9651 \times 1.381 \times 10^{-23}) = 2.898 \times 10^{-3}$ m·K.
+</Solution>
+</Problem>
+
+<Problem n={11} level="challenging">
+Using Planck's law, by what factor is a 6000 K blackbody brighter than a 3000 K one at 500 nm? Compare that with the factor at the two curves' own peaks.
+
+<Solution>
+$\dfrac{e^{hc/\lambda k \cdot 3000} - 1}{e^{hc/\lambda k \cdot 6000} - 1}$ with $hc/k = 0.014\,388$ m·K, so $hc/\lambda k = 0.014\,388\ \text{m·K}/500 \times 10^{-9}\ \text{m} = 28\,776$ K: $\dfrac{e^{9.592} - 1}{e^{4.796} - 1} = \dfrac{14\,650}{120.0} = 122$. At their peaks the factor is $2^{5} = 32$ (from the $(kT)^{5}$ front factor). The hotter body wins by far more in the visible, on the steep short-wavelength side of the cooler body's curve.
+</Solution>
+</Problem>
+
+<Problem n={12} level="challenging" book>
+The novel's Astrophage absorbs light of every wavelength. Give two reasons, from this chapter, why a perfect absorber at 96 °C that emitted thermally would make a poor rocket fuel, while Astrophage's actual emission makes a good one.
+
+<Solution>
+A thermal emitter radiates in all directions, so its light pushes it nowhere in particular, and it would glow all the time, losing its stored energy as broad infrared whatever it needed. Astrophage instead stores energy and releases it on demand in one direction, as identical photons, which is exactly what a photon rocket needs (Chapter 7.4).
+</Solution>
+</Problem>
+
+## Summary
+
+- Every object glows with a spectrum; hotter objects are brighter at every wavelength and peak at shorter wavelengths.
+- A blackbody absorbs all light and emits a spectrum that depends only on its temperature. A small hole in a hot box is a near-perfect one; so are the Sun and the cosmic background.
+- Classical physics predicted an infinite ultraviolet glow; Planck fixed it in 1900 by emitting light in lumps $hf$: $B_{\lambda} = \dfrac{2hc^{2}}{\lambda^{5}}\dfrac{1}{e^{hc/\lambda kT} - 1}$.
+- Setting the derivative to zero gives Wien's law $\lambda_{\text{max}} = b/T$, with $b = 2.898 \times 10^{-3}$ m·K, and photons at the peak carry about $5kT$.
+- The Sun (5772 K) peaks at 502 nm; Earth and people near 10 µm; Astrophage's temperature would put a thermal peak at 7.8 µm, not 25.984 µm. Astrophage's light is not thermal.
+
+**Formulas from this chapter**
+
+$$
+B_{\lambda}(T) = \frac{2hc^{2}}{\lambda^{5}}\,\frac{1}{e^{hc/\lambda kT} - 1} \qquad \lambda_{\text{max}} = \frac{b}{T},\ \ b = 2.898 \times 10^{-3}\ \text{m·K} \qquad E_{\text{peak}} = 4.965\,kT
+$$
+
+## Sources
+
+- Blackbody radiation, Planck's law and Wien's law: OpenStax, [*University Physics Volume 3*, §6.1 "Blackbody Radiation"](https://openstax.org/books/university-physics-volume-3/pages/6-1-blackbody-radiation); Wikipedia, [Black body](https://en.wikipedia.org/wiki/Black_body).
+- Planck's 1900 law and his quantum assumption; the ultraviolet catastrophe: Wikipedia, [Planck's law](https://en.wikipedia.org/wiki/Planck%27s_law) and [Ultraviolet catastrophe](https://en.wikipedia.org/wiki/Ultraviolet_catastrophe). Kirchhoff (1860): Wikipedia, [Kirchhoff's law of thermal radiation](https://en.wikipedia.org/wiki/Kirchhoff%27s_law_of_thermal_radiation).
+- Wien's displacement constant $b = 2.897\,771\,955 \times 10^{-3}$ m·K: NIST, [CODATA](https://physics.nist.gov/cgi-bin/cuu/Value?bwien); Wikipedia, [Wien's displacement law](https://en.wikipedia.org/wiki/Wien%27s_displacement_law).
+- Thermal cameras work in the long-wave infrared, about 8–14 µm: Wikipedia, [Thermographic camera](https://en.wikipedia.org/wiki/Thermographic_camera).
+- The Draper point (798 K, 1847): Wikipedia, [Draper point](https://en.wikipedia.org/wiki/Draper_point). Incandescent lamps at about 2400 K: Wikipedia, [Color temperature](https://en.wikipedia.org/wiki/Color_temperature). The cosmic microwave background (2.72548 K, the most perfect blackbody measured, COBE FIRAS): Wikipedia, [Cosmic microwave background](https://en.wikipedia.org/wiki/Cosmic_microwave_background).
+- The Sun's effective temperature (5772 K): NASA, [Sun Fact Sheet](https://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html); it looks white, and its spectrum peaks in the green: Wikipedia, [Sun](https://en.wikipedia.org/wiki/Sun). Sirius A (9845 K): Wikipedia, [Sirius](https://en.wikipedia.org/wiki/Sirius). Proxima Centauri (2992 K): Wikipedia, [Proxima Centauri](https://en.wikipedia.org/wiki/Proxima_Centauri). Tau Ceti (5320 K): Wikipedia, [Tau Ceti](https://en.wikipedia.org/wiki/Tau_Ceti).
+- Astrophage absorbs all types of light and holds 96.415 °C: Royal Institution, ["Project Hail Mary: the science behind the fiction"](https://www.rigb.org/node/6363). The Petrova wavelength: readifyai reader guide, [Petrova line](https://readifyai.com/en/books/Project%20Hail%20Mary/wiki/Petrova%20line) (not an official source).

@@ -1,0 +1,23 @@
+---
+// A blackbody as a small hole in a closed, heated box. Light entering bounces around and is almost all absorbed before it
+// can find its way out, so the hole looks perfectly black; the glow coming out of it depends only on the walls' temperature.
+const BX = 150, BY = 60, BW = 300, BH = 180, HY = 150;
+const path = [[40, 110], [BX, HY - 6], [380, 75], [440, 210], [260, 238], [168, 120], [330, 62], [420, 150]];
+const d = path.map(([x, y], i) => `${i ? 'L' : 'M'}${x},${y}`).join(' ');
+---
+
+<svg class="dg" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+	<rect x={BX} y={BY} width={BW} height={BH} class="f-rose-soft s-rose w3" />
+	<rect x={BX - 4} y={HY - 14} width="8" height="28" class="f-bg" />
+	<path d={d} class="s-amber w2" fill="none" stroke-opacity="0.9" />
+	{path.slice(2).map(([x, y], i) => <circle cx={x} cy={y} r={4 - i * 0.5} class="f-amber" fill-opacity={1 - i * 0.15} />)}
+	<text x="40" y="100" class="t-sm f-amber">light in</text>
+	<text x={BX + BW / 2} y={BY + BH + 30} class="t-mid t-sm">walls at temperature T, glowing inside</text>
+	<text x={BX + BW + 15} y="110" class="t-sm">each bounce absorbs</text>
+	<text x={BX + BW + 15} y="128" class="t-sm">some of the light:</text>
+	<text x={BX + BW + 15} y="146" class="t-sm">it never gets back out</text>
+	<text x="20" y="190" class="t-sm f-muted">the hole looks perfectly black,</text>
+	<text x="20" y="208" class="t-sm f-muted">and the glow escaping from it</text>
+	<text x="20" y="226" class="t-sm f-muted">depends only on T: a blackbody</text>
+	<line x1="120" y1="176" x2={BX - 6} y2={HY + 10} class="s-muted w1" />
+</svg>

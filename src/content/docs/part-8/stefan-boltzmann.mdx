@@ -1,0 +1,341 @@
+---
+title: The Stefan–Boltzmann law and luminosity
+description: Where σT⁴ comes from (the area under Planck's curve, and why it must grow as T⁴), the value of σ from h, k and c, a star's luminosity L = 4πR²σT⁴, weighing up radius against temperature, finding the sizes of stars, what a 1% dimmer Sun would mean, how much power Astrophage swallows, and why the Hail Mary can't afford to waste heat.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import AreaScaling from '../../../components/diagrams/part-8/AreaScaling.astro';
+import StarRadiusLines from '../../../components/diagrams/part-8/StarRadiusLines.astro';
+import StarBuilder from '../../../components/sims/StarBuilder.astro';
+
+## The scene
+
+Before the *Hail Mary* is even designed, astronomers have to answer a simple-sounding question: how much is the Sun's output really falling? The Sun puts out an almost unimaginable power, and the forecast says it will drop by 1% in about nine years and 5% in about twenty. What does a star's total power depend on, and what would it take to change it?
+
+Chapter 6.3 introduced the law that answers this, $P = e\sigma AT^{4}$, as a measured fact and promised to explain where it comes from. Now that we have Planck's law (Chapter 8.1), we can.
+
+## Prerequisites
+
+<Prereqs notes={{ 'blackbody-wien': 'Planck’s law and the blackbody spectrum', 'heat-transfer': 'P = eσAT⁴ as a measured law', integrals: 'the area under a curve as an integral', 'ratios-proportionality': 'power laws and the ratio method', power: 'power in watts', derivatives: 'small changes using derivatives' }} />
+
+## The concept
+
+### Adding up the whole spectrum
+
+Planck's law tells us how much a blackbody emits at each wavelength. The **total** power from each square metre is everything added up: the area under the Planck curve (Chapter C.4). Hotter objects glow more at every wavelength, so the area grows with temperature. But how fast?
+
+### Why it has to be T⁴
+
+Chapter 8.1 showed that Planck's law can be written in terms of $x = hc/\lambda kT$ as
+
+$$
+B_{\lambda} = \frac{2(kT)^{5}}{h^{4}c^{3}}\cdot\frac{x^{5}}{e^{x} - 1}.
+$$
+
+That means the curve always has the **same shape**, just resized. Raise the temperature by some factor, say 1.5, and two things happen to the curve:
+
+- every feature moves to a wavelength 1.5 times **shorter** (the curve is squeezed sideways by 1.5, as Wien's law says);
+- every height is multiplied by $1.5^{5} = 7.6$ (from the $(kT)^{5}$ in front).
+
+An area is width times height, so the total grows by $7.6/1.5 = 1.5^{4} = 5.1$. Whatever the factor, the total grows as its fourth power.
+
+<Figure caption="Why the total glow goes as T⁴. The 4500 K curve is the 3000 K curve squeezed sideways by 1.5 and stretched upwards by 1.5⁵ = 7.6, so the area under it, the total power per square metre, is 1.5⁴ = 5.1 times bigger." alt="A graph of power per wavelength against wavelength from 0 to 3000 nanometres. A small red shaded hump labelled 3000 K peaks near 1000 nanometres. A much taller orange shaded hump peaks further left, near 640 nanometres, labelled 4500 K, peak 1.5 times further left, 1.5 to the fifth equals 7.6 times taller. Text on the right: area equals total power per square metre; 7.6 divided by 1.5 equals 1.5 to the fourth equals 5.1 times more; so total glow is proportional to T to the fourth.">
+	<AreaScaling />
+</Figure>
+
+So the power from each square metre of a blackbody is
+
+$$
+\frac{P}{A} = \sigma T^{4}.
+$$
+
+This is the <Term id="stefan-boltzmann-law">Stefan–Boltzmann law</Term>. Josef Stefan found the $T^{4}$ rule from measurements in 1879, and Ludwig Boltzmann explained it with theory in 1884. Working out the area exactly (a harder integral, done in the Formulas section) gives the constant in terms of nature's basic numbers:
+
+$$
+\sigma = \frac{2\pi^{5}k^{4}}{15c^{2}h^{3}} = 5.670 \times 10^{-8}\ \text{W/(m}^{2}\text{K}^{4}).
+$$
+
+The constant Chapter 6.3 took from measurement is built from the Boltzmann constant, the speed of light and the Planck constant. Stefan himself used his law to make the first sensible estimate of the Sun's surface temperature, about 5700 K.
+
+### The fourth power is fierce
+
+$T^{4}$ means small temperature changes make big differences. Double the temperature and the glow is 16 times stronger; a surface at 1000 K radiates about 57 kW from each square metre, while the Sun's surface, at 5772 K, pours out 63 million watts per square metre. Run it the other way: a 1% change in output needs only a ¼% change in temperature.
+
+### Luminosity: the whole star
+
+A star's total power, its <Term id="luminosity">luminosity</Term>, is its surface area times what each square metre emits. A sphere of radius $R$ has area $4\pi R^{2}$, so
+
+$$
+L = 4\pi R^{2}\sigma T^{4}.
+$$
+
+Here $T$ is the star's **effective temperature**: the temperature of a blackbody of the same size that would give out the same power. (A star isn't a perfect blackbody, but it's close.) Two things set how bright a star is: its size, through $R^{2}$, and its temperature, through $T^{4}$. A huge cool star can outshine a small hot one.
+
+Compared with the Sun this is easiest as a ratio (Chapter 0.5):
+
+$$
+\frac{L}{L_{\odot}} = \left(\frac{R}{R_{\odot}}\right)^{2}\left(\frac{T}{T_{\odot}}\right)^{4}.
+$$
+
+### Measuring the sizes of stars
+
+Stars are so far away that they look like points, even in big telescopes. But astronomers can measure a star's **temperature** from its colour or spectrum (Chapters 8.1 and 7.5), and its **luminosity** from how bright it looks and how far away it is (Chapter 8.3). Then the Stefan–Boltzmann law gives its radius. That is how we know that Sirius A is 1.7 times the Sun's size and Proxima Centauri only about a seventh.
+
+<Figure caption="Stars by luminosity and surface temperature, both on log scales, with hotter stars to the left as astronomers draw it. Each dashed line is a star of one fixed radius: along it, L grows as T⁴. A star's position tells you its size." alt="A graph with surface temperature on a logarithmic axis from about 12 000 K on the left to 2500 K on the right, and luminosity in Suns on a logarithmic axis from 0.001 to 100 upwards. Three dashed diagonal lines falling to the right are labelled 0.1, 1 and 10 solar radii. Points: the Sun on the 1 solar radius line; Tau Ceti just below and right of the Sun; Sirius A upper left, between the 1 and 10 solar radius lines; Proxima Centauri lower right, near the 0.1 solar radius line.">
+	<StarRadiusLines />
+</Figure>
+
+### What a dimming would mean
+
+The novel's crisis is a Sun putting out less light. If the Sun itself were cooling, a 1% drop in $L$ would need its surface to cool by only about 14 K, a quarter of a percent, too little to notice in its colour. But that is not what happens in the novel. The Sun's output is being **intercepted**: Astrophage soaks up sunlight and turns the energy into its own mass. A 1% loss of the Sun's light is 1% of $3.828 \times 10^{26}$ W, almost four trillion trillion watts, being eaten.
+
+## Formulas
+
+### The Stefan–Boltzmann law
+
+The power emitted per square metre per metre of wavelength is $\pi B_{\lambda}$, so the total is
+
+$$
+\frac{P}{A} = \int_{0}^{\infty} \pi B_{\lambda}\,d\lambda.
+$$
+
+Change variable to $x = hc/\lambda kT$, so $\lambda = hc/(xkT)$ and a small step $d\lambda$ corresponds to $\dfrac{hc}{x^{2}kT}\,dx$ (the size of the step; the limits swap round, which absorbs the minus sign):
+
+$$
+\frac{P}{A} = \pi \cdot \frac{2(kT)^{5}}{h^{4}c^{3}}\int_{0}^{\infty} \frac{x^{5}}{e^{x} - 1}\cdot\frac{hc}{x^{2}kT}\,dx = \frac{2\pi k^{4}T^{4}}{h^{3}c^{2}}\int_{0}^{\infty}\frac{x^{3}}{e^{x} - 1}\,dx
+$$
+
+The temperature has come out in front as $T^{4}$, exactly as the squeeze-and-stretch argument said. The remaining integral is a pure number; it can be evaluated (with techniques beyond this course) as $\pi^{4}/15 = 6.494$. So
+
+$$
+\boxed{\frac{P}{A} = \sigma T^{4}} \qquad \sigma = \frac{2\pi k^{4}}{h^{3}c^{2}}\cdot\frac{\pi^{4}}{15} = \frac{2\pi^{5}k^{4}}{15c^{2}h^{3}} = 5.670 \times 10^{-8}\ \text{W/(m}^{2}\text{K}^{4})
+$$
+
+For a real surface with emissivity $e$, multiply by $e$ (Chapter 6.3).
+
+### Luminosity
+
+$$
+\boxed{L = 4\pi R^{2}\sigma T^{4}} \qquad \boxed{\frac{L}{L_{\odot}} = \left(\frac{R}{R_{\odot}}\right)^{2}\left(\frac{T}{T_{\odot}}\right)^{4}}
+$$
+
+Rearranged for the radius or the temperature:
+
+$$
+\frac{R}{R_{\odot}} = \frac{\sqrt{L/L_{\odot}}}{(T/T_{\odot})^{2}} \qquad T = \left(\frac{L}{4\pi R^{2}\sigma}\right)^{1/4}
+$$
+
+### Small changes
+
+Differentiate $L = 4\pi R^{2}\sigma T^{4}$ with respect to $T$ at fixed $R$: $\dfrac{dL}{dT} = 4 \cdot 4\pi R^{2}\sigma T^{3} = \dfrac{4L}{T}$. For a small change,
+
+$$
+\boxed{\frac{\Delta L}{L} \approx 4\,\frac{\Delta T}{T}} \qquad \frac{\Delta T}{T} \approx \frac{1}{4}\,\frac{\Delta L}{L}
+$$
+
+## Worked examples
+
+<Example n={1} title="The Sun's power from its size and temperature">
+The Sun's radius is $6.957 \times 10^{8}$ m and its effective temperature 5772 K. Find the power from each square metre and its luminosity.
+
+$$
+\frac{P}{A} = \sigma T^{4} = 5.670 \times 10^{-8}\ \text{W/(m}^{2}\text{K}^{4}) \times (5772\ \text{K})^{4} = 6.294 \times 10^{7}\ \text{W/m}^{2}
+$$
+
+$$
+L = 4\pi R^{2}\,\sigma T^{4} = 4\pi (6.957 \times 10^{8}\ \text{m})^{2} \times 6.294 \times 10^{7}\ \text{W/m}^{2} = 3.828 \times 10^{26}\ \text{W}
+$$
+
+Exactly the measured value. Each square metre of the Sun's surface shines with the power of about sixty thousand one-kilowatt heaters.
+</Example>
+
+<Example n={2} title="Sirius A's size">
+Sirius A has a luminosity of 24.74 Suns and a surface temperature of 9845 K. How big is it?
+
+$$
+\frac{R}{R_{\odot}} = \frac{\sqrt{L/L_{\odot}}}{(T/T_{\odot})^{2}} = \frac{\sqrt{24.74}}{(9845/5772)^{2}} = \frac{4.974}{2.909} = 1.71
+$$
+
+Sirius A is 1.71 times the Sun's radius, matching the measured 1.714. Most of its extra brightness comes from its temperature: $(9845/5772)^{4} = 8.5$, compared with $1.71^{2} = 2.9$ from its size.
+</Example>
+
+<Example n={3} title="Cooling the Sun by 1%" book>
+If the Sun's 1% dimming came from its surface cooling, by how much would the temperature have to fall? Compare the exact answer with the small-change rule.
+
+$$
+T_{\text{new}} = T\,(0.99)^{1/4} = 5772\ \text{K} \times 0.997\,490 = 5757.5\ \text{K} \qquad \Delta T = 14.5\ \text{K}
+$$
+
+$$
+\text{small-change rule: } \Delta T \approx \frac{T}{4}\,\frac{\Delta L}{L} = \frac{5772\ \text{K}}{4} \times 0.01 = 14.4\ \text{K}
+$$
+
+A drop of about 14 K, a quarter of a percent. The Sun's colour would hardly change. Astronomers would see the dimming in the total light long before they noticed any change in colour.
+</Example>
+
+<Example n={4} title="How much power does Astrophage eat?" book>
+In the novel, Astrophage soaks up sunlight and turns the energy into mass. If it intercepts 1% of the Sun's output, how much power is that, and how much mass would it gain each second and each year if all the energy became mass ($E = mc^{2}$, Chapter 5.3)?
+
+$$
+P = 0.01 \times 3.828 \times 10^{26}\ \text{W} = 3.828 \times 10^{24}\ \text{W}
+$$
+
+$$
+\frac{\Delta m}{\Delta t} = \frac{P}{c^{2}} = \frac{3.828 \times 10^{24}\ \text{W}}{(2.998 \times 10^{8}\ \text{m/s})^{2}} = 4.26 \times 10^{7}\ \text{kg/s}
+$$
+
+$$
+\text{per year: } 4.26 \times 10^{7}\ \text{kg/s} \times 3.156 \times 10^{7}\ \text{s} = 1.34 \times 10^{15}\ \text{kg}
+$$
+
+Forty thousand tonnes of new Astrophage every second, more than a trillion tonnes a year, and the population keeps growing. That is the scale of the crisis.
+</Example>
+
+<Example n={5} title="The drive's waste heat" book>
+The *Hail Mary*'s drive puts out about $5.4 \times 10^{14}$ W. Suppose just 0.1% of that ended up as heat in the ship (our assumption, for illustration). How large a radiator, glowing as a blackbody at 1000 K, would it need to get rid of that heat?
+
+$$
+P = 0.001 \times 5.4 \times 10^{14}\ \text{W} = 5.4 \times 10^{11}\ \text{W}
+$$
+
+$$
+A = \frac{P}{\sigma T^{4}} = \frac{5.4 \times 10^{11}\ \text{W}}{5.670 \times 10^{-8}\ \text{W/(m}^{2}\text{K}^{4}) \times (1000\ \text{K})^{4}} = 9.5 \times 10^{6}\ \text{m}^{2}
+$$
+
+About 9.5 square kilometres of red-hot radiator, a square three kilometres on a side. In space, radiation is the only way to shed heat (Chapter 6.3), so the drive must waste almost nothing: the light has to leave the ship without heating it.
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** The Stefan–Boltzmann law (Stefan 1879, Boltzmann 1884), $\sigma = 2\pi^{5}k^{4}/(15c^{2}h^{3})$ (NIST), $L = 4\pi R^{2}\sigma T^{4}$, and the measured luminosities, radii and temperatures of the Sun, Sirius A and Proxima Centauri are standard astrophysics. Stefan really did estimate the Sun's temperature at about 5700 K. Stars' sizes really are found this way, and confirmed by direct measurements with interferometers.
+
+**Weir's inventions.** Astrophage absorbing a percent of the Sun's light and turning it into mass is fiction. The 0.1% waste heat in Example 5 is our assumption; the novel doesn't give one.
+
+**How realistic are the numbers?** A dimming of the Sun by a few percent through cooling would need only tens of kelvins, so a real dimming would be easy to measure in total light but hard to see in colour. The waste-heat estimate shows why a real light drive is so hard: at hundreds of terawatts, even tiny inefficiencies would melt the ship. The novel's drive must be extraordinarily efficient, and the book treats it that way.
+</RealVsBook>
+
+## Interactive simulation
+
+<StarBuilder />
+
+Things to try: load the Sun, then double its radius and watch the luminosity rise by 4; return and double its temperature instead, for 16. Load Proxima Centauri and see how a cool, small star ends up thousands of times fainter than the Sun.
+
+## Practice set
+
+<Problem n={1} level="easy">
+A blackbody's temperature doubles. By what factor does the power from each square metre change?
+
+<Solution>
+$2^{4} = 16$.
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy">
+A star has twice the Sun's radius and the same temperature. How luminous is it?
+
+<Solution>
+$L/L_{\odot} = 2^{2} \times 1^{4} = 4$.
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy">
+How much power does each square metre of a blackbody at 1000 K radiate?
+
+<Solution>
+$\sigma T^{4} = 5.670 \times 10^{-8} \times 10^{12} = 5.67 \times 10^{4}$ W/m², about 57 kW.
+</Solution>
+</Problem>
+
+<Problem n={4} level="easy">
+Proxima Centauri has $L = 0.001567\ L_{\odot}$ and $T = 2992$ K. Estimate its radius and compare with the measured 0.154 R☉.
+
+<Solution>
+$R/R_{\odot} = \sqrt{0.001567}/(2992/5772)^{2} = 0.03959/0.2687 = 0.147$, within 5% of the measured value. Small differences arise because a cool star's spectrum is far from a perfect blackbody.
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium" book>
+Tau Ceti's radius is 0.793 R☉ and its temperature 5320 K. What luminosity does the Stefan–Boltzmann law give? Compare it with the published 0.488 L☉ and the 0.52 L☉ this course has used so far.
+
+<Solution>
+$L/L_{\odot} = 0.793^{2} \times (5320/5772)^{4} = 0.6288 \times 0.7217 = 0.454$. That is 7% below 0.488 and 13% below 0.52. Chapter 8.4 looks at why published values differ.
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium">
+Treat the Earth as a sphere of radius 6371 km glowing as a blackbody at its equilibrium temperature, 255 K. What power does it radiate to space?
+
+<Solution>
+$4\pi (6.371 \times 10^{6})^{2} \times 5.670 \times 10^{-8} \times 255^{4} = 1.22 \times 10^{17}$ W. In balance this equals the sunlight Earth absorbs (Chapter 6.4).
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium">
+Venus's surface is at 737 K. How much power does each square metre radiate? Compare with the roughly 240 W/m² that a planet like Earth absorbs from sunlight.
+
+<Solution>
+$\sigma T^{4} = 5.670 \times 10^{-8} \times 737^{4} = 1.67 \times 10^{4}$ W/m², about 70 times more. The surface can only keep that up because the thick greenhouse atmosphere sends almost all of it back down (Chapter 6.5).
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium">
+Compute $\sigma$ from $\sigma = 2\pi^{5}k^{4}/(15c^{2}h^{3})$ with $k = 1.380\,649 \times 10^{-23}$ J/K, $c = 2.998 \times 10^{8}$ m/s and $h = 6.626 \times 10^{-34}$ J·s.
+
+<Solution>
+$2\pi^{5} = 612.0$; $k^{4} = 3.634 \times 10^{-92}$; $15c^{2}h^{3} = 15 \times 8.988 \times 10^{16} \times 2.909 \times 10^{-100} = 3.922 \times 10^{-82}$. So $\sigma = 612.0 \times 3.634 \times 10^{-92}/3.922 \times 10^{-82} = 5.67 \times 10^{-8}$ W/(m²K⁴).
+</Solution>
+</Problem>
+
+<Problem n={9} level="medium">
+Star A has twice the Sun's radius but only 0.8 of its temperature. Is it brighter or fainter than the Sun, and by how much?
+
+<Solution>
+$L/L_{\odot} = 2^{2} \times 0.8^{4} = 4 \times 0.4096 = 1.64$: brighter, despite being cooler, because it is so much bigger.
+</Solution>
+</Problem>
+
+<Problem n={10} level="challenging">
+Use the small-change rule to find how much the Sun's surface would have to cool for the novel's 5% dimming. Check with the exact formula.
+
+<Solution>
+Rule: $\Delta T \approx 5772 \times 0.05/4 = 72$ K. Exact: $5772 \times (1 - 0.95^{1/4}) = 5772 \times 0.01274 = 73.5$ K. The rule is a little low because 5% is no longer very small.
+</Solution>
+</Problem>
+
+<Problem n={11} level="challenging" book>
+Example 5 put the radiator at 1000 K. How big would it need to be at 500 K? Why do engineers want their radiators as hot as possible?
+
+<Solution>
+$A = 5.4 \times 10^{11}/(5.670 \times 10^{-8} \times 500^{4}) = 1.52 \times 10^{8}$ m², 16 times larger (about 150 km²). Halving the temperature cuts the power per square metre by 16, so hot radiators are far smaller and lighter.
+</Solution>
+</Problem>
+
+<Problem n={12} level="challenging">
+Check Sirius A the other way round: from its radius, 1.7144 R☉, and temperature, 9845 K, what luminosity does the law give? How does it compare with the measured 24.74 L☉?
+
+<Solution>
+$L/L_{\odot} = 1.7144^{2} \times (9845/5772)^{4} = 2.939 \times 8.464 = 24.9$, within 1% of the measured value.
+</Solution>
+</Problem>
+
+## Summary
+
+- The total power per square metre of a blackbody is the area under Planck's curve. Raising $T$ squeezes the curve sideways by the same factor and stretches it upwards by its fifth power, so the area grows as $T^{4}$: $P/A = \sigma T^{4}$.
+- $\sigma = 2\pi^{5}k^{4}/(15c^{2}h^{3}) = 5.670 \times 10^{-8}$ W/(m²K⁴), built from $k$, $c$ and $h$.
+- A star's luminosity is $L = 4\pi R^{2}\sigma T^{4}$; relative to the Sun, $L/L_{\odot} = (R/R_{\odot})^{2}(T/T_{\odot})^{4}$. Luminosity and temperature give a star's radius.
+- Small changes: $\Delta L/L \approx 4\,\Delta T/T$, so a 1% dimmer Sun would be only 14 K cooler.
+- In the novel, a 1% dimming means Astrophage is eating about $3.8 \times 10^{24}$ W, gaining over $4 \times 10^{7}$ kg of mass per second.
+
+**Formulas from this chapter**
+
+$$
+\frac{P}{A} = \sigma T^{4} \qquad \sigma = \frac{2\pi^{5}k^{4}}{15c^{2}h^{3}} \qquad L = 4\pi R^{2}\sigma T^{4} \qquad \frac{L}{L_{\odot}} = \left(\frac{R}{R_{\odot}}\right)^{2}\left(\frac{T}{T_{\odot}}\right)^{4} \qquad \frac{\Delta L}{L} \approx 4\frac{\Delta T}{T}
+$$
+
+## Sources
+
+- The Stefan–Boltzmann law (Stefan 1879, Boltzmann 1884), $\sigma = 2\pi^{5}k^{4}/(15c^{2}h^{3})$, and Stefan's estimate of the Sun's temperature (about 5700 K): Wikipedia, [Stefan–Boltzmann law](https://en.wikipedia.org/wiki/Stefan%E2%80%93Boltzmann_law). $\sigma$: NIST, [CODATA](https://physics.nist.gov/cgi-bin/cuu/Value?sigma). The blackbody spectrum and its total: OpenStax, [*University Physics Volume 3*, §6.1](https://openstax.org/books/university-physics-volume-3/pages/6-1-blackbody-radiation).
+- The Sun's radius, effective temperature and luminosity: NASA, [Sun Fact Sheet](https://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html). Earth's radius: NASA, [Earth Fact Sheet](https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html). Venus's surface temperature: NASA, [Venus Fact Sheet](https://nssdc.gsfc.nasa.gov/planetary/factsheet/venusfact.html).
+- Sirius A (9845 K, 1.7144 R☉, 24.74 L☉): Wikipedia, [Sirius](https://en.wikipedia.org/wiki/Sirius). Proxima Centauri (2992 K, 0.1542 R☉, 0.001567 L☉): Wikipedia, [Proxima Centauri](https://en.wikipedia.org/wiki/Proxima_Centauri). Tau Ceti (5320 K, 0.793 R☉, 0.488 L☉): Wikipedia, [Tau Ceti](https://en.wikipedia.org/wiki/Tau_Ceti). Luminosity–temperature diagrams: Wikipedia, [Hertzsprung–Russell diagram](https://en.wikipedia.org/wiki/Hertzsprung%E2%80%93Russell_diagram).
+- The dimming forecast (1% in about 9 years, 5% in about 20): this course, [Chapter 0.5](/part-0/ratios-proportionality/). Astrophage turning absorbed energy into mass: Royal Institution, ["Project Hail Mary: the science behind the fiction"](https://www.rigb.org/node/6363). The drive's 540 TW: [Chapter 5.3](/part-5/power/).

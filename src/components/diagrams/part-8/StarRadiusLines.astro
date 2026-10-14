@@ -1,0 +1,41 @@
+---
+// Luminosity against surface temperature on log scales (hotter to the left, as astronomers draw it), with dashed lines of
+// constant radius from L/L☉ = (R/R☉)²(T/T☉)⁴. Four stars: Sun, Tau Ceti, Sirius A, Proxima Centauri (Wikipedia values).
+const Tsun = 5772;
+const L0 = 70, R0 = 560, T0 = 20, B0 = 250;
+const tHi = Math.log10(12000), tLo = Math.log10(2500), lHi = 2, lLo = -3.2;
+const X = (T: number) => L0 + ((tHi - Math.log10(T)) / (tHi - tLo)) * (R0 - L0);
+const Y = (L: number) => T0 + ((lHi - Math.log10(L)) / (lHi - lLo)) * (B0 - T0);
+const lum = (Rr: number, T: number) => Rr * Rr * (T / Tsun) ** 4;
+const radii = [0.1, 1, 10];
+const stars = [
+	{ n: 'Sun', T: 5772, L: 1, cls: 'f-amber', dx: 10, dy: -8 },
+	{ n: 'Tau Ceti', T: 5320, L: 0.488, cls: 'f-amber', dx: 10, dy: 16 },
+	{ n: 'Sirius A', T: 9845, L: 24.74, cls: 'f-sky', dx: 10, dy: -6 },
+	{ n: 'Proxima Centauri', T: 2992, L: 0.001567, cls: 'f-rose', dx: -10, dy: -10 },
+];
+---
+
+<svg class="dg" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+	<defs><clipPath id="srl-clip"><rect x={L0} y={T0} width={R0 - L0} height={B0 - T0} /></clipPath></defs>
+	<rect x={L0} y={T0} width={R0 - L0} height={B0 - T0} class="s-muted w1" fill="none" />
+	{radii.map((r) => {
+		const ta = 12000, tb = 2500;
+		return (
+			<>
+				<line x1={X(ta)} y1={Y(lum(r, ta))} x2={X(tb)} y2={Y(lum(r, tb))} class="s-grid w1 dash" clip-path="url(#srl-clip)" />
+				<text x={X(r === 10 ? 3600 : 8000)} y={Y(lum(r, r === 10 ? 3600 : 8000)) - 6} class="t-sm f-muted halo">{r} R☉</text>
+			</>
+		);
+	})}
+	{[10000, 5000, 3000].map((t) => <text x={X(t)} y={B0 + 18} class="t-mid t-sm f-muted">{t} K</text>)}
+	{[100, 1, 0.01, 0.001].map((l) => <text x={L0 - 6} y={Y(l) + 4} class="t-end t-sm f-muted">{l}</text>)}
+	{stars.map((s) => (
+		<>
+			<circle cx={X(s.T)} cy={Y(s.L)} r="6" class={s.cls} />
+			<text x={X(s.T) + s.dx} y={Y(s.L) + s.dy} class={`t-sm halo ${s.dx < 0 ? 't-end' : ''}`}>{s.n}</text>
+		</>
+	))}
+	<text x={(L0 + R0) / 2} y="290" class="t-mid t-sm">surface temperature (log scale, hotter to the left)</text>
+	<text x="20" y={(T0 + B0) / 2} class="t-mid t-sm" transform={`rotate(-90 20 ${(T0 + B0) / 2})`}>luminosity (× Sun)</text>
+</svg>

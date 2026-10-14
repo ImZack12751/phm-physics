@@ -1,0 +1,27 @@
+---
+// How many cells does it take to dim a star by 1%? Cells spread over a shell of radius r must cover 1% of the shell's area,
+// 4πr², with their cross-sections πa². Shells close to the star are much smaller, so far fewer cells are needed (∝ r²).
+const CX = 150, CY = 150;
+const dots = (r: number, n: number) => Array.from({ length: n }, (_, i) => {
+	const t = (2 * Math.PI * i) / n + 0.3;
+	return { x: CX + r * Math.cos(t), y: CY + r * Math.sin(t) };
+});
+---
+
+<svg class="dg" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+	<circle cx={CX} cy={CY} r="34" class="f-amber" />
+	<text x={CX} y={CY + 5} class="t-mid t-sm t-b">star</text>
+	<circle cx={CX} cy={CY} r="52" class="s-rose w1 dash" fill="none" />
+	{dots(52, 14).map((d) => <circle cx={d.x} cy={d.y} r="3" class="f-rose" />)}
+	<circle cx={CX} cy={CY} r="120" class="s-violet w1 dash" fill="none" />
+	{dots(120, 75).map((d) => <circle cx={d.x} cy={d.y} r="3" class="f-violet" />)}
+	<text x={CX} y={CY - 62} class="t-mid t-sm f-rose halo">close shell: few cells</text>
+	<text x={CX} y={CY + 140} class="t-mid t-sm f-violet">far shell: many more cells</text>
+	<text x="310" y="70" class="t-sm">to block 1% of the light, the cells’</text>
+	<text x="310" y="88" class="t-sm">cross-sections must cover 1% of the shell:</text>
+	<text x="310" y="114" class="t-sm t-b">N πa² = 0.01 × 4πr²  →  N = 0.04 r² / a²</text>
+	<text x="310" y="150" class="t-sm f-rose">at the Sun’s surface: 7.7 × 10²⁶ cells, 4 × 10¹⁴ kg</text>
+	<text x="310" y="172" class="t-sm f-violet">at 1 au: 3.6 × 10³¹ cells, 1.9 × 10¹⁹ kg</text>
+	<text x="310" y="210" class="t-sm f-muted">(10 µm cells of water’s density;</text>
+	<text x="310" y="228" class="t-sm f-muted">our model, not the novel’s figures)</text>
+</svg>

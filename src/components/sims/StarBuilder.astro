@@ -1,0 +1,89 @@
+---
+// Simulation: build a star from its radius and surface temperature. L = 4πR²σT⁴; colour from the blackbody temperature;
+// Wien peak b/T. Presets: Sun, Tau Ceti, Sirius A, Proxima Centauri (Wikipedia values).
+---
+
+<div
+	class="sim sb"
+	data-title="Star builder"
+	data-description="Two sliders set a star's radius (0.1 to 100 times the Sun's, logarithmic) and surface temperature (2500 to 30 000 kelvins, logarithmic). The star is drawn as a disc whose size grows with the radius on a logarithmic scale and whose colour is the approximate glow colour for its temperature, beside a small Sun for comparison. The readout gives the power from each square metre of surface, σT⁴, the luminosity L = 4πR²σT⁴ in watts and in Suns, how much of that change comes from the radius (as R²) and how much from the temperature (as T⁴), and the Wien peak wavelength. Buttons load the Sun, Tau Ceti, Sirius A and Proxima Centauri. A last line shows what a 1% drop in the chosen star's light would mean for its surface temperature if the star itself cooled."
+>
+	<p class="sim-title">Simulation: star builder</p>
+	<p class="sim-help">Double the radius and the star gets 4 times brighter; double the temperature and it gets 16 times brighter.</p>
+	<div class="sim-controls">
+		<label>Surface temperature <input type="range" class="sb-t" min="3.398" max="4.477" step="any" value="3.76133" /> <output class="sb-tv"></output></label>
+		<label>Radius <input type="range" class="sb-r" min="-1" max="2" step="any" value="0" /> <output class="sb-rv"></output></label>
+		<span class="sb-pre">
+			<button type="button" data-t="5772" data-r="1">Sun</button>
+			<button type="button" data-t="5320" data-r="0.793">Tau Ceti</button>
+			<button type="button" data-t="9845" data-r="1.7144">Sirius A</button>
+			<button type="button" data-t="2992" data-r="0.1542">Proxima</button>
+		</span>
+	</div>
+	<svg class="dg sb-svg" viewBox="0 0 600 200" role="img" aria-label="The star drawn beside the Sun"></svg>
+	<div class="readout sb-out" aria-live="polite"></div>
+</div>
+
+<style>
+	.sb-pre { display: inline-flex; gap: 0.4rem; flex-wrap: wrap; }
+</style>
+
+<script>
+	const sigma = 5.670374419e-8, Rsun = 6.957e8, Tsun = 5772, Lsun = 3.828e26, b = 2.897771955e-3;
+	function glow(T: number) {
+		const t = T / 100;
+		let r, g, bl;
+		if (t <= 66) { r = 255; g = 99.47 * Math.log(t) - 161.12; bl = t <= 19 ? 0 : 138.52 * Math.log(t - 10) - 305.04; }
+		else { r = 329.7 * (t - 60) ** -0.1332; g = 288.12 * (t - 60) ** -0.0755; bl = 255; }
+		const cl = (x: number) => Math.round(Math.max(0, Math.min(255, x)));
+		return `rgb(${cl(r)},${cl(g)},${cl(bl)})`;
+	}
+	const sci = (x: number) => {
+		const e = Math.floor(Math.log10(x)), m = x / 10 ** e;
+		if (e >= -2 && e <= 3) return x.toPrecision(3);
+		return `${m.toFixed(2)} × 10${String(e).replace('-', '⁻').replace(/\d/g, (d) => '⁰¹²³⁴⁵⁶⁷⁸⁹'[+d])}`;
+	};
+	document.querySelectorAll<HTMLElement>('.sim.sb').forEach((root) => {
+		const q = <T extends Element>(s: string) => root.querySelector<T>(s)!;
+		const svg = q<SVGSVGElement>('.sb-svg'), out = q<HTMLElement>('.sb-out');
+		const Ts = q<HTMLInputElement>('.sb-t'), Rs = q<HTMLInputElement>('.sb-r');
+		const NS = 'http://www.w3.org/2000/svg';
+		const el = (tag: string, at: Record<string, string | number>, text?: string) => {
+			const e = document.createElementNS(NS, tag);
+			Object.entries(at).forEach(([k, v]) => e.setAttribute(k, String(v)));
+			if (text) e.textContent = text;
+			svg.append(e);
+			return e;
+		};
+		const size = (r: number) => 20 + 28 * Math.log10(r) + 28; // radius in px, log scale (0.1 R☉ → 20 px)
+		el('circle', { cx: 80, cy: 100, r: size(1), fill: glow(Tsun) });
+		el('text', { x: 80, y: 190, class: 't-mid t-sm' }, 'Sun (to the same scale)');
+		const star = el('circle', { cx: 380, cy: 100 });
+		const lab = el('text', { x: 380, y: 196, class: 't-mid t-sm' });
+		function draw() {
+			const T = 10 ** +Ts.value, r = 10 ** +Rs.value;
+			q('.sb-tv').textContent = `${Math.round(T)} K`;
+			q('.sb-rv').textContent = `${r.toPrecision(3)} R☉`;
+			star.setAttribute('r', String(Math.min(95, size(r))));
+			star.setAttribute('fill', glow(T));
+			lab.textContent = size(r) > 95 ? 'your star (radius drawn capped)' : 'your star (log scale of radius)';
+			const flux = sigma * T ** 4, L = 4 * Math.PI * (r * Rsun) ** 2 * flux, Ls = L / Lsun;
+			const fromR = r * r, fromT = (T / Tsun) ** 4;
+			const dT = T * (1 - 0.99 ** 0.25);
+			out.innerHTML =
+				`<span class="k">each square metre gives σT⁴</span> = ${sci(flux)} W/m² &nbsp; <span class="k">Wien peak b/T</span> = ${((b / T) * 1e9).toFixed(0)} nm<br>` +
+				`<span class="k">luminosity L = 4πR²σT⁴</span> = <b>${sci(L)} W = ${sci(Ls)} L☉</b><br>` +
+				`<span class="k">compared with the Sun</span>: (R/R☉)² = ${sci(fromR)} times (T/T☉)⁴ = ${sci(fromT)}<br>` +
+				`<span class="k">to dim by 1% by cooling, its surface would drop by</span> ${dT.toFixed(1)} K`;
+		}
+		[Ts, Rs].forEach((i) => i.addEventListener('input', draw));
+		root.querySelectorAll<HTMLButtonElement>('.sb-pre button').forEach((btn) =>
+			btn.addEventListener('click', () => {
+				Ts.value = String(Math.log10(+btn.dataset.t!));
+				Rs.value = String(Math.log10(+btn.dataset.r!));
+				draw();
+			}),
+		);
+		draw();
+	});
+</script>

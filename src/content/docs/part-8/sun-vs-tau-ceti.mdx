@@ -1,0 +1,315 @@
+---
+title: The Sun vs Tau Ceti
+description: Putting Part 8 together on the novel's two stars. Tau Ceti's colour, size and luminosity from its spectrum and the Stefan–Boltzmann law, why published luminosities disagree, weighing it with Adrian's orbit, its age and lifetime, its metal-poor make-up and dusty disc, Adrian's sky and climate, and how much Astrophage it takes to dim a star.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import TwoSpectra from '../../../components/diagrams/part-8/TwoSpectra.astro';
+import SystemsToScale from '../../../components/diagrams/part-8/SystemsToScale.astro';
+import AstrophageShell from '../../../components/diagrams/part-8/AstrophageShell.astro';
+import StarCompare from '../../../components/sims/StarCompare.astro';
+
+## The scene
+
+Astrophage has spread from star to star in our neighbourhood, and astronomers can watch the result: one nearby star after another is dimming. Tau Ceti is the odd one out. It has its own Petrova line, so Astrophage is there, yet it isn't dimming. Whatever is protecting it might save the Sun. That is why the *Hail Mary* is sent twelve light-years to a star nobody had paid much attention to.
+
+What sort of star is Tau Ceti? With the tools of this part, colour (Wien), power (Stefan–Boltzmann) and starlight (the inverse-square law), plus the orbits of Part 4 and the spectra of Chapter 7.5, we can build a full portrait of it and compare it with the Sun.
+
+## Prerequisites
+
+<Prereqs notes={{ 'solar-constant': 'starlight at a distance and a planet’s temperature', 'stefan-boltzmann': 'L = 4πR²σT⁴ and small changes', 'blackbody-wien': 'Wien’s law and colour', 'planet-mass-from-orbit': 'weighing a star with a planet’s orbit', spectroscopy: 'what spectral lines reveal', 'exponentials-logarithms': 'doubling and powers of ten' }} />
+
+## The concept
+
+### Two stars side by side
+
+| | Sun | Tau Ceti |
+|---|---|---|
+| Spectral type | G2V | G8V |
+| Surface temperature | 5772 K | 5320 ± 40 K |
+| Radius | 1 R☉ (695 700 km) | 0.793 ± 0.004 R☉ |
+| Luminosity | 1 L☉ ($3.828 \times 10^{26}$ W) | 0.488 ± 0.010 L☉ (published; this course has used 0.52) |
+| Mass | 1 M☉ | 0.800 M☉ |
+| Age | 4.6 billion years | 8 to 10 billion years |
+| Heavy elements | — | about a third of the Sun's |
+| Rotation | about 25 days | about 46 days |
+| Distance from Earth | — | 11.912 light-years |
+
+Both are ordinary, stable, middle-aged stars of the same family, "G dwarfs", burning hydrogen in their cores. Tau Ceti is a little smaller, a little cooler, a little less massive and about twice as old.
+
+### Colour
+
+By Wien's law (Chapter 8.1), Tau Ceti's spectrum peaks at about 545 nm, compared with the Sun's 502 nm: a slightly yellower star. In the sky of Adrian, it would look white with a warm tint, as the Sun does to us.
+
+<Figure caption="The whole-star output of the Sun and Tau Ceti, each drawn as radius squared times Planck's law. Tau Ceti's curve is lower, because it is both smaller and cooler, and peaks at a longer wavelength." alt="A graph of whole-star output against wavelength from 0 to 2000 nanometres, with the visible band shaded. An orange curve for the Sun, 5772 K, peaks at 502 nanometres. A lower red curve for Tau Ceti, 5320 K, peaks at 545 nanometres. Dashed lines mark both peaks. Text: Tau Ceti, smaller (0.63 times the area) and cooler (0.72 times per square metre), 0.45 times the Sun.">
+	<TwoSpectra />
+</Figure>
+
+### Luminosity: three numbers that don't quite agree
+
+The Stefan–Boltzmann law gives the luminosity from the radius and temperature:
+
+$$
+\frac{L}{L_{\odot}} = \left(\frac{R}{R_{\odot}}\right)^{2}\left(\frac{T}{T_{\odot}}\right)^{4} = 0.793^{2} \times \left(\frac{5320}{5772}\right)^{4} = 0.629 \times 0.722 = 0.454.
+$$
+
+That's a little below the published 0.488 and further below the 0.52 this course has used since Chapter 0.5. Which is right? Each is a measurement, with its own method and uncertainty. Because $L$ goes as $T^{4}$, a temperature uncertainty of 40 K out of 5320 (0.75%) gives a 3% uncertainty in $L$, and the radius adds about 1% more. A temperature only about 1.8% higher, 5417 K, would give 0.488. Real stars also aren't perfect blackbodies, so "effective temperature" and "luminosity" are measured in different ways that need not match exactly. Values from about 0.45 to 0.52 L☉ are all reasonable, and that range matters when we work out Adrian's climate.
+
+### Mass, age and lifetime
+
+Chapter 4.5 weighed stars with their planets' orbits. Adrian's 168-day orbit at 0.552 au gives a mass of about 0.80 M☉ (Example 2), matching the value astronomers find from Tau Ceti's other properties.
+
+A star's lifetime on the main sequence depends on how much fuel it has (its mass) and how fast it burns it (its luminosity), roughly as $M/L$. The Sun's total is about 10 billion years: it is 4.6 billion years old and has roughly 4 to 7 billion to go. Tau Ceti, with 0.8 times the fuel burned at about half the rate, lasts roughly 16 billion years. At 8 to 10 billion years old it is past middle age but still steady, which is exactly what you want in a star at the far end of a one-way trip.
+
+### Metal-poor and dusty
+
+Spectroscopy (Chapter 7.5) shows Tau Ceti's lines of iron and other heavy elements are weaker than the Sun's: it has only about a third as much of these "metals", as astronomers call every element heavier than helium. It formed from older, less-enriched gas. And infrared telescopes show that a disc of dust and rubble surrounds it with more than ten times the material of the Sun's asteroid and comet belts, which could mean a more dangerous neighbourhood for planets.
+
+### Habitable zones compared
+
+<Figure caption="The Sun's and Tau Ceti's inner systems on the same scale. Tau Ceti's habitable zone is closer in because the star is fainter; estimates differ with the model and the luminosity used. Adrian sits at its inner edge." alt="Two rows on the same distance scale from 0 to 1.9 au. Top row: the Sun at the left, with Venus at 0.72 au, Earth at 1 au and Mars at 1.52 au, and a green band from 0.99 to 1.67 au labelled habitable zone. Bottom row: Tau Ceti, slightly smaller, with Adrian, Tau Ceti e, at 0.552 au; a green band from 0.55 to 1.16 au labelled Wikipedia and a thinner band below from 0.71 to 1.20 au labelled square root of 0.52 scaling. A distance axis at the bottom shows 0, 0.5, 1 and 1.5 au.">
+	<SystemsToScale />
+</Figure>
+
+The habitable zone scales with $\sqrt{L}$ (Chapter 8.3), so the uncertainty in Tau Ceti's luminosity moves it around. Adrian, at 0.552 au, receives between 1.5 and 1.7 times Earth's sunlight, depending on which luminosity you trust. That makes it a warm world on the inner edge of the zone, consistent with the novel's thick, hot atmosphere where Astrophage breeds.
+
+### How much Astrophage does it take to dim a star?
+
+A star dims, as seen from far away, when something blocks its light. Picture Astrophage cells spread over a thin shell around the star. To block 1% of the light, their cross-sections must add up to 1% of the shell's area. The shell's area is $4\pi r^{2}$, so the number of cells needed grows as $r^{2}$: a swarm hugging the star's surface needs tens of thousands of times fewer cells than one spread at 1 au.
+
+<Figure caption="Cells needed to block 1% of a star's light. Their combined cross-section must equal 1% of the area of the shell they sit on, which grows as the square of its radius. Near the star, far fewer cells are needed." alt="A star with two dashed circles around it. A small circle just outside the star has a few red dots, labelled close shell, few cells. A much larger circle has many violet dots, labelled far shell, many more cells. Text: to block 1% of the light, the cells' cross-sections must cover 1% of the shell: N pi a squared equals 0.01 times 4 pi r squared, so N equals 0.04 r squared over a squared. At the Sun's surface, 7.7 times 10 to the 26 cells, 4 times 10 to the 14 kilograms; at 1 au, 3.6 times 10 to the 31 cells, 1.9 times 10 to the 19 kilograms. Note: 10 micrometre cells of water's density, our model, not the novel's figures.">
+	<AstrophageShell />
+</Figure>
+
+In the novel, Tau Ceti stays bright because something eats its Astrophage and keeps the population in check: a microbe Grace names Taumoeba. A population that doubles every few days but is constantly being eaten can stay small for ever. Remove the predator and it explodes, which is what happened at the Sun.
+
+## Formulas
+
+Everything here comes from earlier chapters, gathered for comparing stars.
+
+$$
+\boxed{\frac{L}{L_{\odot}} = \left(\frac{R}{R_{\odot}}\right)^{2}\left(\frac{T}{T_{\odot}}\right)^{4}} \qquad \boxed{\frac{\Delta L}{L} \approx 4\,\frac{\Delta T}{T} + 2\,\frac{\Delta R}{R}}
+$$
+
+(the uncertainty rule of Chapter 1.4 applied to a product of powers).
+
+$$
+\boxed{\frac{M}{M_{\odot}} = \frac{(a/\text{au})^{3}}{(P/\text{yr})^{2}}} \qquad \boxed{t_{\text{life}} \approx 10\ \text{Gyr} \times \frac{M/M_{\odot}}{L/L_{\odot}}}
+$$
+
+(Kepler's third law in solar units, Chapter 4.3; the lifetime rule is a rough scaling, fuel over burn rate).
+
+**Dimming by a shell of cells.** $N$ cells of radius $a$ on a shell of radius $r$ block a fraction $f$ of the light when
+
+$$
+N\pi a^{2} = f \times 4\pi r^{2} \qquad\Rightarrow\qquad \boxed{N = \frac{4fr^{2}}{a^{2}}}
+$$
+
+## Worked examples
+
+<Example n={1} title="Tau Ceti's colour and power" book>
+From Tau Ceti's temperature, 5320 ± 40 K, and radius, 0.793 ± 0.004 R☉, find its Wien peak and luminosity, with an uncertainty.
+
+$$
+\lambda_{\text{max}} = \frac{2.898 \times 10^{-3}\ \text{m·K}}{5320\ \text{K}} = 545\ \text{nm}
+$$
+
+$$
+\frac{L}{L_{\odot}} = 0.793^{2} \times \left(\frac{5320}{5772}\right)^{4} = 0.6288 \times 0.7217 = 0.454
+$$
+
+$$
+\frac{\Delta L}{L} \approx 4 \times \frac{40}{5320} + 2 \times \frac{0.004}{0.793} = 0.030 + 0.010 = 0.040 \qquad L = 0.454 \pm 0.018\ L_{\odot}
+$$
+
+The published 0.488 L☉ sits about two of these uncertainties above, and the course's 0.52 further still. Small differences in temperature make large differences in luminosity.
+</Example>
+
+<Example n={2} title="Weighing Tau Ceti with Adrian" book>
+Adrian (the candidate planet Tau Ceti e) orbits in about 168 days at 0.552 au. What mass does Kepler's third law give for Tau Ceti?
+
+$$
+P = \frac{168}{365.25}\ \text{yr} = 0.4600\ \text{yr} \qquad \frac{M}{M_{\odot}} = \frac{0.552^{3}}{0.4600^{2}} = \frac{0.1682}{0.2116} = 0.795
+$$
+
+About 0.80 Suns, matching the published value. (The orbit itself was deduced from Doppler wobbles, Chapter 7.5, and Tau Ceti e may not be real; but the star's mass is known from its other properties too.)
+</Example>
+
+<Example n={3} title="Lifetimes">
+Estimate Tau Ceti's main-sequence lifetime with $t \approx 10\ \text{Gyr} \times (M/M_{\odot})/(L/L_{\odot})$, using 0.80 M☉ and 0.488 L☉. What fraction has it used, at 9 billion years old? What fraction has the Sun used?
+
+$$
+t \approx 10\ \text{Gyr} \times \frac{0.80}{0.488} = 16\ \text{Gyr} \qquad \frac{9\ \text{Gyr}}{16.4\ \text{Gyr}} = 0.55 \qquad \frac{4.6\ \text{Gyr}}{10\ \text{Gyr}} = 0.46
+$$
+
+Both stars are roughly halfway through their lives, even though Tau Ceti is twice as old in years.
+</Example>
+
+<Example n={4} title="Adrian's sky" book>
+How big does Tau Ceti look from Adrian (0.552 au), compared with the Sun from Earth? Use surface brightness (Chapter 8.3) to find the starlight there from the radius and temperature, and Adrian's equilibrium temperature with an Earth-like albedo. Compare with Chapter 6.4's 2323 W/m² and 292 K from 0.52 L☉.
+
+$$
+\frac{\theta_{\text{Tau Ceti}}}{\theta_{\text{Sun}}} = \frac{0.793\ R_{\odot}/0.552\ \text{au}}{1\ R_{\odot}/1\ \text{au}} = 1.437 \qquad \theta = 1.437 \times 0.533° = 0.766°
+$$
+
+$$
+S = 1361\ \text{W/m}^{2} \times 1.437^{2} \times \left(\frac{5320}{5772}\right)^{4} = 1361 \times 2.064 \times 0.7217 = 2027\ \text{W/m}^{2}
+$$
+
+$$
+T_{\text{e}} = 255.1\ \text{K} \times \left(\frac{2027}{1361}\right)^{1/4} = 282\ \text{K}
+$$
+
+Tau Ceti fills a disc 1.44 times wider than our Sun, but each patch is 28% dimmer. From the radius and temperature, Adrian gets 1.49 times Earth's sunlight and an equilibrium temperature of 282 K; from 0.52 L☉, 1.71 times and 292 K. A 15% spread in luminosity becomes a 10 K spread in a planet's temperature.
+</Example>
+
+<Example n={5} title="How much Astrophage dims the Sun?" book>
+Model Astrophage as 10 µm spheres with the density of water (our model, $5.24 \times 10^{-13}$ kg each). How many cells, and what mass, would block 1% of the Sun's light from a shell at the Sun's surface ($6.957 \times 10^{8}$ m), and from a shell at 1 au?
+
+$$
+N_{\odot} = \frac{4 \times 0.01 \times (6.957 \times 10^{8}\ \text{m})^{2}}{(5.0 \times 10^{-6}\ \text{m})^{2}} = 7.7 \times 10^{26} \qquad m = 7.7 \times 10^{26} \times 5.24 \times 10^{-13}\ \text{kg} = 4.1 \times 10^{14}\ \text{kg}
+$$
+
+$$
+N_{\text{1 au}} = \frac{4 \times 0.01 \times (1.496 \times 10^{11}\ \text{m})^{2}}{(5.0 \times 10^{-6}\ \text{m})^{2}} = 3.6 \times 10^{31} \qquad m = 1.9 \times 10^{19}\ \text{kg}
+$$
+
+At the Sun's surface, 400 billion tonnes of cells would do it. Spread at Earth's distance, it would take nearly four times the mass of Earth's whole atmosphere. Breeding close to the star, as the novel's Astrophage does on its way to and from the Sun, is by far the most efficient way to dim it. (Chapter 8.2 found Astrophage gaining over $4 \times 10^{7}$ kg per second from the light it eats, so this swarm could grow in a few months.)
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** Tau Ceti's temperature, radius, luminosity, mass, age, metal content, rotation, debris disc and distance are from published measurements (summarised on Wikipedia). The Sun's are NASA's. Luminosity from $R^{2}T^{4}$, mass from Kepler's third law and the $M/L$ lifetime scaling are standard (the last is approximate). The spread of published luminosities, about 0.45 to 0.52 L☉, is real.
+
+**Weir's inventions.** Astrophage, Taumoeba and the dimming of nearby stars are fiction. Adrian is the novel's name for a planet at Tau Ceti; the candidate Tau Ceti e matches its orbit but may not exist. Our model cells (water's density) and the shell picture are illustrations, not the novel's figures.
+
+**How realistic are the numbers?** Tau Ceti is a sensible choice for the story: nearby, Sun-like, old and stable. A dimming of a percent or more by a swarm of absorbing cells would need around $10^{14}$ to $10^{19}$ kg of them, which sounds vast but is tiny next to a star ($2 \times 10^{30}$ kg). And with each cell gaining mass from the light it absorbs, such a swarm grows exponentially, exactly the danger the novel describes.
+</RealVsBook>
+
+## Interactive simulation
+
+<StarCompare />
+
+Things to try: find the temperature that gives Tau Ceti the published 0.488 L☉ at its measured radius. Then push the radius to the end of its range and see how much less that matters than the temperature. Watch Adrian's equilibrium temperature move as you change Tau Ceti's numbers.
+
+## Practice set
+
+<Problem n={1} level="easy">
+By what factor are Tau Ceti's and the Sun's peak wavelengths different?
+
+<Solution>
+$545/502 = 1.085$, equal to $5772/5320$: Tau Ceti peaks 8.5% further into the red.
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy">
+How much power does each square metre of Tau Ceti's surface give out, compared with the Sun's?
+
+<Solution>
+$(5320/5772)^{4} = 0.72$: about 72%, or 28% less.
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy">
+How does Tau Ceti's surface area compare with the Sun's?
+
+<Solution>
+$0.793^{2} = 0.629$: about 63%.
+</Solution>
+</Problem>
+
+<Problem n={4} level="easy">
+Tau Ceti's metal content is written $[\text{Fe/H}] = -0.50$, meaning its ratio of iron to hydrogen is $10^{-0.50}$ times the Sun's. What fraction is that?
+
+<Solution>
+$10^{-0.5} = 0.32$, about a third.
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium">
+What temperature would Tau Ceti need, with its measured radius, to have the course's 0.52 L☉?
+
+<Solution>
+$T = 5772 \times (0.52/0.6288)^{1/4} = 5772 \times 0.9536 = 5504$ K, about 180 K hotter than measured.
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium">
+Tau Ceti's temperature uncertainty is 40 K. What luminosity uncertainty does that alone cause? And the radius uncertainty of 0.004 R☉ alone?
+
+<Solution>
+Temperature: $4 \times 40/5320 = 3.0\%$. Radius: $2 \times 0.004/0.793 = 1.0\%$. The temperature dominates, because of the fourth power.
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium" book>
+At what distance from Tau Ceti would a planet get Earth's sunlight, for L = 0.454, 0.488 and 0.52 L☉?
+
+<Solution>
+$d = \sqrt{L/L_{\odot}}$ au: 0.674, 0.699 and 0.721 au. The "Earth-like" orbit moves by about 7% across the range of luminosities.
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium" book>
+Find Adrian's equilibrium temperature (albedo 0.294) using the published 0.488 L☉.
+
+<Solution>
+$S = 1361 \times 0.488/0.552^{2} = 2180$ W/m², so $T_{\text{e}} = 255.1 \times (2180/1361)^{1/4} = 287$ K, between the two values in Example 4.
+</Solution>
+</Problem>
+
+<Problem n={9} level="medium">
+Use $t \approx 10\ \text{Gyr} \times (M/M_{\odot})/(L/L_{\odot})$ for Proxima Centauri (0.1221 M☉, 0.001567 L☉). What does the answer suggest about small red stars?
+
+<Solution>
+$10 \times 0.1221/0.001567 = 780$ Gyr, far longer than the age of the Universe (about 13.8 Gyr). Small, dim stars burn their fuel so slowly that none has ever died.
+</Solution>
+</Problem>
+
+<Problem n={10} level="challenging" book>
+How many 10 µm cells (Example 5's model) would block 1% of the Sun's light from a shell at 0.1 au, and what would they weigh?
+
+<Solution>
+$N = 4 \times 0.01 \times (1.496 \times 10^{10})^{2}/(5 \times 10^{-6})^{2} = 3.6 \times 10^{29}$ cells, mass $3.6 \times 10^{29} \times 5.24 \times 10^{-13} = 1.9 \times 10^{17}$ kg: a hundred times less than at 1 au, because $r$ is ten times smaller.
+</Solution>
+</Problem>
+
+<Problem n={11} level="challenging" book>
+How far from Tau Ceti (using its radius and temperature, so L = 0.454 L☉) would a planet receive Earth's sunlight, and how big would Tau Ceti look there compared with the Sun from Earth?
+
+<Solution>
+$d = \sqrt{0.454} = 0.674$ au. Angular size $0.793/0.674 = 1.18$ times the Sun's, $0.629°$. It must look bigger to make up for its dimmer surface: $1.18^{2} \times 0.722 = 1.00$ ✓.
+</Solution>
+</Problem>
+
+<Problem n={12} level="challenging" book>
+A reader guide says Astrophage can double in just over eight days. With no predator, how long would a swarm take to grow from blocking 1% of a star's light to 100%? Why does Tau Ceti's Taumoeba matter so much?
+
+<Solution>
+A factor of 100 is $\log_{2}100 = 6.6$ doublings, about $6.6 \times 8 = 53$ days. Exponential growth turns a small dimming into a catastrophe within two months, so only a predator that removes cells as fast as they breed can hold a population steady, which is what Taumoeba does at Tau Ceti.
+</Solution>
+</Problem>
+
+## Summary
+
+- Tau Ceti is a G8 dwarf: 5320 K, 0.793 R☉, about 0.8 M☉, 8 to 10 billion years old, with a third of the Sun's heavy elements and a dusty disc. Its spectrum peaks at 545 nm, against the Sun's 502 nm.
+- Its luminosity from $R^{2}T^{4}$ is 0.454 L☉; published values run from about 0.45 to 0.52 L☉. Because $\Delta L/L \approx 4\Delta T/T + 2\Delta R/R$, a 40 K uncertainty in temperature alone gives 3%.
+- Adrian's orbit gives a mass of about 0.80 M☉; the $M/L$ lifetime is about 16 Gyr, so both stars are about halfway through their lives.
+- From Adrian, Tau Ceti looks 1.44 times wider than the Sun from Earth but each patch is 28% dimmer: 1.5 to 1.7 times Earth's sunlight, an equilibrium temperature of about 282 to 292 K.
+- Cells needed to dim a star by a fraction $f$ from a shell of radius $r$: $N = 4fr^{2}/a^{2}$, far fewer close to the star. Exponential growth makes a predator essential.
+
+**Formulas from this chapter**
+
+$$
+\frac{L}{L_{\odot}} = \left(\frac{R}{R_{\odot}}\right)^{2}\left(\frac{T}{T_{\odot}}\right)^{4} \qquad \frac{\Delta L}{L} \approx 4\frac{\Delta T}{T} + 2\frac{\Delta R}{R} \qquad \frac{M}{M_{\odot}} = \frac{(a/\text{au})^{3}}{(P/\text{yr})^{2}} \qquad t_{\text{life}} \approx 10\ \text{Gyr}\,\frac{M/M_{\odot}}{L/L_{\odot}} \qquad N = \frac{4fr^{2}}{a^{2}}
+$$
+
+## Sources
+
+- Tau Ceti: spectral type G8V, 5320 ± 40 K, 0.793 ± 0.004 R☉, 0.488 ± 0.010 L☉, 0.800 M☉, 8–10 Gyr, [Fe/H] about −0.50 (about a third of the Sun's), rotation 46 days, a debris disc with more than ten times the Solar System's dust, habitable zone 0.55–1.16 au, distance 11.912 ly, and the candidate planet e (Feng and others 2017): Wikipedia, [Tau Ceti](https://en.wikipedia.org/wiki/Tau_Ceti).
+- The Sun's temperature, radius, luminosity, mass and sidereal rotation (about 25.4 days): NASA, [Sun Fact Sheet](https://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html). Its age (4.6 billion years) and remaining main-sequence life (about 4 to 7 billion years): Wikipedia, [Sun](https://en.wikipedia.org/wiki/Sun). Proxima Centauri: Wikipedia, [Proxima Centauri](https://en.wikipedia.org/wiki/Proxima_Centauri).
+- The age of the Universe (13.8 billion years): Wikipedia, [Age of the universe](https://en.wikipedia.org/wiki/Age_of_the_universe).
+- Stellar classification (G dwarfs): Wikipedia, [Stellar classification](https://en.wikipedia.org/wiki/Stellar_classification).
+- Adrian's orbit (168 days, 0.552 au) and Kepler's third law in solar units: this course, [Chapter 4.3](/part-4/keplers-laws/) and [Chapter 4.5](/part-4/planet-mass-from-orbit/). Adrian's climate with 0.52 L☉: [Chapter 6.4](/part-6/energy-balance/). The uncertainty rule: [Chapter 1.4](/part-1/measuring-g/).
+- Astrophage dims nearby stars, Tau Ceti resists, and Taumoeba preys on Astrophage: Wikipedia, [*Project Hail Mary*](https://en.wikipedia.org/wiki/Project_Hail_Mary). Astrophage's doubling time of just over eight days: readifyai reader guide, [Astrophage](https://readifyai.com/en/books/Project%20Hail%20Mary/wiki/Astrophage) (not an official source).

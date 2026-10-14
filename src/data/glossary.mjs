@@ -1419,5 +1419,59 @@ export const glossary = {
 		def: 'Finding a planet by the small, regular Doppler shifts of its star as the planet tugs it back and forth. It gives the planet’s minimum mass.',
 		chapter: 'spectroscopy',
 	},
+	// ---- 8.1 Blackbody radiation and Wien's law ----
+	blackbody: {
+		term: 'Blackbody',
+		def: 'An ideal object that absorbs all light falling on it. When hot, it glows with a spectrum that depends only on its temperature. The Sun and a small hole in a hot box are close to blackbodies.',
+		chapter: 'blackbody-wien',
+	},
+	'plancks-law': {
+		term: 'Planck’s law',
+		def: 'The formula for a blackbody’s spectrum, B = (2hc²/λ⁵)/(e^(hc/λkT) − 1). Planck found it in 1900 by assuming light is emitted in lumps of hf.',
+		chapter: 'blackbody-wien',
+	},
+	'wiens-law': {
+		term: 'Wien’s displacement law',
+		def: 'A blackbody’s spectrum peaks at λmax = b/T, with b = 2.898 × 10⁻³ m·K: hotter objects peak at shorter wavelengths. The Sun peaks at about 500 nm.',
+		chapter: 'blackbody-wien',
+	},
+	'ultraviolet-catastrophe': {
+		term: 'Ultraviolet catastrophe',
+		def: 'The prediction of classical (wave) physics that a hot object should glow ever more strongly at short wavelengths, giving infinite power. Planck’s photon lumps resolved it.',
+		chapter: 'blackbody-wien',
+	},
+	// ---- 8.2 The Stefan–Boltzmann law and luminosity ----
+	'stefan-boltzmann-law': {
+		term: 'Stefan–Boltzmann law',
+		def: 'A blackbody radiates σT⁴ watts from each square metre: the area under Planck’s curve. Found by Stefan (1879) and explained by Boltzmann (1884).',
+		chapter: 'stefan-boltzmann',
+	},
+	'effective-temperature': {
+		term: 'Effective temperature',
+		def: 'The temperature a blackbody of a star’s size would need to give out the star’s luminosity, from L = 4πR²σT⁴. The Sun’s is 5772 K.',
+		chapter: 'stefan-boltzmann',
+	},
+	// ---- 8.3 The inverse-square law and the solar constant ----
+	'habitable-zone': {
+		term: 'Habitable zone',
+		def: 'The range of distances from a star where an Earth-like planet could keep liquid water on its surface: about 0.99 to 1.67 au for the Sun (one model). It scales with √L.',
+		chapter: 'solar-constant',
+	},
+	'angular-radius': {
+		term: 'Angular radius',
+		def: 'Half the angle a star or planet appears to span in the sky: about R/d radians for an object of radius R at distance d. Starlight received is σT⁴ × (R/d)².',
+		chapter: 'solar-constant',
+	},
+	// ---- 8.4 The Sun vs Tau Ceti ----
+	'main-sequence': {
+		term: 'Main sequence',
+		def: 'The long, steady stage of a star’s life when it burns hydrogen in its core. Its length goes roughly as mass ÷ luminosity: about 10 billion years for the Sun.',
+		chapter: 'sun-vs-tau-ceti',
+	},
+	metallicity: {
+		term: 'Metallicity',
+		def: 'How much of a star is made of elements heavier than helium (“metals” to astronomers), measured from its spectral lines. Tau Ceti has about a third of the Sun’s.',
+		chapter: 'sun-vs-tau-ceti',
+	},
 };
 
