@@ -1,0 +1,32 @@
+---
+// Left: long wavelength flows past a small object (no echo). Right: short wavelength reflects strongly and leaves a shadow.
+const Y0 = 50, Y1 = 230, OY = 140;
+const LX = 175, RX = 465; // object positions
+const longF = [40, 120, 200, 280].map((x) => x - 10);
+const shortF = Array.from({ length: 9 }, (_, i) => 320 + i * 16);
+const behind = Array.from({ length: 6 }, (_, i) => RX + 22 + i * 16);
+---
+
+<svg class="dg" viewBox="0 0 600 280" xmlns="http://www.w3.org/2000/svg">
+	<text x="150" y="22" class="t-mid t-sm t-b">long wavelength, bigger than the object</text>
+	<text x="450" y="22" class="t-mid t-sm t-b">short wavelength, smaller than the object</text>
+	<line x1="300" y1="30" x2="300" y2="262" class="s-grid w1" />
+	{longF.map((x) => {
+		const bend = Math.abs(x - LX) < 50 ? 6 : 0;
+		return <path d={`M ${x} ${Y0} Q ${x + bend} ${OY} ${x} ${Y1}`} class="s-sky w2" fill="none" />;
+	})}
+	<circle cx={LX} cy={OY} r="9" class="f-muted" />
+	<text x="150" y="254" class="t-mid t-sm f-muted">the wave flows round it: almost no echo</text>
+	{shortF.filter((x) => x < RX - 12).map((x) => <line x1={x} y1={Y0} x2={x} y2={Y1} class="s-sky w2" />)}
+	{behind.map((x) => (
+		<>
+			<line x1={x} y1={Y0} x2={x} y2={OY - 22} class="s-sky w2" />
+			<line x1={x} y1={OY + 22} x2={x} y2={Y1} class="s-sky w2" />
+		</>
+	))}
+	<circle cx={RX} cy={OY} r="9" class="f-muted" />
+	{[18, 32, 46].map((r) => <path d={`M ${RX - 6} ${OY - r} A ${r} ${r} 0 0 0 ${RX - 6} ${OY + r}`} class="s-green w2" fill="none" />)}
+	<text x={RX - 60} y={OY + 64} class="t-mid t-sm f-green halo">strong echo</text>
+	<text x={RX + 62} y={OY + 4} class="t-mid t-sm f-rose halo">shadow</text>
+	<text x="450" y="254" class="t-mid t-sm f-muted">it reflects strongly and casts a shadow</text>
+</svg>

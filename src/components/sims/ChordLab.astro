@@ -1,0 +1,150 @@
+---
+// Simulation: up to three notes, each with a chosen timbre (pure sine, string-like with harmonics 1/n, or clarinet-like with
+// odd harmonics 1/n). Draws 20 ms of the combined waveform and the spectrum (harmonics up to 3 kHz, coloured by note),
+// flags harmonic pairs from different notes that coincide (within 1 Hz) or beat (1–40 Hz apart), names each pair's
+// interval against the nearest simple ratio, and can play the chord through the Web Audio API.
+---
+
+<div
+	class="sim cl"
+	data-title="Chord lab"
+	data-description="Up to three notes sound together. Sliders set each note's frequency (100 to 1000 Hz), a menu sets how many notes sound, and another sets the timbre: a pure sine wave, a string-like tone with every harmonic at strength 1/n, or a clarinet-like tone with only odd harmonics. The top graph shows 20 milliseconds of the combined waveform. The bottom graph is the spectrum: a bar for every harmonic up to 3000 Hz, coloured by which note it belongs to, with circles where harmonics of different notes coincide and red marks where they are close enough to beat. The readout gives each pair's frequency ratio, the nearest simple ratio and the error in cents, and lists the beat rates. A Play button plays the chord."
+>
+	<p class="sim-title">Simulation: chord lab</p>
+	<p class="sim-help">The spectrum is what Grace's program sees. Try 440, 550 and 660 Hz (a 4 : 5 : 6 major chord), then nudge one note and watch harmonics start to beat.</p>
+	<div class="sim-controls">
+		<label>Note 1 <input type="range" class="cl-f1" min="100" max="1000" step="1" value="440" /> <output class="cl-v1"></output></label>
+		<label>Note 2 <input type="range" class="cl-f2" min="100" max="1000" step="1" value="550" /> <output class="cl-v2"></output></label>
+		<label>Note 3 <input type="range" class="cl-f3" min="100" max="1000" step="1" value="660" /> <output class="cl-v3"></output></label>
+		<label>Notes sounding <select class="cl-n">
+			<option value="3">three</option>
+			<option value="2">two</option>
+			<option value="1">one</option>
+		</select></label>
+		<label>Timbre <select class="cl-t">
+			<option value="string">string-like (all harmonics)</option>
+			<option value="clar">clarinet-like (odd harmonics)</option>
+			<option value="sine">pure sine</option>
+		</select></label>
+		<button type="button" class="cl-play" aria-pressed="false">Play</button>
+	</div>
+	<svg class="dg cl-svg" viewBox="0 0 600 300" role="img" aria-label="Waveform and spectrum of a chord"></svg>
+	<div class="readout cl-out" aria-live="polite"></div>
+</div>
+
+<script>
+	document.querySelectorAll<HTMLElement>('.sim.cl').forEach((root) => {
+		const q = <T extends Element>(s: string) => root.querySelector<T>(s)!;
+		const svg = q<SVGSVGElement>('.cl-svg'), out = q<HTMLElement>('.cl-out');
+		const Fs = [q<HTMLInputElement>('.cl-f1'), q<HTMLInputElement>('.cl-f2'), q<HTMLInputElement>('.cl-f3')];
+		const Ns = q<HTMLSelectElement>('.cl-n'), Ts = q<HTMLSelectElement>('.cl-t'), Pb = q<HTMLButtonElement>('.cl-play');
+		const NS = 'http://www.w3.org/2000/svg';
+		const el = (tag: string, at: Record<string, string | number>, text?: string, parent: Element = svg) => {
+			const e = document.createElementNS(NS, tag);
+			Object.entries(at).forEach(([k, v]) => e.setAttribute(k, String(v)));
+			if (text) e.textContent = text;
+			parent.append(e);
+			return e;
+		};
+		const COL = ['sky', 'amber', 'violet'];
+		const X0 = 40, X1 = 580, YW = 70, YS = 250, FMAX = 3000, HMAX = 110;
+		el('text', { x: X0, y: 16, class: 't-sm t-b' }, 'waveform: 20 ms of the combined pressure');
+		el('line', { x1: X0, y1: YW, x2: X1, y2: YW, class: 's-grid w1' });
+		const wave = el('polyline', { class: 's-green w2', fill: 'none' });
+		el('text', { x: X0, y: 138, class: 't-sm t-b' }, 'spectrum: what Grace’s program sees');
+		el('line', { x1: X0, y1: YS, x2: X1, y2: YS, class: 's-fg w1' });
+		const FX = (f: number) => X0 + (f / FMAX) * (X1 - X0);
+		[0, 500, 1000, 1500, 2000, 2500, 3000].forEach((f) => el('text', { x: FX(f), y: YS + 16, class: 't-mid t-sm f-muted' }, String(f)));
+		el('text', { x: X1, y: YS + 34, class: 't-end t-sm f-muted' }, 'frequency (Hz)');
+		const specG = el('g', {});
+		const amps = (t: string, n: number) => (t === 'sine' ? (n === 1 ? 1 : 0) : t === 'clar' ? (n % 2 ? 1 / n : 0) : 1 / n);
+		const near = (r: number) => {
+			const list: [number, number][] = [[1, 1], [16, 15], [9, 8], [6, 5], [5, 4], [4, 3], [7, 5], [3, 2], [8, 5], [5, 3], [7, 4], [15, 8], [2, 1]];
+			let oct = 0;
+			while (r >= 2.0001) { r /= 2; oct++; }
+			let best = list[0], err = 1e9;
+			list.forEach((p) => {
+				const c = 1200 * Math.log2(r / (p[0] / p[1]));
+				if (Math.abs(c) < Math.abs(err)) { err = c; best = p; }
+			});
+			return { p: `${best[0] * 2 ** oct} : ${best[1]}`, c: err };
+		};
+		let ctx: AudioContext | null = null, nodes: OscillatorNode[] = [], gain: GainNode | null = null;
+		function stop() {
+			nodes.forEach((o) => { try { o.stop(); } catch { /* already stopped */ } });
+			nodes = [];
+			Pb.setAttribute('aria-pressed', 'false');
+			Pb.textContent = 'Play';
+		}
+		function play() {
+			const AC = window.AudioContext || (window as any).webkitAudioContext;
+			if (!AC) return;
+			ctx = ctx || new AC();
+			gain = ctx.createGain();
+			gain.gain.value = 0.12;
+			gain.connect(ctx.destination);
+			const n = +Ns.value, t = Ts.value;
+			for (let i = 0; i < n; i++) {
+				const o = ctx.createOscillator();
+				const H = 12, re = new Float32Array(H + 1), im = new Float32Array(H + 1);
+				for (let h = 1; h <= H; h++) im[h] = amps(t, h);
+				o.setPeriodicWave(ctx.createPeriodicWave(re, im));
+				o.frequency.value = +Fs[i].value;
+				o.connect(gain);
+				o.start();
+				nodes.push(o);
+			}
+			Pb.setAttribute('aria-pressed', 'true');
+			Pb.textContent = 'Stop';
+		}
+		Pb.addEventListener('click', () => (nodes.length ? stop() : play()));
+		function draw() {
+			const n = +Ns.value, t = Ts.value;
+			const f = Fs.map((s) => +s.value);
+			Fs.forEach((s, i) => {
+				q(`.cl-v${i + 1}`).textContent = `${f[i]} Hz`;
+				s.disabled = i >= n;
+			});
+			// waveform
+			let maxA = 0;
+			const ys: number[] = [];
+			for (let i = 0; i <= 600; i++) {
+				const tt = (i / 600) * 0.02;
+				let y = 0;
+				for (let k = 0; k < n; k++) for (let h = 1; h * f[k] <= 6000; h++) { const a = amps(t, h); if (a) y += a * Math.sin(2 * Math.PI * h * f[k] * tt); }
+				ys.push(y);
+				maxA = Math.max(maxA, Math.abs(y));
+			}
+			wave.setAttribute('points', ys.map((y, i) => `${(X0 + (i / 600) * (X1 - X0)).toFixed(1)},${(YW - (38 * y) / (maxA || 1)).toFixed(1)}`).join(' '));
+			// spectrum
+			specG.replaceChildren();
+			const lines: { f: number; a: number; k: number; h: number }[] = [];
+			for (let k = 0; k < n; k++) for (let h = 1; h * f[k] <= FMAX; h++) { const a = amps(t, h); if (a) lines.push({ f: h * f[k], a, k, h }); }
+			lines.forEach((L, j) => el('line', { x1: FX(L.f) + (L.k - 1) * 2, y1: YS, x2: FX(L.f) + (L.k - 1) * 2, y2: YS - HMAX * L.a, class: `s-${COL[L.k]} w3` }, undefined, specG));
+			const beats: string[] = [];
+			let coincide = 0;
+			for (let i = 0; i < lines.length; i++) for (let j = i + 1; j < lines.length; j++) {
+				const A = lines[i], B = lines[j];
+				if (A.k === B.k) continue;
+				const d = Math.abs(A.f - B.f);
+				if (d < 1) { coincide++; el('circle', { cx: FX(A.f), cy: YS - HMAX * Math.max(A.a, B.a) - 8, r: 6, class: 's-green w2', fill: 'none' }, undefined, specG); }
+				else if (d <= 40) {
+					beats.push(`${A.h}×${f[A.k]} and ${B.h}×${f[B.k]}: <b>${d.toFixed(1)} Hz</b>`);
+					el('line', { x1: FX((A.f + B.f) / 2), y1: YS + 22, x2: FX((A.f + B.f) / 2), y2: YS + 4, class: 's-rose w2' }, undefined, specG);
+				}
+			}
+			const pairs: string[] = [];
+			for (let i = 0; i < n; i++) for (let j = i + 1; j < n; j++) {
+				const lo = Math.min(f[i], f[j]), hi = Math.max(f[i], f[j]), r = hi / lo, nn = near(r);
+				pairs.push(`notes ${i + 1} and ${j + 1}: ratio ${r.toFixed(3)}, nearest ${nn.p} (${nn.c >= 0 ? '+' : ''}${nn.c.toFixed(1)} cents)`);
+			}
+			out.innerHTML =
+				(pairs.length ? `<span class="k">intervals</span>: ${pairs.join('; ')}<br>` : `<span class="k">one note</span>: ${f[0]} Hz with its ${t === 'sine' ? 'single frequency' : 'harmonics'}<br>`) +
+				`<span class="k">coinciding harmonics</span> (green circles): ${coincide} &nbsp; <span class="k">beating pairs, 1–40 Hz apart</span> (red marks): ${beats.length ? beats.slice(0, 5).join('; ') + (beats.length > 5 ? ` and ${beats.length - 5} more` : '') : 'none'}`;
+			if (nodes.length) { stop(); play(); }
+		}
+		Fs.forEach((s) => s.addEventListener('input', draw));
+		[Ns, Ts].forEach((s) => { s.addEventListener('change', draw); s.addEventListener('input', draw); });
+		draw();
+	});
+</script>

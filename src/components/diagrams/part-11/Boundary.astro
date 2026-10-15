@@ -1,0 +1,37 @@
+---
+// Sound meeting a boundary between two media of impedance Z₁ and Z₂: incident, reflected and transmitted waves, the two
+// boundary conditions, and two example transmission bars (air→water 0.11%, equal impedances 100%).
+const XB = 300;
+const arrow = (x1: number, y: number, x2: number, cls: string, w = 'w3') => {
+	const d = x2 > x1 ? 1 : -1;
+	return { x1, y, x2: x2 - d * 10, cls, w, head: `${x2},${y} ${x2 - d * 12},${y - 6} ${x2 - d * 12},${y + 6}` };
+};
+const arrows = [arrow(60, 60, XB - 6, 's-sky', 'w3'), arrow(XB - 6, 100, 80, 's-amber', 'w3'), arrow(XB + 6, 80, 520, 's-green', 'w1')];
+const BX = 160, BW = 340;
+---
+
+<svg class="dg" viewBox="0 0 600 270" xmlns="http://www.w3.org/2000/svg">
+	<rect x={XB} y="22" width={300 - 10} height="132" class="f-amber-soft" />
+	<line x1={XB} y1="22" x2={XB} y2="154" class="s-fg w3" />
+	<text x="40" y="16" class="t-sm t-b">medium 1, impedance Z₁</text>
+	<text x={XB + 12} y="16" class="t-sm t-b">medium 2, impedance Z₂</text>
+	{arrows.map((a) => (
+		<>
+			<line x1={a.x1} y1={a.y} x2={a.x2} y2={a.y} class={`${a.cls} ${a.w}`} />
+			<polygon points={a.head} class={a.cls.replace('s-', 'f-')} />
+		</>
+	))}
+	<text x="60" y="50" class="t-sm f-sky">incident wave</text>
+	<text x="80" y="122" class="t-sm f-amber">reflected</text>
+	<text x="520" y="72" class="t-end t-sm f-green halo">transmitted</text>
+	<text x={XB + 12} y="118" class="t-sm halo">at the boundary: same pressure on both sides,</text>
+	<text x={XB + 12} y="136" class="t-sm halo">and the same speed of the medium</text>
+	<text x="40" y="186" class="t-sm t-b">fraction of the intensity that gets through, 4Z₁Z₂/(Z₁ + Z₂)²:</text>
+	<text x={BX - 8} y="213" class="t-end t-sm">air → water</text>
+	<rect x={BX} y="202" width={BW} height="14" class="f-bg" />
+	<rect x={BX} y="202" width={Math.max(1.5, BW * 0.0011)} height="14" class="f-green" />
+	<text x={BX + 8} y="213" class="t-sm">0.11%</text>
+	<text x={BX - 8} y="243" class="t-end t-sm">equal impedances</text>
+	<rect x={BX} y="232" width={BW} height="14" class="f-green" />
+	<text x={BX + BW + 8} y="243" class="t-sm">100%</text>
+</svg>

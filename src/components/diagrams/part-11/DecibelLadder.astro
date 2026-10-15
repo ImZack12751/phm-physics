@@ -1,0 +1,42 @@
+---
+// Decibel ladder from 0 to 160 dB with OpenStax Table 17.2 examples. Each 10 dB is a factor of 10 in intensity.
+const X = 170, Y0 = 372, Y1 = 32, Y = (db: number) => Y0 - (db / 160) * (Y0 - Y1);
+const sup: Record<string, string> = { '-': '⁻', '0': '⁰', '1': '¹', '2': '²', '3': '³', '4': '⁴', '5': '⁵', '6': '⁶', '7': '⁷', '8': '⁸', '9': '⁹' };
+const pow = (n: number) => (n === 0 ? '1' : `10${String(n).replace(/./g, (c) => sup[c])}`);
+const rungs = [
+	{ db: 0, t: 'threshold of hearing (1000 Hz)' },
+	{ db: 10, t: 'rustle of leaves' },
+	{ db: 20, t: 'whisper at 1 m' },
+	{ db: 40, t: 'average home' },
+	{ db: 60, t: 'normal conversation; Rocky in our examples', hi: true },
+	{ db: 80, t: 'loud radio, classroom lecture' },
+	{ db: 100, t: 'noisy factory: damage from 8 h a day' },
+	{ db: 120, t: 'threshold of pain' },
+	{ db: 140, t: 'jet airplane at 30 m' },
+	{ db: 160, t: 'eardrums burst' },
+];
+---
+
+<svg class="dg" viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg">
+	<rect x={X - 8} y={Y(85)} width="16" height={Y(0) - Y(85)} class="f-green-soft" />
+	<rect x={X - 8} y={Y(160)} width="16" height={Y(85) - Y(160)} class="f-rose-soft" />
+	<line x1={X} y1={Y0} x2={X} y2={Y1} class="s-fg w2" />
+	{Array.from({ length: 17 }, (_, i) => i * 10).map((db) => (
+		<>
+			<line x1={X - 12} y1={Y(db)} x2={X + 12} y2={Y(db)} class={db % 20 === 0 ? 's-fg w1' : 's-muted w1'} />
+			{db % 20 === 0 && <text x={X - 20} y={Y(db) + 4} class="t-end t-sm f-muted">{pow(db / 10 - 12)}</text>}
+		</>
+	))}
+	<text x={X - 20} y="16" class="t-end t-sm t-b">I (W/m²)</text>
+	<text x={X + 22} y="16" class="t-sm t-b">level and example</text>
+	{rungs.map((r) => (
+		<>
+			<circle cx={X} cy={Y(r.db)} r={r.hi ? 6 : 4} class={r.hi ? 'f-amber' : 'f-sky'} />
+			<text x={X + 22} y={Y(r.db) + 4} class={`t-sm ${r.hi ? 'f-amber t-b' : ''}`}>{`${r.db} dB: ${r.t}`}</text>
+		</>
+	))}
+	<text x="60" y={Y(40)} class="t-mid t-sm f-green">safe</text>
+	<text x="60" y={Y(122)} class="t-mid t-sm f-rose">harmful</text>
+	<text x="60" y={Y(122) + 16} class="t-mid t-sm f-rose">with long</text>
+	<text x="60" y={Y(122) + 32} class="t-mid t-sm f-rose">exposure</text>
+</svg>

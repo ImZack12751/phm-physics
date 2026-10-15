@@ -1,0 +1,465 @@
+---
+title: The speed of sound in different media
+description: Why sound travels at √(B/ρ), derived from the piston argument; sound in liquids and solids; Newton's famous 15% error and Laplace's fix, with the adiabatic index γ derived from how molecules store energy; v = √(γkT/m) and why pressure doesn't matter; the speed of sound in Rocky's hot ammonia air; and how much sound crosses a boundary, including a thin xenonite wall.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import SoundSpeeds from '../../../components/diagrams/part-11/SoundSpeeds.astro';
+import Boundary from '../../../components/diagrams/part-11/Boundary.astro';
+import ThinWall from '../../../components/diagrams/part-11/ThinWall.astro';
+import SoundSpeedLab from '../../../components/sims/SoundSpeedLab.astro';
+
+## The scene
+
+Rocky lives in air that would kill Grace: ammonia at about 210 °C and 29 times Earth's atmospheric pressure. Grace breathes ordinary air at room temperature. Between them stands a transparent wall of xenonite. When Rocky sings a note, the sound travels through his ammonia, through the solid wall, and into Grace's air, and Grace hears it.
+
+Three different media, three different speeds of sound. What sets the speed in each? Does the note change as it crosses? And how much of Rocky's voice survives the trip through the wall?
+
+## Prerequisites
+
+<Prereqs notes={{ 'pressure-waves': 'pressure, Δp = ρvu from the piston argument, intensity and impedance Z = ρv', 'temperature-heat': 'PV = NkT, ⟨KE⟩ = 3/2 kT, internal energy and the first law', 'momentum': 'impulse and momentum', 'derivatives': 'derivatives as small changes, dP/dV', 'wave-properties': 'v = fλ and the frequency set by the source', 'frequency-pitch': 'pitch is frequency, and decibels of level' }} />
+
+## The concept
+
+### Springiness against inertia
+
+Chapter 7.1 found that a wave on a string travels at $\sqrt{F_{\text{T}}/\mu}$: tension (how strongly the string springs back) over mass per metre (how much it resists being moved). Sound follows the same pattern. Its speed is set by how strongly the medium springs back when squeezed, against how much mass has to move.
+
+The springiness of a fluid is measured by its <Term id="bulk-modulus">bulk modulus</Term> $B$: the extra pressure needed to squeeze it by a given fraction of its volume,
+
+$$
+B = -\frac{\Delta p}{\Delta V/V}.
+$$
+
+(The minus sign makes $B$ positive, since more pressure means less volume.) Water has $B = 2.2 \times 10^{9}\ \text{Pa}$: to squeeze it by 1% takes 22 million pascals, over 200 atmospheres. Air is enormously easier to squeeze. The Formulas section finishes the piston argument of Chapter 11.1 and shows that
+
+$$
+v = \sqrt{\frac{B}{\rho}}.
+$$
+
+For water this gives $\sqrt{2.2 \times 10^{9}/1000} = 1480$ m/s, exactly the measured value.
+
+### Liquids and solids
+
+Liquids and solids are much harder to squeeze than gases, and that beats their greater density: sound goes about four times faster in water than in air, and about 15 to 17 times faster in steel or glass.
+
+For a thin rod, the relevant springiness is <Term id="youngs-modulus">Young's modulus</Term> $Y$, the stiffness against stretching or squashing along its length, and the speed is $\sqrt{Y/\rho}$. Steel ($Y = 2.0 \times 10^{11}\ \text{Pa}$, $\rho = 7850\ \text{kg/m}^{3}$) gives 5050 m/s. In a large block, sound goes faster still (5960 m/s in steel), because the material can't bulge out sideways when squeezed, which makes it stiffer.
+
+<Figure caption="Speeds of sound in different media, measured values from OpenStax Table 17.1 (gases at 0 °C, liquids at 20 °C, solids as large blocks), with our estimate for Rocky's ammonia air. Stiff media carry sound fastest; among gases, the lightest molecules are fastest." alt="A horizontal bar chart on a logarithmic scale from 50 to 10 000 metres per second. Bars from top to bottom: vulcanized rubber 54; xenon, our calculation at 20 degrees, 176; carbon dioxide 259; air at 0 degrees 331; air at 20 degrees 343; ammonia on Erid at 210 degrees, our estimate, 556, highlighted; helium 965; hydrogen 1290; fresh water 1480; sea water and human tissue 1540; lead 1960; marble 3810; aluminium 5120; Pyrex glass 5640; steel 5960. Gases are blue, liquids teal-green, solids orange.">
+	<SoundSpeeds />
+</Figure>
+
+### Newton's mistake
+
+Isaac Newton was the first to calculate the speed of sound in air, in 1687. He assumed that air obeys Boyle's law as it is squeezed: pressure times volume stays constant, at a fixed temperature. That makes the bulk modulus equal to the pressure, $B = P$. His answer, 298 m/s, was about 15% below the measured speed, and he never found the reason (he invented excuses, such as the size of the "solid particles" of air).
+
+The reason was found more than a century later by Pierre-Simon Laplace. When air is squeezed quickly, it **warms up**: the piston does work on it, and by the first law (Chapter 6.1) that work becomes internal energy. Warmer air pushes back harder, so it is stiffer than Boyle's law says. In a sound wave the squeezes come and go in a few thousandths of a second, and the warm compressions and cool rarefactions are half a wavelength apart, far too far for heat to leak across in that time. A change with no heat flow is called an <Term id="adiabatic-process">adiabatic process</Term>, and for it
+
+$$
+B = \gamma P,
+$$
+
+where the <Term id="adiabatic-index">adiabatic index</Term> $\gamma$ (Greek "gamma") depends on how the molecules store energy. The Formulas section derives it: $\gamma = 1 + 2/f$, where $f$ counts the molecule's <Term id="degrees-of-freedom">degrees of freedom</Term>, the separate ways it can hold energy. A single atom, like helium or xenon, can only move along $x$, $y$ and $z$: $f = 3$ and $\gamma = 5/3$. A two-atom molecule like N₂ or O₂ can also tumble end over end about two axes: $f = 5$ and $\gamma = 7/5 = 1.40$. A bent molecule like ammonia can tumble about all three axes: $f = 6$ and $\gamma = 4/3$ (measured: 1.31). With $\gamma = 1.40$ for air, Newton's answer is multiplied by $\sqrt{1.40} = 1.18$, and theory and experiment agree.
+
+### What sets the speed in a gas
+
+Combine $B = \gamma P$ with $PV = NkT$ (Chapter 6.1). The density is $\rho = Nm/V$, with $m$ the mass of one molecule, so $P/\rho = kT/m$ and
+
+$$
+v = \sqrt{\frac{\gamma P}{\rho}} = \sqrt{\frac{\gamma kT}{m}}.
+$$
+
+This explains a lot:
+
+- **Pressure doesn't matter.** Squeeze a gas to twice the pressure and you double its density too; the two cancel. Sound travels at the same speed at the top of a mountain as at sea level, if the temperature is the same.
+- **Temperature does**, as $\sqrt{T}$ in kelvins. Air at 0 °C carries sound at 331 m/s, at 20 °C at 343 m/s.
+- **Light molecules are fast.** Helium atoms have a seventh of the mass of an average air molecule, and sound in helium goes nearly three times as fast. In xenon, about four and a half times heavier than air molecules, sound crawls at 176 m/s.
+
+The formula looks very like the root-mean-square speed of the molecules, $\sqrt{3kT/m}$ (Chapter 6.1). Sound is passed along by molecules bumping into each other, so it can't outrun them; in air it travels at $\sqrt{\gamma/3} = 68\%$ of their rms speed.
+
+### Sound in Rocky's air
+
+Erid's air is ammonia (NH₃, molecular mass 17.0 u) at about 483 K. Compared with Grace's air at 293 K, the higher temperature speeds sound up, the lighter molecules speed it up more, and ammonia's slightly smaller $\gamma$ slows it a little. Example 3 finds about 556 m/s, 1.6 times faster than in Grace's air. The huge pressure, 29 atmospheres, changes nothing about the speed, but it makes Rocky's air about ten times denser than Grace's, and that matters for what comes next.
+
+The **frequency** of Rocky's note doesn't change as it crosses into Grace's air: the wall vibrates at the rate it is pushed, and pushes Grace's air at the same rate (Chapter 7.1). So the note keeps its pitch, and only its wavelength changes, from 1.26 m on Rocky's side to 0.78 m on Grace's.
+
+### Crossing a boundary
+
+When sound reaches a boundary between two media, part of it passes through and part bounces back. How much of each depends on the two media's acoustic impedances $Z = \rho v$ (Chapter 11.1), not on their speeds alone. The Formulas section derives the fraction of the intensity that gets through, the <Term id="transmission-coefficient">transmission coefficient</Term>:
+
+$$
+\frac{I_{\text{t}}}{I_{\text{i}}} = \frac{4Z_{1}Z_{2}}{(Z_{1} + Z_{2})^{2}}.
+$$
+
+<Figure caption="Sound meeting a boundary. Pressure must be the same on both sides of the boundary, and so must the speed of the medium, or the two would pull apart. When the impedances Z = ρv are very different, these two conditions can only both be met if most of the sound reflects." alt="A vertical line divides the picture: medium 1 on the left with impedance Z 1, medium 2 on the right with impedance Z 2. A thick blue arrow labelled incident wave arrives from the left. An orange arrow labelled reflected points back to the left from the boundary. A green arrow labelled transmitted continues to the right, thinner. Two notes at the boundary read: same pressure on both sides; same speed of the medium on both sides. Below, two example bars: air to water, 0.11 percent of the intensity gets through; two media with equal impedances, 100 percent.">
+	<Boundary />
+</Figure>
+
+If $Z_{1} = Z_{2}$ everything gets through. If they are very different, almost everything reflects. From air into water only 0.11% of the intensity gets through (Example 4), which is why people talking on a pool's edge are hard to hear under the water. This impedance mismatch is also why a doctor's ultrasound probe needs a layer of gel on the skin: a thin film of air would reflect almost all the sound (Chapter 11.5).
+
+### Through a thin wall
+
+Treat Rocky's xenonite wall as a thick block, using the formula above twice, and almost nothing gets through: about $-65$ dB, which would make Rocky inaudible. But a wall only a centimetre or so thick is far thinner than the wavelength of the sound inside it (about 13 m for 440 Hz in glass-like xenonite). Such a wall doesn't carry a wave through itself at all: it moves back and forth **as a whole**, like a drum skin, pushed by Rocky's air and pushing Grace's.
+
+The Formulas section shows that for a heavy wall of mass $\sigma$ per square metre,
+
+$$
+\frac{I_{\text{t}}}{I_{\text{i}}} \approx \frac{4Z_{1}Z_{2}}{(\omega\sigma)^{2}},
+$$
+
+the "mass law" of sound insulation. Heavier walls block more sound, and so do higher frequencies, by 6 dB per octave. That is why you hear your neighbour's bass notes through a wall, but not their voice.
+
+<Figure caption="A thin, heavy wall moves back and forth as a whole. The incident wave nearly doubles the pressure on its near side (most of it reflects), and that force shakes the wall. The wall's motion then pushes a much weaker wave into the air on the other side." alt="A grey vertical slab in the middle labelled wall, mass sigma per square metre, with a small double arrow showing it moves left and right as a whole. On the left, Rocky's side, ammonia, Z 2: a blue wave arrives and an orange reflected wave leaves; a label says pressure on the wall about 2 delta p i. On the right, Grace's side, air, Z 1: a small green wave leaves the wall, labelled transmitted wave, delta p t equals Z 1 times the wall's speed. A note at the bottom: heavier wall or higher note, less sound gets through.">
+	<ThinWall />
+</Figure>
+
+For a 1 cm xenonite wall the answer is about $-25$ dB (Example 5): a 60 dB voice arrives at about 35 dB, the level of a quiet room. Faint, but easy to hear. And Rocky's dense, high-impedance air helps: the formula has his air's $Z$ on top.
+
+## Formulas
+
+### The speed of sound in a fluid
+
+Return to the piston of Chapter 11.1, pushed at speed $u$ into a tube of fluid. After a time $t$, the front of the compression is a distance $vt$ from where the piston started, and the piston has moved in by $ut$. The fluid that used to fill the length $vt$ now fills only $vt - ut$, so its volume has changed by the fraction
+
+$$
+\frac{\Delta V}{V} = \frac{A(vt - ut) - Avt}{Avt} = -\frac{u}{v}.
+$$
+
+By the definition of the bulk modulus, the extra pressure is
+
+$$
+\Delta p = -B\frac{\Delta V}{V} = B\frac{u}{v}.
+$$
+
+But momentum (Chapter 11.1) says the extra pressure is $\Delta p = \rho v u$. Both must be true:
+
+$$
+B\frac{u}{v} = \rho v u \qquad\Rightarrow\qquad v^{2} = \frac{B}{\rho} \qquad\Rightarrow\qquad \boxed{v = \sqrt{\frac{B}{\rho}}}
+$$
+
+The piston's speed $u$ cancels, as it should: every sound, loud or soft, travels at the same speed. For a thin rod, $B$ is replaced by Young's modulus: $v_{\text{rod}} = \sqrt{Y/\rho}$.
+
+### Newton's bulk modulus: constant temperature
+
+At constant temperature $PV = NkT$ is constant, so $P = \text{const}/V$, and its derivative (Chapter C.3) is
+
+$$
+\frac{dP}{dV} = -\frac{\text{const}}{V^{2}} = -\frac{P}{V} \qquad\Rightarrow\qquad B = -V\frac{dP}{dV} = P.
+$$
+
+This gives $v = \sqrt{P/\rho} = \sqrt{kT/m}$: 290 m/s for air at 20 °C, Newton's error.
+
+### Laplace's bulk modulus: no heat flow
+
+Each degree of freedom of a molecule holds on average $\tfrac{1}{2}kT$ of energy (for motion along $x$, $y$ and $z$ this is the $\tfrac{3}{2}kT$ of Chapter 6.1). With $f$ degrees of freedom, a gas of $N$ molecules has internal energy
+
+$$
+U = \tfrac{f}{2}NkT = \tfrac{f}{2}PV.
+$$
+
+Squeeze it by a small volume $dV$ (negative when squeezing). The piston pushes with force $PA$ through a distance $dx$, doing work $PA\,dx = -P\,dV$ on the gas (Chapter 5.1). With no heat flow, the first law says all of that work becomes internal energy:
+
+$$
+dU = -P\,dV.
+$$
+
+The left side is the small change in $\tfrac{f}{2}PV$, by the product rule $d(PV) = P\,dV + V\,dP$:
+
+$$
+\tfrac{f}{2}(P\,dV + V\,dP) = -P\,dV \qquad\Rightarrow\qquad \tfrac{f}{2}V\,dP = -\left(1 + \tfrac{f}{2}\right)P\,dV
+$$
+
+$$
+\frac{dP}{dV} = -\left(1 + \frac{2}{f}\right)\frac{P}{V} \qquad\Rightarrow\qquad \boxed{B = -V\frac{dP}{dV} = \gamma P, \qquad \gamma = 1 + \frac{2}{f}}
+$$
+
+| Gas | $f$ | $\gamma = 1 + 2/f$ | Measured $\gamma$ |
+|---|---|---|---|
+| Helium, xenon (single atoms) | 3 | 1.67 | 1.66 |
+| Air, N₂, O₂ (two atoms) | 5 | 1.40 | 1.40 |
+| Ammonia NH₃ (bent molecule) | 6 | 1.33 | 1.31 |
+
+### The speed of sound in a gas
+
+With $B = \gamma P$ and $P/\rho = kT/m$:
+
+$$
+\boxed{v = \sqrt{\frac{\gamma P}{\rho}} = \sqrt{\frac{\gamma kT}{m}}}
+$$
+
+For the same gas at two temperatures, $v_{2}/v_{1} = \sqrt{T_{2}/T_{1}}$; for air, $v = 331\ \text{m/s} \times \sqrt{T/273\ \text{K}}$. Dividing by $v_{\text{rms}} = \sqrt{3kT/m}$ gives $v/v_{\text{rms}} = \sqrt{\gamma/3}$.
+
+### Crossing a boundary
+
+A wave of pressure amplitude $\Delta p_{\text{i}}$ arrives at a boundary from medium 1. A reflected wave $\Delta p_{\text{r}}$ goes back, and a transmitted wave $\Delta p_{\text{t}}$ goes on into medium 2. In each wave, the medium's speed is $\Delta p/Z$ (Chapter 11.1), directed along the wave's direction of travel, so the reflected wave's velocity counts as negative. Two conditions hold at the boundary:
+
+- **Same pressure on both sides**, or the massless boundary would feel a net force: $\Delta p_{\text{i}} + \Delta p_{\text{r}} = \Delta p_{\text{t}}$.
+- **Same speed on both sides**, or the media would pull apart or overlap: $\dfrac{\Delta p_{\text{i}} - \Delta p_{\text{r}}}{Z_{1}} = \dfrac{\Delta p_{\text{t}}}{Z_{2}}$.
+
+From the first, $\Delta p_{\text{r}} = \Delta p_{\text{t}} - \Delta p_{\text{i}}$. Put this into the second and multiply by $Z_{1}$:
+
+$$
+2\Delta p_{\text{i}} - \Delta p_{\text{t}} = \frac{Z_{1}}{Z_{2}}\Delta p_{\text{t}} \qquad\Rightarrow\qquad \boxed{\frac{\Delta p_{\text{t}}}{\Delta p_{\text{i}}} = \frac{2Z_{2}}{Z_{1} + Z_{2}}}
+$$
+
+The intensity in each medium is $(\Delta p)^{2}/2Z$, so
+
+$$
+\frac{I_{\text{t}}}{I_{\text{i}}} = \frac{(\Delta p_{\text{t}})^{2}/Z_{2}}{(\Delta p_{\text{i}})^{2}/Z_{1}} = \frac{4Z_{2}^{2}}{(Z_{1} + Z_{2})^{2}} \times \frac{Z_{1}}{Z_{2}} = \boxed{\frac{4Z_{1}Z_{2}}{(Z_{1} + Z_{2})^{2}}}
+$$
+
+It is the same in both directions. Going into a much stiffer medium ($Z_{2}$ much bigger than $Z_{1}$), the pressure nearly **doubles** ($2Z_{2}/(Z_{1} + Z_{2}) \approx 2$) but hardly any medium moves, so hardly any power gets through.
+
+### A thin, heavy wall
+
+A wall much thinner than the wavelength inside it moves as one piece, with mass $\sigma$ per square metre. Suppose it is heavy, so it barely moves: then the incident wave reflects almost as if from a rigid wall, and the pressure on its near side swings by about $2\Delta p_{\text{i}}$ (the doubling just found). The far side feels only the tiny transmitted wave, so the net force per square metre on the wall swings by about $2\Delta p_{\text{i}}$. By Newton's second law, the wall's largest acceleration is
+
+$$
+a_{\text{max}} = \frac{2\Delta p_{\text{i}}}{\sigma}.
+$$
+
+The wall moves in simple harmonic motion at the sound's $\omega$, so its top speed is $u_{\text{max}} = a_{\text{max}}/\omega$ (Chapter 2.4). The far side of the wall pushes the air there like a piston, making a wave with $\Delta p_{\text{t}} = Z_{\text{far}}u_{\text{max}}$:
+
+$$
+\Delta p_{\text{t}} = \frac{2Z_{\text{far}}\Delta p_{\text{i}}}{\omega\sigma}
+$$
+
+$$
+\frac{I_{\text{t}}}{I_{\text{i}}} = \frac{(\Delta p_{\text{t}})^{2}/Z_{\text{far}}}{(\Delta p_{\text{i}})^{2}/Z_{\text{near}}} = \boxed{\frac{4Z_{\text{near}}Z_{\text{far}}}{(\omega\sigma)^{2}}} \qquad \text{(valid when } \omega\sigma \text{ is much bigger than } Z_{\text{near}} + Z_{\text{far}}\text{)}
+$$
+
+Doubling either the frequency or the wall's mass cuts the intensity by 4, which is 6 dB.
+
+## Worked examples
+
+<Example n={1} title="Sound in water and steel">
+Find the speed of sound in water ($B = 2.2 \times 10^{9}\ \text{Pa}$, $\rho = 1000\ \text{kg/m}^{3}$) and along a thin steel rod ($Y = 2.0 \times 10^{11}\ \text{Pa}$, $\rho = 7850\ \text{kg/m}^{3}$).
+
+$$
+v_{\text{water}} = \sqrt{\frac{2.2 \times 10^{9}\ \text{Pa}}{1000\ \text{kg/m}^{3}}} = \sqrt{2.2 \times 10^{6}\ \text{m}^{2}/\text{s}^{2}} = 1480\ \text{m/s}
+$$
+
+$$
+v_{\text{rod}} = \sqrt{\frac{2.0 \times 10^{11}\ \text{Pa}}{7850\ \text{kg/m}^{3}}} = \sqrt{2.55 \times 10^{7}\ \text{m}^{2}/\text{s}^{2}} = 5050\ \text{m/s}
+$$
+
+Water matches the measured 1480 m/s. Steel is 7.85 times denser than water, but about 90 times stiffer, so sound goes faster in it.
+</Example>
+
+<Example n={2} title="Newton's mistake, and Laplace's fix">
+Find the speed of sound in air at 20 °C (293 K) assuming (a) constant temperature, as Newton did, and (b) no heat flow, with $\gamma = 1.40$. An average air molecule has a mass of $28.97\ \text{u} = 4.81 \times 10^{-26}\ \text{kg}$.
+
+$$
+\frac{kT}{m} = \frac{1.381 \times 10^{-23}\ \text{J/K} \times 293\ \text{K}}{4.81 \times 10^{-26}\ \text{kg}} = 8.41 \times 10^{4}\ \text{m}^{2}/\text{s}^{2}
+$$
+
+$$
+\text{(a)}\ v = \sqrt{8.41 \times 10^{4}\ \text{m}^{2}/\text{s}^{2}} = 290\ \text{m/s} \qquad \text{(b)}\ v = \sqrt{1.40 \times 8.41 \times 10^{4}\ \text{m}^{2}/\text{s}^{2}} = 343\ \text{m/s}
+$$
+
+The measured value is 343 m/s. Newton's method is 15% low; Laplace's agrees exactly.
+</Example>
+
+<Example n={3} title="Sound in Rocky's air" book>
+Erid's air is ammonia at about 210 °C (483 K) and 29 atm (our model: the novel's figures, treating ammonia as an ideal gas with $\gamma = 1.31$ and molecular mass 17.03 u $= 2.828 \times 10^{-26}$ kg). Find the speed of sound, the wavelength of a 440 Hz note, the density and the impedance.
+
+$$
+v = \sqrt{\frac{\gamma kT}{m}} = \sqrt{\frac{1.31 \times 1.381 \times 10^{-23}\ \text{J/K} \times 483\ \text{K}}{2.828 \times 10^{-26}\ \text{kg}}} = \sqrt{3.09 \times 10^{5}\ \text{m}^{2}/\text{s}^{2}} = 556\ \text{m/s}
+$$
+
+$$
+\lambda = \frac{v}{f} = \frac{556\ \text{m/s}}{440\ \text{Hz}} = 1.26\ \text{m} \qquad (0.780\ \text{m on Grace's side})
+$$
+
+The density follows from $P = \rho kT/m$:
+
+$$
+\rho = \frac{Pm}{kT} = \frac{29 \times 101\,325\ \text{Pa} \times 2.828 \times 10^{-26}\ \text{kg}}{1.381 \times 10^{-23}\ \text{J/K} \times 483\ \text{K}} = 12.5\ \text{kg/m}^{3}
+$$
+
+$$
+Z = \rho v = 12.5\ \text{kg/m}^{3} \times 556\ \text{m/s} = 6.9 \times 10^{3}\ \text{Pa·s/m}
+$$
+
+Ten times the density of Grace's air and 17 times its impedance. Where does the factor of 1.62 in speed come from? Temperature: $\sqrt{483/293} = 1.284$; lighter molecules: $\sqrt{28.97/17.03} = 1.304$; smaller $\gamma$: $\sqrt{1.31/1.40} = 0.967$. Multiplied: $1.284 \times 1.304 \times 0.967 = 1.62$ ✓.
+</Example>
+
+<Example n={4} title="Talking to someone under water">
+How much of a sound's intensity crosses from air ($Z = 413$ Pa·s/m) into water ($Z = 1.48 \times 10^{6}$ Pa·s/m)? Express the loss in decibels.
+
+$$
+\frac{I_{\text{t}}}{I_{\text{i}}} = \frac{4 \times 413 \times 1.48 \times 10^{6}}{(413 + 1.48 \times 10^{6})^{2}} = \frac{2.445 \times 10^{9}}{2.191 \times 10^{12}} = 1.1 \times 10^{-3}
+$$
+
+$$
+\Delta\beta = 10\log_{10}(1.1 \times 10^{-3}) = -29.5\ \text{dB}
+$$
+
+Only 0.11% gets in; 99.89% bounces off the surface. A 60 dB conversation on the poolside reaches a swimmer's ears (filled with water) at only about 30 dB.
+</Example>
+
+<Example n={5} title="Hearing Rocky through the wall" book>
+Model the xenonite wall as 1.0 cm thick with the density of Pyrex glass, 2230 kg/m³ (our assumptions; the novel doesn't give them). Rocky sings a 440 Hz note that reaches the wall at 60 dB. How loud is it on Grace's side? Rocky's air: $Z = 6.9 \times 10^{3}$ Pa·s/m; Grace's: 413 Pa·s/m.
+
+$$
+\sigma = 2230\ \text{kg/m}^{3} \times 0.010\ \text{m} = 22.3\ \text{kg/m}^{2} \qquad \omega\sigma = 2765\ \text{rad/s} \times 22.3\ \text{kg/m}^{2} = 6.17 \times 10^{4}\ \text{Pa·s/m}
+$$
+
+That is 8.4 times $Z_{\text{near}} + Z_{\text{far}} = 7.3 \times 10^{3}$, so the heavy-wall formula applies.
+
+$$
+\frac{I_{\text{t}}}{I_{\text{i}}} = \frac{4 \times 6.9 \times 10^{3} \times 413}{(6.17 \times 10^{4})^{2}} = \frac{1.14 \times 10^{7}}{3.81 \times 10^{9}} = 3.0 \times 10^{-3}
+$$
+
+$$
+\Delta\beta = 10\log_{10}(3.0 \times 10^{-3}) = -25\ \text{dB} \qquad \beta_{\text{Grace}} = 60\ \text{dB} - 25\ \text{dB} = 35\ \text{dB}
+$$
+
+About as loud as a quiet room: easy to hear. Treating the wall as a thick block would have given $-65$ dB, which is silence, so it matters that the wall is thin and moves as a whole. A note an octave lower (220 Hz) would come through 6 dB louder.
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** $v = \sqrt{B/\rho}$, $v = \sqrt{\gamma kT/m}$, the measured speeds and moduli, the adiabatic index of each gas and the history of Newton's 298 m/s and Laplace's correction are all standard (OpenStax University Physics Vol. 1 §17.2 and Table 12.1; Vol. 2 §§2.3 and 3.6; Wikipedia's "Speed of sound" and "Heat capacity ratio"). The boundary formula $4Z_{1}Z_{2}/(Z_{1} + Z_{2})^{2}$ and the mass law for a thin wall are textbook acoustics.
+
+**Weir's inventions.** Xenonite is the novel's invented Eridian material, and its density and thickness are not given; we modelled it as a 1 cm sheet of Pyrex-like glass. Erid's 210 °C, 29 atm ammonia air is from the novel. Treating it as an ideal gas is our simplification: at 29 atm, real ammonia is somewhat compressed below the ideal-gas volume, which would change the density and speed by several per cent.
+
+**How realistic are the numbers?** The physics supports the story: a thin solid wall passes enough sound for Grace and Rocky to talk, especially low notes, and Rocky's dense air couples into the wall better than thin air would. A real wall also has stiffness and its own resonances, which make some notes come through more strongly than the mass law predicts. Our 556 m/s for Erid's air is an estimate good to perhaps 5%.
+</RealVsBook>
+
+## Interactive simulation
+
+<SoundSpeedLab />
+
+Things to try: change the pressure for any gas and check that the speed doesn't move. Heat air from 0 °C to 100 °C and watch the speed rise as $\sqrt{T}$. Compare helium and xenon at the same temperature. Then pick ammonia at 210 °C and 29 atm for Rocky's side and try different wall thicknesses and notes: each doubling of either costs 6 dB.
+
+## Practice set
+
+<Problem n={1} level="easy">
+Gas B has molecules four times as massive as gas A, with the same $\gamma$ and temperature. How do their speeds of sound compare?
+
+<Solution>
+$v \propto 1/\sqrt{m}$, so sound in B travels at $1/\sqrt{4} = 1/2$ the speed in A.
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy">
+What is the speed of sound in air at 40 °C?
+
+<Solution>
+$v = 331\ \text{m/s} \times \sqrt{313/273} = 331 \times 1.071 = 354\ \text{m/s}$.
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy">
+Explain in one or two sentences why the speed of sound in a gas doesn't depend on its pressure.
+
+<Solution>
+The speed is $\sqrt{\gamma P/\rho}$. At a fixed temperature, doubling the pressure also doubles the density (twice as many molecules in the same space), so $P/\rho$, and the speed, stay the same.
+</Solution>
+</Problem>
+
+<Problem n={4} level="easy">
+Glycerin has a bulk modulus of $4.5 \times 10^{9}\ \text{Pa}$ and a density of $1260\ \text{kg/m}^{3}$. How fast does sound travel in it?
+
+<Solution>
+$v = \sqrt{4.5 \times 10^{9}/1260} = \sqrt{3.57 \times 10^{6}} = 1890\ \text{m/s}$.
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium">
+Find the speed of sound along a thin aluminium rod ($Y = 7.0 \times 10^{10}$ Pa, $\rho = 2700$ kg/m³). Compare with the measured 5120 m/s for a large block.
+
+<Solution>
+$v = \sqrt{7.0 \times 10^{10}/2700} = \sqrt{2.59 \times 10^{7}} = 5090\ \text{m/s}$, within 1% of the block value. (For aluminium the difference between rod and block is small; for steel it is larger.)
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium">
+Calculate the speed of sound in helium at 0 °C ($\gamma = 1.66$, atomic mass 4.0026 u $= 6.646 \times 10^{-27}$ kg) and compare with the measured 965 m/s.
+
+<Solution>
+$v = \sqrt{1.66 \times 1.381 \times 10^{-23} \times 273/6.646 \times 10^{-27}} = \sqrt{9.42 \times 10^{5}} = 970\ \text{m/s}$, within 0.6% of the measurement.
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium">
+Xenon atoms have a mass of 131.29 u ($2.180 \times 10^{-25}$ kg) and $\gamma = 1.66$. Find the speed of sound in xenon at 20 °C and the wavelength of a 440 Hz note in it.
+
+<Solution>
+$v = \sqrt{1.66 \times 1.381 \times 10^{-23} \times 293/2.180 \times 10^{-25}} = \sqrt{3.08 \times 10^{4}} = 176\ \text{m/s}$. $\lambda = 176/440 = 0.40\ \text{m}$, half the wavelength in air.
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium">
+In Example 4, what fraction of the sound reflects off the water? Show that reflected and transmitted fractions add to 1 using the general formula $(Z_{2} - Z_{1})^{2}/(Z_{1} + Z_{2})^{2}$ for the reflected fraction.
+
+<Solution>
+$1 - 0.0011 = 0.9989$, or 99.89%. In general: $\dfrac{(Z_{2} - Z_{1})^{2} + 4Z_{1}Z_{2}}{(Z_{1} + Z_{2})^{2}} = \dfrac{Z_{2}^{2} - 2Z_{1}Z_{2} + Z_{1}^{2} + 4Z_{1}Z_{2}}{(Z_{1} + Z_{2})^{2}} = \dfrac{(Z_{1} + Z_{2})^{2}}{(Z_{1} + Z_{2})^{2}} = 1$ ✓: energy is conserved.
+</Solution>
+</Problem>
+
+<Problem n={9} level="medium" book>
+Rocky sings a 300 Hz note. What are its wavelengths on his side (556 m/s) and on Grace's side (343 m/s)? What is its frequency on Grace's side?
+
+<Solution>
+$\lambda_{\text{Erid}} = 556/300 = 1.85$ m; $\lambda_{\text{Grace}} = 343/300 = 1.14$ m. The frequency is still 300 Hz: the wall passes on the rhythm it is pushed with.
+</Solution>
+</Problem>
+
+<Problem n={10} level="challenging">
+Show that in air the speed of sound is 68% of the molecules' rms speed, and find both at 20 °C.
+
+<Solution>
+$v/v_{\text{rms}} = \sqrt{\gamma kT/m}/\sqrt{3kT/m} = \sqrt{\gamma/3} = \sqrt{1.40/3} = 0.683$. From Example 2, $kT/m = 8.41 \times 10^{4}$ m²/s², so $v_{\text{rms}} = \sqrt{3 \times 8.41 \times 10^{4}} = 502$ m/s and $v = 0.683 \times 502 = 343$ m/s ✓.
+</Solution>
+</Problem>
+
+<Problem n={11} level="challenging" book>
+Using Example 5's wall, what level does Grace hear for Rocky's notes at (a) 880 Hz and (b) 110 Hz, each reaching the wall at 60 dB? Is the heavy-wall formula still valid at 110 Hz?
+
+<Solution>
+The loss changes by 6 dB per octave. (a) 880 Hz is one octave up: $-25 - 6 = -31$ dB, so 29 dB. (b) 110 Hz is two octaves down: $-25 + 12 = -13$ dB, so 47 dB. At 110 Hz, $\omega\sigma = 691 \times 22.3 = 1.54 \times 10^{4}$ Pa·s/m, only 2.1 times $Z_{\text{near}} + Z_{\text{far}}$, so the approximation is getting rough (the full formula $4Z_{1}Z_{2}/((Z_{1} + Z_{2})^{2} + (\omega\sigma)^{2})$ gives $-14$ dB).
+</Solution>
+</Problem>
+
+<Problem n={12} level="challenging">
+What value of $\gamma$ would have made Newton's isothermal answer (290 m/s at 20 °C) match the measured 343 m/s? Which kind of molecule has this $\gamma$?
+
+<Solution>
+$v \propto \sqrt{\gamma}$, so $\gamma = (343/290)^{2} = 1.40$, exactly $1 + 2/5$: a two-atom molecule with five degrees of freedom, like the N₂ and O₂ that make up 99% of air.
+</Solution>
+</Problem>
+
+<Problem n={13} level="challenging" book>
+If Rocky's habitat were held at only 1 atm (still ammonia at 483 K), what would the speed of sound and the impedance be? Using the heavy-wall formula, by how many decibels would this change the loudness Grace hears?
+
+<Solution>
+The speed is unchanged, 556 m/s (pressure doesn't matter). The density falls 29 times, to $12.5/29 = 0.43$ kg/m³, so $Z = 0.43 \times 556 = 239$ Pa·s/m. The transmitted fraction is proportional to $Z_{\text{near}}$, so it falls 29 times: $10\log_{10}29 = 14.6$ dB quieter. Rocky's dense air really does help him be heard.
+</Solution>
+</Problem>
+
+## Summary
+
+- Sound travels at $\sqrt{B/\rho}$ in a fluid and $\sqrt{Y/\rho}$ along a rod: springiness over inertia. The result follows from combining $\Delta p = \rho vu$ (momentum) with $\Delta p = Bu/v$ (squeezing).
+- In a gas, sound is adiabatic: compressions warm up, so $B = \gamma P$ with $\gamma = 1 + 2/f$. Newton missed this and was 15% low.
+- $v = \sqrt{\gamma kT/m}$: independent of pressure, rising as $\sqrt{T}$, faster for light molecules. Air at 20 °C: 343 m/s. Rocky's ammonia air: about 556 m/s.
+- The frequency of a note doesn't change from one medium to another; its wavelength does.
+- At a boundary, the fraction of intensity transmitted is $4Z_{1}Z_{2}/(Z_{1} + Z_{2})^{2}$: tiny when the impedances differ a lot.
+- A thin wall moves as a whole and passes a fraction $4Z_{1}Z_{2}/(\omega\sigma)^{2}$, losing 6 dB more per octave. A 1 cm xenonite wall costs Rocky's voice about 25 dB.
+
+**Formulas from this chapter**
+
+$$
+B = -\frac{\Delta p}{\Delta V/V} \qquad v = \sqrt{\frac{B}{\rho}} \qquad v = \sqrt{\frac{\gamma kT}{m}},\ \ \gamma = 1 + \frac{2}{f} \qquad \frac{I_{\text{t}}}{I_{\text{i}}} = \frac{4Z_{1}Z_{2}}{(Z_{1} + Z_{2})^{2}} \qquad \frac{I_{\text{t}}}{I_{\text{i}}} \approx \frac{4Z_{1}Z_{2}}{(\omega\sigma)^{2}}
+$$
+
+## Sources
+
+- $v = \sqrt{B/\rho}$, $\sqrt{Y/\rho}$ and $\sqrt{\gamma RT/M}$, $\gamma = 1.40$ for air, $v = 331\sqrt{T/273}$ m/s, and Table 17.1 of measured speeds: OpenStax, [*University Physics Volume 1*, §17.2 "Speed of Sound"](https://openstax.org/books/university-physics-volume-1/pages/17-2-speed-of-sound).
+- Bulk and Young's moduli (Table 12.1: water $B = 0.22 \times 10^{10}$ Pa, steel $Y = 20 \times 10^{10}$ Pa, aluminium $7.0 \times 10^{10}$ Pa, glycerin $0.45 \times 10^{10}$ Pa): OpenStax, [*University Physics Volume 1*, §12.3 "Stress, Strain, and Elastic Modulus"](https://openstax.org/books/university-physics-volume-1/pages/12-3-stress-strain-and-elastic-modulus).
+- Degrees of freedom and equipartition: OpenStax, [*University Physics Volume 2*, §2.3 "Heat Capacity and Equipartition of Energy"](https://openstax.org/books/university-physics-volume-2/pages/2-3-heat-capacity-and-equipartition-of-energy). Adiabatic processes: [§3.6 "Adiabatic Processes for an Ideal Gas"](https://openstax.org/books/university-physics-volume-2/pages/3-6-adiabatic-processes-for-an-ideal-gas).
+- Measured adiabatic indices (He 1.66, Xe 1.66, air 1.40, NH₃ 1.31, CO₂ 1.30): Wikipedia, ["Heat capacity ratio"](https://en.wikipedia.org/wiki/Heat_capacity_ratio). Newton's 979 ft/s (298 m/s) in the *Principia*, his fudge factors, and Laplace's adiabatic correction: Wikipedia, ["Speed of sound"](https://en.wikipedia.org/wiki/Speed_of_sound#History).
+- Air at 20 °C: 1.2041 kg/m³, 343.21 m/s, 413.3 Pa·s/m; molar mass of dry air 0.0289652 kg/mol: Wikipedia, ["Density of air"](https://en.wikipedia.org/wiki/Density_of_air). Pyrex (borosilicate glass) density 2.23 g/cm³: Wikipedia, ["Borosilicate glass"](https://en.wikipedia.org/wiki/Borosilicate_glass).
+- Erid's air: ammonia at about 210 °C and 29 atmospheres: /Film, ["Project Hail Mary: Why Rocky and Grace can't be in the same space"](https://slashfilm.com/2125069/project-hail-mary-why-rocky-grace-not-same-space).

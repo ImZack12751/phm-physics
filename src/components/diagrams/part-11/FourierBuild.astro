@@ -1,0 +1,37 @@
+---
+// Partial Fourier sums of a square wave, (4/π) Σ sin(nx)/n over odd n, two periods each.
+const X0 = 70, X1 = 580, A = 26, YS = [52, 135, 218, 301];
+const sum = (x: number, N: number) => {
+	let s = 0;
+	for (let n = 1; n <= N; n += 2) s += Math.sin(n * x) / n;
+	return (4 / Math.PI) * s;
+};
+const trace = (y0: number, N: number) =>
+	Array.from({ length: 601 }, (_, i) => {
+		const x = (i / 600) * 4 * Math.PI;
+		return `${(X0 + (i / 600) * (X1 - X0)).toFixed(1)},${(y0 - A * sum(x, N)).toFixed(1)}`;
+	}).join(' ');
+const sq = (y0: number) => {
+	const q = (X1 - X0) / 4;
+	return [0, 1, 2, 3].map((k) => `${X0 + k * q},${y0 - (k % 2 ? -A : A)} ${X0 + (k + 1) * q},${y0 - (k % 2 ? -A : A)}`).join(' ');
+};
+const rows = [
+	{ N: 1, t: 'the fundamental', c: 's-sky' },
+	{ N: 3, t: '+ ⅓ of harmonic 3', c: 's-sky' },
+	{ N: 5, t: '+ ⅕ of harmonic 5', c: 's-sky' },
+	{ N: 13, t: 'odd harmonics up to 13', c: 's-green' },
+];
+---
+
+<svg class="dg" viewBox="0 0 600 345" xmlns="http://www.w3.org/2000/svg">
+	{rows.map((r, i) => (
+		<>
+			<line x1={X0} y1={YS[i]} x2={X1} y2={YS[i]} class="s-grid w1" />
+			{i === 3 && <polyline points={sq(YS[i])} class="s-muted w1 dash" fill="none" />}
+			<polyline points={trace(YS[i], r.N)} class={`${r.c} ${i === 3 ? 'w3' : 'w2'}`} fill="none" />
+			<text x="8" y={YS[i] + 4} class={`t-sm ${i === 3 ? 'f-green' : ''}`}>{i + 1}</text>
+			<text x={X0} y={YS[i] - 38} class={`t-sm ${i === 3 ? 'f-green' : 'f-sky'}`}>{r.t}</text>
+		</>
+	))}
+	<text x={X1} y={YS[3] - 38} class="t-end t-sm f-muted">dashed: a perfect square wave</text>
+</svg>

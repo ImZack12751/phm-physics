@@ -13,7 +13,9 @@ if (!CHROME) {
 	console.log('No Chrome/Edge found. Set CHROME_PATH to a Chromium-based browser.');
 	process.exit(1);
 }
-const pages = ['', 'start-here/', 'glossary/', 'formulas/', 'physics-map/', ...publishedChapters.map((c) => c.id + '/')];
+// Optional argument: only check pages whose path starts with it, e.g. `npm run check:browser -- part-10`.
+const only = process.argv[2];
+const pages = ['', 'start-here/', 'glossary/', 'formulas/', 'physics-map/', ...publishedChapters.map((c) => c.id + '/')].filter((p) => !only || p.startsWith(only));
 const INSTRUCTION = 'I am a beginner working through this course. Explain my doubt from the ground up';
 const problems = [];
 const fail = (p, msg) => problems.push(`${p || '/'}: ${msg}`);
@@ -43,7 +45,14 @@ for (const p of pages) {
 			return null;
 		};
 	});
-	const res = await page.goto(PREVIEW + p, { waitUntil: 'networkidle0' });
+	let res;
+	try {
+		res = await page.goto(PREVIEW + p, { waitUntil: 'networkidle0' });
+	} catch (e) {
+		fail(p, `navigation failed: ${e.message}`);
+		await page.close();
+		continue;
+	}
 	if (!res || !res.ok()) {
 		fail(p, `HTTP ${res && res.status()}`);
 		await page.close();

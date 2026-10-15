@@ -1,0 +1,371 @@
+---
+title: Echolocation
+description: Seeing with sound. Timing echoes for distance (d = vt/2), why fine detail needs short wavelengths and why bats use ultrasound, sharpening range with frequency sweeps, finding direction from the gap between two ears, how fast echoes fade (1/d⁴), Doppler shifts of echoes, sonar and medical ultrasound, and Grace's theory that eyeless Eridians use passive sonar.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import EchoPath from '../../../components/diagrams/part-11/EchoPath.astro';
+import WavelengthDetail from '../../../components/diagrams/part-11/WavelengthDetail.astro';
+import TwoEars from '../../../components/diagrams/part-11/TwoEars.astro';
+import SonarLab from '../../../components/sims/SonarLab.astro';
+
+## The scene
+
+Rocky has no eyes. Yet he builds delicate machines, finds his way around his ship and handles tools as deftly as Grace does. Grace wonders whether Eridians "see" with sound, as bats and dolphins do on Earth. But Rocky doesn't seem to make special clicks or squeaks to do it. Grace's guess is that Eridians use **passive** sonar: they listen to the sounds already around them, reflected from everything nearby, and build a picture of their surroundings from those echoes. Much later, when every light on the *Hail Mary* goes out, Grace is helpless in the dark, while Rocky carries on as if nothing has happened.
+
+How much can you learn about the world from sound alone? How far away is something, which way is it, how big, and is it moving? This chapter puts together everything in Part 11 to answer.
+
+## Prerequisites
+
+<Prereqs notes={{ 'harmonics-chords': 'spectra and Fourier analysis', 'speed-of-sound': 'speeds of sound in air, Erid’s ammonia, water and tissue; impedance and reflection at boundaries', 'frequency-pitch': 'the Doppler effect for sound, and the link between listening time and frequency resolution', 'pressure-waves': 'intensity, the inverse-square law and decibels', 'trigonometry': 'the sine of an angle in a right-angled triangle', 'ratios-proportionality': 'inverse-square scaling' }} />
+
+## The concept
+
+### How far: timing the echo
+
+Shout at a cliff and the echo comes back a moment later. The sound has travelled to the cliff and back, a distance $2d$, at the speed of sound, so the delay $t$ tells you the distance:
+
+$$
+d = \frac{vt}{2}.
+$$
+
+In air, sound covers about a kilometre every 3 seconds, which is the old rule for judging the distance of a lightning strike by counting the seconds before the thunder. An echo from a wall 10 m away returns after 58 ms; one from a wall 1 m away after only 6 ms. This is <Term id="echolocation">echolocation</Term>: sending out a sound and timing what comes back. Bats and toothed whales do it with clicks and chirps; ships do it with <Term id="sonar">sonar</Term>. Some blind people do it too, by tapping a cane or clicking their tongue and listening to the echoes from walls and doorways.
+
+<Figure caption="Echo ranging. A short ping spreads out from the emitter, part of it reflects from the target, and the echo spreads back. The round trip is 2d, so d = vt/2. The echo's intensity falls by the inverse-square law twice: on the way out and on the way back." alt="On the left an orange dot labelled emitter and listener. On the right, at distance d, a grey block labelled target. Blue arcs spread rightwards from the emitter, labelled ping, spreading out, intensity falls as 1 over d squared. Green arcs spread leftwards from the target back towards the emitter, labelled echo, spreading out again, another 1 over d squared. A bracket along the bottom shows the distance d. A timeline below shows ping sent at time 0 and echo heard at time t equals 2 d over v.">
+	<EchoPath />
+</Figure>
+
+### How much detail: the wavelength
+
+A wave reflects strongly from objects that are large compared with its wavelength. Objects much smaller than a wavelength barely disturb it: the wave flows around them and closes up behind, an effect called <Term id="diffraction">diffraction</Term>. (Ocean swells roll past a wooden post as if it weren't there, but bounce off a harbour wall.) So to detect small things, you need short wavelengths.
+
+<Figure caption="Wavelength sets the detail you can see. Left: a long wave flows round a small object and closes up behind it, sending back almost no echo. Right: a short wave meets the same object as a broad obstacle and reflects strongly, and leaves a clear shadow behind it." alt="Two panels. Left panel, labelled long wavelength, much bigger than the object: widely spaced blue wavefronts arrive from the left, curve slightly round a small grey dot, and continue almost unchanged on the right; a note says almost no echo. Right panel, labelled short wavelength, smaller than the object: closely spaced blue wavefronts arrive from the left; at the same grey dot, green arcs reflect back to the left, labelled strong echo, and the wavefronts behind the dot have a gap labelled shadow.">
+	<WavelengthDetail />
+</Figure>
+
+The notes of human speech have wavelengths from about 0.3 m to over a metre in air. A bat hunting moths uses calls of 20 to 60 kHz, with wavelengths of 17 mm down to 6 mm, the size of its prey. Some bats call as high as 212 kHz. That is why bats use <Term id="ultrasound">ultrasound</Term>: not by chance, but because nothing else could show them an insect.
+
+Rocky's notes, which Grace can hear, have wavelengths of a metre or so in Erid's air, where sound is faster (Chapter 11.3). Sound like that could tell Rocky where the walls are, but not the details of a small tool. To "see" things a centimetre across in his air, he would need sound of about 56 kHz. The novel doesn't say what Eridians can hear beyond Grace's range; their fine work suggests their hearing must reach far higher than their voices do.
+
+### How exactly: sweeps and timing
+
+How precisely can an echo tell you the distance? A bat's call might last 3 ms, which in air is a burst of sound about a metre long. If you only knew "the echo arrived some time during those 3 ms", you'd only know the distance to within half a metre. Yet bats can do far better.
+
+The trick is the link between time and frequency from Chapter 11.2. A pure note must last a long time to have a sharp frequency, and the reverse is also true: to mark a sharp moment in time, a sound must contain a wide spread of frequencies. Many bats sweep their call quickly from, say, 60 kHz down to 20 kHz. By matching the echo's sweep against the call's, the brain can time the echo to roughly $1/(\text{bandwidth}) = 1/(40\ \text{kHz}) = 25\ \text{µs}$, about 4 mm of distance (Example 3). Experiments have found bats telling apart two targets less than half a millimetre apart.
+
+### Which way: two ears
+
+Your two ears are about 20 cm apart. A sound from straight ahead reaches both at the same time; a sound from the side reaches the nearer ear first. The gap, the <Term id="interaural-time-difference">interaural time difference</Term>, is at most about 0.6 ms for a human, and the brain uses it, along with the slight difference in loudness between the ears, to tell where a sound came from.
+
+<Figure caption="Finding direction with two ears. A distant sound arrives as nearly straight wavefronts at an angle θ from straight ahead. It must travel an extra distance d sin θ to reach the far ear, so it arrives later by Δt = d sin θ / v." alt="Two orange dots, the left and right ears, a distance d apart on a horizontal line. Straight parallel blue wavefronts arrive from the upper left, tilted at an angle theta to the line. A dashed line marks straight ahead, vertically up from the midpoint between the ears, and theta is the angle between it and the direction the sound comes from. A short red segment along the sound's path near the right ear is labelled extra path d sine theta. A note says the far ear hears it later by delta t equals d sine theta over v.">
+	<TwoEars />
+</Figure>
+
+With several "ears" spread across the body, a creature could pinpoint sounds much more precisely, and in three dimensions. That is one way passive sonar like Rocky's could work: comparing the arrival times of every echo of every ambient sound at many points.
+
+### How strong: the echo fades fast
+
+An echo is much weaker than the sound that made it. On the way out, the ping spreads over a sphere and its intensity falls as $1/d^{2}$. A small target catches a little of it and scatters it in all directions, so on the way back the echo spreads again and falls by another $1/d^{2}$. Altogether, for a small target,
+
+$$
+I_{\text{echo}} \propto \frac{1}{d^{4}}.
+$$
+
+Double the distance and the echo is 16 times weaker: $-12$ dB. That is why echolocation works over metres for bats, not kilometres, and why big, flat targets such as walls, which reflect like mirrors, are so much easier to detect than small ones.
+
+### Is it moving: Doppler echoes
+
+If the target is moving towards you, the echo comes back at a higher frequency. The target acts first as a moving listener, receiving the crests faster, and then as a moving source, sending the echo back squeezed. The Formulas section combines the two shifts of Chapter 11.2 to get
+
+$$
+f' = f\,\frac{v + u}{v - u} \approx f\left(1 + \frac{2u}{v}\right),
+$$
+
+for a target approaching at speed $u$. The shift is twice the one-way Doppler shift. Some bats use it to pick out the flutter of insect wings against still leaves, and police radar guns use the same idea with radio waves.
+
+### Sonar and ultrasound
+
+Under water, sound is the best way to see far: water soon absorbs and scatters light, while sound travels for kilometres. Ships use **active** sonar, sending out pings and timing the echoes, to chart the sea floor and find submarines, and submarines use **passive** sonar, just listening to the sounds other ships make, to stay hidden. Grace's idea is that Rocky's species uses passive sonar all the time.
+
+Doctors use the same physics inside the body. A medical ultrasound probe sends pulses of 1 to 18 MHz into tissue, where sound travels at about 1540 m/s, giving wavelengths below a millimetre. Each boundary between tissues, where the impedance changes (Chapter 11.3), sends back an echo, and the timing gives its depth. A layer of gel on the skin is essential: without it, a thin film of air between probe and skin would reflect 99.9% of the sound before it ever got in.
+
+## Formulas
+
+### Echo ranging
+
+Round trip $2d$ at speed $v$ in time $t$:
+
+$$
+2d = vt \qquad\Rightarrow\qquad \boxed{d = \frac{vt}{2}}
+$$
+
+### Range resolution
+
+A signal that sweeps across a bandwidth $B_{f}$ can be timed to about $\Delta t \approx 1/B_{f}$ (the reverse of Chapter 11.2's $\Delta f \approx 1/t$). Since $d = vt/2$, the distance is known to
+
+$$
+\boxed{\Delta d \approx \frac{v}{2B_{f}}}
+$$
+
+### Echo strength
+
+A source of power $P$ gives intensity $P/4\pi d^{2}$ at the target. A small target of area $A$ intercepts power $PA/4\pi d^{2}$ and scatters it roughly evenly, so back at the source the echo's intensity is
+
+$$
+I_{\text{echo}} \approx \frac{PA}{4\pi d^{2}} \times \frac{1}{4\pi d^{2}} \propto \frac{1}{d^{4}} \qquad\Rightarrow\qquad \boxed{\Delta\beta = -40\log_{10}\frac{d_{2}}{d_{1}}}
+$$
+
+(A large flat wall reflects like a mirror instead, and its echo only falls as $1/(2d)^{2}$, like a sound from a source twice as far away.)
+
+### Doppler shift of an echo
+
+The target, approaching at $u$, first **hears** the ping as a moving listener (Chapter 11.2):
+
+$$
+f_{\text{target}} = f\,\frac{v + u}{v}.
+$$
+
+It then **re-emits** that frequency as a moving source approaching you:
+
+$$
+f' = f_{\text{target}}\,\frac{v}{v - u} = f\,\frac{v + u}{v} \times \frac{v}{v - u} = \boxed{f\,\frac{v + u}{v - u}}
+$$
+
+For $u$ much smaller than $v$, using $(1 + x)/(1 - x) \approx 1 + 2x$ for small $x$: $f' \approx f(1 + 2u/v)$, a shift of $\Delta f \approx 2uf/v$.
+
+### Direction from two ears
+
+Sound arriving from a distant source at angle $\theta$ from straight ahead has straight wavefronts. To reach the far ear it travels an extra distance that is the side opposite $\theta$ in a right-angled triangle with hypotenuse $d$ (the distance between the ears):
+
+$$
+\text{extra path} = d\sin\theta \qquad\Rightarrow\qquad \boxed{\Delta t = \frac{d\sin\theta}{v}} \qquad \boxed{\sin\theta = \frac{v\,\Delta t}{d}}
+$$
+
+The largest gap, for a sound from directly to one side ($\theta = 90°$), is $d/v$.
+
+## Worked examples
+
+<Example n={1} title="Rocky's tap" book>
+Rocky taps a claw on the floor of his room on the *Hail Mary*, which is filled with Erid air (sound at 556 m/s, Chapter 11.3). The far wall is 2.5 m away. When does the echo return? What would it be in Grace's air?
+
+$$
+t_{\text{Erid}} = \frac{2d}{v} = \frac{2 \times 2.5\ \text{m}}{556\ \text{m/s}} = 9.0\ \text{ms} \qquad t_{\text{Grace}} = \frac{5.0\ \text{m}}{343\ \text{m/s}} = 14.6\ \text{ms}
+$$
+
+Echoes come back 1.6 times sooner in Rocky's air. An Eridian brain tuned to Erid's air would misjudge distances in thin, cold air like Grace's: everything would seem 1.6 times further away than it is.
+</Example>
+
+<Example n={2} title="How fine a detail?" book>
+What wavelength does a 440 Hz note have in Erid's air, and a 5 kHz note? What frequency would Rocky need to detect objects 1 cm across?
+
+$$
+\lambda_{440} = \frac{556\ \text{m/s}}{440\ \text{Hz}} = 1.26\ \text{m} \qquad \lambda_{5000} = \frac{556\ \text{m/s}}{5000\ \text{Hz}} = 0.111\ \text{m}
+$$
+
+$$
+f = \frac{v}{\lambda} = \frac{556\ \text{m/s}}{0.010\ \text{m}} = 5.6 \times 10^{4}\ \text{Hz} = 56\ \text{kHz}
+$$
+
+Sounds in Grace's hearing range would show Rocky the room and the larger machines in it, but to sense the shape of a small tool he would need hearing well into the ultrasound, as bats have. (This is our inference; the novel doesn't give Eridian hearing limits.)
+</Example>
+
+<Example n={3} title="A bat's call">
+A bat calls with a 3.0 ms sweep from 60 kHz down to 20 kHz, in air at 343 m/s. (a) How long, in metres, is the call? (b) What wavelengths does it span? (c) How precisely can it judge distance? (d) An echo returns after 58 ms; how far is the target?
+
+$$
+\text{(a)}\ 343\ \text{m/s} \times 0.0030\ \text{s} = 1.0\ \text{m}
+$$
+
+$$
+\text{(b)}\ \lambda = \frac{343\ \text{m/s}}{60\,000\ \text{Hz}} = 5.7\ \text{mm} \quad\text{to}\quad \frac{343\ \text{m/s}}{20\,000\ \text{Hz}} = 17\ \text{mm}
+$$
+
+$$
+\text{(c)}\ \Delta d \approx \frac{v}{2B_{f}} = \frac{343\ \text{m/s}}{2 \times 40\,000\ \text{Hz}} = 4.3\ \text{mm}
+$$
+
+$$
+\text{(d)}\ d = \frac{vt}{2} = \frac{343\ \text{m/s} \times 0.058\ \text{s}}{2} = 9.9\ \text{m}
+$$
+
+Although the call is a metre long, the sweep lets the bat time its echo to a few millimetres.
+</Example>
+
+<Example n={4} title="Which way did it come from?">
+A sound reaches your right ear 0.30 ms before your left. Your ears are 0.20 m apart. From what angle did it come?
+
+$$
+\sin\theta = \frac{v\,\Delta t}{d} = \frac{343\ \text{m/s} \times 0.00030\ \text{s}}{0.20\ \text{m}} = 0.514 \qquad\Rightarrow\qquad \theta = 31°
+$$
+
+About 31° to the right of straight ahead. (There is an ambiguity: a sound 31° to the right **behind** you gives the same gap. Turning your head slightly settles it.) The largest possible gap is $0.20/343 = 0.58$ ms.
+</Example>
+
+<Example n={5} title="A moth on the move">
+A bat calling at 50 kHz flies at 5.0 m/s straight towards a moth that is hovering in place. What frequency is the echo? (Treat the bat as approaching the still moth: the same formula applies with $u$ the closing speed.)
+
+$$
+f' = 50\,000\ \text{Hz} \times \frac{343 + 5.0}{343 - 5.0} = 50\,000\ \text{Hz} \times 1.0296 = 51\,480\ \text{Hz}
+$$
+
+The echo is raised by about 1.5 kHz, close to the approximation $2uf/v = 2 \times 5.0 \times 50\,000/343 = 1460$ Hz. (Horseshoe bats lower their call as they fly faster, to keep the echo at the frequency their ears are most sensitive to.)
+</Example>
+
+<Example n={6} title="Ultrasound in the body">
+A probe sends 5.0 MHz pulses into tissue (sound at 1540 m/s). What is the wavelength? An echo returns 104 µs after the pulse; how deep is the boundary?
+
+$$
+\lambda = \frac{1540\ \text{m/s}}{5.0 \times 10^{6}\ \text{Hz}} = 3.1 \times 10^{-4}\ \text{m} = 0.31\ \text{mm}
+$$
+
+$$
+d = \frac{vt}{2} = \frac{1540\ \text{m/s} \times 104 \times 10^{-6}\ \text{s}}{2} = 0.080\ \text{m} = 8.0\ \text{cm}
+$$
+
+Sub-millimetre detail, eight centimetres down.
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** Echo ranging, the bat call frequencies (11 to 212 kHz, with insect hunters mostly at 20 to 60 kHz, calls lasting about 3 to 50 ms) and their sub-millimetre target discrimination, the use of echolocation by toothed whales and by some blind people, active and passive sonar, and medical ultrasound at 1 to 18 MHz are all well documented (Wikipedia's "Animal echolocation", "Human echolocation", "Sonar" and "Medical ultrasound"; OpenStax §17.2 on bats). The $1/d^{4}$ fall-off and the doubled Doppler shift of an echo follow directly from the physics in Chapters 11.1 and 11.2.
+
+**Weir's inventions.** Eridians have no eyes and sense their world by sound. That they use **passive** sonar is Grace's own theory in the novel, flagged by him as a guess that fits the evidence. It is a reasonable one: for a species that evolved without eyes, hearing has to do all the work that sight does for us, and listening costs no energy, while calling out does. Rocky's fine manual work, though, implies hearing far above the notes he sings, which the novel doesn't describe.
+
+**How realistic are the numbers?** Passive sonar works in a busy, echo-filled environment, like a spaceship full of fans and pumps, and fails in silence. It would fail completely in vacuum, where there is nothing to carry sound: an Eridian on a spacewalk would be truly blind, sensing only vibrations through whatever it was touching. In the dark, though, Rocky's senses lose nothing, which is exactly what happens when the *Hail Mary*'s lights fail.
+</RealVsBook>
+
+## Interactive simulation
+
+<SonarLab />
+
+Things to try: move the target away and watch the echo delay grow in proportion while the echo level falls by 12 dB per doubling of distance. Shrink the target below the wavelength and see the echo weaken; raise the frequency to get it back. Switch to Erid's air and see the echo arrive sooner. Try water, and the tissue setting at a few megahertz.
+
+## Practice set
+
+<Problem n={1} level="easy">
+You see lightning and hear the thunder 6.0 s later. How far away was the strike? (Sound at 343 m/s; light arrives almost instantly.)
+
+<Solution>
+$d = vt = 343 \times 6.0 = 2.1 \times 10^{3}$ m, about 2 km. (No factor of 2: the sound only travels one way.)
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy">
+You clap and hear the echo from a cliff 0.50 s later. How far away is the cliff?
+
+<Solution>
+$d = vt/2 = 343 \times 0.50/2 = 86$ m.
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy">
+A ship's sonar ping returns from the sea floor after 5.2 s. How deep is the water? (Sea water: 1540 m/s.)
+
+<Solution>
+$d = 1540 \times 5.2/2 = 4.0 \times 10^{3}$ m, 4 km.
+</Solution>
+</Problem>
+
+<Problem n={4} level="easy">
+An echo from a small target at 3 m has a level of 50 dB. What level would it have from 6 m?
+
+<Solution>
+$-40\log_{10}2 = -12$ dB, so 38 dB.
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium" book>
+In Rocky's air (556 m/s), an echo returns after 25 ms. How far away is the reflecting object? If Rocky assumed instead that sound travelled at 343 m/s, how far would he think it was?
+
+<Solution>
+$d = 556 \times 0.025/2 = 6.95$ m. Assuming 343 m/s: $343 \times 0.025/2 = 4.3$ m. Echo timing only gives distance if you know the speed of sound.
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium">
+A dolphin's click is centred near 100 kHz. What is its wavelength in sea water (1540 m/s)? What size of fish could it detect, roughly?
+
+<Solution>
+$\lambda = 1540/100\,000 = 0.0154$ m, about 1.5 cm, so it can detect objects down to around a centimetre or two. Because sound is 4.5 times faster in water, dolphins need 4.5 times higher frequencies than bats for the same detail.
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium">
+A bat's call sweeps from 80 kHz to 30 kHz. How precisely can it judge range?
+
+<Solution>
+$B_{f} = 50$ kHz, so $\Delta d \approx 343/(2 \times 50\,000) = 3.4$ mm.
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium">
+A sound arrives at your left ear 0.45 ms after your right ear. Your ears are 0.20 m apart. What angle did it come from?
+
+<Solution>
+$\sin\theta = 343 \times 0.00045/0.20 = 0.772$, so $\theta = 50.5°$ to the right of straight ahead (or the mirror direction behind).
+</Solution>
+</Problem>
+
+<Problem n={9} level="medium">
+A car approaches a parking sensor at 0.50 m/s. The sensor uses 40 kHz ultrasound. What is the frequency shift of the echo?
+
+<Solution>
+$\Delta f \approx 2uf/v = 2 \times 0.50 \times 40\,000/343 = 117$ Hz.
+</Solution>
+</Problem>
+
+<Problem n={10} level="medium">
+Why does a medical ultrasound scan need gel between the probe and the skin? Use the impedances of air (413 Pa·s/m) and tissue (about $1.54 \times 10^{6}$ Pa·s/m).
+
+<Solution>
+Across an air gap the sound would have to go probe → air → skin. From air into tissue only $4 \times 413 \times 1.54 \times 10^{6}/(1.54 \times 10^{6})^{2} = 1.1 \times 10^{-3}$, about 0.1%, of the intensity gets through; the rest reflects at the surface. Gel has an impedance close to tissue's, so the sound passes straight in.
+</Solution>
+</Problem>
+
+<Problem n={11} level="challenging" book>
+Rocky hears a pump hum (a passive sound source) at two of his ears, which we'll suppose are 0.30 m apart. The hum arrives 0.27 ms earlier at one than at the other. From what angle does it come, in Erid's air (556 m/s)? What is the largest time gap possible?
+
+<Solution>
+$\sin\theta = 556 \times 0.00027/0.30 = 0.500$, so $\theta = 30°$. The largest gap, from directly to one side, is $0.30/556 = 0.54$ ms. (The ear spacing is our assumption; Eridian anatomy isn't described in this detail.)
+</Solution>
+</Problem>
+
+<Problem n={12} level="challenging">
+Show that for a target approaching at $u$, the exact echo frequency $f(v + u)/(v - u)$ and the approximation $f(1 + 2u/v)$ differ by about $2fu^{2}/v^{2}$. How big is the difference for Example 5?
+
+<Solution>
+$\dfrac{v + u}{v - u} = \dfrac{1 + x}{1 - x}$ with $x = u/v$, and $\dfrac{1}{1 - x} = 1 + x + x^{2} + \dots$ (the geometric series, valid for small $x$). So $\dfrac{1 + x}{1 - x} = (1 + x)(1 + x + x^{2} + \dots) = 1 + 2x + 2x^{2} + \dots$. The difference is about $2fx^{2} = 2 \times 50\,000 \times (5/343)^{2} = 21$ Hz, matching $51\,480 - 51\,460$ in Example 5.
+</Solution>
+</Problem>
+
+<Problem n={13} level="challenging">
+A bat can just detect a moth at 5 m. How far away could it detect the same moth if it called 12 dB louder? And a wall, whose echo falls only as $1/d^{2}$?
+
+<Solution>
+For the moth, $-40\log_{10}(d_{2}/5) = -12$ gives $d_{2}/5 = 10^{0.3} = 2.0$, so 10 m: four times the power only doubles the range. For a wall, $-20\log_{10}(d_{2}/d_{1}) = -12$ gives $d_{2}/d_{1} = 10^{0.6} = 4.0$: four times the range.
+</Solution>
+</Problem>
+
+## Summary
+
+- An echo's delay gives distance: $d = vt/2$. You need to know the speed of sound in the medium.
+- Waves reflect weakly from things smaller than a wavelength, so fine detail needs short wavelengths: bats use 20–60 kHz (mm wavelengths), medical scanners megahertz.
+- A frequency sweep of bandwidth $B_{f}$ times an echo to about $1/B_{f}$, giving range to $v/2B_{f}$.
+- Two ears give direction: $\sin\theta = v\,\Delta t/d$.
+- Echoes from small targets fade as $1/d^{4}$: $-12$ dB per doubling of distance.
+- An approaching target raises the echo's frequency by about $2uf/v$.
+- Active sonar pings and times echoes; passive sonar only listens. Grace's theory is that Eridians "see" with passive sonar, which is useless in a vacuum but unaffected by darkness.
+
+**Formulas from this chapter**
+
+$$
+d = \frac{vt}{2} \qquad \Delta d \approx \frac{v}{2B_{f}} \qquad I_{\text{echo}} \propto \frac{1}{d^{4}} \qquad f' = f\,\frac{v + u}{v - u} \approx f\left(1 + \frac{2u}{v}\right) \qquad \sin\theta = \frac{v\,\Delta t}{d}
+$$
+
+## Sources
+
+- Bat call frequencies (11 to 212 kHz; aerial-hawking insect hunters 20 to 60 kHz), call durations (about 3 to over 50 ms), discrimination of targets less than half a millimetre apart thanks to broadband sweeps, Doppler-shift compensation, and echolocation in toothed whales: Wikipedia, ["Animal echolocation"](https://en.wikipedia.org/wiki/Animal_echolocation). Bats timing echoes: OpenStax, [*University Physics Volume 1*, §17.2](https://openstax.org/books/university-physics-volume-1/pages/17-2-speed-of-sound) (Figure 17.6), which also gives 1540 m/s for sea water and human tissue.
+- Blind people echolocating by tapping canes and clicking, actively and passively: Wikipedia, ["Human echolocation"](https://en.wikipedia.org/wiki/Human_echolocation). Active and passive sonar: Wikipedia, ["Sonar"](https://en.wikipedia.org/wiki/Sonar).
+- Medical ultrasound at 1–6 MHz for deep organs and 7–18 MHz for superficial structures: Wikipedia, ["Medical ultrasound"](https://en.wikipedia.org/wiki/Medical_ultrasound).
+- Rocky perceives the world through sound; Grace wonders whether Eridians "see" with sound like bats and dolphins and theorises that they use passive sonar; when the *Hail Mary* goes dark, Rocky, having no eyes, is unaffected: LitCharts, [*Project Hail Mary*: Rocky](https://www.litcharts.com/lit/project-hail-mary/characters/rocky) (chapter 11 quotes and chapter 22 summary).

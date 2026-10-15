@@ -47,13 +47,18 @@
 		const mp = el('circle', { r: 6, class: 'f-amber' });
 		const mc = el('text', { x: 20, y: 180, class: 't-sm' });
 		el('text', { x: 20, y: 160, class: 't-sm t-b' }, 'moving');
+		// Per-frame label updates change the existing text node (and only when the text changes): replacing nodes every
+		// frame keeps Chrome from ever reaching network idle, which hangs the browser checks.
+		const setText = (e: Element, s: string) => {
+			if (e.firstChild) { if (e.firstChild.nodeValue !== s) e.firstChild.nodeValue = s; } else e.textContent = s;
+		};
 		let t = 0, last = 0, pts: [number, number][] = [];
 		function place() {
 			const b = +Bs.value, g = 1 / Math.sqrt(1 - b * b);
 			// rest clock: triangle wave of period T0
 			const fr = (t % T0) / T0, ry = fr < 0.5 ? R.y0 + D - 2 * fr * D : R.y0 + 2 * (fr - 0.5) * D;
 			rp.setAttribute('cy', String(ry));
-			rc.textContent = `ticks: ${Math.floor(t / T0)}`;
+			setText(rc, `ticks: ${Math.floor(t / T0)}`);
 			// moving clock: period γT0, moves at b·c (screen px/s), wraps
 			const T = g * T0, fm = (t % T) / T, my = fm < 0.5 ? M.y0 + D - 2 * fm * D : M.y0 + 2 * (fm - 0.5) * D;
 			const span = 560, x = 20 + ((b * c * t) % span);
@@ -64,7 +69,7 @@
 			pts.push([x, my]);
 			if (pts.length > 240) pts.shift();
 			trail.setAttribute('points', pts.map(([a, bb]) => `${a.toFixed(1)},${bb.toFixed(1)}`).join(' '));
-			mc.textContent = `ticks: ${Math.floor(t / T)}`;
+			setText(mc, `ticks: ${Math.floor(t / T)}`);
 		}
 		function draw() {
 			const b = +Bs.value, g = 1 / Math.sqrt(1 - b * b);
@@ -84,6 +89,6 @@
 		}
 		Bs.addEventListener('input', draw);
 		draw();
-		if (reduce) { t = 0.9; place(); } else requestAnimationFrame(frame);
+		if (reduce) { for (t = 0; t < 0.9; t += 0.005) place(); } else requestAnimationFrame(frame);
 	});
 </script>

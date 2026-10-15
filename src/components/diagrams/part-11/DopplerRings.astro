@@ -1,0 +1,23 @@
+---
+// Crests from a source moving right at half the speed of sound. A crest made at time tᵢ is centred where the source was
+// then, with radius v(T − tᵢ). Ahead, crests are 1 − 0.5 = 0.5 units apart; behind, 1 + 0.5 = 1.5 units apart.
+const S = 22, X0 = 200, Y0 = 165, M = 0.5, NOW = 6;
+const rings = Array.from({ length: NOW }, (_, i) => ({ cx: X0 + M * i * S, r: (NOW - i) * S }));
+const src = X0 + M * NOW * S;
+---
+
+<svg class="dg" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+	{rings.map((g) => <circle cx={g.cx} cy={Y0} r={g.r} class="s-sky w2" fill="none" />)}
+	{rings.map((g) => <circle cx={g.cx} cy={Y0} r="2" class="f-muted" />)}
+	<circle cx={src} cy={Y0} r="7" class="f-rose" />
+	<line x1={src + 10} y1={Y0} x2={src + 44} y2={Y0} class="s-rose w3" />
+	<polygon points={`${src + 56},${Y0} ${src + 44},${Y0 - 6} ${src + 44},${Y0 + 6}`} class="f-rose" />
+	<text x={src + 30} y={Y0 + 22} class="t-mid t-sm f-rose halo">vₛ</text>
+	<text x="8" y="20" class="t-sm">behind: crests spread out, lower pitch</text>
+	<text x="592" y="20" class="t-end t-sm">ahead: crests crowded, higher pitch</text>
+	<circle cx="40" cy={Y0} r="8" class="f-amber" />
+	<text x="40" y={Y0 + 26} class="t-mid t-sm f-amber halo">listener</text>
+	<circle cx="560" cy={Y0} r="8" class="f-amber" />
+	<text x="560" y={Y0 + 26} class="t-mid t-sm f-amber halo">listener</text>
+	<text x="592" y="292" class="t-end t-sm f-muted">grey dots: where the source was when each crest left</text>
+</svg>

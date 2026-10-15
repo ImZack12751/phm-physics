@@ -37,7 +37,7 @@ A free, permanently online course that teaches physics from absolute zero, using
 - Units are upright (`\text{m}`), with a thin space between number and unit (`\ `). Quantities are italic. Carry units on every line of a calculation.
 - **No maths in headings** (it breaks the TOC, anchor labels and Ask Claude section paths).
 - MDX pitfalls: never write a bare `<` or `{` in prose (put inequalities inside `$…$`), and no blank lines inside JSX blocks.
-- Simulations are self-contained `.astro` components with vanilla-TS `<script>`s and no backend. Every simulation root needs `class="sim …"` plus `data-title` and `data-description` (used by /raw/ and Ask Claude).
+- Simulations are self-contained `.astro` components with vanilla-TS `<script>`s and no backend. Every simulation root needs `class="sim …"` plus `data-title` and `data-description` (used by /raw/ and Ask Claude). Animated sims create their SVG elements once and only change attributes per frame; never set `textContent`/`innerHTML` inside the frame loop (change the text node's `nodeValue`, and only when it differs), or Chrome never reaches network idle and `check:browser` times out.
 - Progress lives in localStorage only (`phm-progress-v1`).
 
 **Design**
@@ -237,11 +237,11 @@ Teaching order follows logical dependency, not plot order. Planned chapters have
 
 | # | Chapter | Path | Prerequisites | Status |
 |---|---|---|---|---|
-| 11.1 | Sound as pressure waves | `part-11/pressure-waves` | – | planned |
-| 11.2 | Frequency and pitch | `part-11/frequency-pitch` | – | planned |
-| 11.3 | The speed of sound in different media | `part-11/speed-of-sound` | – | planned |
-| 11.4 | Harmonics and chords | `part-11/harmonics-chords` | – | planned |
-| 11.5 | Echolocation | `part-11/echolocation` | – | planned |
+| 11.1 | Sound as pressure waves | `part-11/pressure-waves` | 7.1, 6.1, 5.5, 5.3, 0.8, C.6 | written, awaiting review |
+| 11.2 | Frequency and pitch | `part-11/frequency-pitch` | 11.1, 7.1, 0.8, 7.5, 0.7, 0.6 | written, awaiting review |
+| 11.3 | The speed of sound in different media | `part-11/speed-of-sound` | 11.1, 6.1, 5.5, C.3, 7.1, 11.2 | written, awaiting review |
+| 11.4 | Harmonics and chords | `part-11/harmonics-chords` | 11.2, 11.3, 7.1, 0.6, 0.8, 2.4 | written, awaiting review |
+| 11.5 | Echolocation | `part-11/echolocation` | 11.4, 11.3, 11.2, 11.1, 0.6, 0.5 | written, awaiting review |
 
 **Part 12 · Pressure, gases and materials**
 
@@ -282,7 +282,7 @@ Brief biology and chemistry sidebars are added only where the plot's physics dep
 Source of truth: `src/data/glossary.mjs`.
 
 <!-- AUTO:glossary -->
-304 terms.
+337 terms.
 
 | Term | id | First chapter |
 |---|---|---|
@@ -590,6 +590,39 @@ Source of truth: `src/data/glossary.mjs`.
 | Hyperbolic functions | `hyperbolic-functions` | 10.5 |
 | Relativistic Doppler shift | `relativistic-doppler` | 10.5 |
 | Proper acceleration | `proper-acceleration` | 10.6 |
+| Pressure (P) | `pressure` | 11.1 |
+| Pascal (Pa) | `pascal` | 11.1 |
+| Atmospheric pressure | `atmospheric-pressure` | 11.1 |
+| Compression and rarefaction | `compression-rarefaction` | 11.1 |
+| Pressure amplitude (Δp) | `pressure-amplitude` | 11.1 |
+| Acoustic impedance (Z) | `acoustic-impedance` | 11.1 |
+| Decibel (dB) | `decibel` | 11.1 |
+| Threshold of hearing (I₀) | `threshold-of-hearing` | 11.1 |
+| Pitch | `pitch` | 11.2 |
+| Octave | `octave` | 11.2 |
+| Equal temperament | `equal-temperament` | 11.2 |
+| Beats | `beats` | 11.2 |
+| Ultrasound and infrasound | `ultrasound` | 11.2 |
+| Mach number | `mach-number` | 11.2 |
+| Bulk modulus (B) | `bulk-modulus` | 11.3 |
+| Young’s modulus (Y) | `youngs-modulus` | 11.3 |
+| Adiabatic process | `adiabatic-process` | 11.3 |
+| Adiabatic index (γ) | `adiabatic-index` | 11.3 |
+| Degrees of freedom | `degrees-of-freedom` | 11.3 |
+| Transmission coefficient | `transmission-coefficient` | 11.3 |
+| Resonance | `resonance` | 11.4 |
+| Harmonic | `harmonic` | 11.4 |
+| Fundamental frequency (f₁) | `fundamental-frequency` | 11.4 |
+| Node and antinode | `node-antinode` | 11.4 |
+| Timbre | `timbre` | 11.4 |
+| Fourier analysis | `fourier-analysis` | 11.4 |
+| Chord | `chord` | 11.4 |
+| Consonance and dissonance | `consonance` | 11.4 |
+| Formant | `formant` | 11.4 |
+| Echolocation | `echolocation` | 11.5 |
+| Sonar | `sonar` | 11.5 |
+| Diffraction | `diffraction` | 11.5 |
+| Interaural time difference | `interaural-time-difference` | 11.5 |
 <!-- /AUTO:glossary -->
 
 ---
@@ -599,7 +632,7 @@ Source of truth: `src/data/glossary.mjs`.
 Source of truth: `src/data/formulas.mjs`.
 
 <!-- AUTO:formulas -->
-176 formulas.
+192 formulas.
 
 | Formula | id | First chapter | LaTeX |
 |---|---|---|---|
@@ -779,6 +812,22 @@ Source of truth: `src/data/formulas.mjs`.
 | Relativistic Doppler shift and photon rocket | `relativistic-doppler-rocket` | 10.5 | `\dfrac{\lambda_{\text{obs}}}{\lambda_{\text{emit}}} = \sqrt{\dfrac{1 + \beta}{1 - \beta}} = e^{\varphi} \qquad \dfrac{m_{0}}{m} = e^{\varphi} = \sqrt{\dfrac{1 + \beta}{1 - \beta}}` |
 | Constant proper acceleration | `constant-proper-acceleration` | 10.6 | `\varphi = \dfrac{a\tau}{c} \qquad v = c\tanh\varphi \qquad t = \dfrac{c}{a}\sinh\varphi \qquad x = \dfrac{c^{2}}{a}\left(\cosh\varphi - 1\right)` |
 | Relativistic flip-and-burn | `relativistic-flip-and-burn` | 10.6 | `\cosh\varphi_{\text{max}} = 1 + \dfrac{ad}{2c^{2}} \qquad \tau = \dfrac{2c}{a}\varphi_{\text{max}} \qquad t = \dfrac{2c}{a}\sinh\varphi_{\text{max}} \qquad \dfrac{m_{0}}{m} = e^{2\varphi_{\text{max}}}` |
+| Pressure | `pressure` | 11.1 | `P = \dfrac{F}{A} \qquad 1\ \text{Pa} = 1\ \text{N/m}^{2} \qquad 1\ \text{atm} = 101\,325\ \text{Pa}` |
+| Pressure and air speed in a sound wave | `sound-pressure-velocity` | 11.1 | `\Delta p = \rho v u = Zu \qquad Z = \rho v` |
+| Intensity of a sound wave | `sound-intensity` | 11.1 | `I = \dfrac{(\Delta p_{\text{max}})^{2}}{2\rho v} \qquad s_{\text{max}} = \dfrac{\Delta p_{\text{max}}}{\rho v \omega}` |
+| Sound intensity level | `decibels` | 11.1 | `\beta = 10\log_{10}\dfrac{I}{I_{0}}\ \text{dB} \qquad \beta_{2} - \beta_{1} = 10\log_{10}\dfrac{I_{2}}{I_{1}} \qquad \Delta\beta = -20\log_{10}\dfrac{r_{2}}{r_{1}}` |
+| Equal-tempered notes | `equal-temperament` | 11.2 | `f = 440\ \text{Hz} \times 2^{n/12} \qquad n = 12\log_{2}\dfrac{f}{440\ \text{Hz}}` |
+| Beat frequency | `beats` | 11.2 | `f_{\text{beat}} = \|f_{1} - f_{2}\| \qquad \Delta f \approx \dfrac{1}{t_{\text{listen}}}` |
+| Doppler effect for sound | `doppler-sound` | 11.2 | `f' = f\,\dfrac{v \pm v_{\text{o}}}{v \mp v_{\text{s}}} \qquad \sin\theta = \dfrac{v}{v_{\text{s}}}` |
+| Speed of sound in a fluid or rod | `speed-of-sound-fluid` | 11.3 | `B = -\dfrac{\Delta p}{\Delta V / V} \qquad v = \sqrt{\dfrac{B}{\rho}} \qquad v_{\text{rod}} = \sqrt{\dfrac{Y}{\rho}}` |
+| Speed of sound in a gas | `speed-of-sound-gas` | 11.3 | `B = \gamma P \qquad v = \sqrt{\dfrac{\gamma P}{\rho}} = \sqrt{\dfrac{\gamma kT}{m}} \qquad \gamma = 1 + \dfrac{2}{f}` |
+| Sound crossing a boundary | `sound-transmission` | 11.3 | `\dfrac{\Delta p_{\text{t}}}{\Delta p_{\text{i}}} = \dfrac{2Z_{2}}{Z_{1} + Z_{2}} \qquad \dfrac{I_{\text{t}}}{I_{\text{i}}} = \dfrac{4Z_{1}Z_{2}}{(Z_{1} + Z_{2})^{2}}` |
+| Harmonics of a string or open pipe | `string-harmonics` | 11.4 | `f_{n} = \dfrac{nv}{2L} = nf_{1} \qquad f_{1} = \dfrac{1}{2L}\sqrt{\dfrac{F_{\text{T}}}{\mu}}\ \text{(string)} \qquad n = 1, 2, 3, \dots` |
+| Harmonics of a pipe closed at one end | `closed-pipe-harmonics` | 11.4 | `f_{n} = \dfrac{nv}{4L} \qquad n = 1, 3, 5, \dots` |
+| Consonant intervals | `intervals` | 11.4 | `\text{octave } 2:1 \qquad \text{fifth } 3:2 \qquad \text{fourth } 4:3 \qquad \text{major third } 5:4 \qquad \text{major chord } 4:5:6` |
+| Echo ranging | `echo-ranging` | 11.5 | `d = \dfrac{vt}{2} \qquad I_{\text{echo}} \propto \dfrac{1}{d^{4}}` |
+| Doppler shift of an echo | `echo-doppler` | 11.5 | `f' = f\,\dfrac{v + u}{v - u} \approx f\left(1 + \dfrac{2u}{v}\right)` |
+| Direction from arrival times | `interaural` | 11.5 | `\Delta t = \dfrac{d\sin\theta}{v} \qquad \sin\theta = \dfrac{v\,\Delta t}{d}` |
 <!-- /AUTO:formulas -->
 
 ---
@@ -805,6 +854,7 @@ All constants and book figures used so far, each with its source, are in `script
 - Part 7 figures (`WAVES` in `constants.mjs`). Real: eV exact, R∞ (CODATA); OpenStax speeds of sound (343 m/s air at 20 °C, 1480 water), hearing 20 Hz–20 kHz, visible about 400–750 nm, microwave oven 2.45 GHz, n water 1.33 / diamond 2.419 (glass about 1.5, Wikipedia), work functions (Na 2.46 … Pt 6.35 eV); Balmer lines 656.279/486.135/434.0472/410.1734 nm, limit 364.5 nm; Na D 588.995/589.592, He D3 587.5618 (Fraunhofer lines); He and Hg lines from NIST strong-line tables; CO₂ bands 4.26 and 14.99 µm; IKAROS 196 m², 310 kg, 1.12 mN, about 400 m/s by 2013; Nichols–Hull 1901 within 0.6%; KATRIN 2025 neutrino mass below 0.45 eV; Tau Ceti radial velocity −16.68 km/s, planet signals down to 30 cm/s; Webb CO₂ on WASP-39 b (2022). Book (reader guides, flagged): Petrova wavelength 25.984 µm, Petrovascope sees only that wavelength (metal plate blocks the star), Astrophage up to 0.92 c, Venus's CO₂ "signature" 4.26 and 18.31 µm (the 18.31 doesn't match a strong real band; the chapter says so), a Petrova photon equals one neutrino's mass-energy; Rocky speaks in chords (LitCharts). Our results: Petrova f = 11.54 THz, photon 7.645 × 10⁻²¹ J = 0.0477 eV, **within 0.11% of ³⁄₂kT at 96.415 °C** (our observation, stated as possibly coincidental); drive 7.06 × 10³⁴ photons/s, F = 1.80 MN, ship 1.22 × 10⁵ kg at 1.5 g; sunlight pressure 4.54 µPa; β for a mirror floats below 1.53 g/m²; our model Astrophage cell (water density) β = 0.115; Adrian's tug on Tau Ceti 0.53 m/s. Our assumptions: Rocky's 440 Hz note, centrifuge cable 10 kg/m (kink 443 m/s), IKAROS film density 1400 kg/m³. The rocket equation with vₑ = c gives a mass ratio of 2.51 for 0.92 c; the relativistic value 4.90 is quoted ahead of Part 10.
 - Part 8 figures (`STARS` in `constants.mjs`). Real: Wien b = 2.897 771 955 × 10⁻³ m K (CODATA); CMB 2.72548 K; Draper point 798 K (1847); incandescent lamps about 2400 K (Wikipedia "Color temperature"); Stefan 1879 / Boltzmann 1884, Stefan's Sun estimate about 5700 K; Planck 1900. **Tau Ceti (Wikipedia infobox): 5320 ± 40 K, 0.793 ± 0.004 R☉, 0.488 ± 0.010 L☉, 0.800 M☉, 8–10 Gyr, [Fe/H] −0.50, rotation 46 d, debris disc > 10× the Solar System's, HZ 0.55–1.16 au.** R²T⁴ gives only 0.454 ± 0.018 L☉; the course's earlier 0.52 is kept for continuity and 8.4 discusses the 0.45–0.52 spread (Adrian's T_e 282–292 K). Sirius A 9845 K, 1.7144 R☉, 24.74 L☉, 8.61 ly; Proxima 2992 K, 0.1542 R☉, 0.001567 L☉; 40 Eridani A 5126 K, 0.804 R☉, 0.40 L☉. Solar irradiance: about 1361 W/m², 0.1% over a solar cycle, ±3.4% over the orbit, 2011 revision 1365.4 → 1360.9; Sun's HZ 0.99–1.67 au (Kopparapu 2013); Sun 4.6 Gyr old with 4–7 Gyr to go (we use ~10 Gyr total). Our results: Wien iteration x = 4.9651; a 5772 K blackbody is 42% visible, 12% UV, 44% IR; Astrophage's 369.6 K thermal peak 7.84 µm vs the Petrova line's 111.5 K; 1% dimming by cooling = 14.5 K; Astrophage eating 1% of the Sun = 3.83 × 10²⁴ W = 4.26 × 10⁷ kg/s; Sun's T from Earth (S, d/R = 215) = 5772 K; Tau Ceti's light at Earth 1.25 × 10⁻⁹ W/m² (0.52 L☉), about 5 × 10⁴ visible photons/s into a 7 mm pupil; Kepler mass from Adrian 0.795 M☉; cells to dim a star N = 4fr²/a² (our model cell: 4 × 10¹⁴ kg at the Sun's surface, 1.9 × 10¹⁹ kg at 1 au). Assumed: 0.1% of the drive power as waste heat (radiator 9.5 km² at 1000 K).
 - Part 9 figures (`MASSENERGY` in `constants.mjs`). NIST atomic masses (¹H, ²H, ³H, ⁴He), CODATA neutron mass, 931.494 MeV/u, electron 0.511 MeV; Wikipedia "Energy density" table (Li-ion 0.36–0.875, TNT 4.184, wood 18, fat 38, gasoline 46.4 MJ/kg and 34.2 MJ/L, hydrogen 141.86 MJ/kg, uranium fission 80.62 TJ/kg, D–T 337.4 TJ/kg, antimatter 90 PJ/kg); kilogram prototype +1.5 pg per °C (Wikipedia "Mass–energy equivalence"). **E = mc² is derived in 9.1 from p = E/c and the centre of mass (Einstein's light-in-a-box), with no relativity.** Results: 4 ¹H → ⁴He loses 0.712% (26.7 MeV), D–T 17.6 MeV (reproduces the table's 337 TJ/kg); Sun loses 4.26 × 10⁹ kg/s and fuses 6.0 × 10¹¹ kg/s of hydrogen; ~6880 kg/yr of matter would power the world; the 2 × 10⁶ kg fuel = 290 years of world energy = 3.9 × 10¹⁵ kg of petrol = a 12.6 m cube at water density (assumed); ideal exhaust √(2ε): H₂/O₂ 5.6 km/s (RS-25 reaches 79%), fission 4.2% c, D–T 8.7% c; at 0.1c a chemical rocket needs a mass ratio of 10²⁹³⁵. Sahara breeder farm at an assumed 250 W/m² with perfect conversion: ~0.5 t/day, 11 years for the fuel (2.1 years even at 1361 W/m² all day).
+- Part 11 figures (`SOUND` in `constants.mjs`). Real: standard atmosphere 101 325 Pa (NIST SP 811); air at 20 °C 343.21 m/s, 1.2041 kg/m³, Z = 413.3 Pa·s/m, molar mass 0.0289652 kg/mol (Wikipedia "Density of air"); OpenStax Table 17.1 speeds (CO₂ 259, He 965, H₂ 1290 at 0 °C; water 1480, sea water and tissue 1540; Pyrex 5640, Al 5120, steel 5960 …) and Table 12.1 moduli (water B 2.2 GPa, steel Y 200 GPa, Al 70 GPa, glycerin 4.5 GPa); I₀ = 10⁻¹² W/m², pain 1 W/m², eardrum 1 cm², pitch discrimination 0.3%, most sensitive 2–5 kHz, Table 17.2 decibel examples (§17.3); γ: air 1.40, He/Xe 1.66, NH₃ 1.31, CO₂ 1.30 (Wikipedia "Heat capacity ratio"); Newton's 298 m/s, Clément–Desormes 1.35 (Wikipedia "Speed of sound"); A4 = 440 Hz (ISO 16); ear canal 25 mm × 7 mm; vocal tract 16.9 cm (men) / 14.1 cm (women); speaking fundamentals 90–155 / 165–255 Hz; beats under ~20/s heard as beating, 20 to 75–150/s as roughness; bats 11–212 kHz (hunters 20–60 kHz), calls 3–50 ms; medical ultrasound 1–18 MHz; Pyrex 2230 kg/m³. Book (LitCharts): Rocky's notes, several at once, all in human hearing; Grace's waveform-analysis program and Excel spreadsheet; Grace's passive-sonar theory; Rocky unaffected when the lights fail. **Our model:** Erid air = ideal-gas NH₃ at 483 K, 29 atm: v = 556 m/s, ρ = 12.5 kg/m³, Z = 6.9 × 10³ Pa·s/m (17× air); xenonite = Pyrex-like, 1 cm (σ = 22.3 kg/m², same partition as Part 6). Results: γ = 1 + 2/f derived from U = (f/2)PV; air 343 vs Newton's 290; air→water 0.11% (−29.5 dB); thick-wall model −65 dB but the thin-wall mass law 4Z₁Z₂/(ωσ)² gives −25 dB at 440 Hz (Rocky's 60 dB voice heard at 35 dB, 6 dB better per octave down); Rocky's 440 Hz note λ 1.26 m on his side, 0.78 m on Grace's; 56 kHz needed to resolve 1 cm in Erid air. Assumed: Rocky's voice 60 dB at 1 m, chords 440/550/660 and notes 523/300/443 Hz, Eridian ear spacing 0.30 m.
 
 ---
 
@@ -824,3 +874,4 @@ All constants and book figures used so far, each with its source, are in `script
 - **Session 11 (2026-10-14).** Wrote Part 8: 8.1 Blackbody radiation and Wien's law (glowing colours and the Draper point, the cavity blackbody, the ultraviolet catastrophe, Planck's law with the photon-cost argument, Wien's law derived by setting the derivative to zero and iterating x = 5(1 − e⁻ˣ), star colours, why Astrophage's single line is not thermal; promised in 6.5 and 7.2), 8.2 The Stefan–Boltzmann law and luminosity (T⁴ from the squeeze-and-stretch of Planck's curve, σ = 2π⁵k⁴/15c²h³ via a change of variable with the pure-number integral π⁴/15 quoted, L = 4πR²σT⁴, star radii, ΔL/L ≈ 4ΔT/T, the power Astrophage eats, the drive's waste heat; promised in 6.3), 8.3 The inverse-square law and the solar constant (cavity radiometers, solar cycle and orbital swing, S = σT⁴(R/d)², the Sun's temperature from Earth, T_e = T★(1 − α)^¼√(R★/2d), L = 4πd²S, the habitable zone, how faint Tau Ceti is), 8.4 The Sun vs Tau Ceti (comparison table, colours, the 0.454 vs 0.488 vs 0.52 luminosity spread and its uncertainty, Kepler mass from Adrian, M/L lifetimes, metallicity and the debris disc, habitable zones, Adrian's sky, cells needed to dim a star, why Taumoeba matters). 48 practice problems, 4 simulations (BlackbodyLab, StarBuilder, StarlightLab, StarCompare) and 12 diagrams. Fixed a Part 7 bug found on the way: SpectrumExplorer's colour swatch was invisible because scoped Astro styles don't reach elements created with `innerHTML`; such styles must be `<style is:global>` (BlackbodyLab too). **Next:** Part 9, starting with 9.1 E = mc² (5.3 and 7.3 have used E = mc² and promised Part 9 explains it; 8.2 has Astrophage turning 3.8 × 10²⁴ W into 4.3 × 10⁷ kg/s).
 - **Session 12 (2026-10-14).** Wrote Part 9: 9.1 E = mc² (Einstein's light-in-a-box derivation from p = E/c and the fixed centre of mass, mass as a form of energy, rest energy, why c² hides everyday mass changes, mass defects in fusion, antimatter and PET, the Sun's mass loss, the novel's Dimitri test and drive checked; promised in 5.3, 5.4 and 6.2), 9.2 Energy density: chemical to Astrophage (specific energy vs energy density, the three-step ladder chemical/nuclear/mass–energy, the exhaust limit √(2ε), the rocket equation at 0.1c for each drive, Astrophage as a battery, the fuel in petrol, breeding the fuel on the Sahara). 24 practice problems, 2 simulations (LightBox, FuelCalculator) and 5 diagrams. Fixed a number-format bug in several Part 8/9 sims: `x.toPrecision(3)` prints values of 1000 and up as "1.00e+3", so the shared `sci` helpers now use `toPrecision(Math.max(3, e + 1))`. **Next:** Part 10, starting with 10.1 The postulates of relativity (9.2 and the fuel calculator quote the relativistic photon-rocket mass ratio √((1 + β)/(1 − β)) and say Part 10 derives it; 7.4 Problem 11 and 7.5 also point ahead; 5.7 says Part 10 should revisit the fuel budget with a coast phase).
 - **Session 13 (2026-10-14).** Wrote Part 10 (special relativity): 10.1 Postulates (Galileo's ship, Michelson–Morley expected 0.4 fringe derived, simultaneity), 10.2 Time dilation (light clock, muons, GPS 7.2 µs/day, Hafele–Keating), 10.3 Lorentz factor (γ ≈ 1 + β²/2, p = γmv, E = γmc², E² = (pc)² + (mc²)²), 10.4 Length contraction, 10.5 Velocity addition (Lorentz transformation derived, rapidity and hyperbolic functions, relativistic Doppler, photon-rocket ratio √((1+β)/(1−β)) as promised in 7.4/9.2), 10.6 Ship time vs Earth time (φ = aτ/c; 1.5 g flip-and-burn to Tau Ceti: 3.89 yr aboard, 13.14 yr on Earth, 0.995c, mass ratio 416 vs the novel's ~21; novel's fuel with a coast: 0.909c, 6.6 yr aboard; Grace's 17 missing years reproduced; Eridians' Newtonian over-fuelling ×9). 72 problems, 6 sims (SimultaneityLab, LightClockSim, GammaExplorer, ContractionLab, VelocityAdder, TripPlanner), 12 diagrams. `REL` constants added. **Not yet done:** `check:browser` timed out once on navigation (not investigated; rerun it, and if it repeats suspect one of the animated Part 10 sims blocking network idle), and the Part 10 diagrams/sims have not been screenshotted. **Next:** finish those checks, then Part 11 (sound).
+- **Session 14 (2026-10-15).** Finished Session 13's checks: `check:browser`'s timeout came from SimultaneityLab and LightClockSim setting `textContent` every frame (Chrome never reached network idle), fixed by updating text nodes only when they change (rule added to Style rules); `check:browser` now reports a failed navigation instead of crashing and takes an optional path filter (`node scripts/check-browser.mjs part-10`). Screenshotted all Part 10 elements and fixed label collisions in Interferometer, EnergyTriangle, TanhCurve and RelDoppler. Wrote Part 11 (sound): 11.1 Sound as pressure waves (pressure and the pascal, displacement vs pressure a quarter-wave apart, Δp = ρvu from impulse, I = Δp²/2ρv with the ½ from ⟨sin²⟩, decibels, why space is silent), 11.2 Frequency and pitch (octaves, f = 440 × 2^(n/12), cents, beats derived from the cosine rules, Δf ≈ 1/t, Doppler for sound derived for source and observer, Mach cone), 11.3 The speed of sound (v = √(B/ρ) by finishing the piston argument, rods, Newton's isothermal error, γ = 1 + 2/f derived, v = √(γkT/m), Erid's ammonia air, boundary transmission 4Z₁Z₂/(Z₁ + Z₂)² derived, thin-wall mass law derived: Grace hears Rocky at about −25 dB), 11.4 Harmonics and chords (strings and open/closed pipes, ear canal at 3.4 kHz, formants and the helium voice, timbre and Fourier series, consonance from coinciding harmonics, equal-temperament beats, the missing fundamental and splitting Rocky's chords), 11.5 Echolocation (d = vt/2, wavelength vs detail, sweep range resolution v/2B, interaural time difference, 1/d⁴ echoes, echo Doppler, sonar and medical ultrasound, Grace's passive-sonar theory). 65 problems, 5 sims (SoundWaveLab, DopplerLab, SoundSpeedLab, ChordLab with Web Audio playback, SonarLab), 16 diagrams, 31 glossary terms (pressure and pascal are introduced here, so Part 12.1 builds on them), 15 formulas, `SOUND` constants. **Next:** Part 12, starting with 12.1 Pressure: F = PA (11.1 already defines pressure, the pascal and the atmosphere; 6.1 quotes PV = NkT and says Part 12 studies it; 11.3 uses PV = NkT and adiabatic B = γP; 12.4's forces on the xenonite wall can reuse the 1 cm Pyrex-like model).

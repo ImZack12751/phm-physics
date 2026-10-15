@@ -1,0 +1,33 @@
+---
+// First four standing waves on a string fixed at both ends: y = ±A sin(nπx/L), nodes at x = kL/n.
+const X0 = 90, X1 = 455, A = 18, YS = [48, 122, 196, 270];
+const curve = (n: number, y0: number, s: number) =>
+	Array.from({ length: 161 }, (_, i) => {
+		const x = (i / 160) * (X1 - X0);
+		return `${(X0 + x).toFixed(1)},${(y0 - s * A * Math.sin((n * Math.PI * x) / (X1 - X0))).toFixed(1)}`;
+	}).join(' ');
+const right = ['f₁: the fundamental', '2f₁', '3f₁', '4f₁'];
+const lam = ['λ = 2L', 'λ = L', 'λ = 2L/3', 'λ = L/2'];
+---
+
+<svg class="dg" viewBox="0 0 600 330" xmlns="http://www.w3.org/2000/svg">
+	{YS.map((y, i) => (
+		<>
+			<rect x={X0 - 10} y={y - 14} width="8" height="28" class="f-muted" />
+			<rect x={X1 + 2} y={y - 14} width="8" height="28" class="f-muted" />
+			<line x1={X0} y1={y} x2={X1} y2={y} class="s-grid w1" />
+			<polyline points={curve(i + 1, y, 1)} class="s-sky w2" fill="none" />
+			<polyline points={curve(i + 1, y, -1)} class="s-sky w2 dash" fill="none" />
+			{Array.from({ length: i + 2 }, (_, k) => <circle cx={X0 + (k * (X1 - X0)) / (i + 1)} cy={y} r="4" class="f-fg" />)}
+			<text x="12" y={y - 4} class="t-sm t-b">n = {i + 1}</text>
+			<text x="12" y={y + 12} class="t-sm f-muted">{lam[i]}</text>
+			<text x={X1 + 18} y={y + 4} class="t-sm f-amber">{right[i]}</text>
+		</>
+	))}
+	<text x={(X0 + X1) / 2} y={YS[0] - A - 6} class="t-mid t-sm f-sky halo">antinode</text>
+	<text x={X0 + 6} y={YS[0] + 18} class="t-sm halo">node</text>
+	<line x1={X0} y1="312" x2={X1} y2="312" class="s-fg w1" />
+	<line x1={X0} y1="306" x2={X0} y2="318" class="s-fg w1" />
+	<line x1={X1} y1="306" x2={X1} y2="318" class="s-fg w1" />
+	<text x={(X0 + X1) / 2} y="328" class="t-mid t-sm">length L</text>
+</svg>

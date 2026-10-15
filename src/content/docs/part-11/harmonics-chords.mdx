@@ -1,0 +1,381 @@
+---
+title: Harmonics and chords
+description: Natural frequencies and resonance, the harmonics of strings and of open and closed pipes, why the ear is most sensitive near 3 kHz, how the throat shapes vowels (formants) and why helium changes a voice's colour but not its pitch, timbre and Fourier analysis, and why some chords sound smooth and others rough, all built on Grace's program splitting Rocky's chords into notes.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import StringModes from '../../../components/diagrams/part-11/StringModes.astro';
+import PipeModes from '../../../components/diagrams/part-11/PipeModes.astro';
+import FourierBuild from '../../../components/diagrams/part-11/FourierBuild.astro';
+import HarmonicLadder from '../../../components/diagrams/part-11/HarmonicLadder.astro';
+import ChordLab from '../../../components/sims/ChordLab.astro';
+
+## The scene
+
+Rocky speaks in chords: several notes at once. Grace's waveform-analysis program has to split each chord into its notes so that Grace can write them in his spreadsheet. But there is a catch. A single note from any real voice or instrument is never one pure frequency. Pluck one string and you get a whole ladder of frequencies at once. So when the program finds a set of frequencies in one of Rocky's chords, how does it know which are separate notes and which are just the "colour" of one note?
+
+The answers come from standing waves, the same physics that makes a guitar string, a flute and a human voice sound the way they do.
+
+## Prerequisites
+
+<Prereqs notes={{ 'frequency-pitch': 'pitch, octaves, equal temperament and beats', 'speed-of-sound': 'the speed of sound in different gases', 'wave-properties': 'standing waves, nodes λ/2 apart, and v = √(F_T/μ) on a string', 'trigonometry': 'sine waves', 'exponentials-logarithms': 'logarithms for cents and intervals', 'pendulums-shm': 'natural frequency of an oscillator' }} />
+
+## The concept
+
+### Natural frequencies and resonance
+
+A pendulum swings at its own natural frequency (Chapter 2.4). Push a child on a swing at exactly that rhythm and each small push adds to the motion; push at any other rhythm and the pushes fight the swing as often as they help. Driving something at its natural frequency, so that it builds up large vibrations, is called <Term id="resonance">resonance</Term>. A singer who holds a note at a wine glass's natural frequency can make it ring, and with enough power, shatter.
+
+A pendulum has one natural frequency. A string, an air column or a wine glass has many: one for each standing-wave pattern that fits.
+
+### The harmonics of a string
+
+A guitar string is tied down at both ends, so both ends must be **nodes**, points that never move (Chapter 7.1). A standing wave fits only if a whole number of half-wavelengths fills the string's length $L$:
+
+$$
+L = n\frac{\lambda_{n}}{2}, \qquad n = 1, 2, 3, \dots
+$$
+
+With $v = f\lambda$, the allowed frequencies are
+
+$$
+f_{n} = \frac{nv}{2L} = nf_{1}.
+$$
+
+The lowest, $f_{1}$, is the <Term id="fundamental-frequency">fundamental frequency</Term>, and it is usually the pitch we hear. The others are whole-number multiples of it: twice, three times, four times. These are the <Term id="harmonic">harmonics</Term> (the ones above the fundamental are also called overtones). Halfway between each pair of nodes is an <Term id="node-antinode">antinode</Term>, where the string swings widest.
+
+<Figure caption="The first four standing waves on a string fixed at both ends. Each fits a whole number of half-wavelengths into the length L, so the frequencies are f₁, 2f₁, 3f₁ and 4f₁. Dots mark the nodes, which never move." alt="Four stacked panels, each showing a horizontal string of the same length L between two fixed clamps. In the top panel the string bulges in one loop: n equals 1, lambda equals 2 L, the fundamental f 1. The second panel shows two loops with a node in the middle: n equals 2, frequency 2 f 1. The third shows three loops, 3 f 1, and the fourth four loops, 4 f 1. Each loop is drawn as a pair of mirror-image curves to show the string's two extreme positions. White dots mark the nodes, including the two clamped ends; one antinode is labelled in the top panel.">
+	<StringModes />
+</Figure>
+
+When you pluck a string, it vibrates in many of these patterns at once. The fundamental sets the pitch; the harmonics add colour.
+
+### Air columns: flutes, clarinets and ears
+
+Air in a tube also has natural frequencies. At an **open** end, the air is free to rush in and out, but its pressure is held at the outside air's pressure: the pressure can't change there, so it is a pressure node (and a place of big air motion). At a **closed** end, the air can't move at all: a node of motion (and a place of big pressure changes).
+
+- A tube **open at both ends**, like a flute, behaves like the string: $f_{n} = nv/2L$, all harmonics.
+- A tube **closed at one end**, like a clarinet or a stopped organ pipe, fits only odd numbers of quarter-wavelengths: $f_{n} = nv/4L$ with $n = 1, 3, 5, \dots$. Its fundamental is an octave lower than an open tube of the same length, and it has only the odd harmonics, which gives the clarinet its hollow sound.
+
+<Figure caption="Standing waves of air in tubes, drawn as how far the air moves. An open end is free to move (an antinode); a closed end can't (a node). An open tube fits half-wavelengths and has all harmonics; a closed tube fits odd quarter-wavelengths and has only odd harmonics." alt="Two columns. Left column, titled open at both ends: three horizontal tubes, open at both ends, each with a blue curve showing the air's motion, largest at both open ends. The first fits half a wavelength, labelled L equals lambda over 2, f 1 equals v over 2 L. The second fits one wavelength, 2 f 1. The third fits one and a half wavelengths, 3 f 1. Right column, titled closed at one end: three tubes closed on the left by a thick wall and open on the right. The curves are zero at the closed end and largest at the open end. The first fits a quarter wavelength, L equals lambda over 4, f 1 equals v over 4 L. The second fits three quarters, 3 f 1. The third fits five quarters, 5 f 1. A note says: closed tubes have only odd harmonics.">
+	<PipeModes />
+</Figure>
+
+Your own ear canal is a tube about 2.5 cm long, closed at the eardrum and open to the air. Its fundamental is $343/(4 \times 0.025) = 3430$ Hz, right in the 2000–5000 Hz range where hearing is most sensitive (Chapter 11.2). The canal resonates there, boosting those frequencies before they reach the eardrum.
+
+### The voice and its formants
+
+Your voice starts at the vocal folds, which buzz at a fundamental of about 90–155 Hz in men and 165–255 Hz in women, rich in harmonics. The throat and mouth then act as a tube, closed at the vocal folds and open at the lips, about 17 cm long in men and 14 cm in women. Like any tube, it has natural frequencies, about 500, 1500 and 2500 Hz for a 17 cm tube with the mouth relaxed. Harmonics of the buzz near these resonances come out loud; others are weakened. These resonant peaks are called <Term id="formant">formants</Term>. Moving your tongue and lips changes the tube's shape and shifts the formants, and that is all a vowel is: "ee" and "ah" sung on the same note have the same harmonics, with different ones made loud.
+
+This explains the famous helium voice. Breathe helium and the vocal folds buzz at the **same** fundamental, because their own mass and tension haven't changed. But sound travels about 2.9 times faster in helium (Chapter 11.3), so the throat's resonances all move up by that factor. The pitch stays the same; the colour changes, giving the squeaky, duck-like sound. A dense gas such as xenon does the opposite.
+
+### Timbre and Fourier analysis
+
+A violin and a flute playing the same note have the same fundamental and the same harmonic frequencies, but in different proportions. That mix of harmonics is the sound's <Term id="timbre">timbre</Term> (pronounced "tam-ber"), or tone colour.
+
+In 1807 Joseph Fourier showed something remarkable: **any** repeating waveform, however jagged, can be built by adding up sine waves at its repeat frequency and its whole-number multiples, each with the right amplitude. A buzzy square wave, for example, is a fundamental plus a third of the 3rd harmonic, plus a fifth of the 5th, and so on.
+
+<Figure caption="Building a square wave from its harmonics. Adding the 3rd harmonic at one third of the amplitude, then the 5th at one fifth, squares off the fundamental more and more. Any repeating waveform can be built this way." alt="Four stacked traces, each two periods long. The first is a plain blue sine wave labelled the fundamental. The second is the sum of the fundamental and its third harmonic at one third the height, labelled plus a third of harmonic 3: it has flatter tops. The third adds a fifth of harmonic 5, and is flatter still. The fourth, in green, is the sum of the first seven odd harmonics, labelled up to harmonic 13, and looks almost like a square wave, with small ripples at the corners. A dashed square wave is drawn behind it for comparison.">
+	<FourierBuild />
+</Figure>
+
+Splitting a waveform into its sine waves, and listing their frequencies and strengths, is <Term id="fourier-analysis">Fourier analysis</Term>. The list is the sound's **spectrum**, exactly like the spectra of light in Chapter 7.5. This is what Grace's waveform program does to Rocky's voice. Your inner ear does the same thing mechanically: different places along the cochlea resonate at different frequencies, so each nerve hears one part of the spectrum.
+
+### Chords and consonance
+
+A <Term id="chord">chord</Term> is several notes at once, so its spectrum holds several harmonic ladders, one per note. Why do some combinations sound smooth and others harsh?
+
+Look at the harmonics. Two notes an octave apart (ratio 2 : 1) share every other harmonic. Notes a fifth apart (3 : 2), such as 440 Hz and 660 Hz, share every third harmonic of the lower note: the 3rd harmonic of 440 Hz and the 2nd of 660 Hz are both 1320 Hz. Harmonics that coincide exactly merge smoothly. Harmonics that are close but not equal **beat** against each other (Chapter 11.2). Slow beats, under about 20 per second, are heard as a throbbing in loudness; faster ones, from about 20 up to 75–150 per second, are heard as a rough, harsh buzz. Simple whole-number ratios make many harmonics coincide and few beat: this is <Term id="consonance">consonance</Term>. Complicated ratios leave many near-misses: dissonance.
+
+<Figure caption="Harmonics of two notes a fifth apart, 220 Hz and 330 Hz (ratio 3 : 2). Every 3rd harmonic of the lower note lands exactly on every 2nd harmonic of the upper, so they merge smoothly. With equal temperament the upper note is 329.6 Hz, and the near-coincident pairs beat slowly." alt="A horizontal frequency axis from 0 to 2100 hertz. Above it, blue tick marks at the harmonics of 220 hertz: 220, 440, 660, 880 and so on up to 1980. Below it, orange tick marks at the harmonics of 330 hertz: 330, 660, 990, 1320, 1650, 1980. Green circles mark the shared frequencies 660, 1320 and 1980, labelled coincide: smooth. A label notes that the musical fifth is the ratio 3 to 2.">
+	<HarmonicLadder />
+</Figure>
+
+The smoothest intervals in Western music are the **octave** (2 : 1), the **fifth** (3 : 2), the **fourth** (4 : 3) and the **major third** (5 : 4). A **major chord** stacks three notes in the ratio 4 : 5 : 6, such as 440, 550 and 660 Hz. Equal temperament (Chapter 11.2) bends these ratios slightly so that music can move between keys: its fifth, $2^{7/12} = 1.498$, is almost perfect, but its major third, $2^{4/12} = 1.260$, is noticeably wide of 1.25 and beats audibly.
+
+### Splitting Rocky's chords
+
+Now we can see how a program, or a brain, reads a chord. Fourier analysis gives a forest of frequency peaks. Peaks that fit into one ladder $f, 2f, 3f, \dots$ probably belong to one voice; a peak that doesn't fit any existing ladder starts a new note. There is a trap: the notes of a 4 : 5 : 6 chord are themselves harmonics 4, 5 and 6 of a note two octaves below the lowest one. Played together, they repeat at that lower frequency, and the brain often "hears" this **missing fundamental** even though nothing is playing it. (It's why you can recognise a man's voice on an old telephone line that cuts off everything below about 300 Hz.)
+
+So the program has to learn what one Eridian voice sounds like, its timbre, before it can reliably count the notes in a chord. That is exactly the kind of patient work Grace does, chord by chord, in his spreadsheet.
+
+## Formulas
+
+### Harmonics of a string
+
+Nodes at both ends require $L = n\lambda_{n}/2$, so $\lambda_{n} = 2L/n$ and
+
+$$
+\boxed{f_{n} = \frac{v}{\lambda_{n}} = \frac{nv}{2L} = nf_{1}} \qquad n = 1, 2, 3, \dots
+$$
+
+With the wave speed on a string, $v = \sqrt{F_{\text{T}}/\mu}$ (Chapter 7.1):
+
+$$
+\boxed{f_{1} = \frac{1}{2L}\sqrt{\frac{F_{\text{T}}}{\mu}}}
+$$
+
+Shorter, tighter or lighter strings sound higher. Halving the length doubles the frequency (an octave up); quadrupling the tension also doubles it.
+
+### Harmonics of tubes
+
+**Open at both ends:** both ends are antinodes of air motion, and antinodes are half a wavelength apart like nodes, so again $L = n\lambda_{n}/2$ and $f_{n} = nv/2L$, all $n$.
+
+**Closed at one end:** a node at the closed end and an antinode at the open end. Node to nearest antinode is $\lambda/4$; to fit more, add half-wavelengths: $L = \lambda/4,\ 3\lambda/4,\ 5\lambda/4, \dots$, so $L = n\lambda_{n}/4$ with $n$ odd:
+
+$$
+\boxed{f_{n} = \frac{nv}{4L}} \qquad n = 1, 3, 5, \dots
+$$
+
+(Real open ends behave as if the tube were a little longer, by about 0.6 times its radius; this "end correction" lowers the notes slightly.)
+
+### Fourier series
+
+A waveform $y(t)$ that repeats with frequency $f_{1}$ can be written as
+
+$$
+y(t) = \sum_{n=1}^{\infty}\left[a_{n}\cos(2\pi nf_{1}t) + b_{n}\sin(2\pi nf_{1}t)\right]
+$$
+
+(plus a constant if its average isn't zero). The square wave that is $+1$ for half of each cycle and $-1$ for the other half is
+
+$$
+y(t) = \frac{4}{\pi}\left[\sin(2\pi f_{1}t) + \tfrac{1}{3}\sin(2\pi\,3f_{1}t) + \tfrac{1}{5}\sin(2\pi\,5f_{1}t) + \dots\right].
+$$
+
+Each amplitude can be found by multiplying the waveform by the matching sine or cosine and taking the average value over a cycle (Chapter C.6): all the other harmonics average to zero against it. That is the calculation a spectrum analyser does.
+
+### Intervals and cents
+
+An interval with frequency ratio $r$ is $1200\log_{2}r$ cents (Chapter 11.2). The equal-tempered fifth and major third compare with the simple ratios like this:
+
+$$
+1200\log_{2}\frac{2^{7/12}}{3/2} = -2.0\ \text{cents} \qquad 1200\log_{2}\frac{2^{4/12}}{5/4} = +13.7\ \text{cents}
+$$
+
+If two notes $f_{\text{low}}$ and $f_{\text{high}}$ are close to the ratio $p : q$ (so $qf_{\text{high}} \approx pf_{\text{low}}$), their nearly coinciding harmonics beat at
+
+$$
+\boxed{f_{\text{beat}} = |qf_{\text{high}} - pf_{\text{low}}|}
+$$
+
+## Worked examples
+
+<Example n={1} title="A plucked string">
+A string 0.65 m long sounds a fundamental of 110 Hz. (a) What is the wave speed on it? (b) If its mass per metre is 4.0 g/m, what is its tension? (c) What are its next three harmonics?
+
+$$
+\text{(a)}\ v = 2Lf_{1} = 2 \times 0.65\ \text{m} \times 110\ \text{Hz} = 143\ \text{m/s}
+$$
+
+$$
+\text{(b)}\ F_{\text{T}} = \mu v^{2} = 0.0040\ \text{kg/m} \times (143\ \text{m/s})^{2} = 82\ \text{N}
+$$
+
+(c) 220, 330 and 440 Hz. The 4th harmonic is 440 Hz, the note A4: one string already contains two octaves of A.
+</Example>
+
+<Example n={2} title="Grace's ear canal" book>
+Grace's ear canal is a tube about 2.5 cm long, closed by the eardrum. What are its first two resonant frequencies?
+
+$$
+f_{1} = \frac{v}{4L} = \frac{343\ \text{m/s}}{4 \times 0.025\ \text{m}} = 3430\ \text{Hz} \qquad f_{3} = 3f_{1} = 10\,300\ \text{Hz}
+$$
+
+The first resonance sits right where human hearing is most sensitive, 2000–5000 Hz. Any of Rocky's harmonics near 3.4 kHz get a free boost on their way to Grace's eardrum.
+</Example>
+
+<Example n={3} title="Formants and the helium voice">
+Model a man's vocal tract as a tube 16.9 cm long, closed at the vocal folds and open at the lips. (a) Find its first three resonances in air at 343 m/s. (b) Where does the first one move if he breathes helium (sound 2.93 times faster), and what happens to the pitch of his voice?
+
+$$
+\text{(a)}\ f_{1} = \frac{343\ \text{m/s}}{4 \times 0.169\ \text{m}} = 507\ \text{Hz} \qquad f_{3} = 1520\ \text{Hz} \qquad f_{5} = 2540\ \text{Hz}
+$$
+
+These are close to the measured formants of a relaxed, neutral vowel, the "uh" in "about".
+
+$$
+\text{(b)}\ f_{1,\text{He}} = 2.93 \times 507\ \text{Hz} = 1490\ \text{Hz}
+$$
+
+The formants triple, but the pitch, set by how fast the vocal folds buzz, stays the same. Strong high harmonics and weak low ones make the voice sound thin and squeaky.
+</Example>
+
+<Example n={4} title="A just major chord" book>
+Grace's program finds a chord of Rocky's with notes at 440, 550 and 660 Hz. (a) What are the frequency ratios? (b) How often does the combined waveform repeat? (c) Which harmonics coincide?
+
+(a) Dividing by 110 Hz: $440 : 550 : 660 = 4 : 5 : 6$, a perfect major chord.
+
+(b) Each note fits a whole number of cycles into $1/(110\ \text{Hz}) = 9.09\ \text{ms}$ (4, 5 and 6 cycles), so the whole chord repeats every 9.09 ms, at 110 Hz, a frequency nobody is singing: the missing fundamental, two octaves below the lowest note.
+
+(c) Some coincidences:
+
+$$
+3 \times 440 = 2 \times 660 = 1320\ \text{Hz} \qquad 5 \times 440 = 4 \times 550 = 2200\ \text{Hz} \qquad 6 \times 550 = 5 \times 660 = 3300\ \text{Hz}
+$$
+
+Lots of shared harmonics and no near-misses: it sounds smooth. (Whether Eridians find it pleasant too is anyone's guess.)
+</Example>
+
+<Example n={5} title="Beats in equal temperament">
+On a piano, middle C is 261.63 Hz and the E above it is 329.63 Hz. A pure major third would be 5 : 4. What beat rate do the nearly coinciding harmonics make? Compare the fifth A4 (440 Hz) and E5 (659.26 Hz).
+
+The 5 : 4 ratio means the 5th harmonic of C should meet the 4th harmonic of E:
+
+$$
+5 \times 261.63\ \text{Hz} = 1308.1\ \text{Hz} \qquad 4 \times 329.63\ \text{Hz} = 1318.5\ \text{Hz} \qquad f_{\text{beat}} = 10.4\ \text{Hz}
+$$
+
+For the fifth, 3 : 2:
+
+$$
+3 \times 440\ \text{Hz} = 1320.0\ \text{Hz} \qquad 2 \times 659.26\ \text{Hz} = 1318.5\ \text{Hz} \qquad f_{\text{beat}} = 1.5\ \text{Hz}
+$$
+
+The equal-tempered third shimmers ten times a second; the fifth only drifts slowly. Piano tuners listen for exactly these beats.
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** Standing waves on strings and in tubes, the end correction, timbre and the role of the throat in shaping vowels are covered in OpenStax (University Physics Vol. 1, §§17.4–17.5). The ear canal's size (about 25 mm long), vocal-tract lengths (16.9 cm in men, 14.1 cm in women), the helium voice (same pitch, different timbre), the missing fundamental on telephone lines, and the explanation of dissonance as beating and roughness between nearby harmonics are documented on Wikipedia's pages for each, with references to the research.
+
+**Weir's inventions.** Rocky's chord language and the method Grace uses to decode it are the novel's. How Eridians produce their notes isn't something we model here; the chord in Example 4 is our invention. Nothing in physics says a 4 : 5 : 6 chord should please an Eridian: consonance depends partly on how an ear analyses sound, and Eridian ears could work differently.
+
+**How realistic are the numbers?** Splitting overlapping notes is a real and hard problem in computer audio, especially when the notes are in simple ratios and their harmonics overlap. The novel sensibly has Grace build up the language slowly, word by word, rather than decoding it all at once.
+</RealVsBook>
+
+## Interactive simulation
+
+<ChordLab />
+
+Things to try: start with one note and switch between the timbres, watching the spectrum and the waveform change while the pitch stays the same. Add a second note at 660 Hz (a fifth above 440) and see the harmonics coincide. Then detune it to 670 Hz and look for the beating pairs. Build 440, 550 and 660 Hz and press Play to hear a major chord; compare it with 440, 554 and 659 Hz, the equal-tempered version.
+
+## Practice set
+
+<Problem n={1} level="easy">
+A string has a fundamental of 196 Hz. What are its 2nd, 3rd and 4th harmonics?
+
+<Solution>
+392 Hz, 588 Hz and 784 Hz.
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy">
+You press a guitar string down at its midpoint, halving the vibrating length. What happens to the note?
+
+<Solution>
+$f_{1} \propto 1/L$, so the frequency doubles: the note goes up an octave.
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy">
+An open organ pipe and a closed one have the same length. Which has the lower fundamental, and by how much?
+
+<Solution>
+The closed pipe: $v/4L$ against $v/2L$, half the frequency, an octave lower.
+</Solution>
+</Problem>
+
+<Problem n={4} level="easy">
+What is the fundamental frequency of a flute, modelled as a tube 0.60 m long open at both ends? (Sound at 343 m/s.)
+
+<Solution>
+$f_{1} = 343/(2 \times 0.60) = 286$ Hz.
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium">
+How long must an open organ pipe be to sound a fundamental of 16.35 Hz (the lowest C on a large organ)?
+
+<Solution>
+$L = v/2f_{1} = 343/(2 \times 16.35) = 10.5$ m. Such pipes really exist; many organs fold them or use closed pipes, which need only half the length.
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium">
+A string's tension is increased from 80 N to 125 N. By what factor does its frequency change? How many semitones is that?
+
+<Solution>
+$f \propto \sqrt{F_{\text{T}}}$: $\sqrt{125/80} = 1.25$. In semitones: $12\log_{2}1.25 = 3.86$, nearly four semitones (a major third).
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium" book>
+Rocky sings two notes at 300 Hz and 450 Hz. What is their ratio, what interval is it, and which harmonics coincide first?
+
+<Solution>
+$450/300 = 3/2$: a perfect fifth. The 3rd harmonic of 300 Hz and the 2nd of 450 Hz meet at 900 Hz.
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium">
+Using the end correction of 0.6 times the radius, recalculate the ear canal's resonance for a canal 25 mm long and 7 mm wide.
+
+<Solution>
+Effective length $L = 25 + 0.6 \times 3.5 = 27.1$ mm. $f_{1} = 343/(4 \times 0.0271) = 3160$ Hz, still in the 2–5 kHz sensitive band.
+</Solution>
+</Problem>
+
+<Problem n={9} level="medium">
+In a square wave, how strong are the 3rd, 5th and 7th harmonics compared with the fundamental? Which harmonics are missing?
+
+<Solution>
+$\tfrac{1}{3}$, $\tfrac{1}{5}$ and $\tfrac{1}{7}$ of the fundamental's amplitude. All the even harmonics are missing, which is why a clarinet (a closed tube, odd harmonics only) sounds a little like a square wave.
+</Solution>
+</Problem>
+
+<Problem n={10} level="medium">
+A woman's vocal tract is about 14.1 cm long. Find her first formant in the uniform-tube model, and in helium.
+
+<Solution>
+$f_{1} = 343/(4 \times 0.141) = 608$ Hz; in helium, $2.93 \times 608 = 1780$ Hz.
+</Solution>
+</Problem>
+
+<Problem n={11} level="challenging">
+An equal-tempered fourth is $2^{5/12}$, while a pure fourth is $4/3$. How many cents apart are they? For the fourth from A4 (440 Hz) to D5, what is the beat rate of the nearly coinciding harmonics?
+
+<Solution>
+$1200\log_{2}(2^{5/12}/(4/3)) = 500 - 498.0 = +2.0$ cents. D5 $= 440 \times 2^{5/12} = 587.33$ Hz. The 4 : 3 ratio pairs the 3rd harmonic of D5 with the 4th of A4: $3 \times 587.33 = 1762.0$ Hz and $4 \times 440 = 1760$ Hz, beating at 2.0 Hz.
+</Solution>
+</Problem>
+
+<Problem n={12} level="challenging" book>
+Suppose each Eridian chord is made of 3 notes chosen from 24 pitches that Grace can tell apart. How many different chords is that? And with 5 notes from 24?
+
+<Solution>
+The number of ways to choose 3 from 24 is $\dfrac{24 \times 23 \times 22}{3 \times 2 \times 1} = 2024$. Choosing 5: $\dfrac{24 \times 23 \times 22 \times 21 \times 20}{5 \times 4 \times 3 \times 2 \times 1} = 42\,504$. Enough single "chord-words" for a whole vocabulary, which is part of why a chord language is plausible. (These numbers are our illustration; the novel doesn't say how Eridian chords are built.)
+</Solution>
+</Problem>
+
+<Problem n={13} level="challenging">
+Explain why a just major chord (440, 550, 660 Hz) might be heard as having a pitch of 110 Hz. What would the waveform's repeat time be for 440, 554.37 and 659.26 Hz (equal temperament)?
+
+<Solution>
+All three are whole-number multiples (4, 5, 6) of 110 Hz, so the combined waveform repeats exactly every 1/110 s, like a 110 Hz note with only harmonics 4, 5 and 6; the brain can supply the missing fundamental. The equal-tempered ratios are not exactly whole-number ratios ($2^{4/12}$ and $2^{7/12}$ are irrational), so that waveform never exactly repeats; it only nearly repeats every 9.09 ms, and the slow drift appears as beats.
+</Solution>
+</Problem>
+
+## Summary
+
+- Strings and air columns have many natural frequencies, one for each standing wave that fits. Driving them at one makes them resonate.
+- A string or open tube: $f_{n} = nv/2L$, all harmonics. A tube closed at one end: $f_{n} = nv/4L$, odd harmonics only.
+- The 2.5 cm ear canal resonates near 3.4 kHz, where hearing is most sensitive. The vocal tract's resonances, the formants, make the vowels. Helium shifts the formants but not the pitch.
+- Timbre is the mix of harmonics. Fourier analysis splits any repeating wave into its harmonics, giving its spectrum.
+- Notes in simple ratios (2 : 1, 3 : 2, 4 : 3, 5 : 4) share harmonics and sound consonant; near-misses beat and sound rough. Equal temperament approximates the ratios.
+
+**Formulas from this chapter**
+
+$$
+f_{n} = \frac{nv}{2L} \qquad f_{1} = \frac{1}{2L}\sqrt{\frac{F_{\text{T}}}{\mu}} \qquad f_{n} = \frac{nv}{4L}\ (n\ \text{odd}) \qquad f_{\text{beat}} = |qf_{\text{high}} - pf_{\text{low}}|
+$$
+
+## Sources
+
+- Standing sound waves, tubes open and closed, the end correction of about 0.6 times the radius, timbre, the voice and vowels: OpenStax, [*University Physics Volume 1*, §17.4 "Normal Modes of a Standing Sound Wave"](https://openstax.org/books/university-physics-volume-1/pages/17-4-normal-modes-of-a-standing-sound-wave) and [§17.5 "Sources of Musical Sound"](https://openstax.org/books/university-physics-volume-1/pages/17-5-sources-of-musical-sound). Glass shattered by sound at its resonant frequency: [§17.1](https://openstax.org/books/university-physics-volume-1/pages/17-1-sound-waves).
+- The adult ear canal, about 25 mm long and 7 mm wide: Wikipedia, ["Ear canal"](https://en.wikipedia.org/wiki/Ear_canal). Average vocal-tract length 16.9 cm (men) and 14.1 cm (women): Wikipedia, ["Vocal tract"](https://en.wikipedia.org/wiki/Vocal_tract). Measured formant frequencies of vowels: Wikipedia, ["Formant"](https://en.wikipedia.org/wiki/Formant).
+- Helium leaves the vocal folds' fundamental unchanged but raises the vocal tract's resonances, changing the timbre; xenon lowers them: Wikipedia, ["Helium"](https://en.wikipedia.org/wiki/Helium) (Inhalation and safety: Effects).
+- Speaking fundamentals of 90–155 Hz (men) and 165–255 Hz (women): Wikipedia, ["Voice frequency"](https://en.wikipedia.org/wiki/Voice_frequency). Fourier's 1807 memoir introducing Fourier series: Wikipedia, ["Fourier series"](https://en.wikipedia.org/wiki/Fourier_series).
+- The missing fundamental and telephones that cut off below 300 Hz: Wikipedia, ["Missing fundamental"](https://en.wikipedia.org/wiki/Missing_fundamental). Consonance as aligning harmonics, dissonance as beating between close harmonics, and slow fluctuations (under about 20 per second) heard as beating but faster ones (about 20 to 75–150 per second) as roughness: Wikipedia, ["Consonance and dissonance"](https://en.wikipedia.org/wiki/Consonance_and_dissonance).
+- Rocky speaks in chords, and Grace decodes them with a waveform-analysis program and a spreadsheet: LitCharts, [*Project Hail Mary*: Rocky](https://www.litcharts.com/lit/project-hail-mary/characters/rocky).

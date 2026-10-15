@@ -54,6 +54,11 @@
 			const tr = L / 2 / (C + v), tf = L / 2 / (C - v);
 			return { b, g, earth, L, v, tr, tf };
 		}
+		// Per-frame label updates change the existing text node (and only when the text changes): replacing nodes every
+		// frame keeps Chrome from ever reaching network idle, which hangs the browser checks.
+		const setText = (e: Element, s: string) => {
+			if (e.firstChild) { if (e.firstChild.nodeValue !== s) e.firstChild.nodeValue = s; } else e.textContent = s;
+		};
 		function place() {
 			const s = params(), tEnd = s.tf * 1.15, t = phase * tEnd;
 			// scale so the whole motion fits: from the rear's start to the front's position at tEnd
@@ -67,7 +72,7 @@
 			frontE.setAttribute('x', String(x0 + s.L * PX - 8)); frontE.setAttribute('class', hitF ? 'f-green' : 'f-sky');
 			pr.setAttribute('cx', String(Math.max(x0 + 4, MID - C * t * PX))); pr.setAttribute('opacity', hitR ? '0' : '1');
 			pf.setAttribute('cx', String(Math.min(x0 + s.L * PX - 4, MID + C * t * PX))); pf.setAttribute('opacity', hitF ? '0' : '1');
-			tlab.textContent = `time since the flash: ${(t * 1e9).toFixed(0)} ns (slow motion)`;
+			setText(tlab, `time since the flash: ${(t * 1e9).toFixed(0)} ns (slow motion)`);
 		}
 		function draw() {
 			const s = params();

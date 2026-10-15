@@ -1,0 +1,114 @@
+---
+// Simulation: a source moving through still air emits crests at a steady rate. Each crest is a circle centred where the
+// source was when it was made. Sliders set the source's Mach number (0–2) and its note. The readout gives the
+// frequencies heard by listeners ahead and behind, f/(1 ∓ M), in air at 343 m/s, and the Mach-cone angle above Mach 1.
+---
+
+<div
+	class="sim dl"
+	data-title="Doppler lab"
+	data-description="A sound source moves to the right through still air, sending out crests at a steady rate; each crest is drawn as a circle centred where the source was when it made it. One slider sets the source's speed as a Mach number, from 0 to 2 times the speed of sound, and another sets the note it plays, from 100 to 2000 Hz. The crests bunch up ahead of the source and spread out behind. Above Mach 1 they pile up into a cone, drawn with its half-angle θ, where sin θ = 1/M. The readout gives the source's speed in air at 343 m/s, the wavelengths and frequencies heard by a listener ahead, f/(1 − M), and behind, f/(1 + M), the change in semitones, and, above Mach 1, the cone angle and the fact that a listener ahead hears nothing until the cone sweeps past as a sonic boom."
+>
+	<p class="sim-title">Simulation: Doppler lab</p>
+	<p class="sim-help">Each circle is one crest, centred where the source was when it made it. Speed the source up and watch the crests crowd ahead of it.</p>
+	<div class="sim-controls">
+		<label>Source speed (Mach number) <input type="range" class="dl-m" min="0" max="2" step="0.05" value="0.5" /> <output class="dl-mv"></output></label>
+		<label>Note played f <input type="range" class="dl-f" min="100" max="2000" step="10" value="440" /> <output class="dl-fv"></output></label>
+	</div>
+	<svg class="dg dl-svg" viewBox="0 0 600 260" role="img" aria-label="Circular crests spreading from a moving source"></svg>
+	<div class="readout dl-out" aria-live="polite"></div>
+</div>
+
+<script>
+	const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+	document.querySelectorAll<HTMLElement>('.sim.dl').forEach((root) => {
+		const q = <T extends Element>(s: string) => root.querySelector<T>(s)!;
+		const svg = q<SVGSVGElement>('.dl-svg'), out = q<HTMLElement>('.dl-out');
+		const Ms = q<HTMLInputElement>('.dl-m'), Fs = q<HTMLInputElement>('.dl-f');
+		const NS = 'http://www.w3.org/2000/svg';
+		const el = (tag: string, at: Record<string, string | number>, text?: string) => {
+			const e = document.createElementNS(NS, tag);
+			Object.entries(at).forEach(([k, v]) => e.setAttribute(k, String(v)));
+			if (text) e.textContent = text;
+			svg.append(e);
+			return e;
+		};
+		const Y0 = 130, C = 55, TE = 0.55, N = 26, XA = 60, XB = 540; // px/s for sound, s between crests
+		const clip = el('clipPath', { id: `dl-clip-${Math.random().toString(36).slice(2)}` });
+		const cr = document.createElementNS(NS, 'rect');
+		cr.setAttribute('x', '0'); cr.setAttribute('y', '0'); cr.setAttribute('width', '600'); cr.setAttribute('height', '260');
+		clip.append(cr);
+		const g = el('g', { 'clip-path': `url(#${clip.id})` });
+		const rings = Array.from({ length: N }, () => {
+			const c = document.createElementNS(NS, 'circle');
+			c.setAttribute('cy', String(Y0));
+			c.setAttribute('class', 's-sky w2');
+			c.setAttribute('fill', 'none');
+			g.append(c);
+			return c;
+		});
+		const cone1 = el('line', { class: 's-rose w2 dash' }), cone2 = el('line', { class: 's-rose w2 dash' });
+		const src = el('circle', { cy: Y0, r: 7, class: 'f-rose' });
+		el('circle', { cx: 18, cy: Y0, r: 8, class: 'f-amber' });
+		el('text', { x: 18, y: Y0 + 26, class: 't-mid t-sm f-amber halo' }, 'behind');
+		el('circle', { cx: 582, cy: Y0, r: 8, class: 'f-amber' });
+		el('text', { x: 582, y: Y0 + 26, class: 't-mid t-sm f-amber halo' }, 'ahead');
+		const lab = el('text', { x: 300, y: 250, class: 't-mid t-sm f-muted halo' });
+		let t = 6, last = 0;
+		const xs = (tau: number, vs: number) => (vs === 0 ? 300 : XA + ((((vs * tau) % (XB - XA)) + (XB - XA)) % (XB - XA)));
+		function update() {
+			const M = +Ms.value, vs = M * C;
+			const now = xs(t, vs);
+			src.setAttribute('cx', now.toFixed(1));
+			const k0 = Math.floor(t / TE);
+			rings.forEach((c, i) => {
+				const tb = (k0 - i) * TE, age = t - tb;
+				let x = xs(tb, vs);
+				// a crest made before the source last wrapped round belongs to the previous pass: hide it
+				const wrapped = vs > 0 && x > now + 0.5;
+				c.setAttribute('cx', x.toFixed(1));
+				c.setAttribute('r', wrapped || age < 0 ? '0' : (C * age).toFixed(1));
+				c.setAttribute('stroke-opacity', String(Math.max(0.15, 1 - age / (N * TE))));
+			});
+			if (M > 1) {
+				const th = Math.asin(1 / M), Lc = 700;
+				[cone1, cone2].forEach((ln, j) => {
+					ln.setAttribute('x1', now.toFixed(1)); ln.setAttribute('y1', String(Y0));
+					ln.setAttribute('x2', (now - Lc * Math.cos(th)).toFixed(1));
+					ln.setAttribute('y2', (Y0 + (j ? 1 : -1) * Lc * Math.sin(th)).toFixed(1));
+				});
+			} else [cone1, cone2].forEach((ln) => ln.setAttribute('x2', ln.getAttribute('x1') ?? '0'));
+		}
+		function draw() {
+			const M = +Ms.value, f = +Fs.value, v = 343;
+			q('.dl-mv').textContent = `${M.toFixed(2)} (${(M * v).toFixed(0)} m/s)`;
+			q('.dl-fv').textContent = `${f} Hz`;
+			const back = f / (1 + M), lb = (v * (1 + M)) / f;
+			let ahead = '';
+			if (M < 1) {
+				const fa = f / (1 - M), la = (v * (1 - M)) / f;
+				ahead = `<span class="k">ahead</span>: λ′ = ${(la * 100).toFixed(1)} cm, f′ = f/(1 − M) = <b>${fa.toFixed(0)} Hz</b> (${(12 * Math.log2(fa / f)).toFixed(2)} semitones up)`;
+				lab.textContent = M === 0 ? 'source at rest: both listeners hear the true note' : 'crests crowd ahead and spread out behind';
+			} else if (M === 1) {
+				ahead = `<span class="k">ahead</span>: at exactly Mach 1 every crest arrives at once with the source`;
+				lab.textContent = 'Mach 1: the crests pile up into a wall at the source';
+			} else {
+				ahead = `<span class="k">ahead</span>: nothing at all until the cone (half-angle θ = arcsin(1/M) = <b>${((Math.asin(1 / M) * 180) / Math.PI).toFixed(1)}°</b>) sweeps past as a <b>sonic boom</b>`;
+				lab.textContent = 'faster than sound: the crests pile up along a cone';
+			}
+			out.innerHTML =
+				`<span class="k">at rest</span>: λ = v/f = ${((v / f) * 100).toFixed(1)} cm &nbsp; ${ahead}<br>` +
+				`<span class="k">behind</span>: λ′ = ${(lb * 100).toFixed(1)} cm, f′ = f/(1 + M) = <b>${back.toFixed(0)} Hz</b> (${(12 * Math.log2(back / f)).toFixed(2).replace('-', '−')} semitones)`;
+			update();
+		}
+		function frame(now: number) {
+			if (last) t += (now - last) / 1000;
+			last = now;
+			update();
+			requestAnimationFrame(frame);
+		}
+		[Ms, Fs].forEach((i) => i.addEventListener('input', draw));
+		draw();
+		if (!reduce) requestAnimationFrame(frame);
+	});
+</script>

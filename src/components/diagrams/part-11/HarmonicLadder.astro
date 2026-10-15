@@ -1,0 +1,29 @@
+---
+// Harmonics of 220 Hz (above the axis) and 330 Hz (below). A 3 : 2 ratio makes 660, 1320 and 1980 Hz coincide.
+const L = 40, R = 570, FMAX = 2100, Y = 104;
+const X = (f: number) => L + (f / FMAX) * (R - L);
+const lo = Array.from({ length: 9 }, (_, i) => 220 * (i + 1));
+const hi = Array.from({ length: 6 }, (_, i) => 330 * (i + 1));
+const both = [660, 1320, 1980];
+---
+
+<svg class="dg" viewBox="0 0 600 210" xmlns="http://www.w3.org/2000/svg">
+	<text x={L} y="18" class="t-sm f-sky t-b">harmonics of 220 Hz</text>
+	{lo.map((f) => (
+		<>
+			<line x1={X(f)} y1="50" x2={X(f)} y2={Y - 4} class="s-sky w3" />
+			<text x={X(f)} y="42" class="t-mid t-sm f-sky">{f}</text>
+		</>
+	))}
+	<line x1={L} y1={Y} x2={R} y2={Y} class="s-fg w2" />
+	<text x={R} y={Y - 8} class="t-end t-sm f-muted">Hz</text>
+	{hi.map((f) => (
+		<>
+			<line x1={X(f)} y1={Y + 4} x2={X(f)} y2="158" class="s-amber w3" />
+			<text x={X(f)} y="174" class="t-mid t-sm f-amber">{f}</text>
+		</>
+	))}
+	{both.map((f) => <circle cx={X(f)} cy={Y} r="9" class="s-green w2" fill="none" />)}
+	<text x={L} y="198" class="t-sm f-amber t-b">harmonics of 330 Hz</text>
+	<text x={R} y="198" class="t-end t-sm f-green">circled: harmonics coincide, smooth (a fifth, ratio 3 : 2)</text>
+</svg>

@@ -28,7 +28,7 @@ const p1 = Math.atanh(0.5), p2 = Math.atanh(0.92), ps = p1 + p2;
 	))}
 	<text x={X(p1) + 8} y={Y(0.5) + 16} class="t-sm halo">0.5c: φ = 0.549</text>
 	<text x={X(p2) + 8} y={Y(0.92) + 18} class="t-sm halo">0.92c: φ = 1.589</text>
-	<text x={X(ps) + 8} y={Y(Math.tanh(ps)) + 26} class="t-sm f-green halo">sum: φ = 2.138 → 0.973c</text>
+	<text x={X(ps) + 8} y="120" class="t-sm f-green halo">sum: φ = 2.138 → 0.973c</text>
 	<line x1={X(0)} y1={B - 30} x2={X(p1)} y2={B - 30} class="s-sky w2" />
 	<line x1={X(p1)} y1={B - 30} x2={X(ps)} y2={B - 30} class="s-violet w2" />
 	<text x={X(ps / 2)} y={B - 36} class="t-mid t-sm f-muted">rapidities add like ordinary numbers</text>

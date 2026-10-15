@@ -157,11 +157,11 @@ export const parts = [
 		id: 'part-11', icon: '♪', dir: 'part-11', code: '11', label: 'Part 11 · Sound',
 		blurb: 'Pressure waves, pitch and chords: the physics of talking to Rocky.',
 		chapters: [
-			{ slug: 'pressure-waves', title: 'Sound as pressure waves', prereqs: [], status: 'planned' },
-			{ slug: 'frequency-pitch', title: 'Frequency and pitch', prereqs: [], status: 'planned' },
-			{ slug: 'speed-of-sound', title: 'The speed of sound in different media', prereqs: [], status: 'planned' },
-			{ slug: 'harmonics-chords', title: 'Harmonics and chords', prereqs: [], status: 'planned' },
-			{ slug: 'echolocation', title: 'Echolocation', prereqs: [], status: 'planned' },
+			{ slug: 'pressure-waves', title: 'Sound as pressure waves', prereqs: ['wave-properties', 'temperature-heat', 'momentum', 'power', 'exponentials-logarithms', 'fundamental-theorem'], status: 'review' },
+			{ slug: 'frequency-pitch', title: 'Frequency and pitch', prereqs: ['pressure-waves', 'wave-properties', 'exponentials-logarithms', 'spectroscopy', 'vectors', 'trigonometry'], status: 'review' },
+			{ slug: 'speed-of-sound', title: 'The speed of sound in different media', prereqs: ['pressure-waves', 'temperature-heat', 'momentum', 'derivatives', 'wave-properties', 'frequency-pitch'], status: 'review' },
+			{ slug: 'harmonics-chords', title: 'Harmonics and chords', prereqs: ['frequency-pitch', 'speed-of-sound', 'wave-properties', 'trigonometry', 'exponentials-logarithms', 'pendulums-shm'], status: 'review' },
+			{ slug: 'echolocation', title: 'Echolocation', prereqs: ['harmonics-chords', 'speed-of-sound', 'frequency-pitch', 'pressure-waves', 'trigonometry', 'ratios-proportionality'], status: 'review' },
 		],
 	},
 	{

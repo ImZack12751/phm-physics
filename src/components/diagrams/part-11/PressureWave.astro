@@ -1,0 +1,40 @@
+---
+// One sound wave described two ways. Parcels at rest positions x' (from the left edge) are displaced by s = A sin(kx').
+// Crowding (compression) is where ds/dx is most negative, cos(kx') = −1, i.e. x' = λ/2, 3λ/2; the pressure change is
+// Δp ∝ −ds/dx = −cos(kx'), peaking there, a quarter-wavelength from the displacement peaks at x' = λ/4, 5λ/4.
+const L = 40, R = 560, LAM = 260, k = (2 * Math.PI) / LAM, N = 33, sp = (R - L) / (N - 1);
+const dots = Array.from({ length: N }, (_, i) => {
+	const x = i * sp;
+	return L + x + 14 * Math.sin(k * x);
+});
+const curve = (y0: number, f: (x: number) => number) =>
+	Array.from({ length: 261 }, (_, i) => {
+		const x = (i / 260) * (R - L);
+		return `${(L + x).toFixed(1)},${(y0 - 30 * f(x)).toFixed(1)}`;
+	}).join(' ');
+const YS = 150, YP = 262;
+const comp = [LAM / 2, (3 * LAM) / 2].map((x) => L + x);
+const rare = [0, LAM, 2 * LAM].map((x) => L + x);
+---
+
+<svg class="dg" viewBox="0 0 600 340" xmlns="http://www.w3.org/2000/svg">
+	<text x={L} y="18" class="t-sm t-b">parcels of air, shifted from evenly spaced positions</text>
+	{comp.map((x) => <line x1={x} y1="58" x2={x} y2={YP - 34} class="s-muted w1 dash" />)}
+	{dots.map((x) => <circle cx={x} cy="46" r="5" class="f-amber" />)}
+	{comp.map((x) => <text x={x} y="78" class="t-mid t-sm f-green halo">compression</text>)}
+	{rare.map((x) => <text x={x} y="78" class="t-mid t-sm f-violet halo">rarefaction</text>)}
+	<text x={L} y="106" class="t-sm t-b">displacement s of the air (positive is to the right)</text>
+	<line x1={L} y1={YS} x2={R} y2={YS} class="s-grid w1" />
+	<polyline points={curve(YS, (x) => Math.sin(k * x))} class="s-sky w3" fill="none" />
+	<line x1={L + LAM / 4} y1={YS - 30} x2={L + LAM / 4} y2={YP + 30} class="s-rose w1 dash" />
+	<line x1={L + LAM / 4} y1="200" x2={L + LAM / 2} y2="200" class="s-rose w2" />
+	<text x={L + (3 * LAM) / 8} y="196" class="t-mid t-sm f-rose halo">¼λ</text>
+	<text x={L} y="218" class="t-sm t-b">pressure change Δp</text>
+	<line x1={L} y1={YP} x2={R} y2={YP} class="s-grid w1" />
+	<polyline points={curve(YP, (x) => -Math.cos(k * x))} class="s-green w3" fill="none" />
+	<text x={L + (3 * LAM) / 2 + 8} y={YP - 26} class="t-sm f-green halo">highest pressure</text>
+	<text x={L + LAM + 8} y={YP + 42} class="t-sm f-violet halo">lowest pressure</text>
+	<line x1={R - 150} y1="328" x2={R - 40} y2="328" class="s-fg w2" />
+	<polygon points={`${R - 28},328 ${R - 40},322 ${R - 40},334`} class="f-fg" />
+	<text x={R - 158} y="332" class="t-end t-sm">wave travels at v</text>
+</svg>

@@ -1,0 +1,35 @@
+---
+// Standing waves of air motion in tubes. Open–open: ±A cos(nπx/L) (antinodes at both open ends), n = 1, 2, 3.
+// Closed at the left: ±A sin(nπx/2L) with n = 1, 3, 5 (node at the closed end, antinode at the open end).
+const W = 210, H = 20, A = 16, ROWS = [76, 166, 256];
+const curve = (x0: number, y0: number, f: (u: number) => number, s: number) =>
+	Array.from({ length: 121 }, (_, i) => {
+		const u = i / 120;
+		return `${(x0 + u * W).toFixed(1)},${(y0 - s * A * f(u)).toFixed(1)}`;
+	}).join(' ');
+const open = [1, 2, 3].map((n) => ({ f: (u: number) => Math.cos(n * Math.PI * u), t: n === 1 ? 'L = λ/2: f₁ = v/2L' : `${n}f₁` }));
+const closed = [1, 3, 5].map((n) => ({ f: (u: number) => Math.sin((n * Math.PI * u) / 2), t: n === 1 ? 'L = λ/4: f₁ = v/4L' : `${n}f₁` }));
+const XL = 50, XR = 345;
+---
+
+<svg class="dg" viewBox="0 0 600 330" xmlns="http://www.w3.org/2000/svg">
+	<text x={XL + W / 2} y="22" class="t-mid t-sm t-b">open at both ends</text>
+	<text x={XR + W / 2} y="22" class="t-mid t-sm t-b">closed at one end</text>
+	{ROWS.map((y, i) => (
+		<>
+			<line x1={XL} y1={y - H - 6} x2={XL + W} y2={y - H - 6} class="s-fg w2" />
+			<line x1={XL} y1={y + H + 6} x2={XL + W} y2={y + H + 6} class="s-fg w2" />
+			<polyline points={curve(XL, y, open[i].f, 1)} class="s-sky w2" fill="none" />
+			<polyline points={curve(XL, y, open[i].f, -1)} class="s-sky w2 dash" fill="none" />
+			<text x={XL + W / 2} y={y + H + 24} class="t-mid t-sm f-amber">{open[i].t}</text>
+			<line x1={XR} y1={y - H - 6} x2={XR + W} y2={y - H - 6} class="s-fg w2" />
+			<line x1={XR} y1={y + H + 6} x2={XR + W} y2={y + H + 6} class="s-fg w2" />
+			<rect x={XR - 8} y={y - H - 8} width="8" height={2 * H + 16} class="f-muted" />
+			<polyline points={curve(XR, y, closed[i].f, 1)} class="s-sky w2" fill="none" />
+			<polyline points={curve(XR, y, closed[i].f, -1)} class="s-sky w2 dash" fill="none" />
+			<text x={XR + W / 2} y={y + H + 24} class="t-mid t-sm f-amber">{closed[i].t}</text>
+		</>
+	))}
+	<text x="590" y="324" class="t-end t-sm f-muted">closed tubes: only odd harmonics</text>
+	<text x="10" y="324" class="t-sm f-muted">curves: how far the air moves</text>
+</svg>

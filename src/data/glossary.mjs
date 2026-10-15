@@ -1606,5 +1606,175 @@ export const glossary = {
 		def: 'The acceleration measured on board, in the ship’s own momentary rest frame: what the crew feel as weight. Holding it constant adds rapidity steadily, φ = aτ/c.',
 		chapter: 'ship-time-earth-time',
 	},
+	// ---- 11.1 Sound as pressure waves ----
+	pressure: {
+		term: 'Pressure (P)',
+		def: 'Force per unit area, P = F/A, pushing at right angles on a surface. In a gas it comes from molecules hitting the surface. Measured in pascals.',
+		chapter: 'pressure-waves',
+	},
+	pascal: {
+		term: 'Pascal (Pa)',
+		def: 'The SI unit of pressure: one newton per square metre. Atmospheric pressure is about 101 kPa.',
+		chapter: 'pressure-waves',
+	},
+	'atmospheric-pressure': {
+		term: 'Atmospheric pressure',
+		def: 'The pressure of Earth’s air at sea level: one standard atmosphere (atm) is exactly 101 325 Pa, the weight of about 10 tonnes of air on every square metre.',
+		chapter: 'pressure-waves',
+	},
+	'compression-rarefaction': {
+		term: 'Compression and rarefaction',
+		def: 'In a sound wave, a compression is a region where the medium is squeezed to above its normal pressure; a rarefaction is where it is stretched to below it.',
+		chapter: 'pressure-waves',
+	},
+	'pressure-amplitude': {
+		term: 'Pressure amplitude (Δp)',
+		def: 'The largest change in pressure from normal caused by a sound wave. Even a loud sound changes air pressure by only a few parts in ten thousand.',
+		chapter: 'pressure-waves',
+	},
+	'acoustic-impedance': {
+		term: 'Acoustic impedance (Z)',
+		def: 'Z = ρv, density times the speed of sound: the pressure a medium pushes back with per unit of speed you push it with (Δp = Zu). About 413 Pa·s/m for air, 1.5 × 10⁶ for water.',
+		chapter: 'pressure-waves',
+	},
+	decibel: {
+		term: 'Decibel (dB)',
+		def: 'The unit of sound intensity level, β = 10 log₁₀(I/I₀) with I₀ = 10⁻¹² W/m². Every factor of 10 in intensity adds 10 dB; doubling adds 3 dB.',
+		chapter: 'pressure-waves',
+	},
+	'threshold-of-hearing': {
+		term: 'Threshold of hearing (I₀)',
+		def: 'The faintest sound a person with normal hearing can detect at 1000 Hz: about 10⁻¹² W/m², 0 dB, a pressure swing of about 3 × 10⁻⁵ Pa.',
+		chapter: 'pressure-waves',
+	},
+	// ---- 11.2 Frequency and pitch ----
+	pitch: {
+		term: 'Pitch',
+		def: 'How high or low a sound seems: our perception of its frequency. Equal steps in pitch are equal ratios of frequency, not equal differences.',
+		chapter: 'frequency-pitch',
+	},
+	octave: {
+		term: 'Octave',
+		def: 'The step between two notes whose frequencies are in the ratio 2 : 1. Notes an octave apart sound like the same note, higher or lower.',
+		chapter: 'frequency-pitch',
+	},
+	'equal-temperament': {
+		term: 'Equal temperament',
+		def: 'The modern tuning that splits each octave into 12 equal semitones, each a frequency ratio of 2^(1/12) ≈ 1.0595: f = 440 × 2^(n/12) Hz for the note n semitones above A4.',
+		chapter: 'frequency-pitch',
+	},
+	beats: {
+		term: 'Beats',
+		def: 'The slow, regular rise and fall in loudness heard when two notes of nearly equal frequency sound together. The beat frequency is the difference, |f₁ − f₂|.',
+		chapter: 'frequency-pitch',
+	},
+	ultrasound: {
+		term: 'Ultrasound and infrasound',
+		def: 'Sound above the human hearing range (above about 20 kHz) is ultrasound; sound below it (under about 20 Hz) is infrasound.',
+		chapter: 'frequency-pitch',
+	},
+	'mach-number': {
+		term: 'Mach number',
+		def: 'A source’s speed divided by the speed of sound. Above Mach 1 the wavefronts pile up into a cone-shaped shock wave, heard as a sonic boom.',
+		chapter: 'frequency-pitch',
+	},
+	// ---- 11.3 The speed of sound in different media ----
+	'bulk-modulus': {
+		term: 'Bulk modulus (B)',
+		def: 'How hard a material is to squeeze: B = −Δp/(ΔV/V), the extra pressure needed per fractional loss of volume. Water: 2.2 × 10⁹ Pa. Sound in a fluid travels at √(B/ρ).',
+		chapter: 'speed-of-sound',
+	},
+	'youngs-modulus': {
+		term: 'Young’s modulus (Y)',
+		def: 'How hard a solid is to stretch or squash along one direction: stress divided by fractional change in length. Steel: about 2 × 10¹¹ Pa. Sound along a thin rod travels at √(Y/ρ).',
+		chapter: 'speed-of-sound',
+	},
+	'adiabatic-process': {
+		term: 'Adiabatic process',
+		def: 'A change so quick (or so well insulated) that no heat flows in or out. Squeezing a gas adiabatically warms it, so its pressure rises more than if it were held at constant temperature.',
+		chapter: 'speed-of-sound',
+	},
+	'adiabatic-index': {
+		term: 'Adiabatic index (γ)',
+		def: 'The factor by which quick (adiabatic) squeezing stiffens a gas: B = γP. About 5/3 for single atoms (helium, xenon), 7/5 = 1.40 for air, 1.31 for ammonia.',
+		chapter: 'speed-of-sound',
+	},
+	'degrees-of-freedom': {
+		term: 'Degrees of freedom',
+		def: 'The independent ways a molecule can hold energy: 3 for moving along x, y and z, plus 2 more for a tumbling two-atom molecule, or 3 more for a tumbling bent one. Each holds ½kT on average.',
+		chapter: 'speed-of-sound',
+	},
+	'transmission-coefficient': {
+		term: 'Transmission coefficient',
+		def: 'The fraction of a sound’s intensity that crosses a boundary between two media: 4Z₁Z₂/(Z₁ + Z₂)². Close to 1 when the impedances match, tiny when they are very different.',
+		chapter: 'speed-of-sound',
+	},
+	// ---- 11.4 Harmonics and chords ----
+	resonance: {
+		term: 'Resonance',
+		def: 'The large response of an object driven at one of its natural frequencies, the frequencies at which it vibrates by itself as a standing wave.',
+		chapter: 'harmonics-chords',
+	},
+	harmonic: {
+		term: 'Harmonic',
+		def: 'A frequency that is a whole-number multiple of a fundamental frequency: fₙ = nf₁. A string or open pipe can vibrate at all of them; a pipe closed at one end only at the odd ones.',
+		chapter: 'harmonics-chords',
+	},
+	'fundamental-frequency': {
+		term: 'Fundamental frequency (f₁)',
+		def: 'The lowest natural frequency of a vibrating object, usually heard as its pitch. The higher natural frequencies are called overtones.',
+		chapter: 'harmonics-chords',
+	},
+	'node-antinode': {
+		term: 'Node and antinode',
+		def: 'In a standing wave, a node is a point that never moves; an antinode is a point of largest motion, halfway between two nodes.',
+		chapter: 'harmonics-chords',
+	},
+	timbre: {
+		term: 'Timbre',
+		def: 'The quality that makes a violin and a flute sound different on the same note: the mix of harmonics and their strengths.',
+		chapter: 'harmonics-chords',
+	},
+	'fourier-analysis': {
+		term: 'Fourier analysis',
+		def: 'Splitting a wave into the pure sine waves that add up to it, and finding their frequencies and amplitudes (its spectrum). Any repeating wave is a sum of harmonics of its repeat frequency.',
+		chapter: 'harmonics-chords',
+	},
+	chord: {
+		term: 'Chord',
+		def: 'Several notes sounded together. Notes whose frequencies are in simple whole-number ratios, such as 4 : 5 : 6 (a major chord), sound smooth together.',
+		chapter: 'harmonics-chords',
+	},
+	consonance: {
+		term: 'Consonance and dissonance',
+		def: 'Consonant intervals sound smooth: their frequencies are in simple ratios, so their harmonics coincide. Dissonant ones sound rough, because nearby harmonics beat against each other.',
+		chapter: 'harmonics-chords',
+	},
+	formant: {
+		term: 'Formant',
+		def: 'A resonant frequency of the throat and mouth that strengthens the voice’s harmonics near it. Moving the tongue and lips shifts the formants and makes the different vowels.',
+		chapter: 'harmonics-chords',
+	},
+	// ---- 11.5 Echolocation ----
+	echolocation: {
+		term: 'Echolocation',
+		def: 'Sensing the surroundings by sound: timing echoes for distance, comparing the two ears for direction, and listening to pitch shifts for motion. Used by bats, toothed whales and (in the novel) Eridians.',
+		chapter: 'echolocation',
+	},
+	sonar: {
+		term: 'Sonar',
+		def: 'Locating objects with sound, usually under water. Active sonar sends out a ping and times the echo; passive sonar only listens to sounds already there.',
+		chapter: 'echolocation',
+	},
+	diffraction: {
+		term: 'Diffraction',
+		def: 'The spreading of a wave around obstacles and through gaps. Waves bend strongly around objects about a wavelength across or smaller, so such objects send back little echo.',
+		chapter: 'echolocation',
+	},
+	'interaural-time-difference': {
+		term: 'Interaural time difference',
+		def: 'The gap between a sound’s arrival at the two ears, Δt = d sin θ / v for ears a distance d apart. The brain uses it to tell the direction of the sound.',
+		chapter: 'echolocation',
+	},
 };
 

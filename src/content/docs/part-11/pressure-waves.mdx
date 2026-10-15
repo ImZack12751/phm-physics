@@ -1,0 +1,436 @@
+---
+title: Sound as pressure waves
+description: What sound physically is. Pressure and the pascal, compressions and rarefactions, how tiny the pressure swings of everyday sounds are, why space is silent, the push-back of the air (Δp = ρvu) derived from momentum, the intensity of a sound wave, and the decibel scale, all built on Grace hearing Rocky's first chords through the xenonite wall.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import PressureWave from '../../../components/diagrams/part-11/PressureWave.astro';
+import PistonPush from '../../../components/diagrams/part-11/PistonPush.astro';
+import DecibelLadder from '../../../components/diagrams/part-11/DecibelLadder.astro';
+import SoundWaveLab from '../../../components/sims/SoundWaveLab.astro';
+
+## The scene
+
+Grace and Rocky meet with a wall of xenonite between them. Grace speaks, and Rocky answers: not with words but with musical notes, several at a time, some low and some high, and all of them inside the range Grace can hear. Grace is astonished that two creatures from different stars ended up with overlapping hearing.
+
+To reach Grace, Rocky's chords have to start in the hot ammonia on his side, pass through a solid wall, and come out into the air on Grace's side. Later, outside the ship on a spacewalk, there is no sound at all. What is it that travels from Rocky to Grace, and why can't it cross empty space? This part of the course is about sound, and this chapter is about what sound physically **is**.
+
+## Prerequisites
+
+<Prereqs notes={{ 'wave-properties': 'longitudinal waves, v = fλ, simple harmonic motion of each piece of the medium, intensity and the inverse-square law', 'temperature-heat': 'gas pressure comes from molecules hitting a surface', 'momentum': 'impulse: a force acting for a time changes momentum, FΔt = Δp', 'power': 'power is force times velocity, P = Fv', 'exponentials-logarithms': 'base-10 logarithms for the decibel scale', 'fundamental-theorem': 'the average value of a function over an interval' }} />
+
+## The concept
+
+### Pressure
+
+Push your palm against a table and the force spreads over the whole palm. Push with a fingertip and the same force is concentrated on a much smaller area, and it hurts. What matters for squeezing and denting is the force **per square metre**. That is <Term id="pressure">pressure</Term>:
+
+$$
+P = \frac{F}{A},
+$$
+
+where $F$ is the force pushing straight onto a surface of area $A$. Its unit is the newton per square metre, called the <Term id="pascal">pascal</Term> (Pa).
+
+Chapter 6.1 showed where a gas's pressure comes from: billions of molecules hitting every surface each second, each hit giving a tiny push. The air around you, at sea level, has a pressure of about 101 000 Pa. One <Term id="atmospheric-pressure">standard atmosphere</Term> is defined as exactly $101\,325\ \text{Pa}$. That is the weight of about 10 tonnes on every square metre, which is the weight of the whole column of air above it. You don't feel crushed because the air pushes equally on every side of you, and your body pushes back from inside.
+
+### Sound is a pressure wave
+
+A loudspeaker cone moves forwards and backwards. Each time it moves forwards it shoves the air in front of it, squeezing it slightly: a small region of higher pressure, a <Term id="compression-rarefaction">compression</Term>. That air pushes on the air beyond it, which pushes on the next layer, and the squeeze travels outwards. Each time the cone moves back, it leaves a region of slightly lower pressure behind, a **rarefaction**, and that travels outwards too.
+
+This is the longitudinal wave of Chapter 7.1. Each small parcel of air moves back and forth along the direction of travel, in simple harmonic motion, while the pattern of compressions and rarefactions moves on at the speed of sound. There are two ways to describe the same wave:
+
+- the **displacement** $s$: how far each parcel of air has moved from its usual place, and
+- the **pressure change** $\Delta p$: how much the pressure there is above or below normal.
+
+They are not in step. The pressure is highest where the parcels on either side have both moved **towards** the same point, crowding it. At that point the parcel itself hasn't moved at all: its neighbours have come to it. So the pressure peaks where the displacement is zero, a quarter of a wavelength away from where the displacement peaks.
+
+<Figure caption="One sound wave, described two ways. Top: parcels of air (dots) shifted from their usual, evenly spaced positions, bunching into compressions and spreading into rarefactions. Middle: how far each parcel has moved (positive means to the right). Bottom: the change in pressure. The pressure is highest where parcels on both sides have moved towards the same point, which is where the displacement crosses zero, so the two graphs are a quarter of a wavelength out of step." alt="Three aligned panels across the width. Top panel: a row of thirty-three orange dots, bunched together near two points labelled compression and spread apart near three points labelled rarefaction, at both ends and in the middle. Middle panel: a blue sine-shaped graph labelled displacement s of the air, positive is to the right, crossing zero at the compressions and rarefactions. Bottom panel: a green graph labelled pressure change delta p, which peaks at the compressions, labelled highest pressure, and dips lowest at the rarefactions, labelled lowest pressure. Dashed vertical lines connect each compression in the top row to a zero crossing of the displacement graph and to a peak of the pressure graph. A bracket shows a quarter of a wavelength between a displacement peak and a pressure peak. An arrow says the wave travels to the right at v.">
+	<PressureWave />
+</Figure>
+
+Microphones and ears respond to the **pressure** changes. Your eardrum is a thin membrane with air on both sides; when the pressure outside rises above the pressure inside, the drum is pushed in, and when it falls, the drum moves out.
+
+### How small sound really is
+
+Sound seems a forceful thing, but the pressure changes in everyday sounds are astonishingly small. In ordinary conversation the air pressure at your ear rises and falls by about $0.03\ \text{Pa}$ (Example 1), which is three parts in ten million of the atmosphere's $101\,325\ \text{Pa}$. The air itself moves back and forth by a few hundredths of a micrometre (Example 2). The faintest sound a young person can hear moves the air by less than the width of an atom.
+
+Sound is a very gentle, very orderly disturbance riding on top of the violent random jiggling of the molecules (Chapter 6.1), which move at about 500 m/s in all directions. It is that orderliness, a whole region of air moving together, that makes it a wave rather than noise.
+
+### No medium, no sound
+
+Sound is the medium moving. Take the medium away and there is nothing to squeeze. Put a ringing alarm clock in a glass jar and pump the air out: you can still see the hammer hitting the bell, but the sound fades to nothing. In the near-perfect vacuum between the planets and stars, there is no sound at all.
+
+So, on a spacewalk, no sound can reach you through space. The only sounds you hear are those carried through your own suit and through whatever you touch. Light is different: it is a wave of electric and magnetic fields that needs no medium (Chapter 7.2), which is why we can see Tau Ceti but never hear it.
+
+Rocky's voice, on the other hand, has a medium all the way: his ammonia air, the solid xenonite wall, and Grace's air. Sound travels perfectly well through liquids and solids, often much faster than through air. (Chapter 11.3 works out how fast, and how much of Rocky's voice survives the trip through the wall.)
+
+### Pushing on the air
+
+How much pressure does it take to push air at a given speed? Imagine a long tube of air with a piston at one end. Push the piston in at a small, steady speed $u$. The air right next to it is squeezed and set moving at $u$; it squeezes the air beyond it, and so on. The edge of the squeezed, moving region races down the tube at the speed of sound $v$, which is much faster than $u$.
+
+<Figure caption="A piston pushed into a tube of air at a steady speed u. The edge of the compressed region runs ahead at the speed of sound v. After a time t, a column of air of length vt has been squeezed slightly and set moving at u. The extra pressure Δp on the piston supplies the impulse that gives this air its momentum." alt="A long horizontal tube drawn from left to right. At the left end a grey piston with an arrow labelled u pushes to the right. To the right of the piston a shaded orange region, labelled squeezed air moving at u, extends to a dashed vertical line labelled front of the compression, moving at v. Beyond the line the air is unshaded and labelled still air at normal pressure. A bracket under the shaded region is labelled length v t after time t. A note on the piston reads extra pressure delta p. The cross-section area of the tube is labelled A.">
+	<PistonPush />
+</Figure>
+
+The Formulas section uses impulse and momentum (Chapter 5.5) to show that the extra pressure needed is
+
+$$
+\Delta p = \rho v u,
+$$
+
+where $\rho$ is the density of the air. Dense air takes more pushing, because there is more mass to set moving. Air that carries sound quickly takes more pushing too, because the compression runs ahead fast and sets a long column moving every second.
+
+The combination $Z = \rho v$ is called the <Term id="acoustic-impedance">acoustic impedance</Term>: it measures how hard a medium pushes back. For air at 20 °C, $Z = 1.204\ \text{kg/m}^{3} \times 343\ \text{m/s} = 413\ \text{Pa·s/m}$. Water's impedance is 3600 times larger. Chapter 11.3 shows that when two media have very different impedances, a sound wave mostly bounces off the boundary between them.
+
+### Intensity and loudness
+
+A sound wave carries energy: the air in it is moving (kinetic energy) and squeezed (stored energy, like a spring). The power passing through each square metre is the wave's <Term id="intensity">intensity</Term> $I$, in W/m². The Formulas section shows that
+
+$$
+I = \frac{(\Delta p_{\text{max}})^{2}}{2\rho v},
+$$
+
+where $\Delta p_{\text{max}}$ is the <Term id="pressure-amplitude">pressure amplitude</Term>, the largest swing in pressure. As in Chapter 7.1, the intensity goes as the **square** of the amplitude.
+
+Human hearing covers an enormous range of intensities. The <Term id="threshold-of-hearing">threshold of hearing</Term>, the faintest 1000 Hz sound a person with normal hearing can detect, is about $I_{0} = 10^{-12}\ \text{W/m}^{2}$. Sound starts to hurt at about $1\ \text{W/m}^{2}$, a million million times more. A scale that runs over twelve powers of ten is best handled with logarithms (Chapter 0.8). The sound intensity level, in <Term id="decibel">decibels</Term> (dB), is
+
+$$
+\beta = 10\log_{10}\frac{I}{I_{0}}\ \text{dB}.
+$$
+
+The threshold of hearing is 0 dB, normal conversation is about 60 dB, and the threshold of pain is about 120 dB. Our ears judge loudness roughly by ratios, which is why the logarithmic scale matches what we hear quite well: each step of 10 dB is ten times the intensity, and sounds about twice as loud.
+
+<Figure caption="The decibel ladder. Each rung of 10 dB is ten times the intensity of the one below. Everyday sounds sit between 0 and about 120 dB, a factor of a million million in intensity. Values from OpenStax Table 17.2." alt="A vertical scale from 0 decibels at the bottom to 160 decibels at the top, with intensities in watts per square metre on the left from 10 to the minus 12 up to 10 to the 4. Labels on the right: 0 dB, threshold of hearing; 10 dB, rustle of leaves; 20 dB, whisper at 1 metre; 40 dB, average home; 60 dB, normal conversation, with a marker for Rocky's voice in our examples; 80 dB, loud radio; 100 dB, noisy factory, damage from 8 hours a day; 120 dB, threshold of pain; 140 dB, jet at 30 metres; 160 dB, eardrums burst. The bottom part is shaded green and labelled safe; the upper part from 85 decibels is shaded red and labelled harmful with long exposure.">
+	<DecibelLadder />
+</Figure>
+
+Two handy rules follow from the logarithm (worked out below): **doubling** the intensity adds 3 dB, and **doubling the distance** from a small source, which quarters the intensity by the inverse-square law, takes away 6 dB.
+
+## Formulas
+
+### Pressure
+
+$$
+\boxed{P = \frac{F}{A}} \qquad 1\ \text{Pa} = 1\ \text{N/m}^{2} \qquad 1\ \text{atm} = 101\,325\ \text{Pa}
+$$
+
+A sound wave changes the pressure by a small amount $\Delta p$ above and below this normal value.
+
+### The push-back of the air
+
+Push a piston of area $A$ into a tube of air at a steady speed $u$ (figure above). After a time $t$, the front of the compression has travelled a distance $vt$. All the air between the piston and the front, a column of volume $Avt$ and mass
+
+$$
+m = \rho A v t,
+$$
+
+has been set moving at speed $u$, so it has gained momentum
+
+$$
+\Delta(\text{momentum}) = mu = \rho A v t\,u.
+$$
+
+What gave it this momentum? The extra pressure $\Delta p$ on the piston, which pushes with an extra force $\Delta p\,A$ for the time $t$. Impulse equals change in momentum (Chapter 5.5):
+
+$$
+\Delta p\,A\,t = \rho A v t\,u
+$$
+
+The area and the time cancel:
+
+$$
+\boxed{\Delta p = \rho v u = Zu} \qquad Z = \rho v
+$$
+
+In a sound wave, each parcel of air plays the part of the piston for the air beyond it, so at every point the pressure change and the speed of the air are linked by $\Delta p = Zu$.
+
+Units check: $\text{kg/m}^{3} \times \text{m/s} \times \text{m/s} = \text{kg/(m·s}^{2}) = (\text{kg·m/s}^{2})/\text{m}^{2} = \text{N/m}^{2} = \text{Pa}$ ✓.
+
+### The intensity of a sound wave
+
+The air on one side of a surface of area $A$ pushes the air on the other side with an extra force $\Delta p\,A$, while moving at speed $u$. Power is force times velocity (Chapter 5.3), so the power per square metre is
+
+$$
+I = \frac{\Delta p\,A\,u}{A} = \Delta p\,u = \Delta p \times \frac{\Delta p}{\rho v} = \frac{(\Delta p)^{2}}{\rho v}.
+$$
+
+In a steady note, $\Delta p = \Delta p_{\text{max}}\sin(\omega t)$ at any one place, so the power rises and falls. Its average over a cycle (the average value of Chapter C.6) needs the average of $\sin^{2}$. Over a whole cycle $\sin^{2}$ and $\cos^{2}$ take exactly the same values, just shifted in time, so they have the same average; and they add to 1 at every instant. So each must average $\tfrac{1}{2}$:
+
+$$
+\overline{\sin^{2}} = \overline{\cos^{2}} = \tfrac{1}{2} \qquad\Rightarrow\qquad \boxed{I = \frac{(\Delta p_{\text{max}})^{2}}{2\rho v}}
+$$
+
+### How far the air moves
+
+Each parcel of air moves in simple harmonic motion, $s = s_{\text{max}}\cos(\omega t)$, whose top speed is $u_{\text{max}} = \omega s_{\text{max}}$ (Chapters 2.4 and 7.1). With $u_{\text{max}} = \Delta p_{\text{max}}/Z$:
+
+$$
+\boxed{s_{\text{max}} = \frac{u_{\text{max}}}{\omega} = \frac{\Delta p_{\text{max}}}{\rho v\,\omega}}
+$$
+
+At the same pressure amplitude, low notes move the air further than high ones.
+
+### Decibels
+
+$$
+\boxed{\beta = 10\log_{10}\frac{I}{I_{0}}\ \text{dB}} \qquad I_{0} = 10^{-12}\ \text{W/m}^{2}
+$$
+
+The difference between two levels depends only on the ratio of the intensities, because $\log a - \log b = \log(a/b)$:
+
+$$
+\beta_{2} - \beta_{1} = 10\log_{10}\frac{I_{2}}{I_{1}}
+$$
+
+Doubling the intensity: $10\log_{10}2 = 3.01\ \text{dB}$. Ten times the intensity: $10\log_{10}10 = 10\ \text{dB}$.
+
+For a small source, $I \propto 1/r^{2}$, so going from distance $r_{1}$ to $r_{2}$:
+
+$$
+\Delta\beta = 10\log_{10}\frac{r_{1}^{2}}{r_{2}^{2}} = \boxed{-20\log_{10}\frac{r_{2}}{r_{1}}}
+$$
+
+Doubling the distance: $-20\log_{10}2 = -6.02\ \text{dB}$.
+
+To go back from decibels to intensity, undo the logarithm: $I = I_{0} \times 10^{\beta/10}$.
+
+## Worked examples
+
+<Example n={1} title="How hard does Rocky's voice push?" book>
+Suppose Rocky's voice reaches Grace at 60 dB, the level of normal conversation (our choice: the novel gives no loudness). What is the pressure amplitude at Grace's ear, and what fraction of atmospheric pressure is it? (Assume air at 20 °C on Grace's side, with $\rho v = 413\ \text{Pa·s/m}$.)
+
+First the intensity, undoing the decibels:
+
+$$
+I = I_{0} \times 10^{\beta/10} = 10^{-12}\ \text{W/m}^{2} \times 10^{6} = 1.0 \times 10^{-6}\ \text{W/m}^{2}
+$$
+
+Then rearrange $I = (\Delta p_{\text{max}})^{2}/(2\rho v)$:
+
+$$
+\Delta p_{\text{max}} = \sqrt{2\rho v I} = \sqrt{2 \times 413\ \text{Pa·s/m} \times 1.0 \times 10^{-6}\ \text{W/m}^{2}} = 0.0287\ \text{Pa}
+$$
+
+$$
+\frac{\Delta p_{\text{max}}}{P_{\text{atm}}} = \frac{0.0287\ \text{Pa}}{101\,325\ \text{Pa}} = 2.8 \times 10^{-7}
+$$
+
+The pressure at Grace's ear wobbles by less than three parts in ten million. (Units: $\text{Pa·s/m} \times \text{W/m}^{2} = \text{Pa·s/m} \times \text{N·m/(s·m}^{2}) = \text{Pa} \times \text{N/m}^{2} = \text{Pa}^{2}$ ✓.)
+</Example>
+
+<Example n={2} title="How far does the air move?" book>
+Take the 440 Hz note of Chapter 7.1 as one of Rocky's notes, arriving at 60 dB. How fast and how far does the air at Grace's ear move?
+
+$$
+u_{\text{max}} = \frac{\Delta p_{\text{max}}}{\rho v} = \frac{0.0287\ \text{Pa}}{413\ \text{Pa·s/m}} = 6.95 \times 10^{-5}\ \text{m/s}
+$$
+
+$$
+\omega = 2\pi f = 2\pi \times 440\ \text{Hz} = 2765\ \text{rad/s}
+$$
+
+$$
+s_{\text{max}} = \frac{u_{\text{max}}}{\omega} = \frac{6.95 \times 10^{-5}\ \text{m/s}}{2765\ \text{rad/s}} = 2.5 \times 10^{-8}\ \text{m} = 25\ \text{nm}
+$$
+
+The air sways back and forth by 25 nanometres, while its molecules dart about at hundreds of metres per second. For scale: at 20 °C and 1 atm, each air molecule has a little cube of space about 3.4 nm across (the cube root of $kT/P$, from $PV = NkT$), so the whole parcel of air shifts by only about seven molecule spacings.
+</Example>
+
+<Example n={3} title="The faintest sound">
+At the threshold of hearing, $I_{0} = 10^{-12}\ \text{W/m}^{2}$. Find the pressure amplitude, and the power and the force on an eardrum of area about $1\ \text{cm}^{2}$.
+
+$$
+\Delta p_{\text{max}} = \sqrt{2 \times 413\ \text{Pa·s/m} \times 10^{-12}\ \text{W/m}^{2}} = 2.9 \times 10^{-5}\ \text{Pa}
+$$
+
+$$
+P_{\text{drum}} = IA = 10^{-12}\ \text{W/m}^{2} \times 1 \times 10^{-4}\ \text{m}^{2} = 10^{-16}\ \text{W}
+$$
+
+$$
+F_{\text{max}} = \Delta p_{\text{max}}A = 2.9 \times 10^{-5}\ \text{Pa} \times 1 \times 10^{-4}\ \text{m}^{2} = 2.9 \times 10^{-9}\ \text{N}
+$$
+
+A force of three billionths of a newton, about the weight of a dust grain 0.07 mm across, is enough to be heard. At 1000 Hz the air moves by only $s_{\text{max}} = (2.9 \times 10^{-5}/413)/(2\pi \times 1000) = 1.1 \times 10^{-11}\ \text{m}$, a fifth of the radius of a hydrogen atom.
+</Example>
+
+<Example n={4} title="Shouting and stepping back" book>
+Rocky shouts, putting out 4 times the sound power. At the same time Grace drifts from 1.0 m to 4.0 m away. What is the overall change in the level Grace hears?
+
+$$
+\Delta\beta_{\text{shout}} = 10\log_{10}4 = +6.0\ \text{dB}
+$$
+
+$$
+\Delta\beta_{\text{distance}} = -20\log_{10}\frac{4.0\ \text{m}}{1.0\ \text{m}} = -12.0\ \text{dB}
+$$
+
+$$
+\Delta\beta = +6.0\ \text{dB} - 12.0\ \text{dB} = -6.0\ \text{dB}
+$$
+
+Even shouting, Rocky sounds quieter: four times the power, spread over sixteen times the area. (A real room's echoes would soften the drop; the inverse-square law holds best in open air.)
+</Example>
+
+<Example n={5} title="The same sound in water">
+Water has $\rho = 1000\ \text{kg/m}^{3}$ and $v = 1480\ \text{m/s}$. A 440 Hz sound in water has the same intensity as Example 1, $1.0 \times 10^{-6}\ \text{W/m}^{2}$. Find its pressure amplitude and how far the water moves.
+
+$$
+Z_{\text{water}} = \rho v = 1000\ \text{kg/m}^{3} \times 1480\ \text{m/s} = 1.48 \times 10^{6}\ \text{Pa·s/m}
+$$
+
+$$
+\Delta p_{\text{max}} = \sqrt{2 \times 1.48 \times 10^{6}\ \text{Pa·s/m} \times 1.0 \times 10^{-6}\ \text{W/m}^{2}} = 1.72\ \text{Pa}
+$$
+
+$$
+s_{\text{max}} = \frac{1.72\ \text{Pa}}{1.48 \times 10^{6}\ \text{Pa·s/m} \times 2765\ \text{rad/s}} = 4.2 \times 10^{-10}\ \text{m}
+$$
+
+The same energy flow needs 60 times the pressure swing in water, but the water moves 60 times less. A stiff, heavy medium carries sound as big pressure changes with tiny motions; a light, springy one as small pressure changes with bigger motions. That mismatch is why sound struggles to get from one into the other (Chapter 11.3).
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** Sound as a longitudinal pressure wave, $\Delta p = \rho v u$, $I = (\Delta p_{\text{max}})^{2}/2\rho v$, the threshold of hearing $10^{-12}$ W/m² and the decibel scale are standard acoustics (OpenStax University Physics Vol. 1, chapter 17). The standard atmosphere is defined as exactly 101 325 Pa. Sound cannot cross a vacuum.
+
+**Weir's inventions.** Rocky's voice is a set of notes, several at once, that fall within human hearing. Grace himself remarks how unlikely that overlap is. A creature that evolved on another world in a far denser atmosphere could easily have used frequencies we can't hear at all, so this is a convenient (and openly acknowledged) piece of luck in the story. Rocky's loudness isn't given; the 60 dB in our examples is our choice.
+
+**How realistic are the numbers?** Everything in this chapter is ordinary physics of air at about 1 atm and 20 °C, which we assume for Grace's side of the wall. The small sizes are real: conversation really does change air pressure by only a few hundredths of a pascal. On Rocky's side the air is ammonia at about 29 atmospheres, which carries sound with a much higher impedance; Chapter 11.3 works out what that does to his voice.
+</RealVsBook>
+
+## Interactive simulation
+
+<SoundWaveLab />
+
+Things to try: set 0 dB and look at the displacement: smaller than an atom. Raise the level by 10 dB and watch the pressure amplitude grow by a factor of $\sqrt{10} = 3.16$, not 10. Lower the frequency at a fixed level: the pressure swing stays the same but the air moves further. Move the listener from 1 m to 2 m and see the level drop by 6 dB.
+
+## Practice set
+
+<Problem n={1} level="easy">
+A sheet of paper 0.20 m by 0.30 m lies on a table. What force does the atmosphere exert on its top surface? Why doesn't it get pressed into the table?
+
+<Solution>
+$F = PA = 101\,325\ \text{Pa} \times (0.20\ \text{m} \times 0.30\ \text{m}) = 101\,325 \times 0.060 = 6.1 \times 10^{3}\ \text{N}$, the weight of about 620 kg. Air also gets underneath the paper (it is never perfectly sealed to the table), pushing up with the same pressure, so the forces cancel.
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy">
+What is the intensity of an 80 dB sound?
+
+<Solution>
+$I = 10^{-12} \times 10^{80/10} = 10^{-12} \times 10^{8} = 1 \times 10^{-4}\ \text{W/m}^{2}$.
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy">
+One sound is 100 times as intense as another. How many decibels louder is it? And how much more intense is a sound that is 30 dB louder?
+
+<Solution>
+$10\log_{10}100 = 20\ \text{dB}$. A 30 dB difference is $10^{30/10} = 10^{3} = 1000$ times the intensity.
+</Solution>
+</Problem>
+
+<Problem n={4} level="easy" book>
+Grace can see the glow of Tau Ceti through a window but could never hear anything from it, however loud. Explain why in two sentences.
+
+<Solution>
+Sound is the motion of a medium, a chain of molecules pushing on their neighbours, and the space between the stars is an almost perfect vacuum with nothing to push. Light is a wave of electric and magnetic fields, which needs no medium at all.
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium">
+A sound in air at 20 °C has a pressure amplitude of 0.656 Pa. Find its intensity and its level in decibels.
+
+<Solution>
+$I = (0.656\ \text{Pa})^{2}/(2 \times 413\ \text{Pa·s/m}) = 0.4303/826 = 5.21 \times 10^{-4}\ \text{W/m}^{2}$. $\beta = 10\log_{10}(5.21 \times 10^{8}) = 87.2\ \text{dB}$.
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium">
+One violin plays at 70 dB. What level do ten identical violins playing together produce? (Their sounds don't keep in step, so their intensities add.)
+
+<Solution>
+Ten times the intensity adds $10\log_{10}10 = 10\ \text{dB}$: 80 dB. Not 700 dB! Decibels don't add; intensities do.
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium" book>
+Grace measures Rocky's voice at 65 dB from 1.5 m away. At what distance would it fall to 53 dB, assuming the inverse-square law?
+
+<Solution>
+$-12\ \text{dB} = -20\log_{10}(r_{2}/r_{1})$, so $r_{2}/r_{1} = 10^{12/20} = 10^{0.6} = 3.98$, and $r_{2} = 1.5 \times 3.98 = 6.0\ \text{m}$.
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium">
+A sound wave at the threshold of pain, 120 dB, has a frequency of 1000 Hz. Find (a) its pressure amplitude, as a fraction of atmospheric pressure, and (b) how far the air moves.
+
+<Solution>
+(a) $I = 1\ \text{W/m}^{2}$, so $\Delta p_{\text{max}} = \sqrt{2 \times 413 \times 1} = 28.7\ \text{Pa}$, which is $28.7/101\,325 = 2.8 \times 10^{-4}$ of an atmosphere. (b) $u_{\text{max}} = 28.7/413 = 0.0696\ \text{m/s}$, $s_{\text{max}} = 0.0696/(2\pi \times 1000) = 1.1 \times 10^{-5}\ \text{m} = 11\ \text{µm}$. Even a painfully loud sound moves the air by a hundredth of a millimetre.
+</Solution>
+</Problem>
+
+<Problem n={9} level="medium">
+If you could hear a sound of the same intensity at 100 Hz and at 10 000 Hz, how would the distances the air moves compare?
+
+<Solution>
+At the same intensity the pressure amplitude is the same, and $s_{\text{max}} = \Delta p_{\text{max}}/(\rho v \omega)$, so $s \propto 1/f$. At 100 Hz the air moves 100 times further than at 10 000 Hz.
+</Solution>
+</Problem>
+
+<Problem n={10} level="medium" book>
+If Rocky's voice is 60 dB at 1.0 m and spreads out evenly in all directions, what is the total sound power of his voice?
+
+<Solution>
+$P = I \times 4\pi r^{2} = 1.0 \times 10^{-6}\ \text{W/m}^{2} \times 4\pi \times (1.0\ \text{m})^{2} = 1.26 \times 10^{-5}\ \text{W}$, about 13 microwatts. Ordinary speech really is this feeble: a whole lecture hall of people talking would not light a torch bulb.
+</Solution>
+</Problem>
+
+<Problem n={11} level="challenging">
+In a rarefaction, the pressure can't drop below zero, so a smooth sound wave in air at 1 atm can't have a pressure amplitude bigger than 101 325 Pa. What intensity and decibel level does that correspond to?
+
+<Solution>
+$I = (101\,325)^{2}/(2 \times 413) = 1.24 \times 10^{7}\ \text{W/m}^{2}$, and $\beta = 10\log_{10}(1.24 \times 10^{19}) = 191\ \text{dB}$. Louder "sounds" than this, such as the blast from an explosion, are shock waves rather than smooth sound waves.
+</Solution>
+</Problem>
+
+<Problem n={12} level="challenging">
+Show that $(\Delta p)^{2}/(\rho v)$ has the units of intensity, W/m².
+
+<Solution>
+$\dfrac{\text{Pa}^{2}}{(\text{kg/m}^{3})(\text{m/s})} = \dfrac{\text{N}^{2}/\text{m}^{4}}{\text{kg/(m}^{2}\text{s)}} = \dfrac{\text{N}^{2}\,\text{s}}{\text{kg·m}^{2}} = \dfrac{\text{kg}^{2}\text{m}^{2}\text{s}^{-4}\,\text{s}}{\text{kg·m}^{2}} = \text{kg/s}^{3}$. And $\text{W/m}^{2} = \text{J/(s·m}^{2}) = \text{kg·m}^{2}\text{s}^{-3}/\text{m}^{2} = \text{kg/s}^{3}$ ✓.
+</Solution>
+</Problem>
+
+<Problem n={13} level="challenging">
+A pressure amplitude of 1.0 Pa travels in air and, separately, in water. Compare the intensities. Which medium carries more power for the same pressure swing, and why?
+
+<Solution>
+$I = (\Delta p)^{2}/(2Z)$, so for the same $\Delta p$ the ratio is $I_{\text{air}}/I_{\text{water}} = Z_{\text{water}}/Z_{\text{air}} = 1.48 \times 10^{6}/413 = 3.6 \times 10^{3}$. Air carries 3600 times more power: the same push moves light, springy air much faster ($u = \Delta p/Z$), and power is force times speed.
+</Solution>
+</Problem>
+
+## Summary
+
+- Pressure is force per area, $P = F/A$, in pascals. Earth's atmosphere is $101\,325\ \text{Pa}$ at sea level.
+- Sound is a longitudinal wave: parcels of the medium move back and forth, making compressions and rarefactions. The pressure change is greatest where the displacement is zero, a quarter-wavelength out of step.
+- Everyday sounds are tiny: conversation changes air pressure by about 0.03 Pa and moves the air by tens of nanometres.
+- Sound needs a medium: space is silent. It travels through gases, liquids and solids.
+- The pressure needed to push a medium at speed $u$ is $\Delta p = \rho v u = Zu$, from impulse and momentum. $Z = \rho v$ is the acoustic impedance.
+- Intensity is $I = (\Delta p_{\text{max}})^{2}/2\rho v$. Levels in decibels are $\beta = 10\log_{10}(I/I_{0})$, with $I_{0} = 10^{-12}$ W/m². Doubling the intensity adds 3 dB; doubling the distance subtracts 6 dB.
+
+**Formulas from this chapter**
+
+$$
+P = \frac{F}{A} \qquad \Delta p = \rho v u = Zu \qquad I = \frac{(\Delta p_{\text{max}})^{2}}{2\rho v} \qquad s_{\text{max}} = \frac{\Delta p_{\text{max}}}{\rho v \omega} \qquad \beta = 10\log_{10}\frac{I}{I_{0}} \qquad \Delta\beta = -20\log_{10}\frac{r_{2}}{r_{1}}
+$$
+
+## Sources
+
+- Sound as a pressure wave, compressions and rarefactions, the displacement and pressure descriptions: OpenStax, [*University Physics Volume 1*, §17.1 "Sound Waves"](https://openstax.org/books/university-physics-volume-1/pages/17-1-sound-waves).
+- Intensity $I = (\Delta p_{\text{max}})^{2}/2\rho v$, the threshold of hearing ($10^{-12}$ W/m²) and of pain (1 W/m²), the decibel scale and Table 17.2 of sound levels, the eardrum's area of about 1 cm² and the $10^{-16}$ W it receives at the threshold: OpenStax, [*University Physics Volume 1*, §17.3 "Sound Intensity"](https://openstax.org/books/university-physics-volume-1/pages/17-3-sound-intensity).
+- Air at 20 °C and 1 atm: density 1.2041 kg/m³, speed of sound 343.21 m/s, acoustic impedance 413.3 Pa·s/m: Wikipedia, ["Density of air"](https://en.wikipedia.org/wiki/Density_of_air) (table of temperature, speed of sound, density and impedance). Water: 1480 m/s, OpenStax [§17.2](https://openstax.org/books/university-physics-volume-1/pages/17-2-speed-of-sound).
+- The standard atmosphere, 101 325 Pa exactly: NIST, [*Guide for the Use of the SI*, Appendix B](https://www.nist.gov/pml/special-publication-811/nist-guide-si-appendix-b-conversion-factors).
+- Rocky answers Grace in notes, several at once, all within Grace's hearing range, and Grace remarks on how lucky that is: LitCharts, [*Project Hail Mary*: Rocky](https://www.litcharts.com/lit/project-hail-mary/characters/rocky) (chapter 10 quotes). The two are separated by a xenonite wall, with Rocky's side holding Erid's hot, dense ammonia air: /Film, ["Project Hail Mary: Why Rocky and Grace can't be in the same space"](https://slashfilm.com/2125069/project-hail-mary-why-rocky-grace-not-same-space).

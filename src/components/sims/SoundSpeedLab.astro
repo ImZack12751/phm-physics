@@ -1,0 +1,119 @@
+---
+// Simulation: speed of sound in an ideal gas, v = √(γkT/m), for six gases at a chosen temperature and pressure, with
+// Newton's isothermal value √(kT/m) for comparison; density ρ = Pm/kT and impedance Z = ρv. Then the chosen gas is put
+// on Rocky's side of a thin wall (density 2230 kg/m³) with Grace's air (20 °C, 1 atm, Z = 413 Pa·s/m) on the other:
+// transmitted fraction 4Z₁Z₂/((Z₁ + Z₂)² + (ωσ)²).
+---
+
+<div
+	class="sim ssl"
+	data-title="Speed of sound lab"
+	data-description="Choose a gas (air, helium, hydrogen, carbon dioxide, ammonia or xenon) and set its temperature (−100 to 300 °C) and pressure (0.1 to 30 atmospheres). A bar chart shows the speed of sound v = √(γkT/m) in all six gases at that temperature, with the chosen gas highlighted and Newton's constant-temperature value √(kT/m) marked. The chosen gas then fills Rocky's side of a thin glass-like wall whose thickness (1 to 50 mm) you set, with ordinary air at 20 °C and 1 atm on Grace's side, and you choose the note (50 to 2000 Hz). The readout gives the speed, Newton's value, the density ρ = Pm/kT, the impedance Z = ρv, the wavelength of the note, and the fraction of sound that crosses the wall, 4Z₁Z₂/((Z₁ + Z₂)² + (ωσ)²), with the level Grace hears if the note reaches the wall at 60 dB."
+>
+	<p class="sim-title">Simulation: speed of sound lab</p>
+	<p class="sim-help">Change the pressure and watch the speed stay put. Then send a note through the wall to Grace.</p>
+	<div class="sim-controls">
+		<label>Gas <select class="ssl-g">
+			<option value="air">air</option>
+			<option value="he">helium</option>
+			<option value="h2">hydrogen</option>
+			<option value="co2">carbon dioxide</option>
+			<option value="nh3">ammonia (Erid)</option>
+			<option value="xe">xenon</option>
+		</select></label>
+		<label>Temperature <input type="range" class="ssl-t" min="-100" max="300" step="1" value="20" /> <output class="ssl-tv"></output></label>
+		<label>Pressure <input type="range" class="ssl-p" min="0.1" max="30" step="0.1" value="1" /> <output class="ssl-pv"></output></label>
+		<label>Wall thickness <input type="range" class="ssl-w" min="1" max="50" step="1" value="10" /> <output class="ssl-wv"></output></label>
+		<label>Note <input type="range" class="ssl-f" min="50" max="2000" step="10" value="440" /> <output class="ssl-fv"></output></label>
+	</div>
+	<svg class="dg ssl-svg" viewBox="0 0 600 300" role="img" aria-label="Bar chart of the speed of sound in six gases, and a wall between two gases"></svg>
+	<div class="readout ssl-out" aria-live="polite"></div>
+</div>
+
+<script>
+	document.querySelectorAll<HTMLElement>('.sim.ssl').forEach((root) => {
+		const q = <T extends Element>(s: string) => root.querySelector<T>(s)!;
+		const svg = q<SVGSVGElement>('.ssl-svg'), out = q<HTMLElement>('.ssl-out');
+		const Gs = q<HTMLSelectElement>('.ssl-g'), Ts = q<HTMLInputElement>('.ssl-t'), Ps = q<HTMLInputElement>('.ssl-p');
+		const Ws = q<HTMLInputElement>('.ssl-w'), Fs = q<HTMLInputElement>('.ssl-f');
+		const NS = 'http://www.w3.org/2000/svg';
+		const el = (tag: string, at: Record<string, string | number>, text?: string) => {
+			const e = document.createElementNS(NS, tag);
+			Object.entries(at).forEach(([k, v]) => e.setAttribute(k, String(v)));
+			if (text) e.textContent = text;
+			svg.append(e);
+			return e;
+		};
+		const k = 1.380649e-23, u = 1.66053906892e-27, ATM = 101325, ZAIR = 413, RHOWALL = 2230;
+		const gases: Record<string, { n: string; g: number; m: number }> = {
+			air: { n: 'air', g: 1.4, m: 28.97 },
+			he: { n: 'helium', g: 1.66, m: 4.0026 },
+			h2: { n: 'hydrogen', g: 1.41, m: 2.016 },
+			co2: { n: 'CO₂', g: 1.3, m: 44.01 },
+			nh3: { n: 'ammonia', g: 1.31, m: 17.03 },
+			xe: { n: 'xenon', g: 1.66, m: 131.29 },
+		};
+		const keys = Object.keys(gases);
+		const L = 90, R = 560, VMAX = 2000, X = (v: number) => L + (v / VMAX) * (R - L);
+		el('text', { x: 10, y: 16, class: 't-sm t-b' }, 'speed of sound at this temperature (m/s)');
+		[0, 500, 1000, 1500, 2000].forEach((v) => {
+			el('line', { x1: X(v), y1: 34, x2: X(v), y2: 160, class: 's-grid w1' });
+			el('text', { x: X(v), y: 174, class: 't-mid t-sm f-muted' }, String(v));
+		});
+		const bars = keys.map((key, i) => {
+			el('text', { x: L - 6, y: 48 + i * 20, class: 't-end t-sm' }, gases[key].n);
+			return { r: el('rect', { x: L, y: 38 + i * 20, height: 14, class: 'f-sky' }), t: el('text', { y: 49 + i * 20, class: 't-sm f-muted' }) };
+		});
+		const newton = el('line', { class: 's-rose w2 dash' });
+		const newtonT = el('text', { class: 't-sm f-rose halo' }, 'Newton');
+		// Wall panel
+		const Y = 204;
+		el('rect', { x: 20, y: Y, width: 250, height: 70, class: 'f-sky-soft' });
+		el('rect', { x: 330, y: Y, width: 250, height: 70, class: 'f-green-soft' });
+		const wall = el('rect', { y: Y - 6, height: 82, class: 'f-muted' });
+		const leftT = el('text', { x: 30, y: Y + 20, class: 't-sm' });
+		const leftZ = el('text', { x: 30, y: Y + 40, class: 't-sm f-muted' });
+		el('text', { x: 30, y: Y + 60, class: 't-sm f-sky' }, "Rocky's note: 60 dB");
+		el('text', { x: 340, y: Y + 20, class: 't-sm' }, "Grace's air, 20 °C, 1 atm");
+		el('text', { x: 340, y: Y + 40, class: 't-sm f-muted' }, 'Z = 413 Pa·s/m');
+		const heard = el('text', { x: 340, y: Y + 60, class: 't-sm f-green t-b' });
+		el('text', { x: 300, y: Y + 92, class: 't-mid t-sm f-muted' }, 'wall');
+		function draw() {
+			const g = gases[Gs.value], TC = +Ts.value, TK = TC + 273.15, P = +Ps.value, mm = +Ws.value, f = +Fs.value;
+			q('.ssl-tv').textContent = `${TC} °C`;
+			q('.ssl-pv').textContent = `${P.toFixed(1)} atm`;
+			q('.ssl-wv').textContent = `${mm} mm`;
+			q('.ssl-fv').textContent = `${f} Hz`;
+			keys.forEach((key, i) => {
+				const G = gases[key], v = Math.sqrt((G.g * k * TK) / (G.m * u));
+				bars[i].r.setAttribute('width', String(Math.max(1, X(Math.min(v, VMAX)) - L)));
+				bars[i].r.setAttribute('class', key === Gs.value ? 'f-amber' : 'f-sky');
+				bars[i].t.setAttribute('x', String(X(Math.min(v, VMAX)) + 5));
+				bars[i].t.textContent = v.toFixed(0);
+			});
+			const m = g.m * u, v = Math.sqrt((g.g * k * TK) / m), vn = Math.sqrt((k * TK) / m);
+			const i = keys.indexOf(Gs.value);
+			newton.setAttribute('x1', String(X(vn))); newton.setAttribute('x2', String(X(vn)));
+			newton.setAttribute('y1', String(34 + i * 20)); newton.setAttribute('y2', String(58 + i * 20));
+			newtonT.setAttribute('x', String(X(vn) - 4)); newtonT.setAttribute('y', String(33 + i * 20));
+			newtonT.setAttribute('class', 't-end t-sm f-rose halo');
+			const rho = (P * ATM * m) / (k * TK), Z = rho * v;
+			const sig = RHOWALL * mm * 1e-3, w = 2 * Math.PI * f;
+			const tau = (4 * Z * ZAIR) / ((Z + ZAIR) ** 2 + (w * sig) ** 2), dB = 10 * Math.log10(tau);
+			const ww = 4 + mm * 0.9;
+			wall.setAttribute('x', String(300 - ww / 2)); wall.setAttribute('width', String(ww));
+			leftT.textContent = `${g.n}, ${TC} °C, ${P.toFixed(1)} atm`;
+			leftZ.textContent = `Z = ${Z.toFixed(0)} Pa·s/m`;
+			const lev = 60 + dB;
+			heard.textContent = `Grace hears ${lev.toFixed(1)} dB${lev < 0 ? ' (inaudible)' : ''}`;
+			out.innerHTML =
+				`<span class="k">v = √(γkT/m)</span> = <b>${v.toFixed(0)} m/s</b> (γ = ${g.g}, m = ${g.m} u) &nbsp; <span class="k">Newton's √(kT/m)</span> = ${vn.toFixed(0)} m/s, ${((1 - vn / v) * 100).toFixed(0)}% low<br>` +
+				`<span class="k">density ρ = Pm/kT</span> = ${rho < 0.1 ? rho.toFixed(3) : rho.toFixed(2)} kg/m³ &nbsp; <span class="k">impedance Z = ρv</span> = ${Z.toFixed(0)} Pa·s/m &nbsp; <span class="k">λ of the note</span> = ${(v / f).toFixed(2)} m (in Grace's air ${(343 / f).toFixed(2)} m)<br>` +
+				`<span class="k">wall</span>: σ = ${sig.toFixed(1)} kg/m², ωσ = ${(w * sig).toExponential(2)} Pa·s/m; fraction through = 4Z₁Z₂/((Z₁ + Z₂)² + (ωσ)²) = ${tau.toExponential(2)} = <b>${dB.toFixed(1)} dB</b>`;
+		}
+		[Ts, Ps, Ws, Fs].forEach((el) => el.addEventListener('input', draw));
+		Gs.addEventListener('change', draw);
+		Gs.addEventListener('input', draw);
+		draw();
+	});
+</script>

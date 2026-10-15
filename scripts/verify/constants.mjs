@@ -322,3 +322,31 @@ export const REL = {
 	lhcTeV: 6.8, protonMeV: 938.27208943,
 	rockyYears: 46,
 };
+export const SOUND = {
+	atm: 101_325, // Pa, standard atmosphere (exact, conventional)
+	// Air at 20 °C and 1 atm (Wikipedia "Density of air", table of speed, density and acoustic impedance)
+	air20: { v: 343.21, rho: 1.2041, Z: 413.3 }, air0: { v: 331.3, rho: 1.2923 },
+	mAir: 28.9652, // u, mean molecular mass of dry air (molar mass 0.0289652 kg/mol, same page)
+	// Adiabatic index γ (Wikipedia "Heat capacity ratio" table, 15–20 °C)
+	gammaAir: 1.4, gammaHe: 1.66, gammaXe: 1.66, gammaAr: 1.67, gammaCO2: 1.3, gammaNH3: 1.31, gammaH2: 1.41,
+	gammaClementDesormes: 1.35, // 1819 measurement used by Laplace
+	newtonSpeed: 298, // m/s (979 ft/s, Principia 1687; Wikipedia "Speed of sound")
+	// Molecular masses, u (standard atomic weights)
+	mHe: 4.0026, mXe: 131.29, mNH3: 17.031, mCO2: 44.009, mH2: 2.016,
+	// OpenStax Univ. Phys. Vol. 1 Table 17.1: speeds of sound, m/s (gases at 0 °C, liquids at 20 °C)
+	vCO2: 259, vO2: 316, vHe: 965, vH2: 1290, vEthanol: 1160, vMercury: 1450, vTissue: 1540,
+	vWaterFresh: 1480, vRubber: 54, vPolyethylene: 920, vMarble: 3810, vPyrex: 5640, vLead: 1960, vAl: 5120, vSteel: 5960,
+	// OpenStax Univ. Phys. Vol. 1 Table 12.1: elastic moduli, Pa
+	BWater: 2.2e9, YSteel: 20e10, BSteel: 16e10, YAl: 7.0e10, YCrownGlass: 6.0e10, BMercury: 2.5e10,
+	rhoSteel: 7850, rhoAl: 2700, rhoPyrex: 2230, rhoMercury: 13_600, // kg/m³ (Pyrex: Wikipedia "Borosilicate glass")
+	// OpenStax §17.3: hearing threshold and pain, W/m²; eardrum ~1 cm²; pitch discrimination 0.3%; ear most sensitive 2–5 kHz
+	I0: 1e-12, Ipain: 1, eardrum: 1e-4, pitchJnd: 0.003,
+	a4: 440, // Hz, ISO 16 standard pitch
+	// Animal echolocation (Wikipedia): bat calls 11–212 kHz, aerial hawkers 20–60 kHz, calls 3 to 50 ms
+	batLow: 11e3, batHigh: 212e3,
+	// Medical ultrasound (Wikipedia): 1–6 MHz deep organs, 7–18 MHz superficial
+	usLow: 1e6, usHigh: 18e6,
+	// BOOK: Rocky's notes fall within human hearing, several at once (LitCharts ch. 10); Grace uses a waveform-analysis
+	// program and an Excel spreadsheet (LitCharts ch. 11); Eridians "see" with sound, perhaps passive sonar (LitCharts ch. 11).
+	// MODEL (our assumptions): xenonite treated as Pyrex-like glass; Erid air pure ammonia at 210 °C and 29 atm (THERMAL).
+};

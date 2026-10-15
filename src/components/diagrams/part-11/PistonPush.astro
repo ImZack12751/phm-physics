@@ -1,0 +1,29 @@
+---
+// A piston pushed at speed u into a tube of air; the compression front runs ahead at v. After time t, a column of
+// length vt (mass ρAvt) moves at u. Impulse ΔpA·t = momentum ρAvt·u gives Δp = ρvu.
+const T = 80, B = 150, P = 70, F = 360, E = 575;
+---
+
+<svg class="dg" viewBox="0 0 600 230" xmlns="http://www.w3.org/2000/svg">
+	<rect x={P} y={T} width={F - P} height={B - T} class="f-amber-soft" />
+	<line x1="30" y1={T} x2={E} y2={T} class="s-fg w2" />
+	<line x1="30" y1={B} x2={E} y2={B} class="s-fg w2" />
+	<rect x={P - 16} y={T + 3} width="16" height={B - T - 6} class="f-muted" />
+	<line x1="10" y1={(T + B) / 2} x2={P - 16} y2={(T + B) / 2} class="s-muted w3" />
+	<line x1={P - 2} y1="40" x2={P + 50} y2="40" class="s-sky w3" />
+	<polygon points={`${P + 62},40 ${P + 50},34 ${P + 50},46`} class="f-sky" />
+	<text x={P + 70} y="44" class="t-sm f-sky">piston pushed in at speed u</text>
+	<text x={P + 8} y={T + 22} class="t-sm halo">extra pressure Δp</text>
+	<text x={(P + F) / 2 + 10} y={(T + B) / 2 + 14} class="t-mid t-sm halo">squeezed air, moving at u</text>
+	<line x1={F} y1={T - 12} x2={F} y2={B + 12} class="s-rose w2 dash" />
+	<line x1={F + 4} y1="62" x2={F + 60} y2="62" class="s-rose w3" />
+	<polygon points={`${F + 72},62 ${F + 60},56 ${F + 60},68`} class="f-rose" />
+	<text x={F + 80} y="66" class="t-sm f-rose">front moves at v</text>
+	<text x={(F + E) / 2 + 6} y={(T + B) / 2 + 5} class="t-mid t-sm f-muted">still air, normal pressure</text>
+	<line x1={E - 8} y1={T + 4} x2={E - 8} y2={B - 4} class="s-muted w1" />
+	<text x={E - 14} y={B + 22} class="t-end t-sm f-muted">cross-section area A</text>
+	<line x1={P} y1={B + 30} x2={F} y2={B + 30} class="s-fg w1" />
+	<line x1={P} y1={B + 24} x2={P} y2={B + 36} class="s-fg w1" />
+	<line x1={F} y1={B + 24} x2={F} y2={B + 36} class="s-fg w1" />
+	<text x={(P + F) / 2} y={B + 52} class="t-mid t-sm">length vt after a time t: mass ρAvt set moving at u</text>
+</svg>

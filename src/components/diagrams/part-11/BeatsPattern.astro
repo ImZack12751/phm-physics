@@ -1,0 +1,30 @@
+---
+// Beats: cos(2π·10t) and cos(2π·11t) over one unit of time, and their sum with its envelope 2|cos(πt)|.
+const L = 60, R = 570, A = 20;
+const X = (t: number) => L + t * (R - L);
+const trace = (y0: number, f: (t: number) => number, a = A) =>
+	Array.from({ length: 801 }, (_, i) => {
+		const t = i / 800;
+		return `${X(t).toFixed(1)},${(y0 - a * f(t)).toFixed(1)}`;
+	}).join(' ');
+const w1 = (t: number) => Math.cos(2 * Math.PI * 10 * t), w2 = (t: number) => Math.cos(2 * Math.PI * 11 * t);
+const env = (s: number) => trace(205, (t) => s * 2 * Math.abs(Math.cos(Math.PI * t)));
+---
+
+<svg class="dg" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+	<text x="8" y="44" class="t-sm f-sky">note 1</text>
+	<polyline points={trace(40, w1)} class="s-sky w2" fill="none" />
+	<text x="8" y="104" class="t-sm f-amber">note 2</text>
+	<polyline points={trace(100, w2)} class="s-amber w2" fill="none" />
+	<text x="8" y="209" class="t-sm f-green">sum</text>
+	<polyline points={env(1)} class="s-muted w1 dash" fill="none" />
+	<polyline points={env(-1)} class="s-muted w1 dash" fill="none" />
+	<polyline points={trace(205, (t) => w1(t) + w2(t))} class="s-green w2" fill="none" />
+	<text x={X(0.02)} y="150" class="t-sm halo">in step: loud</text>
+	<text x={X(0.5)} y="150" class="t-mid t-sm halo">out of step: quiet</text>
+	<text x={X(0.98)} y="150" class="t-end t-sm halo">in step: loud</text>
+	<line x1={X(0)} y1="268" x2={X(1)} y2="268" class="s-fg w1" />
+	<line x1={X(0)} y1="262" x2={X(0)} y2="274" class="s-fg w1" />
+	<line x1={X(1)} y1="262" x2={X(1)} y2="274" class="s-fg w1" />
+	<text x={X(0.5)} y="290" class="t-mid t-sm">one beat: a time 1/(f₂ − f₁), while note 2 gains one extra cycle</text>
+</svg>

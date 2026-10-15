@@ -1,0 +1,30 @@
+---
+// A thin heavy wall moving as a whole: incident and reflected waves on Rocky's side (ammonia, Z₂), a small transmitted
+// wave on Grace's side (air, Z₁). Waves drawn as short sine trains.
+const wave = (x0: number, x1: number, y0: number, a: number, lam: number) =>
+	Array.from({ length: 121 }, (_, i) => {
+		const x = x0 + ((x1 - x0) * i) / 120;
+		return `${x.toFixed(1)},${(y0 - a * Math.sin((2 * Math.PI * (x - x0)) / lam)).toFixed(1)}`;
+	}).join(' ');
+const W0 = 290, W1 = 310;
+---
+
+<svg class="dg" viewBox="0 0 600 260" xmlns="http://www.w3.org/2000/svg">
+	<text x="20" y="20" class="t-sm t-b">Rocky's side: ammonia, Z₂</text>
+	<text x="580" y="20" class="t-end t-sm t-b">Grace's side: air, Z₁</text>
+	<rect x={W0} y="40" width={W1 - W0} height="160" class="f-muted" />
+	<text x="300" y="218" class="t-mid t-sm">wall: σ kg per m²</text>
+	<line x1="282" y1="30" x2="318" y2="30" class="s-fg w2" />
+	<polygon points="276,30 286,25 286,35" class="f-fg" />
+	<polygon points="324,30 314,25 314,35" class="f-fg" />
+	<text x="300" y="236" class="t-mid t-sm f-muted">moves back and forth as a whole</text>
+	<polyline points={wave(30, 270, 80, 22, 60)} class="s-sky w2" fill="none" />
+	<text x="30" y="122" class="t-sm f-sky">incident wave, Δpᵢ</text>
+	<polyline points={wave(30, 270, 160, 20, 60)} class="s-amber w2" fill="none" />
+	<text x="30" y="200" class="t-sm f-amber">reflected (most of it)</text>
+	<text x="282" y="62" class="t-end t-sm halo">pressure ≈ 2Δpᵢ</text>
+	<polyline points={wave(330, 570, 120, 5, 37)} class="s-green w2" fill="none" />
+	<text x="330" y="150" class="t-sm f-green">transmitted wave,</text>
+	<text x="330" y="168" class="t-sm f-green">Δpₜ = Z₁ × wall's speed</text>
+	<text x="580" y="254" class="t-end t-sm f-muted">heavier wall or higher note: less gets through</text>
+</svg>

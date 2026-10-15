@@ -1,0 +1,38 @@
+---
+// Two ears a distance d apart; plane wavefronts from angle θ (from straight ahead, towards the left). The far (right) ear
+// hears the sound later by d sin θ / v. Geometry: wavefronts perpendicular to the direction of travel.
+const L = { x: 210, y: 220 }, R = { x: 390, y: 220 }, M = (L.x + R.x) / 2;
+const th = (35 * Math.PI) / 180;
+// direction the sound comes FROM: up and to the left, at θ from vertical
+const ux = -Math.sin(th), uy = -Math.cos(th);
+// wavefront lines are perpendicular to (ux, uy): direction (−uy, ux)
+const px = -uy, py = ux;
+const d = R.x - L.x;
+// the wavefront through the left ear; the extra path to the right ear is d sin θ along −(ux, uy)
+const fronts = [-60, 0, 60, 120].map((s) => {
+	const cx = L.x + ux * s, cy = L.y + uy * s;
+	return { x1: cx - px * 210, y1: cy - py * 210, x2: cx + px * 210, y2: cy + py * 210 };
+});
+const extra = d * Math.sin(th);
+// foot of the perpendicular from the right ear onto the wavefront through the left ear
+const fx = R.x + ux * extra, fy = R.y + uy * extra;
+---
+
+<svg class="dg" viewBox="0 0 600 280" xmlns="http://www.w3.org/2000/svg">
+	{fronts.map((f) => <line x1={f.x1} y1={f.y1} x2={f.x2} y2={f.y2} class="s-sky w1" />)}
+	<line x1={M} y1={L.y} x2={M} y2="40" class="s-muted w1 dash" />
+	<text x={M + 6} y="52" class="t-sm f-muted">straight ahead</text>
+	<line x1={M} y1={L.y} x2={M + ux * 150} y2={L.y + uy * 150} class="s-amber w2" />
+	<text x={M + ux * 150 - 4} y={L.y + uy * 150 - 6} class="t-end t-sm f-amber">sound comes from here</text>
+	<path d={`M ${M} ${L.y - 50} A 50 50 0 0 0 ${M + ux * 50} ${L.y + uy * 50}`} class="s-amber w1" fill="none" />
+	<text x={M - 22} y={L.y - 58} class="t-mid t-sm f-amber">θ</text>
+	<line x1={fx} y1={fy} x2={R.x} y2={R.y} class="s-rose w3" />
+	<text x={(fx + R.x) / 2 + 10} y={(fy + R.y) / 2 - 4} class="t-sm f-rose halo">extra path d sin θ</text>
+	<line x1={L.x} y1={L.y} x2={R.x} y2={R.y} class="s-fg w1" />
+	<circle cx={L.x} cy={L.y} r="8" class="f-amber" />
+	<circle cx={R.x} cy={R.y} r="8" class="f-amber" />
+	<text x={L.x} y={L.y + 26} class="t-mid t-sm">near ear</text>
+	<text x={R.x} y={R.y + 26} class="t-mid t-sm">far ear</text>
+	<text x={M} y={L.y + 26} class="t-mid t-sm">d</text>
+	<text x="590" y="268" class="t-end t-sm f-muted">the far ear hears it later by Δt = d sin θ / v</text>
+</svg>

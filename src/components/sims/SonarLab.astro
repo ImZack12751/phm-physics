@@ -1,0 +1,110 @@
+---
+// Simulation: echo ranging. Choose the medium (Grace's air 343 m/s, Erid's ammonia 556 m/s, sea water 1540 m/s, body
+// tissue 1540 m/s), the frequency (log scale, 300 Hz – 10 MHz), the target's distance and its size. A ping spreads out,
+// an echo comes back (faint if the target is smaller than the wavelength). Readout: λ = v/f, delay 2d/v, size/λ verdict,
+// and the echo level relative to the same target at 1 m, −40 log₁₀ d.
+---
+
+<div
+	class="sim snl"
+	data-title="Sonar lab"
+	data-description="A ping spreads out from an emitter on the left towards a target on the right, and an echo comes back. Menus and sliders set the medium (Grace's air at 343 m/s, Erid's ammonia air at 556 m/s, sea water or body tissue at 1540 m/s), the frequency (300 Hz to 10 MHz on a logarithmic scale), the target's distance (0.1 to 20 m) and its size (1 mm to 2 m). The animation is slowed down enormously, and the echo is drawn faint when the target is smaller than the wavelength. The readout gives the wavelength λ = v/f, the echo delay t = 2d/v, whether the target is large or small compared with the wavelength and so whether it gives a strong echo, and the echo level compared with the same target at 1 m, −40 log₁₀ d dB."
+>
+	<p class="sim-title">Simulation: sonar lab</p>
+	<p class="sim-help">The ping is slowed down by a factor of thousands. Shrink the target below a wavelength and the echo fades.</p>
+	<div class="sim-controls">
+		<label>Medium <select class="snl-m">
+			<option value="343">Grace's air (343 m/s)</option>
+			<option value="556">Erid's ammonia air (556 m/s)</option>
+			<option value="1540">sea water (1540 m/s)</option>
+			<option value="1540t">body tissue (1540 m/s)</option>
+		</select></label>
+		<label>Frequency <input type="range" class="snl-f" min="2.5" max="7" step="0.01" value="4.5" /> <output class="snl-fv"></output></label>
+		<label>Target distance <input type="range" class="snl-d" min="0.1" max="20" step="0.1" value="3" /> <output class="snl-dv"></output></label>
+		<label>Target size <input type="range" class="snl-s" min="-3" max="0.3" step="0.01" value="-2" /> <output class="snl-sv"></output></label>
+	</div>
+	<svg class="dg snl-svg" viewBox="0 0 600 220" role="img" aria-label="A ping spreading towards a target and an echo returning"></svg>
+	<div class="readout snl-out" aria-live="polite"></div>
+</div>
+
+<script>
+	const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+	document.querySelectorAll<HTMLElement>('.sim.snl').forEach((root) => {
+		const q = <T extends Element>(s: string) => root.querySelector<T>(s)!;
+		const svg = q<SVGSVGElement>('.snl-svg'), out = q<HTMLElement>('.snl-out');
+		const Ms = q<HTMLSelectElement>('.snl-m'), Fs = q<HTMLInputElement>('.snl-f'), Ds = q<HTMLInputElement>('.snl-d'), Ss = q<HTMLInputElement>('.snl-s');
+		const NS = 'http://www.w3.org/2000/svg';
+		const el = (tag: string, at: Record<string, string | number>, text?: string) => {
+			const e = document.createElementNS(NS, tag);
+			Object.entries(at).forEach(([k, v]) => e.setAttribute(k, String(v)));
+			if (text) e.textContent = text;
+			svg.append(e);
+			return e;
+		};
+		const EX = 50, TX = 470, Y = 100, CYCLE = 3.2;
+		const ping = el('circle', { cx: EX, cy: Y, class: 's-sky w2', fill: 'none' });
+		const echo = el('circle', { cx: TX, cy: Y, class: 's-green w2', fill: 'none' });
+		el('circle', { cx: EX, cy: Y, r: 8, class: 'f-amber' });
+		el('text', { x: EX, y: Y + 30, class: 't-mid t-sm f-amber' }, 'emitter');
+		const tgt = el('rect', { class: 'f-muted' });
+		const tgtT = el('text', { x: TX, y: Y + 62, class: 't-mid t-sm' });
+		el('line', { x1: EX, y1: 180, x2: TX, y2: 180, class: 's-fg w1' });
+		const dT = el('text', { x: (EX + TX) / 2, y: 175, class: 't-mid t-sm halo' });
+		const lamBar = el('line', { y1: 205, y2: 205, class: 's-violet w3' });
+		const lamT = el('text', { y: 209, class: 't-sm f-violet' });
+		let t = 1.6, last = 0;
+		function geom() {
+			const v = parseFloat(Ms.value), f = 10 ** +Fs.value, d = +Ds.value, s = 10 ** +Ss.value;
+			return { v, f, d, s, lam: v / f };
+		}
+		function update() {
+			const g = geom(), D = TX - EX, ph = (t % CYCLE) / CYCLE; // 0..1: out in the first half, back in the second
+			const rOut = ph * 2 * D;
+			ping.setAttribute('r', rOut.toFixed(1));
+			ping.setAttribute('stroke-opacity', String(Math.max(0, 1 - ph * 1.4)));
+			const strength = Math.min(1, (g.s / g.lam) ** 2);
+			const rBack = Math.max(0, rOut - D);
+			echo.setAttribute('r', rBack.toFixed(1));
+			echo.setAttribute('stroke-opacity', rBack > 0 ? String(Math.max(0.05, strength * (1 - ph * 0.6))) : '0');
+		}
+		const fmtF = (f: number) => (f >= 1e6 ? `${(f / 1e6).toFixed(2)} MHz` : f >= 1e3 ? `${(f / 1e3).toFixed(1)} kHz` : `${f.toFixed(0)} Hz`);
+		const fmtL = (x: number) => (x >= 1 ? `${x.toFixed(2)} m` : x >= 0.01 ? `${(x * 100).toFixed(1)} cm` : `${(x * 1000).toFixed(2)} mm`);
+		const fmtT = (x: number) => (x >= 1 ? `${x.toFixed(2)} s` : x >= 1e-3 ? `${(x * 1e3).toFixed(1)} ms` : `${(x * 1e6).toFixed(0)} µs`);
+		function draw() {
+			const g = geom();
+			q('.snl-fv').textContent = fmtF(g.f);
+			q('.snl-dv').textContent = `${g.d.toFixed(1)} m`;
+			q('.snl-sv').textContent = fmtL(g.s);
+			const hpx = Math.max(4, Math.min(120, 8 + 30 * (Math.log10(g.s) + 3)));
+			tgt.setAttribute('x', String(TX - 6)); tgt.setAttribute('width', '12');
+			tgt.setAttribute('y', String(Y - hpx / 2)); tgt.setAttribute('height', String(hpx));
+			tgtT.textContent = `target, ${fmtL(g.s)}`;
+			dT.textContent = `d = ${g.d.toFixed(1)} m (not to scale)`;
+			const ratio = g.s / g.lam;
+			// wavelength bar drawn against the target size bar on the same (log-ish) scale
+			const lpx = Math.max(2, Math.min(260, hpx * (g.lam / g.s)));
+			lamBar.setAttribute('x1', String(EX)); lamBar.setAttribute('x2', String(EX + lpx));
+			lamT.setAttribute('x', String(EX + lpx + 8));
+			lamT.textContent = `wavelength ${fmtL(g.lam)}${g.lam / g.s > 260 / hpx ? ' (bar cut short)' : ''}`;
+			const verdict = ratio >= 1 ? '<b>strong echo</b>: the target is bigger than a wavelength' : ratio >= 0.25 ? '<b>weak echo</b>: the target is about a wavelength across' : '<b>almost no echo</b>: the wave flows round a target this small; raise the frequency';
+			const delay = (2 * g.d) / g.v;
+			out.innerHTML =
+				`<span class="k">wavelength λ = v/f</span> = <b>${fmtL(g.lam)}</b> &nbsp; <span class="k">echo delay t = 2d/v</span> = <b>${fmtT(delay)}</b><br>` +
+				`<span class="k">target size / λ</span> = ${ratio < 0.01 ? ratio.toExponential(1) : ratio.toFixed(2)}: ${verdict}<br>` +
+				`<span class="k">echo level vs the same target at 1 m</span> = −40 log₁₀(${g.d.toFixed(1)}) = <b>${(-40 * Math.log10(g.d)).toFixed(1)} dB</b>` +
+				(Ms.value === '1540t' ? '<br><span class="k">tissue</span>: medical scanners use 1–18 MHz, with gel to stop the skin–air boundary reflecting 99.9%' : '');
+			update();
+		}
+		function frame(now: number) {
+			if (last) t += (now - last) / 1000;
+			last = now;
+			update();
+			requestAnimationFrame(frame);
+		}
+		[Fs, Ds, Ss].forEach((i) => i.addEventListener('input', draw));
+		Ms.addEventListener('change', draw);
+		Ms.addEventListener('input', draw);
+		draw();
+		if (!reduce) requestAnimationFrame(frame);
+	});
+</script>

@@ -1,0 +1,32 @@
+---
+// Echo ranging: ping arcs spreading right from the emitter, echo arcs spreading left from the target, distance d, and a
+// timeline with the ping at 0 and the echo at t = 2d/v.
+const EX = 60, TX = 470, Y = 100;
+const arc = (cx: number, r: number, dir: number) => {
+	const a = (40 * Math.PI) / 180;
+	const x1 = cx + dir * r * Math.cos(a), y1 = Y - r * Math.sin(a), x2 = cx + dir * r * Math.cos(a), y2 = Y + r * Math.sin(a);
+	return `M ${x1.toFixed(1)} ${y1.toFixed(1)} A ${r} ${r} 0 0 ${dir > 0 ? 1 : 0} ${x2.toFixed(1)} ${y2.toFixed(1)}`;
+};
+---
+
+<svg class="dg" viewBox="0 0 600 260" xmlns="http://www.w3.org/2000/svg">
+	{[45, 80, 115].map((r) => <path d={arc(EX, r, 1)} class="s-sky w2" fill="none" />)}
+	{[35, 70, 105].map((r) => <path d={arc(TX, r, -1)} class="s-green w2 dash" fill="none" />)}
+	<circle cx={EX} cy={Y} r="9" class="f-amber" />
+	<text x={EX} y={Y + 76} class="t-mid t-sm f-amber">emitter</text>
+	<text x={EX} y={Y + 92} class="t-mid t-sm f-amber">and listener</text>
+	<rect x={TX} y={Y - 34} width="26" height="68" class="f-muted" />
+	<text x={TX + 13} y={Y + 52} class="t-mid t-sm">target</text>
+	<text x="150" y="22" class="t-mid t-sm f-sky">ping, spreading out: I ∝ 1/d²</text>
+	<text x="380" y="22" class="t-mid t-sm f-green">echo, spreading again: another 1/d²</text>
+	<line x1={EX} y1="200" x2={TX} y2="200" class="s-fg w1" />
+	<line x1={EX} y1="194" x2={EX} y2="206" class="s-fg w1" />
+	<line x1={TX} y1="194" x2={TX} y2="206" class="s-fg w1" />
+	<text x={(EX + TX) / 2} y="196" class="t-mid t-sm halo">d</text>
+	<line x1={EX} y1="234" x2="560" y2="234" class="s-muted w1" />
+	<circle cx={EX} cy="234" r="4" class="f-sky" />
+	<text x={EX} y="252" class="t-mid t-sm f-sky">ping at t = 0</text>
+	<circle cx="500" cy="234" r="4" class="f-green" />
+	<text x="500" y="252" class="t-mid t-sm f-green">echo heard at t = 2d/v</text>
+	<text x="570" y="238" class="t-sm f-muted">time</text>
+</svg>

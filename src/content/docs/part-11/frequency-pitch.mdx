@@ -1,0 +1,394 @@
+---
+title: Frequency and pitch
+description: How the ear turns frequency into pitch, why pitch works in ratios (octaves, semitones and the equal-tempered scale f = 440 × 2^(n/12)), beats between nearly equal notes and why telling two notes apart takes time, and the Doppler effect for sound, with sonic booms, all built on Grace measuring the notes of Rocky's chords with a waveform-analysis program.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import OctaveScale from '../../../components/diagrams/part-11/OctaveScale.astro';
+import BeatsPattern from '../../../components/diagrams/part-11/BeatsPattern.astro';
+import DopplerRings from '../../../components/diagrams/part-11/DopplerRings.astro';
+import DopplerLab from '../../../components/sims/DopplerLab.astro';
+
+## The scene
+
+To learn Rocky's language, Grace needs more than a good ear. He finds a waveform-analysis program on the ship's laptop, records Rocky's chords, and has the program break each one down into the notes it contains. He keeps track of what he learns in a spreadsheet. Before long the two of them are trading words, Grace speaking English and Rocky answering in chords, each looking the other's words up.
+
+The program's job is to measure **frequencies**. How do you measure the frequency of a note? Why do some frequencies sound "the same note, only higher"? How close can two notes be before you can't tell them apart? And what happens to a note when the singer is moving?
+
+## Prerequisites
+
+<Prereqs notes={{ 'pressure-waves': 'sound as a pressure wave; intensity and decibels', 'wave-properties': 'period, frequency, v = fλ and superposition', 'exponentials-logarithms': 'powers of 2 and logarithms, for the musical scale', 'spectroscopy': 'the Doppler effect for light, Δλ/λ = v/c', 'vectors': 'relative velocity', 'trigonometry': 'the cosine addition rule and the sine of an angle' }} />
+
+## The concept
+
+### Pitch is frequency
+
+Strike a tuning fork and its prongs swing back and forth hundreds of times a second, pushing out one compression on every swing. The number of compressions arriving at your ear each second is the sound's frequency $f$, in hertz. The brain hears frequency as <Term id="pitch">pitch</Term>: high frequency, high pitch.
+
+Humans hear from about 20 Hz to 20 000 Hz, and are most sensitive from about 2000 to 5000 Hz, where the ear canal itself resonates (Chapter 11.4 explains why). Sound below 20 Hz is called infrasound and sound above 20 kHz is <Term id="ultrasound">ultrasound</Term>. Bats hunt with ultrasound (Chapter 11.5).
+
+Pitch and loudness are separate. Loudness depends on the intensity (Chapter 11.1), pitch on the frequency. A whisper and a shout can be the same note.
+
+How do you measure a frequency? A microphone turns the pressure at one point into a voltage, and a computer can draw it against time: a **waveform**. For a pure note it is a sine curve. Count how many full cycles fit into a known stretch of time, and you have the frequency. That is the simplest version of what Grace's program does. (When several notes sound at once, the waveform is a tangle, and splitting it into its notes needs the idea of Chapter 11.4.)
+
+### Pitch works in ratios
+
+Play a note at 220 Hz and then one at 440 Hz. They sound like the **same note**, one higher than the other. The step between them is an <Term id="octave">octave</Term>, and it is a doubling of frequency. The notes called A on a piano are at 27.5, 55, 110, 220, 440, 880, 1760 and 3520 Hz: each is twice the one before.
+
+So the ear judges pitch by **ratios**, not differences. The step from 110 Hz to 220 Hz (a difference of 110 Hz) sounds exactly as big as the step from 440 Hz to 880 Hz (a difference of 440 Hz). This is the same pattern as loudness (Chapter 11.1), and it means a logarithmic scale fits hearing best. The whole range of hearing, from 20 Hz to 20 000 Hz, is a factor of 1000, which is almost exactly ten octaves.
+
+<Figure caption="The piano keyboard on a logarithmic frequency scale. Each octave, a doubling of frequency, takes the same width, so the notes A at 55, 110, 220, 440 and 880 Hz are evenly spaced. The 88 keys run from 27.5 Hz to 4186 Hz; human hearing extends from about 20 Hz to 20 000 Hz, about ten octaves." alt="A horizontal logarithmic axis from 20 hertz to 20 000 hertz, with tick marks at 20, 50, 100, 200, 500, 1000, 2000, 5000, 10 000 and 20 000. Above the axis, a strip of piano keys spans from 27.5 hertz to 4186 hertz. Blue dots mark the notes A from 27.5 to 3520 hertz, equally spaced, each labelled with its frequency; A4 at 440 hertz is highlighted. A bracket between 220 and 440 hertz is labelled times 2, one octave. A green band below the axis covers the range of human hearing, 20 hertz to 20 kilohertz, with the most sensitive region from 2 to 5 kilohertz shaded darker.">
+	<OctaveScale />
+</Figure>
+
+Western music splits each octave into 12 steps called semitones. In <Term id="equal-temperament">equal temperament</Term>, the tuning used on modern pianos, every semitone is the same ratio, so that 12 of them multiply to make exactly 2. Notes are named from a reference: the A above middle C, called A4, is set at 440 Hz by international agreement. The note $n$ semitones above A4 has frequency
+
+$$
+f = 440\ \text{Hz} \times 2^{n/12}.
+$$
+
+Middle C, nine semitones below A4, is $440 \times 2^{-9/12} = 261.6$ Hz.
+
+People with normal hearing can tell apart two notes whose frequencies differ by about 0.3%, such as 500.0 Hz and 501.5 Hz. That is about a twentieth of a semitone. Rocky, of course, has no reason to sing notes on our scale: his notes can fall anywhere, and Grace's program has to measure each one.
+
+### Beats
+
+Play two notes of nearly the same frequency together, say 440 Hz and 443 Hz. You don't hear two notes. You hear one note, at about 441.5 Hz, whose loudness rises and falls three times a second: "wah-wah-wah". These are <Term id="beats">beats</Term>.
+
+The reason is superposition (Chapter 7.1). The two waves drift in and out of step. When their crests line up, they add to a loud sound; a moment later one has gained half a cycle on the other, crest meets trough, and they nearly cancel. The faster note gains a whole extra cycle every $1/(f_{2} - f_{1})$ seconds, so the loudness swells once in that time:
+
+$$
+f_{\text{beat}} = |f_{1} - f_{2}|.
+$$
+
+<Figure caption="Beats. Two notes of slightly different frequency (top two traces) drift in and out of step. Their sum (bottom) swells where crests line up and fades where crest meets trough. Here the notes are 10 and 11 cycles per unit of time, so the sum beats once per unit." alt="Three traces stacked over the same time axis. The top trace is a blue sine wave with 10 cycles; the second is an orange sine wave with 11 cycles. At the left edge they are in step; in the middle they are out of step. The bottom trace is their sum, drawn in green: its loudness swells to double height at the left and right edges, where the two waves are in step, and shrinks to nearly zero in the middle, where they are out of step. A dashed envelope outlines the swelling and fading. A bracket marks one beat period, 1 over the difference in frequencies.">
+	<BeatsPattern />
+</Figure>
+
+Musicians tune by ear this way: play the note together with a reference, and adjust until the beats slow down and stop.
+
+Beats also tell us something deeper. Two notes 3 Hz apart only drift one cycle apart after a third of a second. Over a much shorter time, they look the same. So to tell two frequencies apart by $\Delta f$, a microphone or a program must listen for at least about $1/\Delta f$. Separating 440 Hz from 441 Hz takes about a second of recording. Grace's program can only report Rocky's notes precisely if each chord lasts long enough.
+
+### The Doppler effect for sound
+
+An ambulance's siren sounds higher as it comes towards you and drops suddenly as it passes. This is the <Term id="doppler-effect">Doppler effect</Term>, which Chapter 7.5 used for starlight. For sound, it is easy to picture.
+
+Each crest spreads out from the point where it was made, at the speed of sound $v$ through the air. If the source is moving, it makes each new crest a little further along than the last. So the crests are crowded together ahead of it and spread apart behind it. A listener ahead gets crests closer together, so more of them arrive per second, and hears a higher frequency; a listener behind hears a lower one.
+
+<Figure caption="Crests from a moving source. Each circle is a crest, centred on the point where the source was when it made it. The source (red dot) moves to the right, so crests bunch together ahead of it (short wavelength, high pitch) and spread out behind (long wavelength, low pitch)." alt="Six circles of increasing size, each shifted further to the right than the larger one before it, so that on the right side they are crowded close together and on the left side widely spaced. A red dot at the right of centre marks the source, with an arrow pointing right labelled source moving at v s. Small dots inside mark where the source was when each circle was made. On the right a label reads ahead: crests crowded, higher pitch; on the left a label reads behind: crests spread out, lower pitch. An amber dot labelled listener on each side.">
+	<DopplerRings />
+</Figure>
+
+A moving **listener** hears a shift too: running towards a source, you meet the crests faster than they would arrive if you stood still. The Formulas section derives both effects:
+
+$$
+f' = f\,\frac{v \pm v_{\text{o}}}{v \mp v_{\text{s}}},
+$$
+
+with $v_{\text{s}}$ the speed of the source, $v_{\text{o}}$ the speed of the observer, both measured relative to the air, and the upper signs when they move towards each other.
+
+Notice that a moving source and a moving listener at the same speed give slightly **different** answers. For sound, the air is a special frame of reference: the speeds that matter are speeds relative to the air. Light has no medium, and Chapter 10.5 showed that only the relative speed of source and observer matters for light. That difference is exactly what the postulates of relativity (Chapter 10.1) are about.
+
+### Faster than sound
+
+If the source moves faster than its own sound, it outruns its crests. The crests pile up along a cone trailing behind it, and all that sound energy arrives together in a single bang: a **sonic boom**. The ratio $v_{\text{s}}/v$ is the <Term id="mach-number">Mach number</Term>. The cone's half-angle $\theta$ satisfies $\sin\theta = v/v_{\text{s}}$: at Mach 2, $\theta = 30°$. A whip's crack is a tiny sonic boom made by its tip moving faster than sound.
+
+## Formulas
+
+### Equal temperament
+
+Twelve equal semitones of ratio $r$ make an octave:
+
+$$
+r^{12} = 2 \qquad\Rightarrow\qquad r = 2^{1/12} = 1.05946
+$$
+
+So $n$ semitones above A4 the frequency is multiplied by $r^{n} = 2^{n/12}$. To find how many semitones a frequency is from A4, take $\log_{2}$ of both sides (Chapter 0.8):
+
+$$
+\boxed{f = 440\ \text{Hz} \times 2^{n/12}} \qquad\Leftrightarrow\qquad \boxed{n = 12\log_{2}\frac{f}{440\ \text{Hz}}}
+$$
+
+Musicians split each semitone into 100 **cents**, so a ratio $f_{2}/f_{1}$ is $1200\log_{2}(f_{2}/f_{1})$ cents. The 0.3% that people can just distinguish is $1200\log_{2}1.003 = 5.2$ cents.
+
+### Beats
+
+Write two equal notes at one place as $A\cos(2\pi f_{1}t)$ and $A\cos(2\pi f_{2}t)$. Adding the cosine addition rules $\cos(P + Q) = \cos P\cos Q - \sin P\sin Q$ and $\cos(P - Q) = \cos P\cos Q + \sin P\sin Q$ gives $\cos(P + Q) + \cos(P - Q) = 2\cos P\cos Q$. Choose $P + Q = 2\pi f_{1}t$ and $P - Q = 2\pi f_{2}t$, so $P = 2\pi \bar{f}t$ with $\bar{f} = \tfrac{1}{2}(f_{1} + f_{2})$ and $Q = 2\pi \tfrac{1}{2}(f_{1} - f_{2})t$:
+
+$$
+A\cos(2\pi f_{1}t) + A\cos(2\pi f_{2}t) = \underbrace{2A\cos\!\left(2\pi\,\tfrac{f_{1} - f_{2}}{2}\,t\right)}_{\text{slowly changing amplitude}}\ \cos(2\pi\bar{f}t)
+$$
+
+We hear a note at the average frequency $\bar{f}$ whose amplitude follows the slow cosine. The loudness peaks whenever that slow cosine is $+1$ **or** $-1$, which happens twice in each of its cycles, so the loudness swells at twice its frequency:
+
+$$
+\boxed{f_{\text{beat}} = 2 \times \frac{|f_{1} - f_{2}|}{2} = |f_{1} - f_{2}|}
+$$
+
+### The Doppler effect
+
+**Moving source.** The source makes a crest every period $T = 1/f$. In that time the last crest has moved out a distance $vT$, but the source has followed it by $v_{\text{s}}T$. Ahead of the source the crests are therefore only
+
+$$
+\lambda' = vT - v_{\text{s}}T = \frac{v - v_{\text{s}}}{f}
+$$
+
+apart. They still travel at $v$ through the air, so a listener at rest hears
+
+$$
+f' = \frac{v}{\lambda'} = f\,\frac{v}{v - v_{\text{s}}} \quad\text{(ahead)}, \qquad f' = f\,\frac{v}{v + v_{\text{s}}} \quad\text{(behind)}.
+$$
+
+**Moving listener.** The crests are $\lambda = v/f$ apart and come towards a listener moving at $v_{\text{o}}$ towards the source at a relative speed of $v + v_{\text{o}}$ (Chapter 0.7), so they arrive at a rate
+
+$$
+f' = \frac{v + v_{\text{o}}}{\lambda} = f\,\frac{v + v_{\text{o}}}{v}.
+$$
+
+**Both moving.** The wavelength is set by the source and the arrival rate by the listener:
+
+$$
+\boxed{f' = f\,\frac{v \pm v_{\text{o}}}{v \mp v_{\text{s}}}} \qquad \text{upper signs: moving towards each other}
+$$
+
+For speeds much smaller than $v$, both give $f'/f \approx 1 + u/v$ for an approaching speed $u$, just like the formula for light in Chapter 7.5.
+
+### The Mach cone
+
+In a time $t$ the source moves $v_{\text{s}}t$, while the crest it made at the start has spread to radius $vt$. The cone is tangent to all the crests, so in the right-angled triangle with hypotenuse $v_{\text{s}}t$ and opposite side $vt$:
+
+$$
+\boxed{\sin\theta = \frac{vt}{v_{\text{s}}t} = \frac{v}{v_{\text{s}}} = \frac{1}{\text{Mach number}}}
+$$
+
+## Worked examples
+
+<Example n={1} title="Measuring one of Rocky's notes" book>
+Grace's program shows a single note from one of Rocky's chords. Exactly 11 complete cycles fit into 25.0 ms of the waveform. What are its period and frequency, and which note on our scale is it?
+
+$$
+T = \frac{25.0\ \text{ms}}{11} = 2.27\ \text{ms} \qquad f = \frac{11}{0.0250\ \text{s}} = 440\ \text{Hz}
+$$
+
+$$
+n = 12\log_{2}\frac{440\ \text{Hz}}{440\ \text{Hz}} = 0
+$$
+
+It is A4 exactly, the 440 Hz note we have been using since Chapter 7.1 (our invention: the novel doesn't give Rocky's frequencies).
+</Example>
+
+<Example n={2} title="Rocky's notes on our scale" book>
+Two other notes in the chord measure 523 Hz and 300 Hz. How do they sit on the equal-tempered scale?
+
+$$
+n_{523} = 12\log_{2}\frac{523\ \text{Hz}}{440\ \text{Hz}} = 12 \times 0.2493 = 2.99
+$$
+
+Three semitones above A4: the note C5, which is $440 \times 2^{3/12} = 523.3$ Hz. Rocky's 523 Hz is within a hundredth of a semitone of it.
+
+$$
+n_{300} = 12\log_{2}\frac{300\ \text{Hz}}{440\ \text{Hz}} = 12 \times (-0.5525) = -6.63
+$$
+
+Between D4 ($n = -7$, 293.7 Hz) and D♯4 ($n = -6$, 311.1 Hz). In cents above D4: $1200\log_{2}(300/293.7) = 37$ cents. This note falls "between the keys" of a piano. There is no reason Eridian notes should fit a human scale, and Grace's program doesn't need them to: it measures each frequency directly.
+</Example>
+
+<Example n={3} title="Two notes close together" book>
+Suppose two of Rocky's words differ only in one note: 440 Hz in one, 443 Hz in the other. Can Grace hear the difference, and how long must the program listen to separate them?
+
+The difference is
+
+$$
+\frac{443 - 440}{440} = 0.0068 = 0.68\%,
+$$
+
+more than twice the 0.3% that people can just distinguish, so with care Grace can hear it. Played together they would beat at
+
+$$
+f_{\text{beat}} = 443\ \text{Hz} - 440\ \text{Hz} = 3\ \text{Hz},
+$$
+
+and they drift a full cycle apart only after $1/(3\ \text{Hz}) = 0.33\ \text{s}$. A recording much shorter than a third of a second can't tell them apart reliably, whatever the software.
+</Example>
+
+<Example n={4} title="A passing siren">
+An ambulance siren sounds at 700 Hz. The ambulance drives past at 30 m/s (108 km/h). What frequencies do you hear as it approaches and after it passes, with sound at 343 m/s? How big is the drop in musical terms?
+
+$$
+f_{\text{approach}} = 700\ \text{Hz} \times \frac{343\ \text{m/s}}{343\ \text{m/s} - 30\ \text{m/s}} = 700\ \text{Hz} \times 1.0958 = 767\ \text{Hz}
+$$
+
+$$
+f_{\text{recede}} = 700\ \text{Hz} \times \frac{343\ \text{m/s}}{343\ \text{m/s} + 30\ \text{m/s}} = 700\ \text{Hz} \times 0.9196 = 644\ \text{Hz}
+$$
+
+$$
+12\log_{2}\frac{767\ \text{Hz}}{644\ \text{Hz}} = 12 \times 0.252 = 3.0\ \text{semitones}
+$$
+
+The siren drops by about three semitones, a minor third in musical terms. If instead **you** drove at 30 m/s towards a parked siren, you would hear $700 \times 373/343 = 761$ Hz, not 767 Hz: for sound, it matters who is moving relative to the air.
+</Example>
+
+<Example n={5} title="A sonic boom">
+A jet flies level at Mach 2.0, 10.0 km above you. Taking the speed of sound as 343 m/s all the way, what is the half-angle of its shock cone, and how long after it passes directly overhead do you hear the boom?
+
+$$
+\sin\theta = \frac{1}{2.0} \qquad\Rightarrow\qquad \theta = 30°
+$$
+
+The cone trails behind the jet. It reaches you when the jet is a horizontal distance $x$ past you, where $\tan\theta = h/x$:
+
+$$
+x = \frac{h}{\tan\theta} = \frac{10.0\ \text{km}}{\tan 30°} = 17.3\ \text{km}
+$$
+
+$$
+t = \frac{x}{v_{\text{s}}} = \frac{17\,320\ \text{m}}{2.0 \times 343\ \text{m/s}} = 25\ \text{s}
+$$
+
+You hear nothing at all while the jet passes overhead, then the boom arrives 25 seconds later, by which time the jet is 17 km away. (Real air is colder and slower for sound at 10 km, which changes the numbers a little.)
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** Pitch as frequency, the hearing range of about 20 Hz to 20 kHz, pitch discrimination of about 0.3%, beats at $|f_{1} - f_{2}|$ and the Doppler formula for sound are all in OpenStax (University Physics Vol. 1, §§17.3, 17.6 and 17.7). Equal temperament uses semitones of $2^{1/12}$, and A4 = 440 Hz is the international standard ISO 16. The rule that separating frequencies $\Delta f$ apart needs a recording about $1/\Delta f$ long is a basic property of all waves, used in every spectrum analyser.
+
+**Weir's inventions.** Rocky's language of chords, and Grace's method of decoding it with a waveform-analysis program and a spreadsheet, are from the novel. A real linguist would agree that a recording-and-analysis approach is the sensible way to learn a tonal language from scratch. The specific frequencies in our examples (440, 523, 300, 443 Hz) are our inventions.
+
+**How realistic are the numbers?** A laptop program can easily pick out frequencies to much better than 1 Hz, given recordings a second or more long. The bigger challenge is the one the novel leans on: the overlap between human and Eridian hearing. Inside the *Hail Mary*, there is no Doppler shift at all between Grace and Rocky however fast the ship flies, because both of them and the air all move together.
+</RealVsBook>
+
+## Interactive simulation
+
+<DopplerLab />
+
+Things to try: set the source speed to 0 and check that both listeners hear the true note. At Mach 0.5, compare the two listeners: the note ahead is raised by more than the note behind is lowered. Push the source past Mach 1 and watch the crests pile up into a cone; at Mach 2 measure its half-angle (30°).
+
+## Practice set
+
+<Problem n={1} level="easy">
+A tuning fork makes 256 vibrations per second. What are its frequency and period?
+
+<Solution>
+$f = 256\ \text{Hz}$; $T = 1/256\ \text{Hz} = 3.91 \times 10^{-3}\ \text{s} = 3.91\ \text{ms}$.
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy">
+What is the frequency of the A two octaves above A4? And of the A three octaves below it?
+
+<Solution>
+Two octaves up: $440 \times 2^{2} = 1760$ Hz. Three octaves down: $440/2^{3} = 55$ Hz.
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy">
+A piano string and a tuning fork at 440 Hz together produce 2 beats per second. What are the possible frequencies of the string?
+
+<Solution>
+$|f - 440| = 2$, so 438 Hz or 442 Hz. (Tightening the string slightly tells you which: if the beats get slower, it was 438 Hz.)
+</Solution>
+</Problem>
+
+<Problem n={4} level="easy">
+Find the frequency of the note 7 semitones above A4 (the E5 above it).
+
+<Solution>
+$440 \times 2^{7/12} = 440 \times 1.4983 = 659.3$ Hz.
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium" book>
+Grace's program measures one of Rocky's notes at 185 Hz. How many semitones is it from A4, and what is the nearest equal-tempered note?
+
+<Solution>
+$n = 12\log_{2}(185/440) = 12 \times (-1.250) = -15.0$. Fifteen semitones below A4 is an octave (12) and three more: F♯3, at $440 \times 2^{-15/12} = 185.0$ Hz.
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium">
+How many octaves does the piano's range (27.5 Hz to 4186 Hz) cover? And human hearing (20 Hz to 20 000 Hz)?
+
+<Solution>
+Piano: $\log_{2}(4186/27.5) = \log_{2}152.2 = 7.25$ octaves (88 keys, 87 semitones). Hearing: $\log_{2}1000 = 9.97$, almost exactly 10 octaves.
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium">
+Two notes of 880 Hz and 884 Hz are played together. (a) What do you hear? (b) Roughly how long a recording does a program need to separate them?
+
+<Solution>
+(a) A single note at the average, 882 Hz, swelling and fading 4 times a second. (b) About $1/(4\ \text{Hz}) = 0.25$ s.
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium">
+A train's horn sounds at 400 Hz. The train approaches you at 25 m/s. What frequency do you hear? (Sound at 343 m/s.)
+
+<Solution>
+$f' = 400 \times 343/(343 - 25) = 400 \times 1.0786 = 431$ Hz.
+</Solution>
+</Problem>
+
+<Problem n={9} level="medium">
+You cycle at 10 m/s towards a parked car whose alarm sounds at 1000 Hz. What do you hear? What do you hear after you pass it?
+
+<Solution>
+Approaching: $1000 \times (343 + 10)/343 = 1029$ Hz. Moving away: $1000 \times (343 - 10)/343 = 971$ Hz.
+</Solution>
+</Problem>
+
+<Problem n={10} level="medium" book>
+The *Hail Mary* reaches almost the speed of light. Rocky speaks to Grace inside the ship at 440 Hz. What frequency does Grace hear? Explain.
+
+<Solution>
+440 Hz. The Doppler effect for sound depends on how the source and listener move **relative to the air**. Rocky, Grace and the ship's air all move together at the same velocity, so relative to the air nobody is moving. (By the principle of relativity, Chapter 10.1, nothing inside a ship moving steadily can even detect its speed.)
+</Solution>
+</Problem>
+
+<Problem n={11} level="challenging">
+A source approaching at speed $u$ gives $f' = fv/(v - u)$, while a listener approaching at $u$ gives $f' = f(v + u)/v$. Show that for $u$ much smaller than $v$ both are approximately $f(1 + u/v)$, and find the difference between them for $u = 30$ m/s, $v = 343$ m/s, $f = 700$ Hz.
+
+<Solution>
+$\dfrac{v}{v - u} = \dfrac{1}{1 - u/v} \approx 1 + \dfrac{u}{v}$ for small $u/v$ (the same approximation as $1/(1 - x) \approx 1 + x$), and $\dfrac{v + u}{v} = 1 + \dfrac{u}{v}$ exactly. With numbers: $767.1 - 761.2 = 5.9$ Hz, under 1% of the note, which is why the two cases feel the same at everyday speeds.
+</Solution>
+</Problem>
+
+<Problem n={12} level="challenging">
+A bullet passes you with a shock cone of half-angle 25°. How fast is it going? (Sound at 343 m/s.)
+
+<Solution>
+$\sin 25° = v/v_{\text{s}}$ gives $v_{\text{s}} = 343/\sin 25° = 343/0.4226 = 812$ m/s, Mach 2.4.
+</Solution>
+</Problem>
+
+<Problem n={13} level="challenging" book>
+Suppose that, while learning the language, Grace notices that one of Rocky's notes always comes out 0.5% lower when Rocky is upset. How long must each recording be for the program to detect this change on a 300 Hz note? Could Grace hear it unaided?
+
+<Solution>
+$\Delta f = 0.005 \times 300 = 1.5$ Hz, so the recording must last at least about $1/1.5 = 0.67$ s. The change is larger than the 0.3% that people can just distinguish, so a careful listener could hear it, though only by comparing with the usual note.
+</Solution>
+</Problem>
+
+## Summary
+
+- Pitch is the brain's perception of frequency. People hear about 20 Hz to 20 kHz and can distinguish frequencies about 0.3% apart.
+- Pitch works in ratios: an octave is a doubling. Equal temperament splits the octave into 12 semitones of $2^{1/12}$, so $f = 440 \times 2^{n/12}$ Hz.
+- Two close notes beat at $|f_{1} - f_{2}|$. Telling apart frequencies $\Delta f$ apart needs about $1/\Delta f$ of listening.
+- A moving source squeezes the crests ahead of it; a moving listener meets them faster: $f' = f(v \pm v_{\text{o}})/(v \mp v_{\text{s}})$. For sound, speeds relative to the air matter.
+- Faster than sound, the crests pile into a cone with $\sin\theta = v/v_{\text{s}}$, heard as a sonic boom.
+
+**Formulas from this chapter**
+
+$$
+f = 440\ \text{Hz} \times 2^{n/12} \qquad f_{\text{beat}} = |f_{1} - f_{2}| \qquad f' = f\,\frac{v \pm v_{\text{o}}}{v \mp v_{\text{s}}} \qquad \sin\theta = \frac{v}{v_{\text{s}}}
+$$
+
+## Sources
+
+- Hearing range, pitch, the 0.3% pitch discrimination (500.0 and 501.5 Hz), the ear's sensitivity from 2000 to 5000 Hz, loudness and timbre: OpenStax, [*University Physics Volume 1*, §17.3 "Sound Intensity"](https://openstax.org/books/university-physics-volume-1/pages/17-3-sound-intensity).
+- Beats and $f_{\text{beat}} = |f_{2} - f_{1}|$, piano tuning by beats: OpenStax, [§17.6 "Beats"](https://openstax.org/books/university-physics-volume-1/pages/17-6-beats). The Doppler effect for moving sources and observers, sonic booms: OpenStax, [§17.7 "The Doppler Effect"](https://openstax.org/books/university-physics-volume-1/pages/17-7-the-doppler-effect).
+- The crack of a bullwhip as a small sonic boom: Wikipedia, ["Sonic boom"](https://en.wikipedia.org/wiki/Sonic_boom).
+- A4 = 440 Hz as the international standard (ISO 16, 1975): Wikipedia, ["A440 (pitch standard)"](https://en.wikipedia.org/wiki/A440_(pitch_standard)). The equal-tempered semitone $2^{1/12} \approx 1.05946$: Wikipedia, ["Equal temperament"](https://en.wikipedia.org/wiki/Equal_temperament).
+- Grace installs a waveform-analysis program to break down Rocky's vocalizations and keeps a spreadsheet; Rocky's notes, several at once, fall within human hearing: LitCharts, [*Project Hail Mary*: Rocky](https://www.litcharts.com/lit/project-hail-mary/characters/rocky).
