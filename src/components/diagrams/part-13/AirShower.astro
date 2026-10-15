@@ -1,0 +1,57 @@
+---
+// Schematic air shower: primary proton enters from the top, first collision ~18 km, a branching cascade below,
+// muons reaching the ground. Altitude axis on the left (0–30 km). Column bar on the right.
+const T = 20, B = 250, X0 = 260;
+const Y = (km: number) => B - (km / 30) * (B - T);
+// a deterministic branching tree
+const segs: [number, number, number, number, string][] = [];
+const grow = (x: number, y: number, ang: number, depth: number) => {
+	if (depth === 0) return;
+	const len = 26 + depth * 4;
+	for (const d of [-0.32, 0.32]) {
+		const a = ang + d * (0.6 + depth * 0.1);
+		const x2 = x + len * Math.sin(a), y2 = y + len * Math.cos(a);
+		segs.push([x, y, x2, y2, depth > 2 ? 's-sky' : 's-violet']);
+		grow(x2, y2, a, depth - 1);
+	}
+};
+grow(X0, Y(18), 0, 4);
+const muons = [[-60, 0.12], [-25, 0.04], [10, -0.05], [45, -0.13], [80, -0.18]];
+const head = (x1: number, y1: number, x2: number, y2: number, s = 9) => {
+	const a = Math.atan2(y2 - y1, x2 - x1), c = Math.cos(a), n = Math.sin(a);
+	return `${x2},${y2} ${x2 - s * c + (s / 2) * n},${y2 - s * n - (s / 2) * c} ${x2 - s * c - (s / 2) * n},${y2 - s * n + (s / 2) * c}`;
+};
+---
+
+<svg class="dg" viewBox="0 0 600 290" xmlns="http://www.w3.org/2000/svg">
+	<line x1="50" y1={T} x2="50" y2={B} class="s-muted w1" />
+	{[0, 10, 20, 30].map((k) => (
+		<>
+			<line x1="46" y1={Y(k)} x2="54" y2={Y(k)} class="s-muted w1" />
+			<text x="40" y={Y(k) + 4} class="t-end t-sm f-muted">{k}</text>
+		</>
+	))}
+	<text x="14" y={(T + B) / 2} class="t-mid t-sm" transform={`rotate(-90 14 ${(T + B) / 2})`}>altitude (km)</text>
+	<line x1="60" y1={B} x2="470" y2={B} class="s-green w3" />
+	<text x="470" y={B + 18} class="t-end t-sm f-green">ground</text>
+	<line x1={X0} y1={T} x2={X0} y2={Y(18) - 6} class="s-amber w3" />
+	<polygon points={head(X0, T, X0, Y(18) - 2, 12)} class="f-amber" />
+	<text x={X0 + 10} y={T + 14} class="t-sm t-b f-amber">primary cosmic ray: a proton of many GeV</text>
+	<circle cx={X0} cy={Y(18)} r="5" class="f-rose" />
+	<text x={X0 + 12} y={Y(18) - 4} class="t-sm">first collision with a nucleus</text>
+	<text x={X0 + 12} y={Y(18) + 11} class="t-sm f-muted">(nitrogen or oxygen)</text>
+	{segs.map(([x1, y1, x2, y2, c]) => <line x1={x1} y1={y1} x2={x2} y2={y2} class={`${c} w1`} />)}
+	<text x={X0 - 150} y={Y(12)} class="t-sm f-sky">pions, photons,</text>
+	<text x={X0 - 150} y={Y(12) + 15} class="t-sm f-sky">electrons, neutrons</text>
+	{muons.map(([dx, ang]) => {
+		const x1 = X0 + dx * 0.4, y1 = Y(9);
+		const x2 = x1 + (B - y1 - 4) * Math.tan(-ang as number);
+		return <line x1={x1} y1={y1} x2={x2} y2={B - 3} class="s-rose w2" />;
+	})}
+	<text x={X0 + 70} y={Y(4)} class="t-sm f-rose">muons reach the ground:</text>
+	<text x={X0 + 70} y={Y(4) + 15} class="t-sm f-rose">about 1 per cm² per minute</text>
+	<text x="80" y={B + 34} class="t-sm f-muted">neutrons in the shower turn nitrogen-14 into carbon-14</text>
+	<rect x="520" y={T} width="40" height={B - T} class="f-sky-soft" />
+	<text x="540" y={T - 6} class="t-mid t-sm">air above</text>
+	<text x="540" y={(T + B) / 2 - 8} class="t-mid t-sm t-b" transform={`rotate(-90 540 ${(T + B) / 2})`}>1033 g/cm² = 10.3 m of water</text>
+</svg>

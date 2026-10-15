@@ -1,0 +1,43 @@
+---
+// Doses in mSv on a log scale (0.01 to 10 000). Sources: Wikipedia "Background radiation", "Potassium-40", "Sievert",
+// "Acute radiation syndrome"; Curiosity RAD 1.84 mSv/day. Acute doses in Gy shown as mSv for gamma rays (w_R = 1).
+const L = 250, R = 570, T = 22, H = 21;
+const lo = -2, hi = 4;
+const X = (v: number) => L + ((Math.log10(v) - lo) / (hi - lo)) * (R - L);
+const bars: { n: string; v: number; lo?: number; c: string; t: string }[] = [
+	{ n: 'chest X-ray', v: 0.02, c: 'green', t: '0.02' },
+	{ n: 'K-40 in your body, 1 year', v: 0.17, c: 'green', t: '0.17' },
+	{ n: 'cosmic rays at sea level, 1 year', v: 0.39, c: 'green', t: '0.39' },
+	{ n: 'public limit (artificial), 1 year', v: 1, c: 'green', t: '1' },
+	{ n: 'natural background, 1 year', v: 2.4, c: 'green', t: '2.4' },
+	{ n: 'CT scan', v: 20, lo: 1, c: 'sky', t: '1–20' },
+	{ n: '180-day cruise to Mars', v: 331, c: 'amber', t: '330' },
+	{ n: '1 year in deep space', v: 672, c: 'amber', t: '670' },
+	{ n: 'radiation sickness begins', v: 700, c: 'rose', t: '~700' },
+	{ n: 'half die without treatment', v: 5000, lo: 4000, c: 'rose', t: '4000–5000' },
+	{ n: 'almost always fatal', v: 8000, c: 'rose', t: '> 8000' },
+];
+const B = T + bars.length * H;
+---
+
+<svg class="dg" viewBox="0 0 600 320" xmlns="http://www.w3.org/2000/svg">
+	{[0.01, 0.1, 1, 10, 100, 1000, 10000].map((v) => (
+		<>
+			<line x1={X(v)} y1={T - 4} x2={X(v)} y2={B} class="s-grid w1" />
+			<text x={X(v)} y={B + 16} class="t-mid t-sm f-muted">{v >= 1 ? v.toLocaleString('en') : v}</text>
+		</>
+	))}
+	<line x1={X(700)} y1={T - 6} x2={X(700)} y2={B + 4} class="s-rose w2 dash" />
+	{bars.map((b, i) => (
+		<>
+			<text x={L - 8} y={T + i * H + 14} class="t-end t-sm">{b.n}</text>
+			{b.lo ? <rect x={X(b.lo)} y={T + i * H + 4} width={X(b.v) - X(b.lo)} height={H - 8} class={`f-${b.c}`} /> : null}
+			<rect x={L} y={T + i * H + 4} width={(b.lo ? X(b.lo) : X(b.v)) - L} height={H - 8} class={b.lo ? `f-${b.c}-soft` : `f-${b.c}`} />
+			{X(b.v) > 520
+				? <text x={(b.lo ? X(b.lo) : X(b.v)) - 5} y={T + i * H + 15} class="t-end t-sm t-b halo">{b.t}</text>
+				: <text x={X(b.v) + 5} y={T + i * H + 15} class="t-sm f-muted halo">{b.t}</text>}
+		</>
+	))}
+	<text x={X(700) - 4} y={B + 34} class="t-end t-sm f-rose">acute radiation syndrome above ~700 mSv</text>
+	<text x={(L + R) / 2} y={B + 54} class="t-mid t-sm">dose (mSv), logarithmic scale; 1 Sv = 1000 mSv</text>
+</svg>

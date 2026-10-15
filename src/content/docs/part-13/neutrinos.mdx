@@ -1,0 +1,395 @@
+---
+title: Neutrinos
+description: The energy missing from beta decay and Pauli's invisible particle, the weak interaction, cross-sections and mean free paths (light-years of water), the 65 billion solar neutrinos crossing each square centimetre every second, oscillations and neutrino mass, giant detectors and supernova 1987A, and a careful look at the novel's claim that Astrophage stores its energy as neutrinos made by colliding protons at 96.415 °C.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import BetaSpectrum from '../../../components/diagrams/part-13/BetaSpectrum.astro';
+import NeutrinoMasses from '../../../components/diagrams/part-13/NeutrinoMasses.astro';
+import ProtonCollision from '../../../components/diagrams/part-13/ProtonCollision.astro';
+import BetaDecayLab from '../../../components/sims/BetaDecayLab.astro';
+
+## The scene
+
+Astrophage can soak up the energy of sunlight for months and release it, at will, as a perfect beam of infrared light. Where does a single cell keep all that energy? In the novel, the answer arrives in Grace's memories of the project's early days: neutrinos.
+
+Dr. Lokken explains it. Physicists noticed that when an Astrophage cell dies it gives off a burst of neutrinos, and samples sent to the IceCube neutrino detector at the South Pole produced huge numbers of detections. Inside the cell, free protons (hydrogen nuclei) race about just under the membrane. When two of them collide hard enough, their kinetic energy becomes a pair of neutrinos flying apart. The membrane is impossible for anything to pass through, a property the novel calls super cross-sectionality, so the neutrinos stay trapped. That is the cell's battery. And the collisions need a definite minimum energy, set by the neutrinos' mass, which is why the cell holds itself at exactly 96.415 °C.
+
+Neutrinos are real, and they are among the strangest particles known: so aloof that almost all of them pass straight through the whole Earth. This chapter explains what they are, how they were found, how much they weigh, and how the novel's numbers hold up.
+
+## Prerequisites
+
+<Prereqs notes={{ isotopes: 'beta decay, the neutron, half-lives and atomic masses', 'conservation-laws': 'conservation of energy and the missing-energy puzzle mentioned there', momentum: 'conservation of momentum and p = E/c', 'lorentz-factor': 'E² = (pc)² + (mc²)² and particles moving at almost c', 'solar-constant': 'the Sun’s luminosity spread over a sphere', 'temperature-heat': 'average kinetic energy ³⁄₂kT' }} />
+
+## The concept
+
+### Energy goes missing
+
+In beta decay a neutron in a nucleus becomes a proton and an electron is shot out (Chapter 13.2). If that were the whole story, the decay would be a two-body explosion, like a gun and its bullet: conservation of momentum would split the energy released, $Q$, in a fixed way, and almost all of it would go to the light electron. Every electron from a given isotope would come out with the same energy, just under $Q$.
+
+That isn't what happens. Measurements in the 1910s and 1920s showed that beta electrons come out with **every** energy from zero up to $Q$. For carbon-14, $Q$ is 156 keV, but the average electron carries only 49 keV. For tritium, $Q$ is 18.6 keV and the average only 5.7 keV. About two-thirds of the energy simply disappears.
+
+<Figure caption="The energy of electrons from the beta decay of tritium. If only an electron came out, every electron would carry the full 18.6 keV (the red line). Instead they come out with every energy up to 18.6 keV, averaging 5.7 keV; the rest is carried off by an unseen antineutrino." alt="A graph with electron kinetic energy from 0 to 20 keV on the horizontal axis and number of electrons on the vertical axis. A blue hump-shaped curve starts low at zero energy, rises to a peak near 2 to 3 keV, and falls smoothly to zero at 18.6 keV. A dashed line at 5.7 keV is labelled average 5.7 keV. A tall red vertical line at 18.6 keV is labelled expected if only the electron came out. A note says the difference, on average about 13 keV, goes to the antineutrino.">
+	<BetaSpectrum />
+</Figure>
+
+Some physicists, including Niels Bohr, were prepared to give up conservation of energy. In 1930 Wolfgang Pauli proposed a "desperate remedy" instead: a second, invisible particle, electrically neutral and very light, leaves with the missing energy and momentum. Enrico Fermi named it the <Term id="neutrino">neutrino</Term> ("little neutral one" in Italian) and in 1934 built a theory of beta decay around it. Strictly, beta-minus decay gives an **antineutrino**, the neutrino's antiparticle:
+
+$$
+\text{n} \to \text{p} + e^{-} + \bar{\nu}_{e}.
+$$
+
+### The weak interaction
+
+Why is the neutrino invisible? It has no charge, so it feels no electric force, and it doesn't feel the strong force either. It interacts only through the <Term id="weak-interaction">weak interaction</Term>, the force that turns neutrons into protons in beta decay, which acts only when particles come within about $10^{-17}$ to $10^{-16}$ m of each other, a few percent of a proton's width (and, very feebly, through gravity). A neutrino passing through matter almost never comes close enough to anything to interact.
+
+Physicists measure the chance of an interaction with a <Term id="cross-section">cross-section</Term> $\sigma$: the effective target area each atom or proton presents. A particle crossing a slab of thickness $x$ containing $n$ targets per cubic metre meets $n x$ of them per square metre, so its chance of hitting one is about $n\sigma x$. The average distance it travels before interacting is the <Term id="mean-free-path">mean free path</Term>,
+
+$$
+\ell = \frac{1}{n\sigma}.
+$$
+
+### Catching a ghost
+
+Twenty-six years after Pauli's guess, Clyde Cowan and Frederick Reines caught one. A nuclear reactor makes enormous numbers of antineutrinos (each fission fragment undergoes several beta decays). At the Savannah River reactor in South Carolina, about $5 \times 10^{13}$ of them crossed each square centimetre every second. They put 200 litres of water, laced with cadmium, beside the reactor and watched for the rare antineutrino that hit a proton and turned it into a neutron and a positron. The signature was a flash from the positron followed a few microseconds later by a flash from the neutron's capture. They saw about three events an hour, and in 1956 announced the discovery. Their measured cross-section was
+
+$$
+\sigma = 6.3 \times 10^{-44}\ \text{cm}^{2} = 6.3 \times 10^{-48}\ \text{m}^{2}
+$$
+
+per proton. For comparison, a free electron's cross-section for scattering light is $6.65 \times 10^{-25}$ cm², about $10^{19}$ times bigger. In water, the mean free path of such an antineutrino is about 250 light-years (Example 3). That is why nearly all of them pass through the Earth untouched.
+
+### Sixty-five billion per second
+
+The Sun is the biggest neutrino source we know. Each time four protons fuse into helium-4, two protons must turn into neutrons, and each conversion releases a neutrino. Two neutrinos for every 26.7 MeV of sunlight means the Sun emits about $1.8 \times 10^{38}$ neutrinos per second, and at Earth's distance about $6.4 \times 10^{10}$ of them cross every square centimetre every second (Example 2). Measurements give $6.5 \times 10^{10}$.
+
+They come through you day and night: at night they arrive through the whole Earth, almost unweakened. A thumbnail's worth of area is crossed by sixty billion solar neutrinos every second, and in a whole lifetime only a few thousand of the $10^{24}$ or so that pass through you interact with anything in your body (Problem 10).
+
+### Detectors, and a supernova
+
+Catching such particles takes huge, quiet detectors, deep underground where the rock stops cosmic rays (Chapter 13.4).
+
+- **Homestake** (from 1968): hundreds of thousands of litres of cleaning fluid in a gold mine in South Dakota. A few times a day, a solar neutrino turned a chlorine atom into argon. Ray Davis found far fewer than the Sun should make, about a third: the "solar neutrino problem".
+- **Super-Kamiokande** (from 1996): 50 220 tonnes of ultrapure water 1000 m under a mountain in Japan, watched by 11 146 large light sensors. When a neutrino knocks an electron or makes a muon, the charged particle moves faster than light travels in water, $c/n$ (Chapter 7.2), and gives off a cone of blue <Term id="cherenkov-radiation">Cherenkov radiation</Term>, the optical cousin of a sonic boom (Chapter 11.2).
+- **IceCube** (completed 2010): a cubic kilometre of Antarctic ice between 1450 and 2450 m below the South Pole, watched by thousands of sensors on 86 strings. This is the detector the novel's scientists send their Astrophage to.
+
+On 23 February 1987, three detectors caught 25 neutrinos in a few seconds: Kamiokande II saw 12, IMB 8 and Baksan 5. They came from a star that had collapsed and exploded 168 000 light-years away, supernova 1987A, and they arrived two to three hours **before** its light, which was delayed getting out through the star's outer layers. Most of a supernova's energy leaves as neutrinos.
+
+### Three kinds, and a tiny mass
+
+There are three kinds of neutrino, partnered with the electron, the muon and the tau. In 1998 Super-Kamiokande found that muon-neutrinos made by cosmic rays in the atmosphere on the far side of the Earth, which had travelled through the planet, were only about half as numerous as those from overhead. They hadn't been absorbed; they had changed kind on the way. Such <Term id="neutrino-oscillation">neutrino oscillation</Term> was confirmed for the Sun's neutrinos in 2002 by the Sudbury Neutrino Observatory in Canada, which solved the solar neutrino problem: the Sun makes as many as expected, but two-thirds have changed into kinds Homestake couldn't see. The discovery won the 2015 Nobel Prize.
+
+Oscillation can only happen if neutrinos have mass, and its rate measures the differences between the squares of their masses: $\Delta m^{2} = 2.51 \times 10^{-3}\ \text{eV}^{2}$ between two of them (using mass-energies in eV). So at least one neutrino has a mass-energy of at least $\sqrt{2.51 \times 10^{-3}}\ \text{eV} = 0.050$ eV. From above, the KATRIN experiment (Chapter 7.3) found that the electron neutrino is below 0.45 eV, and the way neutrinos shaped the early universe limits the sum of all three masses to below about 0.12 eV. So neutrino masses lie somewhere between about 0.01 and 0.1 eV: ten million times lighter than an electron.
+
+<Figure caption="Neutrino mass-energies, on a logarithmic scale. Oscillations show that at least one neutrino has at least 0.050 eV; cosmology and KATRIN set upper limits. The shaded band, about 0.01 to 0.1 eV, is where the masses lie. The novel's 0.0477 eV (one Petrova photon's energy) sits inside the allowed range, just below the lower bound for the heaviest neutrino. An electron is ten million times heavier." alt="A horizontal logarithmic axis from 0.001 eV to 1 million eV. Markers: square root of the small mass-squared difference, 0.0086 eV; the novel's neutrino, 0.0477 eV, in orange; square root of the large mass-squared difference, 0.050 eV, labelled heaviest neutrino at least this; cosmology, sum of three below 0.12 eV; KATRIN upper limit 0.45 eV; electron 511 000 eV. A shaded band from about 0.01 to 0.1 eV marks where neutrino masses lie.">
+	<NeutrinoMasses />
+</Figure>
+
+### Astrophage's neutrino battery
+
+Now the novel's mechanism. Two protons inside the cell collide, and their kinetic energy turns into two neutrinos, which must be at least as much as the neutrinos' mass-energy, $2m_{\nu}c^{2}$. The novel sets each neutrino's mass-energy equal to one Petrova photon, 0.0477 eV (Chapter 7.3), so a collision must supply 0.0954 eV.
+
+How much do the protons have? At temperature $T$, particles have average kinetic energy $\tfrac{3}{2}kT$ (Chapter 6.1). At 96.415 °C, that is 0.0478 eV per proton, and two colliding protons bring
+
+$$
+2 \times \tfrac{3}{2}kT = 0.0955\ \text{eV} \approx 2m_{\nu}c^{2} = 0.0954\ \text{eV}.
+$$
+
+The match, which Chapter 7.3 pointed out, is the novel's design: Astrophage's temperature is the one at which two average protons have just the energy to make two neutrinos. Above it, extra heat becomes neutrinos; below it, stored neutrinos turn back into heat. It is an elegant piece of worldbuilding, and the numbers really are consistent with each other.
+
+<Figure caption="The novel's energy bookkeeping. Two protons at 96.415 °C each carry on average ³⁄₂kT = 0.0478 eV; together that matches the mass-energy of two neutrinos, 2 × 0.0477 eV. The real physics adds catches: in the collision only the energy of the protons' motion relative to each other is available, and the weak interaction would make such pairs vanishingly rarely." alt="Two red circles labelled proton approach each other from left and right with arrows, each labelled kinetic energy about 0.0478 eV. In the middle a starburst labelled collision. From it two small violet dots fly apart up-left and down-right, labelled neutrino, mass-energy 0.0477 eV each. A balance line underneath reads 2 times three halves kT equals 0.0955 eV, compared with 2 m nu c squared equals 0.0954 eV. A note says real catches: only relative motion counts, and the weak interaction makes this far too rare.">
+	<ProtonCollision />
+</Figure>
+
+But real physics raises several objections:
+
+- **Not all the energy is available.** When two particles collide, the energy that can be turned into new particles is only the energy of their motion **relative to each other**; the motion of their centre of mass has to continue. For two particles at the same temperature, that relative-motion energy averages $\tfrac{3}{2}kT$, not $3kT$: half what the novel needs. (Collisions far above average would still do it, because temperatures only fix the average.)
+- **Neutrinos come in pairs of neutrino and antineutrino.** The weak interaction keeps a count of leptons (the family of electrons, muons and neutrinos, with antiparticles counting negative), so a neutrino must be made with an antineutrino, as in beta decay. That fits a pair, if one of the two is an antineutrino.
+- **The weak interaction is far too weak.** At energies of hundredths of an eV, the chance of two colliding protons making neutrinos is unimaginably small; no known process could store energy this way at a useful rate.
+- **The neutrinos wouldn't fit.** Neutrinos, like electrons, obey the Pauli exclusion principle (Chapter 13.1): no two can share a state. Packing many into a small space forces most of them into high-energy states, just as electrons are forced into higher shells. Komorov's cell, in the novel, stores 1.5 MJ: that is $2 \times 10^{26}$ neutrinos at 0.0477 eV in a cell 10 µm across. Squeezed that tightly, each would need an energy of order 100 MeV, two billion times more than the novel assumes (Example 5).
+- **They couldn't be held.** A 0.05 eV neutrino's mean free path in ordinary matter is far, far longer than light-years. Only a fictional membrane that nothing can cross could keep one in, and nothing known could detect neutrinos of such low energy: real detectors need them to carry at least a few hundred thousand electronvolts, millions of times more.
+
+So the neutrino battery is the novel's central invention, and it is honestly labelled as one: the physicists in the story are as astonished as we would be. The best part is that the numbers around it are consistent: the energy per neutrino, the Petrova wavelength and the cell's temperature are all tied together correctly.
+
+## Formulas
+
+### Energy released in a decay
+
+The energy released is the mass lost, times $c^{2}$ (Chapter 9.1). For a free neutron,
+
+$$
+\boxed{Q = (m_{\text{n}} - m_{\text{p}} - m_{e})c^{2}}
+$$
+
+shared between the electron's and the antineutrino's kinetic energies (the proton's recoil takes very little).
+
+### Reaction rate and mean free path
+
+A target of $N_{\text{t}}$ particles in a beam of $\Phi$ particles per m² per second, each with cross-section $\sigma$, sees
+
+$$
+\boxed{R = N_{\text{t}}\Phi\sigma}
+$$
+
+reactions per second. For one particle crossing $n$ targets per m³: in a thin layer $dx$ the chance of interacting is $n\sigma\,dx$, so the survivors fall as $e^{-n\sigma x}$ (as for gamma rays in Chapter 13.3), with mean free path
+
+$$
+\boxed{\ell = \frac{1}{n\sigma}}, \qquad P_{\text{hit}} \approx \frac{x}{\ell}\ \ (x \ll \ell).
+$$
+
+### Neutrinos from the Sun
+
+Each helium-4 made releases $Q = 26.7$ MeV and two neutrinos. The Sun's luminosity $L$ therefore needs $L/Q$ helium nuclei per second, giving $2L/Q$ neutrinos per second, spread over a sphere of radius $d$:
+
+$$
+\boxed{\Phi = \frac{2L}{Q}\,\frac{1}{4\pi d^{2}}}
+$$
+
+(A small part of $Q$ is carried away by the neutrinos themselves, so this is slightly approximate.)
+
+### The novel's threshold
+
+$$
+2 \times \tfrac{3}{2}kT \geq 2m_{\nu}c^{2} \qquad\Rightarrow\qquad T = \frac{2m_{\nu}c^{2}}{3k}
+$$
+
+### Packing neutrinos
+
+By the exclusion principle, $N$ identical particles in volume $V$ need, roughly, a volume of order $\lambda^{3}$ each, where $\lambda = h/p$ is their wavelength (Chapter 7.4). So $\lambda \lesssim (V/N)^{1/3}$, and their momentum and (for nearly massless particles) energy must be at least
+
+$$
+p \gtrsim h\left(\frac{N}{V}\right)^{1/3}, \qquad E \approx pc \gtrsim hc\left(\frac{N}{V}\right)^{1/3}.
+$$
+
+This is an order-of-magnitude estimate; a careful count changes the number in front but not the conclusion.
+
+## Worked examples
+
+<Example n={1} title="The energy of a free neutron's decay">
+A free neutron decays with a half-life of about 10 minutes. Using $m_{\text{n}} = 1.674\,927\,50 \times 10^{-27}$ kg, $m_{\text{p}} = 1.672\,621\,93 \times 10^{-27}$ kg and $m_{e} = 9.109\,38 \times 10^{-31}$ kg, find $Q$ in MeV.
+
+$$
+\Delta m = (1.674\,927\,50 - 1.672\,621\,93 - 0.000\,910\,94) \times 10^{-27}\ \text{kg} = 1.394\,63 \times 10^{-30}\ \text{kg}
+$$
+
+$$
+Q = \Delta m\,c^{2} = 1.394\,63 \times 10^{-30}\ \text{kg} \times (2.997\,92 \times 10^{8}\ \text{m/s})^{2} = 1.2534 \times 10^{-13}\ \text{J} = 0.782\ \text{MeV}
+$$
+
+The electron gets anything from 0 to 0.782 MeV (300 keV on average), and the antineutrino the rest.
+</Example>
+
+<Example n={2} title="Counting the Sun's neutrinos">
+The Sun's luminosity is $3.828 \times 10^{26}$ W, and each helium-4 releases 26.7 MeV and two neutrinos. Find the neutrinos emitted per second and the flux at 1 au ($1.496 \times 10^{11}$ m).
+
+$$
+\frac{L}{Q} = \frac{3.828 \times 10^{26}\ \text{W}}{26.7 \times 1.602 \times 10^{-13}\ \text{J}} = 8.94 \times 10^{37}\ \text{s}^{-1} \qquad \frac{2L}{Q} = 1.79 \times 10^{38}\ \text{s}^{-1}
+$$
+
+$$
+\Phi = \frac{1.79 \times 10^{38}\ \text{s}^{-1}}{4\pi \times (1.496 \times 10^{11}\ \text{m})^{2}} = \frac{1.79 \times 10^{38}}{2.81 \times 10^{23}\ \text{m}^{2}}\ \text{s}^{-1} = 6.4 \times 10^{14}\ \text{m}^{-2}\text{s}^{-1} = 6.4 \times 10^{10}\ \text{cm}^{-2}\text{s}^{-1}
+$$
+
+The measured value is $6.5 \times 10^{10}$. Just from the Sun's brightness and $E = mc^{2}$, we can count the neutrinos passing through us.
+</Example>
+
+<Example n={3} title="Light-years of water">
+Using Cowan and Reines's cross-section, $6.3 \times 10^{-48}$ m² per proton, find the mean free path of a reactor antineutrino in water (its free protons are the two hydrogen nuclei in each molecule, 18.0 g/mol). Then estimate the chance that one interacts crossing the whole Earth (diameter $1.274 \times 10^{7}$ m, mean density 5513 kg/m³), treating every nucleon as a target with the same cross-section.
+
+$$
+n = \frac{1000\ \text{kg/m}^{3}}{0.018\,02\ \text{kg/mol}} \times 6.022 \times 10^{23}\ \text{mol}^{-1} \times 2 = 6.69 \times 10^{28}\ \text{m}^{-3}
+$$
+
+$$
+\ell = \frac{1}{n\sigma} = \frac{1}{6.69 \times 10^{28}\ \text{m}^{-3} \times 6.3 \times 10^{-48}\ \text{m}^{2}} = 2.4 \times 10^{18}\ \text{m} = 250\ \text{light-years}
+$$
+
+Through Earth, the targets per square metre are the column density divided by a nucleon's mass:
+
+$$
+\frac{5513\ \text{kg/m}^{3} \times 1.274 \times 10^{7}\ \text{m}}{1.661 \times 10^{-27}\ \text{kg}} = 4.2 \times 10^{37}\ \text{m}^{-2} \qquad P \approx 4.2 \times 10^{37} \times 6.3 \times 10^{-48} = 2.7 \times 10^{-10}
+$$
+
+About one in four billion. The Earth is almost perfectly transparent to neutrinos.
+</Example>
+
+<Example n={4} title="The temperature of Astrophage" book>
+The novel makes a neutrino's mass-energy equal to a Petrova photon's, $hc/\lambda$ with $\lambda = 25.984$ µm. Find it, and find the temperature at which two protons with the average kinetic energy $\tfrac{3}{2}kT$ each have exactly enough to make two such neutrinos. What is the neutrino's mass in kg?
+
+$$
+m_{\nu}c^{2} = \frac{hc}{\lambda} = \frac{1239.84\ \text{eV·nm}}{25\,984\ \text{nm}} = 0.047\,716\ \text{eV}
+$$
+
+$$
+T = \frac{2m_{\nu}c^{2}}{3k} = \frac{2 \times 0.047\,716 \times 1.602\,18 \times 10^{-19}\ \text{J}}{3 \times 1.380\,65 \times 10^{-23}\ \text{J/K}} = 369.2\ \text{K} = 96.0\ °\text{C}
+$$
+
+The novel's 96.415 °C (369.565 K) is within 0.11% of this. And the mass:
+
+$$
+m_{\nu} = \frac{0.047\,716 \times 1.602 \times 10^{-19}\ \text{J}}{(2.998 \times 10^{8}\ \text{m/s})^{2}} = 8.5 \times 10^{-38}\ \text{kg},
+$$
+
+$1.07 \times 10^{7}$ times lighter than an electron.
+</Example>
+
+<Example n={5} title="Could a cell hold that many neutrinos?" book>
+In the novel, Komorov's single Astrophage cell, about 10 µm across, absorbs 1.5 MJ and gains 17 ng. Check the mass gain with $E = mc^{2}$. If the energy is stored as neutrinos of 0.0477 eV each, how many is that, and how densely packed? Use the packing estimate $E \gtrsim hc\,(N/V)^{1/3}$ to find the energy each would really need.
+
+$$
+\Delta m = \frac{1.5 \times 10^{6}\ \text{J}}{(3.00 \times 10^{8}\ \text{m/s})^{2}} = 1.7 \times 10^{-11}\ \text{kg} = 17\ \text{ng}
+$$
+
+$$
+N = \frac{1.5 \times 10^{6}\ \text{J}}{0.0477 \times 1.602 \times 10^{-19}\ \text{J}} = 2.0 \times 10^{26}, \qquad V = \tfrac{4}{3}\pi(5 \times 10^{-6}\ \text{m})^{3} = 5.2 \times 10^{-16}\ \text{m}^{3}
+$$
+
+$$
+\frac{N}{V} = 3.7 \times 10^{41}\ \text{m}^{-3}, \qquad \left(\frac{N}{V}\right)^{1/3} = 7.2 \times 10^{13}\ \text{m}^{-1}
+$$
+
+$$
+E \gtrsim hc\left(\frac{N}{V}\right)^{1/3} = 1.986 \times 10^{-25}\ \text{J·m} \times 7.2 \times 10^{13}\ \text{m}^{-1} = 1.4 \times 10^{-11}\ \text{J} = 90\ \text{MeV}
+$$
+
+The mass gain obeys $E = mc^{2}$ perfectly. But the exclusion principle says neutrinos packed this densely would need energies of about 90 MeV each, two billion times the novel's 0.0477 eV. Storing energy as low-energy neutrinos is not just unknown physics; it fights a basic rule of quantum mechanics.
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** Beta decay's continuous spectrum, Pauli's 1930 proposal, Fermi's theory, Cowan and Reines's 1956 detection, the solar neutrino flux of $6.5 \times 10^{10}$ per cm² per second, Super-Kamiokande, SNO, IceCube, the 25 neutrinos from supernova 1987A, oscillations and the 2015 Nobel Prize, and the mass limits (at least one neutrino above 0.05 eV; KATRIN below 0.45 eV; a cosmological sum below about 0.12 eV) are all real.
+
+**Weir's inventions.** Astrophage storing energy as neutrinos, protons colliding to make neutrino pairs at a threshold set by the neutrino's mass, the super-cross-sectional membrane that traps them, the neutrino burst seen by IceCube when a cell dies, and the neutrino's mass-energy equalling a Petrova photon's are the novel's (from reader sources). The match between that threshold and 96.415 °C follows from the novel's own figures, as Example 4 shows.
+
+**How realistic are the numbers?** The novel's neutrino mass, 0.0477 eV, is allowed by every measurement, and is strikingly close to the 0.050 eV that oscillations require of at least one neutrino. The bookkeeping (energy, $E = mc^{2}$, temperature) is consistent. The mechanism is not: the weak interaction is far too weak to make neutrinos in thermal collisions, only the relative motion of colliding protons counts, the exclusion principle forbids packing low-energy neutrinos so densely, no material can hold them, and no detector could see neutrinos of a few hundredths of an eV. As the novel's own scientists say, it is physics nobody knew.
+</RealVsBook>
+
+## Interactive simulation
+
+<BetaDecayLab />
+
+Things to try: record decays of tritium and watch the spread of electron energies build up; the red line shows where every electron would be if no neutrino were carried away. Compare the average with the maximum for tritium, carbon-14 and the free neutron: in each case the neutrino takes the larger share on average.
+
+## Practice set
+
+<Problem n={1} level="easy">
+In the beta decay of carbon-14, $Q = 156$ keV and the average electron energy is 49 keV. What is the average energy carried by the antineutrino (ignoring the nucleus's tiny recoil)? What fraction of $Q$ is that?
+
+<Solution>
+$156 - 49 = 107$ keV, which is $107/156 = 69\%$ of $Q$.
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy">
+How many solar neutrinos cross a 1.0 m² window each second? A whole person (about 0.5 m² seen from the Sun)?
+
+<Solution>
+$6.5 \times 10^{10} \times 10^{4} = 6.5 \times 10^{14}$ per second for 1 m², and about $3 \times 10^{14}$ for a person.
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy">
+Neutrinos from supernova 1987A travelled 168 000 light-years. Light and neutrinos left the star's surface at nearly the same time, but the light was delayed inside the star by about 2.5 hours. How long did the journey take?
+
+<Solution>
+168 000 years, for both (almost exactly, since neutrinos move at very nearly $c$). The 2.5 hours is a tiny head start of about $1.7 \times 10^{-9}$ of the trip.
+</Solution>
+</Problem>
+
+<Problem n={4} level="easy">
+Using the mass-squared difference $2.51 \times 10^{-3}\ \text{eV}^{2}$ and the smaller one, $7.4 \times 10^{-5}\ \text{eV}^{2}$, find the minimum mass-energies they imply.
+
+<Solution>
+$\sqrt{2.51 \times 10^{-3}} = 0.050$ eV and $\sqrt{7.4 \times 10^{-5}} = 0.0086$ eV.
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium">
+Cowan and Reines's 200 litres of water held $1.34 \times 10^{28}$ free protons in a flux of $5 \times 10^{13}$ per cm² per second. With $\sigma = 6.3 \times 10^{-44}$ cm², what rate does $R = N_{\text{t}}\Phi\sigma$ give, per hour? They saw about 3 per hour; suggest why.
+
+<Solution>
+$R = 1.34 \times 10^{28} \times 5 \times 10^{13} \times 6.3 \times 10^{-44} = 0.042$ per second = 150 per hour. They saw about 3 per hour because only antineutrinos above 1.8 MeV can trigger the reaction (a fraction of the total flux), and their detector caught only a small fraction of the events that did happen.
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium">
+How many neutrinos does the Sun emit in a year? What mass-energy per year leaves the Sun as neutrinos if they carry on average about 2% of the 26.7 MeV?
+
+<Solution>
+$1.79 \times 10^{38} \times 3.156 \times 10^{7} = 5.6 \times 10^{45}$ per year. Energy: 2% of $L$ is $7.7 \times 10^{24}$ W, or $2.4 \times 10^{32}$ J per year, a mass-energy of $2.7 \times 10^{15}$ kg per year.
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium" book>
+Show that the novel's neutrino ($m_{\nu}c^{2} = 0.0477$ eV) obeys the KATRIN and cosmology limits. If all three neutrinos had this mass, what would their sum be?
+
+<Solution>
+0.0477 eV is below KATRIN's 0.45 eV. Three of them would sum to 0.143 eV, a little above the cosmological limit of about 0.12 eV, so they can't all be this heavy, but one or two can.
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium" book>
+Dimitri's Astrophage test in the novel released $1.8 \times 10^{9}$ J from about 20 µg. How many 0.0477 eV neutrinos is that? How many nucleons are in 20 µg ($1\ \text{u} = 1.661 \times 10^{-27}$ kg)? How many neutrinos per nucleon?
+
+<Solution>
+$N_{\nu} = 1.8 \times 10^{9}/(0.0477 \times 1.602 \times 10^{-19}) = 2.4 \times 10^{29}$. Nucleons: $2.0 \times 10^{-8}/1.661 \times 10^{-27} = 1.2 \times 10^{19}$. About $2 \times 10^{10}$ neutrinos for every nucleon of fuel.
+</Solution>
+</Problem>
+
+<Problem n={9} level="medium">
+For two particles of mass $m$ moving with velocities $\vec{v}_{1}$ and $\vec{v}_{2}$, the kinetic energy of the relative motion is $\tfrac{1}{4}m|\vec{v}_{1} - \vec{v}_{2}|^{2}$. If the velocities are random and independent, the average of $|\vec{v}_{1} - \vec{v}_{2}|^{2}$ is $\overline{v_{1}^{2}} + \overline{v_{2}^{2}}$. Show that the average relative kinetic energy of two protons at temperature $T$ is $\tfrac{3}{2}kT$, not $3kT$.
+
+<Solution>
+$\tfrac{1}{4}m(\overline{v_{1}^{2}} + \overline{v_{2}^{2}}) = \tfrac{1}{2}\left(\tfrac{1}{2}m\overline{v_{1}^{2}} + \tfrac{1}{2}m\overline{v_{2}^{2}}\right) = \tfrac{1}{2}\left(\tfrac{3}{2}kT + \tfrac{3}{2}kT\right) = \tfrac{3}{2}kT$. Half the protons' kinetic energy belongs to the motion of their centre of mass and can't be converted. To make two 0.0477 eV neutrinos from average collisions, the cell would need $T = 2 \times 369$ K, about 465 °C.
+</Solution>
+</Problem>
+
+<Problem n={10} level="challenging">
+Estimate how many solar neutrinos interact in your body in a lifetime. Take 70 kg of water (all its nucleons as targets), a flux of $6.5 \times 10^{10}$ per cm² per second through a 0.5 m² cross-section, 80 years, and a cross-section of $10^{-49}$ m² per nucleon (lower than Cowan and Reines's, because solar neutrinos have less energy).
+
+<Solution>
+Nucleons: $70/1.661 \times 10^{-27} = 4.2 \times 10^{28}$. The flux through the body is $6.5 \times 10^{14}$ per m² per s, and every neutrino crossing the body passes all of them, so $R = N\Phi\sigma = 4.2 \times 10^{28} \times 6.5 \times 10^{14} \times 10^{-49} = 2.7 \times 10^{-6}$ per second, or $2.7 \times 10^{-6}\ \text{s}^{-1} \times 2.5 \times 10^{9}\ \text{s} \approx 7000$ in 80 years. A few thousand in a lifetime, out of about $6.5 \times 10^{14} \times 0.5 \times 2.5 \times 10^{9} = 8 \times 10^{23}$ that pass through. (The answer depends strongly on the cross-section assumed.)
+</Solution>
+</Problem>
+
+<Problem n={11} level="challenging" book>
+If Astrophage's membrane weren't super-cross-sectional, how far could a stored neutrino travel through ordinary matter (water) before interacting? Use a cross-section of $10^{-56}$ m² per nucleon for a 0.05 eV neutrino (a generous guess; real ones would be smaller still).
+
+<Solution>
+$n = 1000/1.661 \times 10^{-27} = 6.0 \times 10^{29}$ nucleons per m³. $\ell = 1/(6.0 \times 10^{29} \times 10^{-56}) = 1.7 \times 10^{26}$ m, about 18 billion light-years, farther than light has travelled since the Big Bang (13.8 billion years). A 10 µm membrane would hold it for no time at all.
+</Solution>
+</Problem>
+
+<Problem n={12} level="challenging">
+Show that the solar neutrino flux at a planet depends only on the star's luminosity and distance, and find the flux at Adrian (0.552 au from Tau Ceti, luminosity about 0.52 $L_{\odot}$).
+
+<Solution>
+$\Phi = 2L/(4\pi Q d^{2})$ involves only $L$ and $d$. Scaling from Earth: $6.4 \times 10^{10} \times 0.52/0.552^{2} = 1.1 \times 10^{11}$ per cm² per s, about 1.7 times Earth's.
+</Solution>
+</Problem>
+
+## Summary
+
+- Electrons from beta decay come out with a spread of energies up to $Q$, not all with $Q$. Pauli (1930) explained the missing energy and momentum with an invisible neutral particle, the neutrino; a free neutron decays as $\text{n} \to \text{p} + e^{-} + \bar{\nu}$ with $Q = 0.782$ MeV.
+- Neutrinos feel only the weak interaction (and gravity). Their cross-sections are tiny, about $6 \times 10^{-44}$ cm² for MeV antineutrinos on protons, so their mean free path $1/(n\sigma)$ in water is hundreds of light-years. Cowan and Reines first caught them in 1956.
+- The Sun makes two neutrinos per helium nucleus: about $6.5 \times 10^{10}$ cross each square centimetre at Earth every second, day and night.
+- Huge underground detectors (Homestake, Super-Kamiokande, SNO, IceCube) catch a few. Neutrinos change kind as they travel, which means they have mass: at least one above 0.050 eV, all well below 1 eV. Supernova 1987A's neutrinos arrived hours before its light.
+- The novel's numbers are consistent: a 0.0477 eV neutrino is allowed, and two protons at 96.415 °C carry on average just $2m_{\nu}c^{2}$. The mechanism is fiction: only relative motion counts, the weak interaction is far too weak, the exclusion principle forbids such dense packing, and nothing could hold or detect such neutrinos.
+
+**Formulas from this chapter**
+
+$$
+Q = (m_{\text{n}} - m_{\text{p}} - m_{e})c^{2} \qquad \ell = \frac{1}{n\sigma} \qquad R = N_{\text{t}}\Phi\sigma \qquad \Phi_{\odot} = \frac{2L}{Q}\,\frac{1}{4\pi d^{2}} \qquad E \gtrsim hc\left(\frac{N}{V}\right)^{1/3}
+$$
+
+## Sources
+
+- Pauli's 1930 proposal, Fermi's name and 1934 theory, Cowan and Reines's 1956 detection, three flavours, the solar flux of about $6.5 \times 10^{10}$ per cm² per second, the 2015 Nobel Prize, the mass-squared differences ($7.4 \times 10^{-5}$ and $2.51 \times 10^{-3}$ eV²; at least one mass above about 0.05 eV), KATRIN's 0.45 eV and the cosmological limit of 0.12 eV: Wikipedia, ["Neutrino"](https://en.wikipedia.org/wiki/Neutrino). KATRIN: KIT press release, ["Neutrinos weigh less than 0.45 electronvolts"](https://www.kit.edu/kit/english/pi_2025_029_astroparticle-physics-neutrinos-weigh-less-than-0-45-electronvolts.php).
+- Cowan–Reines details (Savannah River, $5 \times 10^{13}$ per cm² per second, 200 litres of water with cadmium chloride, about three events per hour, measured cross-section $6.3 \times 10^{-44}$ cm²): Wikipedia, ["Cowan–Reines neutrino experiment"](https://en.wikipedia.org/wiki/Cowan%E2%80%93Reines_neutrino_experiment).
+- Beta spectra: carbon-14 ($Q$ 156 keV, mean 49 keV) from Wikipedia, ["Carbon-14"](https://en.wikipedia.org/wiki/Carbon-14); tritium (18.6 keV, mean 5.7 keV) from ["Tritium"](https://en.wikipedia.org/wiki/Tritium). Neutron, proton and electron masses: NIST, [CODATA 2022](https://physics.nist.gov/cuu/Constants/).
+- Solar neutrinos: Homestake (from 1968, a few conversions a day, a deficit), the solar neutrino problem and SNO's 2002 result: Wikipedia, ["Solar neutrino"](https://en.wikipedia.org/wiki/Solar_neutrino). The Sun's luminosity and 26.7 MeV per helium-4: as in [Chapter 9.1](/part-9/mass-energy/).
+- Super-Kamiokande (50 220 tonnes of water, 1000 m underground, 11 146 photomultipliers, from 1996; the 1998 atmospheric-neutrino result): Wikipedia, ["Super-Kamiokande"](https://en.wikipedia.org/wiki/Super-Kamiokande). IceCube (about a cubic kilometre, 1450 to 2450 m deep, 86 strings, completed 2010): Wikipedia, ["IceCube Neutrino Observatory"](https://en.wikipedia.org/wiki/IceCube_Neutrino_Observatory). Supernova 1987A (25 neutrinos: Kamiokande II 12, IMB 8, Baksan 5; 168 000 light-years; two to three hours before the light): Wikipedia, ["SN 1987A"](https://en.wikipedia.org/wiki/SN_1987A).
+- The weak interaction's tiny range (about $10^{-17}$ to $10^{-16}$ m): Wikipedia, ["Weak interaction"](https://en.wikipedia.org/wiki/Weak_interaction). The Thomson cross-section, $6.652 \times 10^{-29}$ m²: NIST, [CODATA](https://physics.nist.gov/cgi-bin/cuu/Value?sigmae).
+- Earth's mean density (5513 kg/m³) and radius: NASA, [Earth Fact Sheet](https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html). Adrian at 0.552 au and Tau Ceti at 0.52 $L_{\odot}$: as in [Chapter 8.3](/part-8/solar-constant/).
+- The novel's neutrino mechanism (Lokken; the burst at IceCube; colliding protons making two neutrinos; the threshold set by the neutrino mass and 96.415 °C; super cross-sectionality; Komorov's cell absorbing 1.5 MJ and gaining 17 ng): Readify's reader wiki, ["Neutrino energy storage"](https://readifyai.com/en/books/Project%20Hail%20Mary/wiki/Neutrino%20energy%20storage) and ["Super cross-sectionality"](https://readifyai.com/en/books/Project%20Hail%20Mary/wiki/Super%20cross-sectionality). Reader sources, so approximate. The Petrova wavelength, 96.415 °C and Dimitri's test: as in [Chapter 7.3](/part-7/photons/) and [Chapter 5.5](/part-5/momentum/).

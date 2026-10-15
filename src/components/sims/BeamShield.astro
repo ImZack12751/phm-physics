@@ -1,0 +1,94 @@
+---
+// Simulation: interstellar gas as a beam. Speed β (slider or presets), gas density n (0.05, 0.3, 1 per cm³) and water
+// shield thickness (0–20 m). Flux Φ = γnv per ship time, proton energy (γ − 1)m_p c², dose rate to unshielded tissue
+// Φ × 1.981 MeV cm²/g (minimum ionization; a lower limit), power per m² Φ·K and the radiating temperature at
+// emissivity 0.9. Shield: primaries surviving e^(−Σ/83.3 g/cm²) (secondaries ignored, so the shielded dose is optimistic).
+// Two log bars compare dose rates with lethal-in-a-minute and deep-space cosmic rays. Static: updates on input.
+---
+
+<div
+	class="sim bsh"
+	data-title="Interstellar beam and shield"
+	data-description="See what the thin interstellar gas does to a ship moving near light speed. Set the speed (from 0.01c to 0.999c, or pick the Hail Mary's 0.909c coast with the novel's fuel or 0.9952c at the flip of a 1.5 g flip-and-burn), the gas density (0.05, 0.3 or 1 atom per cubic centimetre) and a water shield over the nose (0 to 20 m). The readout gives the Lorentz factor, each proton's energy (γ − 1)m_p c², the flux γnv, the dose rate to unshielded tissue at the nose (a lower limit, using 1.98 MeV per g/cm²), the time to a lethal 8 Gy, the power per square metre and the temperature the nose would reach radiating it away, and the fraction of primary protons that pass the shield, e^(−Σ/83.3 g/cm²). Bars compare the dose rates with a lethal dose in one minute and with cosmic rays in deep space. Secondary particles from the shield are ignored."
+>
+	<p class="sim-title">Simulation: the interstellar beam</p>
+	<p class="sim-help">At low speed the gas is harmless. Near light speed it becomes a beam of GeV protons hitting the nose.</p>
+	<div class="sim-controls">
+		<label>Preset <select class="bsh-pre">
+			<option value="">custom</option>
+			<option value="0.1">0.1c</option>
+			<option value="0.5">0.5c</option>
+			<option value="0.909091" selected>0.909c (novel's fuel, coasting)</option>
+			<option value="0.9952">0.9952c (1.5 g flip-and-burn, at the flip)</option>
+		</select></label>
+		<label>Speed <input type="range" class="bsh-b" min="0.01" max="0.999" step="any" value="0.909" /> <output class="bsh-bv"></output></label>
+		<label>Gas <select class="bsh-n">
+			<option value="0.05">Local Bubble, 0.05 per cm³</option>
+			<option value="0.3" selected>Local Interstellar Cloud, 0.3 per cm³</option>
+			<option value="1">denser cloud, 1 per cm³</option>
+		</select></label>
+		<label>Water shield <input type="range" class="bsh-x" min="0" max="20" step="0.1" value="0" /> <output class="bsh-xv"></output></label>
+	</div>
+	<svg class="dg bsh-svg" viewBox="0 0 600 170" role="img" aria-label="Dose rate bars on a logarithmic scale, unshielded and behind the shield"></svg>
+	<div class="readout bsh-out" aria-live="polite"></div>
+</div>
+
+<script>
+	document.querySelectorAll<HTMLElement>('.sim.bsh').forEach((root) => {
+		const q = <T extends Element>(s: string) => root.querySelector<T>(s)!;
+		const svg = q<SVGSVGElement>('.bsh-svg'), out = q<HTMLElement>('.bsh-out');
+		const Pre = q<HTMLSelectElement>('.bsh-pre'), Bs = q<HTMLInputElement>('.bsh-b'), Ns = q<HTMLSelectElement>('.bsh-n'), Xs = q<HTMLInputElement>('.bsh-x');
+		const NS = 'http://www.w3.org/2000/svg';
+		const el = (tag: string, at: Record<string, string | number>, text?: string) => {
+			const e = document.createElementNS(NS, tag);
+			Object.entries(at).forEach(([k, v]) => e.setAttribute(k, String(v)));
+			if (text) e.textContent = text;
+			svg.append(e);
+			return e;
+		};
+		const c = 299792458, MP = 938.272, dEdx = 1.981, MeVgToGy = 1.602176634e-10, MeV = 1.602176634e-13, SIG = 5.670374e-8, LINT = 83.3;
+		const L = 150, R = 580, lo = -10, hi = 2;
+		const X = (v: number) => L + ((Math.log10(Math.max(v, 10 ** lo)) - lo) / (hi - lo)) * (R - L);
+		for (let e = lo; e <= hi; e += 2) {
+			el('line', { x1: X(10 ** e), y1: 20, x2: X(10 ** e), y2: 110, class: 's-grid w1' });
+			el('text', { x: X(10 ** e), y: 126, class: 't-mid t-sm f-muted' }, `10${e < 0 ? '⁻' : ''}${String(Math.abs(e)).split('').map((d) => '⁰¹²³⁴⁵⁶⁷⁸⁹'[+d]).join('')}`);
+		}
+		el('text', { x: (L + R) / 2, y: 144, class: 't-mid t-sm' }, 'dose rate at the nose (Gy per second), logarithmic');
+		el('line', { x1: X(8 / 60), y1: 14, x2: X(8 / 60), y2: 112, class: 's-rose w2 dash' });
+		el('text', { x: X(8 / 60), y: 10, class: 't-mid t-sm f-rose' }, 'lethal in 1 minute');
+		el('line', { x1: X(1.84e-3 / 86400), y1: 14, x2: X(1.84e-3 / 86400), y2: 112, class: 's-green w2 dash' });
+		el('text', { x: X(1.84e-3 / 86400), y: 162, class: 't-mid t-sm f-green' }, 'cosmic rays in deep space');
+		el('text', { x: L - 8, y: 48, class: 't-end t-sm' }, 'unshielded');
+		el('text', { x: L - 8, y: 90, class: 't-end t-sm' }, 'behind shield');
+		const b1 = el('rect', { x: L, y: 32, height: 24, class: 'f-amber' });
+		const b2 = el('rect', { x: L, y: 74, height: 24, class: 'f-sky' });
+		const fmt = (x: number, p = 3) => (x === 0 ? '0' : Math.abs(x) >= 1e4 || Math.abs(x) < 1e-2 ? x.toExponential(p - 1) : x.toPrecision(p));
+		function draw() {
+			const b = +Bs.value, n = +Ns.value * 1e6, xw = +Xs.value;
+			q('.bsh-bv').textContent = `${b.toFixed(3)}c`;
+			q('.bsh-xv').textContent = `${xw.toFixed(1)} m`;
+			const g = 1 / Math.sqrt(1 - b * b), K = (g - 1) * MP, F = g * n * b * c; // m⁻² s⁻¹
+			const D = F * 1e-4 * dEdx * MeVgToGy; // Gy/s
+			const P = F * K * MeV; // W/m²
+			const T = (P / (0.9 * SIG)) ** 0.25;
+			const sigma = xw * 100; // g/cm² of water
+			const surv = Math.exp(-sigma / LINT);
+			const D2 = D * surv;
+			b1.setAttribute('width', String(Math.max(0, X(D) - L)));
+			b2.setAttribute('width', String(Math.max(0, X(D2) - L)));
+			const tl = 8 / D;
+			const tStr = tl < 60 ? `${fmt(tl, 2)} s` : tl < 3600 ? `${fmt(tl / 60, 2)} min` : tl < 86400 * 2 ? `${fmt(tl / 3600, 2)} h` : tl < 86400 * 365.25 * 2 ? `${fmt(tl / 86400, 2)} days` : `${fmt(tl / (86400 * 365.25), 2)} years`;
+			out.innerHTML =
+				`<span class="k">γ</span> = ${g.toPrecision(4)} &nbsp; <span class="k">each proton</span> ${K >= 1000 ? (K / 1000).toPrecision(3) + ' GeV' : K.toPrecision(3) + ' MeV'} &nbsp; <span class="k">flux γnv</span> = ${fmt(F * 1e-4)} per cm² per s<br>` +
+				`<span class="k">unshielded dose</span> ≥ ${fmt(D)} Gy/s (lethal 8 Gy in ${tStr}) &nbsp; <span class="k">heating</span> ${fmt(P)} W/m² = ${fmt(P / 1361, 2)} × sunlight at Earth, nose radiating at ${T.toFixed(0)} K<br>` +
+				`<span class="k">shield</span>: ${xw.toFixed(1)} m of water = ${sigma.toFixed(0)} g/cm² = ${(sigma / LINT).toFixed(1)} interaction lengths; primaries passing ${surv < 1e-3 ? surv.toExponential(1) : surv.toPrecision(2)}, dose behind it ≳ ${fmt(D2)} Gy/s (secondaries ignored)`;
+		}
+		Pre.addEventListener('change', () => { if (Pre.value) { Bs.value = Pre.value; } draw(); });
+		Pre.addEventListener('input', () => { if (Pre.value) { Bs.value = Pre.value; } draw(); });
+		Bs.addEventListener('input', () => { Pre.value = ''; draw(); });
+		Ns.addEventListener('change', draw); Ns.addEventListener('input', draw);
+		Xs.addEventListener('input', draw);
+		Bs.value = Pre.value;
+		draw();
+	});
+</script>

@@ -1,0 +1,32 @@
+---
+// Hydrogen-1, deuterium, tritium: nucleus (protons rose, neutrons muted) with one electron on a dashed orbit.
+// Abundances from NIST (99.9885% / 0.0115%); tritium half-life 12.32 yr.
+const atoms = [
+	{ x: 100, name: 'hydrogen-1', sub: '1 proton', ab: '99.988% of hydrogen', note: 'stable', n: 0 },
+	{ x: 300, name: 'hydrogen-2 (deuterium)', sub: '1 proton, 1 neutron', ab: '0.012% (1 in 8700)', note: 'stable', n: 1 },
+	{ x: 500, name: 'hydrogen-3 (tritium)', sub: '1 proton, 2 neutrons', ab: 'traces only', note: 'radioactive: half-life 12.3 yr', n: 2 },
+];
+const Y = 105, R = 62;
+const nucleons = (x: number, n: number) => {
+	const pts = n === 0 ? [[0, 0, 1]] : n === 1 ? [[-7, 0, 1], [7, 0, 0]] : [[-7, 4, 1], [7, 4, 0], [0, -8, 0]];
+	return pts.map(([dx, dy, p]) => ({ x: x + dx, y: Y + dy, p: p === 1 }));
+};
+---
+
+<svg class="dg" viewBox="0 0 600 250" xmlns="http://www.w3.org/2000/svg">
+	{atoms.map((a, i) => (
+		<>
+			<circle cx={a.x} cy={Y} r={R} class="s-sky w1 dash" />
+			<circle cx={a.x + R * Math.cos(0.7)} cy={Y - R * Math.sin(0.7)} r="5" class="f-sky" />
+			{nucleons(a.x, a.n).map((q) => <circle cx={q.x} cy={q.y} r="8" class={q.p ? 'f-rose' : 'f-muted'} />)}
+			<text x={a.x} y={Y + R + 24} class="t-mid t-sm t-b">{a.name}</text>
+			<text x={a.x} y={Y + R + 40} class="t-mid t-sm">{a.sub}</text>
+			<text x={a.x} y={Y + R + 56} class="t-mid t-sm f-muted">{a.ab}</text>
+			<text x={a.x} y={Y + R + 72} class={i === 2 ? 't-mid t-sm f-rose' : 't-mid t-sm f-green'}>{a.note}</text>
+		</>
+	))}
+	<circle cx="350" cy="18" r="5" class="f-rose" /><text x="360" y="22" class="t-sm">proton</text>
+	<circle cx="430" cy="18" r="5" class="f-muted" /><text x="440" y="22" class="t-sm">neutron</text>
+	<circle cx="515" cy="18" r="4" class="f-sky" /><text x="525" y="22" class="t-sm">electron</text>
+	<text x="20" y="22" class="t-sm f-muted">nuclei drawn hugely enlarged</text>
+</svg>

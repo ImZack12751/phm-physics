@@ -179,11 +179,11 @@ export const parts = [
 		id: 'part-13', icon: 'ν', dir: 'part-13', code: '13', label: 'Part 13 · Atoms, radiation and particles',
 		blurb: 'Atoms, radiation in deep space and the ghostly neutrinos.',
 		chapters: [
-			{ slug: 'atomic-structure', title: 'Atomic structure', prereqs: [], status: 'planned' },
-			{ slug: 'isotopes', title: 'Isotopes', prereqs: [], status: 'planned' },
-			{ slug: 'ionizing-radiation', title: 'Ionizing radiation', prereqs: [], status: 'planned' },
-			{ slug: 'cosmic-rays-shielding', title: 'Cosmic rays and shielding', prereqs: [], status: 'planned' },
-			{ slug: 'neutrinos', title: 'Neutrinos', prereqs: [], status: 'planned' },
+			{ slug: 'atomic-structure', title: 'Atomic structure', prereqs: ['spectroscopy', 'photons', 'photon-propulsion', 'mass-energy', 'gas-laws', 'centripetal-acceleration'], status: 'review' },
+			{ slug: 'isotopes', title: 'Isotopes', prereqs: ['atomic-structure', 'mass-energy', 'exponentials-logarithms', 'integrals', 'gas-laws', 'derivatives'], status: 'review' },
+			{ slug: 'ionizing-radiation', title: 'Ionizing radiation', prereqs: ['isotopes', 'photons', 'specific-latent-heat', 'em-spectrum', 'exponentials-logarithms', 'ratios-proportionality'], status: 'review' },
+			{ slug: 'cosmic-rays-shielding', title: 'Cosmic rays and shielding', prereqs: ['ionizing-radiation', 'pressure', 'lorentz-factor', 'length-contraction', 'ship-time-earth-time', 'power'], status: 'review' },
+			{ slug: 'neutrinos', title: 'Neutrinos', prereqs: ['isotopes', 'conservation-laws', 'momentum', 'lorentz-factor', 'solar-constant', 'temperature-heat'], status: 'review' },
 		],
 	},
 	{

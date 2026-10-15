@@ -1,0 +1,384 @@
+---
+title: Cosmic rays and shielding
+description: Fast particles from space, discovered by Hess in 1912; shielding measured as mass per area (column density) and the nuclear interaction length; Earth's air as a 10 m water shield, air showers and muons; why Erid's 29-atmosphere sky is a far better one; radiation in deep space; and the beam of interstellar gas that hits a ship near light speed, with γ from relativity, which is why the Hail Mary needs its shield.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import AirShower from '../../../components/diagrams/part-13/AirShower.astro';
+import AirColumns from '../../../components/diagrams/part-13/AirColumns.astro';
+import GasBeam from '../../../components/diagrams/part-13/GasBeam.astro';
+import BeamShield from '../../../components/sims/BeamShield.astro';
+
+## The scene
+
+Grace has worked out what killed Rocky's crew (Chapter 13.3): radiation. Now the puzzle is why a spacefaring species had never heard of it. Erid, Rocky explains, has a crushing, dense atmosphere, and Grace concludes that it must also have a strong magnetic field. Between them they would have shielded the Eridians from the radiation of space so completely that they never knew it existed. The *Blip-A* carried no shielding, and its crew paid for it. Only Rocky, working beside the fuel tanks full of Astrophage, was protected.
+
+The *Hail Mary* was designed by people who knew better. In the novel, its hull has a thin layer of Astrophage slurry built in as a radiation shield, and Grace thinks hard about what the ship's nose will meet at its top speed: space is not quite empty, and at nearly the speed of light even a little hydrogen becomes a weapon.
+
+This chapter is about the radiation of space, mostly fast atomic nuclei called cosmic rays, and about how to keep it out.
+
+## Prerequisites
+
+<Prereqs notes={{ 'ionizing-radiation': 'doses in grays and sieverts, exponential attenuation and what doses do', pressure: 'the weight of the sky, P = weight per area', 'lorentz-factor': 'γ and kinetic energy (γ − 1)mc²', 'length-contraction': 'distances along the motion shrink by γ', 'ship-time-earth-time': 'the Hail Mary’s top speeds, 0.909c and 0.995c', power: 'power as energy per second' }} />
+
+## The concept
+
+### Rays from space
+
+In 1912 Victor Hess took an electrometer up in a balloon. Air conducts electricity very slightly because something keeps ionizing it, and everyone assumed the cause was radioactivity in the ground, which should fade with height. Instead, at 5300 m, the ionization was twice as strong as on the ground. Something was coming in from above. These <Term id="cosmic-ray">cosmic rays</Term> won Hess the 1936 Nobel Prize.
+
+They are not rays but particles: about 99% bare atomic nuclei and 1% electrons. Of the nuclei, about 90% are protons, 9% helium nuclei and 1% heavier nuclei, stripped of their electrons and moving at nearly the speed of light. Their energies are typically hundreds of MeV to many GeV, far more than anything from radioactive decay, and the rarest reach $3 \times 10^{20}$ eV, about 50 joules in a single nucleus. Most are thought to be accelerated by the shock waves of exploding stars, and they fill the galaxy.
+
+Above the atmosphere, about one cosmic ray with more than 1 GeV crosses each square centimetre every second. That is what drives the 1.84 mSv per day Curiosity measured on its way to Mars (Chapter 13.3).
+
+### Shielding is measured in mass per area
+
+What decides how well a layer of material shields you? Chapter 13.3 found that for gamma rays it is mainly the mass of material per unit area in the way. The same is true for cosmic rays. This <Term id="column-density">column density</Term> is written $\Sigma$ and usually given in g/cm²:
+
+$$
+\Sigma = \rho x.
+$$
+
+A metre of water is 100 g/cm²; a centimetre of lead 11.35 g/cm².
+
+A fast proton crossing matter loses about 2 MeV per g/cm² in ionization (the minimum, for particles near the speed of light), so a 1 GeV proton could in principle cross hundreds of g/cm². But long before that it usually hits a nucleus head-on and smashes it. The average column density a fast proton crosses before such a collision is the <Term id="interaction-length">nuclear interaction length</Term> $\lambda_{\text{int}}$: 83 g/cm² of water, 90 of air, 107 of aluminium, 200 of lead. The fraction of fast protons getting through a column $\Sigma$ untouched falls exponentially, just as photons do:
+
+$$
+\frac{N}{N_{0}} = e^{-\Sigma/\lambda_{\text{int}}}.
+$$
+
+But a collision doesn't end the story. The smashed nucleus sprays out a shower of secondary particles, many of them also fast and ionizing. That is why a thin shield can make things worse: it converts one cosmic ray into several.
+
+### Earth's air is a 10-metre water shield
+
+Our atmosphere is the best shield we have. Chapter 12.1 showed that air pressure is the weight of the air above per square metre, $P = mg/A$. So the column density of the whole atmosphere is just
+
+$$
+\Sigma = \frac{P}{g} = \frac{101\,325\ \text{Pa}}{9.807\ \text{m/s}^{2}} = 10\,330\ \text{kg/m}^{2} = 1033\ \text{g/cm}^{2},
+$$
+
+the same as a layer of water 10.3 m deep, and 11.5 interaction lengths. Only one cosmic-ray proton in about 100 000 reaches the ground without hitting a nucleus.
+
+The ones that hit a nucleus, typically 15 to 20 km up, start an <Term id="air-shower">air shower</Term>: a cascade of short-lived particles (pions), photons, electrons and <Term id="muon">muons</Term>, heavy cousins of the electron. Muons live only 2.2 microseconds, but they move so close to the speed of light that time dilation (Chapter 10.2) lets most of them reach the ground. About one muon crosses each square centimetre at sea level every minute, and they give most of the 0.39 mSv a year that cosmic rays add to our background. The showers' neutrons also make the carbon-14 used in radiocarbon dating (Chapter 13.2).
+
+<Figure caption="An air shower. A cosmic-ray proton smashes into a nucleus high in the atmosphere and starts a cascade of secondary particles. Most of what reaches the ground is muons, about one per square centimetre per minute; the primary itself almost never gets through 1033 g/cm² of air." alt="A vertical diagram with altitude in kilometres on the left, from 0 at the ground to 30. A single arrow labelled primary cosmic ray, a proton of many GeV, comes down from the top and hits a dot at about 18 kilometres labelled first collision with a nitrogen or oxygen nucleus. From there a cone of branching lines spreads downwards, labelled pions, photons, electrons and neutrons. Several longer straight lines reach the ground, labelled muons, about 1 per square centimetre per minute. A side note says neutrons in the shower turn nitrogen-14 into carbon-14. At the right edge a bar shows the column of air above sea level, 1033 grams per square centimetre, equal to 10.3 metres of water.">
+	<AirShower />
+</Figure>
+
+Earth has a second shield. Cosmic rays are charged, and Earth's magnetic field bends charged particles (Part 14 covers magnetic forces), turning many of the lower-energy ones away before they reach the atmosphere. The protection is strongest near the equator and weakest near the poles. Further out, the Sun's magnetised wind sweeps away about 90% of the galaxy's cosmic rays below about 1 GeV before they reach Earth's orbit.
+
+### Erid's sky
+
+Erid's air is 29 atmospheres of ammonia, at a gravity of about 2 g (Chapter 12.1). Its column density is
+
+$$
+\Sigma = \frac{29 \times 101\,325\ \text{Pa}}{2.0 \times 9.81\ \text{m/s}^{2}} = 1.50 \times 10^{5}\ \text{kg/m}^{2} = 15\,000\ \text{g/cm}^{2},
+$$
+
+14.5 times Earth's: like living under 150 m of water, or 166 interaction lengths. Showers starting at the top of that atmosphere die out long before they reach the ground; even muons, which lose about 2 MeV per g/cm², would need some 30 GeV to get through. Add the strong magnetic field the novel gives Erid, and its surface would be a quieter place than any on Earth. A species living there really could have built a technology without ever noticing radiation from the sky.
+
+<Figure caption="The shielding above a planet's surface, measured as mass of air per area, on a logarithmic scale. Mars has almost none; Earth's air equals 10 m of water; Erid's 29 atmospheres at 2 g equal 150 m; Venus's 92 bar more than a kilometre. The Hail Mary's 1 mm Astrophage layer, by mass, is far less than Mars's air." alt="A horizontal bar chart of column density in grams per square centimetre on a logarithmic scale from 0.01 to 100 000. Bars: Hail Mary's 1 millimetre slurry layer, about 0.1; Mars's air, 17; Earth's air, 1033, equal to 10 metres of water; Erid's air, 15 000, equal to 150 metres of water; Venus's air, about 104 000. A dashed line at 90 grams per square centimetre is labelled one interaction length of air.">
+	<AirColumns />
+</Figure>
+
+### Shielding in space
+
+Away from a planet there is no air and, far from Earth, no magnetic field. Mars's thin air, 17 g/cm², barely helps, and the dose on its surface, 0.64 mSv per day, is about a third of the dose in space, mostly because the planet itself blocks half the sky.
+
+Shielding a spacecraft is hard. A thin aluminium wall stops the low-energy particles from solar storms, but it turns high-energy cosmic rays into showers of secondaries. Stopping them properly needs many interaction lengths, hundreds of tonnes for a crew compartment. Per kilogram, light, hydrogen-rich materials work best, because they make fewer secondaries: water, plastic, food, or fuel. Mission designers often plan to put the water tanks around the crew. Rocky's survival beside the Astrophage tanks is exactly this kind of shielding.
+
+### Running into the interstellar gas
+
+Interstellar space isn't empty. Near the Sun, the <Term id="interstellar-medium">interstellar medium</Term> holds about 0.3 hydrogen atoms per cubic centimetre: a very good vacuum by Earth's standards, but not nothing. For a ship crawling between planets it doesn't matter. For a ship at nearly the speed of light it matters enormously, because in the ship's frame that gas is a beam of protons, all coming head-on at the same speed, each with kinetic energy $(\gamma - 1)m_{\text{p}}c^{2}$ (Chapter 10.3).
+
+How many hit each square metre of the ship's nose per second? In the gas's own frame there are $n$ atoms per cubic metre. In the ship's frame, distances along the motion are contracted by $\gamma$ (Chapter 10.4), so the same atoms are packed into a smaller length: the density is $\gamma n$. They arrive at speed $v$, so the flux is
+
+$$
+\Phi = \gamma n v.
+$$
+
+At 0.909c, the *Hail Mary*'s coasting speed if it used the novel's fuel (Chapter 10.6), $\gamma = 2.40$. Each proton then carries 1.31 GeV, and about $2 \times 10^{10}$ of them hit every square centimetre every second (Example 4). That is twenty billion times the cosmic-ray flux. An unshielded person at the front would receive about 6 grays per second, a lethal dose in a couple of seconds. The beam also carries power: about 41 kW per square metre, thirty times the sunlight at Earth, which the nose has to absorb and get rid of.
+
+<Figure caption="In the frame of the ship, the thin interstellar gas comes at it as a beam. Lengths along the motion shrink by γ, so the gas is γ times denser than at rest, and it arrives at speed v: flux γnv. At 0.909c each hydrogen nucleus arrives with 1.31 GeV." alt="On the left, a box labelled gas at rest shows scattered dots spaced evenly, n equals 0.3 per cubic centimetre. An arrow points right to a second panel labelled same gas seen from the ship at 0.909c: the dots are squeezed closer together horizontally, labelled density gamma n, and each has an arrow pointing left towards a ship outline on the right side, labelled speed v. Under the ship's nose, a label says flux gamma n v, about 2 times 10 to the 10 protons per square centimetre per second, each 1.31 GeV.">
+	<GasBeam />
+</Figure>
+
+The beam comes from one direction, so only the nose needs serious protection, but it needs a lot. Cutting the primary protons by a factor of $e^{10} \approx 22\,000$ takes 10 interaction lengths, 8.3 m of water. In the novel, the *Hail Mary*'s hull carries a 1 mm layer of Astrophage slurry instead. With the density of water, that is 0.1 g/cm², a thousandth of an interaction length: ordinary matter that thin would do almost nothing. It works in the novel only because Astrophage absorbs everything that hits it, a property the novel calls <Term id="super-cross-sectionality">super cross-sectionality</Term> (Chapter 13.5). That is fiction, but it is consistent fiction: Astrophage thrives on the surface of stars, which are battered by fast particles all the time.
+
+## Formulas
+
+### Column density
+
+$$
+\boxed{\Sigma = \rho x} \qquad\text{and for a whole atmosphere}\qquad \boxed{\Sigma = \frac{P}{g}}
+$$
+
+The second follows because the pressure at the bottom of an atmosphere is the weight of the air above per unit area: $P = mg/A$, and $\Sigma = m/A$ (Chapter 12.1).
+
+### Survival of fast protons
+
+Each g/cm² gives each proton the same chance $1/\lambda_{\text{int}}$ of a head-on nuclear collision, so, as for gamma rays in Chapter 13.3,
+
+$$
+\frac{dN}{d\Sigma} = -\frac{N}{\lambda_{\text{int}}} \qquad\Rightarrow\qquad \boxed{N = N_{0}e^{-\Sigma/\lambda_{\text{int}}}}
+$$
+
+This counts only primaries that get through untouched. The secondaries they create are extra.
+
+### The interstellar beam
+
+**Flux.** In a time $dt$ of ship time, the nose sweeps through the gas a distance $v\,dt$. Per square metre it meets the atoms in a volume $v\,dt$, at the contracted density $\gamma n$:
+
+$$
+\boxed{\Phi = \gamma n v}
+$$
+
+(Seen from the gas, the ship sweeps $n v\,dt_{\text{gas}}$ atoms per square metre in a gas time $dt_{\text{gas}} = \gamma\,dt$ (Chapter 10.2): the same answer.)
+
+**Energy per proton.** $K = (\gamma - 1)m_{\text{p}}c^{2}$, with $m_{\text{p}}c^{2} = 938.3$ MeV.
+
+**Power per square metre of nose.**
+
+$$
+\boxed{\frac{P}{A} = \Phi K}
+$$
+
+**Dose rate.** Each proton crossing tissue deposits about $dE/d\Sigma \approx 2$ MeV per g/cm² (the minimum for fast particles, so this is a lower limit). A flux $\Phi$ (per cm² per second) through a layer of $\Sigma$ g/cm² deposits $\Phi\,(dE/d\Sigma)\,\Sigma$ per cm² each second in a mass $\Sigma$ per cm², so the dose rate is
+
+$$
+\boxed{\dot{D} = \Phi\,\frac{dE}{d\Sigma}}
+$$
+
+in MeV per gram per second, which converts to Gy/s with $1\ \text{MeV/g} = 1.602 \times 10^{-10}$ J/kg.
+
+## Worked examples
+
+<Example n={1} title="Earth's air as a shield">
+Find the column density of Earth's atmosphere, its equivalent depth of water, the number of interaction lengths ($\lambda_{\text{int}} = 90.1$ g/cm² for air), and the fraction of cosmic-ray protons that reach the ground without a nuclear collision.
+
+$$
+\Sigma = \frac{101\,325\ \text{Pa}}{9.807\ \text{m/s}^{2}} = 1.033 \times 10^{4}\ \text{kg/m}^{2} = 1033\ \text{g/cm}^{2}
+$$
+
+Water of density $1000\ \text{kg/m}^{3}$ with the same column is $10\,330/1000 = 10.3$ m deep.
+
+$$
+\frac{\Sigma}{\lambda_{\text{int}}} = \frac{1033}{90.1} = 11.5 \qquad \frac{N}{N_{0}} = e^{-11.5} = 1.0 \times 10^{-5}
+$$
+
+One in 100 000. The cosmic radiation we get at the ground is almost all secondaries.
+</Example>
+
+<Example n={2} title="Erid's sky" book>
+Erid's air is at 29 atm with surface gravity about 2.0 g. Find its column density, its water equivalent and its number of interaction lengths (taking 90 g/cm², as for air). Compare with Earth.
+
+$$
+\Sigma = \frac{29 \times 101\,325\ \text{Pa}}{2.0 \times 9.81\ \text{m/s}^{2}} = 1.50 \times 10^{5}\ \text{kg/m}^{2} = 1.50 \times 10^{4}\ \text{g/cm}^{2}
+$$
+
+$$
+\text{water: } \frac{1.50 \times 10^{5}}{1000} = 150\ \text{m} \qquad \frac{\Sigma}{\lambda_{\text{int}}} = \frac{15\,000}{90.1} = 166 \qquad \frac{15\,000}{1033} = 14.5
+$$
+
+A muon losing 2 MeV per g/cm² would need $2 \times 15\,000 = 30\,000$ MeV = 30 GeV to cross it. The Eridians live under the equivalent of 150 m of water.
+</Example>
+
+<Example n={3} title="On the surface of Mars">
+Mars's surface pressure is 636 Pa and its gravity 3.73 m/s². Find the column density of its air in g/cm² and interaction lengths. Curiosity measured 0.64 mSv/day on the surface and 1.84 in space. What fraction of the space dose reaches the surface?
+
+$$
+\Sigma = \frac{636\ \text{Pa}}{3.73\ \text{m/s}^{2}} = 171\ \text{kg/m}^{2} = 17\ \text{g/cm}^{2} = 0.19\,\lambda_{\text{int}}
+$$
+
+$$
+\frac{0.64}{1.84} = 0.35
+$$
+
+The air stops little. Most of the reduction, to about a half, comes from the planet blocking the whole lower half of the sky.
+</Example>
+
+<Example n={4} title="Coasting through interstellar gas" book>
+With the novel's fuel, Chapter 10.6 found the *Hail Mary* would coast at $0.909c$ ($\gamma = 2.400$). Take $n = 0.3$ atoms per cm³. Find the energy of each proton in the ship's frame, the flux on the nose, the dose rate to unshielded tissue there, and the power per square metre.
+
+$$
+K = (\gamma - 1)m_{\text{p}}c^{2} = 1.400 \times 938.3\ \text{MeV} = 1314\ \text{MeV} = 1.31\ \text{GeV}
+$$
+
+$$
+\Phi = \gamma n v = 2.400 \times 0.3 \times 10^{6}\ \text{m}^{-3} \times 0.909 \times 3.00 \times 10^{8}\ \text{m/s} = 1.96 \times 10^{14}\ \text{m}^{-2}\text{s}^{-1} = 1.96 \times 10^{10}\ \text{cm}^{-2}\text{s}^{-1}
+$$
+
+$$
+\dot{D} = 1.96 \times 10^{10}\ \text{cm}^{-2}\text{s}^{-1} \times 1.98\ \text{MeV cm}^{2}/\text{g} = 3.9 \times 10^{10}\ \text{MeV/(g·s)} = 3.9 \times 10^{10} \times 1.602 \times 10^{-10}\ \text{Gy/s} = 6.2\ \text{Gy/s}
+$$
+
+$$
+\frac{P}{A} = 1.96 \times 10^{14}\ \text{m}^{-2}\text{s}^{-1} \times 1314 \times 1.602 \times 10^{-13}\ \text{J} = 4.1 \times 10^{4}\ \text{W/m}^{2}
+$$
+
+At least 6 Gy every second (an almost-always-fatal 8 Gy in under 2 s), and 41 kW/m² of heating, 30 times the sunlight at Earth. Nothing alive can sit unshielded at the front of a ship crossing the galaxy at such speeds.
+</Example>
+
+<Example n={5} title="At the flip" book>
+On the course's relativistic 1.5 g flip-and-burn (Chapter 10.6), the *Hail Mary* reaches $0.9952c$, $\gamma = 10.22$, at the flip. Repeat Example 4. Then find the mass of water needed to cut the primary protons by a factor $e^{10}$ over a 10 m² nose.
+
+$$
+K = 9.22 \times 938.3\ \text{MeV} = 8.65\ \text{GeV}
+$$
+
+$$
+\Phi = 10.22 \times 0.3 \times 10^{6} \times 0.9952 \times 3.00 \times 10^{8}\ \text{m}^{-2}\text{s}^{-1} = 9.15 \times 10^{14}\ \text{m}^{-2}\text{s}^{-1}
+$$
+
+$$
+\dot{D} = 9.15 \times 10^{10} \times 1.98 \times 1.602 \times 10^{-10}\ \text{Gy/s} = 29\ \text{Gy/s} \qquad \frac{P}{A} = 9.15 \times 10^{14} \times 8650 \times 1.602 \times 10^{-13}\ \text{W/m}^{2} = 1.27 \times 10^{6}\ \text{W/m}^{2}
+$$
+
+Shield: $10 \times 83.3 = 833$ g/cm² of water, a layer 8.33 m thick:
+
+$$
+m = 8.33\ \text{m} \times 10\ \text{m}^{2} \times 1000\ \text{kg/m}^{3} = 8.3 \times 10^{4}\ \text{kg},
+$$
+
+about as much as the whole empty ship in this course's model (Chapter 5.6). And it would still have to shed more than a megawatt per square metre as heat. The novel's 1 mm of slurry, 0.1 g/cm², is 8000 times too little for ordinary matter.
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** Hess's 1912 balloon flights, the composition and energies of cosmic rays, air showers and muons, the nuclear interaction lengths (Particle Data Group), the column density of Earth's air, the magnetic and solar-wind shielding of Earth, and the difficulty of shielding spacecraft are all well established. The local interstellar gas density of about 0.3 atoms per cm³ is a measured value. The hazard of interstellar gas to relativistic ships is a standard result in studies of interstellar travel.
+
+**Weir's inventions.** Erid's strong magnetic field, the *Blip-A*'s lack of shielding, Rocky's survival beside the Astrophage tanks, and the *Hail Mary*'s 1 mm Astrophage slurry layer, which absorbs all incoming particles, are the novel's (from reader sources). Erid's 29 atm and our 2.0 g are the course's model from Part 12.
+
+**How realistic are the numbers?** Erid's atmosphere alone would make the Eridians' ignorance believable: 15 000 g/cm² of air is better shielding than many underground laboratories have. The *Hail Mary*'s need for a nose shield is real, and our estimate of at least 6 Gy per second at 0.909c shows it is a matter of life and death within seconds. A 1 mm layer of any ordinary substance could not do the job; the novel's super-absorbing Astrophage is the invention that makes it work. Our dose estimate counts only ionization by the primary protons; nuclear collisions and their showers would add more.
+</RealVsBook>
+
+## Interactive simulation
+
+<BeamShield />
+
+Things to try: start at 0.1c and raise the speed: the dose climbs gently at first, then steeply as $\gamma$ grows. Find the speed at which an unshielded nose gets a lethal 8 Gy in a minute. Then add water shielding and see how many metres it takes to tame the beam at 0.909c and at 0.995c. Try the Local Bubble's thinner gas (0.05 per cm³) and a denser cloud (1 per cm³).
+
+## Practice set
+
+<Problem n={1} level="easy">
+What column density, in g/cm², is (a) 2.0 m of water, (b) 5.0 cm of aluminium (2.70 g/cm³), (c) 1 mm of lead?
+
+<Solution>
+(a) 200 g/cm². (b) $2.70 \times 5.0 = 13.5$ g/cm². (c) $11.35 \times 0.1 = 1.1$ g/cm².
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy">
+How many interaction lengths is 2.0 m of water ($\lambda_{\text{int}} = 83.3$ g/cm²), and what fraction of fast protons gets through without a nuclear collision?
+
+<Solution>
+$200/83.3 = 2.40$; $e^{-2.40} = 0.091$, about 9%.
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy">
+Find the kinetic energy of a proton at $\gamma = 2.0$ and at $\gamma = 10$.
+
+<Solution>
+$(2.0 - 1) \times 938.3 = 938$ MeV; $(10 - 1) \times 938.3 = 8440$ MeV = 8.4 GeV.
+</Solution>
+</Problem>
+
+<Problem n={4} level="easy" book>
+A 1 mm layer of Astrophage slurry with the density of water: what column density, and what fraction of an interaction length of water, is it?
+
+<Solution>
+$1.0\ \text{g/cm}^{3} \times 0.1\ \text{cm} = 0.1$ g/cm²; $0.1/83.3 = 0.0012$ interaction lengths.
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium">
+At the top of Everest the pressure is 33.7 kPa. What column of air is above a climber, in g/cm² and as a fraction of sea level's? Why do climbers and aircrews get more cosmic radiation?
+
+<Solution>
+$33\,700/9.81 = 3435\ \text{kg/m}^{2} = 344$ g/cm², a third of sea level's 1033. With less air above, fewer showers have died away before reaching them; jet passengers at about 12 km receive at least ten times the sea-level cosmic dose.
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium">
+Venus's surface pressure is 92 bar and its gravity 8.87 m/s². Find the column density of its atmosphere and its number of interaction lengths.
+
+<Solution>
+$92 \times 10^{5}/8.87 = 1.04 \times 10^{6}\ \text{kg/m}^{2} = 1.04 \times 10^{5}$ g/cm², about 1150 interaction lengths: a kilometre of water's worth.
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium">
+A ship moves at $0.5c$ through gas with 0.3 atoms per cm³. Find $\gamma$, the proton energy, the flux and the dose rate to unshielded tissue (2 MeV cm²/g).
+
+<Solution>
+$\gamma = 1/\sqrt{0.75} = 1.155$. $K = 0.155 \times 938.3 = 145$ MeV. $\Phi = 1.155 \times 0.3 \times 10^{6} \times 1.5 \times 10^{8} = 5.2 \times 10^{13}\ \text{m}^{-2}\text{s}^{-1} = 5.2 \times 10^{9}$ per cm² per s. $\dot{D} = 5.2 \times 10^{9} \times 1.98 \times 1.602 \times 10^{-10} = 1.6$ Gy/s. (At 145 MeV a proton actually loses more than the minimum, so this is a lower limit.) Even half the speed of light is deadly.
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium">
+Why is the flux $\gamma nv$ and not just $nv$? Explain in words from the ship's point of view and from the gas's point of view.
+
+<Solution>
+From the ship: the gas is length-contracted along the motion, so its density is $\gamma n$, and it arrives at speed $v$. From the gas: the ship sweeps $nv$ atoms per m² per second of gas time, but the ship's clocks run slow, so one second of ship time is $\gamma$ seconds of gas time, and the ship counts $\gamma nv$ per second of its own time. Both views agree.
+</Solution>
+</Problem>
+
+<Problem n={9} level="medium" book>
+Rocky's workshop was beside tanks of Astrophage. If the tanks put 3.0 m of material with density 1.0 g/cm³ between him and the front of the ship, how many interaction lengths of water is that? What fraction of fast primary protons gets through?
+
+<Solution>
+$300$ g/cm²$/83.3 = 3.6$ interaction lengths; $e^{-3.6} = 0.027$, under 3%. With the secondaries, real protection would be less, but still large; and if Astrophage really absorbs everything, as in the novel, it would be total.
+</Solution>
+</Problem>
+
+<Problem n={10} level="challenging">
+At what speed does an unshielded nose receive 8 Gy in one minute through gas of 0.3 atoms per cm³ (use 2 MeV cm²/g)?
+
+<Solution>
+Need $\dot{D} = 8/60 = 0.133$ Gy/s, so $\Phi = 0.133/(1.98 \times 1.602 \times 10^{-10}) = 4.2 \times 10^{8}$ per cm² per s $= 4.2 \times 10^{12}$ per m² per s. Then $\gamma\beta = \Phi/(nc) = 4.2 \times 10^{12}/(0.3 \times 10^{6} \times 3.0 \times 10^{8}) = 0.047$, so $v \approx 0.047c$, about 14 000 km/s. (At such low speeds the protons have only about 1 MeV, stop within a few hundredths of a millimetre of tissue and lose energy much faster than 2 MeV cm²/g, so this is only a rough answer, but even 5% of light speed is dangerous.)
+</Solution>
+</Problem>
+
+<Problem n={11} level="challenging" book>
+The heat from the beam at 0.909c is about 41 kW per square metre. If the nose shed it as thermal radiation from the same area with emissivity 0.9, what temperature would it reach? (Use $P/A = e\sigma T^{4}$ from Chapter 6.3.)
+
+<Solution>
+$T = (P/(Ae\sigma))^{1/4} = (4.1 \times 10^{4}/(0.9 \times 5.670 \times 10^{-8}))^{1/4} = (8.0 \times 10^{11})^{1/4} = 950$ K, about 680 °C. At 0.995c (1.27 MW/m²) it would be $(2.5 \times 10^{13})^{1/4} = 2200$ K: the nose would glow orange-hot.
+</Solution>
+</Problem>
+
+<Problem n={12} level="challenging">
+Total energy check: the *Hail Mary* coasts at 0.909c for about 11 years of Earth time (Chapter 10.6). How far does it travel, and how many hydrogen atoms does a 10 m² nose sweep up on the way? How much energy (in the ship's frame) do they deliver?
+
+<Solution>
+Distance $\approx 0.909 \times 11$ ly $= 10$ ly $= 9.5 \times 10^{16}$ m. Atoms swept: $n \times A \times d = 0.3 \times 10^{6} \times 10 \times 9.5 \times 10^{16} = 2.8 \times 10^{23}$, half a gram of hydrogen. Energy: $2.8 \times 10^{23} \times 1314 \times 1.602 \times 10^{-13}$ J $= 5.9 \times 10^{13}$ J, about 14 kilotonnes of TNT, delivered to the nose over the trip.
+</Solution>
+</Problem>
+
+## Summary
+
+- Cosmic rays are fast nuclei from space: 90% protons, 9% helium, 1% heavier, with energies of hundreds of MeV to many GeV. Hess found them in 1912.
+- Shielding is measured as column density, mass per area, $\Sigma = \rho x$. A fast proton travels on average one nuclear interaction length (about 83 to 90 g/cm² of water or air) before smashing a nucleus; primaries surviving fall as $e^{-\Sigma/\lambda_{\text{int}}}$, but the collisions make showers of secondaries.
+- Earth's air is 1033 g/cm², 10 m of water, 11.5 interaction lengths; at the ground we mostly get muons. Earth's magnetic field and the Sun's wind deflect many cosmic rays before they arrive.
+- Erid's 29 atm at 2 g is 15 000 g/cm², 150 m of water and 166 interaction lengths. With its magnetic field, the Eridians could easily have never met cosmic radiation.
+- In deep space the dose is about 1.84 mSv per day, and shielding against it takes hundreds of tonnes; hydrogen-rich materials such as water, food and fuel work best. Rocky's fuel tanks shielded him.
+- A ship near light speed meets interstellar gas as a beam: flux $\gamma nv$, each proton $(\gamma - 1)m_{\text{p}}c^{2}$. At 0.909c that is at least 6 Gy per second and 41 kW/m² at an unshielded nose. Ordinary matter would need metres of shielding; the *Hail Mary*'s 1 mm slurry works only because Astrophage absorbs everything.
+
+**Formulas from this chapter**
+
+$$
+\Sigma = \rho x = \frac{P}{g} \qquad N = N_{0}e^{-\Sigma/\lambda_{\text{int}}} \qquad \Phi = \gamma n v \qquad K = (\gamma - 1)m_{\text{p}}c^{2} \qquad \frac{P}{A} = \Phi K \qquad \dot{D} = \Phi\,\frac{dE}{d\Sigma}
+$$
+
+## Sources
+
+- Cosmic rays: Hess's 1912 balloon flight to 5300 m and his 1936 Nobel Prize; composition (99% nuclei, 1% electrons; of the nuclei 90% protons, 9% helium, 1% heavier); energies peaking around 300 MeV and reaching about $3 \times 10^{20}$ eV (about 50 J); about $10^{4}$ per m² per second above 1 GeV; the solar wind removing about 90% below about 1 GeV; jet altitudes at least ten times the sea-level dose: Wikipedia, ["Cosmic ray"](https://en.wikipedia.org/wiki/Cosmic_ray).
+- Nuclear interaction lengths (water 83.3, air 90.1, aluminium 107.2, lead 199.6 g/cm²) and the minimum ionization loss in water, 1.981 MeV cm²/g: Particle Data Group, [Atomic and Nuclear Properties of Materials](https://pdg.lbl.gov/2024/AtomicNuclearProperties/HTML/water_liquid.html) (also [air](https://pdg.lbl.gov/2024/AtomicNuclearProperties/HTML/air_dry_1_atm.html), [aluminium](https://pdg.lbl.gov/2024/AtomicNuclearProperties/HTML/aluminum_Al.html), [lead](https://pdg.lbl.gov/2024/AtomicNuclearProperties/HTML/lead_Pb.html)).
+- Muon lifetime 2.2 µs and about 10 000 per m² per minute at sea level: as in [Chapter 10.2](/part-10/time-dilation/). Cosmic rays' 0.39 mSv per year: Wikipedia, ["Background radiation"](https://en.wikipedia.org/wiki/Background_radiation).
+- Shielding spacecraft: secondary showers from thin shields, hydrogen-rich materials and water, hundreds of tonnes for a crew compartment, Earth's magnetic field: Wikipedia, ["Health threat from cosmic rays"](https://en.wikipedia.org/wiki/Health_threat_from_cosmic_rays). Curiosity's 1.84 mSv per day in cruise and 0.64 on Mars's surface: [SwRI](https://swri.org/node/9079) and [Space.com](https://space.com/23875-mars-radiation-life-manned-mission.html).
+- Earth, Mars and Venus surface pressures and gravities: NASA fact sheets ([Earth](https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html), [Mars](https://nssdc.gsfc.nasa.gov/planetary/factsheet/marsfact.html), [Venus](https://nssdc.gsfc.nasa.gov/planetary/factsheet/venusfact.html)). Everest's summit pressure: as in [Chapter 12.3](/part-12/partial-pressure/).
+- The Local Interstellar Cloud, about 0.3 atoms per cm³ (the Local Bubble about 0.05): Wikipedia, ["Local Interstellar Cloud"](https://en.wikipedia.org/wiki/Local_Interstellar_Cloud).
+- The proton's rest energy, 938.272 MeV: NIST, [CODATA](https://physics.nist.gov/cgi-bin/cuu/Value?mpc2mev). The *Hail Mary*'s speeds (0.909c with the novel's fuel; 0.9952c at the flip of a 1.5 g flip-and-burn): [Chapter 10.6](/part-10/ship-time-earth-time/). The course's empty ship of about $1.0 \times 10^{5}$ kg: [Chapter 5.6](/part-5/thrust/). Erid's 29 atm and our 2.0 g: [Chapter 12.1](/part-12/pressure/).
+- Erid's strong magnetic field and the Eridians' ignorance of radiation; Rocky's workshop beside the Astrophage tanks: Looper, ["Project Hail Mary's most confusing moments explained"](https://www.looper.com/2128459/project-hail-mary-movie-confusing-moments-explained). The *Hail Mary*'s 1 mm Astrophage slurry layer, which absorbs incoming high-energy particles, and Astrophage's survival on stellar surfaces: Readify's reader wiki, ["Super cross-sectionality"](https://readifyai.com/en/books/Project%20Hail%20Mary/wiki/Super%20cross-sectionality). Reader sources, so approximate.

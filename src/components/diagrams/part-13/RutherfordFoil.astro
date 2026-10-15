@@ -1,0 +1,50 @@
+---
+// Geiger–Marsden schematic: alpha source on the left, beam to a gold foil, most pass straight, a few deflected,
+// about 1 in 8000 back towards the source. A dashed arc stands for the zinc sulfide screen.
+const head = (x1: number, y1: number, x2: number, y2: number, s = 9) => {
+	const a = Math.atan2(y2 - y1, x2 - x1), c = Math.cos(a), n = Math.sin(a);
+	return `${x2},${y2} ${x2 - s * c + (s / 2) * n},${y2 - s * n - (s / 2) * c} ${x2 - s * c - (s / 2) * n},${y2 - s * n + (s / 2) * c}`;
+};
+const FX = 320, FY = 140, R = 190;
+const beam = [122, 134, 146, 158];
+const arc = (a0: number, a1: number) => {
+	const p = (a: number) => `${FX + R * Math.cos(a)},${FY - R * Math.sin(a)}`;
+	return `M ${p(a0)} A ${R} ${R} 0 0 0 ${p(a1)}`;
+};
+---
+
+<svg class="dg" viewBox="0 0 600 290" xmlns="http://www.w3.org/2000/svg">
+	<path d={arc(-1.15, 1.15)} class="s-muted w2 dash" />
+	<path d={arc(2.35, 3.6)} class="s-muted w2 dash" />
+	<rect x="28" y="112" width="62" height="56" class="f-muted" />
+	<rect x="78" y="128" width="12" height="24" class="f-amber" />
+	<text x="59" y="186" class="t-mid t-sm">alpha source</text>
+	<text x="59" y="201" class="t-mid t-sm f-muted">(radium in lead)</text>
+	{beam.map((y) => (
+		<>
+			<line x1="96" y1={y} x2={FX - 10} y2={y} class="s-amber w2" />
+			<polygon points={head(96, y, FX - 8, y)} class="f-amber" />
+		</>
+	))}
+	<rect x={FX - 4} y="60" width="8" height="160" class="f-amber-soft" />
+	<rect x={FX - 1.5} y="60" width="3" height="160" class="f-amber" />
+	<text x={FX} y="50" class="t-mid t-sm t-b">gold foil</text>
+	<text x={FX} y="240" class="t-mid t-sm f-muted">a few hundred atoms thick</text>
+	{[122, 146, 158].map((y) => (
+		<>
+			<line x1={FX + 4} y1={y} x2="490" y2={y} class="s-amber w2" />
+			<polygon points={head(FX + 4, y, 500, y)} class="f-amber" />
+		</>
+	))}
+	<text x="508" y="144" class="t-sm">most go</text>
+	<text x="508" y="159" class="t-sm">straight through</text>
+	<line x1={FX + 4} y1="134" x2="470" y2="70" class="s-sky w2" />
+	<polygon points={head(FX + 4, 134, 478, 66)} class="f-sky" />
+	<line x1={FX + 4} y1="134" x2="458" y2="214" class="s-sky w2" />
+	<polygon points={head(FX + 4, 134, 466, 219)} class="f-sky" />
+	<text x="482" y="62" class="t-sm f-sky">a few deflected</text>
+	<path d={`M ${FX - 4} 134 Q 250 140 170 230`} class="s-rose w2" />
+	<polygon points={head(176, 220, 168, 233)} class="f-rose" />
+	<text x="180" y="262" class="t-sm t-b f-rose">about 1 in 8000 bounce back</text>
+	<text x={FX} y="282" class="t-mid t-sm f-muted">dashed arc: zinc sulfide screen, each hit makes a flash (not to scale)</text>
+</svg>

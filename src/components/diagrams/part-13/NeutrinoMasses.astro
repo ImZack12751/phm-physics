@@ -1,0 +1,38 @@
+---
+// Neutrino mass-energies on a log axis (eV): √Δm²₂₁ = 0.0086, novel 0.0477, √Δm²₃₂ = 0.050, cosmology sum < 0.12,
+// KATRIN < 0.45, electron 511 000. Shaded band 0.01–0.1 eV.
+const L = 40, R = 570, Y = 140;
+const lo = -3, hi = 6;
+const X = (e: number) => L + ((Math.log10(e) - lo) / (hi - lo)) * (R - L);
+const marks = [
+	{ e: 0.0086, t: '√Δm²₂₁', s: '0.0086 eV', up: false, dy: 0, c: 'sky' },
+	{ e: 0.0477, t: 'the novel’s neutrino', s: '0.0477 eV', up: true, dy: 0, c: 'amber' },
+	{ e: 0.0501, t: 'heaviest is at least', s: '0.050 eV (√Δm²₃₂)', up: false, dy: 34, c: 'sky' },
+	{ e: 0.12, t: 'cosmology: sum below', s: '0.12 eV', up: true, dy: 40, c: 'rose' },
+	{ e: 0.45, t: 'KATRIN: below', s: '0.45 eV', up: false, dy: 0, c: 'rose' },
+	{ e: 511000, t: 'electron', s: '511 000 eV', up: true, dy: 0, c: 'fg' },
+];
+---
+
+<svg class="dg" viewBox="0 0 600 280" xmlns="http://www.w3.org/2000/svg">
+	<rect x={X(0.01)} y={Y - 18} width={X(0.1) - X(0.01)} height="36" class="f-violet" opacity="0.35" />
+	<line x1={L} y1={Y} x2={R} y2={Y} class="s-fg w2" />
+	{[-3, -2, -1, 0, 1, 2, 3, 4, 5, 6].map((p) => (
+		<>
+			<line x1={X(10 ** p)} y1={Y - 5} x2={X(10 ** p)} y2={Y + 5} class="s-fg w1" />
+			{p % 3 === 0 && p > -3 ?<text x={X(10 ** p)} y={Y + 20} class="t-mid t-sm f-muted">{p < 0 ? (10 ** p).toFixed(-p) : (10 ** p).toLocaleString('en')}</text> : null}
+		</>
+	))}
+	{marks.map((m) => {
+		const y1 = m.up ? Y - 8 : Y + 8, y2 = m.up ? Y - 48 - m.dy : Y + 48 + m.dy;
+		return (
+			<>
+				<circle cx={X(m.e)} cy={Y} r="5" class={`f-${m.c}`} />
+				<line x1={X(m.e)} y1={y1} x2={X(m.e)} y2={y2} class={`s-${m.c} w1`} />
+				<text x={X(m.e)} y={m.up ? y2 - 20 : y2 + 14} class="t-mid t-sm t-b">{m.t}</text>
+				<text x={X(m.e)} y={m.up ? y2 - 5 : y2 + 29} class="t-mid t-sm">{m.s}</text>
+			</>
+		);
+	})}
+	<text x={(L + R) / 2} y="274" class="t-mid t-sm">mass-energy mc² (eV), logarithmic scale</text>
+</svg>

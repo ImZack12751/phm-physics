@@ -1931,5 +1931,269 @@ export const glossary = {
 		def: 'The turning effect of a force about a point: the force times the perpendicular distance from the point to its line, τ = Fd. An object at rest has no net torque.',
 		chapter: 'stress-strength',
 	},
+	// ---- 13.1 Atomic structure ----
+	atom: {
+		term: 'Atom',
+		def: 'The smallest piece of a chemical element: a tiny, heavy, positive nucleus surrounded by a cloud of electrons, about 10⁻¹⁰ m across. The nucleus is roughly 100 000 times smaller still.',
+		chapter: 'atomic-structure',
+	},
+	electron: {
+		term: 'Electron',
+		def: 'A light particle with negative charge −e = −1.602 × 10⁻¹⁹ C and mass 9.109 × 10⁻³¹ kg, found around every atomic nucleus. It decides an atom’s chemistry.',
+		chapter: 'atomic-structure',
+	},
+	proton: {
+		term: 'Proton',
+		def: 'A particle in the atomic nucleus with charge +e and mass 1.673 × 10⁻²⁷ kg, 1836 times an electron’s. A hydrogen nucleus is a single proton.',
+		chapter: 'atomic-structure',
+	},
+	neutron: {
+		term: 'Neutron',
+		def: 'An uncharged particle in the atomic nucleus, slightly heavier than a proton (1.675 × 10⁻²⁷ kg). Found by Chadwick in 1932. A free neutron decays in about a quarter of an hour.',
+		chapter: 'atomic-structure',
+	},
+	nucleus: {
+		term: 'Nucleus (atomic)',
+		def: 'The tiny centre of an atom, holding almost all its mass and all its positive charge: Z protons and some neutrons, a few femtometres (10⁻¹⁵ m) across.',
+		chapter: 'atomic-structure',
+	},
+	nucleon: {
+		term: 'Nucleon',
+		def: 'Either of the particles that make up a nucleus: a proton or a neutron.',
+		chapter: 'atomic-structure',
+	},
+	'atomic-number': {
+		term: 'Atomic number (Z)',
+		def: 'The number of protons in an atom’s nucleus, which is also the number of electrons in the neutral atom. It decides which element the atom is: hydrogen 1, carbon 6, xenon 54.',
+		chapter: 'atomic-structure',
+	},
+	'coulombs-law': {
+		term: 'Coulomb’s law',
+		def: 'The force between two charges: F = kq₁q₂/r², with k = 8.988 × 10⁹ N·m²/C². Like charges repel, unlike attract. Between a proton and an electron it is 2 × 10³⁹ times stronger than gravity.',
+		chapter: 'atomic-structure',
+	},
+	'bohr-model': {
+		term: 'Bohr model',
+		def: 'Bohr’s 1913 picture of hydrogen: the electron circles the proton only on orbits that fit a whole number of its wavelengths, giving radii n²a₀ and energies −13.6 eV/n².',
+		chapter: 'atomic-structure',
+	},
+	'ground-state': {
+		term: 'Ground state',
+		def: 'The lowest energy level of an atom or nucleus, where it stays unless it is given energy. Higher levels are excited states.',
+		chapter: 'atomic-structure',
+	},
+	'ionization-energy': {
+		term: 'Ionization energy',
+		def: 'The energy needed to pull an electron right out of an atom, leaving a positive ion: 13.6 eV for hydrogen, 24.6 eV for helium, 12.1 eV for xenon, 5.1 eV for sodium.',
+		chapter: 'atomic-structure',
+	},
+	ion: {
+		term: 'Ion',
+		def: 'An atom or molecule that has lost or gained electrons, so it carries a net electric charge.',
+		chapter: 'atomic-structure',
+	},
+	'electron-shell': {
+		term: 'Electron shell',
+		def: 'A group of electron energy levels at roughly the same distance from the nucleus. Shell n holds at most 2n² electrons; the outermost shell decides how an atom reacts.',
+		chapter: 'atomic-structure',
+	},
+	'pauli-exclusion': {
+		term: 'Pauli exclusion principle',
+		def: 'No two electrons (or other particles of the same kind, such as neutrinos) can be in exactly the same state. It forces electrons into ever higher shells and gives atoms their size.',
+		chapter: 'atomic-structure',
+	},
+	'noble-gas': {
+		term: 'Noble gas',
+		def: 'An element with a full outer electron shell (helium, neon, argon, krypton, xenon, radon). They hold their electrons tightly and react very reluctantly; xenon’s first compound was made in 1962.',
+		chapter: 'atomic-structure',
+	},
+	xenonite: {
+		term: 'Xenonite',
+		def: 'In the novel, the Eridians’ super-strong building material, a compound containing xenon. The Blip-A is made almost entirely of it.',
+		chapter: 'atomic-structure',
+	},
+	// ---- 13.2 Isotopes ----
+	isotope: {
+		term: 'Isotope',
+		def: 'Atoms of the same element (same number of protons) with different numbers of neutrons, such as carbon-12 and carbon-14. Isotopes have the same chemistry but different masses and nuclear stability.',
+		chapter: 'isotopes',
+	},
+	'mass-number': {
+		term: 'Mass number (A)',
+		def: 'The number of nucleons (protons plus neutrons) in a nucleus, written as in ¹⁴C or carbon-14. N = A − Z is the number of neutrons.',
+		chapter: 'isotopes',
+	},
+	'atomic-mass-unit': {
+		term: 'Atomic mass unit (u)',
+		def: 'One twelfth of the mass of a carbon-12 atom, 1.660 539 × 10⁻²⁷ kg, about one nucleon’s mass. Its energy equivalent is 931.5 MeV.',
+		chapter: 'isotopes',
+	},
+	'strong-force': {
+		term: 'Strong nuclear force',
+		def: 'The attraction between nucleons that holds nuclei together against the electric repulsion of their protons. It is far stronger than the electric force but acts only over about a femtometre.',
+		chapter: 'isotopes',
+	},
+	'binding-energy': {
+		term: 'Binding energy',
+		def: 'The energy needed to pull a nucleus apart into separate protons and neutrons, equal to its mass defect times c². Per nucleon it peaks near iron at about 8.8 MeV.',
+		chapter: 'isotopes',
+	},
+	'nuclear-fusion': {
+		term: 'Nuclear fusion',
+		def: 'Light nuclei joining into a heavier one, releasing energy because the product is more tightly bound. It powers the Sun: four hydrogen nuclei become one helium-4.',
+		chapter: 'isotopes',
+	},
+	'nuclear-fission': {
+		term: 'Nuclear fission',
+		def: 'A heavy nucleus such as uranium-235 splitting into two mid-sized ones, releasing energy because they are more tightly bound per nucleon.',
+		chapter: 'isotopes',
+	},
+	radioactivity: {
+		term: 'Radioactivity',
+		def: 'The spontaneous decay of unstable nuclei, which give out radiation (alpha, beta or gamma) as they change into more stable ones. Discovered by Becquerel in 1896.',
+		chapter: 'isotopes',
+	},
+	'alpha-decay': {
+		term: 'Alpha decay',
+		def: 'A nucleus throwing out an alpha particle (a helium-4 nucleus: 2 protons, 2 neutrons), so Z falls by 2 and A by 4. Typical alpha energies are about 5 MeV.',
+		chapter: 'isotopes',
+	},
+	'beta-decay': {
+		term: 'Beta decay',
+		def: 'A neutron in a nucleus turning into a proton, emitting an electron and an antineutrino (beta-minus); or a proton into a neutron, emitting a positron and a neutrino (beta-plus). A stays the same; Z changes by one.',
+		chapter: 'isotopes',
+	},
+	'gamma-ray': {
+		term: 'Gamma ray',
+		def: 'A high-energy photon (typically 0.1 to 10 MeV) given out when a nucleus drops from an excited state to a lower one.',
+		chapter: 'isotopes',
+	},
+	'decay-constant': {
+		term: 'Decay constant (λ)',
+		def: 'The probability per unit time that a given unstable nucleus decays: dN/dt = −λN, N = N₀e^(−λt), and λ = ln 2 / half-life.',
+		chapter: 'isotopes',
+	},
+	activity: {
+		term: 'Activity (A)',
+		def: 'The number of nuclei in a sample decaying each second, A = λN, measured in becquerels.',
+		chapter: 'isotopes',
+	},
+	becquerel: {
+		term: 'Becquerel (Bq)',
+		def: 'The SI unit of activity: one decay per second. A human body contains about 4400 Bq of potassium-40.',
+		chapter: 'isotopes',
+	},
+	'radiocarbon-dating': {
+		term: 'Radiocarbon dating',
+		def: 'Finding the age of once-living material from how much of its carbon-14 (half-life 5700 years) has decayed since it stopped taking in fresh carbon.',
+		chapter: 'isotopes',
+	},
+	'decay-chain': {
+		term: 'Decay chain',
+		def: 'A sequence of radioactive decays from one unstable nucleus to a stable one, such as uranium-238 to lead-206 through 8 alpha and 6 beta decays.',
+		chapter: 'isotopes',
+	},
+	// ---- 13.3 Ionizing radiation ----
+	'ionizing-radiation': {
+		term: 'Ionizing radiation',
+		def: 'Radiation whose particles or photons carry enough energy (more than about 10 eV each) to knock electrons out of atoms: ultraviolet beyond about 120 nm, X-rays, gamma rays, and fast charged particles and neutrons.',
+		chapter: 'ionizing-radiation',
+	},
+	'attenuation-coefficient': {
+		term: 'Attenuation coefficient (μ)',
+		def: 'The fraction of a beam of photons removed per unit thickness of material, so I = I₀e^(−μx). Divided by density it gives the mass attenuation coefficient μ/ρ, in cm²/g.',
+		chapter: 'ionizing-radiation',
+	},
+	'half-value-layer': {
+		term: 'Half-value layer',
+		def: 'The thickness of a material that halves a beam of gamma or X-rays, ln 2/μ: about 0.86 cm of lead or 9.8 cm of water for 1 MeV gamma rays.',
+		chapter: 'ionizing-radiation',
+	},
+	gray: {
+		term: 'Gray (Gy)',
+		def: 'The SI unit of absorbed dose: one joule of radiation energy absorbed per kilogram of material.',
+		chapter: 'ionizing-radiation',
+	},
+	sievert: {
+		term: 'Sievert (Sv)',
+		def: 'The unit of equivalent dose: absorbed dose in grays times a weighting factor for the kind of radiation (1 for gamma rays and electrons, 2 for protons, 20 for alpha particles). It measures harm to people.',
+		chapter: 'ionizing-radiation',
+	},
+	'acute-radiation-syndrome': {
+		term: 'Acute radiation syndrome',
+		def: 'Radiation sickness: illness after a large whole-body dose in a short time, above about 0.7 Gy. Bone marrow, gut and (at very high doses) nerves fail; above about 8 Gy it is almost always fatal.',
+		chapter: 'ionizing-radiation',
+	},
+	'background-radiation': {
+		term: 'Background radiation',
+		def: 'The radiation everyone receives from natural sources: radon gas, rocks, cosmic rays and radioactive atoms in food and our own bodies. The world average is about 2.4 mSv per year.',
+		chapter: 'ionizing-radiation',
+	},
+	// ---- 13.4 Cosmic rays and shielding ----
+	'cosmic-ray': {
+		term: 'Cosmic ray',
+		def: 'A fast charged particle from space, mostly protons (about 90%) and helium nuclei (9%), typically with hundreds of MeV to many GeV. Discovered by Victor Hess in 1912.',
+		chapter: 'cosmic-rays-shielding',
+	},
+	'column-density': {
+		term: 'Column density (areal density)',
+		def: 'The mass of material per unit area along a path, in g/cm² or kg/m². Shielding depends mainly on it: Earth’s air above sea level is 1033 g/cm², like 10 m of water.',
+		chapter: 'cosmic-rays-shielding',
+	},
+	'interaction-length': {
+		term: 'Nuclear interaction length',
+		def: 'The column density a fast proton or neutron crosses, on average, before hitting a nucleus head-on: about 83 g/cm² of water or 90 g/cm² of air. A beam of them falls as e^(−x/λ).',
+		chapter: 'cosmic-rays-shielding',
+	},
+	'air-shower': {
+		term: 'Air shower',
+		def: 'The cascade of secondary particles made when a cosmic ray smashes into a nucleus high in the atmosphere. Most of what reaches the ground is muons.',
+		chapter: 'cosmic-rays-shielding',
+	},
+	muon: {
+		term: 'Muon',
+		def: 'A heavier cousin of the electron (207 times its mass) that decays in 2.2 µs. Muons from air showers reach the ground at about one per square centimetre per minute.',
+		chapter: 'cosmic-rays-shielding',
+	},
+	'interstellar-medium': {
+		term: 'Interstellar medium',
+		def: 'The thin gas and dust between the stars, mostly hydrogen. Near the Sun it holds about 0.3 atoms per cubic centimetre.',
+		chapter: 'cosmic-rays-shielding',
+	},
+	// ---- 13.5 Neutrinos ----
+	neutrino: {
+		term: 'Neutrino (ν)',
+		def: 'An uncharged particle with a tiny mass (well under 1 eV/c²) that feels only the weak force and gravity, so it passes through whole planets. Made in beta decay and in the Sun’s fusion; three kinds exist.',
+		chapter: 'neutrinos',
+	},
+	'weak-interaction': {
+		term: 'Weak interaction',
+		def: 'The fundamental force behind beta decay, which can turn a neutron into a proton. It acts over very short distances and is the only way (besides gravity) that neutrinos interact.',
+		chapter: 'neutrinos',
+	},
+	'cross-section': {
+		term: 'Cross-section (σ)',
+		def: 'The effective target area a particle presents for a given reaction. Reaction rate per target = flux × σ. A few-MeV antineutrino on a proton has σ ≈ 6 × 10⁻⁴⁴ cm².',
+		chapter: 'neutrinos',
+	},
+	'mean-free-path': {
+		term: 'Mean free path',
+		def: 'The average distance a particle travels before interacting, 1/(nσ) for n targets per unit volume each of cross-section σ. For reactor antineutrinos in water it is about 250 light-years.',
+		chapter: 'neutrinos',
+	},
+	'neutrino-oscillation': {
+		term: 'Neutrino oscillation',
+		def: 'Neutrinos changing between their three kinds as they travel. It happens only if neutrinos have mass; its discovery won the 2015 Nobel Prize.',
+		chapter: 'neutrinos',
+	},
+	'cherenkov-radiation': {
+		term: 'Cherenkov radiation',
+		def: 'Blue light given off when a charged particle moves through a material faster than light travels in that material (faster than c/n). Water and ice neutrino detectors watch for it.',
+		chapter: 'neutrinos',
+	},
+	'super-cross-sectionality': {
+		term: 'Super cross-sectionality',
+		def: 'In the novel, the property of Astrophage’s membrane that nothing can pass through it, not even neutrinos, so the cell can store energy as trapped neutrinos. Fiction.',
+		chapter: 'neutrinos',
+	},
 };
-

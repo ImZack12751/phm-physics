@@ -1,0 +1,42 @@
+---
+// Three zoom panels: atom (electron cloud, ~1e-10 m) → nucleus (cluster of protons and neutrons, a few fm) → one proton
+// (0.84 fm). Not to scale between panels; the zoom factors are written on the connecting lines.
+const A = { x: 100, y: 125, r: 78 }, N = { x: 300, y: 125 }, P = { x: 500, y: 125, r: 42 };
+// a hexagonal cluster of nucleons
+const nuc: { x: number; y: number; p: boolean }[] = [];
+const s = 15;
+const rows = [[0, 3], [-1, 4], [-2, 5], [-1, 4], [0, 3]];
+rows.forEach(([off, n], j) => {
+	for (let i = 0; i < n; i++) nuc.push({ x: N.x + (i - (n - 1) / 2) * s, y: N.y + (j - 2) * s * 0.87, p: (i + j) % 2 === 0 });
+});
+const electrons = [[-40, -38], [35, -50], [52, 22], [-20, 48], [-58, 8], [18, -12]];
+---
+
+<svg class="dg" viewBox="0 0 600 280" xmlns="http://www.w3.org/2000/svg">
+	<circle cx={A.x} cy={A.y} r={A.r} class="f-sky-soft" />
+	<circle cx={A.x} cy={A.y} r={A.r} class="s-sky w1 dash" />
+	{electrons.map(([dx, dy]) => <circle cx={A.x + dx} cy={A.y + dy} r="3" class="f-sky" />)}
+	<circle cx={A.x} cy={A.y} r="2" class="f-rose" />
+	<line x1={A.x + 2} y1={A.y - 2} x2={N.x - 48} y2={N.y - 50} class="s-muted w1 dash" />
+	<line x1={A.x + 2} y1={A.y + 2} x2={N.x - 48} y2={N.y + 50} class="s-muted w1 dash" />
+	<circle cx={N.x} cy={N.y} r="52" class="s-muted w1" />
+	{nuc.map((q) => <circle cx={q.x} cy={q.y} r="7" class={q.p ? 'f-rose' : 'f-muted'} />)}
+	<line x1={N.x + 8} y1={N.y - 4} x2={P.x - 30} y2={P.y - 32} class="s-muted w1 dash" />
+	<line x1={N.x + 8} y1={N.y + 4} x2={P.x - 30} y2={P.y + 32} class="s-muted w1 dash" />
+	<circle cx={P.x} cy={P.y} r={P.r} class="f-rose" />
+	<text x={P.x} y={P.y + 5} class="t-mid t-b">+e</text>
+	<text x={A.x} y="228" class="t-mid t-sm t-b">atom</text>
+	<text x={A.x} y="244" class="t-mid t-sm">about 10⁻¹⁰ m</text>
+	<text x={A.x} y="259" class="t-mid t-sm f-muted">electrons, mostly empty</text>
+	<text x={N.x} y="228" class="t-mid t-sm t-b">nucleus</text>
+	<text x={N.x} y="244" class="t-mid t-sm">a few fm (10⁻¹⁵ m)</text>
+	<text x={N.x} y="259" class="t-mid t-sm f-muted">xenon-132: radius 6.1 fm</text>
+	<text x={P.x} y="228" class="t-mid t-sm t-b">proton</text>
+	<text x={P.x} y="244" class="t-mid t-sm">radius 0.84 fm</text>
+	<text x={P.x} y="259" class="t-mid t-sm f-muted">neutron: same size, no charge</text>
+	<text x="200" y="26" class="t-mid t-sm f-muted">× 10 000 or more</text>
+	<text x="400" y="26" class="t-mid t-sm f-muted">× about 10</text>
+	<circle cx="236" cy="56" r="5" class="f-rose" /><text x="246" y="60" class="t-sm">proton</text>
+	<circle cx="236" cy="200" r="5" class="f-muted" /><text x="246" y="204" class="t-sm">neutron</text>
+	<text x="300" y="278" class="t-mid t-sm">if the nucleus were a 1 cm marble, the atom would be about 600 m across</text>
+</svg>

@@ -1,0 +1,376 @@
+---
+title: Ionizing radiation
+description: What makes radiation ionizing (about 10 eV per particle or photon), alpha, beta and gamma rays and how far each gets, exponential attenuation of gamma rays and half-value layers, the gray and the sievert, why a lethal dose carries less energy than a sip of coffee, radiation sickness and cancer risk, natural background and deep space, and what Rocky's crew died of.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import PhotonLadder from '../../../components/diagrams/part-13/PhotonLadder.astro';
+import Penetration from '../../../components/diagrams/part-13/Penetration.astro';
+import DoseLadder from '../../../components/diagrams/part-13/DoseLadder.astro';
+import ShieldLab from '../../../components/sims/ShieldLab.astro';
+
+## The scene
+
+When Rocky's ship, the *Blip-A*, left Erid, it carried 23 Eridians. On the long voyage to Tau Ceti they fell ill one after another and died, and Rocky, the ship's engineer, was left alone. He could not say what had killed them. Grace, listening to the story, works it out: radiation sickness. The Eridians had never met radiation and had built no protection against it. Rocky survived because his workshop was at the back of the ship, beside the tanks of Astrophage fuel, which blocked the radiation.
+
+What is "radiation" in this sense, and how does something invisible, which carries very little energy, kill? This chapter is about **ionizing** radiation: what it is, how far it gets through matter, how its dose is measured, and what it does to living things.
+
+## Prerequisites
+
+<Prereqs notes={{ isotopes: 'alpha, beta and gamma decay; activity', photons: 'E = hf, the electronvolt and 1240 eV·nm', 'specific-latent-heat': 'Q = mcΔT for the heating a dose causes', 'em-spectrum': 'ultraviolet, X-rays and gamma rays on the spectrum', 'exponentials-logarithms': 'exponential decay and half-lives', 'ratios-proportionality': 'the inverse-square law' }} />
+
+## The concept
+
+### What makes radiation ionizing
+
+"Radiation" just means energy travelling outwards: sunlight, radio, heat from a fire. Most of it is harmless in moderation. The dangerous kind is radiation whose individual photons or particles each carry enough energy to knock an electron out of an atom or molecule, leaving an <Term id="ion">ion</Term>. Chapter 13.1 showed that this takes about 10 eV or more: 13.6 eV for hydrogen, a little less for most molecules in our bodies. Radiation that can do it is <Term id="ionizing-radiation">ionizing radiation</Term>.
+
+For light, what counts is the energy of each photon, $E = hc/\lambda$, not the brightness (Chapter 7.3). A 10 eV photon has a wavelength of 124 nm, far in the ultraviolet. Visible photons carry 2 to 3 eV and can't ionize anything, however bright the light. Astrophage's Petrova photons carry only 0.048 eV: the *Hail Mary*'s engines pour out 540 TW of light, but not one photon of it is ionizing.
+
+<Figure caption="Photon energies on a logarithmic scale. Only photons above about 10 eV (far ultraviolet and beyond) can ionize atoms. Visible light, infrared and Astrophage's Petrova light cannot, however intense they are. X-rays carry thousands of eV and gamma rays from nuclei millions." alt="A horizontal logarithmic axis of photon energy from 0.01 electronvolts to 10 million electronvolts. Markers: Petrova line 0.048 eV; infrared; visible light 1.7 to 3.1 eV; hydrogen ionization 13.6 eV. A vertical red dashed line at 10 eV is labelled ionizing threshold, about 124 nanometres; everything to its right is shaded as ionizing. Further right: medical X-rays, tens of keV; gamma ray from potassium-40, 1.46 MeV.">
+	<PhotonLadder />
+</Figure>
+
+Every product of radioactive decay is ionizing. Alpha particles, beta particles and gamma rays (Chapter 13.2) carry about a million electronvolts each, enough to ionize tens of thousands of atoms. Each ionization in air costs on average about 33 eV (the rest goes into exciting atoms without freeing an electron), so a single 5 MeV alpha makes about 150 000 ions before it stops.
+
+### Charged particles: a short, dense trail
+
+An alpha or beta particle is charged, so it tugs on every electron it passes (Coulomb's law). It loses energy in a long series of small collisions, ionizing as it goes, and then stops. So charged particles have a fairly definite **range**:
+
+- **Alpha particles** (about 5 MeV, slow and heavy, with charge $2e$) ionize so densely that they stop within a few centimetres of air, a sheet of paper, or the dead outer layer of skin, about 40 µm. Outside the body they are harmless. Inside it, breathed in or swallowed, they are the most damaging of all, because they dump all their energy into a few cells.
+- **Beta particles** (electrons of typically 0.5 MeV) are lighter and faster and ionize less densely. They travel about a metre in air and are stopped by a few millimetres of aluminium or plastic.
+- **Fast protons and nuclei**, such as cosmic rays (Chapter 13.4), carry so much energy that they can cross metres of material.
+
+### Gamma rays: no range, only odds
+
+A gamma-ray or X-ray photon is uncharged. It doesn't lose energy gradually; it travels in a straight line until it hits an electron or nucleus in one go and is absorbed or scattered away. Every centimetre of material gives each photon the same chance of being removed, so the number surviving falls exponentially:
+
+$$
+I = I_{0}e^{-\mu x}.
+$$
+
+The <Term id="attenuation-coefficient">attenuation coefficient</Term> $\mu$ depends on the material and the photon energy. The thickness that halves the beam is the <Term id="half-value-layer">half-value layer</Term>, $x_{1/2} = \ln 2/\mu$, exactly like a half-life (Chapter 13.2). For 1 MeV gamma rays it is 0.86 cm of lead or 9.8 cm of water. No thickness stops every photon; each half-value layer just halves what gets through.
+
+<Figure caption="How far each kind of radiation gets. Alpha particles are stopped by a sheet of paper, beta particles by a few millimetres of aluminium. Gamma rays are only weakened, by half for each half-value layer: lead's is under a centimetre for 1 MeV gamma rays, so a few centimetres cut them to a few percent." alt="Three horizontal arrows starting from the left, labelled alpha, beta and gamma, aimed at three barriers in a row: a thin sheet of paper, a few millimetres of aluminium, and a thick block of lead. The alpha arrow stops at the paper. The beta arrow passes the paper and stops in the aluminium. The gamma arrow passes the paper and the aluminium and enters the lead, emerging thinner on the far side, labelled weakened, not stopped: halved by each 0.86 cm of lead at 1 MeV.">
+	<Penetration />
+</Figure>
+
+Why is lead the usual gamma shield? Mostly because it is dense. At about 1 MeV, gamma rays are scattered by electrons, and a gram of almost any material has about the same number of electrons. So the shielding depends on the **mass per unit area** of material in the way, in g/cm², more than on what the material is: 65 g/cm² of lead (5.7 cm) or of water (65 cm) cut 1 MeV gamma rays to 1% (Example 2). Lead just packs that mass into a thinner layer. At lower energies, such as medical X-rays, heavy atoms like lead absorb far more strongly per gram, which is why X-ray aprons can be thin.
+
+### Measuring the dose
+
+What matters for harm is how much radiation energy a body absorbs, per kilogram. That is the **absorbed dose**, measured in <Term id="gray">grays</Term>:
+
+$$
+D = \frac{E}{m}, \qquad 1\ \text{Gy} = 1\ \text{J/kg}.
+$$
+
+But a gray of alpha particles does far more biological damage than a gray of gamma rays, because the alphas crowd all their ionizations into a short track, breaking both strands of the DNA double helix at once more often. So for harm to people the absorbed dose is multiplied by a **radiation weighting factor** $w_{\text{R}}$, giving the **equivalent dose** in <Term id="sievert">sieverts</Term>:
+
+$$
+H = w_{\text{R}}D, \qquad w_{\text{R}} = 1\ \text{(gamma rays, X-rays, electrons)},\ 2\ \text{(protons)},\ 20\ \text{(alpha particles, heavy nuclei)}.
+$$
+
+Everyday doses are in millisieverts (mSv) or microsieverts (µSv).
+
+### A small amount of energy, in the wrong place
+
+Here is the puzzle. A whole-body dose of 5 Gy kills about half of people who receive it without treatment. For a 70 kg person that is 350 J, enough to warm the body by about a thousandth of a degree (Example 1). A cup of hot coffee, cooling, gives out 180 times more. Why is radiation so deadly?
+
+Because the energy arrives in big packets aimed at single molecules. A chemical bond holds with a few eV. Heat spreads energy as trillions of gentle jiggles of about 0.04 eV each (Chapter 6.1), far too small to break bonds. A single 1 MeV gamma ray carries enough to break hundreds of thousands of bonds, and delivers it along one track through a cell. When it breaks DNA, especially both strands at once, the cell may die or mutate. A 5 Gy dose means about $2 \times 10^{15}$ such packets, enough to hit the DNA of essentially every cell many times.
+
+### What a dose does
+
+Doses are usually thought of in two ranges.
+
+- **Large doses in a short time** kill cells faster than the body can replace them. The cells that divide fastest suffer first: the bone marrow that makes blood cells, and the lining of the gut. Above about 0.7 Gy to the whole body this causes <Term id="acute-radiation-syndrome">acute radiation syndrome</Term>, radiation sickness: nausea within hours, then a few apparently well days or weeks, then infections and bleeding as the blood cells run out. Between 2 and 6 Gy, untreated, from a few percent to almost everyone dies; above about 8 Gy it is almost always fatal, even with treatment. This slow, delayed, mysterious illness is a good match for what Rocky describes.
+- **Small doses** cause no sickness but raise the long-term risk of cancer. The usual estimate is a 5.5% chance of eventually developing a fatal cancer per sievert, applied in proportion even to small doses (a cautious assumption that is still debated).
+
+<Figure caption="Radiation doses, on a logarithmic scale from microsieverts to sieverts. Medical X-rays and a year of natural background are tiny compared with what causes radiation sickness, but a year in deep space without shielding, at the rate measured on the way to Mars, already reaches two-thirds of a sievert." alt="A horizontal bar chart on a logarithmic scale from 0.01 to 10 000 millisieverts. Bars: chest X-ray 0.02 mSv; potassium-40 in your body for a year 0.17; cosmic rays at sea level for a year 0.39; world average natural background for a year 2.4; public limit 1 mSv per year from artificial sources; CT scan 1 to 20; 180-day cruise to Mars 330; a year in deep space at that rate 670; radiation sickness begins about 700; half die without treatment about 4000 to 5000; almost always fatal above 8000. A dashed line at 700 is labelled acute radiation syndrome.">
+	<DoseLadder />
+</Figure>
+
+### Background radiation
+
+Everyone receives a steady trickle of <Term id="background-radiation">background radiation</Term>, about 2.4 mSv per year on average worldwide. About half comes from radon gas seeping out of the ground (Chapter 13.2), and the rest from rocks and building materials, from radioactive atoms in our food and our own bodies (potassium-40 gives about 0.17 mSv a year), and from cosmic rays (about 0.39 mSv a year at sea level, more on mountains and in aeroplanes; Chapter 13.4). Medical scans add more: a chest X-ray gives about 0.02 mSv, a CT scan 1 to 20 mSv.
+
+In space it is very different. On its way to Mars in 2011–12, NASA's Curiosity rover measured 1.84 mSv **per day** inside its spacecraft, from cosmic rays. That is a year of Earth background every 1.3 days, and 0.67 Sv in a year.
+
+### What killed Rocky's crew
+
+The novel doesn't give the *Blip-A*'s doses, so we can only estimate. At Curiosity's deep-space rate, an unshielded crew would collect about 0.67 Sv a year. That raises cancer risk but is spread out too thinly to cause sudden radiation sickness; it would take years to build up a lethal total. But the *Blip-A* was not drifting gently between planets. It crossed light-years at a large fraction of the speed of light, and at such speeds the thin gas of interstellar space hits the front of the ship as a beam of fast protons that can deliver lethal doses very quickly (Chapter 13.4). Either way, the physics backs the novel: an unshielded crew in deep space is in serious trouble, and a crew member who works behind tonnes of material, as Rocky did beside the fuel tanks, would be far better protected.
+
+### Distance helps too
+
+Radiation from a small source spreads out over a sphere, so the dose rate falls as $1/r^{2}$, the inverse-square law of Chapter 0.5. Doubling your distance from a source quarters the dose. Time, distance and shielding are the three ways to cut a dose.
+
+## Formulas
+
+### The ionizing threshold
+
+$$
+E = \frac{hc}{\lambda} \qquad\Rightarrow\qquad \lambda = \frac{1240\ \text{eV·nm}}{10\ \text{eV}} = 124\ \text{nm}
+$$
+
+### Exponential attenuation
+
+In a thin layer $dx$ each photon has the same small chance $\mu\,dx$ of being removed, so
+
+$$
+\frac{dI}{dx} = -\mu I \qquad\Rightarrow\qquad \boxed{I = I_{0}e^{-\mu x}}
+$$
+
+(the same equation as radioactive decay in Chapter 13.2, with distance in place of time). The half-value layer:
+
+$$
+\tfrac{1}{2} = e^{-\mu x_{1/2}} \qquad\Rightarrow\qquad \boxed{x_{1/2} = \frac{\ln 2}{\mu}}
+$$
+
+Tables give the **mass attenuation coefficient** $\mu/\rho$ (in cm²/g), because it depends little on density. Then $\mu = (\mu/\rho)\,\rho$, and the exponent is $(\mu/\rho) \times \rho x$, where $\rho x$ is the mass per unit area of shielding.
+
+### Dose
+
+$$
+\boxed{D = \frac{E}{m}}\ (\text{Gy}) \qquad \boxed{H = w_{\text{R}}D}\ (\text{Sv}) \qquad \dot{D} \propto \frac{1}{r^{2}}\ \text{(small source)}
+$$
+
+### Warming by a dose
+
+All the absorbed energy ends up as heat, so with $Q = mc\,\Delta T$ (Chapter 6.2) and $D = Q/m$:
+
+$$
+\Delta T = \frac{D}{c}
+$$
+
+## Worked examples
+
+<Example n={1} title="The energy in a lethal dose">
+A whole-body dose of 5 Gy is about the dose that kills half of people without treatment. How much energy does a 70 kg person absorb, and how much does it warm them ($c = 4186$ J/(kg·K), taking the body as water)? Compare with a 250 g cup of coffee cooled by 60 K. How many 1 MeV gamma rays carry 350 J?
+
+$$
+E = Dm = 5\ \text{J/kg} \times 70\ \text{kg} = 350\ \text{J}
+$$
+
+$$
+\Delta T = \frac{D}{c} = \frac{5\ \text{J/kg}}{4186\ \text{J/(kg·K)}} = 0.0012\ \text{K}
+$$
+
+$$
+Q_{\text{coffee}} = 0.25\ \text{kg} \times 4186\ \text{J/(kg·K)} \times 60\ \text{K} = 6.3 \times 10^{4}\ \text{J}
+$$
+
+The coffee holds 180 times as much energy. The number of 1 MeV gamma rays:
+
+$$
+N = \frac{350\ \text{J}}{1.602 \times 10^{-13}\ \text{J}} = 2.2 \times 10^{15}
+$$
+
+Spread over the body's roughly $3.7 \times 10^{13}$ cells, that is about 60 high-energy tracks through each one. The danger is not the amount of energy but its delivery in huge packets.
+</Example>
+
+<Example n={2} title="Lead or water?">
+For 1 MeV gamma rays, $\mu/\rho = 0.07102$ cm²/g for lead (density 11.35 g/cm³) and 0.07072 cm²/g for water. Find each half-value layer and the thickness that cuts the beam to 1%, in cm and in g/cm².
+
+$$
+\mu_{\text{Pb}} = 0.07102\ \text{cm}^{2}/\text{g} \times 11.35\ \text{g/cm}^{3} = 0.806\ \text{cm}^{-1}, \qquad \mu_{\text{water}} = 0.0707\ \text{cm}^{-1}
+$$
+
+$$
+x_{1/2,\text{Pb}} = \frac{0.693}{0.806\ \text{cm}^{-1}} = 0.86\ \text{cm}, \qquad x_{1/2,\text{water}} = \frac{0.693}{0.0707\ \text{cm}^{-1}} = 9.8\ \text{cm}
+$$
+
+For 1% we need $e^{-\mu x} = 0.01$, so $\mu x = \ln 100 = 4.61$:
+
+$$
+x_{\text{Pb}} = \frac{4.61}{0.806\ \text{cm}^{-1}} = 5.7\ \text{cm}, \qquad x_{\text{water}} = \frac{4.61}{0.0707\ \text{cm}^{-1}} = 65\ \text{cm}
+$$
+
+$$
+\rho x:\quad 11.35 \times 5.71 = 64.8\ \text{g/cm}^{2} \ \text{(lead)}, \qquad 1.00 \times 65.1 = 65.1\ \text{g/cm}^{2} \ \text{(water)}
+$$
+
+Per gram, they are almost identical. A shield is a matter of putting enough mass in the way; lead is just the most compact way to do it.
+</Example>
+
+<Example n={3} title="Grays and sieverts">
+A worker absorbs 1.0 mGy of gamma rays, 1.0 mGy of fast protons and 1.0 mGy of alpha particles (from inhaled dust). Find each equivalent dose and the total.
+
+$$
+H = 1 \times 1.0 + 2 \times 1.0 + 20 \times 1.0 = 1.0 + 2.0 + 20\ \text{mSv} = 23\ \text{mSv}
+$$
+
+The alpha dose, equal in energy, counts twenty times as much. 23 mSv is about ten years of natural background.
+</Example>
+
+<Example n={4} title="A year in deep space" book>
+Curiosity measured 1.84 mSv per day on its way to Mars. At that rate, what does an unshielded crew receive in a year? How long until they reach 1 Sv? What is the added risk of fatal cancer from a year, at 5.5% per sievert?
+
+$$
+H = 1.84\ \text{mSv/day} \times 365.25\ \text{days} = 672\ \text{mSv} = 0.67\ \text{Sv}
+$$
+
+$$
+t = \frac{1000\ \text{mSv}}{1.84\ \text{mSv/day}} = 543\ \text{days} = 1.5\ \text{years}
+$$
+
+$$
+\text{risk} = 0.055\ \text{Sv}^{-1} \times 0.672\ \text{Sv} = 0.037 = 3.7\%
+$$
+
+A year in deep space costs about a 4% chance of a fatal cancer later, and gives in a year 280 years of Earth background. It wouldn't make a crew sick within weeks, but a voyage of many years, or a faster ship (Chapter 13.4), would.
+</Example>
+
+<Example n={5} title="Which photons ionize?" book>
+Find the photon energies of the Petrova line (25.984 µm), green light (500 nm) and the wavelength of a photon that can just ionize hydrogen (13.6 eV).
+
+$$
+E_{\text{Petrova}} = \frac{1240\ \text{eV·nm}}{25\,984\ \text{nm}} = 0.0477\ \text{eV} \qquad E_{\text{green}} = \frac{1240\ \text{eV·nm}}{500\ \text{nm}} = 2.48\ \text{eV}
+$$
+
+$$
+\lambda_{\text{H}} = \frac{1240\ \text{eV·nm}}{13.6\ \text{eV}} = 91.2\ \text{nm}
+$$
+
+Green light is about five times short of ionizing hydrogen, the Petrova line nearly 300 times short. The Astrophage drive's light can heat whatever it hits, intensely, but it can't ionize.
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** The ionizing threshold of about 10 eV, the ranges of alpha and beta particles, exponential attenuation of gamma rays (NIST's attenuation tables), the gray, the sievert and the ICRP weighting factors, the stages of acute radiation syndrome, the 5.5% per sievert risk estimate and the background doses are all standard. Curiosity's 1.84 mSv per day in cruise is a published measurement (Hassler, Zeitlin and colleagues, 2013).
+
+**Weir's inventions.** In the novel, all of the *Blip-A*'s crew except Rocky died of radiation sickness, and Rocky was saved by working beside the Astrophage fuel tanks. That the Eridians never discovered radiation is the novel's premise. How Eridian bodies respond to radiation is unknown; we have assumed they are roughly as vulnerable as ours.
+
+**How realistic are the numbers?** The cause of death is very plausible. Cosmic radiation alone, at interplanetary rates, would take years to deliver a lethal total, and would more likely cause cancers than acute sickness. But interstellar travel at high speed is far harsher (Chapter 13.4), and a crew dying over months of a sickness they didn't understand is believable. Thick tanks of anything, including Astrophage, are a realistic radiation shield.
+</RealVsBook>
+
+## Interactive simulation
+
+<ShieldLab />
+
+Things to try: fire 1 MeV gamma rays at 5 cm of lead, then at 5 cm of water; then set the water to 65 cm. Switch to 0.1 MeV X-rays: a millimetre of lead now does what centimetres did before. Try alpha particles: even 0.1 mm of water stops every one.
+
+## Practice set
+
+<Problem n={1} level="easy">
+A 70 kg person absorbs 0.70 J of gamma rays. What are the absorbed dose and the equivalent dose?
+
+<Solution>
+$D = 0.70/70 = 0.010$ Gy = 10 mGy. With $w_{\text{R}} = 1$, $H = 10$ mSv.
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy">
+Find the equivalent dose from 2.0 mGy of fast protons.
+
+<Solution>
+$H = 2 \times 2.0 = 4.0$ mSv.
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy">
+How many chest X-rays (0.02 mSv each) give the same dose as a year of average background (2.4 mSv)?
+
+<Solution>
+$2.4/0.02 = 120$.
+</Solution>
+</Problem>
+
+<Problem n={4} level="easy">
+How many half-value layers cut a gamma beam to about a thousandth?
+
+<Solution>
+$2^{10} = 1024$, so 10 half-value layers. For 1 MeV gamma rays in lead, that is 8.6 cm.
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium">
+For 0.1 MeV X-rays, $\mu/\rho$ for lead is 5.549 cm²/g. Find lead's half-value layer, and explain why X-ray aprons can be thin.
+
+<Solution>
+$\mu = 5.549 \times 11.35 = 63.0\ \text{cm}^{-1}$, so $x_{1/2} = 0.693/63.0 = 0.011$ cm = 0.11 mm. Half a millimetre of lead is about 4.5 half-value layers, cutting such X-rays to about 4%. At low energies heavy atoms absorb photons very strongly (the photoelectric effect, Chapter 7.3).
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium">
+A small source gives a dose rate of 40 µSv per hour at 1.0 m. What is the dose rate at 3.0 m? How far away must you stand to get 1 µSv per hour?
+
+<Solution>
+At 3 m: $40/3^{2} = 4.4$ µSv/h. For 1 µSv/h: $r = 1.0 \times \sqrt{40} = 6.3$ m.
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium">
+A crew cruises 180 days to Mars at 1.84 mSv per day. What dose do they receive? NASA's career limit for astronauts has been 1 Sv; how much of it does the cruise use?
+
+<Solution>
+$1.84 \times 180 = 331$ mSv = 0.33 Sv, a third of the limit for a one-way trip.
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium">
+How much water cuts 1 MeV gamma rays by a factor of a million?
+
+<Solution>
+$x = \ln(10^{6})/0.0707 = 13.8/0.0707 = 195$ cm, about 2 m.
+</Solution>
+</Problem>
+
+<Problem n={9} level="medium">
+What is the total background dose over an 80-year life at 2.4 mSv per year, and the corresponding fatal-cancer risk at 5.5% per sievert?
+
+<Solution>
+$80 \times 2.4 = 192$ mSv = 0.19 Sv. Risk $= 0.055 \times 0.192 = 0.011$, about 1%.
+</Solution>
+</Problem>
+
+<Problem n={10} level="challenging">
+A 5.0 MeV alpha particle stops within about 40 µm of tissue (density 1.0 g/cm³). Find its average energy loss per g/cm². A fast proton loses about 2 MeV per g/cm². How much more densely does the alpha ionize? How does that relate to the weighting factor of 20?
+
+<Solution>
+40 µm is $4.0 \times 10^{-3}$ cm, so $\rho x = 4.0 \times 10^{-3}$ g/cm². Energy loss: $5.0/4.0 \times 10^{-3} = 1250$ MeV per g/cm², about 600 times a fast proton's. Such dense tracks often break both strands of DNA at once, which cells repair poorly: hence the much higher weighting.
+</Solution>
+</Problem>
+
+<Problem n={11} level="challenging" book>
+Suppose Rocky's crewmates each received a lethal 5 Sv on the voyage, while the fuel tanks around Rocky's workshop cut his dose by a factor of 100. What dose did Rocky get, and what added cancer risk (for a human) would that carry?
+
+<Solution>
+$5/100 = 0.05$ Sv = 50 mSv, about 20 years of Earth background, with a risk of $0.055 \times 0.05 = 0.0028$, about 0.3%. A factor of 100 is about 6.6 half-value layers for gamma rays; for the fast protons of deep space it needs metres of material (Chapter 13.4).
+</Solution>
+</Problem>
+
+<Problem n={12} level="challenging">
+At 1 MeV, lead and water shield almost equally well per gram, but at 0.1 MeV lead's $\mu/\rho$ (5.549 cm²/g) is many times water's (0.1707 cm²/g). How many times? Which shield would you choose, per kilogram, against (a) 1 MeV gamma rays, (b) 0.1 MeV X-rays?
+
+<Solution>
+$5.549/0.1707 = 32.5$ times. (a) Either; per kilogram they are equal, and water (or fuel, or anything already on board) works as well as lead. (b) Lead, by a factor of 30 per kilogram.
+</Solution>
+</Problem>
+
+## Summary
+
+- Radiation is ionizing if each photon or particle carries more than about 10 eV, enough to knock an electron out of an atom. For light that means wavelengths shorter than about 124 nm. Visible, infrared and Petrova light are not ionizing.
+- Alpha particles stop in paper or skin, beta particles in a few millimetres of aluminium. Gamma rays are attenuated exponentially, $I = I_{0}e^{-\mu x}$, with half-value layer $\ln 2/\mu$; at 1 MeV, shielding depends mainly on mass per area.
+- Absorbed dose is energy per kilogram, in grays. Equivalent dose in sieverts weights it by the radiation type: 1 for gamma rays and electrons, 2 for protons, 20 for alpha particles.
+- A lethal dose carries little energy (5 Gy warms a body by 0.001 K), but delivers it in packets big enough to break DNA. Above about 0.7 Gy at once, radiation sickness follows; above about 8 Gy it is almost always fatal. Small doses add cancer risk, about 5.5% per sievert.
+- Background radiation is about 2.4 mSv per year. In deep space it is about 1.84 mSv per day. Rocky's crew, unshielded, died of radiation sickness; Rocky survived behind the fuel tanks.
+
+**Formulas from this chapter**
+
+$$
+\lambda_{\text{ionizing}} \lesssim 124\ \text{nm} \qquad I = I_{0}e^{-\mu x} \qquad x_{1/2} = \frac{\ln 2}{\mu} \qquad D = \frac{E}{m} \qquad H = w_{\text{R}}D \qquad \Delta T = \frac{D}{c}
+$$
+
+## Sources
+
+- The ionizing threshold of about 10 eV (124 nm) and the 33 eV average per ion pair (W-value): Wikipedia, ["Ionizing radiation"](https://en.wikipedia.org/wiki/Ionizing_radiation).
+- Alpha particles (about 5 MeV, a few centimetres of air, about 40 µm of skin, weighting about 20): Wikipedia, ["Alpha particle"](https://en.wikipedia.org/wiki/Alpha_particle). Beta particles (about 0.5 MeV, about 1 m of air, a few millimetres of aluminium): Wikipedia, ["Beta particle"](https://en.wikipedia.org/wiki/Beta_particle).
+- Mass attenuation coefficients (lead: 5.549, 0.1614, 0.07102, 0.04606 cm²/g at 0.1, 0.5, 1 and 2 MeV; water: 0.1707, 0.09687, 0.07072, 0.04942): NIST, [X-Ray Mass Attenuation Coefficients](https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z82.html) and [water](https://physics.nist.gov/PhysRefData/XrayMassCoef/ComTab/water.html).
+- Radiation weighting factors (ICRP 103: photons and electrons 1, protons 2, alpha particles 20): Wikipedia, ["Equivalent dose"](https://en.wikipedia.org/wiki/Equivalent_dose). The 5.5% fatal-cancer risk per sievert, the public limit of 1 mSv per year and NASA's 1 Sv career limit: Wikipedia, ["Sievert"](https://en.wikipedia.org/wiki/Sievert).
+- Acute radiation syndrome (above about 0.7 Gy; mortality by dose band; over 8 Gy almost always fatal; bone marrow and gut): Wikipedia, ["Acute radiation syndrome"](https://en.wikipedia.org/wiki/Acute_radiation_syndrome).
+- Background radiation (2.4 mSv per year world average, radon 1.26, cosmic 0.39, potassium-40 0.17, chest X-ray 20 µSv, CT 1 to 20 mSv): Wikipedia, ["Background radiation"](https://en.wikipedia.org/wiki/Background_radiation).
+- Curiosity's radiation detector: 1.84 mSv per day during the cruise to Mars: Southwest Research Institute press release via [SwRI](https://swri.org/node/9079) and Space.com, ["Radiation on Mars 'manageable' for manned mission"](https://space.com/23875-mars-radiation-life-manned-mission.html).
+- About $3.7 \times 10^{13}$ cells in a human body: Bianconi and colleagues, ["An estimation of the number of cells in the human body"](https://doi.org/10.3109/03014460.2013.807878), *Annals of Human Biology* 40, 463 (2013). Potassium-40's 1.46 MeV gamma ray: Wikipedia, ["Potassium-40"](https://en.wikipedia.org/wiki/Potassium-40).
+- Specific heat of water, 4186 J/(kg·K): as in [Chapter 6.2](/part-6/specific-latent-heat/). Astrophage's 540 TW drive: [Chapter 5.3](/part-5/power/).
+- The *Blip-A*'s 23 Eridians, the crew's deaths from radiation sickness, Rocky's survival in his workshop beside the Astrophage tanks: Wikipedia, [*Project Hail Mary*](https://en.wikipedia.org/wiki/Project_Hail_Mary), and Looper, ["Project Hail Mary's most confusing moments explained"](https://www.looper.com/2128459/project-hail-mary-movie-confusing-moments-explained) (a reader source).

@@ -1,0 +1,398 @@
+---
+title: Isotopes
+description: Atoms of one element with different numbers of neutrons, atomic weights as averages (xenon's nine isotopes), what holds a nucleus together and the binding-energy curve behind fusion and fission, the three kinds of radioactive decay, the decay law N = N₀e^(−λt) and activity A = λN, radiocarbon and uranium dating, the radioactivity inside our own bodies, and how a civilisation of Eridians could have missed radioactivity altogether.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import HydrogenIsotopes from '../../../components/diagrams/part-13/HydrogenIsotopes.astro';
+import BindingCurve from '../../../components/diagrams/part-13/BindingCurve.astro';
+import DecayModes from '../../../components/diagrams/part-13/DecayModes.astro';
+import DecayLab from '../../../components/sims/DecayLab.astro';
+
+## The scene
+
+Rocky is a superb engineer. His people know their chemistry, build ships out of xenonite, and fuel them with Astrophage. Yet when Grace learns that Rocky's crewmates died one after another on the voyage, and Rocky describes the illness, Grace realises that the Eridians had never heard of radiation. They had no idea that space is full of it, and so the *Blip-A* carried no protection.
+
+How could a technological civilisation miss something so basic? On Earth, radioactivity was found by accident. In 1896 Henri Becquerel was studying uranium salts that glow after being left in sunlight. He wrapped photographic plates in black paper, set the salts on top and planned to put them in the Sun. Paris stayed cloudy, so he left everything in a drawer, and when he developed the plates anyway, they were fogged: the uranium was giving out penetrating rays of its own, with no sunlight needed. The discovery depended on photographic plates, and photography depends on eyes. The Eridians sense their world by sound (Chapter 11.5). It is our speculation, not the novel's, but a species that never needed to record light might never have stumbled on a fogged plate.
+
+This chapter looks inside the nucleus: why atoms of one element come in several weights, what holds a nucleus together, and why some nuclei fall apart at a perfectly steady average rate.
+
+## Prerequisites
+
+<Prereqs notes={{ 'atomic-structure': 'protons, neutrons, electrons, Z and the size of a nucleus', 'mass-energy': 'mass defects, the atomic mass unit and 931.5 MeV', 'exponentials-logarithms': 'half-lives, e and natural logarithms', integrals: 'integrating e to the power kt', 'gas-laws': 'the mole and Avogadro’s number', derivatives: 'the derivative of e to the power kt' }} />
+
+## The concept
+
+### Same element, different weights
+
+An element is fixed by its number of protons, $Z$. But the number of neutrons, $N$, can vary. Atoms with the same $Z$ and different $N$ are <Term id="isotope">isotopes</Term> of the element (Greek for "same place", because they share one place in the periodic table). Each is labelled by its <Term id="mass-number">mass number</Term> $A = Z + N$, the total count of nucleons:
+
+$$
+{}^{A}_{Z}\text{X}, \qquad\text{for example}\qquad {}^{14}_{6}\text{C}\ \text{(carbon-14: 6 protons, 8 neutrons)}.
+$$
+
+Since $Z$ is implied by the symbol, people usually write just ¹⁴C or carbon-14.
+
+Hydrogen shows the idea most simply. Ordinary hydrogen is a single proton; about one hydrogen atom in 8700 is **deuterium**, with a proton and a neutron; and **tritium**, with two neutrons, is radioactive and found only in traces.
+
+<Figure caption="The three isotopes of hydrogen. Each has one proton and one electron, so all three behave the same chemically; they differ only in their neutrons. Deuterium is stable but rare; tritium decays with a half-life of 12.3 years." alt="Three atoms side by side, each with one electron drawn on a dashed orbit. Left: hydrogen-1, a single red proton, labelled 99.988% of natural hydrogen. Middle: hydrogen-2, deuterium, a red proton and a grey neutron, labelled 0.012%, stable. Right: hydrogen-3, tritium, a red proton and two grey neutrons, labelled traces only, radioactive, half-life 12.3 years.">
+	<HydrogenIsotopes />
+</Figure>
+
+Because chemistry depends on electrons, and the number of electrons is set by $Z$, isotopes of an element react in the same way. Their only differences are mass, which matters a little (heavy water, made with deuterium, is 11% denser than ordinary water), and the stability of the nucleus, which matters a lot.
+
+### Atomic weights are averages
+
+Most elements in nature are mixtures of isotopes. The **atomic weight** printed in the periodic table is the average mass of an atom, weighted by how common each isotope is, in <Term id="atomic-mass-unit">atomic mass units</Term> ($1\ \text{u} = 1.660\,539 \times 10^{-27}$ kg, one twelfth of a carbon-12 atom). Chlorine is 75.76% chlorine-35 and 24.24% chlorine-37, which is why its atomic weight, 35.45, is nowhere near a whole number. Xenon, the stuff of xenonite, has nine natural isotopes (Example 1).
+
+### What holds a nucleus together
+
+A nucleus packs protons together a femtometre apart, and by Coulomb's law they repel each other with forces of hundreds of newtons (Chapter 13.1, Problem 2). Something stronger must hold them in. That is the <Term id="strong-force">strong nuclear force</Term>, an attraction between all nucleons, protons and neutrons alike. It is far stronger than the electric force at distances of about a femtometre, but it dies away within two or three femtometres, so it only acts between near neighbours.
+
+The energy needed to pull a nucleus completely apart into separate protons and neutrons is its <Term id="binding-energy">binding energy</Term>. By $E = mc^{2}$ (Chapter 9.1), a bound nucleus weighs less than its parts, and the difference times $c^{2}$ is the binding energy. Helium-4 is lighter than two hydrogen atoms and two neutrons by 0.0304 u, so its binding energy is 28.3 MeV (Example 2). That is about a million times the energy that holds an electron in an atom: nuclear energies are measured in MeV, chemical ones in eV.
+
+The most useful number is the binding energy **per nucleon**, $B/A$. It rises steeply through the light nuclei, peaks near iron-56 at about 8.8 MeV, and falls slowly towards uranium.
+
+<Figure caption="Binding energy per nucleon, calculated from measured atomic masses. Nuclei near iron are the most tightly bound. Joining light nuclei (fusion) or splitting heavy ones (fission) moves towards the peak, and the difference in binding energy is released." alt="A graph with mass number from 0 to 240 on the horizontal axis and binding energy per nucleon from 0 to 9 MeV on the vertical axis. Plotted points joined by a smooth curve: hydrogen-2 at 1.1, helium-4 at 7.1, carbon-12 at 7.7, oxygen-16 at 8.0, iron-56 at 8.8 at the peak, uranium-238 at 7.6. An arrow on the left pointing up the steep rise towards iron is labelled fusion releases energy; an arrow on the right pointing from uranium back towards iron is labelled fission releases energy. A dashed line marks the peak near iron.">
+	<BindingCurve />
+</Figure>
+
+This curve explains both kinds of nuclear power. In <Term id="nuclear-fusion">fusion</Term>, light nuclei join and climb the steep left side: the Sun turns hydrogen into helium and releases 26.7 MeV for every helium atom made (Chapter 9.1). In <Term id="nuclear-fission">fission</Term>, a heavy nucleus such as uranium-235 splits into two mid-sized ones, each more tightly bound, and releases about 200 MeV.
+
+### Unstable nuclei
+
+Not every combination of protons and neutrons holds together. Neutrons help, because they add strong-force glue without adding electric repulsion, so heavy nuclei need more neutrons than protons: iron-56 has 30 neutrons for 26 protons, uranium-238 has 146 for 92. A nucleus with too many or too few neutrons, or simply too big, can lower its energy by changing into a different nucleus. Such nuclei are radioactive, and the change is a decay. <Term id="radioactivity">Radioactivity</Term> comes in three main kinds:
+
+- **Alpha.** In <Term id="alpha-decay">alpha decay</Term> a heavy nucleus throws out an alpha particle: a helium-4 nucleus, two protons and two neutrons bound so tightly that they leave as one. $Z$ falls by 2 and $A$ by 4. Uranium-238 becomes thorium-234, releasing 4.27 MeV.
+- **Beta.** In <Term id="beta-decay">beta decay</Term> a neutron inside the nucleus turns into a proton and shoots out an electron, so $Z$ rises by 1 and $A$ stays the same. Carbon-14 becomes nitrogen-14. (In beta-plus decay a proton becomes a neutron and emits a positron, the electron's antiparticle from Chapter 9.1.) Something else is emitted too, which Chapter 13.5 is about.
+- **Gamma.** After an alpha or beta decay, the new nucleus is often left in an excited state, like an atom with an electron in a high level. It drops to its ground state by emitting a <Term id="gamma-ray">gamma ray</Term>: a photon, typically of 0.1 to a few MeV, a million times more energetic than visible light.
+
+<Figure caption="The three kinds of decay as moves on a chart of nuclei, with proton number Z across and neutron number N up. Alpha decay steps two down and two left; beta-minus swaps a neutron for a proton; beta-plus does the reverse; gamma emission leaves the nucleus where it is, only lowering its energy." alt="A grid with proton number Z increasing to the right and neutron number N increasing upwards. A central square is labelled parent. An arrow two squares down and two squares left is labelled alpha: Z minus 2, N minus 2, A minus 4. An arrow one square down and one right is labelled beta minus: a neutron becomes a proton, Z plus 1. An arrow one square up and one left is labelled beta plus: Z minus 1. A small loop on the parent square is labelled gamma: same nucleus, less energy.">
+	<DecayModes />
+</Figure>
+
+Decays happen one after another until a stable nucleus is reached. Uranium-238 ends up as lead-206 after a <Term id="decay-chain">decay chain</Term> of 8 alpha and 6 beta decays (Example 5). One link in that chain is radon-222, a gas, which seeps out of rocks into houses and is the largest source of natural radiation for most people (Chapter 13.3).
+
+### Radioactive decay is random but regular
+
+Nobody can say when a particular nucleus will decay. A carbon-14 nucleus formed a minute ago and one formed in the time of the dinosaurs are equally likely to decay in the next second: nuclei don't age. All we can give is a probability per second, the <Term id="decay-constant">decay constant</Term> $\lambda$, which is the same for every nucleus of that isotope and can't be changed by heat, pressure or chemistry.
+
+With $N$ nuclei, the expected number decaying per second is $\lambda N$. That is the sample's <Term id="activity">activity</Term>, $A = \lambda N$, measured in <Term id="becquerel">becquerels</Term> (1 Bq is one decay per second). Since each decay removes a nucleus,
+
+$$
+\frac{dN}{dt} = -\lambda N,
+$$
+
+which is exactly the equation of <Term id="exponential-decay">exponential decay</Term> from Chapter 0.8. Its solution is $N = N_{0}e^{-\lambda t}$, and the <Term id="half-life">half-life</Term> $t_{1/2} = \ln 2/\lambda$ is the time for half of any sample to decay. Half-lives range from fractions of a microsecond to many billions of years:
+
+| Isotope | Decay | Half-life |
+|---|---|---|
+| iodine-131 | beta | 8.02 days |
+| tritium (hydrogen-3) | beta | 12.32 years |
+| carbon-14 | beta | 5700 years |
+| uranium-235 | alpha | 704 million years |
+| potassium-40 | mostly beta | 1.25 billion years |
+| uranium-238 | alpha | 4.46 billion years |
+
+The randomness is real. Each nucleus decays when it decays; the smooth curve appears only because there are so many. The simulation lets you watch both at once.
+
+### Clocks in rocks and bones
+
+Because the decay rate never changes, radioactive isotopes are clocks.
+
+- **Radiocarbon.** Cosmic rays hitting the upper atmosphere make neutrons, which turn nitrogen-14 into carbon-14 (Chapter 13.4). It mixes into the air's carbon dioxide, about 1.2 atoms of carbon-14 for every $10^{12}$ carbon atoms, and every living thing takes in carbon at that ratio, giving about 14 decays per minute per gram of carbon. When an organism dies, it stops taking in fresh carbon and its carbon-14 decays away. Measure what is left, and you have its age: <Term id="radiocarbon-dating">radiocarbon dating</Term>, invented by Willard Libby in 1949.
+- **Uranium and potassium.** Uranium-238 and potassium-40 have half-lives of billions of years, comparable with Earth's age of 4.54 billion years. Rocks that contain them can be dated from how much of the parent has turned into its stable daughter (lead-206, or argon-40).
+
+### We are radioactive
+
+Natural potassium is 0.0117% potassium-40, and every human body contains about 140 g of potassium. That makes us radioactive: about 4400 nuclei decay inside each of us every second (Example 3). It is a small dose, about 0.17 mSv per year (Chapter 13.3), but it shows that radioactivity is part of the natural world, on Earth and presumably on Erid. The Eridians lived with it too; they just never noticed.
+
+## Formulas
+
+### Counting nucleons, and atomic weight
+
+$$
+\boxed{A = Z + N} \qquad\qquad \boxed{\bar{m} = \sum_{i} f_{i}m_{i}}
+$$
+
+where $f_{i}$ is the fraction of atoms that are isotope $i$, of mass $m_{i}$.
+
+### Binding energy
+
+Use atomic masses (which include electrons): a hydrogen atom $m_{\text{H}}$ brings one proton and one electron, so the electrons cancel.
+
+$$
+\boxed{B = \left(Zm_{\text{H}} + Nm_{\text{n}} - m_{\text{atom}}\right)c^{2}}, \qquad 1\ \text{u} \times c^{2} = 931.5\ \text{MeV}
+$$
+
+### The decay law
+
+Each of $N$ nuclei decays with probability $\lambda\,dt$ in a short time $dt$, so the number lost is $\lambda N\,dt$:
+
+$$
+\frac{dN}{dt} = -\lambda N.
+$$
+
+Try $N = N_{0}e^{-\lambda t}$: by the scaling rule (Chapter C.3), $\frac{d}{dt}N_{0}e^{-\lambda t} = -\lambda N_{0}e^{-\lambda t} = -\lambda N$. It works, and at $t = 0$ it gives $N_{0}$. So
+
+$$
+\boxed{N = N_{0}e^{-\lambda t}}, \qquad \boxed{A = \lambda N = A_{0}e^{-\lambda t}}.
+$$
+
+### Half-life and mean life
+
+Setting $N = \tfrac{1}{2}N_{0}$:
+
+$$
+\tfrac{1}{2} = e^{-\lambda t_{1/2}} \quad\Rightarrow\quad \boxed{t_{1/2} = \frac{\ln 2}{\lambda}}, \qquad N = N_{0}\left(\tfrac{1}{2}\right)^{t/t_{1/2}}.
+$$
+
+The average lifetime of a nucleus is $\tau = 1/\lambda = t_{1/2}/\ln 2 = 1.443\,t_{1/2}$ (Problem 12).
+
+### Age from a decay
+
+Solve $A = A_{0}(\tfrac{1}{2})^{t/t_{1/2}}$ for $t$ with logarithms (Chapter 0.8):
+
+$$
+\boxed{t = t_{1/2}\log_{2}\frac{A_{0}}{A} = \frac{t_{1/2}}{\ln 2}\ln\frac{A_{0}}{A}}
+$$
+
+### Bookkeeping in decays
+
+Charge and nucleon number are conserved: in ${}^{A}_{Z}\text{X} \to {}^{A'}_{Z'}\text{Y} + \dots$ the $A$s and the $Z$s balance on both sides. Alpha: ${}^{A}_{Z}\text{X} \to {}^{A-4}_{Z-2}\text{Y} + {}^{4}_{2}\text{He}$. Beta-minus: ${}^{A}_{Z}\text{X} \to {}^{A}_{Z+1}\text{Y} + e^{-} + \dots$
+
+## Worked examples
+
+<Example n={1} title="The atomic weight of xenon" book>
+Xenonite is made with xenon. Natural xenon is a mixture of nine isotopes, with these percentages (mass numbers in brackets): 0.095 (124), 0.089 (126), 1.91 (128), 26.4 (129), 4.07 (130), 21.2 (131), 26.9 (132), 10.4 (134), 8.86 (136). Using each mass number as its mass in u, find xenon's average atomic mass.
+
+The rounded percentages add up to 99.92%, so divide by that rather than by 100:
+
+$$
+\bar{m} = \frac{0.095 \times 124 + 0.089 \times 126 + 1.91 \times 128 + 26.4 \times 129 + 4.07 \times 130 + 21.2 \times 131 + 26.9 \times 132 + 10.4 \times 134 + 8.86 \times 136}{99.92}\ \text{u}
+$$
+
+$$
+= \frac{11.8 + 11.2 + 244.5 + 3405.6 + 529.1 + 2777.2 + 3550.8 + 1393.6 + 1205.0}{99.92}\ \text{u} = \frac{13\,128.7}{99.92}\ \text{u} = 131.39\ \text{u}
+$$
+
+The measured value is 131.293 u, 0.1 u less. The difference is binding energy: each nucleus weighs a little less than its mass number, because binding it released energy. Xenon-132, for example, has a mass of 131.904 u, not 132. Any xenonite made from natural xenon contains all nine isotopes, chemically indistinguishable.
+</Example>
+
+<Example n={2} title="The binding energy of helium-4">
+A helium-4 atom has mass 4.002 603 u, a hydrogen atom 1.007 825 u and a neutron 1.008 665 u. Find helium-4's binding energy and binding energy per nucleon, and compare with the 24.6 eV needed to remove one of its electrons.
+
+$$
+\Delta m = 2 \times 1.007\,825\ \text{u} + 2 \times 1.008\,665\ \text{u} - 4.002\,603\ \text{u} = 4.032\,980\ \text{u} - 4.002\,603\ \text{u} = 0.030\,377\ \text{u}
+$$
+
+$$
+B = 0.030\,377\ \text{u} \times 931.5\ \text{MeV/u} = 28.3\ \text{MeV}, \qquad \frac{B}{A} = \frac{28.3\ \text{MeV}}{4} = 7.07\ \text{MeV}
+$$
+
+$$
+\frac{28.3 \times 10^{6}\ \text{eV}}{24.6\ \text{eV}} = 1.15 \times 10^{6}
+$$
+
+The nucleus is bound about a million times more strongly than the electron. That ratio is why nuclear fuel holds about a million times more energy per kilogram than chemical fuel (Chapter 9.2).
+</Example>
+
+<Example n={3} title="Grace is radioactive" book>
+A 70 kg human contains about 16.7 mg of potassium-40 (molar mass 39.96 g/mol, half-life $1.248 \times 10^{9}$ years). Find the activity.
+
+$$
+N = \frac{0.0167\ \text{g}}{39.96\ \text{g/mol}} \times 6.022 \times 10^{23}\ \text{mol}^{-1} = 2.52 \times 10^{20}
+$$
+
+$$
+\lambda = \frac{\ln 2}{1.248 \times 10^{9} \times 3.156 \times 10^{7}\ \text{s}} = 1.76 \times 10^{-17}\ \text{s}^{-1}
+$$
+
+$$
+A = \lambda N = 1.76 \times 10^{-17}\ \text{s}^{-1} \times 2.52 \times 10^{20} = 4.4 \times 10^{3}\ \text{Bq}
+$$
+
+About 4400 decays every second, inside every person, including Grace on the *Hail Mary*. (Estimates for real bodies range from about 3900 to 4300 Bq, depending on how much potassium is assumed.) Because the half-life is so long, the activity is effectively constant over a lifetime.
+</Example>
+
+<Example n={4} title="Dating with carbon-14">
+Living carbon gives 14 decays per minute per gram. A piece of charcoal from an old fire gives 3.5 per minute per gram. How old is it? What is its age if it gives 10 per minute per gram?
+
+$$
+t = 5700\ \text{yr} \times \log_{2}\frac{14}{3.5} = 5700\ \text{yr} \times \log_{2}4 = 5700\ \text{yr} \times 2 = 11\,400\ \text{yr}
+$$
+
+$$
+t = 5700\ \text{yr} \times \log_{2}\frac{14}{10} = 5700\ \text{yr} \times \frac{\ln 1.4}{\ln 2} = 5700\ \text{yr} \times 0.485 = 2770\ \text{yr}
+$$
+
+The first is two half-lives; the second less than one. Check the 14 per minute from the carbon-14 ratio: a gram of carbon holds $6.022 \times 10^{23}/12.011 = 5.01 \times 10^{22}$ atoms, so $N = 1.2 \times 10^{-12} \times 5.01 \times 10^{22} = 6.0 \times 10^{10}$ carbon-14 atoms, and
+
+$$
+A = \frac{\ln 2}{5700 \times 3.156 \times 10^{7}\ \text{s}} \times 6.0 \times 10^{10} = 0.232\ \text{Bq} = 13.9\ \text{per minute}.
+$$
+</Example>
+
+<Example n={5} title="From uranium to lead">
+Uranium-238 ($Z = 92$) decays through a chain to lead-206 ($Z = 82$). How many alpha and beta decays must it contain? What fraction of the uranium-238 present when Earth formed, 4.54 billion years ago, is still here?
+
+Only alpha decays change $A$, by 4 each:
+
+$$
+n_{\alpha} = \frac{238 - 206}{4} = 8
+$$
+
+The 8 alphas lower $Z$ by 16, to $92 - 16 = 76$. Each beta-minus raises $Z$ by 1, and the end is 82:
+
+$$
+n_{\beta} = 82 - 76 = 6
+$$
+
+Fraction remaining:
+
+$$
+\frac{N}{N_{0}} = \left(\tfrac{1}{2}\right)^{4.54/4.463} = \left(\tfrac{1}{2}\right)^{1.017} = 0.494
+$$
+
+Half of Earth's original uranium-238 is still decaying, keeping the planet's interior warm.
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** Isotopes, atomic weights, the binding-energy curve, alpha, beta and gamma decay, the exponential decay law, and radiocarbon and uranium dating are all standard (OpenStax University Physics, Volume 3, chapter 10). Becquerel's 1896 discovery really did come from photographic plates left in a drawer on cloudy days. Potassium-40 in the body, about 4000 Bq, is well established.
+
+**Weir's inventions.** In the novel, the Eridians' ignorance of radiation is what kills Rocky's crew. The idea that a sightless species might miss radioactivity because it never used photographic plates is our speculation, not the novel's. The novel attributes their ignorance to living under a thick atmosphere and a strong magnetic field (Chapter 13.4).
+
+**How realistic are the numbers?** Plausible but not obvious. Earth's own discovery of radioactivity also came from electricity: the Curies measured it by the way radiation makes air conduct, which needs no eyes. An echolocating species with good electrical instruments could have found it. But the radiation at Erid's surface would be faint (as ours is), and without a reason to look, it is believable that nobody did.
+</RealVsBook>
+
+## Interactive simulation
+
+<DecayLab />
+
+Things to try: start 400 nuclei and press play. After one half-life, about half have decayed, but rarely exactly half. Reset and run again: the details change every time, but the curve doesn't. Try 100 nuclei (noisy) and 1600 (smooth). Watch any single square: it might decay at once or survive for several half-lives.
+
+## Practice set
+
+<Problem n={1} level="easy">
+How many protons and neutrons are in carbon-14, uranium-235 and uranium-238 ($Z = 6$ and 92)?
+
+<Solution>
+Carbon-14: 6 protons, 8 neutrons. Uranium-235: 92 protons, 143 neutrons. Uranium-238: 92 protons, 146 neutrons.
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy">
+Chlorine is 75.76% chlorine-35 (34.969 u) and 24.24% chlorine-37 (36.966 u). Find its atomic weight.
+
+<Solution>
+$0.7576 \times 34.969 + 0.2424 \times 36.966 = 26.492 + 8.961 = 35.45$ u.
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy">
+Iodine-131 has a half-life of 8.02 days. What fraction of a sample is left after 24 days? After 80 days?
+
+<Solution>
+24 days is 3 half-lives: $(1/2)^{3} = 1/8$. 80 days is $80/8.02 = 9.97$ half-lives: $(1/2)^{9.97} = 0.0010$, a thousandth.
+</Solution>
+</Problem>
+
+<Problem n={4} level="easy">
+Find carbon-14's decay constant in per year and per second.
+
+<Solution>
+$\lambda = \ln 2/5700\ \text{yr} = 1.22 \times 10^{-4}\ \text{yr}^{-1}$. In seconds: $1.216 \times 10^{-4}/3.156 \times 10^{7} = 3.85 \times 10^{-12}\ \text{s}^{-1}$.
+</Solution>
+</Problem>
+
+<Problem n={5} level="easy">
+Write the decays (a) carbon-14 by beta-minus, (b) radium-226 ($Z = 88$) by alpha. What does each become?
+
+<Solution>
+(a) ${}^{14}_{6}\text{C} \to {}^{14}_{7}\text{N} + e^{-} + \dots$: nitrogen-14. (b) ${}^{226}_{88}\text{Ra} \to {}^{222}_{86}\text{Rn} + {}^{4}_{2}\text{He}$: radon-222.
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium">
+An oxygen-16 atom has mass 15.994 915 u. Find its binding energy per nucleon.
+
+<Solution>
+$\Delta m = 8 \times 1.007\,825 + 8 \times 1.008\,665 - 15.994\,915 = 16.131\,920 - 15.994\,915 = 0.137\,005$ u. $B = 0.137\,005 \times 931.5 = 127.6$ MeV, so $B/A = 7.98$ MeV.
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium">
+Two deuterium atoms (2.014 102 u each) fuse into helium-4 (4.002 603 u). How much energy is released? Why is this so much more than the 1.1 MeV per nucleon deuterium is bound by?
+
+<Solution>
+$\Delta m = 4.028\,204 - 4.002\,603 = 0.025\,601$ u, so $Q = 0.025\,601 \times 931.5 = 23.8$ MeV. Deuterium's nucleons are bound by 1.1 MeV each, helium's by 7.1 MeV each; the 4 nucleons gain $4 \times (7.07 - 1.11) = 23.8$ MeV. Fusion climbs the steep left side of the binding curve.
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium">
+Glow-in-the-dark exit signs contain tritium (half-life 12.32 years). What fraction is left after 20 years? After 50 years?
+
+<Solution>
+$(1/2)^{20/12.32} = (1/2)^{1.62} = 0.32$. $(1/2)^{50/12.32} = (1/2)^{4.06} = 0.060$. After 50 years the sign glows at about 6% of its original brightness.
+</Solution>
+</Problem>
+
+<Problem n={9} level="medium">
+Radium-226 has a half-life of 1600 years and molar mass 226.0 g/mol. Find the activity of 1.00 g. (The old unit, the curie, was defined as $3.7 \times 10^{10}$ Bq.)
+
+<Solution>
+$N = 6.022 \times 10^{23}/226.0 = 2.66 \times 10^{21}$. $\lambda = \ln 2/(1600 \times 3.156 \times 10^{7}\ \text{s}) = 1.37 \times 10^{-11}\ \text{s}^{-1}$. $A = 3.66 \times 10^{10}$ Bq: about one curie, which was originally the activity of a gram of radium.
+</Solution>
+</Problem>
+
+<Problem n={10} level="medium" book>
+Grace's body has about 4400 Bq of potassium-40. How many potassium-40 nuclei decay inside him in a year? How many of his potassium-40 nuclei is that, as a fraction?
+
+<Solution>
+$4400 \times 3.156 \times 10^{7} = 1.4 \times 10^{11}$ decays per year. As a fraction of $2.52 \times 10^{20}$ nuclei: $5.5 \times 10^{-10}$, which is just $\lambda \times 1\ \text{yr} = \ln 2/1.248 \times 10^{9}$.
+</Solution>
+</Problem>
+
+<Problem n={11} level="challenging">
+Today natural uranium is 0.7204% uranium-235 (half-life 704 million years) and 99.274% uranium-238 (4.463 billion years). What was the uranium-235 percentage 2.0 billion years ago? (Natural nuclear reactors ran at Oklo in Gabon about 1.7 billion years ago, when the percentage was high enough.)
+
+<Solution>
+Going back 2.0 Gyr multiplies each amount by $2^{t/t_{1/2}}$: uranium-235 by $2^{2.0/0.704} = 7.16$ and uranium-238 by $2^{2.0/4.463} = 1.364$. Ratio now: $0.7204/99.274 = 0.007257$. Then: $0.007257 \times 7.16/1.364 = 0.0381$, so $0.0381/1.0381 = 3.7\%$, close to the 3 to 5% that nuclear reactors use today.
+</Solution>
+</Problem>
+
+<Problem n={12} level="challenging">
+(a) Show that the average lifetime of a nucleus is $1/\lambda$, by working out $\tau = \frac{1}{N_{0}}\int_{0}^{\infty} t\,\lambda N_{0}e^{-\lambda t}\,dt$ (the number decaying between $t$ and $t + dt$ is $\lambda N_{0}e^{-\lambda t}dt$). You may use $\int_{0}^{\infty} t e^{-\lambda t}\,dt = 1/\lambda^{2}$. (b) What fraction of a sample survives one mean lifetime?
+
+<Solution>
+(a) $\tau = \lambda \int_{0}^{\infty} t e^{-\lambda t}\,dt = \lambda/\lambda^{2} = 1/\lambda = t_{1/2}/\ln 2 = 1.443\,t_{1/2}$. For carbon-14, $\tau = 8220$ years. (b) $e^{-\lambda\tau} = e^{-1} = 0.368$: 37%.
+</Solution>
+</Problem>
+
+## Summary
+
+- Isotopes of an element have the same number of protons $Z$ but different numbers of neutrons $N$; the mass number is $A = Z + N$. They share their chemistry, so atomic weights are averages over the natural mix: xenon's nine isotopes give 131.29 u.
+- The strong force holds nuclei together over about a femtometre. Binding energy, the mass defect times $c^{2}$, is millions of times larger than chemical energies. Per nucleon it peaks near iron at 8.8 MeV, so fusion of light nuclei and fission of heavy ones both release energy.
+- Unstable nuclei decay by alpha (Z − 2, A − 4), beta (a neutron becomes a proton, or the reverse) and gamma (a photon from an excited nucleus).
+- Decay is random for each nucleus but regular for many: $N = N_{0}e^{-\lambda t}$, $t_{1/2} = \ln 2/\lambda$, activity $A = \lambda N$ in becquerels.
+- Radioactive isotopes are clocks: carbon-14 for remains up to tens of thousands of years, uranium and potassium for rocks billions of years old. Our bodies hold about 4400 Bq of potassium-40.
+- Radioactivity was found on Earth by accident, with photographic plates. Whether the sightless Eridians could have missed it is an open question.
+
+**Formulas from this chapter**
+
+$$
+A = Z + N \qquad B = (Zm_{\text{H}} + Nm_{\text{n}} - m)c^{2} \qquad N = N_{0}e^{-\lambda t} \qquad t_{1/2} = \frac{\ln 2}{\lambda} \qquad A = \lambda N \qquad t = t_{1/2}\log_{2}\frac{A_{0}}{A}
+$$
+
+## Sources
+
+- Isotopic compositions and atomic masses (hydrogen 99.9885% / 0.0115%, carbon-12 and 13, oxygen-16, chlorine-35 and 37, iron-56, uranium-235 and 238): NIST, [Atomic Weights and Isotopic Compositions](https://physics.nist.gov/cgi-bin/Compositions/stand_alone.pl?ele=H). Hydrogen-1, deuterium, helium-4 and neutron masses and 931.494 MeV/u: as in [Chapter 9.1](/part-9/mass-energy/).
+- Xenon's nine natural isotopes and their abundances, and its standard atomic weight 131.293: Wikipedia, ["Xenon"](https://en.wikipedia.org/wiki/Xenon). Xenon-132's mass, 131.904 u: NIST, [xenon](https://physics.nist.gov/cgi-bin/Compositions/stand_alone.pl?ele=Xe).
+- Heavy water about 11% denser than ordinary water: Wikipedia, ["Heavy water"](https://en.wikipedia.org/wiki/Heavy_water). About 200 MeV per fission of uranium-235: Wikipedia, ["Nuclear fission"](https://en.wikipedia.org/wiki/Nuclear_fission). The Curies' electrometer measurements of radioactivity: Wikipedia, ["Marie Curie"](https://en.wikipedia.org/wiki/Marie_Curie).
+- Nuclear forces, binding energy, the decay law and decay modes: OpenStax, [*University Physics Volume 3*, chapter 10](https://openstax.org/books/university-physics-volume-3/pages/10-introduction). The strong force attractive at 1 fm and negligible beyond about 2.5 fm, and iron-56's 8.79 MeV per nucleon: Wikipedia, ["Nuclear binding energy"](https://en.wikipedia.org/wiki/Nuclear_binding_energy).
+- Becquerel's 1896 discovery, the cloudy days of 26 and 27 February and the plates developed on 1 March: Wikipedia, ["Henri Becquerel"](https://en.wikipedia.org/wiki/Henri_Becquerel).
+- Half-lives and decay data: carbon-14 (5700 years, 1.2 parts per trillion, about 14 decays per minute per gram, Libby 1949) from Wikipedia, ["Carbon-14"](https://en.wikipedia.org/wiki/Carbon-14); uranium-238 (4.463 billion years, 4.270 MeV alpha, the chain with 8 alpha and 6 beta decays) from ["Uranium-238"](https://en.wikipedia.org/wiki/Uranium-238); potassium-40 (1.248 billion years, 0.0117%, 16.7 mg and about 3850 to 4300 Bq in a 70 kg body) from ["Potassium-40"](https://en.wikipedia.org/wiki/Potassium-40); tritium (12.32 years) from ["Tritium"](https://en.wikipedia.org/wiki/Tritium); iodine-131 (8.02 days) from ["Iodine-131"](https://en.wikipedia.org/wiki/Iodine-131); uranium-235 (704 million years) from ["Uranium-235"](https://en.wikipedia.org/wiki/Uranium-235); radium-226 (1600 years) and the curie from ["Radium"](https://en.wikipedia.org/wiki/Radium); the Oklo natural reactors from ["Natural nuclear fission reactor"](https://en.wikipedia.org/wiki/Natural_nuclear_fission_reactor).
+- Earth's age, 4.54 billion years: Wikipedia, ["Age of Earth"](https://en.wikipedia.org/wiki/Age_of_Earth).
+- Rocky's crew dying of radiation sickness: Wikipedia, [*Project Hail Mary*](https://en.wikipedia.org/wiki/Project_Hail_Mary). The Eridians' ignorance of radiation and their protection by Erid's magnetic field: Looper, ["Project Hail Mary's most confusing moments explained"](https://www.looper.com/2128459/project-hail-mary-movie-confusing-moments-explained) (a reader source).

@@ -1,0 +1,445 @@
+---
+title: Atomic structure
+description: What atoms are made of, from Thomson's electron and Rutherford's nucleus to Coulomb's law and the Bohr model of hydrogen (r = n²a₀ and E = −13.6 eV/n², derived from a standing electron wave), electron shells and the Pauli principle, ionization energies, and why the noble gas xenon can after all be built into the Eridians' xenonite.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import AtomScale from '../../../components/diagrams/part-13/AtomScale.astro';
+import RutherfordFoil from '../../../components/diagrams/part-13/RutherfordFoil.astro';
+import IonizationPeaks from '../../../components/diagrams/part-13/IonizationPeaks.astro';
+import RutherfordLab from '../../../components/sims/RutherfordLab.astro';
+
+## The scene
+
+Everything Rocky makes is built from <Term id="xenonite">xenonite</Term>. His ship, the *Blip-A*, is almost entirely xenonite; so are the tunnel and the clear wall he builds to meet Grace, the sphere he wears to visit Grace's side, and the 10 km chain the two of them lower into Adrian's atmosphere (Chapter 12.5). As the name says, xenonite is a compound of xenon.
+
+That should puzzle anyone who remembers school chemistry. Xenon is a <Term id="noble-gas">noble gas</Term>, one of the family (helium, neon, argon, krypton, xenon, radon) that famously refuses to react with anything. For decades, chemistry books said these gases form no compounds at all. How could an alien civilisation build its ships from one?
+
+The answer is inside the atom. This chapter takes the atom apart: a heavy, tiny nucleus, a cloud of electrons held by electric attraction, and electron energies arranged in shells. Then it shows why xenon, the heaviest stable noble gas, is the one that can be persuaded to react, and how a chemist did it in 1962.
+
+## Prerequisites
+
+<Prereqs notes={{ spectroscopy: 'energy levels, the hydrogen lines and E = −13.6 eV/n² (quoted there, derived here)', photons: 'E = hf, the electronvolt and 1240 eV·nm', 'photon-propulsion': 'momentum and wavelength, p = h/λ', 'mass-energy': 'the atomic mass unit and MeV', 'gas-laws': 'the mole and Avogadro’s number', 'centripetal-acceleration': 'a force holding something in a circle, F = mv²/r' }} />
+
+## The concept
+
+### Atoms, and the electron inside them
+
+By 1900 chemists were sure that matter is made of <Term id="atom">atoms</Term>, one kind for each element, and Chapter 12.2 counted them with Avogadro's number. But nobody knew what an atom was like inside.
+
+The first piece came in 1897. J. J. Thomson showed that the "cathode rays" glowing in an evacuated tube are a stream of tiny negative particles that come out of every kind of metal: <Term id="electron">electrons</Term>. Each carries a charge of $-e$, where
+
+$$
+e = 1.602 \times 10^{-19}\ \text{C}
+$$
+
+is the smallest charge found free in nature (the coulomb, C, is the SI unit of <Term id="electric-charge">charge</Term>). An electron's mass is only $9.109 \times 10^{-31}$ kg. Since a whole atom is neutral and weighs thousands of times more, the rest of the atom must hold an equal positive charge and nearly all of the mass. Thomson pictured that positive charge spread out like a pudding, with the electrons dotted through it.
+
+### Rutherford finds the nucleus
+
+Ernest Rutherford tested the pudding by firing **alpha particles** at it. These are fast, positively charged particles given off by radium (Chapter 13.2 shows they are helium nuclei), moving at about 5% of the speed of light. From 1909, his assistants Hans Geiger and Ernest Marsden aimed them at gold foil, a few hundred atoms thick, and counted the flashes they made on a screen.
+
+If the positive charge were spread through the atom like a pudding, its push on an alpha particle would be feeble everywhere, and every alpha would pass through with a tiny nudge. Most did. But about **1 in 8000** bounced back off the foil. Rutherford later compared it to firing a heavy shell at tissue paper and having it come back and hit you.
+
+<Figure caption="Geiger and Marsden's experiment (schematic, not to scale). Alpha particles from a radium source hit a thin gold foil. Almost all pass straight through, a few are deflected sharply, and about 1 in 8000 bounce back. Only a tiny, concentrated positive charge can push that hard." alt="On the left, a lead box labelled alpha source sends a beam of parallel arrows to the right towards a thin vertical strip labelled gold foil, a few hundred atoms thick. Most arrows continue straight through, labelled most go straight through. Two arrows bend off at moderate angles, labelled a few deflected. One arrow turns back towards the left, labelled about 1 in 8000 bounce back. A circular screen around the foil is labelled zinc sulfide screen: each hit makes a flash.">
+	<RutherfordFoil />
+</Figure>
+
+In 1911 Rutherford worked out what that meant. All the positive charge, and almost all the mass, must sit in a tiny central <Term id="nucleus">nucleus</Term>, at least 10 000 times smaller than the atom. An alpha that happens to come very close to a nucleus feels an enormous push and can be turned right round; the rest, passing through the mostly empty atom, barely notice. The simulation below lets you fire alphas at a nucleus yourself.
+
+The nucleus is made of two kinds of particle, together called <Term id="nucleon">nucleons</Term>: <Term id="proton">protons</Term>, each with charge $+e$, and <Term id="neutron">neutrons</Term>, uncharged and slightly heavier, discovered by James Chadwick in 1932. The number of protons is the <Term id="atomic-number">atomic number</Term> $Z$, and it decides which element an atom is: hydrogen has $Z = 1$, carbon 6, xenon 54. A neutral atom has $Z$ electrons to balance the protons' charge.
+
+| Particle | Charge | Mass (kg) | Mass (u) |
+|---|---|---|---|
+| electron | $-e$ | $9.109 \times 10^{-31}$ | 0.000 549 |
+| proton | $+e$ | $1.673 \times 10^{-27}$ | 1.007 28 |
+| neutron | 0 | $1.675 \times 10^{-27}$ | 1.008 66 |
+
+A proton is 1836 times as heavy as an electron, so an atom's mass is almost all nucleus.
+
+### How empty an atom is
+
+A nucleus has radius roughly
+
+$$
+R = r_{0}A^{1/3}, \qquad r_{0} = 1.2\ \text{fm},
+$$
+
+where $A$ is the number of nucleons and $1\ \text{fm} = 10^{-15}$ m (a femtometre). The $A^{1/3}$ says that nucleons pack like marbles in a bag: volume grows in proportion to the number of them, so radius grows as its cube root, and every nucleus has the same density, about $2.3 \times 10^{17}\ \text{kg/m}^{3}$. A xenon-132 nucleus has radius $1.2 \times 132^{1/3} = 6.1$ fm, while the xenon atom is a few times $10^{-10}$ m across: tens of thousands of times bigger.
+
+<Figure caption="Scales inside an atom, each panel zooming in by a large factor. An atom is about 10⁻¹⁰ m across, mostly empty space with electrons spread through it. Its nucleus, at the centre, is tens of thousands of times smaller, and is itself a cluster of protons and neutrons about a femtometre each." alt="Three panels from left to right connected by zoom lines. Left: a hazy blue electron cloud with a tiny dot at its centre, labelled atom, about 10 to the minus 10 metres; mostly empty space. Middle: the dot enlarged into a cluster of red protons and grey neutrons, labelled nucleus, a few femtometres, 10 to the minus 15 metres; xenon-132 has radius 6.1 femtometres. Right: a single red sphere labelled proton, about 0.84 femtometres. A note says if the nucleus were a 1 cm marble, the atom would be about 600 metres across.">
+	<AtomScale />
+</Figure>
+
+So a xenonite wall, like any solid, is almost entirely empty space. What makes it solid is not its nuclei touching but its electrons: the electron clouds of neighbouring atoms push back hard when squeezed together, and they are what chemistry is all about.
+
+### The electric force
+
+What holds the electrons to the nucleus is the attraction between opposite charges. Charles-Augustin de Coulomb measured it in 1785 with a delicate torsion balance. <Term id="coulombs-law">Coulomb's law</Term> has the same form as Newton's gravitation (Chapter 4.1):
+
+$$
+F = \frac{kq_{1}q_{2}}{r^{2}}, \qquad k = \frac{1}{4\pi\varepsilon_{0}} = 8.988 \times 10^{9}\ \text{N·m}^{2}/\text{C}^{2}.
+$$
+
+Like charges repel and unlike charges attract. (The constant is often written with $\varepsilon_{0} = 8.854 \times 10^{-12}\ \text{C}^{2}/(\text{N·m}^{2})$, the permittivity of free space.) Between a proton and an electron, the electric pull is $2.3 \times 10^{39}$ times stronger than their gravity at any distance (Example 2), so inside atoms gravity can be ignored completely.
+
+By the inverse-square law, the electric potential energy of an electron at distance $r$ from a nucleus of charge $+Ze$ is
+
+$$
+U = -\frac{kZe^{2}}{r},
+$$
+
+just as $U = -GMm/r$ for gravity (Chapter 5.2). In atomic physics a handy combination is $ke^{2} = 1.440$ MeV·fm $= 1.440$ eV·nm.
+
+### The Bohr model of hydrogen
+
+Rutherford's atom has a problem. An electron circling a nucleus is accelerating, and accelerating charges radiate light (Chapter 7.2). It should lose energy and spiral into the nucleus in a fraction of a nanosecond. Real atoms don't, and they emit only certain wavelengths (Chapter 7.5).
+
+In 1913 Niels Bohr proposed that the electron can only move on certain orbits. A decade later Louis de Broglie gave the reason: the electron is also a wave, with wavelength $\lambda = h/p$, the same relation as for light (Chapter 7.4). An electron wave going round an orbit must join up with itself, so the circumference must hold a whole number of wavelengths:
+
+$$
+2\pi r = n\lambda, \qquad n = 1, 2, 3, \dots
+$$
+
+Any other orbit would have the wave cancelling itself out. Combined with Coulomb's law, this gives the whole <Term id="bohr-model">Bohr model</Term> (derived below): the allowed orbits have radii $r_{n} = n^{2}a_{0}$ with
+
+$$
+a_{0} = 5.29 \times 10^{-11}\ \text{m},
+$$
+
+the **Bohr radius**, and energies
+
+$$
+E_{n} = -\frac{13.6\ \text{eV}}{n^{2}}.
+$$
+
+This is exactly the energy-level formula quoted in Chapter 7.5, which reproduces hydrogen's spectral lines. The lowest level, $n = 1$, is the <Term id="ground-state">ground state</Term>: there is no lower orbit to fall to, which is why atoms are stable. To pull the electron right out ($n \to \infty$, $E \to 0$) takes 13.6 eV, hydrogen's <Term id="ionization-energy">ionization energy</Term>. An atom that has lost or gained electrons is an <Term id="ion">ion</Term>.
+
+The Bohr model is only a stepping stone. Modern quantum mechanics replaces the circular orbits with clouds of probability, but it keeps the energies $-13.6\ \text{eV}/n^{2}$ for hydrogen and the size $a_{0}$, and the idea that only standing waves are allowed.
+
+### Shells, and why noble gases are noble
+
+Atoms with more electrons are harder to calculate, but the pattern survives. The electron energy levels group into <Term id="electron-shell">shells</Term>, numbered $n = 1, 2, 3, \dots$, each farther from the nucleus on average. A shell can hold at most $2n^{2}$ electrons: 2, 8, 18, 32. The limit comes from the <Term id="pauli-exclusion">Pauli exclusion principle</Term> (Wolfgang Pauli, 1925): no two electrons in an atom can be in exactly the same state. Without it, every electron would drop into the lowest level and all atoms would be about the same size, with no chemistry to speak of.
+
+In practice the outermost shell is "full" for chemical purposes when it holds 8 electrons (2 for helium). That is what the noble gases have: helium (2), neon (2, 8), argon (2, 8, 8), krypton, xenon and radon. A full shell holds its electrons tightly, and an atom with one has nothing to gain by sharing or swapping electrons. You can see this in the energy needed to remove one electron: it peaks at every noble gas and drops to a minimum at the very next element, the alkali metals (lithium, sodium, potassium), which have a single electron outside a full shell.
+
+<Figure caption="First ionization energies of selected elements. Each noble gas (orange) sits at a peak: a full shell holds its electrons tightly. The alkali metal just after each (blue) is easy to ionize. Down the noble gases, the outer electrons are farther from the nucleus and more shielded by inner shells, so xenon's 12.1 eV is half of helium's 24.6 eV, and lower even than oxygen's." alt="A bar chart of first ionization energy in electronvolts against element, in order of atomic number: H 13.6, He 24.6, Li 5.4, C 11.3, N 14.5, O 13.6, Ne 21.6, Na 5.1, Ar 15.8, K 4.3, Kr 14.0, Xe 12.1, Cs 3.9. The noble gases He, Ne, Ar, Kr and Xe are coloured orange and form peaks that fall steadily from left to right. The alkali metals Li, Na, K and Cs are coloured blue and form deep troughs just after each peak. A dashed line at 12.1 electronvolts runs across from the axis to xenon's bar, showing that xenon is below oxygen and nitrogen.">
+	<IonizationPeaks />
+</Figure>
+
+### Xenon, the noble gas that reacts
+
+Going down the noble-gas family, each new shell sits farther out, and the inner shells partly hide the nucleus's charge from the outer electrons. So the outer electrons get easier to remove: helium needs 24.6 eV, xenon only 12.1 eV.
+
+In 1962 the chemist Neil Bartlett had just made a red solid in which the very aggressive compound platinum hexafluoride had ripped an electron off an oxygen molecule. He noticed that the energy needed to ionize an oxygen molecule, about 1175 kJ/mol, was almost exactly xenon's, 1170 kJ/mol. If platinum hexafluoride could do it to oxygen, it should do it to xenon. On 23 March 1962 he mixed them and got a yellow solid: the first compound of a noble gas. Within months others made xenon fluorides simply by exposing xenon and fluorine to sunlight. Xenon compounds have been made ever since.
+
+So the novel's xenonite is not chemical nonsense. Xenon is the heaviest stable noble gas, its outer electrons are the least tightly held, and it does form real compounds. What is fiction is xenonite's astonishing strength (Chapter 12.5) and the idea of a civilisation building everything from an element that makes up less than one part in ten million of Earth's air.
+
+## Formulas
+
+### Coulomb's law and electric potential energy
+
+$$
+\boxed{F = \frac{kq_{1}q_{2}}{r^{2}}} \qquad \boxed{U = \frac{kq_{1}q_{2}}{r}} \qquad k = 8.988 \times 10^{9}\ \text{N·m}^{2}/\text{C}^{2}
+$$
+
+The potential energy follows exactly as for gravity in Chapter 5.2, with $GMm$ replaced by $-kq_{1}q_{2}$ (unlike charges attract, so $q_{1}q_{2}$ is negative and $U$ is negative).
+
+### The Bohr model, step by step
+
+**Step 1: the force provides the centripetal acceleration.** For an electron of mass $m$ circling a proton at radius $r$ with speed $v$ (Chapter 3.2):
+
+$$
+\frac{mv^{2}}{r} = \frac{ke^{2}}{r^{2}} \qquad\Rightarrow\qquad mv^{2} = \frac{ke^{2}}{r}.
+$$
+
+**Step 2: the wave fits the orbit.** With $\lambda = h/(mv)$,
+
+$$
+2\pi r = n\,\frac{h}{mv} \qquad\Rightarrow\qquad mvr = n\hbar, \qquad \hbar = \frac{h}{2\pi} = 1.055 \times 10^{-34}\ \text{J·s}.
+$$
+
+**Step 3: eliminate $v$.** From step 2, $v = n\hbar/(mr)$. Put it into step 1:
+
+$$
+m\,\frac{n^{2}\hbar^{2}}{m^{2}r^{2}} = \frac{ke^{2}}{r} \qquad\Rightarrow\qquad \boxed{r_{n} = n^{2}\,\frac{\hbar^{2}}{mke^{2}} = n^{2}a_{0}}
+$$
+
+**Step 4: the energy.** The kinetic energy is $\tfrac{1}{2}mv^{2} = ke^{2}/(2r)$ from step 1, and the potential energy is $-ke^{2}/r$. So
+
+$$
+E = \frac{ke^{2}}{2r} - \frac{ke^{2}}{r} = -\frac{ke^{2}}{2r_{n}} = \boxed{-\frac{ke^{2}}{2a_{0}}\,\frac{1}{n^{2}} = -\frac{13.6\ \text{eV}}{n^{2}}}
+$$
+
+As with orbits (Chapter 5.4), the kinetic energy is minus the total, and the potential energy twice the total.
+
+**Step 5: the numbers.**
+
+$$
+a_{0} = \frac{\hbar^{2}}{mke^{2}} = \frac{(1.0546 \times 10^{-34})^{2}}{9.109 \times 10^{-31} \times 8.988 \times 10^{9} \times (1.602 \times 10^{-19})^{2}}\ \text{m} = 5.29 \times 10^{-11}\ \text{m}
+$$
+
+$$
+\frac{ke^{2}}{2a_{0}} = \frac{1.440\ \text{eV·nm}}{2 \times 0.0529\ \text{nm}} = 13.6\ \text{eV}
+$$
+
+### The size of a nucleus
+
+If $A$ nucleons each take up the same volume $\tfrac{4}{3}\pi r_{0}^{3}$, the nucleus has volume $\tfrac{4}{3}\pi R^{3} = A \times \tfrac{4}{3}\pi r_{0}^{3}$, so
+
+$$
+\boxed{R = r_{0}A^{1/3}}, \qquad r_{0} = 1.2\ \text{fm}, \qquad \rho_{\text{nuc}} \approx \frac{m_{\text{p}}}{\tfrac{4}{3}\pi r_{0}^{3}} = 2.3 \times 10^{17}\ \text{kg/m}^{3}
+$$
+
+### How close an alpha gets
+
+An alpha particle (charge $2e$) with kinetic energy $K$ aimed straight at a nucleus of charge $Ze$ stops where all its kinetic energy has become potential energy:
+
+$$
+K = \frac{k(2e)(Ze)}{d} \qquad\Rightarrow\qquad \boxed{d = \frac{2Zke^{2}}{K}}
+$$
+
+## Worked examples
+
+<Example n={1} title="How empty is a xenonite wall?" book>
+A hydrogen atom has the Bohr radius $5.29 \times 10^{-11}$ m, and its nucleus, a proton, has radius $0.84 \times 10^{-15}$ m. How many times bigger is the atom? What fraction of its volume is nucleus? How heavy would a teaspoon (5 cm³) of nuclear matter be?
+
+$$
+\frac{5.29 \times 10^{-11}\ \text{m}}{0.841 \times 10^{-15}\ \text{m}} = 6.3 \times 10^{4}
+$$
+
+$$
+\left(\frac{1}{6.29 \times 10^{4}}\right)^{3} = 4.0 \times 10^{-15}
+$$
+
+If the nucleus were a 1 cm marble, the atom would be 630 m across. Every solid, xenonite included, is 99.999 999 999 999 6% empty by volume. Nuclear matter is correspondingly dense:
+
+$$
+m = 2.31 \times 10^{17}\ \text{kg/m}^{3} \times 5 \times 10^{-6}\ \text{m}^{3} = 1.2 \times 10^{12}\ \text{kg},
+$$
+
+a billion tonnes in a teaspoon, about what neutron stars are made of.
+</Example>
+
+<Example n={2} title="Electricity versus gravity">
+Find the ratio of the electric and gravitational forces between a proton and an electron, and the electric force and the electron's acceleration at the Bohr radius.
+
+Both forces fall as $1/r^{2}$, so the ratio doesn't depend on distance:
+
+$$
+\frac{F_{\text{e}}}{F_{\text{g}}} = \frac{ke^{2}}{Gm_{\text{p}}m_{e}} = \frac{8.988 \times 10^{9} \times (1.602 \times 10^{-19})^{2}}{6.674 \times 10^{-11} \times 1.673 \times 10^{-27} \times 9.109 \times 10^{-31}} = 2.3 \times 10^{39}
+$$
+
+At $r = a_{0}$:
+
+$$
+F = \frac{8.988 \times 10^{9}\ \text{N·m}^{2}/\text{C}^{2} \times (1.602 \times 10^{-19}\ \text{C})^{2}}{(5.29 \times 10^{-11}\ \text{m})^{2}} = 8.24 \times 10^{-8}\ \text{N}
+$$
+
+$$
+a = \frac{F}{m_{e}} = \frac{8.24 \times 10^{-8}\ \text{N}}{9.109 \times 10^{-31}\ \text{kg}} = 9.0 \times 10^{22}\ \text{m/s}^{2}
+$$
+
+A force of a tenth of a micronewton sounds tiny, but on an electron it produces an acceleration of nearly $10^{22}$ g.
+</Example>
+
+<Example n={3} title="Hydrogen by numbers">
+Using the Bohr model, find the electron's speed in hydrogen's ground state, how many times a second it would go round, and the wavelength of the photon that can just ionize the atom.
+
+From $mvr = \hbar$ with $n = 1$:
+
+$$
+v = \frac{\hbar}{m_{e}a_{0}} = \frac{1.0546 \times 10^{-34}\ \text{J·s}}{9.109 \times 10^{-31}\ \text{kg} \times 5.29 \times 10^{-11}\ \text{m}} = 2.19 \times 10^{6}\ \text{m/s} = 0.0073c
+$$
+
+$$
+f = \frac{v}{2\pi a_{0}} = \frac{2.19 \times 10^{6}\ \text{m/s}}{3.32 \times 10^{-10}\ \text{m}} = 6.6 \times 10^{15}\ \text{s}^{-1}
+$$
+
+The electron's de Broglie wavelength, $2\pi a_{0} = 0.332$ nm, is exactly one orbit. To ionize the atom takes 13.6 eV, so by Chapter 7.3:
+
+$$
+\lambda = \frac{1240\ \text{eV·nm}}{13.6\ \text{eV}} = 91.2\ \text{nm},
+$$
+
+far ultraviolet. No visible or infrared photon, however many arrive, can ionize hydrogen.
+</Example>
+
+<Example n={4} title="The atoms in a litre of xenon" book>
+Xenon gas at 0 °C and 1 atm has density 5.894 kg/m³; its molar mass is 131.29 g/mol. How many atoms are in a litre, how many electrons, and what is the total charge of those electrons?
+
+$$
+n = \frac{5.894\ \text{g}}{131.29\ \text{g/mol}} = 0.04489\ \text{mol}
+$$
+
+$$
+N = 0.04489\ \text{mol} \times 6.022 \times 10^{23}\ \text{mol}^{-1} = 2.70 \times 10^{22}\ \text{atoms}
+$$
+
+Each has 54 electrons:
+
+$$
+N_{e} = 54 \times 2.70 \times 10^{22} = 1.46 \times 10^{24}, \qquad Q = 1.46 \times 10^{24} \times 1.602 \times 10^{-19}\ \text{C} = 2.3 \times 10^{5}\ \text{C}
+$$
+
+The nuclei carry exactly the opposite charge, so the gas is neutral. The amounts of charge locked inside ordinary matter are huge: separating even a millionth of it would take enormous forces, which is why matter is almost always neutral.
+</Example>
+
+<Example n={5} title="Why xenon, and not helium?" book>
+Bartlett's reaction could ionize an oxygen molecule, which takes about 1175 kJ/mol. Convert this and the first ionization energies of helium (24.59 eV) and xenon (12.13 eV) to the same units, and find the wavelength of photon that could ionize each noble gas.
+
+One mole of anything holds $N_{\text{A}}$ particles, so 1 eV per particle is
+
+$$
+1\ \text{eV} \times N_{\text{A}} = 1.602 \times 10^{-19}\ \text{J} \times 6.022 \times 10^{23}\ \text{mol}^{-1} = 96.49\ \text{kJ/mol}
+$$
+
+$$
+\text{oxygen: } \frac{1175}{96.49} = 12.18\ \text{eV} \qquad \text{xenon: } 12.13 \times 96.49 = 1170\ \text{kJ/mol} \qquad \text{helium: } 24.59 \times 96.49 = 2373\ \text{kJ/mol}
+$$
+
+$$
+\lambda_{\text{Xe}} = \frac{1240\ \text{eV·nm}}{12.13\ \text{eV}} = 102\ \text{nm} \qquad \lambda_{\text{He}} = \frac{1240\ \text{eV·nm}}{24.59\ \text{eV}} = 50.4\ \text{nm}
+$$
+
+Xenon gives up an electron as easily as an oxygen molecule does, so it could be made to react with the same partner. Helium holds on twice as tightly; no stable helium compound has ever been made under ordinary conditions.
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** Thomson's electron (1897), Rutherford's nucleus (1911, from Geiger and Marsden's 1 in 8000), Chadwick's neutron (1932), Coulomb's law, the Bohr model's energies and radius, the Pauli principle and the shell pattern of ionization energies are all standard (OpenStax University Physics, Volume 3). Bartlett's 1962 xenon compound and the xenon fluorides that followed are real chemistry.
+
+**Weir's inventions.** Xenonite, its strength, transparency and use as the Eridians' universal building material are the novel's. The novel doesn't give its chemical formula. Some reader sources say it is mostly xenon; others say it is a compound of several elements.
+
+**How realistic are the numbers?** Chemically, xenon is the most plausible noble gas to build with, because its outer electrons are held least tightly. Practically, it is a strange choice: xenon is about 87 parts per billion of Earth's air and is expensive to extract. Erid's air (mostly ammonia, Chapter 12.2) might be richer in xenon, but the novel doesn't say. Real xenon compounds such as the fluorides are reactive solids, nothing like a structural material that can hold 29 atmospheres.
+</RealVsBook>
+
+## Interactive simulation
+
+<RutherfordLab />
+
+Things to try: start with gold and 5 MeV alphas, and look at how close an alpha must aim to be turned back. Lower the energy and watch the turning distance grow. Switch to the "plum pudding" atom: with the charge spread over the whole atom, no alpha is ever deflected by more than a fraction of a degree, which is exactly what Geiger and Marsden's 1 in 8000 ruled out.
+
+## Practice set
+
+<Problem n={1} level="easy" book>
+How many protons, neutrons and electrons are in a neutral atom of xenon-132 ($Z = 54$)?
+
+<Solution>
+54 protons, $132 - 54 = 78$ neutrons and 54 electrons.
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy">
+Find the electric force between two protons 1.0 fm apart, as they might be in a nucleus.
+
+<Solution>
+$F = ke^{2}/r^{2} = 8.988 \times 10^{9} \times (1.602 \times 10^{-19})^{2}/(1.0 \times 10^{-15})^{2} = 231$ N, the weight of a 23 kg mass, acting on a particle of $10^{-27}$ kg. Something even stronger must hold nuclei together (Chapter 13.2).
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy">
+What is the radius of a gold-197 nucleus? Of a helium-4 nucleus?
+
+<Solution>
+Gold: $1.2 \times 197^{1/3} = 1.2 \times 5.82 = 7.0$ fm. Helium-4: $1.2 \times 4^{1/3} = 1.9$ fm.
+</Solution>
+</Problem>
+
+<Problem n={4} level="easy">
+Find the radius and energy of hydrogen's $n = 3$ level.
+
+<Solution>
+$r_{3} = 9a_{0} = 9 \times 5.29 \times 10^{-11} = 4.76 \times 10^{-10}$ m. $E_{3} = -13.6/9 = -1.51$ eV.
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium">
+An electron drops from $n = 3$ to $n = 2$ in hydrogen. Find the photon's energy and wavelength. (Compare Chapter 7.5.)
+
+<Solution>
+$E = 13.606 \times (1/4 - 1/9) = 13.606 \times 0.1389 = 1.890$ eV. $\lambda = 1240/1.890 = 656$ nm: the red H-alpha line.
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium">
+How close can a 5.0 MeV alpha particle get to a gold nucleus ($Z = 79$) if aimed straight at it? Compare with the nucleus's radius from Problem 3.
+
+<Solution>
+$d = 2Zke^{2}/K = 2 \times 79 \times 1.440\ \text{MeV·fm}/5.0\ \text{MeV} = 45.5$ fm, about 6.5 times the 7.0 fm radius. The alpha turns round before it touches the nucleus, which is why Rutherford could treat the scattering as purely electric.
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium">
+In the Bohr model the speed is $v_{n} = n\hbar/(m_{e}r_{n})$. Show that $v_{n} = v_{1}/n$, and find the speed in the $n = 2$ level.
+
+<Solution>
+$v_{n} = n\hbar/(m_{e}n^{2}a_{0}) = (1/n)\,\hbar/(m_{e}a_{0}) = v_{1}/n$. So $v_{2} = 2.19 \times 10^{6}/2 = 1.09 \times 10^{6}$ m/s.
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium" book>
+What mass of electrons is in 1.0 kg of xenon? (A xenon atom's mass is 131.29 u, with $1\ \text{u} = 1.6605 \times 10^{-27}$ kg.)
+
+<Solution>
+Fraction $= 54m_{e}/(131.29\ \text{u}) = 54 \times 9.109 \times 10^{-31}/(131.29 \times 1.6605 \times 10^{-27}) = 2.26 \times 10^{-4}$, so 0.23 g of every kilogram of xenon is electrons. The rest is nuclei.
+</Solution>
+</Problem>
+
+<Problem n={9} level="medium" book>
+A Petrova-line photon carries 0.0477 eV (Chapter 7.3). How many times less is that than hydrogen's ionization energy? Can Astrophage's light ionize hydrogen if enough of it arrives?
+
+<Solution>
+$13.6/0.0477 = 285$. No: in the photoelectric effect (Chapter 7.3) each electron is removed by a single photon, so a photon with less than 13.6 eV can never ionize hydrogen, however intense the light. Brightness adds photons, not energy per photon.
+</Solution>
+</Problem>
+
+<Problem n={10} level="challenging">
+Suppose electrons and protons had no charge and the hydrogen atom were held together only by gravity. Replace $ke^{2}$ with $Gm_{\text{p}}m_{e}$ in the Bohr radius. How big would the atom be? Compare with the observable universe (radius about $4.4 \times 10^{26}$ m).
+
+<Solution>
+$a_{0}$ is proportional to $1/ke^{2}$, so the radius grows by the factor $2.27 \times 10^{39}$: $5.29 \times 10^{-11} \times 2.27 \times 10^{39} = 1.2 \times 10^{29}$ m, about 270 times the radius of the observable universe.
+</Solution>
+</Problem>
+
+<Problem n={11} level="challenging">
+If the whole Earth ($5.97 \times 10^{24}$ kg) were squeezed to nuclear density, $2.31 \times 10^{17}\ \text{kg/m}^{3}$, what would its radius be?
+
+<Solution>
+$V = 5.97 \times 10^{24}/2.31 \times 10^{17} = 2.58 \times 10^{7}\ \text{m}^{3}$. $r = (3V/4\pi)^{1/3} = (6.16 \times 10^{6})^{1/3} = 183$ m: a ball the size of a stadium.
+</Solution>
+</Problem>
+
+<Problem n={12} level="challenging" book>
+How much energy does it take to remove one electron from every atom in a litre of xenon gas (Example 4)? Compare with the energy to warm a litre of water by 1 °C (4186 J).
+
+<Solution>
+$2.70 \times 10^{22} \times 12.13\ \text{eV} \times 1.602 \times 10^{-19}\ \text{J/eV} = 5.25 \times 10^{4}$ J, about 52 kJ: 12 times the energy to warm a litre of water by 1 °C, from a mere 5.9 g of gas. Ionization is costly on the scale of everyday heat: 12 eV per atom is about 500 times the typical thermal energy of a molecule at room temperature, $kT \approx 0.025$ eV.
+</Solution>
+</Problem>
+
+## Summary
+
+- An atom is a tiny, heavy, positive nucleus (protons and neutrons) inside a cloud of electrons. The atomic number $Z$, the number of protons, decides the element.
+- Rutherford found the nucleus in 1911 because about 1 in 8000 alpha particles bounced back from gold foil. A nucleus has radius $1.2\ \text{fm} \times A^{1/3}$; an atom is tens of thousands of times bigger, so matter is almost entirely empty space.
+- The electrons are held by the electric force, $F = kq_{1}q_{2}/r^{2}$, which between a proton and an electron is $2 \times 10^{39}$ times stronger than gravity.
+- In the Bohr model the electron's wave must fit its orbit, $2\pi r = n\lambda$, giving $r_{n} = n^{2}a_{0}$ ($a_{0} = 0.0529$ nm) and $E_{n} = -13.6\ \text{eV}/n^{2}$: the hydrogen levels of Chapter 7.5.
+- Electrons fill shells (at most $2n^{2}$ each) because of the Pauli exclusion principle. Noble gases have full outer shells and high ionization energies, but the heavier the noble gas the more loosely its outer electrons are held.
+- Xenon's 12.1 eV ionization energy matches an oxygen molecule's, which let Bartlett make the first noble-gas compound in 1962. Xenonite's chemistry is plausible; its strength is fiction.
+
+**Formulas from this chapter**
+
+$$
+F = \frac{kq_{1}q_{2}}{r^{2}} \qquad r_{n} = n^{2}a_{0} \qquad E_{n} = -\frac{13.6\ \text{eV}}{n^{2}} \qquad R = r_{0}A^{1/3} \qquad d = \frac{2Zke^{2}}{K}
+$$
+
+## Sources
+
+- Electron, proton and neutron masses, the elementary charge, $\varepsilon_{0}$, the atomic mass unit and the Bohr radius: NIST, [CODATA 2022 values](https://physics.nist.gov/cuu/Constants/) (for example [electron mass](https://physics.nist.gov/cgi-bin/cuu/Value?me)). The proton's charge radius, 0.841 fm: NIST, [CODATA](https://physics.nist.gov/cgi-bin/cuu/Value?rp).
+- Thomson's electron (1897): Wikipedia, ["Electron"](https://en.wikipedia.org/wiki/Electron). Chadwick's neutron (1932): Wikipedia, ["Neutron"](https://en.wikipedia.org/wiki/Neutron). Coulomb's 1785 measurements: Wikipedia, ["Coulomb's law"](https://en.wikipedia.org/wiki/Coulomb%27s_law).
+- Geiger and Marsden's experiments (1909, about 1 in 8000 reflected) and Rutherford's 1911 model (nucleus at least 10 000 times smaller than the atom; the shell-and-tissue-paper remark): Wikipedia, ["Geiger–Marsden experiments"](https://en.wikipedia.org/wiki/Geiger%E2%80%93Marsden_experiments).
+- Nuclear radius $r_{0}A^{1/3}$ with $r_{0} = 1.2$ fm, the Bohr model and shells: OpenStax, [*University Physics Volume 3*, §10.1 and §8.5](https://openstax.org/books/university-physics-volume-3/pages/10-1-properties-of-nuclei). The Bohr model and de Broglie's standing waves: Wikipedia, ["Bohr model"](https://en.wikipedia.org/wiki/Bohr_model).
+- Ionization energies (CRC values): Wikipedia, ["Ionization energies of the elements (data page)"](https://en.wikipedia.org/wiki/Ionization_energies_of_the_elements_(data_page)).
+- Xenon (atomic number 54, 131.293 g/mol, 5.894 g/L, 87 parts per billion of air, first ionization energy 1170.4 kJ/mol) and Bartlett's compound of 23 March 1962: Wikipedia, ["Xenon"](https://en.wikipedia.org/wiki/Xenon) and ["Xenon hexafluoroplatinate"](https://en.wikipedia.org/wiki/Xenon_hexafluoroplatinate) (oxygen molecule 1175 kJ/mol).
+- Xenonite, the *Blip-A* made almost entirely of it, and the 10 km chain: Wikipedia, [*Project Hail Mary*](https://en.wikipedia.org/wiki/Project_Hail_Mary). Its composition (reader sources disagree): /Film, ["What is Project Hail Mary's xenonite?"](https://slashfilm.com/2124822/project-hail-mary-xenonine-rocky-sci-fi-material-explained), and Everyman Commentary, ["Interstellar Rendezvous With Destiny"](https://everymancommentary.substack.com/p/interstellar-rendezvous-with-destiny).

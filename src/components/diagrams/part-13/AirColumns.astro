@@ -1,0 +1,36 @@
+---
+// Column density (g/cm²) on a log scale: Hail Mary 1 mm slurry 0.1; Mars 17; Earth 1033; Erid 15 000; Venus 104 000.
+// Dashed line at one interaction length of air (90.1 g/cm²).
+const L = 200, R = 560, T = 30, H = 34;
+const lo = -2, hi = 5.2;
+const X = (v: number) => L + ((Math.log10(v) - lo) / (hi - lo)) * (R - L);
+const bars = [
+	{ n: 'Hail Mary 1 mm slurry', v: 0.1, t: '0.1', c: 'violet' },
+	{ n: 'Mars’s air', v: 17, t: '17', c: 'rose' },
+	{ n: 'Earth’s air', v: 1033, t: '1033 (10 m water)', c: 'sky' },
+	{ n: 'Erid’s air (29 atm, 2 g)', v: 15000, t: '15 000 (150 m)', c: 'amber' },
+	{ n: 'Venus’s air (92 bar)', v: 104000, t: '104 000', c: 'muted' },
+];
+const B = T + bars.length * H;
+---
+
+<svg class="dg" viewBox="0 0 600 270" xmlns="http://www.w3.org/2000/svg">
+	{[0.01, 0.1, 1, 10, 100, 1000, 1e4, 1e5].map((v) => (
+		<>
+			<line x1={X(v)} y1={T - 4} x2={X(v)} y2={B} class="s-grid w1" />
+			<text x={X(v)} y={B + 16} class="t-mid t-sm f-muted">{v >= 1000 ? `${v / 1000}k` : v}</text>
+		</>
+	))}
+	<line x1={X(90.1)} y1={T - 8} x2={X(90.1)} y2={B + 4} class="s-rose w1 dash" />
+	{bars.map((b, i) => (
+		<>
+			<text x={L - 8} y={T + i * H + 20} class="t-end t-sm">{b.n}</text>
+			<rect x={L} y={T + i * H + 6} width={X(b.v) - L} height={H - 12} class={`f-${b.c}`} />
+			{X(b.v) > 470
+				? <text x={X(b.v) - 6} y={T + i * H + 21} class="t-end t-sm t-b halo">{b.t}</text>
+				: <text x={X(b.v) + 6} y={T + i * H + 21} class="t-sm halo">{b.t}</text>}
+		</>
+	))}
+	<text x={X(90.1) - 4} y={B + 34} class="t-end t-sm f-rose">one interaction length of air, 90 g/cm²</text>
+	<text x={(L + R) / 2} y={B + 54} class="t-mid t-sm">column density above the surface (g/cm²), logarithmic</text>
+</svg>

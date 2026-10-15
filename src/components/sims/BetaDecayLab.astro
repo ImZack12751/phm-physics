@@ -1,0 +1,114 @@
+---
+// Simulation: beta-decay energy sharing. Electrons' kinetic energies are drawn from the allowed spectrum
+// p·E·(Q − T)² × non-relativistic Fermi factor (daughter charge Z) by rejection sampling; this reproduces the measured
+// means (tritium 5.7 keV, carbon-14 49 keV). A histogram builds as decays are recorded (button-driven, no animation);
+// the red line marks Q, where every electron would be if no neutrino were emitted. Readout: count, mean electron
+// energy, mean neutrino energy (Q − mean), and the largest electron energy seen.
+---
+
+<div
+	class="sim btl"
+	data-title="Beta decay energy lab"
+	data-description="Record beta decays and see how the energy is shared. Choose tritium (Q = 18.6 keV), carbon-14 (Q = 156 keV) or the free neutron (Q = 782 keV), then record 100 or 1000 decays at a time. A histogram of the electrons' kinetic energies builds up; a red line marks Q, where every electron would appear if the electron were the only particle emitted. The readout gives the number recorded, the average electron energy, the average energy carried by the unseen antineutrino (Q minus the electron's energy), and the largest electron energy seen. The spectrum shape is the standard allowed shape with a simple correction for the nucleus's charge, which reproduces the measured averages of 5.7 keV for tritium and 49 keV for carbon-14."
+>
+	<p class="sim-title">Simulation: where does the energy go in beta decay?</p>
+	<p class="sim-help">Each decay releases the same energy Q. The electron takes a random share; the antineutrino silently takes the rest.</p>
+	<div class="sim-controls">
+		<label>Decay <select class="btl-iso">
+			<option value="18.6|2|tritium → helium-3">tritium (Q = 18.6 keV)</option>
+			<option value="156.5|7|carbon-14 → nitrogen-14">carbon-14 (Q = 156 keV)</option>
+			<option value="782.3|1|neutron → proton">free neutron (Q = 782 keV)</option>
+		</select></label>
+		<button type="button" class="btl-100">Record 100 decays</button>
+		<button type="button" class="btl-1000">Record 1000</button>
+		<button type="button" class="btl-clear">Clear</button>
+	</div>
+	<svg class="dg btl-svg" viewBox="0 0 600 260" role="img" aria-label="Histogram of electron energies from beta decays, with a red line at the total energy released"></svg>
+	<div class="readout btl-out" aria-live="polite"></div>
+</div>
+
+<script>
+	document.querySelectorAll<HTMLElement>('.sim.btl').forEach((root) => {
+		const q = <T extends Element>(s: string) => root.querySelector<T>(s)!;
+		const svg = q<SVGSVGElement>('.btl-svg'), out = q<HTMLElement>('.btl-out'), Iso = q<HTMLSelectElement>('.btl-iso');
+		const NS = 'http://www.w3.org/2000/svg';
+		const el = (tag: string, at: Record<string, string | number>, text?: string) => {
+			const e = document.createElementNS(NS, tag);
+			Object.entries(at).forEach(([k, v]) => e.setAttribute(k, String(v)));
+			if (text) e.textContent = text;
+			svg.append(e);
+			return e;
+		};
+		const ME = 511, ALPHA = 1 / 137.036, NB = 30;
+		const L = 50, R = 560, T = 20, B = 210;
+		el('line', { x1: L, y1: B, x2: R, y2: B, class: 's-fg w1' });
+		el('line', { x1: L, y1: T, x2: L, y2: B, class: 's-fg w1' });
+		const bars: SVGRectElement[] = [];
+		for (let i = 0; i < NB; i++) bars.push(el('rect', { y: B, height: 0, class: 'f-sky' }) as SVGRectElement);
+		const ticks: SVGTextElement[] = [];
+		for (let i = 0; i <= 5; i++) ticks.push(el('text', { y: B + 16, class: 't-mid t-sm f-muted' }) as SVGTextElement);
+		const qLine = el('line', { y1: T, y2: B, class: 's-rose w3' });
+		const qLab = el('text', { y: T + 12, class: 't-end t-sm f-rose' });
+		const mLine = el('line', { y1: T + 30, y2: B, class: 's-amber w2 dash' });
+		const mLab = el('text', { y: T + 42, class: 't-sm f-amber' });
+		el('text', { x: (L + R) / 2, y: B + 40, class: 't-mid t-sm' }, 'electron kinetic energy (keV)');
+		el('text', { x: 18, y: (T + B) / 2, class: 't-mid t-sm', transform: `rotate(-90 18 ${(T + B) / 2})` }, 'decays');
+		let counts: number[] = [], energies: number[] = [];
+		const params = () => { const [Q, Z, name] = Iso.value.split('|'); return { Q: +Q, Z: +Z, name }; };
+		const shape = (Tk: number, Q: number, Z: number) => {
+			if (Tk <= 0 || Tk >= Q) return 0;
+			const E = Tk + ME, p = Math.sqrt(E * E - ME * ME), eta = (Z * ALPHA * E) / p;
+			return p * E * (Q - Tk) ** 2 * ((2 * Math.PI * eta) / (1 - Math.exp(-2 * Math.PI * eta)));
+		};
+		let fmax = 1;
+		function prep() {
+			const { Q, Z } = params();
+			fmax = 0;
+			for (let i = 1; i < 400; i++) fmax = Math.max(fmax, shape((Q * i) / 400, Q, Z));
+			fmax *= 1.05;
+		}
+		function sample() {
+			const { Q, Z } = params();
+			for (;;) { const t = Math.random() * Q; if (Math.random() * fmax < shape(t, Q, Z)) return t; }
+		}
+		const X = (t: number, Q: number) => L + (t / (Q * 1.1)) * (R - L);
+		function draw() {
+			const { Q, name } = params();
+			const w = (X(Q, Q) - L) / NB;
+			const cmax = Math.max(10, ...counts);
+			bars.forEach((b, i) => {
+				const h = ((counts[i] || 0) / cmax) * (B - T - 10);
+				b.setAttribute('x', String(L + i * w + 1)); b.setAttribute('width', String(Math.max(0, w - 2)));
+				b.setAttribute('y', String(B - h)); b.setAttribute('height', String(h));
+			});
+			ticks.forEach((tk, i) => { const v = (Q * 1.1 * i) / 5; tk.setAttribute('x', String(X(v, Q))); tk.textContent = v >= 100 ? v.toFixed(0) : v.toFixed(1); });
+			qLine.setAttribute('x1', String(X(Q, Q))); qLine.setAttribute('x2', String(X(Q, Q)));
+			qLab.setAttribute('x', String(X(Q, Q) - 6)); qLab.textContent = `Q = ${Q} keV: electron alone would be here`;
+			const n = energies.length, mean = n ? energies.reduce((a, b) => a + b, 0) / n : 0;
+			mLine.setAttribute('x1', String(n ? X(mean, Q) : -10)); mLine.setAttribute('x2', String(n ? X(mean, Q) : -10));
+			mLab.setAttribute('x', String(X(mean, Q) + 5)); mLab.textContent = n ? `average ${mean.toPrecision(3)} keV` : '';
+			const max = n ? Math.max(...energies) : 0;
+			out.innerHTML = n
+				? `<span class="k">${name}</span>: ${n} decays recorded &nbsp; <span class="k">average electron</span> ${mean.toPrecision(3)} keV (${((100 * mean) / Q).toFixed(0)}% of Q) &nbsp; <span class="k">largest</span> ${max.toPrecision(3)} keV<br>` +
+					`<span class="k">average carried off by the antineutrino</span> = Q − electron = ${(Q - mean).toPrecision(3)} keV (${((100 * (Q - mean)) / Q).toFixed(0)}% of Q). Without it, energy would not be conserved.`
+				: `<span class="k">${name}</span>: Q = ${Q} keV released in every decay. Record some decays.`;
+		}
+		function record(k: number) {
+			const { Q } = params();
+			for (let j = 0; j < k; j++) {
+				const t = sample();
+				energies.push(t);
+				const i = Math.min(NB - 1, Math.floor((t / Q) * NB));
+				counts[i] = (counts[i] || 0) + 1;
+			}
+			draw();
+		}
+		function clear() { counts = new Array(NB).fill(0); energies = []; prep(); draw(); }
+		q('.btl-100').addEventListener('click', () => record(100));
+		q('.btl-1000').addEventListener('click', () => record(1000));
+		q('.btl-clear').addEventListener('click', clear);
+		Iso.addEventListener('change', () => { clear(); record(300); });
+		clear();
+		record(300);
+	});
+</script>

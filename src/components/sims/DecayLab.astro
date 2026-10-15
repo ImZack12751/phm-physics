@@ -1,0 +1,133 @@
+---
+// Simulation: random radioactive decay. A grid of N₀ nuclei (100, 400 or 1600). Each time step dt (in half-lives) every
+// surviving nucleus decays with probability 1 − 2^(−dt). The graph plots N/N₀ against time in half-lives, with the
+// smooth law (½)^(t/t½) dashed. Play/pause animates (created elements are only re-attributed per frame; text nodes change
+// only when their value changes); "step" advances half a half-life without animation. Nothing runs until asked.
+---
+
+<div
+	class="sim dcl"
+	data-title="Radioactive decay lab"
+	data-description="Watch a sample of radioactive nuclei decay one by one. Choose how many nuclei there are (100, 400 or 1600) and which isotope sets the time scale (carbon-14, 5700 years; iodine-131, 8.02 days; tritium, 12.32 years; uranium-238, 4.46 billion years). Press play or step forward by half a half-life. In each moment every surviving nucleus has the same small chance of decaying, regardless of its age. The grid shows each nucleus (gold: not yet decayed; dark: decayed); the graph plots the fraction left against time, in half-lives and in years or days, together with the smooth law N = N₀(½)^(t/t½). The readout gives the time, the number left, the expected number and the activity."
+>
+	<p class="sim-title">Simulation: radioactive decay</p>
+	<p class="sim-help">Every nucleus has the same chance of decaying in each instant. Nobody can say which will go next, but the total falls by half every half-life.</p>
+	<div class="sim-controls">
+		<label>Nuclei <select class="dcl-n">
+			<option value="10">100</option>
+			<option value="20" selected>400</option>
+			<option value="40">1600</option>
+		</select></label>
+		<label>Isotope <select class="dcl-i">
+			<option value="5700|yr|carbon-14">carbon-14</option>
+			<option value="8.02|days|iodine-131">iodine-131</option>
+			<option value="12.32|yr|tritium">tritium</option>
+			<option value="4.463e9|yr|uranium-238">uranium-238</option>
+		</select></label>
+		<button type="button" class="dcl-play">Play</button>
+		<button type="button" class="dcl-step">Step ½ half-life</button>
+		<button type="button" class="dcl-reset">Reset</button>
+	</div>
+	<svg class="dg dcl-svg" viewBox="0 0 600 330" role="img" aria-label="A grid of nuclei on the left and a graph of the fraction remaining on the right"></svg>
+	<div class="readout dcl-out" aria-live="polite"><span class="dcl-r1"></span><br><span class="dcl-r2"></span></div>
+</div>
+
+<script>
+	document.querySelectorAll<HTMLElement>('.sim.dcl').forEach((root) => {
+		const q = <T extends Element>(s: string) => root.querySelector<T>(s)!;
+		const svg = q<SVGSVGElement>('.dcl-svg');
+		const Ns = q<HTMLSelectElement>('.dcl-n'), Is = q<HTMLSelectElement>('.dcl-i');
+		const play = q<HTMLButtonElement>('.dcl-play'), step = q<HTMLButtonElement>('.dcl-step'), reset = q<HTMLButtonElement>('.dcl-reset');
+		const NS = 'http://www.w3.org/2000/svg';
+		const mk = (tag: string, at: Record<string, string | number>, parent: Element = svg, text?: string) => {
+			const e = document.createElementNS(NS, tag);
+			Object.entries(at).forEach(([k, v]) => e.setAttribute(k, String(v)));
+			if (text) e.textContent = text;
+			parent.append(e);
+			return e;
+		};
+		const r1 = q<HTMLElement>('.dcl-r1'), r2 = q<HTMLElement>('.dcl-r2');
+		const t1 = document.createTextNode(''), t2 = document.createTextNode('');
+		r1.append(t1); r2.append(t2);
+		const setText = (n: Text, s: string) => { if (n.nodeValue !== s) n.nodeValue = s; };
+		// graph frame
+		const GL = 340, GR = 565, GT = 20, GB = 280, TMAX = 5;
+		const gx = (t: number) => GL + (t / TMAX) * (GR - GL), gy = (f: number) => GB - f * (GB - GT);
+		[0, 0.25, 0.5, 0.75, 1].forEach((f) => {
+			mk('line', { x1: GL, y1: gy(f), x2: GR, y2: gy(f), class: 's-grid w1' });
+			mk('text', { x: GL - 6, y: gy(f) + 4, class: 't-end t-sm f-muted' }, svg, String(f));
+		});
+		const tickLabs: SVGTextElement[] = [];
+		for (let t = 0; t <= TMAX; t++) {
+			mk('line', { x1: gx(t), y1: GB, x2: gx(t), y2: GB + 4, class: 's-muted w1' });
+			mk('text', { x: gx(t), y: GB + 16, class: 't-mid t-sm f-muted' }, svg, String(t));
+			tickLabs.push(mk('text', { x: gx(t), y: GB + 30, class: 't-mid t-sm f-muted' }) as SVGTextElement);
+		}
+		mk('text', { x: (GL + GR) / 2, y: GB + 46, class: 't-mid t-sm' }, svg, 'time (half-lives; isotope time below)');
+		mk('text', { x: GL + 4, y: GT - 6, class: 't-sm' }, svg, 'fraction left, N/N₀');
+		const law = Array.from({ length: 101 }, (_, i) => { const t = (i / 100) * TMAX; return `${gx(t).toFixed(1)},${gy(0.5 ** t).toFixed(1)}`; }).join(' ');
+		mk('polyline', { points: law, class: 's-sky w2 dash', fill: 'none' });
+		const trace = mk('polyline', { points: '', class: 's-amber w2', fill: 'none' });
+		const gridG = mk('g', {});
+		let side = 20, cells: SVGRectElement[] = [], alive: boolean[] = [], left = 0, t = 0, pts: string[] = [], running = false, last = 0, raf = 0;
+		const fmtTime = (x: number) => (x >= 1000 ? `${+(x / 1000).toPrecision(3)}k` : x >= 100 ? `${Math.round(x)}` : x.toPrecision(3));
+		function iso() { const [h, u, n] = Is.value.split('|'); return { h: +h, u, n }; }
+		function labels() {
+			const { h, u } = iso();
+			tickLabs.forEach((e, i) => { const s = i === 0 ? '' : u === 'yr' && h > 1e6 ? `${((i * h) / 1e9).toPrecision(2)} Gyr` : `${fmtTime(i * h)}${u === 'days' ? ' d' : ''}`; if (e.textContent !== s) e.textContent = s; });
+		}
+		function build() {
+			side = +Ns.value;
+			gridG.replaceChildren();
+			cells = []; alive = [];
+			const size = 280 / side;
+			for (let i = 0; i < side * side; i++) {
+				const r = mk('rect', { x: 20 + (i % side) * size + size * 0.1, y: 20 + Math.floor(i / side) * size + size * 0.1, width: size * 0.8, height: size * 0.8, class: 'f-amber' }, gridG) as SVGRectElement;
+				cells.push(r); alive.push(true);
+			}
+			left = side * side; t = 0; pts = [`${gx(0)},${gy(1)}`];
+			trace.setAttribute('points', pts.join(' '));
+			labels();
+			readout();
+		}
+		function readout() {
+			const { h, u, n } = iso(), N0 = side * side;
+			const tReal = t * h, lam = Math.LN2 / h;
+			const unit = u === 'days' ? 'days' : 'years';
+			setText(t1, `t = ${t.toFixed(2)} half-lives = ${tReal >= 1e6 ? (tReal / 1e9).toPrecision(3) + ' billion years' : tReal.toPrecision(3) + ' ' + unit} of ${n}`);
+			setText(t2, `nuclei left: ${left} of ${N0} (law expects ${(N0 * 0.5 ** t).toFixed(0)}); activity λN = ${(lam * left).toPrecision(3)} decays per ${u === 'days' ? 'day' : 'year'}`);
+		}
+		function advance(dt: number) {
+			if (t >= TMAX) return;
+			dt = Math.min(dt, TMAX - t);
+			const p = 1 - 0.5 ** dt;
+			for (let i = 0; i < alive.length; i++) {
+				if (alive[i] && Math.random() < p) { alive[i] = false; left--; cells[i].setAttribute('class', 'f-muted'); }
+			}
+			t += dt;
+			pts.push(`${gx(t).toFixed(1)},${gy(left / alive.length).toFixed(1)}`);
+			trace.setAttribute('points', pts.join(' '));
+			readout();
+		}
+		function frame(now: number) {
+			if (!running) return;
+			const dt = Math.min(0.05, (now - last) / 1000) * 0.6; // 0.6 half-lives per second
+			last = now;
+			advance(dt);
+			if (t >= TMAX) { stop(); return; }
+			raf = requestAnimationFrame(frame);
+		}
+		function stop() { running = false; cancelAnimationFrame(raf); play.textContent = 'Play'; }
+		play.addEventListener('click', () => {
+			if (running) { stop(); return; }
+			if (t >= TMAX) build();
+			running = true; play.textContent = 'Pause'; last = performance.now();
+			raf = requestAnimationFrame(frame);
+		});
+		step.addEventListener('click', () => { stop(); if (t >= TMAX) build(); for (let k = 0; k < 10; k++) advance(0.05); });
+		reset.addEventListener('click', () => { stop(); build(); });
+		Ns.addEventListener('change', () => { stop(); build(); });
+		Is.addEventListener('change', () => { labels(); readout(); });
+		build();
+	});
+</script>

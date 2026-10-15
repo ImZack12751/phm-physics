@@ -1,0 +1,52 @@
+---
+// Binding energy per nucleon (MeV) from NIST atomic masses (computed in scripts/verify/13.02): ²H 1.11, ⁴He 7.07,
+// ¹²C 7.68, ¹⁶O 7.98, ⁵⁶Fe 8.79, ²³⁸U 7.57. A smooth guide curve through representative values (for the eye only);
+// the crowded light nuclei are labelled with leader lines. Arrows for fusion and fission.
+const L = 70, R = 570, T = 30, B = 230;
+const X = (a: number) => L + (a / 240) * (R - L);
+const Y = (v: number) => B - (v / 9) * (B - T);
+const pts: [number, number][] = [[2, 1.11], [4, 7.07], [12, 7.68], [16, 7.98], [56, 8.79], [238, 7.57]];
+const guide = [[2, 1.11], [4, 7.07], [12, 7.68], [16, 7.98], [24, 8.26], [40, 8.55], [56, 8.79], [80, 8.71], [120, 8.51], [160, 8.25], [200, 7.91], [238, 7.57]];
+const path = 'M ' + guide.map(([a, v]) => `${X(a).toFixed(1)},${Y(v).toFixed(1)}`).join(' L ');
+const leaders = [
+	{ a: 16, v: 7.98, t: '¹⁶O 7.98', ly: Y(7.0) },
+	{ a: 12, v: 7.68, t: '¹²C 7.68', ly: Y(6.35) },
+	{ a: 4, v: 7.07, t: '⁴He 7.07', ly: Y(5.7) },
+];
+const LX = X(34);
+const head = (x1: number, y1: number, x2: number, y2: number, s = 9) => {
+	const a = Math.atan2(y2 - y1, x2 - x1), c = Math.cos(a), n = Math.sin(a);
+	return `${x2},${y2} ${x2 - s * c + (s / 2) * n},${y2 - s * n - (s / 2) * c} ${x2 - s * c - (s / 2) * n},${y2 - s * n + (s / 2) * c}`;
+};
+---
+
+<svg class="dg" viewBox="0 0 600 290" xmlns="http://www.w3.org/2000/svg">
+	{[0, 2, 4, 6, 8].map((v) => (
+		<>
+			<line x1={L} y1={Y(v)} x2={R} y2={Y(v)} class="s-grid w1" />
+			<text x={L - 8} y={Y(v) + 4} class="t-end t-sm f-muted">{v}</text>
+		</>
+	))}
+	{[0, 40, 80, 120, 160, 200, 240].map((a) => <text x={X(a)} y={B + 18} class="t-mid t-sm f-muted">{a}</text>)}
+	<line x1={X(56)} y1={T} x2={X(56)} y2={B} class="s-amber w1 dash" />
+	<path d={path} class="s-sky w2" fill="none" />
+	{leaders.map((l) => (
+		<>
+			<line x1={X(l.a)} y1={Y(l.v)} x2={LX - 4} y2={l.ly - 4} class="s-muted w1" />
+			<text x={LX} y={l.ly} class="t-sm">{l.t}</text>
+		</>
+	))}
+	{pts.map(([a, v]) => <circle cx={X(a)} cy={Y(v)} r="5" class="f-amber" />)}
+	<text x={X(2) + 9} y={Y(1.11) + 4} class="t-sm">²H 1.11</text>
+	<text x={X(56)} y={Y(8.79) - 10} class="t-mid t-sm">⁵⁶Fe 8.79</text>
+	<text x={X(238) - 4} y={Y(7.57) + 20} class="t-end t-sm">²³⁸U 7.57</text>
+	<line x1={X(10)} y1={Y(1.2)} x2={X(36)} y2={Y(4.6)} class="s-green w2" />
+	<polygon points={head(X(10), Y(1.2), X(38), Y(4.9))} class="f-green" />
+	<text x={X(40)} y={Y(3.4)} class="t-sm f-green">fusion releases energy</text>
+	<line x1={X(225)} y1={Y(6.4)} x2={X(115)} y2={Y(7.6)} class="s-rose w2" />
+	<polygon points={head(X(225), Y(6.4), X(108), Y(7.68))} class="f-rose" />
+	<text x={X(170)} y={Y(5.8)} class="t-mid t-sm f-rose">fission releases energy</text>
+	<text x={X(56) + 6} y={Y(1.6)} class="t-sm f-amber">most tightly bound: iron</text>
+	<text x="18" y={(T + B) / 2} class="t-mid t-sm" transform={`rotate(-90 18 ${(T + B) / 2})`}>binding energy per nucleon (MeV)</text>
+	<text x={(L + R) / 2} y={B + 40} class="t-mid t-sm">mass number A</text>
+</svg>

@@ -1556,4 +1556,107 @@ export const formulas = [
 		where: 'Strip of span L and thickness t on supports at its ends, with pressure difference q. Grows as (L/t)².',
 		chapter: 'stress-strength',
 	},
+	// ---- 13.1 Atomic structure ----
+	{
+		id: 'coulombs-law',
+		name: 'Coulomb’s law',
+		tex: 'F = \\dfrac{kq_{1}q_{2}}{r^{2}} \\qquad k = \\dfrac{1}{4\\pi\\varepsilon_{0}} = 8.988 \\times 10^{9}\\ \\text{N·m}^{2}/\\text{C}^{2} \\qquad e = 1.602 \\times 10^{-19}\\ \\text{C}',
+		where: 'q₁, q₂: charges; r: separation. Like charges repel, unlike charges attract.',
+		chapter: 'atomic-structure',
+	},
+	{
+		id: 'bohr-model',
+		name: 'Bohr model of hydrogen',
+		tex: '2\\pi r = n\\lambda = \\dfrac{nh}{m_{e}v} \\qquad r_{n} = n^{2}a_{0},\\ a_{0} = \\dfrac{4\\pi\\varepsilon_{0}\\hbar^{2}}{m_{e}e^{2}} = 5.29 \\times 10^{-11}\\ \\text{m} \\qquad E_{n} = -\\dfrac{ke^{2}}{2r_{n}} = -\\dfrac{13.6\\ \\text{eV}}{n^{2}}',
+		where: 'n = 1, 2, 3, …; ħ = h/2π. The electron’s wave fits the orbit a whole number of times.',
+		chapter: 'atomic-structure',
+	},
+	{
+		id: 'nuclear-radius',
+		name: 'Size of a nucleus; shell capacity',
+		tex: 'R = r_{0}A^{1/3},\\ r_{0} = 1.2\\ \\text{fm} \\qquad \\text{shell } n \\text{ holds } 2n^{2} \\text{ electrons}',
+		where: 'A: number of nucleons. 1 fm = 10⁻¹⁵ m. Nuclear density is the same for all nuclei, about 2.3 × 10¹⁷ kg/m³.',
+		chapter: 'atomic-structure',
+	},
+	// ---- 13.2 Isotopes ----
+	{
+		id: 'isotope-mass',
+		name: 'Nucleus bookkeeping and atomic weight',
+		tex: 'A = Z + N \\qquad \\bar{m} = \\sum_{i} f_{i}m_{i}',
+		where: 'Z: protons, N: neutrons, A: mass number. f_i: fraction of atoms that are isotope i, of mass m_i.',
+		chapter: 'isotopes',
+	},
+	{
+		id: 'binding-energy',
+		name: 'Binding energy of a nucleus',
+		tex: 'B = \\left(Zm_{\\text{H}} + Nm_{\\text{n}} - m_{\\text{atom}}\\right)c^{2} \\qquad 1\\ \\text{u} \\times c^{2} = 931.5\\ \\text{MeV}',
+		where: 'Using atomic masses: m_H is a hydrogen atom, m_n a neutron, so the electrons cancel. B/A peaks at 8.8 MeV near iron.',
+		chapter: 'isotopes',
+	},
+	{
+		id: 'decay-law',
+		name: 'Radioactive decay',
+		tex: '\\dfrac{dN}{dt} = -\\lambda N \\qquad N = N_{0}e^{-\\lambda t} = N_{0}\\left(\\tfrac{1}{2}\\right)^{t/t_{1/2}} \\qquad \\lambda = \\dfrac{\\ln 2}{t_{1/2}} \\qquad A = \\lambda N',
+		where: 'λ: decay constant; A: activity in becquerels (decays per second). Mean lifetime 1/λ = 1.443 t₁/₂.',
+		chapter: 'isotopes',
+	},
+	{
+		id: 'radioactive-age',
+		name: 'Age from a decay',
+		tex: 't = t_{1/2}\\log_{2}\\dfrac{A_{0}}{A} = \\dfrac{t_{1/2}}{\\ln 2}\\ln\\dfrac{N_{0}}{N}',
+		where: 'Radiocarbon: A₀ = 14 decays per minute per gram of carbon, t₁/₂ = 5700 years.',
+		chapter: 'isotopes',
+	},
+	// ---- 13.3 Ionizing radiation ----
+	{
+		id: 'attenuation',
+		name: 'Attenuation of gamma rays',
+		tex: 'I = I_{0}e^{-\\mu x} \\qquad \\mu = \\left(\\dfrac{\\mu}{\\rho}\\right)\\rho \\qquad x_{1/2} = \\dfrac{\\ln 2}{\\mu}',
+		where: 'μ/ρ: mass attenuation coefficient (cm²/g); x_1/2: half-value layer. Shielding goes mainly by mass per area.',
+		chapter: 'ionizing-radiation',
+	},
+	{
+		id: 'radiation-dose',
+		name: 'Absorbed and equivalent dose',
+		tex: 'D = \\dfrac{E}{m}\\ (\\text{Gy} = \\text{J/kg}) \\qquad H = w_{\\text{R}}D\\ (\\text{Sv}) \\qquad \\dot{D} \\propto \\dfrac{1}{r^{2}}\\ (\\text{point source})',
+		where: 'w_R: 1 for photons and electrons, 2 for protons, 20 for alpha particles.',
+		chapter: 'ionizing-radiation',
+	},
+	// ---- 13.4 Cosmic rays and shielding ----
+	{
+		id: 'column-shielding',
+		name: 'Shielding by column density',
+		tex: '\\Sigma = \\rho x = \\dfrac{P}{g} \\qquad N = N_{0}e^{-\\Sigma/\\lambda_{\\text{int}}}',
+		where: 'Σ: column density (g/cm²); λ_int: nuclear interaction length (90 g/cm² air, 83 g/cm² water). Counts only the primaries that get through untouched.',
+		chapter: 'cosmic-rays-shielding',
+	},
+	{
+		id: 'interstellar-beam',
+		name: 'Interstellar gas hitting a fast ship',
+		tex: '\\Phi = \\gamma n v \\qquad K = (\\gamma - 1)m_{\\text{p}}c^{2} \\qquad \\dfrac{P}{A} = \\Phi K \\qquad \\dot{D} = \\Phi\\,\\dfrac{dE}{d\\Sigma}',
+		where: 'n: gas density in its own frame (about 0.3 per cm³), γn in the ship’s frame; Φ: protons per m² per second of ship time; dE/dΣ ≈ 2 MeV cm²/g in water.',
+		chapter: 'cosmic-rays-shielding',
+	},
+	// ---- 13.5 Neutrinos ----
+	{
+		id: 'beta-q',
+		name: 'Energy released in neutron decay',
+		tex: 'Q = (m_{\\text{n}} - m_{\\text{p}} - m_{e})c^{2} = 0.782\\ \\text{MeV} \\qquad Q = K_{e} + E_{\\nu} \\ (\\text{shared})',
+		where: 'The electron takes anything from 0 to Q; the antineutrino carries the rest.',
+		chapter: 'neutrinos',
+	},
+	{
+		id: 'reaction-rate',
+		name: 'Mean free path and reaction rate',
+		tex: '\\ell = \\dfrac{1}{n\\sigma} \\qquad R = N_{\\text{t}}\\Phi\\sigma \\qquad P_{\\text{hit}} \\approx \\dfrac{x}{\\ell}\\ (x \\ll \\ell)',
+		where: 'n: targets per m³; σ: cross-section; N_t: number of targets; Φ: flux (particles per m² per s).',
+		chapter: 'neutrinos',
+	},
+	{
+		id: 'solar-neutrino-flux',
+		name: 'Solar neutrino flux',
+		tex: '\\Phi = \\dfrac{2L}{Q}\\,\\dfrac{1}{4\\pi d^{2}} \\approx 6.4 \\times 10^{10}\\ \\text{cm}^{-2}\\text{s}^{-1}',
+		where: 'Two neutrinos for each helium-4 made, Q = 26.7 MeV; L: the Sun’s luminosity; d = 1 au.',
+		chapter: 'neutrinos',
+	},
 ];

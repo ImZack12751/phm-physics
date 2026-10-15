@@ -395,3 +395,50 @@ export const PRESSURE = {
 	panelArea: 2.0, panelThickness: 0.01,
 	issMass: 419_725, // kg (Wikipedia "International Space Station", as in Part 5)
 };
+
+// Part 13 (atoms, radiation and particles). Checked October 2026.
+// NIST CODATA 2022 (physics.nist.gov/cuu): electron, proton, neutron masses, ε₀, atomic mass unit; e and N_A exact.
+// NIST Atomic Weights and Isotopic Compositions: ¹⁶O, ⁵⁶Fe, ²³⁸U, ³⁵Cl/³⁷Cl masses and abundances.
+// Wikipedia "Ionization energies of the elements (data page)" (CRC values, eV). Wikipedia "Xenon": isotopes, 5.894 g/L,
+// Bartlett 1962. Geiger–Marsden: about 1 in 8000 alphas reflected (1909); nucleus at least 10 000× smaller (1911).
+// OpenStax University Physics Vol. 3 §10.1: nuclear radius r₀A^(1/3), r₀ = 1.2 fm.
+// Half-lives (Wikipedia isotope pages): ¹⁴C 5700 yr (1.2 ppt, 14 decays/min/g), ²³⁸U 4.463 Gyr (α 4.270 MeV, 8 α + 6 β to
+// ²⁰⁶Pb), ⁴⁰K 1.248 Gyr (0.0117%, 16.7 mg in a 70 kg body), ³H 12.32 yr (18.6 keV, mean 5.7 keV), ¹³¹I 8.0252 d.
+// NIST XCOM mass attenuation coefficients (cm²/g): lead and water at 0.1, 0.5, 1, 2 MeV. PDG Atomic and Nuclear Properties:
+// nuclear interaction lengths (g/cm²) water 83.3, air 90.1, aluminium 107.2, lead 199.6; minimum dE/dx water 1.981 MeV cm²/g.
+// Dose: ICRP 103 weighting factors (Wikipedia "Equivalent dose"); 5.5% fatal-cancer risk per Sv, public limit 1 mSv/yr
+// (Wikipedia "Sievert"); acute radiation syndrome bands (Wikipedia); background 2.4 mSv/yr world, 6.24 US, cosmic 0.39,
+// K-40 0.17, chest X-ray 20 µSv, CT 1–20 mSv (Wikipedia "Background radiation"); Curiosity RAD 1.84 mSv/day in cruise,
+// 0.64 on Mars's surface (Hassler/Zeitlin et al. 2013, via Space.com and SwRI).
+// Cosmic rays (Wikipedia): 90% protons, 9% helium, 1% heavier; Hess 1912 to 5300 m. Local Interstellar Cloud 0.3 atoms/cm³.
+// Neutrinos (Wikipedia): 6.5 × 10¹⁰ solar neutrinos per cm² per s; Δm²₃₂ 2.51 × 10⁻³ eV²; Δm²₂₁ 7.4 × 10⁻⁵ eV²; cosmology
+// sum below 0.12 eV; Cowan–Reines 1956 (5 × 10¹³ /cm²/s, about 3 per hour, σ = 6.3 × 10⁻⁴⁴ cm²); SN 1987A 25 neutrinos,
+// 168 000 ly, 2–3 h before the light; Super-Kamiokande 50 220 t; IceCube about 1 km³, 1450–2450 m deep.
+// BOOK (Looper, Everyman Commentary, readifyai reader wiki): Rocky one of 23 Eridians; the rest died of radiation sickness;
+// Rocky's workshop beside the Astrophage tanks; Erid protected by a strong magnetic field; the Hail Mary's hull holds a 1 mm
+// Astrophage slurry layer; Astrophage stores energy as neutrino pairs made by colliding protons, held by its "super
+// cross-sectional" membrane; Komorov's cell gained 17 ng from 1.5 MJ.
+export const PARTICLES = {
+	e: 1.602176634e-19, me: 9.1093837139e-31, mp: 1.67262192595e-27, mn: 1.67492750056e-27, // C, kg
+	eps0: 8.8541878188e-12, u: 1.66053906892e-27, G: 6.6743e-11,
+	r0: 1.2e-15, // m
+	ion: { H: 13.59844, He: 24.58738, Li: 5.39171, C: 11.2603, N: 14.53414, O: 13.61806, Ne: 21.5646, Na: 5.13908, Ar: 15.75962, K: 4.34066, Kr: 13.99961, Xe: 12.1298, Cs: 3.8939 }, // eV
+	xeIsotopes: [[124, 0.095], [126, 0.089], [128, 1.91], [129, 26.4], [130, 4.07], [131, 21.2], [132, 26.9], [134, 10.4], [136, 8.86]], // A, %
+	xeWeight: 131.293, xeGasDensity: 5.894, // g/mol, kg/m³
+	mO16: 15.99491461957, mFe56: 55.93493633, mU238: 238.0507884, mCl35: 34.968852682, mCl37: 36.965902602, cl35: 0.7576, // u
+	rutherfordFraction: 1 / 8000,
+	halfLife: { C14: 5700, U238: 4.463e9, U235: 7.04e8, K40: 1.248e9, H3: 12.32, I131: 8.0252 / 365.25 }, // years
+	c14ppt: 1.2e-12, c14dpm: 14, k40BodyMass: 0.0167e-3, u238Alpha: 4.27, h3Q: 18.6, h3Mean: 5.7, c14Max: 156, c14Mean: 49, // kg, MeV, keV
+	muLead: { 0.1: 5.549, 0.5: 0.1614, 1: 0.07102, 2: 0.04606 }, muWater: { 0.1: 0.1707, 0.5: 0.09687, 1: 0.07072, 2: 0.04942 }, // cm²/g
+	rhoLead: 11.35, // g/cm³
+	lambdaInt: { water: 83.3, air: 90.1, al: 107.2, lead: 199.6 }, dEdxWater: 1.981, // g/cm², MeV cm²/g
+	wR: { photon: 1, electron: 1, proton: 2, alpha: 20 }, riskPerSv: 0.055,
+	background: { world: 2.4, us: 6.24, cosmic: 0.39, k40: 0.17, chestXray: 0.02, ct: [1, 20] }, // mSv
+	marsCruise: 1.84e-3, marsSurface: 0.64e-3, // Sv/day
+	ismDensity: 0.3, // atoms/cm³
+	solarNuFlux: 6.5e10, dm32: 2.51e-3, dm21: 7.4e-5, nuMassSum: 0.12, // /cm²/s, eV², eV², eV
+	crFlux: 5e13, crSigma: 6.3e-44, crRate: 3, // /cm²/s, cm², per hour
+	sn1987a: { count: 25, ly: 168000 }, superK: 50220, // t
+	// BOOK
+	eridians: 23, slurryMm: 1, komorovJ: 1.5e6, komorovNg: 17,
+};

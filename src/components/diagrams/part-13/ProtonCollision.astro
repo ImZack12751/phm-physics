@@ -1,0 +1,38 @@
+---
+// The novel's mechanism: two protons (each ~³⁄₂kT = 0.0478 eV at 96.415 °C) collide and make two neutrinos of
+// 0.0477 eV mass-energy each. Balance line underneath; catches noted.
+const head = (x1: number, y1: number, x2: number, y2: number, s = 9) => {
+	const a = Math.atan2(y2 - y1, x2 - x1), c = Math.cos(a), n = Math.sin(a);
+	return `${x2},${y2} ${x2 - s * c + (s / 2) * n},${y2 - s * n - (s / 2) * c} ${x2 - s * c - (s / 2) * n},${y2 - s * n + (s / 2) * c}`;
+};
+const CX = 300, CY = 110;
+const star = Array.from({ length: 16 }, (_, i) => { const r = i % 2 ? 9 : 22, a = (i * Math.PI) / 8; return `${CX + r * Math.cos(a)},${CY + r * Math.sin(a)}`; }).join(' ');
+---
+
+<svg class="dg" viewBox="0 0 600 290" xmlns="http://www.w3.org/2000/svg">
+	<circle cx="90" cy={CY} r="20" class="f-rose" />
+	<text x="90" y={CY + 5} class="t-mid t-sm t-b">p</text>
+	<line x1="114" y1={CY} x2="256" y2={CY} class="s-rose w2" />
+	<polygon points={head(114, CY, 266, CY)} class="f-rose" />
+	<circle cx="510" cy={CY} r="20" class="f-rose" />
+	<text x="510" y={CY + 5} class="t-mid t-sm t-b">p</text>
+	<line x1="486" y1={CY} x2="344" y2={CY} class="s-rose w2" />
+	<polygon points={head(486, CY, 334, CY)} class="f-rose" />
+	<text x="90" y={CY + 44} class="t-mid t-sm">proton</text>
+	<text x="90" y={CY + 60} class="t-mid t-sm f-muted">K ≈ ³⁄₂kT = 0.0478 eV</text>
+	<text x="510" y={CY + 44} class="t-mid t-sm">proton</text>
+	<text x="510" y={CY + 60} class="t-mid t-sm f-muted">K ≈ ³⁄₂kT = 0.0478 eV</text>
+	<polygon points={star} class="f-amber" />
+	<text x={CX} y={CY + 42} class="t-mid t-sm f-amber">collision at 96.415 °C</text>
+	<line x1={CX - 8} y1={CY - 14} x2={CX - 70} y2={CY - 70} class="s-violet w2 dash" />
+	<polygon points={head(CX - 8, CY - 14, CX - 76, CY - 76)} class="f-violet" />
+	<circle cx={CX - 84} cy={CY - 84} r="6" class="f-violet" />
+	<line x1={CX + 8} y1={CY - 14} x2={CX + 70} y2={CY - 70} class="s-violet w2 dash" />
+	<polygon points={head(CX + 8, CY - 14, CX + 76, CY - 76)} class="f-violet" />
+	<circle cx={CX + 84} cy={CY - 84} r="6" class="f-violet" />
+	<text x={CX - 96} y={CY - 84} class="t-end t-sm f-violet">neutrino, m<tspan baseline-shift="sub" font-size="9">ν</tspan>c² = 0.0477 eV</text>
+	<text x={CX + 96} y={CY - 80} class="t-sm f-violet">neutrino (or antineutrino)</text>
+	<text x={CX} y="218" class="t-mid t-sm t-b">novel’s balance: 2 × ³⁄₂kT = 0.0955 eV ≈ 2m<tspan baseline-shift="sub" font-size="9">ν</tspan>c² = 0.0954 eV</text>
+	<text x={CX} y="244" class="t-mid t-sm f-rose">real catches: only the motion relative to each other counts (half as much),</text>
+	<text x={CX} y="262" class="t-mid t-sm f-rose">and the weak interaction would make such pairs vanishingly rarely</text>
+</svg>

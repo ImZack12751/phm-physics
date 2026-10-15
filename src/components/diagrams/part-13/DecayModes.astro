@@ -1,0 +1,42 @@
+---
+// A patch of the chart of nuclei: Z to the right, N upwards. Parent at the centre; arrows for alpha (−2, −2),
+// beta-minus (+1, −1), beta-plus (−1, +1); a loop for gamma.
+const C = 44, X0 = 120, Y0 = 250; // cell size, origin of cell (0,0) bottom-left
+const cx = (z: number) => X0 + (z + 0.5) * C, cy = (n: number) => Y0 - (n + 0.5) * C;
+const head = (x1: number, y1: number, x2: number, y2: number, s = 10) => {
+	const a = Math.atan2(y2 - y1, x2 - x1), c = Math.cos(a), n = Math.sin(a);
+	return `${x2},${y2} ${x2 - s * c + (s / 2) * n},${y2 - s * n - (s / 2) * c} ${x2 - s * c - (s / 2) * n},${y2 - s * n + (s / 2) * c}`;
+};
+const P = { z: 3, n: 3 };
+const arrows = [
+	{ dz: -2, dn: -2, cls: 'amber', lab: 'α: Z − 2, N − 2 (A − 4)', lx: -12, ly: 30, anchor: 't-end' },
+	{ dz: 1, dn: -1, cls: 'sky', lab: 'β⁻: neutron → proton (Z + 1)', lx: 14, ly: 10, anchor: '' },
+	{ dz: -1, dn: 1, cls: 'green', lab: 'β⁺: proton → neutron (Z − 1)', lx: -14, ly: -6, anchor: 't-end' },
+];
+const shrink = (x1: number, y1: number, x2: number, y2: number, d = 16) => {
+	const L = Math.hypot(x2 - x1, y2 - y1);
+	return [x1 + ((x2 - x1) * d) / L, y1 + ((y2 - y1) * d) / L, x2 - ((x2 - x1) * d) / L, y2 - ((y2 - y1) * d) / L];
+};
+---
+
+<svg class="dg" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+	{[...Array(7).keys()].map((i) => <line x1={X0 + i * C} y1={Y0 - 6 * C} x2={X0 + i * C} y2={Y0} class="s-grid w1" />)}
+	{[...Array(7).keys()].map((i) => <line x1={X0} y1={Y0 - i * C} x2={X0 + 6 * C} y2={Y0 - i * C} class="s-grid w1" />)}
+	<rect x={cx(P.z) - C / 2 + 2} y={cy(P.n) - C / 2 + 2} width={C - 4} height={C - 4} class="f-violet" />
+	<text x={cx(P.z)} y={cy(P.n) + 4} class="t-mid t-sm t-b">parent</text>
+	{arrows.map((a) => {
+		const [x1, y1, x2, y2] = shrink(cx(P.z), cy(P.n), cx(P.z + a.dz), cy(P.n + a.dn));
+		return (
+			<>
+				<rect x={cx(P.z + a.dz) - C / 2 + 4} y={cy(P.n + a.dn) - C / 2 + 4} width={C - 8} height={C - 8} class={`f-${a.cls}-soft`} />
+				<line x1={x1} y1={y1} x2={x2} y2={y2} class={`s-${a.cls} w2`} />
+				<polygon points={head(x1, y1, x2, y2)} class={`f-${a.cls}`} />
+				<text x={cx(P.z + a.dz) + a.lx} y={cy(P.n + a.dn) + a.ly} class={`t-sm f-${a.cls} ${a.anchor}`}>{a.lab}</text>
+			</>
+		);
+	})}
+	<path d={`M ${cx(P.z) + 14} ${cy(P.n) - 20} a 14 14 0 1 1 8 14`} class="s-rose w2" fill="none" />
+	<text x={cx(P.z) + 36} y={cy(P.n) - 32} class="t-sm f-rose">γ: same nucleus, lower energy</text>
+	<text x={X0 + 3 * C} y={Y0 + 24} class="t-mid t-sm">proton number Z →</text>
+	<text x={X0 - 14} y={Y0 - 3 * C} class="t-mid t-sm" transform={`rotate(-90 ${X0 - 14} ${Y0 - 3 * C})`}>neutron number N →</text>
+</svg>

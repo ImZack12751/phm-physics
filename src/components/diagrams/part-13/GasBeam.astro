@@ -1,0 +1,39 @@
+---
+// Left: gas at rest, evenly spaced dots (n = 0.3 per cm³). Right: the same gas in the ship's frame at 0.909c,
+// squeezed horizontally by γ = 2.4 and streaming left into the ship's nose.
+const head = (x1: number, y1: number, x2: number, y2: number, s = 8) => {
+	const a = Math.atan2(y2 - y1, x2 - x1), c = Math.cos(a), n = Math.sin(a);
+	return `${x2},${y2} ${x2 - s * c + (s / 2) * n},${y2 - s * n - (s / 2) * c} ${x2 - s * c - (s / 2) * n},${y2 - s * n + (s / 2) * c}`;
+};
+const rows = [60, 95, 130, 165];
+const restX = [40, 80, 120, 160, 200];
+const g = 2.4;
+const beamX = [250, 250 + 40 / g, 250 + 80 / g, 250 + 120 / g, 250 + 160 / g, 250 + 200 / g, 250 + 240 / g, 250 + 280 / g];
+---
+
+<svg class="dg" viewBox="0 0 600 270" xmlns="http://www.w3.org/2000/svg">
+	<rect x="22" y="38" width="196" height="150" class="s-muted w1" fill="none" />
+	{rows.map((y) => restX.map((x) => <circle cx={x} cy={y} r="4" class="f-sky" />))}
+	<text x="120" y="24" class="t-mid t-sm t-b">gas at rest</text>
+	<text x="120" y="208" class="t-mid t-sm">density n ≈ 0.3 atoms per cm³</text>
+	<text x="120" y="224" class="t-mid t-sm f-muted">(spacing hugely enlarged)</text>
+	<rect x="236" y="38" width="160" height="150" class="s-muted w1" fill="none" />
+	{rows.map((y) => beamX.filter((x) => x < 390).map((x) => (
+		<>
+			<circle cx={x} cy={y} r="4" class="f-sky" />
+			<line x1={x - 3} y1={y + 8} x2={x - 14} y2={y + 8} class="s-sky w1" />
+		</>
+	)))}
+	<text x="316" y="24" class="t-mid t-sm t-b">same gas, seen from the ship</text>
+	<text x="316" y="208" class="t-mid t-sm">squeezed by γ: density γn</text>
+	<text x="316" y="224" class="t-mid t-sm">all moving at v towards the ship</text>
+	<path d="M 590 70 L 470 70 Q 420 113 470 156 L 590 156 Z" class="f-amber-soft" />
+	<path d="M 590 70 L 470 70 Q 420 113 470 156 L 590 156" class="s-amber w2" fill="none" />
+	<text x="530" y="118" class="t-mid t-sm t-b">ship</text>
+	<line x1="402" y1="113" x2="436" y2="113" class="s-rose w3" />
+	<polygon points={head(400, 113, 444, 113, 11)} class="f-rose" />
+	<text x="508" y="200" class="t-mid t-sm f-rose">flux γnv on the nose</text>
+	<text x="508" y="216" class="t-mid t-sm f-rose">≈ 2 × 10¹⁰ per cm² per s</text>
+	<text x="508" y="232" class="t-mid t-sm f-rose">1.31 GeV each at 0.909c</text>
+	<text x="300" y="262" class="t-mid t-sm f-muted">the ship moves right through the gas; in its frame the gas streams left</text>
+</svg>

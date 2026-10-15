@@ -1,0 +1,40 @@
+---
+// Photon energy on a log axis from 0.01 eV to 1e7 eV; ionizing threshold at 10 eV (124 nm); markers for the Petrova line
+// (0.0477 eV), visible (1.7–3.1 eV), hydrogen ionization (13.6 eV), medical X-rays (~tens of keV), K-40 gamma (1.46 MeV).
+const L = 40, R = 570, Y = 150;
+const lo = -2, hi = 7;
+const X = (e: number) => L + ((Math.log10(e) - lo) / (hi - lo)) * (R - L);
+const ticks = [0.01, 0.1, 1, 10, 100, 1e3, 1e4, 1e5, 1e6, 1e7];
+const lab = (e: number) => (e < 1 ? String(e) : e < 1e3 ? `${e} eV` : e < 1e6 ? `${e / 1e3} keV` : `${e / 1e6} MeV`);
+const marks = [
+	{ e: 0.0477, t: 'Petrova line', s: '0.048 eV', up: true },
+	{ e: 13.6, t: 'hydrogen ionizes', s: '13.6 eV', up: false },
+	{ e: 3e4, t: 'medical X-rays', s: 'tens of keV', up: true },
+	{ e: 1.46e6, t: 'potassium-40 gamma', s: '1.46 MeV', up: false },
+];
+---
+
+<svg class="dg" viewBox="0 0 600 285" xmlns="http://www.w3.org/2000/svg">
+	<rect x={X(10)} y={Y - 34} width={R - X(10)} height="68" class="f-rose-soft" />
+	<rect x={X(1.65)} y={Y - 34} width={X(3.1) - X(1.65)} height="68" class="f-green-soft" />
+	<line x1={L} y1={Y} x2={R} y2={Y} class="s-fg w2" />
+	{ticks.map((e) => (
+		<>
+			<line x1={X(e)} y1={Y - 5} x2={X(e)} y2={Y + 5} class="s-fg w1" />
+			<text x={X(e)} y={Y + 50} class="t-mid t-sm f-muted">{lab(e)}</text>
+		</>
+	))}
+	<line x1={X(10)} y1={Y - 60} x2={X(10)} y2={Y + 36} class="s-rose w2 dash" />
+	<text x={X(10) + 6} y={Y - 64} class="t-sm t-b f-rose">ionizing above about 10 eV (shorter than 124 nm) →</text>
+	<text x={(X(1.65) + X(3.1)) / 2} y={Y + 24} class="t-mid t-sm f-green">visible</text>
+	<text x={X(0.3)} y={Y + 24} class="t-mid t-sm f-muted">infrared</text>
+	{marks.map((m) => (
+		<>
+			<circle cx={X(m.e)} cy={Y} r="5" class="f-amber" />
+			<line x1={X(m.e)} y1={m.up ? Y - 8 : Y + 8} x2={X(m.e)} y2={m.up ? Y - 84 : Y + 64} class="s-amber w1" />
+			<text x={X(m.e)} y={m.up ? Y - 104 : Y + 80} class="t-mid t-sm t-b">{m.t}</text>
+			<text x={X(m.e)} y={m.up ? Y - 89 : Y + 95} class="t-mid t-sm">{m.s}</text>
+		</>
+	))}
+	<text x={(L + R) / 2} y="280" class="t-mid t-sm">photon energy (logarithmic scale)</text>
+</svg>

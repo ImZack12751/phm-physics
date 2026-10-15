@@ -1,0 +1,34 @@
+---
+// Tritium beta spectrum: allowed shape p·E·(Q − T)² times the non-relativistic Fermi factor (Z = 2), Q = 18.6 keV.
+// Its mean comes out at 5.70 keV, matching the measured 5.7 keV. Red line: where a two-body decay would put every electron.
+const Q = 18.6, me = 511, a = 1 / 137.036, Z = 2;
+const f = (T: number) => {
+	const E = T + me, p = Math.sqrt(E * E - me * me), eta = (Z * a * E) / p;
+	return p * E * (Q - T) ** 2 * ((2 * Math.PI * eta) / (1 - Math.exp(-2 * Math.PI * eta)));
+};
+const n = 200;
+const pts = Array.from({ length: n + 1 }, (_, i) => { const T = 0.0001 + (Q * i) / n; return [T, T >= Q ? 0 : f(T)]; });
+const fmax = Math.max(...pts.map((p) => p[1]));
+const L = 60, R = 560, T0 = 30, B = 220;
+const X = (t: number) => L + (t / 20) * (R - L);
+const Y = (v: number) => B - (v / fmax) * (B - T0 - 20);
+const path = 'M ' + pts.map(([t, v]) => `${X(t).toFixed(1)},${Y(v).toFixed(1)}`).join(' L ');
+---
+
+<svg class="dg" viewBox="0 0 600 280" xmlns="http://www.w3.org/2000/svg">
+	<line x1={L} y1={B} x2={R} y2={B} class="s-fg w1" />
+	<line x1={L} y1={T0} x2={L} y2={B} class="s-fg w1" />
+	{[0, 5, 10, 15, 20].map((t) => <text x={X(t)} y={B + 18} class="t-mid t-sm f-muted">{t}</text>)}
+	<path d={`${path} L ${X(Q)},${B} L ${X(0.0001)},${B} Z`} class="f-sky-soft" />
+	<path d={path} class="s-sky w2" fill="none" />
+	<line x1={X(5.7)} y1={T0 + 30} x2={X(5.7)} y2={B} class="s-amber w2 dash" />
+	<text x={X(5.7) + 6} y={T0 + 40} class="t-sm f-amber">average 5.7 keV</text>
+	<line x1={X(18.6)} y1={T0} x2={X(18.6)} y2={B} class="s-rose w3" />
+	<text x={X(18.6) - 6} y={T0 + 8} class="t-end t-sm f-rose">expected if only an electron</text>
+	<text x={X(18.6) - 6} y={T0 + 24} class="t-end t-sm f-rose">came out: all at 18.6 keV</text>
+	<text x={X(18.6) - 10} y={T0 + 62} class="t-end t-sm">measured: every energy up to 18.6 keV</text>
+	<text x={X(18.6) - 10} y={T0 + 78} class="t-end t-sm f-muted">the antineutrino takes the rest</text>
+	<text x={X(18.6) - 10} y={T0 + 94} class="t-end t-sm f-muted">(about 13 keV on average)</text>
+	<text x={(L + R) / 2} y={B + 40} class="t-mid t-sm">electron kinetic energy (keV), tritium beta decay</text>
+	<text x="22" y={(T0 + B) / 2} class="t-mid t-sm" transform={`rotate(-90 22 ${(T0 + B) / 2})`}>number of electrons</text>
+</svg>
