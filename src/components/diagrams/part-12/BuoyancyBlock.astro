@@ -1,0 +1,45 @@
+---
+// A submerged block: short arrows down on the top, longer arrows up on the bottom, equal side arrows; the net upward
+// push is the buoyant force ρ_fluid gV; the weight mg acts down.
+const head = (x1: number, y1: number, x2: number, y2: number, s = 8) => {
+	const a = Math.atan2(y2 - y1, x2 - x1), c = Math.cos(a), n = Math.sin(a);
+	return `${x2},${y2} ${x2 - s * c + (s / 2) * n},${y2 - s * n - (s / 2) * c} ${x2 - s * c - (s / 2) * n},${y2 - s * n + (s / 2) * c}`;
+};
+const BL = 150, BR = 290, BT = 100, BB = 180, MID = (BT + BB) / 2;
+const xs = [170, 205, 240, 270];
+---
+
+<svg class="dg" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+	<rect x="40" y="20" width="400" height="270" class="f-sky-soft" />
+	<text x="50" y="40" class="t-sm f-sky">fluid, density ρ_fluid</text>
+	<rect x={BL} y={BT} width={BR - BL} height={BB - BT} class="f-amber-soft s-amber w2" />
+	{xs.map((x) => (
+		<>
+			<line x1={x} y1={BT - 26} x2={x} y2={BT - 2} class="s-sky w2" />
+			<polygon points={head(x, BT - 26, x, BT - 1)} class="f-sky" />
+			<line x1={x} y1={BB + 44} x2={x} y2={BB + 2} class="s-green w2" />
+			<polygon points={head(x, BB + 44, x, BB + 1)} class="f-green" />
+		</>
+	))}
+	<line x1={BL - 30} y1={MID} x2={BL - 2} y2={MID} class="s-muted w2" />
+	<polygon points={head(BL - 30, MID, BL - 1, MID)} class="f-muted" />
+	<line x1={BR + 30} y1={MID} x2={BR + 2} y2={MID} class="s-muted w2" />
+	<polygon points={head(BR + 30, MID, BR + 1, MID)} class="f-muted" />
+	<text x={BL - 8} y={MID - 12} class="t-end t-sm f-muted">sides cancel</text>
+	<!-- height bracket -->
+	<line x1={BR + 50} y1={BT} x2={BR + 50} y2={BB} class="s-fg w1" />
+	<line x1={BR + 44} y1={BT} x2={BR + 56} y2={BT} class="s-fg w1" />
+	<line x1={BR + 44} y1={BB} x2={BR + 56} y2={BB} class="s-fg w1" />
+	<text x={BR + 60} y={MID + 5} class="t-sm">H</text>
+	<!-- weight -->
+	<circle cx={(BL + BR) / 2} cy={MID} r="3" class="f-rose" />
+	<text x={(BL + BR) / 2 + 8} y={MID + 5} class="t-sm f-rose">weight mg</text>
+	<!-- labels -->
+	<text x="455" y={BT - 8} class="t-sm f-sky">P_top A down</text>
+	<line x1="452" y1={BT - 12} x2={BR - 14} y2={BT - 16} class="s-muted w1" />
+	<text x="455" y={BB + 30} class="t-sm f-green">P_bottom A up:</text>
+	<text x="455" y={BB + 46} class="t-sm f-green">bottom is deeper,</text>
+	<text x="455" y={BB + 62} class="t-sm f-green">so it pushes harder</text>
+	<line x1="452" y1={BB + 26} x2={BR - 14} y2={BB + 22} class="s-muted w1" />
+	<text x="240" y="280" class="t-mid t-sm t-b">net upward push: F_b = ρ_fluid g V (the weight of displaced fluid)</text>
+</svg>

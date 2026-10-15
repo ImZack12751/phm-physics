@@ -350,3 +350,48 @@ export const SOUND = {
 	// program and an Excel spreadsheet (LitCharts ch. 11); Eridians "see" with sound, perhaps passive sonar (LitCharts ch. 11).
 	// MODEL (our assumptions): xenonite treated as Pyrex-like glass; Erid air pure ammonia at 210 °C and 29 atm (THERMAL).
 };
+
+// Part 12 (pressure, gases and materials). Checked October 2026.
+// CODATA: R = N_A k exactly. NASA NSSDCA fact sheets (Earth, Venus, Mars): surface pressure, composition by volume,
+// scale height, mean molecular weight. OpenStax Univ. Phys. Vol. 1 §14.1–14.4 (pressure, depth, barometer, Pascal,
+// Archimedes) and §12.3–12.4 (Table 12.1 moduli, stress, strain, elasticity and plasticity); Vol. 2 §2.1 (gas laws).
+// Wikipedia: Mount Everest (summit 33.7 kPa, West 1999; height 8849 m), Oxygen toxicity (CNS limit 1.4–1.6 bar; air
+// below 56 m exceeds 1.4 bar), Apollo 1 (pad test 16.7 psi pure O₂, flight 5 psi), Extravehicular Mobility Unit
+// (4.3 psi pure O₂), Magdeburg hemispheres (1654, ~50 cm, 30 horses), Ultimate tensile strength (table), Cylinder stress.
+export const PRESSURE = {
+	R: 8.31446261815324, // J/(mol K), exact (= N_A k)
+	psi: 6894.757, // Pa
+	bar: 1e5, // Pa
+	mmHg: 133.322, // Pa
+	earth: { P: 101_400, N2: 0.7808, O2: 0.2095, Ar: 0.00934, CO2: 420e-6, H: 8.5e3, M: 28.97, rho: 1.217, T: 288 },
+	venus: { P: 92e5, CO2: 0.965, N2: 0.035, H: 15.9e3, M: 43.45, rho: 65, T: 737, g: 8.87 },
+	mars: { P: 636, CO2: 0.951, N2: 0.0259, Ar: 0.0194, O2: 0.0016, H: 11.0e3, M: 43.49, T: 214, g: 3.73 },
+	mN2: 28.014, mO2: 31.998, mAr: 39.948, // g/mol (standard atomic weights)
+	everestP: 33.7e3, everestH: 8849, // Pa, m
+	apolloPad: 16.7, apolloFlight: 5, emu: 4.3, // psi, pure oxygen
+	oxToxLow: 1.4e5, oxToxHigh: 1.6e5, oxToxAirDepth: 56, // Pa, Pa, m
+	magdeburgD: 0.5, magdeburgHorses: 30, // m
+	// Tensile strengths, Pa (Wikipedia "Ultimate tensile strength" table): yield / ultimate, density kg/m³
+	steelA36: { yield: 250e6, uts: 400e6, utsHigh: 550e6, rho: 7800 },
+	al6061: { yield: 241e6, uts: 300e6, rho: 2700 },
+	glassAnnealed: { uts: 41e6, rho: 2530 },
+	glassFibreOptic: 4100e6,
+	kevlar: { uts: 2920e6, rho: 1440 },
+	carbonFibre: { uts: 4137e6, rho: 1750 },
+	spiderSilk: { uts: 1000e6, rho: 1300 },
+	hair: { uts: 200e6, rho: 1320 },
+	bone: { uts: 130e6, rho: 1600 },
+	concrete: { uts: 2e6 },
+	graphene: 130e9,
+	// Young's moduli, Pa (OpenStax Table 12.1)
+	Y: { steel: 20e10, al: 7.0e10, glass: 6.0e10, bone: 1.6e10, hair: 1.0e10, spider: 3.0e10, concrete: 2.0e10, copper: 11e10 },
+	// BOOK (reader sources, flagged in the chapters): the Hail Mary at 40% of Earth's pressure (ch. 7, quoted on
+	// moviemistakes.com; elsewhere "0.33 atmospheres" and "one-fifth atmosphere"); Rocky's bead model 1 : 29.
+	hailMaryAtm: 0.4,
+	// BOOK (readifyai fan wiki): Astrophage breed where the pressure is 0.02 atm, with 3.5% N₂ on Venus and 8% on
+	// Threeworld; xenonite holds 29 atm as flat panels; the sampling chain is 10 km of 5 cm links (Wikipedia: 10 km).
+	breedAtm: 0.02, threeworldN2: 0.08, chainLength: 10e3,
+	// MODEL: xenonite partition 2.0 m², 1.0 cm thick (Parts 6 and 11); Erid air 29 atm, 483.15 K; Grace's side 0.40 atm.
+	panelArea: 2.0, panelThickness: 0.01,
+	issMass: 419_725, // kg (Wikipedia "International Space Station", as in Part 5)
+};

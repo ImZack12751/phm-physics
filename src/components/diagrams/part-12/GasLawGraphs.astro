@@ -1,0 +1,52 @@
+---
+// Three small graphs: Boyle (P against V, hyperbola), Charles (V against °C, straight line dashed back to −273.15 °C),
+// Gay-Lussac (P against °C, same). Each panel 180 px wide.
+const W = 170, T0 = 40, B0 = 200;
+const panels = [{ x: 30 }, { x: 225 }, { x: 420 }];
+// Boyle hyperbola P = c/V, V from 0.35 to 1 in panel units
+const boyle = Array.from({ length: 60 }, (_, i) => {
+	const v = 0.17 + (0.83 * i) / 59, p = 0.16 / v;
+	return `${(panels[0].x + v * W).toFixed(1)},${(B0 - p * (B0 - T0)).toFixed(1)}`;
+}).join(' ');
+// Celsius axis from −300 to 200 °C mapped across the panel
+const X = (px: number, c: number) => px + ((c + 300) / 500) * W;
+const Y = (c: number) => B0 - ((c + 273.15) / 473.15) * (B0 - T0 - 20);
+---
+
+<svg class="dg" viewBox="0 0 600 250" xmlns="http://www.w3.org/2000/svg">
+	{panels.map((p) => (
+		<>
+			<line x1={p.x} y1={T0 - 8} x2={p.x} y2={B0} class="s-fg w1" />
+			<line x1={p.x} y1={B0} x2={p.x + W} y2={B0} class="s-fg w1" />
+		</>
+	))}
+	<!-- Boyle -->
+	<text x={panels[0].x + W / 2} y="18" class="t-mid t-sm t-b">constant T (Boyle)</text>
+	<polyline points={boyle} class="s-sky w2" fill="none" />
+	<text x={panels[0].x - 6} y={T0} class="t-end t-sm">P</text>
+	<text x={panels[0].x + W} y={B0 + 18} class="t-end t-sm">V</text>
+	<text x={panels[0].x + 70} y="110" class="t-sm f-sky">PV = constant</text>
+	<!-- Charles -->
+	<text x={panels[1].x + W / 2} y="18" class="t-mid t-sm t-b">constant P (Charles)</text>
+	<line x1={X(panels[1].x, -273.15)} y1={Y(-273.15)} x2={X(panels[1].x, 0)} y2={Y(0)} class="s-amber w2 dash" />
+	<line x1={X(panels[1].x, 0)} y1={Y(0)} x2={X(panels[1].x, 200)} y2={Y(200)} class="s-amber w3" />
+	<text x={panels[1].x - 6} y={T0} class="t-end t-sm">V</text>
+	<text x={panels[1].x + W} y={B0 + 18} class="t-end t-sm">θ (°C)</text>
+	<line x1={X(panels[1].x, 0)} y1={B0} x2={X(panels[1].x, 0)} y2={B0 + 5} class="s-fg w1" />
+	<text x={X(panels[1].x, 0)} y={B0 + 18} class="t-mid t-sm f-muted">0</text>
+	<circle cx={X(panels[1].x, -273.15)} cy={B0} r="4" class="f-rose" />
+	<text x={X(panels[1].x, -273.15) + 4} y={B0 + 34} class="t-sm f-rose">−273.15 °C</text>
+	<text x={X(panels[1].x, 200)} y={Y(0) + 30} class="t-end t-sm f-amber">measured</text>
+	<!-- Gay-Lussac -->
+	<text x={panels[2].x + W / 2} y="18" class="t-mid t-sm t-b">constant V (Gay-Lussac)</text>
+	<line x1={X(panels[2].x, -273.15)} y1={Y(-273.15)} x2={X(panels[2].x, 0)} y2={Y(0)} class="s-green w2 dash" />
+	<line x1={X(panels[2].x, 0)} y1={Y(0)} x2={X(panels[2].x, 200)} y2={Y(200)} class="s-green w3" />
+	<text x={panels[2].x - 6} y={T0} class="t-end t-sm">P</text>
+	<text x={panels[2].x + W} y={B0 + 18} class="t-end t-sm">θ (°C)</text>
+	<line x1={X(panels[2].x, 0)} y1={B0} x2={X(panels[2].x, 0)} y2={B0 + 5} class="s-fg w1" />
+	<text x={X(panels[2].x, 0)} y={B0 + 18} class="t-mid t-sm f-muted">0</text>
+	<circle cx={X(panels[2].x, -273.15)} cy={B0} r="4" class="f-rose" />
+	<text x={X(panels[2].x, -273.15) + 4} y={B0 + 34} class="t-sm f-rose">−273.15 °C</text>
+	<text x={X(panels[2].x, 200)} y={Y(0) + 30} class="t-end t-sm f-green">measured</text>
+	<text x="300" y="246" class="t-mid t-sm f-muted">dashed: extended back, every gas reaches zero at absolute zero</text>
+</svg>

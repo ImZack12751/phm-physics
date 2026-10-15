@@ -1,0 +1,96 @@
+---
+// Simulation: design a wall to hold a pressure difference. Shape: flat panel in bending (strip model,
+// σ = 3ΔP L²/4t²), sphere (σ = ΔP r/2t) or cylinder (hoop σ = ΔP r/t). Material: annealed glass (41 MPa),
+// aluminium 6061 (yield 241 MPa), structural steel (yield 250 MPa), carbon-fibre laminate (1600 MPa), ideal graphene
+// (130 GPa). Pressure difference from presets. Readout: stress, strength, safety factor (strength/stress), verdict,
+// wall mass per m², and the thickness needed for safety factors 1 and 2. A log-scale bar compares stress and strength.
+---
+
+<div
+	class="sim wds"
+	data-title="Wall designer"
+	data-description="Design a wall to hold a pressure difference. Choose the shape (a flat panel that must bend, modelled as a strip with stress 3ΔPL²/4t²; a sphere, ΔPr/2t; or a cylinder, hoop stress ΔPr/t), the material (annealed glass 41 MPa, aluminium alloy 6061 with yield 241 MPa, structural steel with yield 250 MPa, carbon-fibre laminate 1600 MPa, or ideal graphene 130 GPa), the pressure difference (Rocky's air against the Hail Mary's, Earth's air against space, Venus's surface against 1 atm, or a 200 bar gas bottle), the span or radius (0.1 to 3 m) and the wall thickness (0.5 mm to 50 cm, logarithmic). A logarithmic bar compares the stress in the wall with the material's strength. The readout gives the stress, the safety factor (strength divided by stress) with a verdict, the wall's mass per square metre, and the thickness needed for safety factors of 1 and 2."
+>
+	<p class="sim-title">Simulation: wall designer</p>
+	<p class="sim-help">The wall survives if the stress stays below the material's strength. Engineers want a safety factor of 2 or more.</p>
+	<div class="sim-controls">
+		<label>Shape <select class="wds-s">
+			<option value="flat">flat panel (bending)</option>
+			<option value="sphere">sphere</option>
+			<option value="cyl">cylinder</option>
+		</select></label>
+		<label>Material <select class="wds-m">
+			<option value="glass">annealed glass (41 MPa)</option>
+			<option value="al">aluminium 6061 (yield 241 MPa)</option>
+			<option value="steel">structural steel (yield 250 MPa)</option>
+			<option value="cf">carbon-fibre laminate (1600 MPa)</option>
+			<option value="gr">ideal graphene (130 GPa)</option>
+		</select></label>
+		<label>Pressure difference <select class="wds-p">
+			<option value="2897895">Rocky vs Hail Mary (28.6 atm)</option>
+			<option value="101325">Earth air vs space (1 atm)</option>
+			<option value="9098700">Venus surface vs 1 atm (91 bar)</option>
+			<option value="20000000">gas bottle (200 bar)</option>
+		</select></label>
+		<label>Span or radius <input type="range" class="wds-r" min="0.1" max="3" step="0.01" value="1.41" /> <output class="wds-rv"></output></label>
+		<label>Thickness <input type="range" class="wds-t" min="-3.3" max="-0.3" step="0.01" value="-2" /> <output class="wds-tv"></output></label>
+	</div>
+	<svg class="dg wds-svg" viewBox="0 0 600 130" role="img" aria-label="Logarithmic bars comparing the stress in the wall with the material's strength"></svg>
+	<div class="readout wds-out" aria-live="polite"></div>
+</div>
+
+<script>
+	document.querySelectorAll<HTMLElement>('.sim.wds').forEach((root) => {
+		const q = <T extends Element>(s: string) => root.querySelector<T>(s)!;
+		const svg = q<SVGSVGElement>('.wds-svg'), out = q<HTMLElement>('.wds-out');
+		const Ss = q<HTMLSelectElement>('.wds-s'), Ms = q<HTMLSelectElement>('.wds-m'), Ps = q<HTMLSelectElement>('.wds-p');
+		const Rs = q<HTMLInputElement>('.wds-r'), Ts = q<HTMLInputElement>('.wds-t');
+		const NS = 'http://www.w3.org/2000/svg';
+		const el = (tag: string, at: Record<string, string | number>, text?: string) => {
+			const e = document.createElementNS(NS, tag);
+			Object.entries(at).forEach(([k, v]) => e.setAttribute(k, String(v)));
+			if (text) e.textContent = text;
+			svg.append(e);
+			return e;
+		};
+		const mats: Record<string, { s: number; rho: number }> = {
+			glass: { s: 41e6, rho: 2530 }, al: { s: 241e6, rho: 2700 }, steel: { s: 250e6, rho: 7800 }, cf: { s: 1600e6, rho: 1750 }, gr: { s: 130e9, rho: NaN },
+		};
+		const L = 110, R = 580, lo = 5, hi = 12; // log10 Pa from 100 kPa to 1 TPa
+		const X = (pa: number) => L + ((Math.min(hi, Math.max(lo, Math.log10(pa))) - lo) / (hi - lo)) * (R - L);
+		[5, 6, 7, 8, 9, 10, 11, 12].forEach((e) => {
+			el('line', { x1: X(10 ** e), y1: 14, x2: X(10 ** e), y2: 90, class: 's-grid w1' });
+			el('text', { x: X(10 ** e), y: 106, class: 't-mid t-sm f-muted' }, ['0.1', '1', '10', '100', '1k', '10k', '100k', '1M'][e - 5]);
+		});
+		el('text', { x: (L + R) / 2, y: 124, class: 't-mid t-sm' }, 'MPa, logarithmic scale');
+		el('text', { x: L - 8, y: 38, class: 't-end t-sm' }, 'stress');
+		el('text', { x: L - 8, y: 74, class: 't-end t-sm' }, 'strength');
+		const sb = el('rect', { x: L, y: 24, height: 20, class: 'f-rose' });
+		const mb = el('rect', { x: L, y: 60, height: 20, class: 'f-green' });
+		const fmt = (pa: number) => (pa >= 1e9 ? `${(pa / 1e9).toPrecision(3)} GPa` : `${(pa / 1e6).toPrecision(3)} MPa`);
+		const fmtL = (m: number) => (m >= 1 ? `${m.toPrecision(3)} m` : m >= 0.01 ? `${(m * 100).toPrecision(3)} cm` : `${(m * 1000).toPrecision(3)} mm`);
+		function draw() {
+			const shape = Ss.value, mat = mats[Ms.value], dP = +Ps.value, r = +Rs.value, t = 10 ** +Ts.value;
+			q('.wds-rv').textContent = `${r.toFixed(2)} m`;
+			q('.wds-tv').textContent = fmtL(t);
+			const stress = shape === 'flat' ? (3 * dP * r * r) / (4 * t * t) : shape === 'sphere' ? (dP * r) / (2 * t) : (dP * r) / t;
+			const need = (sf: number) => {
+				const s = mat.s / sf;
+				return shape === 'flat' ? r * Math.sqrt((3 * dP) / (4 * s)) : shape === 'sphere' ? (dP * r) / (2 * s) : (dP * r) / s;
+			};
+			sb.setAttribute('width', String(X(stress) - L));
+			mb.setAttribute('width', String(X(mat.s) - L));
+			const sf = mat.s / stress;
+			const verdict = sf >= 2 ? '<b>safe</b>: safety factor 2 or more' : sf >= 1 ? '<b>holds, just</b>: below the safety factor engineers want' : '<b>fails</b>: the stress is above the strength';
+			const formula = shape === 'flat' ? 'σ = 3ΔP L²/4t²' : shape === 'sphere' ? 'σ = ΔP r/2t' : 'σ = ΔP r/t (hoop)';
+			out.innerHTML =
+				`<span class="k">${formula}</span> = <b>${fmt(stress)}</b> &nbsp; <span class="k">strength</span> = ${fmt(mat.s)}<br>` +
+				`<span class="k">safety factor</span> = ${sf >= 100 ? sf.toFixed(0) : sf.toPrecision(2)}: ${verdict}<br>` +
+				`<span class="k">wall mass</span> = ${isNaN(mat.rho) ? 'n/a' : (mat.rho * t).toPrecision(3) + ' kg per m²'} &nbsp; <span class="k">thickness needed</span>: ${fmtL(need(1))} (factor 1), ${fmtL(need(2))} (factor 2)` +
+				(Ms.value === 'gr' ? '<br><span class="k">note</span>: perfect graphene’s strength is only reached in flawless samples micrometres across' : '');
+		}
+		[Ss, Ms, Ps].forEach((s) => { s.addEventListener('change', draw); s.addEventListener('input', draw); });
+		[Rs, Ts].forEach((s) => s.addEventListener('input', draw));
+		draw();
+	});
+</script>

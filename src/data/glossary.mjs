@@ -1776,5 +1776,160 @@ export const glossary = {
 		def: 'The gap between a sound’s arrival at the two ears, Δt = d sin θ / v for ears a distance d apart. The brain uses it to tell the direction of the sound.',
 		chapter: 'echolocation',
 	},
+	// ---- 12.1 Pressure: F = PA ----
+	'gauge-pressure': {
+		term: 'Gauge pressure',
+		def: 'Pressure measured above the surrounding air, as a tyre gauge reads it. Absolute pressure = gauge pressure + atmospheric pressure.',
+		chapter: 'pressure',
+	},
+	'hydrostatic-pressure': {
+		term: 'Hydrostatic pressure',
+		def: 'The pressure in a fluid at rest, which grows with depth as P = P₀ + ρgh because each layer holds up the weight of the fluid above it.',
+		chapter: 'pressure',
+	},
+	barometer: {
+		term: 'Barometer',
+		def: 'An instrument that measures air pressure. Torricelli’s mercury barometer balances the air against a column of mercury about 760 mm tall at sea level.',
+		chapter: 'pressure',
+	},
+	'pascals-principle': {
+		term: 'Pascal’s principle',
+		def: 'A change in pressure applied to an enclosed fluid is passed on undiminished to every part of it. Hydraulic machines use it to multiply force: F₂ = F₁A₂/A₁.',
+		chapter: 'pressure',
+	},
+	'buoyant-force': {
+		term: 'Buoyant force',
+		def: 'The net upward push of a fluid on an object in it, because the fluid pushes harder on the object’s deeper bottom than on its top.',
+		chapter: 'pressure',
+	},
+	'archimedes-principle': {
+		term: 'Archimedes’ principle',
+		def: 'The buoyant force on an object equals the weight of the fluid it pushes aside: F = ρ_fluid gV.',
+		chapter: 'pressure',
+	},
+	// ---- 12.2 The gas laws ----
+	'ideal-gas-law': {
+		term: 'Ideal-gas law',
+		def: 'PV = NkT = nRT, linking a gas’s pressure, volume, temperature (in kelvin) and amount. It combines Boyle’s, Charles’s and Gay-Lussac’s laws.',
+		chapter: 'gas-laws',
+	},
+	'ideal-gas': {
+		term: 'Ideal gas',
+		def: 'A gas whose molecules are far apart compared with their size and only interact by brief collisions, so that it obeys PV = NkT. Real gases come close when they are thin and far from condensing.',
+		chapter: 'gas-laws',
+	},
+	mole: {
+		term: 'Mole (mol)',
+		def: 'The SI unit for an amount of substance: exactly 6.022 140 76 × 10²³ particles.',
+		chapter: 'gas-laws',
+	},
+	'avogadro-constant': {
+		term: 'Avogadro constant (N_A)',
+		def: 'The number of particles in one mole, exactly 6.022 140 76 × 10²³ per mole.',
+		chapter: 'gas-laws',
+	},
+	'molar-mass': {
+		term: 'Molar mass (M)',
+		def: 'The mass of one mole of a substance. In grams per mole it equals the mass of one molecule in atomic mass units: 18.0 g/mol for water, 28.97 g/mol for air.',
+		chapter: 'gas-laws',
+	},
+	'gas-constant': {
+		term: 'Gas constant (R)',
+		def: 'R = N_A k = 8.314 J/(mol·K), the Boltzmann constant counted per mole instead of per molecule.',
+		chapter: 'gas-laws',
+	},
+	'molar-volume': {
+		term: 'Molar volume',
+		def: 'The volume of one mole of gas, RT/P: 22.4 litres at 0 °C and 1 atm, the same for every ideal gas.',
+		chapter: 'gas-laws',
+	},
+	'scale-height': {
+		term: 'Scale height (H)',
+		def: 'The height over which an atmosphere’s pressure falls by a factor of e (to 37%): H = RT/Mg. About 8.5 km for Earth and 15.9 km for Venus.',
+		chapter: 'gas-laws',
+	},
+	// ---- 12.3 Partial pressure ----
+	'partial-pressure': {
+		term: 'Partial pressure',
+		def: 'The pressure one gas in a mixture would exert if it filled the container alone. It sets how many molecules of that gas there are per cubic metre, which is what lungs and microbes respond to.',
+		chapter: 'partial-pressure',
+	},
+	'daltons-law': {
+		term: 'Dalton’s law',
+		def: 'The total pressure of a mixture of gases is the sum of their partial pressures, because each gas pushes on the walls as if the others weren’t there.',
+		chapter: 'partial-pressure',
+	},
+	'mole-fraction': {
+		term: 'Mole fraction (x)',
+		def: 'The fraction of the molecules in a mixture that belong to one gas, which equals its share of the pressure: x = Pᵢ/P. Percentages “by volume” are mole fractions.',
+		chapter: 'partial-pressure',
+	},
+	hypoxia: {
+		term: 'Hypoxia',
+		def: 'A shortage of oxygen in the body. It sets in when the oxygen partial pressure of the air breathed falls well below sea level’s 21 kPa, as near the summit of Everest.',
+		chapter: 'partial-pressure',
+	},
+	'oxygen-toxicity': {
+		term: 'Oxygen toxicity',
+		def: 'Poisoning by oxygen breathed at high partial pressure, above about 1.4 to 1.6 bar, which can cause convulsions. It limits how deep divers can go breathing air.',
+		chapter: 'partial-pressure',
+	},
+	// ---- 12.4 Forces on walls between atmospheres ----
+	'pressure-difference': {
+		term: 'Pressure difference (ΔP)',
+		def: 'The difference between the pressures on the two sides of a wall. Only the difference pushes the wall: F = ΔP × A.',
+		chapter: 'pressure-walls',
+	},
+	'wall-tension': {
+		term: 'Wall tension (of a pressure vessel)',
+		def: 'The pull carried by each metre of a curved wall holding a pressure difference, in N/m: ΔPr/2 in a sphere, ΔPr around a cylinder (hoop) and ΔPr/2 along it.',
+		chapter: 'pressure-walls',
+	},
+	sag: {
+		term: 'Sag (bulge)',
+		def: 'How far a stretched sheet bulges in the middle under a pressure difference. A sag s across a span L makes an arc of radius about L²/8s, so a nearly flat sheet needs a huge tension.',
+		chapter: 'pressure-walls',
+	},
+	// ---- 12.5 Stress and strength ----
+	stress: {
+		term: 'Stress (σ)',
+		def: 'Force per area inside a material, σ = F/A, in pascals. Tensile stress stretches it, compressive stress squashes it.',
+		chapter: 'stress-strength',
+	},
+	strain: {
+		term: 'Strain (ε)',
+		def: 'The fractional change in length of a stressed material, ε = ΔL/L, a pure number. For small stresses σ = Yε.',
+		chapter: 'stress-strength',
+	},
+	'yield-strength': {
+		term: 'Yield strength',
+		def: 'The stress at which a material starts to stretch permanently instead of springing back. About 250 MPa for structural steel.',
+		chapter: 'stress-strength',
+	},
+	'tensile-strength': {
+		term: 'Ultimate tensile strength',
+		def: 'The largest pulling stress a material can carry before it breaks: about 41 MPa for window glass, 400 MPa for structural steel, 4 GPa for carbon fibre.',
+		chapter: 'stress-strength',
+	},
+	'ductile-brittle': {
+		term: 'Ductile and brittle',
+		def: 'A ductile material (most metals) stretches a lot after yielding, giving warning before it breaks. A brittle one (glass, ceramics, concrete) stays elastic and then snaps.',
+		chapter: 'stress-strength',
+	},
+	'breaking-length': {
+		term: 'Breaking length',
+		def: 'The longest cable of a material that can hang under its own weight, σ_max/ρg: about 5 km for steel and over 200 km for Kevlar or carbon fibre on Earth.',
+		chapter: 'stress-strength',
+	},
+	'safety-factor': {
+		term: 'Safety factor',
+		def: 'The ratio of a material’s strength to the stress it is designed to carry. Engineers use 2 or more to allow for flaws, wear and unexpected loads.',
+		chapter: 'stress-strength',
+	},
+	torque: {
+		term: 'Torque (τ)',
+		def: 'The turning effect of a force about a point: the force times the perpendicular distance from the point to its line, τ = Fd. An object at rest has no net torque.',
+		chapter: 'stress-strength',
+	},
 };
 

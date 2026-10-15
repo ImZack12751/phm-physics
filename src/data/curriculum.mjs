@@ -168,11 +168,11 @@ export const parts = [
 		id: 'part-12', icon: 'P', dir: 'part-12', code: '12', label: 'Part 12 · Pressure, gases and materials',
 		blurb: 'Gas laws, alien atmospheres and the wall between two worlds.',
 		chapters: [
-			{ slug: 'pressure', title: 'Pressure: F = PA', prereqs: [], status: 'planned' },
-			{ slug: 'gas-laws', title: 'The gas laws', prereqs: [], status: 'planned' },
-			{ slug: 'partial-pressure', title: 'Partial pressure', prereqs: [], status: 'planned' },
-			{ slug: 'pressure-walls', title: 'Forces on walls between atmospheres', prereqs: [], status: 'planned' },
-			{ slug: 'stress-strength', title: 'Stress and strength', prereqs: [], status: 'planned' },
+			{ slug: 'pressure', title: 'Pressure: F = PA', prereqs: ['pressure-waves', 'newtons-laws', 'mass-and-weight', 'temperature-heat', 'rearranging-formulas', 'apparent-weight'], status: 'review' },
+			{ slug: 'gas-laws', title: 'The gas laws', prereqs: ['pressure', 'temperature-heat', 'ratios-proportionality', 'graphs', 'exponentials-logarithms', 'derivatives'], status: 'review' },
+			{ slug: 'partial-pressure', title: 'Partial pressure', prereqs: ['gas-laws', 'pressure', 'temperature-heat', 'ratios-proportionality', 'rearranging-formulas', 'greenhouse-effect'], status: 'review' },
+			{ slug: 'pressure-walls', title: 'Forces on walls between atmospheres', prereqs: ['pressure', 'gas-laws', 'newtons-laws', 'vectors', 'trigonometry', 'integrals'], status: 'review' },
+			{ slug: 'stress-strength', title: 'Stress and strength', prereqs: ['pressure-walls', 'speed-of-sound', 'pendulums-shm', 'newtons-laws', 'spin-gravity', 'gravitation'], status: 'review' },
 		],
 	},
 	{

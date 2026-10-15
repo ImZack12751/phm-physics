@@ -1,0 +1,45 @@
+---
+// P/P₀ = exp(−h/H) for Earth (8.4 km), Erid (12.0 km, our model) and Venus (15.9 km), heights 0–50 km.
+const L = 70, R = 570, T = 20, B = 210, HMAX = 50;
+const X = (h: number) => L + (h / HMAX) * (R - L);
+const Y = (p: number) => B - p * (B - T);
+const worlds = [
+	{ n: 'Earth, H = 8.4 km', H: 8.4, c: 'sky' },
+	{ n: 'Erid, H = 12.0 km', H: 12.0, c: 'rose' },
+	{ n: 'Venus, H = 15.9 km', H: 15.9, c: 'amber' },
+];
+const curve = (H: number) =>
+	Array.from({ length: 101 }, (_, i) => {
+		const h = (HMAX * i) / 100;
+		return `${X(h).toFixed(1)},${Y(Math.exp(-h / H)).toFixed(1)}`;
+	}).join(' ');
+const e1 = 1 / Math.E;
+---
+
+<svg class="dg" viewBox="0 0 600 260" xmlns="http://www.w3.org/2000/svg">
+	{[0, 10, 20, 30, 40, 50].map((h) => (
+		<>
+			<line x1={X(h)} y1={T} x2={X(h)} y2={B} class="s-grid w1" />
+			<text x={X(h)} y={B + 18} class="t-mid t-sm f-muted">{h}</text>
+		</>
+	))}
+	{[0, 0.25, 0.5, 0.75, 1].map((p) => (
+		<>
+			<line x1={L} y1={Y(p)} x2={R} y2={Y(p)} class="s-grid w1" />
+			<text x={L - 8} y={Y(p) + 4} class="t-end t-sm f-muted">{p}</text>
+		</>
+	))}
+	<line x1={L} y1={T} x2={L} y2={B} class="s-fg w1" />
+	<line x1={L} y1={B} x2={R} y2={B} class="s-fg w1" />
+	<text x={(L + R) / 2} y={B + 38} class="t-mid t-sm">height above the surface (km)</text>
+	<text x="16" y={(T + B) / 2} class="t-mid t-sm" transform={`rotate(-90 16 ${(T + B) / 2})`}>P / P₀</text>
+	<line x1={L} y1={Y(e1)} x2={R} y2={Y(e1)} class="s-violet w1 dash" />
+	<text x={R} y={Y(e1) - 6} class="t-end t-sm f-violet">1/e = 0.37</text>
+	{worlds.map((w, i) => (
+		<>
+			<polyline points={curve(w.H)} class={`s-${w.c} w2`} fill="none" />
+			<circle cx={X(w.H)} cy={Y(e1)} r="4" class={`f-${w.c}`} />
+			<text x={X(30)} y={T + 22 + i * 18} class={`t-sm f-${w.c}`}>{w.n}</text>
+		</>
+	))}
+</svg>

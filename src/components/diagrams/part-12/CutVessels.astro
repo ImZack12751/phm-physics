@@ -1,0 +1,58 @@
+---
+// Left: half a sphere (seen side-on), pushed up by ΔPπr², held by tension T all round its rim (2πr).
+// Right: half a cylinder lying along x, pushed up by ΔP·2rL, held by tension T along its two long cut edges (2L).
+const head = (x1: number, y1: number, x2: number, y2: number, s = 8) => {
+	const a = Math.atan2(y2 - y1, x2 - x1), c = Math.cos(a), n = Math.sin(a);
+	return `${x2},${y2} ${x2 - s * c + (s / 2) * n},${y2 - s * n - (s / 2) * c} ${x2 - s * c - (s / 2) * n},${y2 - s * n + (s / 2) * c}`;
+};
+const SX = 150, SY = 170, SR = 80;
+const sarc = Array.from({ length: 41 }, (_, i) => {
+	const t = Math.PI + (Math.PI * i) / 40;
+	return `${(SX + SR * Math.cos(t)).toFixed(1)},${(SY + SR * Math.sin(t)).toFixed(1)}`;
+}).join(' ');
+const CL = 340, CRt = 560, CY = 170, CR = 55, SK = 22; // cylinder: axis along x, ellipse ends drawn with slant
+const carcEnd = (x: number) =>
+	Array.from({ length: 21 }, (_, i) => {
+		const t = Math.PI + (Math.PI * i) / 20;
+		return `${(x + 18 * Math.cos(t)).toFixed(1)},${(CY + CR * Math.sin(t) * 1).toFixed(1)}`;
+	}).join(' ');
+---
+
+<svg class="dg" viewBox="0 0 600 270" xmlns="http://www.w3.org/2000/svg">
+	<text x={SX} y="20" class="t-mid t-sm t-b">sphere, cut in half</text>
+	<text x={(CL + CRt) / 2} y="20" class="t-mid t-sm t-b">cylinder, cut along its length</text>
+	<!-- sphere -->
+	<polyline points={sarc} class="s-fg w2" fill="none" />
+	<ellipse cx={SX} cy={SY} rx={SR} ry="14" class="s-fg w2" fill="none" />
+	<line x1={SX} y1={SY - 20} x2={SX} y2={SY - SR - 30} class="s-green w3" />
+	<polygon points={head(SX, SY - 20, SX, SY - SR - 40, 11)} class="f-green" />
+	<text x={SX + 8} y={SY - SR - 30} class="t-sm f-green">ΔP × πr²</text>
+	{[-60, -20, 20, 60].map((dx) => (
+		<>
+			<line x1={SX + dx} y1={SY + 6} x2={SX + dx} y2={SY + 34} class="s-rose w2" />
+			<polygon points={head(SX + dx, SY + 6, SX + dx, SY + 36)} class="f-rose" />
+		</>
+	))}
+	<text x={SX} y={SY + 58} class="t-mid t-sm f-rose">T per metre, round a rim of length 2πr</text>
+	<text x={SX} y={SY + 84} class="t-mid t-sm t-b">T = ΔP r / 2</text>
+	<!-- cylinder: half-cylinder seen at a slant -->
+	<polyline points={carcEnd(CL)} class="s-fg w2" fill="none" />
+	<polyline points={carcEnd(CRt)} class="s-fg w2" fill="none" />
+	<line x1={CL - 18} y1={CY} x2={CRt - 18} y2={CY} class="s-fg w2" />
+	<line x1={CL + 18} y1={CY} x2={CRt + 18} y2={CY} class="s-fg w2" />
+	<line x1={CL} y1={CY - CR} x2={CRt} y2={CY - CR} class="s-fg w2" />
+	<line x1={(CL + CRt) / 2} y1={CY - 14} x2={(CL + CRt) / 2} y2={CY - CR - 30} class="s-green w3" />
+	<polygon points={head((CL + CRt) / 2, CY - 14, (CL + CRt) / 2, CY - CR - 40, 11)} class="f-green" />
+	<text x={(CL + CRt) / 2 + 8} y={CY - CR - 30} class="t-sm f-green">ΔP × 2rL</text>
+	{[CL + 30, CL + 110, CL + 190].map((x) => (
+		<>
+			<line x1={x - 18} y1={CY + 4} x2={x - 18} y2={CY + 32} class="s-rose w2" />
+			<polygon points={head(x - 18, CY + 4, x - 18, CY + 34)} class="f-rose" />
+			<line x1={x + 18} y1={CY + 4} x2={x + 18} y2={CY + 32} class="s-rose w2" />
+			<polygon points={head(x + 18, CY + 4, x + 18, CY + 34)} class="f-rose" />
+		</>
+	))}
+	<text x={(CL + CRt) / 2} y={CY + 58} class="t-mid t-sm f-rose">T per metre along 2L of cut edge</text>
+	<text x={(CL + CRt) / 2} y={CY + 84} class="t-mid t-sm t-b">hoop: T = ΔP r (ends: ΔP r / 2)</text>
+	<text x={CRt + 22} y={CY - CR + 4} class="t-sm f-muted">L</text>
+</svg>

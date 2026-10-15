@@ -1,0 +1,357 @@
+---
+title: Forces on walls between atmospheres
+description: The net force of two atmospheres on the wall between them, F = ΔP·A, worked out for the xenonite partition between Grace and Rocky; the Magdeburg hemispheres; hatches and plug doors; why the force on any dome equals ΔP times its projected area (derived by integration); and how curved walls carry pressure as tension, T = ΔPr/2 for a sphere and ΔPr for a cylinder, which is why a flat wall can't hold a pressure difference without bulging or bending.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import PartitionForces from '../../../components/diagrams/part-12/PartitionForces.astro';
+import DomeProjection from '../../../components/diagrams/part-12/DomeProjection.astro';
+import CutVessels from '../../../components/diagrams/part-12/CutVessels.astro';
+import VesselLab from '../../../components/sims/VesselLab.astro';
+
+## The scene
+
+Grace and Rocky spend many hours side by side, working, talking and sharing meals, with a clear panel of xenonite between them. On Rocky's side is Erid's air: ammonia at about 29 atmospheres and 210 °C. On Grace's side is the *Hail Mary*'s air at about 0.40 atm. The panel is thin enough to see through, and earlier parts of this course modelled it as a sheet about 1 cm thick and 2.0 m² in area, made of something like glass (Chapters 6.3 and 11.3).
+
+Rocky's air pushes on that panel with about 29 atm, Grace's pushes back with 0.40 atm. How big is the force that the panel has to resist? Why do engineers on Earth make pressure vessels round, never flat, and what does a flat panel have to do differently? This chapter works out the forces; Chapter 12.5 asks whether any material could stand them.
+
+## Prerequisites
+
+<Prereqs notes={{ 'pressure': 'F = PA, pressure acting at right angles to any surface, absolute and gauge pressure', 'gas-laws': 'the pressures of Grace’s and Rocky’s air', 'newtons-laws': 'forces in balance on an object at rest, free-body diagrams', 'vectors': 'adding forces as vectors and taking components', 'trigonometry': 'sines and cosines of angles on a circle', 'integrals': 'adding up many small pieces with an integral' }} />
+
+## The concept
+
+### Only the difference pushes
+
+A wall between two gases is pushed from both sides. On the left, gas at pressure $P_{1}$ pushes with $P_{1}A$; on the right, gas at $P_{2}$ pushes back with $P_{2}A$. The two forces point in opposite directions, so the net force on the wall is
+
+$$
+F = (P_{1} - P_{2})A = \Delta P\,A.
+$$
+
+A window in your house has about ten tonnes of air pushing on each square metre from outside, and the same from inside; the net force is zero, and a thin pane copes easily. What matters to any wall is the <Term id="pressure-difference">pressure difference</Term> $\Delta P$ across it. (This is why a gauge, which reads the difference, is so useful: Chapter 12.1.)
+
+<Figure caption="The xenonite partition between Grace and Rocky, seen edge-on, in our model: 2.0 m² and 1 cm thick. Rocky's ammonia (29 atm) pushes on it with 5.88 MN; Grace's air (0.40 atm) pushes back with 0.08 MN. The net force is 5.80 MN towards Grace: the weight of 590 tonnes." alt="A vertical grey bar in the middle represents the xenonite panel, labelled 1 cm thick, 2.0 square metres. On the left, a region shaded rose is labelled Rocky's side, ammonia at 29 atm and 210 degrees Celsius, with a row of long rose arrows pointing right at the panel, labelled 29 atm times A equals 5.88 MN. On the right, a region shaded blue is labelled Grace's side, air at 0.40 atm, with a row of short blue arrows (drawn longer than to scale) pointing left at the panel, labelled 0.40 atm times A equals 0.08 MN. Below, a single thick arrow pointing right is labelled net force delta P times A equals 5.80 MN, the weight of about 590 tonnes.">
+	<PartitionForces />
+</Figure>
+
+For the partition, $\Delta P = 29 - 0.40 = 28.6$ atm $= 2.90 \times 10^{6}$ Pa, and over 2.0 m² the net force is $5.8 \times 10^{6}$ N (Example 1). That is the weight of about 590 tonnes, more than the whole International Space Station, pressing on a panel you could carry under one arm. Every square centimetre of it carries 290 N, the weight of a 30 kg child.
+
+Notice that Grace's 0.40 atm hardly matters. Whether his side were at 0.40 atm, 1 atm or a vacuum, the net force would change by about 2% at most. Rocky's 29 atm dominates.
+
+### The Magdeburg hemispheres
+
+In 1654, Otto von Guericke, the mayor of Magdeburg, put on a famous show. He fitted together two copper hemispheres about 50 cm across, greased their rims, and pumped out the air. Thirty horses, in two teams of fifteen pulling in opposite directions, could not pull them apart. When he opened a valve to let air in, they fell apart by themselves.
+
+Nothing held the hemispheres together except the atmosphere outside, pushing on them with no air inside to push back. The force (Example 2) is about 20 kN, the weight of two tonnes. And one team of horses tied to a strong post would have done just as well as two: the post pulls back as hard as the second team did (Newton's third law, Chapter 2.1).
+
+### Hatches and plug doors
+
+A door between two pressures is pressed by $\Delta P\,A$, which can be enormous. A hatch 1 m across with the *Hail Mary*'s 0.40 atm on one side and space on the other is pushed with 32 kN (Problem 2), the weight of three tonnes. No astronaut could open it outwards against that. Spacecraft and airliners turn this into a safety feature: a **plug door** opens inwards, towards the higher pressure, so the pressure jams it into its frame. It can only be opened after the pressures on both sides are equalised, which is exactly what an airlock does.
+
+### The force on a curved wall
+
+A flat panel is easy: every bit of it is pushed the same way. A curved wall, such as a dome, is pushed at right angles to its surface everywhere, so the pushes point in many different directions. Most of their sideways parts cancel. What is the total?
+
+<Figure caption="A dome of radius r with pressure difference ΔP. Each small piece of the surface is pushed at right angles to itself; only the upward parts of the pushes survive, and they add up to ΔP times the dome's shadow, the flat disc of area πr² underneath it. The same is true for any shape." alt="A semicircular dome drawn on a horizontal base line. Several arrows point outwards, at right angles to the dome's surface, at different angles around it. One arrow on the side is split into a horizontal dashed component and an upward dashed component, with an angle theta between the arrow and the vertical. Below the dome, the base is shaded as a flat disc labelled projected area pi r squared. A note says the sideways parts cancel in pairs; the upward parts add up to delta P times pi r squared. A large upward arrow above the dome is labelled net force delta P pi r squared.">
+	<DomeProjection />
+</Figure>
+
+The answer is surprisingly simple: the net force on any curved surface is the pressure difference times its **projected area**, the area of its shadow on a plane at right angles to the force. For a hemisphere of radius $r$, that shadow is a disc of area $\pi r^{2}$, so the net force is $\Delta P\,\pi r^{2}$, not $\Delta P$ times the hemisphere's curved area $2\pi r^{2}$.
+
+There is a neat way to see why, without any calculation. Imagine the dome sitting on a flat base, enclosing some gas, with the same uniform pressure pushing **outwards** on the inside of both the dome and the base. A closed bag of gas under uniform pressure doesn't fly off in any direction by itself, so the total force of the gas on the dome and the base together is zero. The force on the dome must therefore be equal and opposite to the force on the base, which is just $P\,\pi r^{2}$. The Formulas section confirms it by adding up the pieces with an integral.
+
+### How a curved wall carries the load
+
+A curved wall doesn't just survive the push: it handles it far better than a flat one. Cut a spherical tank in half in your imagination (figure below). The gas inside pushes the top half upwards with $\Delta P\,\pi r^{2}$. The only thing holding that half down is the wall itself, pulling along the cut all the way around the rim, a length $2\pi r$. If the wall pulls with a <Term id="wall-tension">tension</Term> $T$ newtons per metre of cut, then
+
+$$
+T \times 2\pi r = \Delta P\,\pi r^{2} \qquad\Rightarrow\qquad T = \frac{\Delta P\,r}{2}.
+$$
+
+<Figure caption="Why curved walls carry pressure as tension. Left: half a sphere. The gas pushes it up with ΔP·πr², and the wall pulls down all round the cut (length 2πr) with tension T per metre, so T = ΔPr/2. Right: half a cylinder of length L, cut along its length. The gas pushes it with ΔP·2rL, held by the two cut edges (total length 2L), so the hoop tension is ΔPr, twice as much." alt="Two diagrams side by side. Left, titled sphere: half a sphere drawn as a dome with an upward arrow labelled delta P times pi r squared, and small downward arrows all round its rim labelled T per metre, round a rim of length 2 pi r. The result reads T equals delta P r over 2. Right, titled cylinder: half a cylinder lying horizontally, with an upward arrow labelled delta P times 2 r L, and downward arrows along its two long cut edges labelled T per metre along 2 L of cut. The result reads hoop tension T equals delta P r, and a note says the ends: delta P r over 2.">
+	<CutVessels />
+</Figure>
+
+For a cylinder, such as a tunnel or a gas bottle, the same cut made lengthwise gives a **hoop tension** of $\Delta P\,r$, twice the sphere's, and a cut across it gives $\Delta P\,r/2$ (Formulas). That factor of two is why an overcooked sausage or a frozen water pipe splits along its length, never around it, and why a sphere is the best shape for a pressure vessel: for a given radius, it needs half the wall tension of a cylinder.
+
+Most importantly, the tension grows with the radius. A small, tightly curved vessel is easy; a large, gently curved one is hard. A flat wall has, in effect, an infinite radius. A perfectly flat, thin sheet can't hold any pressure difference at all by stretching: it has to bulge until it is curved enough. If it bulges a distance $s$ (its <Term id="sag">sag</Term>) across a span $L$, the curve has radius $r \approx L^{2}/8s$ (Formulas), and the tension it needs is enormous unless the sag is large (Example 5). The other way a flat panel can resist pressure is by **bending**, like a diving board, using its thickness; Chapter 12.5 shows that this is far worse still.
+
+This is why Rocky's xenonite structures stand out. One reader wiki describes Rocky building a geodesic sphere to live in, the efficient shape, but also makes the point that xenonite holds 29 atm even as large, flat panels: "the worst possible geometry for a pressure vessel".
+
+## Formulas
+
+### Net force on a flat wall
+
+$$
+\boxed{F = (P_{1} - P_{2})A = \Delta P\,A}
+$$
+
+### Force on a dome (projected area)
+
+Take a hemisphere of radius $r$ with pressure difference $\Delta P$. Describe a point on it by the angle $\theta$ between its outward direction and the vertical (the figure above). The band of surface between $\theta$ and $\theta + d\theta$ is a ring of radius $r\sin\theta$ and width $r\,d\theta$, so its area is
+
+$$
+dA = 2\pi r\sin\theta \times r\,d\theta = 2\pi r^{2}\sin\theta\,d\theta.
+$$
+
+The pressure pushes this ring at right angles to its surface, with force $\Delta P\,dA$. Going round the ring, the horizontal parts point in all directions and cancel. The vertical part of each push is $\Delta P\,dA\cos\theta$ (Chapter 0.7). Adding up all the rings from the top ($\theta = 0$) to the rim ($\theta = \pi/2$):
+
+$$
+F = \int_{0}^{\pi/2} \Delta P\cos\theta \times 2\pi r^{2}\sin\theta\,d\theta = 2\pi r^{2}\,\Delta P\int_{0}^{\pi/2}\sin\theta\cos\theta\,d\theta.
+$$
+
+Since $\dfrac{d}{d\theta}\left(\tfrac{1}{2}\sin^{2}\theta\right) = \sin\theta\cos\theta$, the integral is $\left[\tfrac{1}{2}\sin^{2}\theta\right]_{0}^{\pi/2} = \tfrac{1}{2}$:
+
+$$
+\boxed{F = \Delta P\,\pi r^{2}}
+$$
+
+the pressure difference times the projected area. The same argument works for any shape: each small piece's push along a chosen direction is $\Delta P$ times the piece's shadow on a plane at right angles to that direction, and the shadows add up to the whole shape's shadow.
+
+### Tension in a sphere's wall
+
+Cut the sphere along a great circle. The half is pushed by $\Delta P\,\pi r^{2}$ and held by tension $T$ along a cut of length $2\pi r$:
+
+$$
+T \cdot 2\pi r = \Delta P\,\pi r^{2} \qquad\Rightarrow\qquad \boxed{T_{\text{sphere}} = \frac{\Delta P\,r}{2}}
+$$
+
+$T$ is a force per metre of wall, in N/m.
+
+### Tension in a cylinder's wall
+
+**Hoop direction.** Cut a cylinder of radius $r$ and length $L$ along its length. The projected area of the half-cylinder is a rectangle $2r \times L$, so the gas pushes it with $\Delta P \times 2rL$. Two cut edges, each of length $L$, hold it:
+
+$$
+T \cdot 2L = \Delta P \cdot 2rL \qquad\Rightarrow\qquad \boxed{T_{\text{hoop}} = \Delta P\,r}
+$$
+
+**Along the axis.** Cut across the cylinder. The gas pushes the end cap with $\Delta P\,\pi r^{2}$, held by tension around the circumference $2\pi r$:
+
+$$
+T_{\text{axial}} \cdot 2\pi r = \Delta P\,\pi r^{2} \qquad\Rightarrow\qquad \boxed{T_{\text{axial}} = \frac{\Delta P\,r}{2}}
+$$
+
+### How curved is a sagging panel?
+
+A panel of span $L$ that bulges by $s$ in the middle forms (nearly) an arc of a circle of radius $r$. The centre of the circle is a distance $r - s$ from the chord. By Pythagoras, in the right-angled triangle formed by the centre, the middle of the chord and one end of the chord:
+
+$$
+(r - s)^{2} + \left(\frac{L}{2}\right)^{2} = r^{2} \qquad\Rightarrow\qquad \frac{L^{2}}{4} = 2rs - s^{2}
+$$
+
+When the sag is small compared with the span, $s^{2}$ is negligible next to $2rs$, so
+
+$$
+\boxed{r \approx \frac{L^{2}}{8s}} \qquad\Rightarrow\qquad T \approx \frac{\Delta P\,r}{2} = \frac{\Delta P\,L^{2}}{16s}
+$$
+
+treating the bulge as part of a sphere. Halve the sag and the tension doubles; a flat panel ($s \to 0$) would need infinite tension.
+
+## Worked examples
+
+<Example n={1} title="The force on the partition" book>
+Find the net force on the 2.0 m² xenonite partition (our model) with Rocky's 29 atm on one side and Grace's 0.40 atm on the other. How much would it change if Grace's side were at 1 atm?
+
+$$
+\Delta P = (29 - 0.40) \times 101\,325\ \text{Pa} = 28.6 \times 101\,325\ \text{Pa} = 2.90 \times 10^{6}\ \text{Pa}
+$$
+
+$$
+F = \Delta P\,A = 2.90 \times 10^{6}\ \text{Pa} \times 2.0\ \text{m}^{2} = 5.80 \times 10^{6}\ \text{N}
+$$
+
+As a weight on Earth: $5.80 \times 10^{6}\ \text{N}/9.81\ \text{m/s}^{2} = 5.9 \times 10^{5}\ \text{kg}$, about 590 tonnes, or 1.4 times the mass of the International Space Station (420 tonnes). With 1 atm on Grace's side, $\Delta P = 28$ atm and $F = 28 \times 101\,325 \times 2.0 = 5.67 \times 10^{6}$ N, only 2% less.
+</Example>
+
+<Example n={2} title="Guericke's hemispheres">
+The Magdeburg hemispheres were about 50 cm across. If all the air were pumped out, what force would hold them together at 1 atm? What if Guericke had tried it in Grace's 0.40 atm, or in Rocky's 29 atm?
+
+The projected area is the disc where the rims meet, radius 0.25 m:
+
+$$
+A = \pi (0.25\ \text{m})^{2} = 0.196\ \text{m}^{2}
+$$
+
+$$
+F = 101\,325\ \text{Pa} \times 0.196\ \text{m}^{2} = 1.99 \times 10^{4}\ \text{N}
+$$
+
+About 20 kN, the weight of $1.99 \times 10^{4}/9.81 = 2030$ kg. In 0.40 atm it would be 0.40 times that, 8.0 kN; in 29 atm, 577 kN. (Guericke's pump couldn't make a perfect vacuum, so his real force was somewhat less.)
+</Example>
+
+<Example n={3} title="A spherical room for Rocky" book>
+Suppose Rocky lives in a xenonite sphere of radius 1.0 m (our choice) filled with his 29 atm air, inside Grace's 0.40 atm. Find the force trying to push the two halves apart, and the tension in the wall.
+
+$$
+F = \Delta P\,\pi r^{2} = 2.90 \times 10^{6}\ \text{Pa} \times \pi \times (1.0\ \text{m})^{2} = 9.1 \times 10^{6}\ \text{N}
+$$
+
+$$
+T = \frac{\Delta P\,r}{2} = \frac{2.90 \times 10^{6}\ \text{Pa} \times 1.0\ \text{m}}{2} = 1.45 \times 10^{6}\ \text{N/m}
+$$
+
+Every metre of the sphere's wall, cut in any direction, must carry 1.45 MN: the weight of 148 tonnes per metre. Chapter 12.5 turns this into a stress inside the material and asks how thick the wall must be.
+</Example>
+
+<Example n={4} title="A tube of Erid air" book>
+Rocky runs a xenonite tube of radius 0.50 m (our choice), full of his 29 atm air, through Grace's 0.40 atm cabin. Find the hoop and axial tensions in its wall and the force on a flat cap closing one end.
+
+$$
+T_{\text{hoop}} = \Delta P\,r = 2.90 \times 10^{6}\ \text{Pa} \times 0.50\ \text{m} = 1.45 \times 10^{6}\ \text{N/m}
+$$
+
+$$
+T_{\text{axial}} = \frac{\Delta P\,r}{2} = 7.2 \times 10^{5}\ \text{N/m}
+$$
+
+$$
+F_{\text{cap}} = \Delta P\,\pi r^{2} = 2.90 \times 10^{6}\ \text{Pa} \times \pi \times (0.50\ \text{m})^{2} = 2.28 \times 10^{6}\ \text{N}
+$$
+
+The tube's hoop tension equals the tension in the 1.0 m sphere of Example 3: a cylinder of half the radius is as hard to hold together as a sphere twice its size.
+</Example>
+
+<Example n={5} title="How much must a thin partition bulge?" book>
+Treat the partition as a square of side $L = \sqrt{2.0}\ \text{m} = 1.41\ \text{m}$ that holds the pressure purely by stretching, like a drum skin, bulging by $s = 1.0$ cm. Find the curve's radius and the tension it needs, and compare with the sphere of Example 3.
+
+$$
+r \approx \frac{L^{2}}{8s} = \frac{2.0\ \text{m}^{2}}{8 \times 0.010\ \text{m}} = 25\ \text{m}
+$$
+
+$$
+T \approx \frac{\Delta P\,r}{2} = \frac{2.90 \times 10^{6}\ \text{Pa} \times 25\ \text{m}}{2} = 3.6 \times 10^{7}\ \text{N/m}
+$$
+
+That is 25 times the tension in Rocky's 1 m sphere. A 1 cm bulge on a panel 1.4 m wide is a very flat curve, and flat curves need huge tension. To bring the tension down to the sphere's 1.45 MN/m, the panel would have to bulge until its radius was 1 m, which for a 1.41 m span means a sag of about 0.29 m (Problem 9): not a flat window at all.
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** $F = \Delta P\,A$, the projected-area rule, and wall tensions of $\Delta P\,r/2$ (sphere) and $\Delta P\,r$ (cylinder hoop) are standard statics; engineers write them as the thin-walled pressure vessel formulas (Wikipedia "Cylinder stress"). Guericke's 1654 demonstration with two teams of fifteen horses is well documented.
+
+**Weir's inventions.** Xenonite itself, a clear Eridian material that holds Rocky's 29 atm as flat panels, Rocky's rooms, tunnels and geodesic sphere, and the pressures on each side are the novel's. The partition's size and thickness, the sphere's and tube's radii and the 1 cm sag are our choices, kept the same as in Parts 6 and 11 where possible.
+
+**How realistic are the numbers?** The forces are unavoidable: any wall between 29 atm and 0.40 atm carries 2.9 MN on every square metre, whatever it is made of. Real vessels for such pressures (gas bottles, deep-sea submersibles, chemical reactors) are always cylinders or spheres, and their viewing windows are small, thick and often cone-shaped. A large, thin, flat, transparent panel holding 29 atm is the most astonishing physical claim in the xenonite story; Chapter 12.5 shows just how astonishing.
+</RealVsBook>
+
+## Interactive simulation
+
+<VesselLab />
+
+Things to try: choose the flat panel and shrink the sag towards zero: the tension shoots up. Switch to a sphere of the same size, then a cylinder, and compare the tensions. Set a sphere of radius 0.25 m with Earth's 1 atm on one side and a vacuum on the other: the force on each half is the Magdeburg hemispheres' 20 kN (pushing outwards here rather than inwards). Then make the high side Rocky's air.
+
+## Practice set
+
+<Problem n={1} level="easy" book>
+A round window 30 cm across separates Rocky's 29 atm air from Grace's 0.40 atm. What is the net force on it?
+
+<Solution>
+$F = 2.90 \times 10^{6}\ \text{Pa} \times \pi \times (0.15\ \text{m})^{2} = 2.05 \times 10^{5}\ \text{N}$, about 21 tonnes' weight.
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy" book>
+A circular hatch 1.0 m across has the *Hail Mary*'s 0.40 atm on one side and space on the other. What force presses on it? Why must it open inwards?
+
+<Solution>
+$F = 0.40 \times 101\,325 \times \pi \times (0.50)^{2} = 3.18 \times 10^{4}\ \text{N}$, the weight of 3.2 tonnes. Opening inwards (towards the higher pressure), the pressure pushes it into its frame and seals it; it can only be opened once the pressures are equal.
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy">
+A suction cup 5.0 cm across has all the air squeezed out from under it. What is the largest force with which it can hold on, at sea level?
+
+<Solution>
+$F = 101\,325 \times \pi \times (0.025)^{2} = 199\ \text{N}$, about 20 kg's weight. In practice some air leaks back, so it holds less.
+</Solution>
+</Problem>
+
+<Problem n={4} level="easy">
+A jar lid 7.0 cm across is sealed with the air inside at 0.70 atm. How hard does the outside air press the lid on?
+
+<Solution>
+$\Delta P = 0.30 \times 101\,325 = 3.04 \times 10^{4}$ Pa. $F = 3.04 \times 10^{4} \times \pi \times (0.035)^{2} = 117\ \text{N}$: no wonder it's hard to unscrew.
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium">
+A robotic probe for Venus's surface (92 bar) has a hemispherical dome of radius 0.50 m, with 1 atm inside. What net force does the dome carry, and what is the tension in its wall if it were part of a whole sphere?
+
+<Solution>
+$\Delta P = 92 \times 10^{5} - 1.013 \times 10^{5} = 9.10 \times 10^{6}$ Pa. $F = 9.10 \times 10^{6} \times \pi \times 0.25 = 7.15 \times 10^{6}$ N. $T = \Delta P\,r/2 = 9.10 \times 10^{6} \times 0.50/2 = 2.27 \times 10^{6}$ N/m (compressing the wall this time, since the higher pressure is outside).
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium">
+A steel gas bottle has a radius of 0.10 m and holds gas at 200 bar above the outside air. Find the hoop and axial tensions in its wall.
+
+<Solution>
+$\Delta P = 2.0 \times 10^{7}$ Pa. Hoop: $\Delta P\,r = 2.0 \times 10^{6}$ N/m. Axial: $1.0 \times 10^{6}$ N/m.
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium">
+Explain why an overcooked sausage splits along its length rather than around it.
+
+<Solution>
+The sausage skin is a thin cylinder holding steam and swollen meat under pressure. The hoop tension, $\Delta P\,r$, is twice the tension along the axis, $\Delta P\,r/2$, so the skin fails first by splitting along a line parallel to the axis.
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium">
+Use the projected-area rule to show that a gas at uniform pressure inside a closed box of any shape exerts no net force on the box.
+
+<Solution>
+Pick any direction. The surfaces facing that way and the surfaces facing the opposite way have the same shadow (projected area) on a plane at right angles to it, since every line through the box enters once and leaves once. The pushes along the direction are $P \times$ shadow one way and $P \times$ shadow the other way, which cancel. That holds for every direction, so the net force is zero.
+</Solution>
+</Problem>
+
+<Problem n={9} level="challenging" book>
+How far must the 1.41 m partition bulge for its curve to have a radius of 1.0 m (so that its tension matches Rocky's sphere)? Use the exact relation $L^{2}/4 = 2rs - s^{2}$, since the sag is no longer small.
+
+<Solution>
+$s^{2} - 2rs + L^{2}/4 = 0$ with $r = 1.0$ m and $L^{2}/4 = 0.50\ \text{m}^{2}$: $s = r - \sqrt{r^{2} - L^{2}/4} = 1.0 - \sqrt{0.50} = 0.29\ \text{m}$. The small-sag formula would give $L^{2}/8r = 0.25$ m, 15% low. Either way, the "panel" would be a deep dome.
+</Solution>
+</Problem>
+
+<Problem n={10} level="challenging">
+A space-station module is a cylinder 4.2 m across (our round number) holding 1 atm against vacuum. Compare its hoop tension with the 1.0 m sphere of Erid air in Example 3.
+
+<Solution>
+Module: $T = 101\,325 \times 2.1 = 2.13 \times 10^{5}$ N/m. Rocky's sphere: $1.45 \times 10^{6}$ N/m, 6.8 times more, even though the module is twice as wide. The 28.6 atm difference more than makes up for the smaller radius.
+</Solution>
+</Problem>
+
+<Problem n={11} level="challenging" book>
+A square partition panel bulges like a drum skin. What sag would bring the tension down to $5.0 \times 10^{6}$ N/m with Rocky's $\Delta P$ across a 1.41 m span? Use the small-sag formula, and check that the sag is small compared with the span.
+
+<Solution>
+$r = 2T/\Delta P = 2 \times 5.0 \times 10^{6}/2.90 \times 10^{6} = 3.45$ m. $s = L^{2}/8r = 2.0/(8 \times 3.45) = 0.072$ m, about 7 cm. That is 5% of the span, so the approximation is fair. A panel that visibly bulges 7 cm in the middle still needs 3.4 times the sphere's tension.
+</Solution>
+</Problem>
+
+## Summary
+
+- A wall between two pressures feels the difference: $F = \Delta P\,A$. Between Rocky's 29 atm and Grace's 0.40 atm, every square metre carries 2.9 MN, so a 2.0 m² partition carries 5.8 MN, the weight of 590 tonnes.
+- The atmosphere can hold things together (the Magdeburg hemispheres, 20 kN for 50 cm) and seal doors that open towards the higher pressure (plug doors).
+- On any curved surface, the net force is $\Delta P$ times the projected area: $\Delta P\,\pi r^{2}$ for a dome. Proved with an integral, or by noting that uniform pressure on a closed surface gives no net force.
+- Curved walls carry pressure as tension: $T = \Delta P\,r/2$ in a sphere, $\Delta P\,r$ around a cylinder and $\Delta P\,r/2$ along it. Bigger radius means more tension; spheres are the most efficient shape.
+- A flat sheet can't hold pressure by stretching unless it bulges: $r \approx L^{2}/8s$, so $T \approx \Delta P\,L^{2}/16s$. Otherwise it must bend (Chapter 12.5).
+
+**Formulas from this chapter**
+
+$$
+F = \Delta P\,A \qquad F_{\text{dome}} = \Delta P\,\pi r^{2} \qquad T_{\text{sphere}} = \frac{\Delta P\,r}{2} \qquad T_{\text{hoop}} = \Delta P\,r \qquad T_{\text{axial}} = \frac{\Delta P\,r}{2} \qquad r \approx \frac{L^{2}}{8s}
+$$
+
+## Sources
+
+- Net pressure forces and gauge pressure: OpenStax, [*University Physics Volume 1*, §14.1](https://openstax.org/books/university-physics-volume-1/pages/14-1-fluids-density-and-pressure) and [§14.2](https://openstax.org/books/university-physics-volume-1/pages/14-2-measuring-pressure).
+- The Magdeburg hemispheres (8 May 1654, about 50 cm across, thirty horses in two teams of fifteen; the holding force is the pressure difference times the area of the circle where the rims meet): Wikipedia, ["Magdeburg hemispheres"](https://en.wikipedia.org/wiki/Magdeburg_hemispheres).
+- Thin-walled pressure vessels: hoop stress $Pr/t$, axial stress $Pr/2t$, sphere $Pr/2t$ (the tensions here divided by the wall thickness $t$, which Chapter 12.5 uses): Wikipedia, ["Cylinder stress"](https://en.wikipedia.org/wiki/Cylinder_stress).
+- The International Space Station's mass, about 420 tonnes: as used in Chapter 5.4 (Wikipedia, ["International Space Station"](https://en.wikipedia.org/wiki/International_Space_Station)).
+- Erid's air at about 29 atm and 210 °C behind a xenonite wall: /Film, ["Project Hail Mary: Why Rocky and Grace can't be in the same space"](https://slashfilm.com/2125069/project-hail-mary-why-rocky-grace-not-same-space). The *Hail Mary* at 40% of Earth's pressure: [Movie Mistakes](https://www.moviemistakes.com/book14945). Xenonite holding 29 atm as flat panels, Rocky's tunnels, chambers and geodesic sphere: Readify's reader wiki, ["Xenonite"](https://readifyai.com/en/books/Project%20Hail%20Mary/wiki/Xenonite). Reader sources, so approximate.
+- The partition model (2.0 m², 1 cm, glass-like) is the course's own assumption from Chapters 6.3 and 11.3.

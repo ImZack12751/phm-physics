@@ -1,0 +1,76 @@
+---
+// Left: a strip on two supports under a pressure load q, sagging slightly; support reactions qL/2.
+// Right: the left half, cut at the middle and enlarged: support force at L/2 from the cut, load at L/4, and the linear
+// stress distribution across the cut (compression on the pressure side at top, tension at the bottom).
+const head = (x1: number, y1: number, x2: number, y2: number, s = 7) => {
+	const a = Math.atan2(y2 - y1, x2 - x1), c = Math.cos(a), n = Math.sin(a);
+	return `${x2},${y2} ${x2 - s * c + (s / 2) * n},${y2 - s * n - (s / 2) * c} ${x2 - s * c - (s / 2) * n},${y2 - s * n + (s / 2) * c}`;
+};
+// left drawing
+const AL = 30, AR = 250, AY = 120;
+// right drawing: half strip from x=330 to x=530 (cut), thickness 60 px, centred at y=150
+const HL = 330, HC = 530, HT = 120, HB = 180, HM = 150;
+---
+
+<svg class="dg" viewBox="0 0 600 270" xmlns="http://www.w3.org/2000/svg">
+	<!-- left: whole strip -->
+	<path d={`M${AL},${AY} Q${(AL + AR) / 2},${AY + 16} ${AR},${AY} L${AR},${AY + 12} Q${(AL + AR) / 2},${AY + 28} ${AL},${AY + 12} Z`} class="f-muted" />
+	{Array.from({ length: 9 }, (_, i) => AL + 15 + i * 24).map((x) => (
+		<>
+			<line x1={x} y1={AY - 34} x2={x} y2={AY - 2} class="s-rose w1" />
+			<polygon points={head(x, AY - 34, x, AY - 1, 6)} class="f-rose" />
+		</>
+	))}
+	<text x={(AL + AR) / 2} y={AY - 42} class="t-mid t-sm f-rose halo">pressure difference q</text>
+	<polygon points={`${AL},${AY + 14} ${AL - 10},${AY + 32} ${AL + 10},${AY + 32}`} class="f-fg" />
+	<polygon points={`${AR},${AY + 14} ${AR - 10},${AY + 32} ${AR + 10},${AY + 32}`} class="f-fg" />
+	<line x1={AL} y1={AY + 70} x2={AL} y2={AY + 38} class="s-green w2" />
+	<polygon points={head(AL, AY + 70, AL, AY + 36)} class="f-green" />
+	<line x1={AR} y1={AY + 70} x2={AR} y2={AY + 38} class="s-green w2" />
+	<polygon points={head(AR, AY + 70, AR, AY + 36)} class="f-green" />
+	<text x={(AL + AR) / 2} y={AY + 128} class="t-mid t-sm f-green">each support: qL/2 per metre of width</text>
+	<line x1={AL} y1={AY + 84} x2={AR} y2={AY + 84} class="s-fg w1" />
+	<line x1={AL} y1={AY + 78} x2={AL} y2={AY + 90} class="s-fg w1" />
+	<line x1={AR} y1={AY + 78} x2={AR} y2={AY + 90} class="s-fg w1" />
+	<text x={(AL + AR) / 2} y={AY + 104} class="t-mid t-sm halo">span L</text>
+	<line x1={(AL + AR) / 2} y1="40" x2={(AL + AR) / 2} y2="186" class="s-violet w1 dash" />
+	<text x={(AL + AR) / 2 + 4} y="36" class="t-sm f-violet">cut here</text>
+	<!-- right: the left half, enlarged -->
+	<text x={(HL + HC) / 2} y="24" class="t-mid t-sm t-b">left half, enlarged</text>
+	<rect x={HL} y={HT} width={HC - HL} height={HB - HT} class="f-muted" />
+	<line x1={HL} y1={HB + 52} x2={HL} y2={HB + 4} class="s-green w2" />
+	<polygon points={head(HL, HB + 52, HL, HB + 2)} class="f-green" />
+	<text x={HL + 6} y={HB + 50} class="t-sm f-green">support qL/2</text>
+	<line x1={(HL + HC) / 2} y1={HT - 40} x2={(HL + HC) / 2} y2={HT - 2} class="s-rose w2" />
+	<polygon points={head((HL + HC) / 2, HT - 40, (HL + HC) / 2, HT - 1)} class="f-rose" />
+	<text x={(HL + HC) / 2 + 6} y={HT - 26} class="t-sm f-rose">load qL/2</text>
+	<line x1={HL} y1="58" x2={HC} y2="58" class="s-fg w1" />
+	<line x1={(HL + HC) / 2} y1="52" x2={(HL + HC) / 2} y2="64" class="s-fg w1" /><line x1={HL} y1="52" x2={HL} y2="64" class="s-fg w1" /><line x1={HC} y1="52" x2={HC} y2="64" class="s-fg w1" />
+	<text x={(HL + HC) / 2 + 50} y="50" class="t-mid t-sm f-muted">L/4</text>
+	<text x={HL + 50} y="50" class="t-mid t-sm f-muted">L/4</text>
+	<!-- stress triangle at the cut -->
+	{[HT + 6, HT + 16, HT + 26].map((y) => {
+		const len = ((HM - y) / (HM - HT)) * 36;
+		return (
+			<>
+				<line x1={HC + len + 2} y1={y} x2={HC + 2} y2={y} class="s-amber w2" />
+				<polygon points={head(HC + len + 2, y, HC + 1, y, 6)} class="f-amber" />
+			</>
+		);
+	})}
+	{[HB - 6, HB - 16, HB - 26].map((y) => {
+		const len = ((y - HM) / (HB - HM)) * 36;
+		return (
+			<>
+				<line x1={HC + 2} y1={y} x2={HC + len + 2} y2={y} class="s-sky w2" />
+				<polygon points={head(HC + 2, y, HC + len + 3, y, 6)} class="f-sky" />
+			</>
+		);
+	})}
+	<line x1={HC} y1={HM} x2={HC + 44} y2={HM} class="s-muted w1 dash" />
+	<text x={HC + 44} y={HT - 8} class="t-end t-sm f-amber">−σ_max: squashed</text>
+	<text x={HC + 44} y={HB + 18} class="t-end t-sm f-sky">+σ_max: stretched</text>
+	<line x1={HL - 12} y1={HT} x2={HL - 12} y2={HB} class="s-fg w1" />
+	<text x={HL - 16} y={HM + 4} class="t-end t-sm">t</text>
+	<text x={(HL + HC) / 2} y="262" class="t-mid t-sm">turning effect qL²/8 = σ_max t²/6 (per metre of width)</text>
+</svg>

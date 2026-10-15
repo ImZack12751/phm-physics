@@ -1,0 +1,38 @@
+---
+// Torricelli's mercury barometer: an upside-down tube in a dish; vacuum above a 760 mm column; air presses on the dish.
+const head = (x1: number, y1: number, x2: number, y2: number, s = 9) => {
+	const a = Math.atan2(y2 - y1, x2 - x1), c = Math.cos(a), n = Math.sin(a);
+	return `${x2},${y2} ${x2 - s * c + (s / 2) * n},${y2 - s * n - (s / 2) * c} ${x2 - s * c - (s / 2) * n},${y2 - s * n + (s / 2) * c}`;
+};
+const TL = 190, TR = 220, TOP = 30, COL = 70, LEV = 230, DISHB = 262;
+---
+
+<svg class="dg" viewBox="0 0 600 280" xmlns="http://www.w3.org/2000/svg">
+	<!-- dish -->
+	<rect x="100" y={LEV} width="210" height={DISHB - LEV} class="f-muted" />
+	<polyline points={`95,${LEV - 18} 100,${DISHB} 310,${DISHB} 315,${LEV - 18}`} class="s-fg w2" fill="none" />
+	<!-- tube -->
+	<rect x={TL} y={COL} width={TR - TL} height={DISHB - 8 - COL} class="f-muted" />
+	<path d={`M${TL},${DISHB - 8} L${TL},${TOP + 10} Q${(TL + TR) / 2},${TOP - 6} ${TR},${TOP + 10} L${TR},${DISHB - 8}`} class="s-fg w2" fill="none" />
+	<text x={TR + 14} y={TOP + 26} class="t-sm">nearly a vacuum: P ≈ 0</text>
+	<line x1={TR + 10} y1={TOP + 22} x2={TR - 4} y2={TOP + 26} class="s-muted w1" />
+	<!-- height bracket -->
+	<line x1="160" y1={COL} x2="160" y2={LEV} class="s-amber w1" />
+	<line x1="154" y1={COL} x2="166" y2={COL} class="s-amber w1" />
+	<line x1="154" y1={LEV} x2="166" y2={LEV} class="s-amber w1" />
+	<text x="150" y={(COL + LEV) / 2} class="t-end t-sm f-amber">h = 760 mm</text>
+	<text x="150" y={(COL + LEV) / 2 + 16} class="t-end t-sm f-amber">of mercury</text>
+	<!-- same level line -->
+	<line x1="40" y1={LEV} x2="380" y2={LEV} class="s-rose w1 dash" />
+	<text x="388" y={LEV + 4} class="t-sm f-rose">same level, same pressure:</text>
+	<text x="388" y={LEV + 20} class="t-sm f-rose">P_atm = ρgh</text>
+	<!-- air arrows on dish -->
+	{[115, 135, 260, 285].map((x) => (
+		<>
+			<line x1={x} y1={LEV - 46} x2={x} y2={LEV - 3} class="s-sky w2" />
+			<polygon points={head(x, LEV - 46, x, LEV - 2, 8)} class="f-sky" />
+		</>
+	))}
+	<text x="320" y={LEV - 50} class="t-sm f-sky">air pressure P_atm</text>
+	<text x="320" y={LEV - 34} class="t-sm f-sky">pushes on the dish</text>
+</svg>

@@ -1,0 +1,451 @@
+---
+title: 'Pressure: F = PA'
+description: What pressure is and how it pushes in every direction, the units it comes in, why the sky has weight, how pressure grows with depth (P = P₀ + ρgh, derived from a balanced slab of fluid), barometers, Pascal's principle and hydraulics, and buoyancy from the pressure difference across an object, all built on Rocky's crushing 29-atmosphere air.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import FluidSlab from '../../../components/diagrams/part-12/FluidSlab.astro';
+import Barometer from '../../../components/diagrams/part-12/Barometer.astro';
+import BuoyancyBlock from '../../../components/diagrams/part-12/BuoyancyBlock.astro';
+import PressureDepthLab from '../../../components/sims/PressureDepthLab.astro';
+
+## The scene
+
+Before Grace and Rocky share a single word, they trade models. Rocky hands over a little model of his ship and of the *Hail Mary*, with strings of beads that stand for the air inside each one: one bead for Grace's ship, twenty-nine for Rocky's. Grace works out what it means. Rocky's air pushes 29 times as hard as the air Grace breathes. Later he learns that it is ammonia, at about 210 °C, and that Rocky's home planet, Erid, has a surface gravity of about twice Earth's.
+
+Twenty-nine times the push of the air sounds abstract. What does it actually do? How hard does air push on a hand, a window or a wall? Why does it push harder at the bottom of a deep sky, or a deep ocean, than at the top? This chapter builds the idea of pressure properly, from forces, before the rest of Part 12 uses it on gases, mixtures, walls and materials.
+
+## Prerequisites
+
+<Prereqs notes={{ 'pressure-waves': 'pressure as force per area, the pascal and the standard atmosphere', 'newtons-laws': 'forces in balance on an object at rest, free-body diagrams', 'mass-and-weight': 'weight W = mg', 'temperature-heat': 'gas pressure comes from molecules bouncing off surfaces', 'rearranging-formulas': 'density ρ = m/V and rearranging', 'apparent-weight': 'the effective gravity inside an accelerating ship' }} />
+
+## The concept
+
+### Force spread over an area
+
+Chapter 11.1 defined <Term id="pressure">pressure</Term> as force per area,
+
+$$
+P = \frac{F}{A},
+$$
+
+measured in <Term id="pascal">pascals</Term> (1 Pa = 1 N/m²). Turn it round and you get the form that gives this chapter its name: a pressure $P$ acting on an area $A$ pushes with a force
+
+$$
+F = PA.
+$$
+
+The same force can do very different things depending on the area it is spread over. A person weighing 600 N standing in flat shoes spreads that over about 150 cm² and presses on the floor with about 40 kPa. On a stiletto heel with a tip of 1 cm², the same 600 N gives 6 MPa, enough to dent a wooden floor. A knife cuts because its edge has almost no area; snowshoes work because they have a lot.
+
+### Pressure in a fluid pushes every way
+
+A <Term id="force">force</Term> has a direction. Pressure in a gas or liquid (a **fluid**) does not: at any point it pushes equally in every direction, and on any surface it pushes straight at that surface, at right angles to it. The reason is the molecular picture of Chapter 6.1. The molecules fly about at random in all directions, so a small surface is hit just as often whichever way it faces, and each hit pushes it along its own perpendicular.
+
+That is why a fluid's pressure is a <Term id="scalar">scalar</Term>, a single number at each point. To get a force from it, you choose a surface: the force is $PA$, pointing at right angles into that surface.
+
+### Units you will meet
+
+The pascal is small: a sheet of paper lying on a table presses on it with about 1 Pa. So pressures are often given in larger units:
+
+| Unit | In pascals | Where you see it |
+|---|---|---|
+| kilopascal (kPa) | 1000 Pa | weather, medicine |
+| bar | 100 000 Pa | diving, engineering, weather (millibars) |
+| standard atmosphere (atm) | 101 325 Pa exactly | chemistry, the novel |
+| pound per square inch (psi) | 6894.76 Pa | US engineering, spacesuits |
+| millimetre of mercury (mmHg) | 133.322 Pa | blood pressure, old barometers |
+
+One atmosphere is 1.013 bar, 14.70 psi and 760 mmHg. Rocky's 29 atm is about 2.94 million pascals.
+
+### Absolute and gauge pressure
+
+A tyre gauge that reads "2.2 bar" doesn't mean the air inside is at 2.2 bar. It means the air is 2.2 bar **above** the air outside. That reading is the <Term id="gauge-pressure">gauge pressure</Term>. The **absolute** pressure, measured from a perfect vacuum, is the gauge pressure plus the atmosphere: about 3.2 bar.
+
+$$
+P_{\text{absolute}} = P_{\text{gauge}} + P_{\text{atm}}.
+$$
+
+A gauge is really measuring a **difference** in pressure, because the outside air pushes on its back. Differences are what produce forces on walls, as Chapter 12.4 shows. Formulas about gases, such as the gas laws of Chapter 12.2, need the absolute pressure.
+
+### The sky has weight
+
+Why is the air around you at about 1 atm? Because of the weight of the air above you. Picture a column of air standing on one square metre of ground and reaching to the top of the atmosphere. The ground holds that column up, so it pushes up with a force equal to the column's <Term id="weight">weight</Term>, $mg$. Spread over the column's area,
+
+$$
+P = \frac{mg}{A}.
+$$
+
+At Earth's surface, $P = 101\,325\ \text{Pa}$, so each square metre of ground carries $101\,325/9.81 = 10\,300$ kg of air above it, about ten tonnes. That is the "weight of the sky". (Multiply by the area of the whole Earth and you get the mass of the whole atmosphere, in Problem 9.)
+
+The same idea explains why the pressure falls as you climb: there is less air above you. And it shows why Erid's air is so dense. A planet with strong gravity and a lot of gas piles up a heavy column (Example 1).
+
+### Pressure grows with depth
+
+Dive into a swimming pool and you feel the water pressing on your ears, more strongly the deeper you go. The pressure at a depth $h$ has to hold up the water above as well as the air above that. Look at a thin flat slab of fluid, at rest:
+
+<Figure caption="A thin slab of fluid at rest, of area A and thickness Δh. The fluid above pushes down on its top with PA, the fluid below pushes up on its bottom with (P + ΔP)A, and its weight is ρAΔh g. For the slab to stay put, the push from below must be larger by exactly its weight, which gives ΔP = ρgΔh. The sideways pushes cancel." alt="A tall tank of fluid, shaded blue. A thin horizontal slab is outlined in the middle of the tank, with an area A label on its top face and a thickness Δh label on its side. A downward arrow on the top face is labelled P times A, from the fluid above. A longer upward arrow on the bottom face is labelled (P plus ΔP) times A, from the fluid below. A downward arrow from the slab's middle is labelled weight, ρ A Δh g. Short equal arrows pointing inwards on the left and right sides are labelled sideways pushes cancel. A note says depth h measured down from the surface, and the pressure at the top of the fluid is P₀.">
+	<FluidSlab />
+</Figure>
+
+The Formulas section adds up the forces on the slab and shows that pressure grows steadily with depth:
+
+$$
+P = P_{0} + \rho g h,
+$$
+
+where $P_{0}$ is the pressure at the surface and $\rho$ the fluid's <Term id="density">density</Term>. This is the <Term id="hydrostatic-pressure">hydrostatic pressure</Term> ("hydrostatic" means "fluid at rest"). In water, $\rho g = 1000\ \text{kg/m}^{3} \times 9.81\ \text{m/s}^{2} \approx 9800\ \text{Pa}$ per metre, so every 10 metres of water adds about one atmosphere. At the bottom of a 10 m pool, the pressure is about 2 atm.
+
+Two things are worth noticing. First, only depth matters, not the shape of the container: the pressure at the bottom of a narrow tube of water 10 m tall is the same as at the bottom of a lake 10 m deep. Second, $g$ appears in the formula. The same depth of the same fluid gives more pressure under stronger gravity, or in a ship accelerating harder (Chapter 2.3).
+
+The formula assumes the density is the same all the way down. That is excellent for liquids, which hardly compress. For a gas it only works over short heights, because a gas gets denser as it is squeezed; Chapter 12.2 deals with a whole atmosphere.
+
+### Barometers
+
+In 1643 Evangelista Torricelli filled a glass tube with mercury, closed the end with his finger, turned it upside down into a dish of mercury and let go. The mercury fell until the column was about 760 mm tall, and stopped, leaving empty space at the top of the tube.
+
+<Figure caption="Torricelli's mercury barometer. The space at the top of the tube is (nearly) empty, so nothing pushes down on the column. At the level of the dish's surface, the pressure inside the tube must equal the air pressure outside, so the column's height h satisfies P_atm = ρgh. At sea level on Earth h is 760 mm." alt="A tall glass tube standing upside down in a dish of mercury. The tube is filled with grey mercury up to a height labelled h equals 760 millimetres above the surface of the mercury in the dish. Above the column, at the closed top of the tube, a small region is labelled nearly a vacuum, P equals 0. Arrows on the open dish surface pointing down are labelled air pressure P atm pushes on the dish. A dashed horizontal line at the dish's surface level runs through the tube and is labelled same level, same pressure.">
+	<Barometer />
+</Figure>
+
+The column is held up by the atmosphere pressing on the open dish. At the level of the dish's surface, the pressure inside the tube equals the outside air pressure, and inside the tube that pressure comes only from the mercury above, so $P_{\text{atm}} = \rho g h$. Mercury is 13.6 times denser than water, which keeps the tube to a manageable height; a water barometer would need a tube over 10 m tall (Problem 5). Such an instrument is a <Term id="barometer">barometer</Term>, and its readings are why pressures are still sometimes quoted in "millimetres of mercury".
+
+### Pascal's principle and hydraulics
+
+Squeeze a sealed bag of water at one point, and the pressure rises everywhere in the bag by the same amount. Because $P = P_{0} + \rho g h$ fixes the differences in pressure from place to place, anything that raises the pressure at one point raises it equally at every point. This is <Term id="pascals-principle">Pascal's principle</Term>: a change in pressure applied to an enclosed fluid is passed on undiminished to every part of the fluid.
+
+It is how hydraulic jacks, car brakes and diggers multiply force. Push a small piston of area $A_{1}$ with a force $F_{1}$: the pressure rises by $F_{1}/A_{1}$ everywhere, so a large piston of area $A_{2}$ is pushed with
+
+$$
+F_{2} = F_{1}\,\frac{A_{2}}{A_{1}}.
+$$
+
+There is no free lunch: to move the large piston up by a distance $d_{2}$, the small one has to push in a volume $A_{2}d_{2}$ of fluid, so it travels $d_{1} = d_{2}A_{2}/A_{1}$, much further. The work in, $F_{1}d_{1}$, equals the work out, $F_{2}d_{2}$ (Chapter 5.1).
+
+### Buoyancy
+
+Why does wood float and a balloon rise? Because the fluid pushes harder on an object's bottom, which is deeper, than on its top.
+
+<Figure caption="A block of height H and top area A in a fluid. The fluid pushes down on the top with P_top A and up on the bottom with P_bottom A. The bottom is deeper by H, so P_bottom − P_top = ρ_fluid gH, and the net upward push is ρ_fluid gHA = ρ_fluid gV: the weight of the fluid the block pushes aside." alt="A rectangular block submerged in a fluid shaded blue. Several short downward arrows press on its top face, labelled P top times A. Several longer upward arrows press on its bottom face, labelled P bottom times A. Equal inward arrows on the left and right faces are labelled cancel. A bracket on the right side marks the block's height H. Below the block a large upward arrow is labelled buoyant force F b equals ρ fluid g V, the weight of the fluid displaced. A downward arrow from the block's centre is labelled weight m g.">
+	<BuoyancyBlock />
+</Figure>
+
+The net upward push is the <Term id="buoyant-force">buoyant force</Term>. Working it out (Formulas section) gives <Term id="archimedes-principle">Archimedes' principle</Term>:
+
+$$
+F_{\text{b}} = \rho_{\text{fluid}}\,g\,V,
+$$
+
+the weight of the fluid that the object pushes out of the way. An object denser than the fluid sinks, because its weight beats the buoyant force; an object less dense rises or floats. A floating object sinks until it has pushed aside its own weight of fluid. Ice ($917\ \text{kg/m}^{3}$) floats in sea water ($1030\ \text{kg/m}^{3}$) with $917/1030 = 89\%$ of it under the surface.
+
+Buoyancy works in gases too, but air is so thin that it only matters for very light things, such as balloons. Rocky's air is another matter: at 29 atm and 210 °C, ammonia has a density of about $12.5\ \text{kg/m}^{3}$ (Chapter 11.3), ten times Grace's air, and Erid's gravity is twice Earth's. Example 5 shows what that does for a balloon.
+
+## Formulas
+
+### Pressure and force
+
+$$
+\boxed{P = \frac{F}{A} \qquad F = PA} \qquad 1\ \text{atm} = 101\,325\ \text{Pa} = 1.013\ \text{bar} = 14.70\ \text{psi} = 760\ \text{mmHg}
+$$
+
+$$
+P_{\text{absolute}} = P_{\text{gauge}} + P_{\text{atm}}
+$$
+
+### The weight of a column
+
+A column of fluid of mass $m$ resting on an area $A$ presses on it with its weight:
+
+$$
+\boxed{P = \frac{mg}{A}} \qquad\Rightarrow\qquad \frac{m}{A} = \frac{P}{g}
+$$
+
+### Pressure and depth
+
+Take a horizontal slab of fluid at rest, of area $A$ and small thickness $\Delta h$, with its top at depth $h$ (figure above). Its mass is $\rho A\,\Delta h$. Three vertical forces act on it:
+
+- the fluid above pushes **down** on its top: $PA$,
+- the fluid below pushes **up** on its bottom: $(P + \Delta P)A$,
+- its weight pulls **down**: $\rho A\,\Delta h\,g$.
+
+The sideways pushes on its edges cancel in pairs. The slab is at rest, so by Newton's first law (Chapter 2.1) the vertical forces balance:
+
+$$
+(P + \Delta P)A = PA + \rho A\,\Delta h\,g
+$$
+
+Cancel $PA$ and divide by $A$:
+
+$$
+\Delta P = \rho g\,\Delta h
+$$
+
+Each extra slice of depth $\Delta h$ adds $\rho g\,\Delta h$ of pressure. If $\rho$ and $g$ are the same all the way down, the slices simply add up, and from the surface (pressure $P_{0}$) to depth $h$:
+
+$$
+\boxed{P = P_{0} + \rho g h}
+$$
+
+Units check: $\text{kg/m}^{3} \times \text{m/s}^{2} \times \text{m} = \text{kg/(m·s}^{2}) = \text{N/m}^{2} = \text{Pa}$ ✓.
+
+### The barometer
+
+Inside the tube, the surface of the mercury column is at (nearly) zero pressure, and depth $h$ below it is the level of the dish, where the pressure equals the air's:
+
+$$
+P_{\text{atm}} = 0 + \rho g h \qquad\Rightarrow\qquad \boxed{h = \frac{P_{\text{atm}}}{\rho g}}
+$$
+
+With $\rho = 13\,600\ \text{kg/m}^{3}$ and $g = 9.807\ \text{m/s}^{2}$, one atmosphere gives $h = 101\,325/(13\,600 \times 9.807) = 0.760\ \text{m}$.
+
+### Pascal's principle
+
+A pressure change $F_{1}/A_{1}$ reaches every part of the fluid, so
+
+$$
+\boxed{\frac{F_{1}}{A_{1}} = \frac{F_{2}}{A_{2}}} \qquad\Rightarrow\qquad F_{2} = F_{1}\frac{A_{2}}{A_{1}}, \qquad d_{1} = d_{2}\frac{A_{2}}{A_{1}}
+$$
+
+and the work is the same on both pistons: $F_{1}d_{1} = F_{2}d_{2}$.
+
+### Archimedes' principle
+
+For a block of height $H$ and top area $A$ (figure above), the bottom is a depth $H$ further down than the top, so
+
+$$
+P_{\text{bottom}} - P_{\text{top}} = \rho_{\text{fluid}}\,gH.
+$$
+
+The sideways pushes cancel. The net upward force is
+
+$$
+F_{\text{b}} = P_{\text{bottom}}A - P_{\text{top}}A = \rho_{\text{fluid}}\,gHA = \boxed{\rho_{\text{fluid}}\,g\,V}
+$$
+
+since $HA = V$, the block's volume. For any other shape, imagine the object replaced by fluid of the same shape: that fluid would sit still, so the surrounding fluid must push it up with exactly its weight, $\rho_{\text{fluid}}gV$. The surrounding fluid doesn't know what is inside, so it pushes the object up just as hard.
+
+An object of density $\rho$ floating at rest has its weight balanced: $\rho V g = \rho_{\text{fluid}} V_{\text{sub}} g$, so the fraction under the surface is
+
+$$
+\frac{V_{\text{sub}}}{V} = \frac{\rho}{\rho_{\text{fluid}}}.
+$$
+
+## Worked examples
+
+<Example n={1} title="The weight of Erid's sky" book>
+At Erid's surface the air pressure is about 29 atm and gravity is about twice Earth's, $g = 2 \times 9.81 = 19.6\ \text{m/s}^{2}$ (the novel's figures). How much air stands above each square metre of Erid, and how does that compare with Earth?
+
+$$
+P = 29 \times 101\,325\ \text{Pa} = 2.94 \times 10^{6}\ \text{Pa}
+$$
+
+$$
+\frac{m}{A} = \frac{P}{g} = \frac{2.94 \times 10^{6}\ \text{Pa}}{19.6\ \text{m/s}^{2}} = 1.50 \times 10^{5}\ \text{kg/m}^{2}
+$$
+
+On Earth: $101\,325\ \text{Pa}/9.81\ \text{m/s}^{2} = 1.03 \times 10^{4}\ \text{kg/m}^{2}$. Erid has $1.50 \times 10^{5}/1.03 \times 10^{4} = 14.5$ times as much air above each square metre. The pressure is 29 times Earth's, but stronger gravity does half the work: Erid only needs 14.5 times as much gas to make 29 times the pressure. (Units: $\text{Pa}/(\text{m/s}^{2}) = (\text{kg·m/s}^{2}/\text{m}^{2})/(\text{m/s}^{2}) = \text{kg/m}^{2}$ ✓.)
+</Example>
+
+<Example n={2} title="How deep is Erid's surface?" book>
+How deep would Grace have to dive in Earth's oceans (sea water, $\rho = 1030\ \text{kg/m}^{3}$) to feel the pressure of Rocky's air, 29 atm?
+
+The surface pressure is 1 atm, so the water has to add 28 atm:
+
+$$
+\rho g h = 28 \times 101\,325\ \text{Pa} = 2.84 \times 10^{6}\ \text{Pa}
+$$
+
+$$
+h = \frac{2.84 \times 10^{6}\ \text{Pa}}{1030\ \text{kg/m}^{3} \times 9.81\ \text{m/s}^{2}} = \frac{2.84 \times 10^{6}\ \text{Pa}}{1.010 \times 10^{4}\ \text{Pa/m}} = 281\ \text{m}
+$$
+
+Standing on Erid feels, pressure-wise, like being 280 metres under the sea: deeper than any recreational dive and well into the range where human divers need special gas mixtures (Chapter 12.3).
+</Example>
+
+<Example n={3} title="A barometer on the Hail Mary" book>
+In the novel, the whole *Hail Mary* is kept at about 40% of Earth's sea-level pressure. Under thrust, the ship accelerates at 1.5 g, and everything inside feels an effective gravity of $1.5 \times 9.807 = 14.7\ \text{m/s}^{2}$ (Chapter 2.3). How tall is the column in a mercury barometer on board?
+
+$$
+P = 0.40 \times 101\,325\ \text{Pa} = 4.05 \times 10^{4}\ \text{Pa}
+$$
+
+$$
+h = \frac{P}{\rho g} = \frac{4.05 \times 10^{4}\ \text{Pa}}{13\,600\ \text{kg/m}^{3} \times 14.7\ \text{m/s}^{2}} = 0.203\ \text{m} = 203\ \text{mm}
+$$
+
+On Earth the same air would hold up $0.40 \times 760 = 304$ mm. A mercury barometer really measures $P/g$, not $P$ alone, so on an accelerating ship (or another planet) its scale needs correcting. In free fall it would not work at all: with no effective gravity the mercury doesn't settle.
+</Example>
+
+<Example n={4} title="A hydraulic jack">
+A hydraulic jack has a small piston 2.0 cm across and a large one 20 cm across. What force on the small piston lifts a 1200 kg car, and how far must it travel to raise the car by 10 cm?
+
+The area ratio is the square of the diameter ratio:
+
+$$
+\frac{A_{2}}{A_{1}} = \left(\frac{20\ \text{cm}}{2.0\ \text{cm}}\right)^{2} = 100
+$$
+
+$$
+F_{1} = \frac{F_{2}}{100} = \frac{1200\ \text{kg} \times 9.81\ \text{m/s}^{2}}{100} = \frac{1.18 \times 10^{4}\ \text{N}}{100} = 118\ \text{N}
+$$
+
+$$
+d_{1} = d_{2} \times 100 = 0.10\ \text{m} \times 100 = 10\ \text{m}
+$$
+
+A push of about 12 kg's weight lifts the car, but only by pumping the handle back and forth through ten metres in total. Work in: $118\ \text{N} \times 10\ \text{m} = 1180$ J. Work out: $1.18 \times 10^{4}\ \text{N} \times 0.10\ \text{m} = 1180$ J ✓.
+</Example>
+
+<Example n={5} title="Balloons on Erid" book>
+On Earth, a hydrogen balloon in air at 20 °C and 1 atm lifts its volume of air minus its own gas: air is $1.204\ \text{kg/m}^{3}$ and hydrogen $0.084\ \text{kg/m}^{3}$. On Erid, ammonia air at 29 atm and 210 °C is $12.46\ \text{kg/m}^{3}$, and hydrogen at the same pressure and temperature would be $1.475\ \text{kg/m}^{3}$. How much mass can each cubic metre of hydrogen lift on each planet?
+
+The net upward force on 1 m³ is the buoyant force minus the gas's own weight: $(\rho_{\text{air}} - \rho_{\text{H}_2})gV$. Dividing by $g$ gives the mass it can hold up, so $g$ cancels:
+
+$$
+\text{Earth:}\quad (1.204 - 0.084)\ \text{kg/m}^{3} \times 1\ \text{m}^{3} = 1.12\ \text{kg}
+$$
+
+$$
+\text{Erid:}\quad (12.46 - 1.475)\ \text{kg/m}^{3} \times 1\ \text{m}^{3} = 11.0\ \text{kg}
+$$
+
+Each cubic metre lifts ten times as much on Erid. The forces are even bigger, since $g$ is doubled: the net push on Erid is $11.0\ \text{kg} \times 19.6\ \text{m/s}^{2} = 215$ N per cubic metre, against Earth's 11 N. But the payload's weight is doubled too, which is why the lifted **mass** depends only on the difference in density.
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** $P = F/A$, the pascal and the other units, gauge versus absolute pressure, $P = P_{0} + \rho g h$, the mercury barometer (Torricelli, 1643), Pascal's principle and Archimedes' principle are standard fluid statics (OpenStax University Physics Vol. 1, chapter 14). The standard atmosphere is defined as 101 325 Pa, and Earth's mean surface pressure is about 1014 mbar (NASA).
+
+**Weir's inventions.** Erid's ammonia air at about 29 atm and 210 °C, its gravity of about 2 g, and the bead model with 29 beads to 1 are the novel's. Readers have noticed a wrinkle. The beads compare Rocky's air with the air **on the Hail Mary**, which the novel says is kept at about 40% of Earth's pressure; taken literally, Erid's air would then be about $29 \times 0.40 = 11.6$ atm, not 29. (Elsewhere the ship's air is described as a third or a fifth of an atmosphere.) The course follows Grace's conclusion and the commonly quoted 29 atm, and Chapter 12.3 returns to what the beads might really have compared.
+
+**How realistic are the numbers?** Everything we computed follows from the novel's figures and ordinary physics: 150 tonnes of air over each square metre of Erid, a surface pressure equal to 280 m under the sea, and balloons that lift ten times as much. A real planet with a dense, hot ammonia atmosphere is not ruled out by physics; Venus already has 92 bar of carbon dioxide at its surface.
+</RealVsBook>
+
+## Interactive simulation
+
+<PressureDepthLab />
+
+Things to try: put Grace in sea water and find the depth that matches Rocky's 29 atm. Switch the fluid to Erid's air and see how slowly pressure rises with depth in a gas, even a dense one. Set mercury and find the barometer height for 1 atm, then switch the gravity to the *Hail Mary*'s 1.5 g and watch it shrink.
+
+## Practice set
+
+<Problem n={1} level="easy" book>
+Express Rocky's 29 atm in pascals, bars and psi.
+
+<Solution>
+$29 \times 101\,325\ \text{Pa} = 2.94 \times 10^{6}\ \text{Pa} = 29.4\ \text{bar}$, and $29 \times 14.70\ \text{psi} = 426\ \text{psi}$.
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy">
+A 600 N person stands on one stiletto heel whose tip has an area of 1.0 cm². Then they stand flat-footed on 150 cm². Find the pressure on the floor in each case, in pascals and in atmospheres.
+
+<Solution>
+Heel: $600\ \text{N}/1.0 \times 10^{-4}\ \text{m}^{2} = 6.0 \times 10^{6}\ \text{Pa}$, which is $6.0 \times 10^{6}/101\,325 = 59$ atm. Flat: $600/0.0150 = 4.0 \times 10^{4}\ \text{Pa} = 0.39$ atm. The same force gives 150 times the pressure on the heel.
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy">
+What are the gauge and absolute pressures at the bottom of a swimming pool 3.0 m deep (fresh water, $1000\ \text{kg/m}^{3}$), with 1 atm above it?
+
+<Solution>
+Gauge: $\rho g h = 1000 \times 9.81 \times 3.0 = 2.94 \times 10^{4}\ \text{Pa} = 29.4\ \text{kPa}$. Absolute: $101.3 + 29.4 = 130.7\ \text{kPa}$, about 1.29 atm.
+</Solution>
+</Problem>
+
+<Problem n={4} level="easy">
+A tyre gauge reads 32 psi. What is the absolute pressure of the air in the tyre, in psi and in kilopascals?
+
+<Solution>
+Absolute $= 32 + 14.7 = 46.7$ psi, and $46.7 \times 6894.76\ \text{Pa} = 3.22 \times 10^{5}\ \text{Pa} = 322\ \text{kPa}$.
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium">
+Blaise Pascal is said to have built a barometer using red wine. How tall would a water barometer be at sea level? Why did Torricelli use mercury?
+
+<Solution>
+$h = P/(\rho g) = 101\,325/(1000 \times 9.81) = 10.3\ \text{m}$. Mercury is 13.6 times denser, so its column is 13.6 times shorter, 760 mm, which fits on a bench. (Wine is a little less dense than water, so its column would be a little taller still.)
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium" book>
+Near Erid's surface, the air has a density of about $12.5\ \text{kg/m}^{3}$ and $g = 19.6\ \text{m/s}^{2}$. How much does the pressure change per metre of height? What is the difference between the floor and the ceiling of a 3.0 m tall room, and how does that compare with the same room on Earth (air $1.20\ \text{kg/m}^{3}$, $g = 9.81\ \text{m/s}^{2}$)?
+
+<Solution>
+Erid: $\rho g = 12.5 \times 19.6 = 245\ \text{Pa}$ per metre, so 3.0 m gives 735 Pa. Earth: $1.20 \times 9.81 = 11.8\ \text{Pa}$ per metre, 35 Pa over the room. Erid's difference is 21 times larger, but still only 0.025% of the 29 atm, so a room's air can be treated as having one pressure.
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium">
+A car lift has a large piston 30 cm in diameter carrying a 1500 kg car. The pump piston is 2.5 cm in diameter. What force is needed on the pump piston?
+
+<Solution>
+$F_{1} = F_{2}(d_{1}/d_{2})^{2} = 1500 \times 9.81 \times (2.5/30)^{2} = 1.47 \times 10^{4} \times 6.94 \times 10^{-3} = 102\ \text{N}$.
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium">
+What fraction of an iceberg ($917\ \text{kg/m}^{3}$) floats under the surface of sea water ($1030\ \text{kg/m}^{3}$)? And what fraction of the same ice would be under the surface in fresh water?
+
+<Solution>
+Sea water: $917/1030 = 0.890$, so 89% is underwater and 11% shows. Fresh water: $917/1000 = 0.917$, so 92% is underwater.
+</Solution>
+</Problem>
+
+<Problem n={9} level="medium">
+Use the pressure at Earth's surface, 101 325 Pa, and Earth's area, $4\pi R^{2}$ with $R = 6371$ km, to estimate the mass of the whole atmosphere. NASA gives $5.1 \times 10^{18}$ kg. Why might your estimate be a little high?
+
+<Solution>
+Area: $4\pi \times (6.371 \times 10^{6}\ \text{m})^{2} = 5.10 \times 10^{14}\ \text{m}^{2}$. Mass: $PA/g = 101\,325 \times 5.10 \times 10^{14}/9.81 = 5.27 \times 10^{18}$ kg, 3% above NASA's figure. Much of the land stands well above sea level, where there is less air overhead, so the true average surface pressure is lower than the sea-level value. (The weight of a very tall column also uses a slightly smaller $g$ high up, but that effect is tiny.)
+</Solution>
+</Problem>
+
+<Problem n={10} level="challenging" book>
+Grace wants to measure the pressure difference between Rocky's air (29 atm) and his own (0.40 atm) with a U-shaped tube of mercury, one end open to each side. How tall a difference in mercury levels would it show on Earth, and on the *Hail Mary* at 1.5 g? Is this a practical instrument?
+
+<Solution>
+The difference is $28.6 \times 101\,325 = 2.90 \times 10^{6}\ \text{Pa}$. On Earth: $h = 2.90 \times 10^{6}/(13\,600 \times 9.81) = 21.7\ \text{m}$. At 1.5 g: $21.7/1.5 = 14.5\ \text{m}$. Not practical: a tube that tall would not fit in the ship. Large pressures are measured with gauges in which the pressure bends a metal tube or a thin membrane instead.
+</Solution>
+</Problem>
+
+<Problem n={11} level="challenging">
+Two tanks are both filled with water to a depth of 2.0 m. One is a narrow pipe of cross-section 0.010 m², the other a wide tank of 10 m². Find the pressure at the bottom of each and the force of the water on each bottom. The second tank holds 1000 times as much water; is the bottom force 1000 times larger? Explain.
+
+<Solution>
+Both: gauge pressure $\rho g h = 1000 \times 9.81 \times 2.0 = 1.96 \times 10^{4}$ Pa. Forces: $1.96 \times 10^{4} \times 0.010 = 196\ \text{N}$ and $1.96 \times 10^{4} \times 10 = 1.96 \times 10^{5}\ \text{N}$. Yes, 1000 times, because for straight-sided tanks the bottom carries all the water's weight. If the narrow pipe instead widened at the top into a funnel holding much more water, the bottom force would still be 196 N: the sloping walls hold up the extra water. Pressure depends only on depth.
+</Solution>
+</Problem>
+
+<Problem n={12} level="challenging" book>
+Using Example 5, how big a hydrogen balloon (a sphere, ignoring the mass of its skin) would lift Rocky, about 100 kg (our estimate from Chapter 2.3), on Erid? How big would it need to be to lift the same mass on Earth?
+
+<Solution>
+Erid: $V = 100\ \text{kg}/(11.0\ \text{kg/m}^{3}) = 9.1\ \text{m}^{3}$, so $r = (3V/4\pi)^{1/3} = (2.17)^{1/3} = 1.30\ \text{m}$. Earth: $V = 100/1.12 = 89\ \text{m}^{3}$, $r = (21.3)^{1/3} = 2.77\ \text{m}$. On Erid a balloon less than 3 m across would do.
+</Solution>
+</Problem>
+
+## Summary
+
+- Pressure is force per area, $P = F/A$; a pressure pushes on an area with $F = PA$. In a fluid it pushes equally in all directions, always at right angles to a surface.
+- Units: 1 atm = 101 325 Pa = 1.013 bar = 14.70 psi = 760 mmHg. Gauges read the pressure **above** the outside air; gas laws need absolute pressure.
+- Air pressure is the weight of the air above: $P = mg/A$. Earth carries about 10 tonnes of air on each square metre; Erid about 150 tonnes.
+- In a fluid at rest, pressure grows with depth, $P = P_{0} + \rho g h$, from the force balance on a thin slab. Only depth matters, not the container's shape. About 10 m of water adds 1 atm.
+- A barometer balances the air against a liquid column, $h = P/\rho g$: 760 mm of mercury on Earth.
+- Pascal's principle: a pressure change spreads through a confined fluid unchanged, so hydraulics multiply force by $A_{2}/A_{1}$ while dividing distance.
+- Archimedes' principle: the buoyant force is the weight of displaced fluid, $\rho_{\text{fluid}}gV$, because the bottom of an object is deeper than its top.
+
+**Formulas from this chapter**
+
+$$
+F = PA \qquad P_{\text{abs}} = P_{\text{gauge}} + P_{\text{atm}} \qquad P = \frac{mg}{A} \qquad P = P_{0} + \rho g h \qquad \frac{F_{1}}{A_{1}} = \frac{F_{2}}{A_{2}} \qquad F_{\text{b}} = \rho_{\text{fluid}}\,g\,V
+$$
+
+## Sources
+
+- Pressure, its direction in a fluid, pressure and depth, the derivation from a slab of fluid: OpenStax, [*University Physics Volume 1*, §14.1 "Fluids, Density, and Pressure"](https://openstax.org/books/university-physics-volume-1/pages/14-1-fluids-density-and-pressure). Gauge and absolute pressure, barometers and Torricelli's mercury barometer: [§14.2 "Measuring Pressure"](https://openstax.org/books/university-physics-volume-1/pages/14-2-measuring-pressure). Pascal's principle and hydraulics: [§14.3](https://openstax.org/books/university-physics-volume-1/pages/14-3-pascals-principle-and-hydraulics). Archimedes' principle and buoyancy, densities of ice and sea water: [§14.4](https://openstax.org/books/university-physics-volume-1/pages/14-4-archimedes-principle-and-buoyancy).
+- The standard atmosphere, 101 325 Pa exactly, the psi and the mmHg: NIST, [*Guide for the Use of the SI*, Appendix B](https://www.nist.gov/pml/special-publication-811/nist-guide-si-appendix-b-conversion-factors). Mercury's density, 13 600 kg/m³: OpenStax Vol. 1 Table 14.1 (§14.1).
+- Earth's mean surface pressure (1014 mbar) and the mass of the atmosphere ($5.1 \times 10^{18}$ kg): NASA, [Earth Fact Sheet](https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html). Venus's surface pressure, 92 bar: NASA, [Venus Fact Sheet](https://nssdc.gsfc.nasa.gov/planetary/factsheet/venusfact.html).
+- Erid's ammonia air at about 29 atm and 210 °C, and its gravity of just over twice Earth's: /Film, ["Project Hail Mary: Why Rocky and Grace can't be in the same space"](https://slashfilm.com/2125069/project-hail-mary-why-rocky-grace-not-same-space).
+- The bead model (1 to 29), the *Hail Mary* kept at 40% of Earth's pressure (chapter 7) and the inconsistent descriptions of the ship's pressure: [Movie Mistakes, *Project Hail Mary* (book)](https://www.moviemistakes.com/book14945) and the reader discussion on [Goodreads](https://www.goodreads.com/questions/2146789-when-rocky-gives-grace-the-little-ships). These are reader sources, so the figures are treated as approximate.
+- The density of Erid's air ($12.5\ \text{kg/m}^{3}$, treating it as ideal ammonia) is our estimate from Chapter 11.3; the gas law behind it is Chapter 12.2. Hydrogen at 20 °C and 1 atm, $0.084\ \text{kg/m}^{3}$, also from the ideal-gas law. Rocky's mass of about 100 kg is our assumption from Chapter 2.3.

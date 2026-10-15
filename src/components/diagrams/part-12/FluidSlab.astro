@@ -1,0 +1,51 @@
+---
+// A thin slab of fluid at rest inside a tank: PA down on its top, (P + ΔP)A up on its bottom, its weight down,
+// sideways pushes cancelling. Depth h measured from the surface (pressure P₀).
+const head = (x1: number, y1: number, x2: number, y2: number, s = 9) => {
+	const a = Math.atan2(y2 - y1, x2 - x1), c = Math.cos(a), n = Math.sin(a);
+	return `${x2},${y2} ${x2 - s * c + (s / 2) * n},${y2 - s * n - (s / 2) * c} ${x2 - s * c - (s / 2) * n},${y2 - s * n + (s / 2) * c}`;
+};
+const L = 70, R = 300, S = 40, B = 270, ST = 140, SB = 172, SL = 110, SR = 260;
+---
+
+<svg class="dg" viewBox="0 0 600 290" xmlns="http://www.w3.org/2000/svg">
+	<rect x={L} y={S} width={R - L} height={B - S} class="f-sky-soft" />
+	<line x1={L} y1="24" x2={L} y2={B} class="s-fg w2" />
+	<line x1={R} y1="24" x2={R} y2={B} class="s-fg w2" />
+	<line x1={L} y1={B} x2={R} y2={B} class="s-fg w2" />
+	<line x1={L} y1={S} x2={R} y2={S} class="s-sky w2" />
+	<text x={R + 12} y={S + 5} class="t-sm f-sky">surface, pressure P₀</text>
+	<rect x={SL} y={ST} width={SR - SL} height={SB - ST} class="f-amber-soft s-amber w2" />
+	<!-- depth bracket -->
+	<line x1="50" y1={S} x2="50" y2={ST} class="s-fg w1" />
+	<line x1="44" y1={S} x2="56" y2={S} class="s-fg w1" />
+	<line x1="44" y1={ST} x2="56" y2={ST} class="s-fg w1" />
+	<text x="38" y={(S + ST) / 2 + 5} class="t-end t-sm">h</text>
+	<!-- top push, down -->
+	<line x1="150" y1="92" x2="150" y2={ST - 2} class="s-sky w3" />
+	<polygon points={head(150, 92, 150, ST - 1)} class="f-sky" />
+	<!-- bottom push, up (longer) -->
+	<line x1="150" y1="232" x2="150" y2={SB + 2} class="s-green w3" />
+	<polygon points={head(150, 232, 150, SB + 1)} class="f-green" />
+	<!-- weight, down from centre -->
+	<circle cx="220" cy={(ST + SB) / 2} r="3" class="f-rose" />
+	<line x1="220" y1={(ST + SB) / 2} x2="220" y2="214" class="s-rose w3" />
+	<polygon points={head(220, (ST + SB) / 2, 220, 215)} class="f-rose" />
+	<!-- sideways pushes -->
+	<line x1={SL - 26} y1={(ST + SB) / 2} x2={SL - 2} y2={(ST + SB) / 2} class="s-muted w2" />
+	<polygon points={head(SL - 26, (ST + SB) / 2, SL - 1, (ST + SB) / 2, 7)} class="f-muted" />
+	<line x1={SR + 26} y1={(ST + SB) / 2} x2={SR + 2} y2={(ST + SB) / 2} class="s-muted w2" />
+	<polygon points={head(SR + 26, (ST + SB) / 2, SR + 1, (ST + SB) / 2, 7)} class="f-muted" />
+	<!-- labels on the right, with leaders -->
+	<line x1="156" y1="100" x2={R + 8} y2="88" class="s-muted w1" />
+	<text x={R + 12} y="92" class="t-sm f-sky">PA: fluid above pushes down</text>
+	<line x1={SR} y1={ST} x2={R + 8} y2="128" class="s-muted w1" />
+	<text x={R + 12} y="126" class="t-sm f-amber">slab: area A, thickness Δh</text>
+	<text x={R + 12} y="144" class="t-sm f-amber">mass ρAΔh</text>
+	<line x1="226" y1="205" x2={R + 8} y2="178" class="s-muted w1" />
+	<text x={R + 12} y="182" class="t-sm f-rose">weight ρAΔh g</text>
+	<line x1="156" y1="224" x2={R + 8} y2="222" class="s-muted w1" />
+	<text x={R + 12} y="220" class="t-sm f-green">(P + ΔP)A: fluid below</text>
+	<text x={R + 12} y="238" class="t-sm f-green">pushes up, a little harder</text>
+	<text x={(L + R) / 2} y="285" class="t-mid t-sm f-muted">sideways pushes (grey) cancel</text>
+</svg>

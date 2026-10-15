@@ -1,0 +1,128 @@
+---
+// Simulation: wall loads for three shapes holding a pressure difference: a square flat panel that bulges like a drum
+// skin (span L, sag s, r ≈ L²/8s, exact r = (L²/4 + s²)/2s), a sphere (radius r) and a cylinder (radius r).
+// Inside/outside pressures from presets. Readout: ΔP, the net force on the panel (ΔP·L²), on a half-sphere (ΔPπr²)
+// or a cylinder's end cap (ΔPπr²), and the wall tension per metre: ΔPr/2 (sphere and bulge), ΔPr hoop and ΔPr/2
+// axial (cylinder), with the force as a weight in tonnes. Static: redraws on input only.
+---
+
+<div
+	class="sim vsl"
+	data-title="Pressure vessel lab"
+	data-description="Choose a shape that holds a pressure difference: a square flat panel that bulges like a drum skin, a sphere, or a cylinder. Menus set the pressure on the high side and on the low side (Rocky's 29 atm, a 200 bar gas bottle, Venus's 92 bar surface, Earth's 1 atm, the Hail Mary's 0.40 atm, or a vacuum). A slider sets the panel's span or the vessel's radius (0.1 to 3 m), and for the panel another sets how far it bulges (0.1 to 50 cm). The drawing shows the cross-section with pressure arrows. The readout gives the pressure difference, the net force on the panel (ΔP times its area) or on half a sphere or a cylinder's end (ΔP times πr²), the radius of the panel's bulge, and the tension per metre of wall: ΔPr/2 for a sphere or a bulge, ΔPr around a cylinder and ΔPr/2 along it."
+>
+	<p class="sim-title">Simulation: pressure vessel lab</p>
+	<p class="sim-help">Curved walls hold pressure by tension, and the tension grows with the radius. A flatter panel means a bigger radius.</p>
+	<div class="sim-controls">
+		<label>Shape <select class="vsl-s">
+			<option value="panel">flat panel (bulging)</option>
+			<option value="sphere">sphere</option>
+			<option value="cyl">cylinder</option>
+		</select></label>
+		<label>High side <select class="vsl-hi">
+			<option value="2938425">Rocky's air, 29 atm</option>
+			<option value="20000000">gas bottle, 200 bar</option>
+			<option value="9200000">Venus surface, 92 bar</option>
+			<option value="101325">Earth, 1 atm</option>
+			<option value="40530">Hail Mary, 0.40 atm</option>
+		</select></label>
+		<label>Low side <select class="vsl-lo">
+			<option value="40530">Hail Mary, 0.40 atm</option>
+			<option value="101325">Earth, 1 atm</option>
+			<option value="0">vacuum</option>
+		</select></label>
+		<label>Span or radius <input type="range" class="vsl-r" min="0.1" max="3" step="0.01" value="1.41" /> <output class="vsl-rv"></output></label>
+		<label>Panel bulge <input type="range" class="vsl-b" min="-3" max="-0.3" step="0.01" value="-2" /> <output class="vsl-bv"></output></label>
+	</div>
+	<svg class="dg vsl-svg" viewBox="0 0 600 230" role="img" aria-label="Cross-section of the chosen shape with pressure arrows"></svg>
+	<div class="readout vsl-out" aria-live="polite"></div>
+</div>
+
+<script>
+	document.querySelectorAll<HTMLElement>('.sim.vsl').forEach((root) => {
+		const q = <T extends Element>(s: string) => root.querySelector<T>(s)!;
+		const svg = q<SVGSVGElement>('.vsl-svg'), out = q<HTMLElement>('.vsl-out');
+		const Ss = q<HTMLSelectElement>('.vsl-s'), His = q<HTMLSelectElement>('.vsl-hi'), Los = q<HTMLSelectElement>('.vsl-lo');
+		const Rs = q<HTMLInputElement>('.vsl-r'), Bs = q<HTMLInputElement>('.vsl-b');
+		const NS = 'http://www.w3.org/2000/svg';
+		const el = (tag: string, at: Record<string, string | number>, text?: string) => {
+			const e = document.createElementNS(NS, tag);
+			Object.entries(at).forEach(([k, v]) => e.setAttribute(k, String(v)));
+			if (text) e.textContent = text;
+			svg.append(e);
+			return e;
+		};
+		const shapeP = el('path', { class: 's-fg w3', fill: 'none' });
+		const fillP = el('path', { class: 'f-rose-soft' });
+		const arrows = Array.from({ length: 9 }, () => el('line', { class: 's-rose w2' }));
+		const t1 = el('text', { x: 20, y: 20, class: 't-sm t-b f-rose' });
+		const t2 = el('text', { x: 580, y: 20, class: 't-end t-sm t-b f-sky' });
+		const t3 = el('text', { x: 300, y: 220, class: 't-mid t-sm f-muted' });
+		const fmt = (x: number) => {
+			const e = Math.floor(Math.log10(Math.abs(x)));
+			if (e >= -2 && e < 5) return x.toPrecision(Math.max(3, e + 1));
+			return `${(x / 10 ** e).toFixed(2)} × 10<sup>${e}</sup>`;
+		};
+		function draw() {
+			const shape = Ss.value, hi = +His.value, lo = +Los.value, R = +Rs.value, s = 10 ** +Bs.value;
+			const dP = Math.max(0, hi - lo);
+			q('.vsl-rv').textContent = `${R.toFixed(2)} m`;
+			q('.vsl-bv').textContent = shape === 'panel' ? `${(s * 100).toFixed(1)} cm` : '(panel only)';
+			Bs.disabled = shape !== 'panel';
+			t1.textContent = shape === 'panel' ? 'high pressure (left)' : 'high pressure inside';
+			t2.textContent = shape === 'panel' ? 'low pressure (right)' : 'low pressure outside';
+			arrows.forEach((a) => a.setAttribute('visibility', 'hidden'));
+			let html = `<span class="k">ΔP</span> = ${fmt(hi)} − ${fmt(lo)} = <b>${fmt(dP)} Pa</b> (${(dP / 101325).toPrecision(3)} atm)<br>`;
+			if (shape === 'panel') {
+				const L = R, rb = (L * L / 4 + s * s) / (2 * s), rApprox = (L * L) / (8 * s);
+				const F = dP * L * L, T = (dP * rb) / 2;
+				// drawing: vertical panel of span L drawn as 160 px, bulging to the right by s (exaggerated ×, capped)
+				const H = 160, x0 = 300, y0 = 30, bulge = Math.min(60, 160 * (s / L) + 3);
+				const d = `M${x0},${y0} Q${x0 + 2 * bulge},${y0 + H / 2} ${x0},${y0 + H}`;
+				shapeP.setAttribute('d', d);
+				fillP.setAttribute('d', `M60,${y0} L${x0},${y0} Q${x0 + 2 * bulge},${y0 + H / 2} ${x0},${y0 + H} L60,${y0 + H} Z`);
+				arrows.slice(0, 5).forEach((a, i) => {
+					const y = y0 + 20 + i * 30;
+					a.setAttribute('x1', '120'); a.setAttribute('x2', String(x0 - 6)); a.setAttribute('y1', String(y)); a.setAttribute('y2', String(y));
+					a.setAttribute('visibility', 'visible');
+				});
+				t3.textContent = `span ${L.toFixed(2)} m, bulge ${(s * 100).toFixed(1)} cm (bulge exaggerated in the drawing)`;
+				html +=
+					`<span class="k">net force on a ${L.toFixed(2)} m square panel, ΔP × L²</span> = <b>${fmt(F)} N</b> (weight of ${fmt(F / 9.81 / 1000)} tonnes)<br>` +
+					`<span class="k">radius of the bulge</span> = ${fmt(rb)} m (small-sag formula L²/8s: ${fmt(rApprox)} m)<br>` +
+					`<span class="k">tension it needs, ΔP r/2</span> = <b>${fmt(T)} N/m</b>`;
+			} else {
+				const rpx = Math.min(90, 30 + 20 * R), cx = 300, cy = 110;
+				if (shape === 'sphere') {
+					const d = `M${cx - rpx},${cy} A${rpx},${rpx} 0 1 1 ${cx + rpx},${cy} A${rpx},${rpx} 0 1 1 ${cx - rpx},${cy}`;
+					shapeP.setAttribute('d', d); fillP.setAttribute('d', d);
+				} else {
+					const d = `M${cx - 180},${cy - rpx} L${cx + 180},${cy - rpx} A${rpx / 3},${rpx} 0 0 1 ${cx + 180},${cy + rpx} L${cx - 180},${cy + rpx} A${rpx / 3},${rpx} 0 0 1 ${cx - 180},${cy - rpx}`;
+					shapeP.setAttribute('d', d); fillP.setAttribute('d', d);
+				}
+				arrows.forEach((a, i) => {
+					const t = (2 * Math.PI * i) / arrows.length;
+					const sx = shape === 'sphere' ? 1 : 0, ex = Math.cos(t), ey = Math.sin(t);
+					const x1 = cx + (shape === 'sphere' ? ex * (rpx - 34) : (i - 4) * 40);
+					const y1 = cy + (shape === 'sphere' ? ey * (rpx - 34) : (i % 2 ? 1 : -1) * (rpx - 34));
+					const x2 = cx + (shape === 'sphere' ? ex * (rpx - 6) : (i - 4) * 40);
+					const y2 = cy + (shape === 'sphere' ? ey * (rpx - 6) : (i % 2 ? 1 : -1) * (rpx - 6));
+					a.setAttribute('x1', String(x1)); a.setAttribute('y1', String(y1)); a.setAttribute('x2', String(x2)); a.setAttribute('y2', String(y2));
+					a.setAttribute('visibility', sx || rpx > 40 ? 'visible' : 'hidden');
+				});
+				t3.textContent = `radius ${R.toFixed(2)} m (not to scale)`;
+				const Fh = dP * Math.PI * R * R;
+				html += shape === 'sphere'
+					? `<span class="k">force pushing the halves apart, ΔP πr²</span> = <b>${fmt(Fh)} N</b> (weight of ${fmt(Fh / 9.81 / 1000)} tonnes)<br>` +
+						`<span class="k">wall tension, ΔP r/2</span> = <b>${fmt((dP * R) / 2)} N/m</b> in every direction`
+					: `<span class="k">force on each end cap, ΔP πr²</span> = <b>${fmt(Fh)} N</b> (weight of ${fmt(Fh / 9.81 / 1000)} tonnes)<br>` +
+						`<span class="k">hoop tension, ΔP r</span> = <b>${fmt(dP * R)} N/m</b> &nbsp; <span class="k">axial tension, ΔP r/2</span> = ${fmt((dP * R) / 2)} N/m`;
+			}
+			if (hi <= lo) html += '<br><span class="k">note</span>: the high side must be above the low side';
+			out.innerHTML = html;
+		}
+		[Ss, His, Los].forEach((s) => { s.addEventListener('change', draw); s.addEventListener('input', draw); });
+		[Rs, Bs].forEach((s) => s.addEventListener('input', draw));
+		draw();
+	});
+</script>

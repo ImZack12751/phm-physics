@@ -1,0 +1,105 @@
+---
+// Simulation: a gas in a cylinder with a movable piston. Sliders set the amount of gas (0.01–0.10 mol), the
+// temperature (100–600 K) and the volume (0.5–3.0 L); a menu picks the gas (helium, air, ammonia, xenon). Dots stand
+// for molecules (one dot per 1/600 mol), moving at a speed ∝ √(T/M) and bouncing off the walls. The piston sits at
+// the chosen volume. Readout: P = nRT/V in kPa and atm, N = nN_A, density nM/V and v_rms = √(3RT/M).
+// Dots are created once; the frame loop only changes attributes.
+---
+
+<div
+	class="sim gpl"
+	data-title="Gas piston lab"
+	data-description="A gas in a cylinder closed by a piston. Sliders set the amount of gas (0.01 to 0.10 mol), the temperature (100 to 600 K) and the volume (0.5 to 3.0 litres), and a menu chooses the gas: helium, air, ammonia or xenon. Dots stand for the molecules (one dot for every 1/600 mol) and fly about at speeds that grow as the square root of T/M, bouncing off the walls and the piston. The readout gives the pressure P = nRT/V in kilopascals and atmospheres, the number of molecules N = nN_A, the density nM/V and the root-mean-square speed √(3RT/M). Changing the gas changes the speed and density but not the pressure."
+>
+	<p class="sim-title">Simulation: gas piston lab</p>
+	<p class="sim-help">Each dot stands for about 10²¹ molecules. Change one thing at a time and watch the pressure.</p>
+	<div class="sim-controls">
+		<label>Gas <select class="gpl-g">
+			<option value="28.97">air (29.0 g/mol)</option>
+			<option value="4.003">helium (4.0 g/mol)</option>
+			<option value="17.03">ammonia (17.0 g/mol)</option>
+			<option value="131.29">xenon (131.3 g/mol)</option>
+		</select></label>
+		<label>Amount <input type="range" class="gpl-n" min="0.01" max="0.1" step="0.005" value="0.04" /> <output class="gpl-nv"></output></label>
+		<label>Temperature <input type="range" class="gpl-t" min="100" max="600" step="5" value="300" /> <output class="gpl-tv"></output></label>
+		<label>Volume <input type="range" class="gpl-v" min="0.5" max="3" step="0.05" value="1" /> <output class="gpl-vv"></output></label>
+	</div>
+	<svg class="dg gpl-svg" viewBox="0 0 600 220" role="img" aria-label="A cylinder of gas with a piston on the right and molecules moving inside"></svg>
+	<div class="readout gpl-out" aria-live="polite"></div>
+</div>
+
+<script>
+	const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+	document.querySelectorAll<HTMLElement>('.sim.gpl').forEach((root) => {
+		const q = <T extends Element>(s: string) => root.querySelector<T>(s)!;
+		const svg = q<SVGSVGElement>('.gpl-svg'), out = q<HTMLElement>('.gpl-out');
+		const Gs = q<HTMLSelectElement>('.gpl-g'), Ns = q<HTMLInputElement>('.gpl-n'), Ts = q<HTMLInputElement>('.gpl-t'), Vs = q<HTMLInputElement>('.gpl-v');
+		const NS = 'http://www.w3.org/2000/svg';
+		const el = (tag: string, at: Record<string, string | number>, text?: string) => {
+			const e = document.createElementNS(NS, tag);
+			Object.entries(at).forEach(([k, v]) => e.setAttribute(k, String(v)));
+			if (text) e.textContent = text;
+			svg.append(e);
+			return e;
+		};
+		const R = 8.314462618, NA = 6.02214076e23, ATM = 101325;
+		const X0 = 30, YT = 30, YB = 190, PXPERL = 150; // cylinder from x = 30; 1 L = 150 px
+		const gas = el('rect', { x: X0, y: YT, height: YB - YT, class: 'f-sky-soft' });
+		el('polyline', { points: `${X0 + 3 * PXPERL + 40},${YT} ${X0},${YT} ${X0},${YB} ${X0 + 3 * PXPERL + 40},${YB}`, class: 's-fg w2', fill: 'none' });
+		const piston = el('rect', { y: YT + 2, width: 14, height: YB - YT - 4, class: 'f-muted' });
+		const rod = el('line', { y1: (YT + YB) / 2, y2: (YT + YB) / 2, x2: 590, class: 's-muted w3' });
+		const MAXD = 60;
+		const dots = Array.from({ length: MAXD }, () => el('circle', { r: 3.5, class: 'f-amber' }));
+		const st = dots.map(() => ({ x: X0 + 20 + Math.random() * 100, y: YT + 10 + Math.random() * (YB - YT - 20), a: Math.random() * 2 * Math.PI }));
+		const pT = el('text', { x: X0 + 8, y: YT - 10, class: 't-sm t-b f-amber' });
+		let wall = X0 + PXPERL, speed = 60, count = 24, last = 0;
+		function draw() {
+			const M = +Gs.value / 1000, n = +Ns.value, T = +Ts.value, V = +Vs.value / 1000;
+			const P = (n * R * T) / V, vrms = Math.sqrt((3 * R * T) / M);
+			q('.gpl-nv').textContent = `${n.toFixed(3)} mol`;
+			q('.gpl-tv').textContent = `${T} K (${(T - 273.15).toFixed(0)} °C)`;
+			q('.gpl-vv').textContent = `${(V * 1000).toFixed(2)} L`;
+			wall = X0 + (V * 1000) * PXPERL;
+			piston.setAttribute('x', String(wall));
+			gas.setAttribute('width', String(wall - X0));
+			rod.setAttribute('x1', String(wall + 14));
+			count = Math.round(n * 600);
+			dots.forEach((d, i) => d.setAttribute('visibility', i < count ? 'visible' : 'hidden'));
+			speed = vrms * 0.12; // px per second, slowed enormously
+			st.forEach((s) => { if (s.x > wall - 4) s.x = X0 + 4 + Math.random() * (wall - X0 - 8); });
+			pT.textContent = `P = ${(P / 1000).toFixed(1)} kPa = ${(P / ATM).toFixed(2)} atm`;
+			out.innerHTML =
+				`<span class="k">P = nRT/V</span> = ${n.toFixed(3)} × 8.314 × ${T} / ${V.toExponential(2)} = <b>${(P / 1000).toFixed(1)} kPa</b> (${(P / ATM).toFixed(2)} atm)<br>` +
+				`<span class="k">molecules N = nN<sub>A</sub></span> = ${(n * NA).toExponential(2)} &nbsp; <span class="k">density nM/V</span> = ${((n * M) / V).toFixed(2)} kg/m³<br>` +
+				`<span class="k">v<sub>rms</sub> = √(3RT/M)</span> = <b>${vrms.toFixed(0)} m/s</b> (the dots are drawn enormously slowed down)`;
+			place();
+		}
+		function place() {
+			st.forEach((s, i) => {
+				if (i >= count) return;
+				dots[i].setAttribute('cx', s.x.toFixed(1));
+				dots[i].setAttribute('cy', s.y.toFixed(1));
+			});
+		}
+		function frame(now: number) {
+			const dt = last ? Math.min(0.05, (now - last) / 1000) : 0;
+			last = now;
+			st.forEach((s, i) => {
+				if (i >= count) return;
+				s.x += speed * Math.cos(s.a) * dt;
+				s.y += speed * Math.sin(s.a) * dt;
+				if (s.x < X0 + 4) { s.x = X0 + 4; s.a = Math.PI - s.a; }
+				if (s.x > wall - 4) { s.x = wall - 4; s.a = Math.PI - s.a; }
+				if (s.y < YT + 4) { s.y = YT + 4; s.a = -s.a; }
+				if (s.y > YB - 4) { s.y = YB - 4; s.a = -s.a; }
+			});
+			place();
+			requestAnimationFrame(frame);
+		}
+		[Ns, Ts, Vs].forEach((i) => i.addEventListener('input', draw));
+		Gs.addEventListener('change', draw);
+		Gs.addEventListener('input', draw);
+		draw();
+		if (!reduce) requestAnimationFrame(frame);
+	});
+</script>

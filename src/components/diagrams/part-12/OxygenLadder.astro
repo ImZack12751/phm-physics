@@ -1,0 +1,38 @@
+---
+// Oxygen partial pressures (kPa) on a log scale from 1 to 300 kPa, with the death-zone level
+// and the 1.4 bar diving toxicity limit. Hail Mary rows are our calculations (0.40 atm with air mix or pure O₂).
+const L = 250, R = 560, T = 34, H = 22;
+const lo = 0, hi = Math.log10(300);
+const X = (v: number) => L + ((Math.log10(v) - lo) / (hi - lo)) * (R - L);
+const bars = [
+	{ n: 'Everest summit (air)', v: 7.06, c: 'rose' },
+	{ n: 'Hail Mary, air mix at 0.40 atm', v: 8.49, c: 'rose' },
+	{ n: 'sea level (air)', v: 21.2, c: 'green' },
+	{ n: 'spacesuit, pure O₂ at 4.3 psi', v: 29.6, c: 'sky' },
+	{ n: 'Apollo in flight, pure O₂ at 5 psi', v: 34.5, c: 'sky' },
+	{ n: 'Hail Mary, pure O₂ at 0.40 atm', v: 40.5, c: 'sky' },
+	{ n: 'Apollo 1 test, pure O₂ at 16.7 psi', v: 115, c: 'amber' },
+];
+const B = T + bars.length * H;
+---
+
+<svg class="dg" viewBox="0 0 600 270" xmlns="http://www.w3.org/2000/svg">
+	{[1, 3, 10, 30, 100, 300].map((v) => (
+		<>
+			<line x1={X(v)} y1={T - 6} x2={X(v)} y2={B} class="s-grid w1" />
+			<text x={X(v)} y={B + 16} class="t-mid t-sm f-muted">{v}</text>
+		</>
+	))}
+	<line x1={X(140)} y1={T - 8} x2={X(140)} y2={B + 4} class="s-rose w2 dash" />
+	<line x1={X(7.1)} y1={T - 8} x2={X(7.1)} y2={B + 4} class="s-rose w1 dash" />
+	{bars.map((b, i) => (
+		<>
+			<text x={L - 8} y={T + i * H + 14} class="t-end t-sm">{b.n}</text>
+			<rect x={L} y={T + i * H + 3} width={X(b.v) - L} height={H - 7} class={`f-${b.c}`} />
+			<text x={X(b.v) + 5} y={T + i * H + 14} class="t-sm f-muted halo">{b.v}</text>
+		</>
+	))}
+	<text x={X(140) - 4} y={B + 34} class="t-end t-sm f-rose">toxic for divers: 140 kPa</text>
+	<text x={X(7.1) - 4} y={B + 34} class="t-end t-sm f-rose">death zone</text>
+	<text x={(L + R) / 2} y={B + 54} class="t-mid t-sm">oxygen partial pressure (kPa), logarithmic scale</text>
+</svg>

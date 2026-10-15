@@ -1,0 +1,52 @@
+---
+// A dome of radius r on a base; pressure arrows normal to the surface at several angles; one arrow split into vertical
+// and horizontal parts with the angle θ from the vertical; the projected disc (shadow) underneath; net force ΔPπr².
+const head = (x1: number, y1: number, x2: number, y2: number, s = 8) => {
+	const a = Math.atan2(y2 - y1, x2 - x1), c = Math.cos(a), n = Math.sin(a);
+	return `${x2},${y2} ${x2 - s * c + (s / 2) * n},${y2 - s * n - (s / 2) * c} ${x2 - s * c - (s / 2) * n},${y2 - s * n + (s / 2) * c}`;
+};
+const CX = 220, CY = 220, r = 120, AL = 38;
+const angs = [-70, -40, 0, 40, 70]; // degrees from vertical
+const pt = (deg: number, rr: number) => {
+	const t = (deg * Math.PI) / 180;
+	return [CX + rr * Math.sin(t), CY - rr * Math.cos(t)];
+};
+const arc = Array.from({ length: 61 }, (_, i) => {
+	const [x, y] = pt(-90 + (180 * i) / 60, r);
+	return `${x.toFixed(1)},${y.toFixed(1)}`;
+}).join(' ');
+const [ax, ay] = pt(40, r), [bx, by] = pt(40, r + AL);
+---
+
+<svg class="dg" viewBox="0 0 600 290" xmlns="http://www.w3.org/2000/svg">
+	<ellipse cx={CX} cy={CY} rx={r} ry="16" class="f-violet" fill-opacity="0.35" />
+	<polyline points={arc} class="s-fg w2" fill="none" />
+	<line x1={CX - r - 20} y1={CY} x2={CX + r + 20} y2={CY} class="s-muted w1" />
+	{angs.map((d) => {
+		const [x1, y1] = pt(d, r + 2), [x2, y2] = pt(d, r + AL);
+		return (
+			<>
+				<line x1={x1} y1={y1} x2={x2} y2={y2} class="s-sky w2" />
+				<polygon points={head(x1, y1, x2, y2)} class="f-sky" />
+			</>
+		);
+	})}
+	<!-- components of the 40° arrow -->
+	<line x1={ax} y1={ay} x2={ax} y2={by} class="s-amber w2 dash" />
+	<line x1={ax} y1={by} x2={bx} y2={by} class="s-muted w1 dash" />
+	<line x1={CX} y1={CY} x2={ax} y2={ay} class="s-muted w1" />
+	<line x1={CX} y1={CY} x2={CX} y2={CY - r} class="s-muted w1 dash" />
+	<path d={`M${CX},${CY - 40} A40,40 0 0 1 ${pt(40, 40)[0]},${pt(40, 40)[1]}`} class="s-fg w1" fill="none" />
+	<text x={CX + 10} y={CY - 46} class="t-sm">θ</text>
+	<text x={CX + 50} y={CY - 6} class="t-sm f-muted">r</text>
+	<line x1={ax + 3} y1={(ay + by) / 2} x2={ax + 44} y2={by - 26} class="s-muted w1" />
+	<text x={ax + 48} y={by - 40} class="t-sm f-amber">upward part:</text>
+	<text x={ax + 48} y={by - 24} class="t-sm f-amber">ΔP dA cos θ</text>
+	<text x={CX} y={CY + 40} class="t-mid t-sm f-violet">projected area (shadow): πr²</text>
+	<!-- net force -->
+	<line x1="470" y1="200" x2="470" y2="70" class="s-green w3" />
+	<polygon points={head(470, 200, 470, 58, 12)} class="f-green" />
+	<text x="470" y="44" class="t-mid t-sm t-b f-green">net force</text>
+	<text x="470" y="226" class="t-mid t-sm t-b f-green">ΔP × πr²</text>
+	<text x="300" y="282" class="t-mid t-sm f-muted">pushes act at right angles to the surface; sideways parts cancel in pairs</text>
+</svg>

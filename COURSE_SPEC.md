@@ -247,11 +247,11 @@ Teaching order follows logical dependency, not plot order. Planned chapters have
 
 | # | Chapter | Path | Prerequisites | Status |
 |---|---|---|---|---|
-| 12.1 | Pressure: F = PA | `part-12/pressure` | – | planned |
-| 12.2 | The gas laws | `part-12/gas-laws` | – | planned |
-| 12.3 | Partial pressure | `part-12/partial-pressure` | – | planned |
-| 12.4 | Forces on walls between atmospheres | `part-12/pressure-walls` | – | planned |
-| 12.5 | Stress and strength | `part-12/stress-strength` | – | planned |
+| 12.1 | Pressure: F = PA | `part-12/pressure` | 11.1, 2.1, 2.2, 6.1, 0.4, 2.3 | written, awaiting review |
+| 12.2 | The gas laws | `part-12/gas-laws` | 12.1, 6.1, 0.5, 0.9, 0.8, C.3 | written, awaiting review |
+| 12.3 | Partial pressure | `part-12/partial-pressure` | 12.2, 12.1, 6.1, 0.5, 0.4, 6.5 | written, awaiting review |
+| 12.4 | Forces on walls between atmospheres | `part-12/pressure-walls` | 12.1, 12.2, 2.1, 0.7, 0.6, C.5 | written, awaiting review |
+| 12.5 | Stress and strength | `part-12/stress-strength` | 12.4, 11.3, 2.4, 2.1, 3.3, 4.1 | written, awaiting review |
 
 **Part 13 · Atoms, radiation and particles**
 
@@ -282,7 +282,7 @@ Brief biology and chemistry sidebars are added only where the plot's physics dep
 Source of truth: `src/data/glossary.mjs`.
 
 <!-- AUTO:glossary -->
-337 terms.
+367 terms.
 
 | Term | id | First chapter |
 |---|---|---|
@@ -623,6 +623,36 @@ Source of truth: `src/data/glossary.mjs`.
 | Sonar | `sonar` | 11.5 |
 | Diffraction | `diffraction` | 11.5 |
 | Interaural time difference | `interaural-time-difference` | 11.5 |
+| Gauge pressure | `gauge-pressure` | 12.1 |
+| Hydrostatic pressure | `hydrostatic-pressure` | 12.1 |
+| Barometer | `barometer` | 12.1 |
+| Pascal’s principle | `pascals-principle` | 12.1 |
+| Buoyant force | `buoyant-force` | 12.1 |
+| Archimedes’ principle | `archimedes-principle` | 12.1 |
+| Ideal-gas law | `ideal-gas-law` | 12.2 |
+| Ideal gas | `ideal-gas` | 12.2 |
+| Mole (mol) | `mole` | 12.2 |
+| Avogadro constant (N_A) | `avogadro-constant` | 12.2 |
+| Molar mass (M) | `molar-mass` | 12.2 |
+| Gas constant (R) | `gas-constant` | 12.2 |
+| Molar volume | `molar-volume` | 12.2 |
+| Scale height (H) | `scale-height` | 12.2 |
+| Partial pressure | `partial-pressure` | 12.3 |
+| Dalton’s law | `daltons-law` | 12.3 |
+| Mole fraction (x) | `mole-fraction` | 12.3 |
+| Hypoxia | `hypoxia` | 12.3 |
+| Oxygen toxicity | `oxygen-toxicity` | 12.3 |
+| Pressure difference (ΔP) | `pressure-difference` | 12.4 |
+| Wall tension (of a pressure vessel) | `wall-tension` | 12.4 |
+| Sag (bulge) | `sag` | 12.4 |
+| Stress (σ) | `stress` | 12.5 |
+| Strain (ε) | `strain` | 12.5 |
+| Yield strength | `yield-strength` | 12.5 |
+| Ultimate tensile strength | `tensile-strength` | 12.5 |
+| Ductile and brittle | `ductile-brittle` | 12.5 |
+| Breaking length | `breaking-length` | 12.5 |
+| Safety factor | `safety-factor` | 12.5 |
+| Torque (τ) | `torque` | 12.5 |
 <!-- /AUTO:glossary -->
 
 ---
@@ -632,7 +662,7 @@ Source of truth: `src/data/glossary.mjs`.
 Source of truth: `src/data/formulas.mjs`.
 
 <!-- AUTO:formulas -->
-192 formulas.
+210 formulas.
 
 | Formula | id | First chapter | LaTeX |
 |---|---|---|---|
@@ -828,6 +858,24 @@ Source of truth: `src/data/formulas.mjs`.
 | Echo ranging | `echo-ranging` | 11.5 | `d = \dfrac{vt}{2} \qquad I_{\text{echo}} \propto \dfrac{1}{d^{4}}` |
 | Doppler shift of an echo | `echo-doppler` | 11.5 | `f' = f\,\dfrac{v + u}{v - u} \approx f\left(1 + \dfrac{2u}{v}\right)` |
 | Direction from arrival times | `interaural` | 11.5 | `\Delta t = \dfrac{d\sin\theta}{v} \qquad \sin\theta = \dfrac{v\,\Delta t}{d}` |
+| Force from a pressure; absolute and gauge pressure | `pressure-force` | 12.1 | `F = PA \qquad P_{\text{abs}} = P_{\text{gauge}} + P_{\text{atm}}` |
+| Pressure and depth | `hydrostatic` | 12.1 | `P = P_{0} + \rho g h \qquad P = \dfrac{mg}{A}` |
+| Pascal’s principle (hydraulics) | `hydraulics` | 12.1 | `\dfrac{F_{1}}{A_{1}} = \dfrac{F_{2}}{A_{2}} \qquad F_{1}d_{1} = F_{2}d_{2}` |
+| Archimedes’ principle | `archimedes` | 12.1 | `F_{\text{b}} = \rho_{\text{fluid}}\,g\,V \qquad \dfrac{V_{\text{sub}}}{V} = \dfrac{\rho}{\rho_{\text{fluid}}}` |
+| Ideal-gas law | `ideal-gas-law` | 12.2 | `PV = NkT = nRT \qquad R = N_{\text{A}}k = 8.314\ \text{J/(mol·K)} \qquad \dfrac{P_{1}V_{1}}{T_{1}} = \dfrac{P_{2}V_{2}}{T_{2}}` |
+| Density of a gas; spacing of its molecules | `gas-density` | 12.2 | `\rho = \dfrac{PM}{RT} \qquad d = \left(\dfrac{kT}{P}\right)^{1/3}` |
+| Barometric formula | `barometric` | 12.2 | `P = P_{0}\,e^{-h/H} \qquad H = \dfrac{RT}{Mg} = \dfrac{kT}{mg}` |
+| Dalton’s law and mole fractions | `dalton` | 12.3 | `P = P_{1} + P_{2} + \cdots \qquad P_{i} = x_{i}P \qquad \dfrac{N_{i}}{V} = \dfrac{P_{i}}{kT}` |
+| Mean molar mass of a mixture | `mean-molar-mass` | 12.3 | `\bar{M} = \sum_{i} x_{i}M_{i}` |
+| Depth limit for a breathing gas | `dive-limit` | 12.3 | `h_{\max} = \dfrac{P_{\text{O}_2,\max}/x - P_{\text{atm}}}{\rho g}` |
+| Net force on a wall; force on a dome | `net-pressure-force` | 12.4 | `F = \Delta P\,A \qquad F_{\text{dome}} = \Delta P\,\pi r^{2}` |
+| Wall tension in pressure vessels | `wall-tension` | 12.4 | `T_{\text{sphere}} = \dfrac{\Delta P\,r}{2} \qquad T_{\text{hoop}} = \Delta P\,r \qquad T_{\text{axial}} = \dfrac{\Delta P\,r}{2}` |
+| A bulging sheet | `sagging-panel` | 12.4 | `r \approx \dfrac{L^{2}}{8s} \qquad T \approx \dfrac{\Delta P\,L^{2}}{16s}` |
+| Stress, strain and Young’s modulus | `stress-strain` | 12.5 | `\sigma = \dfrac{F}{A} \qquad \varepsilon = \dfrac{\Delta L}{L} \qquad \sigma = Y\varepsilon \qquad k = \dfrac{YA}{L}` |
+| Breaking length | `breaking-length` | 12.5 | `\ell_{\text{break}} = \dfrac{\sigma_{\max}}{\rho g}` |
+| Stress in a thin pressure-vessel wall | `vessel-stress` | 12.5 | `\sigma_{\text{sphere}} = \dfrac{\Delta P\,r}{2t} \qquad \sigma_{\text{hoop}} = \dfrac{\Delta P\,r}{t} \qquad \sigma_{\text{axial}} = \dfrac{\Delta P\,r}{2t}` |
+| Torque | `torque` | 12.5 | `\tau = Fd` |
+| Bending stress in a flat strip | `bending-stress` | 12.5 | `\sigma_{\max} = \dfrac{3qL^{2}}{4t^{2}} \qquad t_{\text{needed}} = L\sqrt{\dfrac{3q}{4\sigma_{\max}}}` |
 <!-- /AUTO:formulas -->
 
 ---
@@ -855,6 +903,7 @@ All constants and book figures used so far, each with its source, are in `script
 - Part 8 figures (`STARS` in `constants.mjs`). Real: Wien b = 2.897 771 955 × 10⁻³ m K (CODATA); CMB 2.72548 K; Draper point 798 K (1847); incandescent lamps about 2400 K (Wikipedia "Color temperature"); Stefan 1879 / Boltzmann 1884, Stefan's Sun estimate about 5700 K; Planck 1900. **Tau Ceti (Wikipedia infobox): 5320 ± 40 K, 0.793 ± 0.004 R☉, 0.488 ± 0.010 L☉, 0.800 M☉, 8–10 Gyr, [Fe/H] −0.50, rotation 46 d, debris disc > 10× the Solar System's, HZ 0.55–1.16 au.** R²T⁴ gives only 0.454 ± 0.018 L☉; the course's earlier 0.52 is kept for continuity and 8.4 discusses the 0.45–0.52 spread (Adrian's T_e 282–292 K). Sirius A 9845 K, 1.7144 R☉, 24.74 L☉, 8.61 ly; Proxima 2992 K, 0.1542 R☉, 0.001567 L☉; 40 Eridani A 5126 K, 0.804 R☉, 0.40 L☉. Solar irradiance: about 1361 W/m², 0.1% over a solar cycle, ±3.4% over the orbit, 2011 revision 1365.4 → 1360.9; Sun's HZ 0.99–1.67 au (Kopparapu 2013); Sun 4.6 Gyr old with 4–7 Gyr to go (we use ~10 Gyr total). Our results: Wien iteration x = 4.9651; a 5772 K blackbody is 42% visible, 12% UV, 44% IR; Astrophage's 369.6 K thermal peak 7.84 µm vs the Petrova line's 111.5 K; 1% dimming by cooling = 14.5 K; Astrophage eating 1% of the Sun = 3.83 × 10²⁴ W = 4.26 × 10⁷ kg/s; Sun's T from Earth (S, d/R = 215) = 5772 K; Tau Ceti's light at Earth 1.25 × 10⁻⁹ W/m² (0.52 L☉), about 5 × 10⁴ visible photons/s into a 7 mm pupil; Kepler mass from Adrian 0.795 M☉; cells to dim a star N = 4fr²/a² (our model cell: 4 × 10¹⁴ kg at the Sun's surface, 1.9 × 10¹⁹ kg at 1 au). Assumed: 0.1% of the drive power as waste heat (radiator 9.5 km² at 1000 K).
 - Part 9 figures (`MASSENERGY` in `constants.mjs`). NIST atomic masses (¹H, ²H, ³H, ⁴He), CODATA neutron mass, 931.494 MeV/u, electron 0.511 MeV; Wikipedia "Energy density" table (Li-ion 0.36–0.875, TNT 4.184, wood 18, fat 38, gasoline 46.4 MJ/kg and 34.2 MJ/L, hydrogen 141.86 MJ/kg, uranium fission 80.62 TJ/kg, D–T 337.4 TJ/kg, antimatter 90 PJ/kg); kilogram prototype +1.5 pg per °C (Wikipedia "Mass–energy equivalence"). **E = mc² is derived in 9.1 from p = E/c and the centre of mass (Einstein's light-in-a-box), with no relativity.** Results: 4 ¹H → ⁴He loses 0.712% (26.7 MeV), D–T 17.6 MeV (reproduces the table's 337 TJ/kg); Sun loses 4.26 × 10⁹ kg/s and fuses 6.0 × 10¹¹ kg/s of hydrogen; ~6880 kg/yr of matter would power the world; the 2 × 10⁶ kg fuel = 290 years of world energy = 3.9 × 10¹⁵ kg of petrol = a 12.6 m cube at water density (assumed); ideal exhaust √(2ε): H₂/O₂ 5.6 km/s (RS-25 reaches 79%), fission 4.2% c, D–T 8.7% c; at 0.1c a chemical rocket needs a mass ratio of 10²⁹³⁵. Sahara breeder farm at an assumed 250 W/m² with perfect conversion: ~0.5 t/day, 11 years for the fuel (2.1 years even at 1361 W/m² all day).
 - Part 11 figures (`SOUND` in `constants.mjs`). Real: standard atmosphere 101 325 Pa (NIST SP 811); air at 20 °C 343.21 m/s, 1.2041 kg/m³, Z = 413.3 Pa·s/m, molar mass 0.0289652 kg/mol (Wikipedia "Density of air"); OpenStax Table 17.1 speeds (CO₂ 259, He 965, H₂ 1290 at 0 °C; water 1480, sea water and tissue 1540; Pyrex 5640, Al 5120, steel 5960 …) and Table 12.1 moduli (water B 2.2 GPa, steel Y 200 GPa, Al 70 GPa, glycerin 4.5 GPa); I₀ = 10⁻¹² W/m², pain 1 W/m², eardrum 1 cm², pitch discrimination 0.3%, most sensitive 2–5 kHz, Table 17.2 decibel examples (§17.3); γ: air 1.40, He/Xe 1.66, NH₃ 1.31, CO₂ 1.30 (Wikipedia "Heat capacity ratio"); Newton's 298 m/s, Clément–Desormes 1.35 (Wikipedia "Speed of sound"); A4 = 440 Hz (ISO 16); ear canal 25 mm × 7 mm; vocal tract 16.9 cm (men) / 14.1 cm (women); speaking fundamentals 90–155 / 165–255 Hz; beats under ~20/s heard as beating, 20 to 75–150/s as roughness; bats 11–212 kHz (hunters 20–60 kHz), calls 3–50 ms; medical ultrasound 1–18 MHz; Pyrex 2230 kg/m³. Book (LitCharts): Rocky's notes, several at once, all in human hearing; Grace's waveform-analysis program and Excel spreadsheet; Grace's passive-sonar theory; Rocky unaffected when the lights fail. **Our model:** Erid air = ideal-gas NH₃ at 483 K, 29 atm: v = 556 m/s, ρ = 12.5 kg/m³, Z = 6.9 × 10³ Pa·s/m (17× air); xenonite = Pyrex-like, 1 cm (σ = 22.3 kg/m², same partition as Part 6). Results: γ = 1 + 2/f derived from U = (f/2)PV; air 343 vs Newton's 290; air→water 0.11% (−29.5 dB); thick-wall model −65 dB but the thin-wall mass law 4Z₁Z₂/(ωσ)² gives −25 dB at 440 Hz (Rocky's 60 dB voice heard at 35 dB, 6 dB better per octave down); Rocky's 440 Hz note λ 1.26 m on his side, 0.78 m on Grace's; 56 kHz needed to resolve 1 cm in Erid air. Assumed: Rocky's voice 60 dB at 1 m, chords 440/550/660 and notes 523/300/443 Hz, Eridian ear spacing 0.30 m.
+- Part 12 figures (`PRESSURE` in `constants.mjs`). Real: R = N_A k exact; NASA fact sheets: Earth 1014 mbar, 78.08% N₂, 20.95% O₂, 9340 ppm Ar, 420 ppm CO₂, M 28.97, H 8.5 km; Venus 92 bar, 96.5% CO₂, 3.5% N₂, 737 K, M 43.45, ~65 kg/m³, H 15.9 km; Mars 636 Pa, 0.16% O₂, M 43.49, 214 K, H 11.0 km; OpenStax Vol. 1 Table 14.1 (mercury 13 600, ice 917, sea water 1030) and Table 12.1 (Y steel 200, Al 70, glass 60, bone 16 GPa); Everest 8848.86 m, summit 33.7 kPa; death zone above ~8000 m; oxygen toxicity 1.4–1.6 bar, air toxic below ~56 m; Apollo 1 pad test 16.7 psi pure O₂, flight 5 psi, later launch mix 60/40 O₂/N₂; EMU 4.3 psi pure O₂; ammonia vapour pressure 857 kPa at 20 °C; kinetic diameters N₂ 364 pm, NH₃ 260 pm; Venus Earth-like at 50–65 km; Magdeburg 1654, ~50 cm, 30 horses; tensile strengths (Wikipedia table): A36 steel yield 250 / UTS 400–550 MPa, 7.8 g/cm³; Al 6061 241/300; annealed glass 41; optical fibre 4100; concrete 2–5; bone 130; hair 200–250; spider silk ~1000; Kevlar 2920–3000 (1.44); carbon fibre 4137 (1.75), laminate 1600; diamond 2800; graphene intrinsic 130 000. Book (reader sources, flagged): the Hail Mary at 40% of Earth's pressure (ch. 7; elsewhere 0.33 and one-fifth atm), Rocky's 1 : 29 bead model (may compare only one gas from each side, so Erid could be ~2–12 atm; the course keeps 29), Astrophage breed at 0.02 atm, Venus 3.5% N₂ and Threeworld 8% N₂ at about −100 °C, Taumoeba killed by nitrogen and bred tolerant, the ship sterilised with nitrogen, xenonite (mostly xenon) holding 29 atm as flat panels, Rocky's geodesic sphere, the 10 km chain. **Our models:** Grace's side 0.40 atm, so ΔP across the partition 28.6 atm = 2.90 MPa; partition 2.0 m², 1 cm (span 1.41 m). Results: Erid sky 1.50 × 10⁵ kg/m² (14.5× Earth), equal to 281 m of sea water; Hail Mary barometer 203 mm at 1.5 g; Erid balloons lift 11.0 kg/m³ (10× Earth); Rocky's flask cooled to 21 °C → 17.7 atm (really ~half condenses); a 2 m cube room holds 99.7 kg of NH₃ (26× Grace's air); scale heights Earth 8.4, Venus 15.9, Erid 12.0 km; Erid molecules 1.3 nm apart (5 diameters); Hail Mary air must be ≥ 52% O₂; Taumoeba N₂ 71 Pa (Venus) vs 162 Pa (Threeworld); Venus surface N₂ 3.2 bar = 4× Earth's; partition force 5.80 MN (590 t); Rocky's 1 m sphere T = 1.45 MN/m, wall 12 mm steel (SF 2), 1 cm wall at 145 MPa; flat partition as a membrane with 1 cm sag needs 3.6 × 10⁷ N/m; in bending (strip model 3qL²/4t², derived with torque) **43.5 GPa**, 1060× glass, 174× steel yield, a third of graphene; flat steel would need 13 cm (2.1 t), glass 33 cm, perfect graphene 5.8 mm. Steel breaking length 5.2 km (3.0 km at Adrian's 17.15 m/s²), Kevlar 207 km, carbon fibre 241 km. Part 3 centrifuge cable (1.96 MN) needs 10 cm of steel at yield, stretching 13 cm.
 
 ---
 
@@ -875,3 +924,4 @@ All constants and book figures used so far, each with its source, are in `script
 - **Session 12 (2026-10-14).** Wrote Part 9: 9.1 E = mc² (Einstein's light-in-a-box derivation from p = E/c and the fixed centre of mass, mass as a form of energy, rest energy, why c² hides everyday mass changes, mass defects in fusion, antimatter and PET, the Sun's mass loss, the novel's Dimitri test and drive checked; promised in 5.3, 5.4 and 6.2), 9.2 Energy density: chemical to Astrophage (specific energy vs energy density, the three-step ladder chemical/nuclear/mass–energy, the exhaust limit √(2ε), the rocket equation at 0.1c for each drive, Astrophage as a battery, the fuel in petrol, breeding the fuel on the Sahara). 24 practice problems, 2 simulations (LightBox, FuelCalculator) and 5 diagrams. Fixed a number-format bug in several Part 8/9 sims: `x.toPrecision(3)` prints values of 1000 and up as "1.00e+3", so the shared `sci` helpers now use `toPrecision(Math.max(3, e + 1))`. **Next:** Part 10, starting with 10.1 The postulates of relativity (9.2 and the fuel calculator quote the relativistic photon-rocket mass ratio √((1 + β)/(1 − β)) and say Part 10 derives it; 7.4 Problem 11 and 7.5 also point ahead; 5.7 says Part 10 should revisit the fuel budget with a coast phase).
 - **Session 13 (2026-10-14).** Wrote Part 10 (special relativity): 10.1 Postulates (Galileo's ship, Michelson–Morley expected 0.4 fringe derived, simultaneity), 10.2 Time dilation (light clock, muons, GPS 7.2 µs/day, Hafele–Keating), 10.3 Lorentz factor (γ ≈ 1 + β²/2, p = γmv, E = γmc², E² = (pc)² + (mc²)²), 10.4 Length contraction, 10.5 Velocity addition (Lorentz transformation derived, rapidity and hyperbolic functions, relativistic Doppler, photon-rocket ratio √((1+β)/(1−β)) as promised in 7.4/9.2), 10.6 Ship time vs Earth time (φ = aτ/c; 1.5 g flip-and-burn to Tau Ceti: 3.89 yr aboard, 13.14 yr on Earth, 0.995c, mass ratio 416 vs the novel's ~21; novel's fuel with a coast: 0.909c, 6.6 yr aboard; Grace's 17 missing years reproduced; Eridians' Newtonian over-fuelling ×9). 72 problems, 6 sims (SimultaneityLab, LightClockSim, GammaExplorer, ContractionLab, VelocityAdder, TripPlanner), 12 diagrams. `REL` constants added. **Not yet done:** `check:browser` timed out once on navigation (not investigated; rerun it, and if it repeats suspect one of the animated Part 10 sims blocking network idle), and the Part 10 diagrams/sims have not been screenshotted. **Next:** finish those checks, then Part 11 (sound).
 - **Session 14 (2026-10-15).** Finished Session 13's checks: `check:browser`'s timeout came from SimultaneityLab and LightClockSim setting `textContent` every frame (Chrome never reached network idle), fixed by updating text nodes only when they change (rule added to Style rules); `check:browser` now reports a failed navigation instead of crashing and takes an optional path filter (`node scripts/check-browser.mjs part-10`). Screenshotted all Part 10 elements and fixed label collisions in Interferometer, EnergyTriangle, TanhCurve and RelDoppler. Wrote Part 11 (sound): 11.1 Sound as pressure waves (pressure and the pascal, displacement vs pressure a quarter-wave apart, Δp = ρvu from impulse, I = Δp²/2ρv with the ½ from ⟨sin²⟩, decibels, why space is silent), 11.2 Frequency and pitch (octaves, f = 440 × 2^(n/12), cents, beats derived from the cosine rules, Δf ≈ 1/t, Doppler for sound derived for source and observer, Mach cone), 11.3 The speed of sound (v = √(B/ρ) by finishing the piston argument, rods, Newton's isothermal error, γ = 1 + 2/f derived, v = √(γkT/m), Erid's ammonia air, boundary transmission 4Z₁Z₂/(Z₁ + Z₂)² derived, thin-wall mass law derived: Grace hears Rocky at about −25 dB), 11.4 Harmonics and chords (strings and open/closed pipes, ear canal at 3.4 kHz, formants and the helium voice, timbre and Fourier series, consonance from coinciding harmonics, equal-temperament beats, the missing fundamental and splitting Rocky's chords), 11.5 Echolocation (d = vt/2, wavelength vs detail, sweep range resolution v/2B, interaural time difference, 1/d⁴ echoes, echo Doppler, sonar and medical ultrasound, Grace's passive-sonar theory). 65 problems, 5 sims (SoundWaveLab, DopplerLab, SoundSpeedLab, ChordLab with Web Audio playback, SonarLab), 16 diagrams, 31 glossary terms (pressure and pascal are introduced here, so Part 12.1 builds on them), 15 formulas, `SOUND` constants. **Next:** Part 12, starting with 12.1 Pressure: F = PA (11.1 already defines pressure, the pascal and the atmosphere; 6.1 quotes PV = NkT and says Part 12 studies it; 11.3 uses PV = NkT and adiabatic B = γP; 12.4's forces on the xenonite wall can reuse the 1 cm Pyrex-like model).
+- **Session 15 (2026-10-15).** Wrote Part 12 (pressure, gases and materials): 12.1 Pressure: F = PA (pressure acts every way, units and gauge vs absolute, the weight of the sky, P = P₀ + ρgh from a balanced slab, barometers including one on the accelerating *Hail Mary*, Pascal's principle and hydraulics, Archimedes from the top/bottom pressure difference, balloons on Erid), 12.2 The gas laws (Boyle, Charles, Gay-Lussac and the extrapolation to absolute zero, PV = NkT = nRT as promised in 6.1, Avogadro, the mole (promised in 0.2), R = N_A k, molar volume, ρ = PM/RT, molecule spacing (kT/P)^⅓ and when gases stop being ideal, the barometric formula P = P₀e^(−h/H) via d/dh e^(kh) and NASA's scale heights reproduced), 12.3 Partial pressure (Dalton derived from PV = NkT, mole fractions, why lungs and microbes respond to partial pressure, the oxygen window from Everest to oxygen toxicity, Apollo and spacesuit pure-oxygen cabins, the *Hail Mary*'s 0.40 atm needing ≥ 52% O₂, the Taumoeba nitrogen numbers, mean molar mass, diving limits), 12.4 Forces on walls between atmospheres (F = ΔP·A on the partition, Magdeburg hemispheres, plug doors, the projected-area rule by integration and by the closed-surface argument, wall tension ΔPr/2 and ΔPr, why a flat sheet must bulge: r ≈ L²/8s), 12.5 Stress and strength (stress, strain, σ = Yε and k = YA/L, the stress–strain curve, ductile vs brittle and flaws in glass, breaking length and the 10 km chain, vessel wall stress and safety factors, torque introduced, bending stress 3qL²/4t² derived, the flat 1 cm partition needs 43.5 GPa). 58 problems, 5 sims (PressureDepthLab, GasPistonLab, GasMixer, VesselLab, WallDesigner), 13 diagrams, 30 glossary terms, 18 formulas, `PRESSURE` constants. The novel's pressure inconsistency (Hail Mary at 40%, so the 1 : 29 beads may imply ~11.6 atm, or ~2.4 atm if the beads compared one gas) is discussed in 12.1 and 12.3; the course keeps 29 atm. **Next:** Part 13, starting with 13.1 Atomic structure (7.5 introduced energy levels and Balmer lines, 9.1 mass defects and the atomic mass unit, 12.2 the mole and molar mass; xenonite's xenon could motivate noble-gas electron shells).

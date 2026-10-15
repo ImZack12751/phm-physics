@@ -1,0 +1,25 @@
+---
+// Dalton's law: nitrogen alone + oxygen alone = the mixture, same box and temperature. Dot positions are fixed
+// (pseudo-random) so the figure is the same every build.
+const BW = 150, BH = 120, Y0 = 40;
+const boxes = [20, 225, 430];
+const nPos = [[25, 30], [70, 22], [118, 35], [40, 75], [92, 64], [128, 92], [60, 104], [18, 100]];
+const oPos = [[96, 100], [30, 52]];
+---
+
+<svg class="dg" viewBox="0 0 600 230" xmlns="http://www.w3.org/2000/svg">
+	{boxes.map((x) => <rect x={x} y={Y0} width={BW} height={BH} class="s-fg w2" fill="none" />)}
+	{nPos.map(([dx, dy]) => <circle cx={boxes[0] + dx} cy={Y0 + dy} r="6" class="f-sky" />)}
+	{oPos.map(([dx, dy]) => <circle cx={boxes[1] + dx} cy={Y0 + dy} r="6" class="f-amber" />)}
+	{nPos.map(([dx, dy]) => <circle cx={boxes[2] + dx} cy={Y0 + dy} r="6" class="f-sky" />)}
+	{oPos.map(([dx, dy]) => <circle cx={boxes[2] + dx} cy={Y0 + dy} r="6" class="f-amber" />)}
+	<text x={(boxes[0] + BW + boxes[1]) / 2} y={Y0 + BH / 2 + 8} class="t-mid t-lg t-b">+</text>
+	<text x={(boxes[1] + BW + boxes[2]) / 2} y={Y0 + BH / 2 + 8} class="t-mid t-lg t-b">=</text>
+	<text x={boxes[0] + BW / 2} y="28" class="t-mid t-sm t-b f-sky">nitrogen alone</text>
+	<text x={boxes[1] + BW / 2} y="28" class="t-mid t-sm t-b f-amber">oxygen alone</text>
+	<text x={boxes[2] + BW / 2} y="28" class="t-mid t-sm t-b">mixture (air)</text>
+	<text x={boxes[0] + BW / 2} y={Y0 + BH + 22} class="t-mid t-sm f-sky">P(N₂) = 0.79 atm</text>
+	<text x={boxes[1] + BW / 2} y={Y0 + BH + 22} class="t-mid t-sm f-amber">P(O₂) = 0.21 atm</text>
+	<text x={boxes[2] + BW / 2} y={Y0 + BH + 22} class="t-mid t-sm">P = 0.79 + 0.21 = 1.00 atm</text>
+	<text x="300" y="218" class="t-mid t-sm f-muted">same volume, same temperature: each gas pushes as if the others weren't there</text>
+</svg>

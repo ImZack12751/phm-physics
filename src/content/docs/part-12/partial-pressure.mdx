@@ -1,0 +1,359 @@
+---
+title: Partial pressure
+description: How a mixture of gases shares out its pressure (Dalton's law, derived from PV = NkT), mole fractions and "percent by volume", why lungs and microbes respond to partial pressure rather than percentage, the oxygen window between hypoxia and oxygen toxicity, low-pressure oxygen cabins and spacesuits, the mean molar mass of a mixture, and the nitrogen that kills Taumoeba on Venus and Threeworld.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import DaltonBoxes from '../../../components/diagrams/part-12/DaltonBoxes.astro';
+import OxygenLadder from '../../../components/diagrams/part-12/OxygenLadder.astro';
+import GasMixer from '../../../components/sims/GasMixer.astro';
+
+## The scene
+
+Grace and Rocky find the cure in the Tau Ceti system: a microbe from the planet Adrian that eats Astrophage, which Grace names Taumoeba. But when they test it in copies of the air where Astrophage breed, at Venus and at Rocky's home world's own breeding planet, Threeworld, the Taumoeba die. The killer turns out to be nitrogen. Even the small amount in those atmospheres, a few percent, is lethal to a microbe that evolved without it. Grace and Rocky spend weeks breeding generation after generation of Taumoeba in chambers with more and more nitrogen, until they have strains that survive. Later, when Taumoeba escape into the *Hail Mary*'s fuel, the two of them sterilise the ship by flooding it with nitrogen.
+
+"A few percent" of what, though? A percentage on its own says nothing about how many nitrogen molecules a microbe actually meets: 3.5% of a thin upper atmosphere is very different from 3.5% of a thick one. What a microbe, a lung or a flame responds to is the **partial pressure** of a gas. This chapter explains what that is and why it is the number that matters.
+
+## Prerequisites
+
+<Prereqs notes={{ 'gas-laws': 'PV = NkT = nRT, Avogadro’s equal volumes, molar mass and ρ = PM/RT', 'pressure': 'absolute pressure and P = P₀ + ρgh for divers', 'temperature-heat': 'pressure from molecules hitting a surface, each gas’s molecules sharing the same average kinetic energy', 'ratios-proportionality': 'fractions, ratios and proportion', 'rearranging-formulas': 'rearranging to find a fraction or a depth', 'greenhouse-effect': 'gas amounts in parts per million by volume' }} />
+
+## The concept
+
+### Each gas acts as if it were alone
+
+Air is a mixture: mostly nitrogen and oxygen, with some argon and a little carbon dioxide. In a dilute gas the molecules are many diameters apart (Chapter 12.2) and they ignore each other except during brief collisions. So in a mixture, each kind of molecule bounces off the walls just as it would if the others weren't there. The total push on a wall is the sum of the pushes from each kind.
+
+The pressure that one gas in a mixture would exert if it had the whole container to itself is its <Term id="partial-pressure">partial pressure</Term>. And the total pressure is the sum of the partial pressures. This is <Term id="daltons-law">Dalton's law</Term>, observed by John Dalton in 1801:
+
+$$
+P = P_{1} + P_{2} + P_{3} + \cdots
+$$
+
+<Figure caption="Dalton's law. The same container holds nitrogen alone (left), oxygen alone (middle), or both at once (right), all at the same temperature. Each gas's molecules hit the walls just as hard and as often in the mixture as they did alone, so the pressures simply add." alt="Three equal boxes in a row. Left box: eight blue dots, labelled nitrogen alone, P sub N2 equals 0.79 atm. Middle box: two orange dots, labelled oxygen alone, P sub O2 equals 0.21 atm. A plus sign sits between the first two boxes and an equals sign before the third. Right box: the same eight blue and two orange dots mixed together, labelled mixture, P equals 0.79 plus 0.21 equals 1.00 atm. A note underneath says same volume, same temperature: each gas pushes as if the others weren't there.">
+	<DaltonBoxes />
+</Figure>
+
+### Fractions by volume are fractions of molecules
+
+How do you describe a mixture? Each gas's partial pressure is proportional to the number of its molecules, since $P_{i} = N_{i}kT/V$ with the same $T$ and $V$ for all of them. So the fraction of the pressure from one gas equals the fraction of the molecules that belong to it, its <Term id="mole-fraction">mole fraction</Term> $x_{i}$:
+
+$$
+x_{i} = \frac{N_{i}}{N} = \frac{P_{i}}{P} \qquad\Rightarrow\qquad P_{i} = x_{i}P.
+$$
+
+When NASA says Earth's air is "78.08% nitrogen and 20.95% oxygen by volume", these are mole fractions. (By Avogadro's idea, if you could separate the gases at the same pressure and temperature, the nitrogen would fill 78.08% of the volume.) So at sea level, 1 atm of air has
+
+$$
+P_{\text{O}_{2}} = 0.2095 \times 101.3\ \text{kPa} = 21.2\ \text{kPa}, \qquad P_{\text{N}_{2}} = 0.7808 \times 101.3\ \text{kPa} = 79.1\ \text{kPa}.
+$$
+
+Percentages by mass are different, because the molecules have different masses: oxygen is 20.95% of the molecules in air but 23.1% of its mass (Problem 6).
+
+### Why partial pressure is what matters
+
+A lung, a microbe's skin or a flame doesn't care what fraction of the air is oxygen. It cares how many oxygen molecules arrive each second, and that is set by how many there are per cubic metre and how fast they move. From $P_{i} = N_{i}kT/V$, the number of molecules of one gas per cubic metre is
+
+$$
+\frac{N_{i}}{V} = \frac{P_{i}}{kT}.
+$$
+
+At a given temperature it is the partial pressure, not the percentage, that sets the number of molecules. Halve the total pressure and keep the percentages the same, and you halve the oxygen; keep the oxygen's partial pressure the same, and the lungs get the same supply however much nitrogen is mixed in, or none at all.
+
+Gases also move by partial pressure. Oxygen passes from your lungs into your blood because its partial pressure in the lungs is higher than in the blood arriving there; carbon dioxide goes the other way for the same reason. Each gas flows from high to low partial pressure on its own, regardless of the total.
+
+### The oxygen window
+
+Human bodies work over a limited range of oxygen partial pressure.
+
+- **Too little.** On the summit of Everest the air is still 20.95% oxygen, but the total pressure is only 33.7 kPa, so the oxygen's partial pressure is about 7.1 kPa, a third of sea level's. Above about 8000 m, the "death zone", a long stay without bottled oxygen leads to loss of consciousness and death. The shortage of oxygen in the body is <Term id="hypoxia">hypoxia</Term>.
+- **Too much.** Breathing oxygen at partial pressures above about 1.4 to 1.6 bar, about seven times sea level's, can cause convulsions within minutes to hours. This is <Term id="oxygen-toxicity">oxygen toxicity</Term>, and it limits how deep divers can go breathing air (Example 3).
+- **Fire.** Things burn faster and hotter where there is more oxygen. In 1967, the *Apollo 1* command module was filled with pure oxygen at 16.7 psi for a ground test, five times sea level's oxygen partial pressure. A spark started a fire that spread through the cabin and killed all three astronauts.
+
+<Figure caption="Oxygen partial pressures, on a logarithmic scale. The body needs roughly the sea-level value; a third of it (the summit of Everest) is at the edge of survival, and above about 140 kPa oxygen becomes toxic. Spacecraft and spacesuits often use pure oxygen at low total pressure to hit the window. The Hail Mary row shows what 0.40 atm would give with an ordinary air mix (our calculation) and with pure oxygen." alt="A horizontal bar chart with a logarithmic scale from 1 to 300 kilopascals of oxygen partial pressure. Bars, from shortest to longest: Everest summit 7.1 kilopascals; Hail Mary with an air mix at 0.40 atm, 8.5 kilopascals; sea level 21.2; spacesuit, pure oxygen at 4.3 psi, 29.6; Apollo cabin in flight, pure oxygen at 5 psi, 34.5; Hail Mary with pure oxygen at 0.40 atm, 40.5; Apollo 1 ground test, pure oxygen at 16.7 psi, 115. A dashed red line at 140 kilopascals is labelled oxygen toxicity for divers, 1.4 bar, and a dashed line at 7 kilopascals is labelled death zone.">
+	<OxygenLadder />
+</Figure>
+
+That window is why spacecraft can use thin air. A spacesuit is a small pressure vessel, and the lower its pressure, the less it balloons out and the easier it is to bend at the joints. NASA's spacewalk suit runs on pure oxygen at 4.3 psi (29.6 kPa), which gives the lungs more oxygen than sea-level air while pushing on the suit with less than a third of an atmosphere. The Apollo spacecraft flew with pure oxygen at 5 psi. The *Hail Mary*, at 40% of Earth's pressure in the novel, must also be rich in oxygen (Example 1).
+
+### Nitrogen and the Taumoeba
+
+The same logic applies to the Taumoeba. In the novel, Astrophage breed where the air is at about 0.02 atm, and the nitrogen is 3.5% of the air on Venus and 8% on Threeworld (reader sources). The nitrogen partial pressures are tiny:
+
+$$
+\text{Venus: } 0.035 \times 0.02 \times 101\,325\ \text{Pa} = 71\ \text{Pa} \qquad \text{Threeworld: } 0.08 \times 0.02 \times 101\,325\ \text{Pa} = 162\ \text{Pa}.
+$$
+
+For comparison, Earth's sea-level nitrogen is 79 000 Pa. A microbe killed by 71 Pa of nitrogen is extraordinarily sensitive, and a strain that tolerates Venus must still be bred harder, to $162/71 = 2.3$ times as much nitrogen, to survive on Threeworld. Flooding the *Hail Mary* with nitrogen at even a fraction of an atmosphere exposes any Taumoeba to hundreds of times more than they were bred for.
+
+The 3.5% is real: NASA lists Venus's air as 96.5% carbon dioxide and 3.5% nitrogen. Because Venus's surface pressure is 92 bar, its nitrogen partial pressure at the ground is $0.035 \times 92\ \text{bar} = 3.2$ bar, four times Earth's. Venus has a few percent nitrogen, but more nitrogen in its air than Earth has.
+
+### The average molecule of a mixture
+
+The gas laws work for a mixture if you use its **mean** molar mass, the molar masses averaged with the mole fractions as weights:
+
+$$
+\bar{M} = \sum x_{i}M_{i}.
+$$
+
+For Earth's air this gives 28.97 g/mol, and for Venus's 43.45 g/mol, matching the NASA fact sheets (Example 4). That is the $M$ used in Chapter 12.2 for densities and scale heights.
+
+## Formulas
+
+### Dalton's law
+
+Each gas in a volume $V$ at temperature $T$ obeys $P_{i}V = N_{i}kT$. The total number of molecules is $N = N_{1} + N_{2} + \cdots$, and the mixture obeys $PV = NkT$:
+
+$$
+P = \frac{NkT}{V} = \frac{N_{1}kT}{V} + \frac{N_{2}kT}{V} + \cdots = \boxed{P_{1} + P_{2} + \cdots}
+$$
+
+### Mole fraction
+
+$$
+x_{i} = \frac{N_{i}}{N} = \frac{P_{i}V/kT}{PV/kT} = \frac{P_{i}}{P} \qquad\Rightarrow\qquad \boxed{P_{i} = x_{i}P} \qquad \sum x_{i} = 1
+$$
+
+### Number of molecules per cubic metre
+
+$$
+\boxed{\frac{N_{i}}{V} = \frac{P_{i}}{kT}}
+$$
+
+### Mean molar mass
+
+The mass of a mole of mixture is the sum over its gases of (moles of that gas) × (its molar mass):
+
+$$
+\boxed{\bar{M} = \sum_{i} x_{i}M_{i}}
+$$
+
+and the mass fraction of gas $i$ is $x_{i}M_{i}/\bar{M}$.
+
+### Partial pressure under water
+
+A diver's lungs are at the pressure of the water around them, $P = P_{\text{atm}} + \rho g h$ (Chapter 12.1). Breathing a gas mix with oxygen fraction $x$, the oxygen partial pressure is $xP$. The depth at which it reaches a limit $P_{\text{O}_2,\max}$ is
+
+$$
+\boxed{h = \frac{P_{\text{O}_2,\max}/x - P_{\text{atm}}}{\rho g}}
+$$
+
+## Worked examples
+
+<Example n={1} title="Breathing on the Hail Mary" book>
+The novel keeps the *Hail Mary* at about 40% of Earth's sea-level pressure. If its air were mixed like Earth's (20.95% oxygen), what would the oxygen partial pressure be? What oxygen fraction is needed to match sea level's 21.2 kPa? What if the air were pure oxygen?
+
+$$
+P = 0.40 \times 101.3\ \text{kPa} = 40.5\ \text{kPa}
+$$
+
+$$
+P_{\text{O}_2} = 0.2095 \times 40.5\ \text{kPa} = 8.5\ \text{kPa}
+$$
+
+That is barely above the summit of Everest (7.1 kPa): Grace would be in serious trouble. To match sea level:
+
+$$
+x_{\text{O}_2} = \frac{21.2\ \text{kPa}}{40.5\ \text{kPa}} = 0.52
+$$
+
+The air must be at least about 52% oxygen. If it were pure oxygen, $P_{\text{O}_2} = 40.5$ kPa, 1.9 times sea level's: comfortable to breathe, well below the toxic 140 kPa, but a fire risk like Apollo's. (The novel doesn't say what the ship's air is made of; readers have guessed it is mostly oxygen.)
+</Example>
+
+<Example n={2} title="How much nitrogen kills a Taumoeba?" book>
+In the novel, Astrophage breed where the air is at about 0.02 atm, with 3.5% nitrogen on Venus and 8% on Threeworld. Find the nitrogen partial pressures, and compare them with the *Hail Mary* filled with Earth-like air at 0.40 atm.
+
+$$
+P_{\text{total}} = 0.02 \times 101\,325\ \text{Pa} = 2030\ \text{Pa}
+$$
+
+$$
+P_{\text{N}_2,\text{Venus}} = 0.035 \times 2030\ \text{Pa} = 71\ \text{Pa} \qquad P_{\text{N}_2,\text{Threeworld}} = 0.08 \times 2030\ \text{Pa} = 162\ \text{Pa}
+$$
+
+$$
+P_{\text{N}_2,\text{ship}} = 0.7808 \times 0.40 \times 101\,325\ \text{Pa} = 3.16 \times 10^{4}\ \text{Pa} = 450 \times 71\ \text{Pa}
+$$
+
+Threeworld's breeding zone has 2.3 times Venus's nitrogen, and ordinary air at the ship's pressure would have 450 times Venus's. Partial pressures, not percentages, are what Grace's breeding chambers have to get right: a chamber at 0.40 atm with 3.5% nitrogen would have 20 times more nitrogen than Venus's breeding zone.
+</Example>
+
+<Example n={3} title="How deep can you dive on air?">
+Divers keep the oxygen partial pressure below about 1.4 bar. Breathing ordinary air (20.95% oxygen), how deep can a diver go in sea water ($1030\ \text{kg/m}^{3}$)?
+
+The total pressure at which oxygen reaches 1.4 bar:
+
+$$
+P = \frac{1.4 \times 10^{5}\ \text{Pa}}{0.2095} = 6.68 \times 10^{5}\ \text{Pa}
+$$
+
+$$
+h = \frac{6.68 \times 10^{5}\ \text{Pa} - 1.013 \times 10^{5}\ \text{Pa}}{1030\ \text{kg/m}^{3} \times 9.81\ \text{m/s}^{2}} = \frac{5.67 \times 10^{5}\ \text{Pa}}{1.010 \times 10^{4}\ \text{Pa/m}} = 56\ \text{m}
+$$
+
+Below about 56 m, air itself becomes poisonous. Deep divers breathe mixtures with **less** oxygen than air, which would starve them at the surface (Problem 9).
+</Example>
+
+<Example n={4} title="The molecules of Venus's air" book>
+Venus's air is 96.5% carbon dioxide (44.01 g/mol) and 3.5% nitrogen (28.01 g/mol) by volume, at 92 bar and 737 K at the surface. Find its mean molar mass and density, and its nitrogen partial pressure compared with Earth's sea level.
+
+$$
+\bar{M} = 0.965 \times 44.01 + 0.035 \times 28.01 = 42.47 + 0.98 = 43.45\ \text{g/mol}
+$$
+
+$$
+\rho = \frac{P\bar{M}}{RT} = \frac{92 \times 10^{5}\ \text{Pa} \times 0.04345\ \text{kg/mol}}{8.314\ \text{J/(mol·K)} \times 737\ \text{K}} = 65\ \text{kg/m}^{3}
+$$
+
+NASA lists 43.45 g/mol and about 65 kg/m³: a sixteenth of the density of water. The nitrogen:
+
+$$
+P_{\text{N}_2} = 0.035 \times 92\ \text{bar} = 3.2\ \text{bar}, \qquad \frac{3.2\ \text{bar}}{0.791\ \text{bar}} = 4.1
+$$
+
+Venus's thin dusting of nitrogen, by percentage, is four times Earth's by partial pressure.
+</Example>
+
+<Example n={5} title="Apollo's pure oxygen">
+The Apollo spacecraft flew with pure oxygen at 5 psi; for the *Apollo 1* ground test the cabin held pure oxygen at 16.7 psi. Compare each oxygen partial pressure with sea level's 21.2 kPa.
+
+$$
+5\ \text{psi} = 5 \times 6895\ \text{Pa} = 34.5\ \text{kPa}, \qquad \frac{34.5}{21.2} = 1.6
+$$
+
+$$
+16.7\ \text{psi} = 16.7 \times 6895\ \text{Pa} = 115\ \text{kPa}, \qquad \frac{115}{21.2} = 5.4
+$$
+
+In flight, 1.6 times normal oxygen at a third of an atmosphere was a sensible design: easy on the hull and on the lungs. On the ground, the cabin had to be above outside pressure to stay sealed, and with pure oxygen that meant 5.4 times sea level's oxygen, in which a small fire spread explosively. After the fire, Apollo launched with 60% oxygen and 40% nitrogen, switching to pure oxygen at low pressure only in flight.
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** Dalton's law, mole fractions, $\bar{M} = \sum x_{i}M_{i}$ and the role of partial pressure in breathing and diving are standard (Wikipedia "Partial pressure", OpenStax). Earth's and Venus's compositions and mean molecular weights are from NASA; the Everest, oxygen-toxicity and Apollo figures are well documented. Venus's air really is 3.5% nitrogen.
+
+**Weir's inventions.** Taumoeba, its deadly sensitivity to nitrogen, the breeding of nitrogen-tolerant strains, the 0.02 atm breeding layer, Threeworld's 8% nitrogen, and the *Hail Mary*'s 40% pressure are the novel's (the figures come from reader sources). The ship's gas mix is never given; our Example 1 shows it must be at least about half oxygen. Readers have also noticed that Rocky's bead model may compare only **one gas** from each side: if the 1 : 29 compared the oxygen in Grace's air with the ammonia in Rocky's, it is a ratio of partial pressures, and Erid's pressure could be anything from about 2 to 12 atm depending on the ship's mix (Problem 10). The novel, and this course, take 29 atm.
+
+**How realistic are the numbers?** Very sensitive organisms do exist (some real microbes are poisoned by oxygen), so an organism poisoned by tens of pascals of nitrogen is not physically absurd, though nitrogen is chemically very unreactive and it would need an unusual biology. A low-pressure, oxygen-rich cabin is exactly what real spacecraft have used, with exactly the fire risk the Apollo history shows.
+</RealVsBook>
+
+## Interactive simulation
+
+<GasMixer />
+
+Things to try: start from Earth at sea level, then pick Everest: the percentages don't change but the oxygen bar shrinks into the danger zone. Pick the *Hail Mary* and raise its oxygen fraction until the oxygen reads sea level. Pick Venus's breeding zone and slide the nitrogen from 3.5% to 8% to see what the Taumoeba had to learn to survive.
+
+## Practice set
+
+<Problem n={1} level="easy">
+A tank holds nitrogen at a partial pressure of 2.0 atm and oxygen at 0.50 atm. What is the total pressure, and what is the oxygen's mole fraction?
+
+<Solution>
+$P = 2.0 + 0.50 = 2.5$ atm. $x_{\text{O}_2} = 0.50/2.5 = 0.20$, 20% by volume.
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy">
+Earth's air is about 420 ppm carbon dioxide by volume. What is the carbon dioxide partial pressure at sea level (1 atm)?
+
+<Solution>
+$P_{\text{CO}_2} = 420 \times 10^{-6} \times 101\,325\ \text{Pa} = 42.6\ \text{Pa}$.
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy">
+Mars's air is 0.16% oxygen at a total of about 636 Pa. What is the oxygen partial pressure, and how many times less is it than at sea level on Earth?
+
+<Solution>
+$P_{\text{O}_2} = 0.0016 \times 636 = 1.0\ \text{Pa}$, about $21\,200/1.02 = 2.1 \times 10^{4}$ times less than Earth's sea level.
+</Solution>
+</Problem>
+
+<Problem n={4} level="easy" book>
+In the novel's Venus breeding zone (0.02 atm, 96.5% carbon dioxide), what is the carbon dioxide partial pressure?
+
+<Solution>
+$0.965 \times 0.02 \times 101\,325 = 1.96 \times 10^{3}\ \text{Pa}$, about 2 kPa: plenty of carbon dioxide for the Astrophage even in such thin air.
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium">
+At the summit of Everest the pressure is 33.7 kPa. Find the oxygen partial pressure and compare it with sea level.
+
+<Solution>
+$0.2095 \times 33.7 = 7.06$ kPa. As a fraction of sea level: $33.7/101.3 = 0.33$, about a third.
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium">
+Air is 78.08% N₂ (28.01 g/mol), 20.95% O₂ (32.00 g/mol), 0.93% Ar (39.95 g/mol) and 0.042% CO₂ (44.01 g/mol) by volume. Find its mean molar mass and the percentage of oxygen **by mass**.
+
+<Solution>
+$\bar{M} = 0.7808 \times 28.01 + 0.2095 \times 32.00 + 0.00934 \times 39.95 + 0.00042 \times 44.01 = 21.87 + 6.70 + 0.37 + 0.02 = 28.97$ g/mol. Oxygen by mass: $0.2095 \times 32.00/28.97 = 0.231$, 23.1%.
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium" book>
+Grace wants a test chamber at the *Hail Mary*'s 0.40 atm whose nitrogen partial pressure matches Threeworld's breeding zone (162 Pa). What nitrogen percentage should he mix in?
+
+<Solution>
+$x = 162\ \text{Pa}/(0.40 \times 101\,325\ \text{Pa}) = 0.0040$, only 0.40%. Copying Threeworld's "8%" at 0.40 atm would give 20 times too much nitrogen.
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium">
+"Nitrox" diving gas is 32% oxygen. At what depth in sea water does it reach an oxygen partial pressure of 1.4 bar?
+
+<Solution>
+$P = 1.4\ \text{bar}/0.32 = 4.375\ \text{bar}$. $h = (4.375 \times 10^{5} - 1.013 \times 10^{5})/(1030 \times 9.81) = 33\ \text{m}$. More oxygen means a shallower limit.
+</Solution>
+</Problem>
+
+<Problem n={9} level="challenging">
+A diver working at 300 m in sea water needs the oxygen partial pressure to stay below 1.4 bar. What is the largest oxygen fraction their breathing gas can have? What would happen if they breathed that gas at the surface?
+
+<Solution>
+$P = 1.013 \times 10^{5} + 300 \times 1030 \times 9.81 = 3.13 \times 10^{6}\ \text{Pa} = 31.3$ bar. $x_{\max} = 1.4/31.3 = 0.045$, about 4.5% oxygen. At the surface that gives $0.045 \times 1.013 = 0.046$ bar = 4.6 kPa of oxygen, less than on Everest's summit: they would lose consciousness. (Such dives use helium for the rest of the gas.)
+</Solution>
+</Problem>
+
+<Problem n={10} level="challenging" book>
+Suppose Rocky's 1 : 29 beads compared only the oxygen in Grace's air with the ammonia in Rocky's. What ammonia pressure would that mean if the *Hail Mary*'s 0.40 atm air were (a) mixed like Earth's air, (b) pure oxygen?
+
+<Solution>
+(a) $P_{\text{O}_2} = 0.2095 \times 0.40 = 0.0838$ atm, so ammonia $= 29 \times 0.0838 = 2.4$ atm. (b) $P_{\text{O}_2} = 0.40$ atm, so ammonia $= 29 \times 0.40 = 11.6$ atm. Either way, not 29 atm: the beads' meaning depends on which gases they counted.
+</Solution>
+</Problem>
+
+<Problem n={11} level="challenging" book>
+How many nitrogen molecules are there per cubic metre in the novel's Venus breeding zone (71 Pa of nitrogen at about −100 °C, 173 K, a reader-source figure), and in Earth's sea-level air (79.1 kPa at 288 K)? What is the ratio?
+
+<Solution>
+Venus: $N/V = 71/(1.381 \times 10^{-23} \times 173.15) = 3.0 \times 10^{22}\ \text{m}^{-3}$. Earth: $7.91 \times 10^{4}/(1.381 \times 10^{-23} \times 288) = 2.0 \times 10^{25}\ \text{m}^{-3}$. Earth's air has about 670 times as many nitrogen molecules in each cubic metre. (The cold helps Venus a little: the same partial pressure at a lower temperature means more molecules.)
+</Solution>
+</Problem>
+
+## Summary
+
+- In a mixture of dilute gases each gas behaves as if alone. Its **partial pressure** is the pressure it would exert by itself; the total is the sum (Dalton's law).
+- A gas's partial pressure is its mole fraction times the total, $P_{i} = x_{i}P$. Percentages "by volume" are mole fractions.
+- Lungs, microbes and flames respond to partial pressure, which sets the number of molecules per cubic metre, $N_{i}/V = P_{i}/kT$. Gases diffuse from high to low partial pressure.
+- Humans need roughly 21 kPa of oxygen. A third of that (Everest's summit) is near the limit of survival; above about 140 kPa oxygen is toxic. Low-pressure pure-oxygen cabins and suits work, at a cost in fire risk.
+- The novel's Taumoeba die in about 71 Pa of nitrogen (Venus's breeding zone) and must be bred to survive 162 Pa (Threeworld). Venus's 3.5% nitrogen is four times Earth's by partial pressure at the surface.
+- A mixture's mean molar mass is $\bar{M} = \sum x_{i}M_{i}$: 28.97 g/mol for Earth's air, 43.45 g/mol for Venus's.
+
+**Formulas from this chapter**
+
+$$
+P = P_{1} + P_{2} + \cdots \qquad P_{i} = x_{i}P \qquad \frac{N_{i}}{V} = \frac{P_{i}}{kT} \qquad \bar{M} = \sum x_{i}M_{i} \qquad h_{\max} = \frac{P_{\text{O}_2,\max}/x - P_{\text{atm}}}{\rho g}
+$$
+
+## Sources
+
+- Dalton's law (1801), partial pressures, mole fractions and their role in breathing and diving: Wikipedia, ["Partial pressure"](https://en.wikipedia.org/wiki/Partial_pressure) and ["Dalton's law"](https://en.wikipedia.org/wiki/Dalton%27s_law).
+- Earth's air (78.08% N₂, 20.95% O₂, 9340 ppm Ar, 420 ppm CO₂, mean molecular weight 28.97) and surface pressure: NASA, [Earth Fact Sheet](https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html). Venus (96.5% CO₂, 3.5% N₂, 92 bar, 737 K, 43.45, about 65 kg/m³): NASA, [Venus Fact Sheet](https://nssdc.gsfc.nasa.gov/planetary/factsheet/venusfact.html). Mars (636 Pa, 0.16% O₂): NASA, [Mars Fact Sheet](https://nssdc.gsfc.nasa.gov/planetary/factsheet/marsfact.html).
+- Everest's summit pressure, 33.7 kPa: Wikipedia, ["Mount Everest"](https://en.wikipedia.org/wiki/Mount_Everest). The death zone above about 8000 m and the oxygen fraction of sea level there: Wikipedia, ["Death zone"](https://en.wikipedia.org/wiki/Death_zone).
+- Oxygen toxicity above about 1.4 to 1.6 bar, and air becoming toxic below about 56 m: Wikipedia, ["Oxygen toxicity"](https://en.wikipedia.org/wiki/Oxygen_toxicity).
+- *Apollo 1*: pure oxygen at 16.7 psi for the ground test and 5 psi in flight, and the later launch mix of 60% oxygen and 40% nitrogen: Wikipedia, ["Apollo 1"](https://en.wikipedia.org/wiki/Apollo_1). NASA's spacewalk suit at 4.3 psi of pure oxygen: Wikipedia, ["Extravehicular Mobility Unit"](https://en.wikipedia.org/wiki/Extravehicular_Mobility_Unit).
+- Taumoeba, its death in nitrogen, the breeding of tolerant strains and the sterilising of the *Hail Mary* with nitrogen: Wikipedia, [*Project Hail Mary*](https://en.wikipedia.org/wiki/Project_Hail_Mary). The 0.02 atm breeding layer, 3.5% nitrogen on Venus, 8% on Threeworld and about −100 °C: Readify's reader wiki, ["Venus"](https://readifyai.com/en/books/Project%20Hail%20Mary/wiki/Venus) and ["Nitrogen tolerance"](https://readifyai.com/en/books/Project%20Hail%20Mary/wiki/Nitrogen%20tolerance). The *Hail Mary* at 40% pressure and the bead discussion: [Movie Mistakes](https://www.moviemistakes.com/book14945) and [Goodreads](https://www.goodreads.com/questions/2146789-when-rocky-gives-grace-the-little-ships). Reader sources, so approximate.

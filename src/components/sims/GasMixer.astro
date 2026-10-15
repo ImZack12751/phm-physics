@@ -1,0 +1,113 @@
+---
+// Simulation: a gas mixture. Presets (Earth sea level, Everest, the Hail Mary with an air mix or 52% O₂, a spacesuit,
+// Apollo 1's ground test, the novel's Venus and Threeworld breeding zones, Venus's surface) or sliders set the total
+// pressure (log scale) and the percentages of O₂, N₂ and CO₂; the rest is "other gases". A stacked bar splits the
+// total into partial pressures; readout gives each P_i = x_i P, an oxygen verdict for a human (death zone below
+// ~7 kPa, sea level 21 kPa, toxic above 140 kPa) and a nitrogen verdict for the novel's Taumoeba (71 Pa on Venus,
+// 162 Pa on Threeworld). Static: updates on input only.
+---
+
+<div
+	class="sim gmx"
+	data-title="Gas mixer"
+	data-description="Build a gas mixture and see its partial pressures. Pick a preset (Earth at sea level, the summit of Everest, the Hail Mary at 0.40 atm with an Earth-like mix or with 52% oxygen, a spacesuit with pure oxygen at 4.3 psi, the Apollo 1 ground test with pure oxygen at 16.7 psi, the novel's Venus and Threeworld breeding zones at 0.02 atm, or Venus's surface), or set the total pressure (0.001 to 100 atm, logarithmic) and the percentages of oxygen, nitrogen and carbon dioxide by volume; the remainder is other gases. A stacked bar splits the total pressure into partial pressures. The readout gives each partial pressure P = xP_total, a verdict on the oxygen for a human (death zone below about 7 kPa, sea level 21 kPa, toxic above about 140 kPa) and a verdict on the nitrogen for the novel's Taumoeba, compared with 71 Pa (Venus's breeding zone) and 162 Pa (Threeworld's)."
+>
+	<p class="sim-title">Simulation: gas mixer</p>
+	<p class="sim-help">Percentages say what the mixture is made of. Partial pressures say how much of each gas a lung or a microbe actually meets.</p>
+	<div class="sim-controls">
+		<label>Preset <select class="gmx-pre">
+			<option value="earth">Earth, sea level</option>
+			<option value="everest">Everest summit</option>
+			<option value="hmair">Hail Mary, air mix (0.40 atm)</option>
+			<option value="hm52">Hail Mary, 52% O₂ (0.40 atm)</option>
+			<option value="suit">spacesuit, pure O₂ (4.3 psi)</option>
+			<option value="apollo">Apollo 1 test, pure O₂ (16.7 psi)</option>
+			<option value="venusbreed">Venus breeding zone (novel)</option>
+			<option value="threebreed">Threeworld breeding zone (novel)</option>
+			<option value="venus">Venus surface</option>
+		</select></label>
+		<label>Total pressure <input type="range" class="gmx-p" min="-3" max="2" step="0.01" value="0" /> <output class="gmx-pv"></output></label>
+		<label>Oxygen <input type="range" class="gmx-o" min="0" max="100" step="0.01" value="20.95" /> <output class="gmx-ov"></output></label>
+		<label>Nitrogen <input type="range" class="gmx-n" min="0" max="100" step="0.01" value="78.08" /> <output class="gmx-nv"></output></label>
+		<label>Carbon dioxide <input type="range" class="gmx-c" min="0" max="100" step="0.01" value="0.04" /> <output class="gmx-cv"></output></label>
+	</div>
+	<svg class="dg gmx-svg" viewBox="0 0 600 120" role="img" aria-label="A stacked bar splitting the total pressure into the partial pressures of each gas"></svg>
+	<div class="readout gmx-out" aria-live="polite"></div>
+</div>
+
+<script>
+	document.querySelectorAll<HTMLElement>('.sim.gmx').forEach((root) => {
+		const q = <T extends Element>(s: string) => root.querySelector<T>(s)!;
+		const svg = q<SVGSVGElement>('.gmx-svg'), out = q<HTMLElement>('.gmx-out');
+		const Pre = q<HTMLSelectElement>('.gmx-pre'), Ps = q<HTMLInputElement>('.gmx-p');
+		const Os = q<HTMLInputElement>('.gmx-o'), Nn = q<HTMLInputElement>('.gmx-n'), Cs = q<HTMLInputElement>('.gmx-c');
+		const NS = 'http://www.w3.org/2000/svg';
+		const el = (tag: string, at: Record<string, string | number>, text?: string) => {
+			const e = document.createElementNS(NS, tag);
+			Object.entries(at).forEach(([k, v]) => e.setAttribute(k, String(v)));
+			if (text) e.textContent = text;
+			svg.append(e);
+			return e;
+		};
+		const ATM = 101325, PSI = 6894.757;
+		const presets: Record<string, [number, number, number, number]> = {
+			earth: [1, 20.95, 78.08, 0.04],
+			everest: [33.7e3 / ATM, 20.95, 78.08, 0.04],
+			hmair: [0.4, 20.95, 78.08, 0.04],
+			hm52: [0.4, 52, 47.96, 0.04],
+			suit: [(4.3 * PSI) / ATM, 100, 0, 0],
+			apollo: [(16.7 * PSI) / ATM, 100, 0, 0],
+			venusbreed: [0.02, 0, 3.5, 96.5],
+			threebreed: [0.02, 0, 8, 0],
+			venus: [92e5 / ATM, 0, 3.5, 96.5],
+		};
+		const L = 20, R = 580, Y = 30, H = 34;
+		el('text', { x: L, y: 18, class: 't-sm t-b' }, 'total pressure split into partial pressures');
+		const cols = ['f-amber', 'f-sky', 'f-violet', 'f-muted'];
+		const names = ['O₂', 'N₂', 'CO₂', 'other'];
+		const segs = cols.map((c) => el('rect', { y: Y, height: H, class: c }));
+		const labs = names.map(() => el('text', { y: Y + H + 18, class: 't-mid t-sm' }));
+		el('rect', { x: L, y: Y, width: R - L, height: H, class: 's-fg w1', fill: 'none' });
+		const fmtP = (pa: number) => (pa >= 1e5 ? `${(pa / 1e5).toPrecision(3)} bar` : pa >= 1000 ? `${(pa / 1000).toPrecision(3)} kPa` : pa >= 1 ? `${pa.toPrecision(3)} Pa` : `${pa.toExponential(1)} Pa`);
+		function fix(changed: HTMLInputElement) {
+			const others = [Os, Nn, Cs].filter((s) => s !== changed).reduce((a, s) => a + +s.value, 0);
+			if (+changed.value + others > 100) changed.value = String(Math.max(0, 100 - others));
+		}
+		function draw() {
+			const P = 10 ** +Ps.value * ATM;
+			const f = [+Os.value, +Nn.value, +Cs.value];
+			f.push(Math.max(0, 100 - f[0] - f[1] - f[2]));
+			q('.gmx-pv').textContent = `${(P / ATM).toPrecision(3)} atm`;
+			q('.gmx-ov').textContent = `${f[0].toFixed(2)}%`;
+			q('.gmx-nv').textContent = `${f[1].toFixed(2)}%`;
+			q('.gmx-cv').textContent = `${f[2].toFixed(2)}%`;
+			let x = L;
+			f.forEach((v, i) => {
+				const w = ((R - L) * v) / 100;
+				segs[i].setAttribute('x', String(x));
+				segs[i].setAttribute('width', String(w));
+				labs[i].setAttribute('x', String(x + w / 2));
+				labs[i].textContent = w > 46 ? `${names[i]} ${fmtP((P * v) / 100)}` : '';
+				x += w;
+			});
+			const pO = (P * f[0]) / 100, pN = (P * f[1]) / 100, pC = (P * f[2]) / 100, pX = (P * f[3]) / 100;
+			const o2 = pO < 7.1e3 ? '<b>death zone</b>: less oxygen than on Everest’s summit' : pO < 16e3 ? '<b>too little</b>: well below sea level’s 21 kPa' : pO <= 60e3 ? '<b>breathable</b>: around or above sea level’s 21 kPa' : pO < 1.4e5 ? '<b>oxygen-rich</b>: breathable for a while, but a serious fire risk' : '<b>toxic</b>: above about 140 kPa oxygen causes convulsions';
+			const tau = pN === 0 ? 'no nitrogen: natural Taumoeba thrive' : pN <= 71 ? 'at or below Venus’s breeding zone (71 Pa): the Venus-tolerant strain survives' : pN <= 162 ? 'between Venus (71 Pa) and Threeworld (162 Pa): only the Threeworld strain survives' : `${(pN / 162).toPrecision(2)} × Threeworld’s nitrogen: lethal even to the bred strains`;
+			out.innerHTML =
+				`<span class="k">P<sub>O₂</sub></span> = ${fmtP(pO)} &nbsp; <span class="k">P<sub>N₂</sub></span> = ${fmtP(pN)} &nbsp; <span class="k">P<sub>CO₂</sub></span> = ${fmtP(pC)} &nbsp; <span class="k">other</span> = ${fmtP(pX)}<br>` +
+				`<span class="k">oxygen for a human</span>: ${(pO / 21.2e3).toPrecision(2)} × sea level, ${o2}<br>` +
+				`<span class="k">nitrogen for Taumoeba</span>: ${tau}`;
+		}
+		function preset() {
+			const [p, o, n, c] = presets[Pre.value];
+			Ps.value = String(Math.log10(p));
+			Os.value = String(o); Nn.value = String(n); Cs.value = String(c);
+			draw();
+		}
+		Pre.addEventListener('change', preset);
+		Pre.addEventListener('input', preset);
+		Ps.addEventListener('input', draw);
+		[Os, Nn, Cs].forEach((s) => s.addEventListener('input', () => { fix(s); draw(); }));
+		preset();
+	});
+</script>

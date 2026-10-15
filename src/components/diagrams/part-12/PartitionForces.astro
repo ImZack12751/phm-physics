@@ -1,0 +1,35 @@
+---
+// The partition seen edge-on: long rose arrows (29 atm) from Rocky's side, tiny blue arrows (0.40 atm) from Grace's,
+// net force arrow below. Arrow lengths proportional to pressure (29 atm → 116 px).
+const head = (x1: number, y1: number, x2: number, y2: number, s = 9) => {
+	const a = Math.atan2(y2 - y1, x2 - x1), c = Math.cos(a), n = Math.sin(a);
+	return `${x2},${y2} ${x2 - s * c + (s / 2) * n},${y2 - s * n - (s / 2) * c} ${x2 - s * c - (s / 2) * n},${y2 - s * n + (s / 2) * c}`;
+};
+const W0 = 296, W1 = 306, T = 40, B = 190, K = 4; // px per atm
+const ys = [60, 90, 120, 150, 175];
+---
+
+<svg class="dg" viewBox="0 0 600 270" xmlns="http://www.w3.org/2000/svg">
+	<rect x="20" y={T - 10} width={W0 - 20} height={B - T + 20} class="f-rose-soft" />
+	<rect x={W1} y={T - 10} width={580 - W1} height={B - T + 20} class="f-sky-soft" />
+	<rect x={W0} y={T - 14} width={W1 - W0} height={B - T + 28} class="f-muted" />
+	<text x="30" y="20" class="t-sm t-b f-rose">Rocky's side: ammonia, 29 atm, 210 °C</text>
+	<text x="570" y="20" class="t-end t-sm t-b f-sky">Grace's side: air, 0.40 atm</text>
+	{ys.map((y) => (
+		<>
+			<line x1={W0 - 2 - 29 * K} y1={y} x2={W0 - 3} y2={y} class="s-rose w2" />
+			<polygon points={head(W0 - 2 - 29 * K, y, W0 - 2, y)} class="f-rose" />
+			<line x1={W1 + 14} y1={y} x2={W1 + 3} y2={y} class="s-sky w2" />
+			<polygon points={head(W1 + 14, y, W1 + 2, y, 6)} class="f-sky" />
+		</>
+	))}
+	<text x="40" y={B + 2} class="t-sm f-rose">29 atm × A = 5.88 MN</text>
+	<text x={W1 + 30} y="90" class="t-sm f-sky">0.40 atm × A = 0.08 MN</text>
+	<text x={W1 + 30} y="108" class="t-sm f-sky">(drawn longer than to scale)</text>
+	<text x={W1 + 30} y="150" class="t-sm">xenonite panel:</text>
+	<text x={W1 + 30} y="168" class="t-sm">1 cm thick, A = 2.0 m²</text>
+	<line x1={W1 + 26} y1="160" x2={W1 + 4} y2="160" class="s-muted w1" />
+	<line x1="190" y1="236" x2="400" y2="236" class="s-amber w3" />
+	<polygon points={head(190, 236, 414, 236, 12)} class="f-amber" />
+	<text x="300" y="262" class="t-mid t-sm t-b f-amber">net force ΔP × A = 5.80 MN towards Grace (weight of about 590 tonnes)</text>
+</svg>

@@ -1,0 +1,445 @@
+---
+title: Stress and strength
+description: Stress and strain inside materials, Young's modulus as Hooke's law for solids, the stress–strain curve with yield and breaking points, ductile and brittle materials, why glass is weaker than it should be, breaking length and the 10 km xenonite chain, the stress in pressure-vessel walls, torque, and the bending of a flat panel (σ = 3qL²/4t², derived), ending with what Rocky's flat xenonite partition would really have to withstand.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import StressStrain from '../../../components/diagrams/part-12/StressStrain.astro';
+import StrengthLadder from '../../../components/diagrams/part-12/StrengthLadder.astro';
+import BendingStrip from '../../../components/diagrams/part-12/BendingStrip.astro';
+import WallDesigner from '../../../components/sims/WallDesigner.astro';
+
+## The scene
+
+Rocky builds with xenonite the way people build with wood: tunnels, rooms, tools, and a 10 km chain that he and Grace lower from the *Hail Mary* into the atmosphere of the planet Adrian to catch a sample. Grace is amazed by it. It is clear, it shrugs off Erid's heat, and it holds Rocky's 29 atmospheres even as large, flat panels, which any human engineer would call the worst possible shape for a pressure wall.
+
+Chapter 12.4 worked out the forces on Rocky's partition: 5.8 MN on 2.0 m². This chapter asks what happens **inside** the material. How hard is each bit of it being pulled? How hard can steel, glass or the strongest human-made fibres be pulled before they break? And how much worse is a flat panel than a curved one? At the end we can say just how extraordinary xenonite would have to be.
+
+## Prerequisites
+
+<Prereqs notes={{ 'pressure-walls': 'net pressure forces, wall tension ΔPr/2 and ΔPr, and why flat panels are a problem', 'speed-of-sound': 'Young’s modulus Y as the stiffness of a solid', 'pendulums-shm': 'Hooke’s law F = kx for springs', 'newtons-laws': 'forces in balance on an object at rest', 'spin-gravity': 'the model centrifuge and its cable tension', 'gravitation': 'surface gravity of our model Adrian, 17.2 m/s²' }} />
+
+## The concept
+
+### Stress: force per area inside a solid
+
+Hang a weight from a rope. Every cross-section of the rope carries the full weight: the part below pulls down, the part above pulls up. A thick rope shares that pull among more material than a thin one, so it is less likely to snap. What matters is the force per area of cross-section, the <Term id="stress">stress</Term>:
+
+$$
+\sigma = \frac{F}{A}.
+$$
+
+($\sigma$ is the Greek letter sigma.) Stress has the same units as pressure, pascals, and is usually quoted in megapascals (MPa, $10^{6}$ Pa) or gigapascals (GPa, $10^{9}$ Pa). It can be a pull (tensile stress, stretching the material) or a push (compressive stress, squashing it). Pressure in a fluid is a compressive stress that pushes equally in all directions; a solid can carry different stresses in different directions, which is what lets it be a wall.
+
+### Strain: how much it stretches
+
+A stressed material changes length. The fractional change is the <Term id="strain">strain</Term>:
+
+$$
+\varepsilon = \frac{\Delta L}{L}.
+$$
+
+It is a pure number: a 2 m wire stretched by 1 mm has a strain of 0.0005, or 0.05%.
+
+### Young's modulus: Hooke's law for materials
+
+For small stresses, most solids behave like springs (Chapter 2.4): double the stress and the strain doubles. The constant that links them is <Term id="youngs-modulus">Young's modulus</Term> $Y$, which Chapter 11.3 used to find the speed of sound in a rod:
+
+$$
+\sigma = Y\varepsilon.
+$$
+
+Stiff materials have a large $Y$: steel $2.0 \times 10^{11}$ Pa (200 GPa), aluminium 70 GPa, glass 60 GPa, bone 16 GPa. A wire of length $L$ and cross-section $A$ is a spring with spring constant $k = YA/L$ (Formulas): long thin wires are stretchy, short thick ones stiff, even when they are the same material.
+
+### Breaking: the stress–strain curve
+
+Keep pulling and the straight line ends.
+
+<Figure caption="Stress against strain for a ductile metal (structural steel, amber) and a brittle one (glass, blue), schematic and not to scale. Steel stretches in proportion to the stress up to its yield strength, then stretches permanently and a lot before reaching its ultimate tensile strength and breaking. Glass stays elastic until it suddenly snaps, at a much lower stress." alt="A graph with strain on the horizontal axis and stress on the vertical axis. An amber curve for steel rises in a steep straight line labelled elastic, slope Y, to a point labelled yield strength, 250 MPa. It then bends over and continues rising slowly across a wide region labelled plastic, permanent stretch, to a peak labelled ultimate tensile strength, 400 MPa, and then falls a little to a cross labelled fracture. A blue line for glass rises in a straight line, slightly less steeply, and ends abruptly at a much lower stress with a cross labelled glass breaks, about 41 MPa, no warning.">
+	<StressStrain />
+</Figure>
+
+- In the **elastic** region, the material springs back when the load is removed.
+- At the <Term id="yield-strength">yield strength</Term>, a metal starts to stretch **permanently**: atoms slide past one another in layers. Bend a paper clip and it stays bent.
+- The <Term id="tensile-strength">ultimate tensile strength</Term> is the highest stress the material can carry. Beyond it, the material necks down and breaks.
+
+Metals such as steel and aluminium are <Term id="ductile-brittle">ductile</Term>: they stretch a lot after yielding, which gives warning before they fail. Glass, ceramics and concrete are **brittle**: they stay elastic and then snap without warning. Concrete can carry only 2 to 5 MPa in tension, so builders bury steel bars inside it to carry the pulling.
+
+### How strong are things?
+
+<Figure caption="Tensile strengths of some materials, on a logarithmic scale (ultimate strength; yield for structural steel and aluminium is lower). The top bar is the stress that Rocky's flat 1 cm partition would carry in bending (Example 5). Values from Wikipedia's ultimate tensile strength table." alt="A horizontal bar chart on a logarithmic scale from 1 megapascal to 100 000 megapascals. Bars from shortest to longest: concrete 2 MPa; annealed glass 41; bone 130; human hair 200; aluminium alloy 6061 300; structural steel 400; spider silk 1000; Kevlar fibre 2920; optical-fibre glass 4100; carbon fibre 4137; a highlighted rose bar for what Rocky's flat partition needs in bending, 43 500; and graphene, perfect and intrinsic, 130 000.">
+	<StrengthLadder />
+</Figure>
+
+A few things stand out. Fibres are stronger than bulk materials: drawn into thin strands, glass and carbon have very few flaws. Ordinary window glass breaks at about 41 MPa, but optical fibre made of very pure glass holds about 4100 MPa, a hundred times more. Glass is weak in practice because its surface is covered in tiny scratches and cracks. A crack concentrates the stress at its sharp tip, the tip breaks a few more atomic bonds, the crack grows, and the glass shatters. The strength of a brittle material is the strength of its worst flaw. And graphene, a single sheet of carbon atoms, has an intrinsic strength of about 130 000 MPa (130 GPa), but only in perfect samples a few micrometres across.
+
+### Breaking length: hanging by itself
+
+How long a cable can you hang before it snaps under its own weight? The top of the cable carries the weight of everything below. For a cable of length $\ell$, density $\rho$ and cross-section $A$, that weight is $\rho A\ell g$, so the stress at the top is
+
+$$
+\sigma = \frac{\rho A\ell g}{A} = \rho g\ell.
+$$
+
+The area cancels: a thicker cable is heavier in proportion. The cable breaks when $\rho g\ell$ reaches the tensile strength, at the <Term id="breaking-length">breaking length</Term>
+
+$$
+\ell_{\text{break}} = \frac{\sigma_{\text{max}}}{\rho g}.
+$$
+
+Steel's is about 5 km on Earth, Kevlar's about 200 km (Example 3). It is a measure of strength **per weight**, which is what matters for cables, aircraft and spacecraft.
+
+That puts the novel's 10 km xenonite chain in perspective. A steel chain 10 km long simply hanging in Adrian's gravity (17.2 m/s² in our model, Chapter 4.1) would break near the top under its own weight at about 3 km. Kevlar or carbon fibre could do it with room to spare. (The real chain hangs from a ship in orbit, where the whole chain is falling together, so its weight is mostly cancelled; the loads come from the air dragging on it, which this simple model ignores. The comparison still shows the scale of strength involved.)
+
+### Stress in a pressure vessel's wall
+
+Chapter 12.4 found the tension per metre in a curved wall: $\Delta P\,r/2$ for a sphere and $\Delta P\,r$ around a cylinder. That force per metre is spread through the wall's thickness $t$, so the stress inside the wall is the tension divided by $t$:
+
+$$
+\sigma_{\text{sphere}} = \frac{\Delta P\,r}{2t}, \qquad \sigma_{\text{hoop}} = \frac{\Delta P\,r}{t}.
+$$
+
+To design a wall, choose the material, decide how much stress it may safely carry, and solve for $t$. Engineers never design to the breaking stress. They divide the strength by a <Term id="safety-factor">safety factor</Term>, often 2 or more, to allow for flaws, wear, and loads nobody expected.
+
+Rocky's 1 m sphere of Example 3 in Chapter 12.4 would need a steel wall only about 12 mm thick, with a safety factor of 2 (Example 4). A curved vessel holding 29 atm is ordinary engineering.
+
+### Turning effects: torque
+
+A flat panel can't carry pressure the way a curved wall does, by stretching. It has to **bend**. To understand bending we need one more idea. A force that tends to rotate something has a turning effect, or <Term id="torque">torque</Term>, equal to the force times the perpendicular distance from the pivot to its line of action:
+
+$$
+\tau = Fd.
+$$
+
+A door is easy to push open at the handle (large $d$) and hard to push near the hinges (small $d$). On a balanced see-saw, a child at 2 m balances an adult twice as heavy at 1 m: the torques are equal and opposite. An object at rest has no net force **and** no net torque about any point.
+
+### Bending a flat panel
+
+Picture a strip of the partition 1 m wide, spanning the distance $L$ between two supports, with Rocky's pressure pushing on one side.
+
+<Figure caption="A flat strip of span L and thickness t, supported at both ends and loaded by a pressure difference q (left). Cut it in the middle (right): the support's push and the pressure on the half make a turning effect, qL²/8 per metre of width, which the material across the cut must balance. It does so by squashing the face on the pressure side and stretching the other face, with stress rising in a straight line from zero in the middle to ±σ_max at the faces." alt="Left: a horizontal strip resting on two triangular supports at its ends, a distance L apart, with many small arrows pushing down on its top surface labelled pressure difference q. The strip sags slightly in the middle. Upward arrows at each support are labelled q L over 2 per metre of width. Right: the left half of the strip, cut at the middle, drawn larger. An upward arrow at its left end is labelled support q L over 2, a distance L over 2 from the cut. A downward arrow at its middle is labelled load q L over 2, a distance L over 4 from the cut. At the cut face, a triangle of arrows shows compression pointing into the face at the top, shrinking to zero at the middle line, and tension pointing out of the face at the bottom. The top is labelled minus sigma max, squashed, and the bottom plus sigma max, stretched. The thickness is labelled t.">
+	<BendingStrip />
+</Figure>
+
+The supports push up, the pressure pushes down in between, and the strip sags. Inside it, the face on the pressure side is squashed and the other face is stretched; the middle layer is neither. The Formulas section balances the torques on half the strip and finds the largest stress, at the faces:
+
+$$
+\sigma_{\text{max}} = \frac{3qL^{2}}{4t^{2}},
+$$
+
+where $q$ is the pressure difference. Compare this with the curved wall, $\sigma = qr/2t$. The bending stress grows with the **square** of span over thickness, $(L/t)^{2}$. For the partition, $L/t$ is 141, and its square is 20 000. That is why flat panels are so bad.
+
+For the 1 cm partition, the bending stress comes out at about 43 GPa (Example 5): a thousand times what window glass can take, 170 times the yield strength of structural steel, and a third of the strength of perfect graphene. A steel panel would have to be about 13 cm thick, a glass one 33 cm. The same 1 cm of material curved into a 1 m sphere carries only 145 MPa, 300 times less. A real panel held along all four edges, rather than a strip held at two, is somewhat stronger than this strip model says, but no factor of a few can close a gap of hundreds.
+
+## Formulas
+
+### Stress, strain and Young's modulus
+
+$$
+\boxed{\sigma = \frac{F}{A} \qquad \varepsilon = \frac{\Delta L}{L} \qquad \sigma = Y\varepsilon}
+$$
+
+### A wire is a spring
+
+From $F/A = Y\,\Delta L/L$:
+
+$$
+F = \frac{YA}{L}\,\Delta L \qquad\Rightarrow\qquad \boxed{k = \frac{YA}{L}}
+$$
+
+which is Hooke's law $F = kx$ with $x = \Delta L$.
+
+### Breaking length
+
+The weight below the top of a hanging cable, divided by its area, must stay below the strength:
+
+$$
+\sigma_{\text{top}} = \frac{\rho A\ell g}{A} = \rho g\ell \qquad\Rightarrow\qquad \boxed{\ell_{\text{break}} = \frac{\sigma_{\text{max}}}{\rho g}}
+$$
+
+### Stress in a thin curved wall
+
+Dividing Chapter 12.4's tensions by the thickness $t$:
+
+$$
+\boxed{\sigma_{\text{sphere}} = \frac{\Delta P\,r}{2t} \qquad \sigma_{\text{hoop}} = \frac{\Delta P\,r}{t} \qquad \sigma_{\text{axial}} = \frac{\Delta P\,r}{2t}}
+$$
+
+and for a design with safety factor $n$, $t = \Delta P\,r/(2\sigma_{\text{max}}/n)$ for a sphere.
+
+### Torque
+
+$$
+\boxed{\tau = Fd}
+$$
+
+with $d$ the perpendicular distance from the pivot to the force's line. At rest, the torques about any point balance.
+
+### Bending stress in a flat strip
+
+Take a strip of width $b$, span $L$ and thickness $t$, resting on supports at its ends, with a pressure difference $q$ on one face. The total load is $qbL$, so each support pushes up with $qbL/2$.
+
+**Torque from outside.** Cut the strip at its middle and look at the left half. About the cut, the support's push $qbL/2$ acts at a distance $L/2$, turning one way. The load on the left half, $qbL/2$, is spread evenly, so it acts as if at the half's middle, a distance $L/4$ from the cut, turning the other way. The net turning effect is
+
+$$
+\frac{qbL}{2}\cdot\frac{L}{2} - \frac{qbL}{2}\cdot\frac{L}{4} = \frac{qbL^{2}}{8}.
+$$
+
+**Torque from inside.** The half is at rest, so the material across the cut must supply an equal and opposite torque. When the strip bends into a gentle arc, the layers further from the middle are on bigger (stretched side) or smaller (squashed side) arcs, by amounts proportional to their distance from the middle layer. So the strain, and with it the stress $\sigma = Y\varepsilon$, rises in a straight line from zero at the middle to $\sigma_{\text{max}}$ at each face.
+
+On each side of the middle, a layer of thickness $t/2$ carries an average stress of $\sigma_{\text{max}}/2$ over an area $b\,t/2$, a total force of
+
+$$
+F = \frac{\sigma_{\text{max}}}{2}\cdot\frac{bt}{2} = \frac{\sigma_{\text{max}}bt}{4}.
+$$
+
+Because the stress grows linearly, this force acts at the centre of a triangle, two-thirds of the way out from the middle: $\tfrac{2}{3}\cdot\tfrac{t}{2} = \tfrac{t}{3}$ from the middle. The push on one side and the pull on the other are equal and opposite, a distance $2t/3$ apart, so together they make a torque
+
+$$
+\frac{\sigma_{\text{max}}bt}{4}\cdot\frac{2t}{3} = \frac{\sigma_{\text{max}}bt^{2}}{6}.
+$$
+
+**Balance.**
+
+$$
+\frac{\sigma_{\text{max}}bt^{2}}{6} = \frac{qbL^{2}}{8} \qquad\Rightarrow\qquad \boxed{\sigma_{\text{max}} = \frac{3qL^{2}}{4t^{2}}} \qquad t_{\text{needed}} = L\sqrt{\frac{3q}{4\sigma_{\text{max}}}}
+$$
+
+The width $b$ cancels. Units: $\text{Pa} \times \text{m}^{2}/\text{m}^{2} = \text{Pa}$ ✓.
+
+## Worked examples
+
+<Example n={1} title="Stretching a steel wire">
+A steel wire 2.0 m long and 1.0 mm across holds a 10 kg mass on Earth. Find the stress, the strain and the stretch, and compare the stress with steel's yield strength (250 MPa). What is the wire's spring constant?
+
+$$
+A = \pi (0.50 \times 10^{-3}\ \text{m})^{2} = 7.85 \times 10^{-7}\ \text{m}^{2}
+$$
+
+$$
+\sigma = \frac{F}{A} = \frac{10\ \text{kg} \times 9.81\ \text{m/s}^{2}}{7.85 \times 10^{-7}\ \text{m}^{2}} = 1.25 \times 10^{8}\ \text{Pa} = 125\ \text{MPa}
+$$
+
+$$
+\varepsilon = \frac{\sigma}{Y} = \frac{1.25 \times 10^{8}\ \text{Pa}}{2.0 \times 10^{11}\ \text{Pa}} = 6.2 \times 10^{-4} \qquad \Delta L = \varepsilon L = 6.2 \times 10^{-4} \times 2.0\ \text{m} = 1.25\ \text{mm}
+$$
+
+$$
+k = \frac{YA}{L} = \frac{2.0 \times 10^{11}\ \text{Pa} \times 7.85 \times 10^{-7}\ \text{m}^{2}}{2.0\ \text{m}} = 7.9 \times 10^{4}\ \text{N/m}
+$$
+
+The wire is at half its yield strength. Hang 20 kg and it yields; hang about 32 kg and it reaches 400 MPa and breaks.
+</Example>
+
+<Example n={2} title="The centrifuge cable" book>
+Part 3's model of the *Hail Mary*'s centrifuge has its two halves joined by cables carrying a total tension of $1.96 \times 10^{6}$ N. What cross-section of structural steel would carry that at its yield strength, and how much would 104 m of it stretch?
+
+$$
+A = \frac{F}{\sigma} = \frac{1.96 \times 10^{6}\ \text{N}}{2.5 \times 10^{8}\ \text{Pa}} = 7.8 \times 10^{-3}\ \text{m}^{2}
+$$
+
+That is one round cable $d = \sqrt{4A/\pi} = 0.10$ m across. At that stress,
+
+$$
+\varepsilon = \frac{2.5 \times 10^{8}\ \text{Pa}}{2.0 \times 10^{11}\ \text{Pa}} = 1.25 \times 10^{-3} \qquad \Delta L = 1.25 \times 10^{-3} \times 104\ \text{m} = 0.13\ \text{m}
+$$
+
+A steel cable as thick as a man's arm, stretching 13 cm. With a safety factor of 2 it would be 14 cm across. Engineers would use several cables, and a stronger fibre such as Kevlar would cut the mass a lot.
+</Example>
+
+<Example n={3} title="Breaking lengths, and the 10 km chain" book>
+Find the breaking lengths on Earth of structural steel (400 MPa, $7800\ \text{kg/m}^{3}$), Kevlar fibre (2920 MPa, $1440\ \text{kg/m}^{3}$) and carbon fibre (4137 MPa, $1750\ \text{kg/m}^{3}$). Then repeat for steel in our model Adrian's gravity, $17.15\ \text{m/s}^{2}$.
+
+$$
+\ell_{\text{steel}} = \frac{4.0 \times 10^{8}\ \text{Pa}}{7800\ \text{kg/m}^{3} \times 9.81\ \text{m/s}^{2}} = 5.2 \times 10^{3}\ \text{m} = 5.2\ \text{km}
+$$
+
+$$
+\ell_{\text{Kevlar}} = \frac{2.92 \times 10^{9}}{1440 \times 9.81}\ \text{m} = 207\ \text{km} \qquad \ell_{\text{carbon}} = \frac{4.137 \times 10^{9}}{1750 \times 9.81}\ \text{m} = 241\ \text{km}
+$$
+
+$$
+\ell_{\text{steel, Adrian}} = \frac{4.0 \times 10^{8}}{7800 \times 17.15}\ \text{m} = 3.0\ \text{km}
+$$
+
+A steel line hanging 10 km down in Adrian's gravity would snap at the top. Kevlar would hang 118 km there. Xenonite, whatever it is, behaves more like the fibres than like steel. (As the concept section says, a chain trailing from an orbiting ship is mostly weightless and is loaded by drag instead, so these are comparisons of strength per weight, not a model of the novel's sampling run.)
+</Example>
+
+<Example n={4} title="A wall for Rocky's sphere" book>
+Rocky's 1.0 m sphere of Erid air (Chapter 12.4, Example 3) has $\Delta P = 2.90 \times 10^{6}$ Pa. How thick must its wall be in structural steel with a safety factor of 2 (yield 250 MPa, so 125 MPa allowed), and in annealed glass with no safety factor (41 MPa)? What stress would a 1 cm wall carry?
+
+$$
+t_{\text{steel}} = \frac{\Delta P\,r}{2\sigma} = \frac{2.90 \times 10^{6}\ \text{Pa} \times 1.0\ \text{m}}{2 \times 1.25 \times 10^{8}\ \text{Pa}} = 0.0116\ \text{m} = 12\ \text{mm}
+$$
+
+$$
+t_{\text{glass}} = \frac{2.90 \times 10^{6} \times 1.0}{2 \times 4.1 \times 10^{7}}\ \text{m} = 0.035\ \text{m} = 35\ \text{mm}
+$$
+
+$$
+\sigma_{1\,\text{cm}} = \frac{2.90 \times 10^{6}\ \text{Pa} \times 1.0\ \text{m}}{2 \times 0.010\ \text{m}} = 1.45 \times 10^{8}\ \text{Pa} = 145\ \text{MPa}
+$$
+
+A 1 cm wall would need a material somewhat stronger than structural steel's yield, but nothing exotic: high-strength steels do better, and carbon-fibre laminates reach about 1600 MPa. Round vessels holding tens of atmospheres are routine.
+</Example>
+
+<Example n={5} title="The flat partition in bending" book>
+Model the 2.0 m² partition as a strip of span $L = 1.41$ m and thickness $t = 1.0$ cm, carrying $q = 2.90 \times 10^{6}$ Pa. Find the bending stress. Then find the thickness needed in structural steel (at yield, 250 MPa) and in annealed glass (41 MPa), and the mass of the steel panel.
+
+$$
+\sigma_{\text{max}} = \frac{3qL^{2}}{4t^{2}} = \frac{3 \times 2.90 \times 10^{6}\ \text{Pa} \times 2.0\ \text{m}^{2}}{4 \times (0.010\ \text{m})^{2}} = 4.35 \times 10^{10}\ \text{Pa} = 43\ \text{GPa}
+$$
+
+That is $43\,500/41 = 1060$ times window glass's strength and $43\,500/250 = 174$ times steel's yield.
+
+$$
+t_{\text{steel}} = L\sqrt{\frac{3q}{4\sigma}} = 1.41\ \text{m} \times \sqrt{\frac{3 \times 2.90 \times 10^{6}}{4 \times 2.5 \times 10^{8}}} = 1.41\ \text{m} \times 0.0932 = 0.13\ \text{m}
+$$
+
+$$
+t_{\text{glass}} = 1.41\ \text{m} \times \sqrt{\frac{3 \times 2.90 \times 10^{6}}{4 \times 4.1 \times 10^{7}}} = 1.41\ \text{m} \times 0.230 = 0.33\ \text{m}
+$$
+
+$$
+m_{\text{steel}} = \rho A t = 7800\ \text{kg/m}^{3} \times 2.0\ \text{m}^{2} \times 0.13\ \text{m} = 2.1 \times 10^{3}\ \text{kg}
+$$
+
+A flat steel wall would be 13 cm thick and weigh two tonnes, with no safety margin at all; a glass one a third of a metre thick. The novel's centimetre-thin, flat, transparent xenonite needs a strength of about 43 GPa: no known bulk material comes within a factor of ten (diamond manages about 2.8 GPa).
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** Stress, strain, Young's modulus, the stress–strain curve, yield and tensile strength, ductile and brittle failure, breaking length, thin-walled vessel stresses $\Delta P\,r/2t$ and $\Delta P\,r/t$, torque, and bending stress $6M/bt^{2}$ (which with $M = qbL^{2}/8$ gives our $3qL^{2}/4t^{2}$) are standard mechanics of materials (OpenStax University Physics Vol. 1, chapter 12; Wikipedia "Cylinder stress", "Bending"). The strengths and densities are from Wikipedia's tensile strength table and Young's moduli from OpenStax Table 12.1.
+
+**Weir's inventions.** Xenonite is invented: a clear, heat-proof material that Grace's instruments show is made largely of xenon, a gas that barely reacts with anything. Its ability to hold 29 atm as large flat panels, the 10 km chain and the tunnels are the novel's. The partition's dimensions are our model; the novel gives no thickness.
+
+**How realistic are the numbers?** On the physics alone, a 1 cm flat panel holding Rocky's air needs about 43 GPa in bending, a third of the strength of a perfect sheet of graphene and far beyond any bulk material, even before a safety factor. The story's xenonite would have to be stronger than anything humans can make, by a wide margin. Curved xenonite vessels, by contrast, would only need to be about as strong as good steel. If Weir's partitions were gently domed, or several centimetres thick, or held by a frame of ribs, the numbers would come down to merely remarkable.
+</RealVsBook>
+
+## Interactive simulation
+
+<WallDesigner />
+
+Things to try: start with the flat panel in glass at 1 cm and raise the thickness until it survives. Switch to a sphere of the same size and see how thin the wall can be. Try steel and carbon fibre; then pick "ideal graphene" for the flat panel and find the thinnest panel that survives.
+
+## Practice set
+
+<Problem n={1} level="easy">
+A rope with a cross-section of 2.0 cm² holds 500 N. What is the stress in it?
+
+<Solution>
+$\sigma = 500/2.0 \times 10^{-4} = 2.5 \times 10^{6}\ \text{Pa} = 2.5\ \text{MPa}$.
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy">
+A 3.0 m rod stretches by 1.5 mm. What is the strain?
+
+<Solution>
+$\varepsilon = 1.5 \times 10^{-3}/3.0 = 5.0 \times 10^{-4}$.
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy">
+In a test, a stress of 100 MPa produces a strain of 0.0014. What is Young's modulus, and which material in OpenStax Table 12.1 might it be?
+
+<Solution>
+$Y = 1.0 \times 10^{8}/0.0014 = 7.1 \times 10^{10}$ Pa, about 70 GPa: aluminium.
+</Solution>
+</Problem>
+
+<Problem n={4} level="easy">
+Concrete can carry 2 to 5 MPa in tension but much more in compression. Why do builders put steel bars in concrete beams, and on which side of a beam that sags under a load?
+
+<Solution>
+A sagging beam is squashed on top and stretched underneath (as in the bending figure). Concrete copes with the squashing but cracks under the stretching, so the steel bars go near the bottom, where they carry the tension.
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium">
+Find the spring constant of a steel wire 1.0 mm across and 2.0 m long, and of the same wire cut to 0.50 m.
+
+<Solution>
+$k = YA/L = 2.0 \times 10^{11} \times 7.85 \times 10^{-7}/2.0 = 7.9 \times 10^{4}$ N/m. At 0.50 m, four times stiffer: $3.1 \times 10^{5}$ N/m.
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium">
+Spider silk has a tensile strength of about 1000 MPa and a density of $1300\ \text{kg/m}^{3}$. What is its breaking length on Earth? Compare it with steel's.
+
+<Solution>
+$\ell = 1.0 \times 10^{9}/(1300 \times 9.81) = 7.8 \times 10^{4}$ m = 78 km, fifteen times steel's 5.2 km.
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium" book>
+What is structural steel's breaking length on Erid (2 g) and in the *Hail Mary* at 1.5 g?
+
+<Solution>
+It scales as $1/g$: $5.2/2 = 2.6$ km on Erid, $5.2/1.5 = 3.5$ km on the ship.
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium" book>
+How thick must an aluminium alloy (6061-T6, yield 241 MPa) tube of radius 0.50 m be to hold Rocky's $\Delta P = 2.90 \times 10^{6}$ Pa at its yield strength? Which stress decides it, hoop or axial?
+
+<Solution>
+The hoop stress is the larger: $t = \Delta P\,r/\sigma = 2.90 \times 10^{6} \times 0.50/2.41 \times 10^{8} = 6.0 \times 10^{-3}$ m = 6.0 mm (no safety factor).
+</Solution>
+</Problem>
+
+<Problem n={9} level="medium" book>
+If xenonite were glass-like ($Y = 60$ GPa), what strain would the 1 cm wall of Rocky's 1 m sphere have at 145 MPa? Annealed glass breaks at 41 MPa: what strain is that?
+
+<Solution>
+$\varepsilon = 1.45 \times 10^{8}/6.0 \times 10^{10} = 2.4 \times 10^{-3}$. Glass breaks at $4.1 \times 10^{7}/6.0 \times 10^{10} = 6.8 \times 10^{-4}$: the sphere would need 3.5 times more stretch than window glass can take.
+</Solution>
+</Problem>
+
+<Problem n={10} level="challenging" book>
+If the partition were 2.0 cm thick instead of 1.0 cm, what would its bending stress be? How thick would it need to be in structural steel with a safety factor of 2?
+
+<Solution>
+Stress goes as $1/t^{2}$: $43.5/4 = 10.9$ GPa. Steel at 125 MPa: $t = 1.41 \times \sqrt{3 \times 2.90 \times 10^{6}/(4 \times 1.25 \times 10^{8})} = 1.41 \times 0.132 = 0.19$ m.
+</Solution>
+</Problem>
+
+<Problem n={11} level="challenging" book>
+Compare a 1.0 cm wall in structural steel (yield 250 MPa) and in annealed glass (41 MPa) for Rocky's 1 m sphere, where the wall stress is 145 MPa. Which survives, and with what safety factor?
+
+<Solution>
+Steel: $250/145 = 1.7$, it survives with a safety factor of 1.7 (a little low for engineers). Glass: $41/145 = 0.28$, it breaks: the stress is 3.5 times its strength.
+</Solution>
+</Problem>
+
+<Problem n={12} level="challenging" book>
+Suppose xenonite had the intrinsic strength of perfect graphene, 130 GPa, with no safety factor. How thin could the flat partition be?
+
+<Solution>
+$t = L\sqrt{3q/4\sigma} = 1.41 \times \sqrt{3 \times 2.90 \times 10^{6}/(4 \times 1.30 \times 10^{11})} = 1.41 \times 4.09 \times 10^{-3} = 5.8 \times 10^{-3}$ m, about 6 mm. Even a panel made of flawless graphene-strength material would need to be more than half a centimetre thick.
+</Solution>
+</Problem>
+
+## Summary
+
+- Stress is force per area inside a material, $\sigma = F/A$; strain is the fractional stretch, $\varepsilon = \Delta L/L$. For small loads $\sigma = Y\varepsilon$, and a wire is a spring with $k = YA/L$.
+- Beyond the elastic region, ductile metals yield and stretch permanently before reaching their ultimate tensile strength; brittle materials such as glass snap without warning. Glass is weak in practice because of surface flaws: optical fibre is 100 times stronger than window glass.
+- The breaking length $\sigma_{\text{max}}/\rho g$ measures strength per weight: steel about 5 km, Kevlar and carbon fibre over 200 km. A 10 km steel line couldn't hang in Adrian's gravity.
+- In a curved pressure wall the stress is $\Delta P\,r/2t$ (sphere) or $\Delta P\,r/t$ (cylinder hoop). Designs divide the strength by a safety factor.
+- Torque is force times perpendicular distance, $\tau = Fd$; at rest, torques balance.
+- A flat panel must bend: $\sigma_{\text{max}} = 3qL^{2}/4t^{2}$, growing as $(L/t)^{2}$. Rocky's 1 cm, 2 m² partition would carry about 43 GPa, about 300 times more than the same material curved into a 1 m sphere, and beyond any known bulk material.
+
+**Formulas from this chapter**
+
+$$
+\sigma = \frac{F}{A} \qquad \varepsilon = \frac{\Delta L}{L} \qquad \sigma = Y\varepsilon \qquad k = \frac{YA}{L} \qquad \ell_{\text{break}} = \frac{\sigma_{\text{max}}}{\rho g} \qquad \sigma = \frac{\Delta P\,r}{2t},\ \frac{\Delta P\,r}{t} \qquad \tau = Fd \qquad \sigma_{\text{max}} = \frac{3qL^{2}}{4t^{2}}
+$$
+
+## Sources
+
+- Stress, strain, Young's modulus and Table 12.1 (steel 200 GPa, aluminium 70 GPa, glass 60 GPa, bone 16 GPa): OpenStax, [*University Physics Volume 1*, §12.3 "Stress, Strain, and Elastic Modulus"](https://openstax.org/books/university-physics-volume-1/pages/12-3-stress-strain-and-elastic-modulus). The stress–strain curve, elastic and plastic behaviour, yield and breaking: [§12.4 "Elasticity and Plasticity"](https://openstax.org/books/university-physics-volume-1/pages/12-4-elasticity-and-plasticity). Torque: [§10.6 "Torque"](https://openstax.org/books/university-physics-volume-1/pages/10-6-torque); equilibrium of forces and torques: [§12.1](https://openstax.org/books/university-physics-volume-1/pages/12-1-conditions-for-static-equilibrium).
+- Tensile strengths and densities (structural steel ASTM A36: yield 250 MPa, ultimate 400–550 MPa, 7.8 g/cm³; aluminium 6061-T6 241/300 MPa, 2.7 g/cm³; annealed glass 41 MPa, 2.53 g/cm³; optical-fibre glass 4100 MPa; concrete 2–5 MPa; bone 130 MPa; human hair 200–250 MPa; spider silk about 1000 MPa; Kevlar 2920–3000 MPa, 1.44 g/cm³; carbon fibre 4137 MPa, 1.75 g/cm³, and 1600 MPa as a laminate; diamond 2800 MPa; graphene intrinsic 130 000 MPa): Wikipedia, ["Ultimate tensile strength"](https://en.wikipedia.org/wiki/Ultimate_tensile_strength) (table and its cited sources). Breaking length: Wikipedia, ["Specific strength"](https://en.wikipedia.org/wiki/Specific_strength).
+- Thin-walled pressure vessels: Wikipedia, ["Cylinder stress"](https://en.wikipedia.org/wiki/Cylinder_stress). Bending stress and the linear stress distribution across a beam: Wikipedia, ["Bending"](https://en.wikipedia.org/wiki/Bending).
+- The 10 km xenonite chain and Rocky's xenonite construction: Wikipedia, [*Project Hail Mary*](https://en.wikipedia.org/wiki/Project_Hail_Mary). Xenonite as mostly xenon: /Film, ["What is Project Hail Mary's xenonite?"](https://slashfilm.com/2124822/project-hail-mary-xenonine-rocky-sci-fi-material-explained). Xenonite holding 29 atm as large, flat panels: Readify's reader wiki, ["Xenonite"](https://readifyai.com/en/books/Project%20Hail%20Mary/wiki/Xenonite) (reader source).
+- Our models: the partition (2.0 m², 1 cm), Rocky's 1 m sphere and 0.5 m tube, Adrian's gravity of 17.15 m/s² (Chapter 4.1) and the centrifuge cable tension of $1.96 \times 10^{6}$ N (Chapter 3.3).

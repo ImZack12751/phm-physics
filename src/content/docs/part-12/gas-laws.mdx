@@ -1,0 +1,412 @@
+---
+title: The gas laws
+description: Boyle's, Charles's and Gay-Lussac's laws, how they combine into the ideal-gas law PV = NkT = nRT, the mole and the gas constant, the density of a gas, when a gas stops being ideal, and why an atmosphere thins out exponentially with height (the barometric formula and scale heights of Earth, Venus, Mars and Erid), all built on filling Rocky's rooms with hot ammonia.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import GasLawGraphs from '../../../components/diagrams/part-12/GasLawGraphs.astro';
+import ScaleHeights from '../../../components/diagrams/part-12/ScaleHeights.astro';
+import GasPistonLab from '../../../components/sims/GasPistonLab.astro';
+
+## The scene
+
+Rocky can't breathe Grace's air, and Grace can't survive Rocky's. So Rocky builds his own rooms inside the *Hail Mary* out of xenonite and fills them with Eridian air: ammonia at about 29 atmospheres and 210 °C. Grace, on his side of the walls, lives in the ship's thin air at room temperature.
+
+That raises practical questions. How much ammonia does it take to fill a room at that pressure? If Rocky passes Grace a sealed flask of his air and it cools down to Grace's temperature, what happens to the pressure inside? And on a grander scale: Astrophage breed high in Venus's atmosphere, where the pressure is a tiny fraction of the 92 bar at the surface. Why does an atmosphere thin out as you go up, and how quickly? All of these are answered by one short equation, the gas law that Chapter 6.1 promised Part 12 would study.
+
+## Prerequisites
+
+<Prereqs notes={{ 'pressure': 'pressure, absolute pressure, and P = P₀ + ρgh from a balanced slab of fluid', 'temperature-heat': 'PV = ⅔ N × (average kinetic energy), ⟨KE⟩ = 3/2 kT, the kelvin and absolute zero', 'ratios-proportionality': 'direct and inverse proportion', 'graphs': 'reading straight-line and curved graphs, extrapolating a line', 'exponentials-logarithms': 'exponential decay and natural logarithms', 'derivatives': 'the derivative of e^(kt) is k e^(kt)' }} />
+
+## The concept
+
+### Three experiments
+
+A gas has four things you can measure: its pressure $P$, its volume $V$, its temperature $T$, and how much of it there is. Hold two of them fixed, change a third, and watch the fourth. Three classic experiments do exactly that, each with a fixed amount of gas in a sealed container.
+
+**Squeeze it at constant temperature** (Boyle's law). Robert Boyle (1627–1691) trapped air in a glass tube with mercury and found that halving the volume doubled the pressure. Pressure and volume are inversely proportional (Chapter 0.5):
+
+$$
+PV = \text{constant} \qquad (T \text{ fixed}).
+$$
+
+**Heat it at constant pressure** (Charles's law). A balloon held at a fixed pressure grows as it warms. Jacques Charles (1746–1823) found that the volume rises in a straight line with temperature.
+
+**Heat it at constant volume** (Gay-Lussac's law). In a rigid sealed can, the pressure rises in a straight line with temperature instead.
+
+<Figure caption="The three gas laws for a fixed amount of gas. Left: at constant temperature, pressure and volume are inversely proportional (Boyle). Middle: at constant pressure, volume grows in a straight line with temperature; extended backwards, every gas's line reaches zero volume at the same temperature, −273.15 °C (Charles). Right: at constant volume, pressure grows in a straight line with temperature, again heading for zero at −273.15 °C (Gay-Lussac)." alt="Three small graphs side by side. Left graph, titled constant T, Boyle: pressure P on the vertical axis against volume V on the horizontal axis, a curve falling steeply then levelling off, labelled P V equals constant. Middle graph, titled constant P, Charles: volume V against temperature in degrees Celsius, a straight rising line from the measured region, continued as a dashed line backwards to meet the temperature axis at minus 273.15 degrees Celsius, marked absolute zero. Right graph, titled constant V, Gay-Lussac: pressure P against temperature in degrees Celsius, also a straight rising line, dashed back to zero pressure at minus 273.15 degrees Celsius.">
+	<GasLawGraphs />
+</Figure>
+
+Something remarkable happens when you extend the straight lines of the second and third experiments backwards. Whatever gas you use, and however much of it, the lines all reach zero at the same temperature: $-273.15\ °\text{C}$. That is <Term id="absolute-zero">absolute zero</Term>, the temperature at which (Chapter 6.1) the molecules would stop moving. Measure temperature in <Term id="kelvin">kelvin</Term>, from absolute zero, and the straight lines pass through the origin. Then the laws become simple proportions: at constant pressure $V \propto T$, and at constant volume $P \propto T$. (Real gases turn liquid long before absolute zero, so the lines are extrapolations, but they point to the same place every time.)
+
+### One law for all gases
+
+The three laws, and a fourth (more molecules take up more room: $V \propto N$ at fixed $P$ and $T$), fit together into one equation:
+
+$$
+PV = NkT,
+$$
+
+where $N$ is the number of molecules, $T$ the temperature in kelvin, and $k$ the <Term id="boltzmann-constant">Boltzmann constant</Term>, $1.380649 \times 10^{-23}\ \text{J/K}$. Hold $T$ and $N$ fixed and $PV$ is constant (Boyle). Hold $P$ and $N$ fixed and $V \propto T$ (Charles). Hold $V$ and $N$ fixed and $P \propto T$ (Gay-Lussac). This is the <Term id="ideal-gas-law">ideal-gas law</Term>, and a gas that obeys it is an <Term id="ideal-gas">ideal gas</Term>.
+
+Chapter 6.1 explained it from the inside. Molecules bouncing off the walls give $PV = \tfrac{2}{3}N\,\overline{KE}$, and temperature measures the average kinetic energy, $\overline{KE} = \tfrac{3}{2}kT$. Put them together and $PV = NkT$ drops out. The pressure is set by how many molecules hit each square metre of wall each second and how hard each one hits; neither depends on what the molecules are made of, as long as the temperature is the same. (Heavy molecules hit harder but move more slowly, and the two effects cancel.)
+
+That leads to a surprise first suggested by Amedeo Avogadro: **equal volumes of any gases, at the same pressure and temperature, contain the same number of molecules.** A litre of hydrogen and a litre of xenon at room temperature and pressure hold the same number of molecules, even though the xenon is 65 times heavier.
+
+### Counting molecules in moles
+
+Numbers of molecules are enormous: a litre of air holds about $2.5 \times 10^{22}$ of them. Chemists count them in bundles called <Term id="mole">moles</Term>. One mole is exactly $6.022\,140\,76 \times 10^{23}$ particles; this number is the <Term id="avogadro-constant">Avogadro constant</Term>, $N_{\text{A}}$. It was chosen so that a mole of a substance has a mass in grams equal to the mass of one molecule in atomic mass units (u). One water molecule is 18.0 u, so one mole of water is 18.0 g. That is the <Term id="molar-mass">molar mass</Term>, $M = 18.0\ \text{g/mol}$.
+
+Writing the number of molecules as $N = nN_{\text{A}}$, with $n$ the number of moles, the gas law becomes
+
+$$
+PV = nRT, \qquad R = N_{\text{A}}k = 8.314\ \text{J/(mol·K)}.
+$$
+
+$R$ is the <Term id="gas-constant">gas constant</Term>. It is the same physics as $PV = NkT$, counted per mole instead of per molecule. Because $N_{\text{A}}$ and $k$ are both fixed exactly by definition, so is $R$.
+
+One mole of any ideal gas at 0 °C and 1 atm fills 22.4 litres; at 20 °C, 24.1 litres. This is the <Term id="molar-volume">molar volume</Term>, and by Avogadro's idea it is the same for every gas.
+
+### The density of a gas
+
+A gas's density follows from the gas law. A volume $V$ holds $n = PV/RT$ moles, of mass $nM$, so
+
+$$
+\rho = \frac{PM}{RT}.
+$$
+
+Dense gases come from high pressure, heavy molecules and low temperature. For air at 20 °C and 1 atm ($M = 28.97\ \text{g/mol}$), $\rho = 1.204\ \text{kg/m}^{3}$, exactly the measured value. For Erid's air, ammonia ($M = 17.03\ \text{g/mol}$) at 29 atm and 483 K, $\rho = 12.5\ \text{kg/m}^{3}$, which Chapters 11.3 and 12.1 have already used. The heat partly undoes the pressure: 29 times the pressure, but only 10 times the density.
+
+### When is a gas ideal?
+
+The derivation in Chapter 6.1 treated molecules as tiny points that only interact when they collide. That works when the molecules are far apart compared with their size. In Grace's air (0.40 atm, 21 °C), each molecule has a little cube of space about 4.6 nm across (Example 5), while a nitrogen molecule is about 0.36 nm wide: they are more than ten diameters apart. Squeeze a gas hard enough, or cool it until its molecules start to stick to each other, and the ideal-gas law begins to fail; eventually the gas condenses to a liquid.
+
+Rocky's air is squeezed, but it is also hot. Its molecules are about 1.3 nm apart, about five times the width of an ammonia molecule (0.26 nm). The ideal-gas law should still be a fair approximation, and this course uses it for Erid's air throughout. A careful engineer designing Rocky's life support would use measured data for real ammonia.
+
+### Why the air thins with height
+
+Chapter 12.1 showed that pressure grows with depth by $\rho g$ per metre. Going **up** through an atmosphere, it falls by the same amount. But in a gas the density isn't fixed: it is proportional to the pressure, $\rho = PM/RT$. Where the pressure is high, the air is dense and the pressure drops quickly with height; higher up, the air is thinner and the pressure falls more slowly. The rate of fall is proportional to the pressure itself, which is the signature of <Term id="exponential-decay">exponential decay</Term> (Chapter 0.8). The Formulas section shows that, if the temperature is the same at every height,
+
+$$
+P = P_{0}\,e^{-h/H}, \qquad H = \frac{RT}{Mg}.
+$$
+
+$H$ is the atmosphere's <Term id="scale-height">scale height</Term>: every time you climb $H$, the pressure falls by a factor of $e = 2.718$. A warm atmosphere of light molecules under weak gravity has a large scale height and stretches far up; a cold, heavy one under strong gravity hugs the ground.
+
+<Figure caption="How pressure falls with height in an atmosphere at one temperature, P/P₀ = exp(−h/H), for Earth (H = 8.4 km at 288 K), Erid (our estimate, 12.0 km for ammonia at 483 K and 2 g) and Venus (15.9 km). Each curve drops to 37% (1/e) of its surface value at one scale height, marked with a dot." alt="A graph of pressure as a fraction of surface pressure, from 0 to 1 on the vertical axis, against height above the surface from 0 to 50 kilometres on the horizontal axis. Three falling curves start at 1. The steepest, blue, is Earth with H equals 8.4 kilometres. The middle, rose, is Erid with H equals 12.0 kilometres. The gentlest, amber, is Venus with H equals 15.9 kilometres. A dashed horizontal line at 0.37 is labelled 1 over e. Each curve has a dot where it crosses this line, at its own scale height.">
+	<ScaleHeights />
+</Figure>
+
+The NASA fact sheets list scale heights of 8.5 km for Earth, 15.9 km for Venus and 11.0 km for Mars, and $RT/Mg$ reproduces all three from each planet's temperature, gas and gravity (Example 4 and Problem 9). On Venus the air at the surface is crushing, 92 bar, but it is thin enough to match Earth's air at about 50 to 65 km up. Real atmospheres are not at one temperature, so the formula is an approximation; air gets colder as you climb through Earth's lower atmosphere, which makes the real pressure fall a little faster than the formula says.
+
+## Formulas
+
+### The ideal-gas law
+
+$$
+\boxed{PV = NkT = nRT} \qquad N = nN_{\text{A}} \qquad R = N_{\text{A}}k = 8.314\ \text{J/(mol·K)}
+$$
+
+$P$ is the absolute pressure in pascals, $V$ the volume in cubic metres and $T$ the temperature in kelvin. Units check: $\text{Pa} \times \text{m}^{3} = (\text{N/m}^{2}) \times \text{m}^{3} = \text{N·m} = \text{J}$, and $\text{mol} \times \text{J/(mol·K)} \times \text{K} = \text{J}$ ✓.
+
+$$
+R = 6.022\,140\,76 \times 10^{23}\ \text{mol}^{-1} \times 1.380\,649 \times 10^{-23}\ \text{J/K} = 8.314\ \text{J/(mol·K)}
+$$
+
+### The three laws as special cases
+
+For a fixed amount of gas, $nR$ is constant, so $PV/T = nR$ is the same before and after any change:
+
+$$
+\boxed{\frac{P_{1}V_{1}}{T_{1}} = \frac{P_{2}V_{2}}{T_{2}}}
+$$
+
+Cancel whichever quantity is held fixed:
+
+$$
+T_{1} = T_{2}:\ P_{1}V_{1} = P_{2}V_{2} \qquad P_{1} = P_{2}:\ \frac{V_{1}}{T_{1}} = \frac{V_{2}}{T_{2}} \qquad V_{1} = V_{2}:\ \frac{P_{1}}{T_{1}} = \frac{P_{2}}{T_{2}}
+$$
+
+On the Celsius scale, Charles's straight line is $V = V_{0}(1 + \theta/273.15)$, with $\theta$ the temperature in °C and $V_{0}$ the volume at 0 °C: each degree adds $1/273.15 = 0.366\%$ of $V_{0}$, and the volume reaches zero at $\theta = -273.15\ °\text{C}$. Writing $T = \theta + 273.15$ turns it into $V = V_{0}T/273.15$, a simple proportion.
+
+### Molar volume
+
+$$
+\frac{V}{n} = \frac{RT}{P} = \frac{8.314\ \text{J/(mol·K)} \times 273.15\ \text{K}}{101\,325\ \text{Pa}} = 0.02241\ \text{m}^{3}/\text{mol} = 22.41\ \text{L/mol}
+$$
+
+at 0 °C and 1 atm, and $24.06\ \text{L/mol}$ at 20 °C.
+
+### Density of a gas
+
+$$
+\boxed{\rho = \frac{nM}{V} = \frac{PM}{RT}} \qquad \frac{P}{\rho} = \frac{RT}{M} = \frac{kT}{m}
+$$
+
+with $M$ in kg/mol (28.97 g/mol = 0.02897 kg/mol) and $m$ the mass of one molecule. Air at 20 °C and 1 atm:
+
+$$
+\rho = \frac{101\,325\ \text{Pa} \times 0.02897\ \text{kg/mol}}{8.314\ \text{J/(mol·K)} \times 293.15\ \text{K}} = 1.204\ \text{kg/m}^{3}
+$$
+
+### Spacing between molecules
+
+Each molecule has, on average, a volume $V/N = kT/P$ to itself, a little cube of side
+
+$$
+\boxed{d = \left(\frac{kT}{P}\right)^{1/3}}
+$$
+
+### The barometric formula
+
+Chapter 12.1's slab of fluid gives the change in pressure over a small step up in height, $\Delta h$: the pressure falls by the weight of the thin layer, $\Delta P = -\rho g\,\Delta h$. In the limit of small steps,
+
+$$
+\frac{dP}{dh} = -\rho g.
+$$
+
+For a gas, $\rho = PM/RT$:
+
+$$
+\frac{dP}{dh} = -\frac{Mg}{RT}\,P = -\frac{P}{H}, \qquad H = \frac{RT}{Mg}.
+$$
+
+If $T$ is the same at every height, $H$ is a constant, and we need a function whose rate of change is $-1/H$ times itself. Chapter C.3 showed that $\dfrac{d}{dh}e^{kh} = k\,e^{kh}$; with $k = -1/H$, the function $P = P_{0}\,e^{-h/H}$ does exactly this, and it equals $P_{0}$ at $h = 0$:
+
+$$
+\boxed{P = P_{0}\,e^{-h/H}, \qquad H = \frac{RT}{Mg} = \frac{kT}{mg}}
+$$
+
+Taking the natural logarithm, the height at which the pressure has fallen to $P$ is $h = H\ln(P_{0}/P)$. The pressure halves every $H\ln 2 = 0.693H$.
+
+Units check for $H$: $\dfrac{\text{J/(mol·K)} \times \text{K}}{(\text{kg/mol}) \times \text{m/s}^{2}} = \dfrac{\text{kg·m}^{2}/\text{s}^{2}}{\text{kg·m/s}^{2}} = \text{m}$ ✓.
+
+## Worked examples
+
+<Example n={1} title="Rocky's flask cools down" book>
+Rocky seals some of his air in a rigid xenonite flask at 29 atm and 210 °C, then hands it to Grace, where it cools to Grace's 21 °C. What is the pressure inside now?
+
+The volume and amount of gas are fixed, so $P/T$ is constant. Convert to kelvin first:
+
+$$
+T_{1} = 210 + 273.15 = 483.15\ \text{K} \qquad T_{2} = 21 + 273.15 = 294.15\ \text{K}
+$$
+
+$$
+P_{2} = P_{1}\,\frac{T_{2}}{T_{1}} = 29\ \text{atm} \times \frac{294.15\ \text{K}}{483.15\ \text{K}} = 17.7\ \text{atm}
+$$
+
+Still 44 times the pressure of Grace's 0.40 atm air: the flask must stay strong. Using Celsius would have given $29 \times 21/210 = 2.9$ atm, badly wrong; gas laws need kelvin. (In reality, ammonia at room temperature turns liquid when squeezed above about 8.5 atm, so about half of Rocky's cooled air would condense into a puddle, leaving gas at about 8.5 atm above it. The ideal-gas law can't tell you that.)
+</Example>
+
+<Example n={2} title="Filling Rocky's room" book>
+Suppose one of Rocky's rooms is a 2.0 m cube (our assumption), filled with ammonia ($M = 17.03\ \text{g/mol}$) at 29 atm and 483 K. How much ammonia is that? Compare the same room filled with Grace's air: 0.40 atm, 294 K, $M = 28.97\ \text{g/mol}$.
+
+$$
+V = (2.0\ \text{m})^{3} = 8.0\ \text{m}^{3} \qquad P = 29 \times 101\,325\ \text{Pa} = 2.94 \times 10^{6}\ \text{Pa}
+$$
+
+$$
+n = \frac{PV}{RT} = \frac{2.94 \times 10^{6}\ \text{Pa} \times 8.0\ \text{m}^{3}}{8.314\ \text{J/(mol·K)} \times 483.15\ \text{K}} = 5.85 \times 10^{3}\ \text{mol}
+$$
+
+$$
+m = nM = 5.85 \times 10^{3}\ \text{mol} \times 0.01703\ \text{kg/mol} = 99.7\ \text{kg}
+$$
+
+For Grace's air:
+
+$$
+n = \frac{0.40 \times 101\,325\ \text{Pa} \times 8.0\ \text{m}^{3}}{8.314\ \text{J/(mol·K)} \times 294.15\ \text{K}} = 133\ \text{mol}, \qquad m = 133\ \text{mol} \times 0.02897\ \text{kg/mol} = 3.84\ \text{kg}
+$$
+
+Rocky's room holds about 100 kg of gas, 26 times the mass of air in the same room on Grace's side. Supplying it means carrying a lot of ammonia.
+</Example>
+
+<Example n={3} title="A sealed bag on the Hail Mary" book>
+A sealed bag of food was packed at sea level on Earth (1.0 atm) with 0.50 L of air in it. On the *Hail Mary*, at 0.40 atm and the same temperature, how big does the air in it want to be?
+
+At constant temperature, $P_{1}V_{1} = P_{2}V_{2}$:
+
+$$
+V_{2} = V_{1}\,\frac{P_{1}}{P_{2}} = 0.50\ \text{L} \times \frac{1.0\ \text{atm}}{0.40\ \text{atm}} = 1.25\ \text{L}
+$$
+
+The air would expand to 2.5 times its volume. A floppy bag puffs up tight; if it can't stretch that far, the air inside stays above 0.40 atm and the bag's skin carries the difference. Packed snacks puff up the same way in an aeroplane or on a mountain.
+</Example>
+
+<Example n={4} title="Scale heights of three worlds" book>
+Find the scale height $H = RT/Mg$ for Earth (288 K, 28.97 g/mol, 9.81 m/s²), Venus (737 K, 43.45 g/mol, 8.87 m/s²) and Erid in our model (483 K, ammonia 17.03 g/mol, 19.6 m/s²). Then predict the pressure at the top of Mount Everest, 8849 m up.
+
+$$
+H_{\text{Earth}} = \frac{8.314\ \text{J/(mol·K)} \times 288\ \text{K}}{0.02897\ \text{kg/mol} \times 9.81\ \text{m/s}^{2}} = 8.43 \times 10^{3}\ \text{m} = 8.4\ \text{km}
+$$
+
+$$
+H_{\text{Venus}} = \frac{8.314 \times 737}{0.04345 \times 8.87}\ \text{m} = 15.9\ \text{km} \qquad H_{\text{Erid}} = \frac{8.314 \times 483.15}{0.01703 \times 19.62}\ \text{m} = 12.0\ \text{km}
+$$
+
+NASA lists 8.5 km for Earth and 15.9 km for Venus. Erid's strong gravity pulls its atmosphere in, but its hot, light ammonia pushes it out further than Earth's.
+
+On Everest:
+
+$$
+P = 101.3\ \text{kPa} \times e^{-8849/8430} = 101.3\ \text{kPa} \times 0.350 = 35.4\ \text{kPa}
+$$
+
+The measured summit pressure is about 33.7 kPa. The formula is 5% high, because the air on the way up is colder than 288 K, which shrinks the scale height.
+</Example>
+
+<Example n={5} title="How crowded is Rocky's air?">
+Find the average spacing between molecules, $d = (kT/P)^{1/3}$, in Grace's air (0.40 atm, 294 K) and in Rocky's (29 atm, 483 K). Compare with the sizes of the molecules: nitrogen about 0.36 nm, ammonia about 0.26 nm.
+
+$$
+d_{\text{Grace}} = \left(\frac{1.381 \times 10^{-23}\ \text{J/K} \times 294.15\ \text{K}}{0.40 \times 101\,325\ \text{Pa}}\right)^{1/3} = (1.00 \times 10^{-25}\ \text{m}^{3})^{1/3} = 4.6 \times 10^{-9}\ \text{m}
+$$
+
+$$
+d_{\text{Rocky}} = \left(\frac{1.381 \times 10^{-23} \times 483.15}{29 \times 101\,325}\right)^{1/3}\ \text{m} = (2.27 \times 10^{-27}\ \text{m}^{3})^{1/3} = 1.3 \times 10^{-9}\ \text{m}
+$$
+
+Grace's molecules are $4.6/0.36 = 13$ diameters apart, a very ideal gas. Rocky's are $1.3/0.26 = 5$ diameters apart: crowded, but still mostly empty space, so the ideal-gas law is a reasonable first estimate.
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** Boyle's, Charles's and Gay-Lussac's laws, the ideal-gas law $PV = nRT$, the mole (exactly $6.022\,140\,76 \times 10^{23}$ particles since 2019), $R = N_{\text{A}}k$, the molar volume and $\rho = PM/RT$ are standard (OpenStax University Physics Vol. 2, §2.1). The barometric formula for an atmosphere at one temperature, and the NASA scale heights of Earth (8.5 km), Venus (15.9 km) and Mars (11.0 km), agree with $H = RT/Mg$.
+
+**Weir's inventions.** Erid's ammonia air at 29 atm and 210 °C, the *Hail Mary*'s air at 40% of Earth's pressure, and the 0.02 atm layer of Venus's air where the novel's Astrophage breed are from the story. Rocky's room size and Erid's scale height are our own estimates from those figures.
+
+**How realistic are the numbers?** The ideal-gas law is excellent for Grace's air and fair for Rocky's (molecules five diameters apart). It doesn't know about condensation: real ammonia at room temperature turns liquid above about 8.5 atm, so Example 1's cooled flask would really hold some liquid ammonia. A real planet with Erid's surface temperature and pressure could keep its ammonia as a gas only because it is so hot.
+</RealVsBook>
+
+## Interactive simulation
+
+<GasPistonLab />
+
+Things to try: halve the volume and watch the pressure double (Boyle). Double the kelvin temperature and the molecules speed up by only $\sqrt{2}$, yet the pressure doubles: each molecule hits harder **and** more often. Switch from air to ammonia at the same amount, volume and temperature: the molecules move faster, but the pressure doesn't change at all (Avogadro).
+
+## Practice set
+
+<Problem n={1} level="easy">
+A syringe holds 50 mL of air at 1.0 atm. You block the end and push the plunger in to 20 mL, slowly enough that the temperature doesn't change. What is the pressure now?
+
+<Solution>
+$P_{2} = P_{1}V_{1}/V_{2} = 1.0\ \text{atm} \times 50/20 = 2.5\ \text{atm}$.
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy">
+A balloon holds 2.0 L at 20 °C. It is warmed to 80 °C at constant pressure. What is its new volume?
+
+<Solution>
+$V_{2} = V_{1}T_{2}/T_{1} = 2.0\ \text{L} \times 353.15/293.15 = 2.41\ \text{L}$.
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy">
+How many moles, and how many kilograms, of air are in 1.0 m³ at 20 °C and 1 atm?
+
+<Solution>
+$n = PV/RT = 101\,325 \times 1.0/(8.314 \times 293.15) = 41.6$ mol. Mass: $41.6 \times 0.02897 = 1.20$ kg, the density of air.
+</Solution>
+</Problem>
+
+<Problem n={4} level="easy">
+0.50 mol of an ideal gas at 300 K fills a 10 L container. Find the pressure in pascals and atmospheres.
+
+<Solution>
+$P = nRT/V = 0.50 \times 8.314 \times 300/0.010 = 1.25 \times 10^{5}\ \text{Pa} = 1.23$ atm.
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium">
+An unknown gas has a density of 1.78 kg/m³ at 0 °C and 1 atm. Find its molar mass and suggest what it is.
+
+<Solution>
+$M = \rho RT/P = 1.78 \times 8.314 \times 273.15/101\,325 = 0.0399\ \text{kg/mol} = 39.9\ \text{g/mol}$. That matches argon (39.95 g/mol), the third most common gas in Earth's air.
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium" book>
+Rocky keeps a 10 L xenonite sample tank of his air (29 atm, 483 K). How many molecules and how many moles does it hold?
+
+<Solution>
+$N = PV/kT = 2.94 \times 10^{6} \times 0.010/(1.381 \times 10^{-23} \times 483.15) = 4.40 \times 10^{24}$ molecules, and $n = N/N_{\text{A}} = 7.31$ mol (about 125 g of ammonia).
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium">
+A tyre gauge reads 2.2 bar on a cold morning at 10 °C. After a long drive the air inside is at 40 °C. Assuming the volume doesn't change, what does the gauge read now? (Outside air: 1.013 bar.)
+
+<Solution>
+Absolute: $2.2 + 1.013 = 3.213$ bar. At constant volume, $P_{2} = 3.213 \times 313.15/283.15 = 3.553$ bar absolute, so the gauge reads $3.553 - 1.013 = 2.54$ bar. (Using gauge pressure directly would give 2.43 bar, which is wrong.)
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium" book>
+Using Erid's scale height of 12.0 km (Example 4), what is the pressure on a plateau 5.0 km above Erid's sea-level 29 atm? How high must Rocky climb for the pressure to halve?
+
+<Solution>
+$P = 29\ \text{atm} \times e^{-5.0/12.0} = 29 \times 0.659 = 19.1$ atm. Halving height: $12.0\ \text{km} \times \ln 2 = 8.3$ km.
+</Solution>
+</Problem>
+
+<Problem n={9} level="medium">
+Mars's surface air is carbon dioxide (mean molar mass 43.49 g/mol) at about 636 Pa and 214 K, with $g = 3.73\ \text{m/s}^{2}$. Find its density and its scale height, and compare with NASA's figures (about 0.016 kg/m³ and 11.0 km).
+
+<Solution>
+$\rho = PM/RT = 636 \times 0.04349/(8.314 \times 214) = 0.0155\ \text{kg/m}^{3}$, matching. $H = RT/Mg = 8.314 \times 214/(0.04349 \times 3.73) = 1.10 \times 10^{4}$ m = 11.0 km, matching. Mars's air is about 80 times thinner than Earth's.
+</Solution>
+</Problem>
+
+<Problem n={10} level="challenging">
+If Venus's atmosphere were all at one temperature with $H = 15.9$ km, at what height would its pressure fall from 92 bar to 1 atm? In reality it reaches Earth-like pressure at about 50 to 65 km. Why is the real height lower?
+
+<Solution>
+$h = H\ln(P_{0}/P) = 15.9\ \text{km} \times \ln(92 \times 10^{5}/101\,325) = 15.9 \times \ln 90.8 = 15.9 \times 4.51 = 71.7$ km. Venus's air gets much colder with height (from 737 K at the surface), and colder air has a smaller scale height, so the pressure drops faster than the one-temperature formula says.
+</Solution>
+</Problem>
+
+<Problem n={11} level="challenging">
+A breath is about 0.50 L of air at 20 °C and 1 atm. How many molecules is that? The whole atmosphere is about $5.1 \times 10^{18}$ kg; at 1.20 kg/m³, how many 0.50 L breaths of air does it hold? Use the two numbers to argue that every breath you take very probably contains a molecule from Julius Caesar's last breath.
+
+<Solution>
+Molecules per breath: $N = PV/kT = 101\,325 \times 5.0 \times 10^{-4}/(1.381 \times 10^{-23} \times 293.15) = 1.25 \times 10^{22}$. Breaths in the atmosphere: $5.1 \times 10^{18}/1.20 = 4.25 \times 10^{18}\ \text{m}^{3}$, divided by $5.0 \times 10^{-4}\ \text{m}^{3}$, gives $8.5 \times 10^{21}$ breaths. There are more molecules in one breath than breaths in the atmosphere. If Caesar's last breath has had two thousand years to mix evenly through the air, each breath you take holds about $1.25 \times 10^{22}/8.5 \times 10^{21} = 1.5$ of its molecules on average.
+</Solution>
+</Problem>
+
+<Problem n={12} level="challenging">
+Show that the scale height can be written $H = kT/mg$, with $m$ the mass of one molecule, and interpret it: $mgH$ is the energy needed to lift one molecule by one scale height. Compare $mgH$ with the molecule's average kinetic energy.
+
+<Solution>
+$R/M = (N_{\text{A}}k)/(N_{\text{A}}m) = k/m$, so $H = RT/Mg = kT/mg$. Then $mgH = kT$: lifting a molecule by one scale height costs about $kT$ of energy, which is $\tfrac{2}{3}$ of its average kinetic energy $\tfrac{3}{2}kT$. An atmosphere extends to heights where gravity's cost becomes comparable with the energy of the molecules' jiggling.
+</Solution>
+</Problem>
+
+## Summary
+
+- For a fixed amount of gas: $PV$ is constant at fixed $T$ (Boyle), $V \propto T$ at fixed $P$ (Charles), $P \propto T$ at fixed $V$ (Gay-Lussac), with $T$ in kelvin. Extended back, the lines all reach zero at absolute zero, −273.15 °C.
+- They combine into the ideal-gas law, $PV = NkT = nRT$, which the molecular picture of Chapter 6.1 explains. Equal volumes of different gases at the same $P$ and $T$ contain the same number of molecules.
+- A mole is $6.022 \times 10^{23}$ particles; its mass in grams is the molar mass $M$. $R = N_{\text{A}}k = 8.314$ J/(mol K). A mole of gas fills 22.4 L at 0 °C and 1 atm.
+- A gas's density is $\rho = PM/RT$: Earth's air 1.20 kg/m³, Erid's air about 12.5 kg/m³.
+- A gas behaves ideally while its molecules are many diameters apart; it fails near condensation.
+- In an atmosphere at one temperature, $P = P_{0}e^{-h/H}$ with scale height $H = RT/Mg$: 8.4 km for Earth, 15.9 km for Venus, about 12 km for Erid.
+
+**Formulas from this chapter**
+
+$$
+PV = NkT = nRT \qquad \frac{P_{1}V_{1}}{T_{1}} = \frac{P_{2}V_{2}}{T_{2}} \qquad R = N_{\text{A}}k \qquad \rho = \frac{PM}{RT} \qquad d = \left(\frac{kT}{P}\right)^{1/3} \qquad P = P_{0}e^{-h/H},\ \ H = \frac{RT}{Mg}
+$$
+
+## Sources
+
+- Boyle's and Charles's laws (with Boyle's and Charles's dates), the ideal-gas law, Avogadro's number, $R = 8.31$ J/(mol K) as $N_{\text{A}}k$, the molar volume: OpenStax, [*University Physics Volume 2*, §2.1 "Molecular Model of an Ideal Gas"](https://openstax.org/books/university-physics-volume-2/pages/2-1-molecular-model-of-an-ideal-gas).
+- The exact values of $N_{\text{A}}$, $k$ and so $R = 8.314\,462\,618$ J/(mol K): NIST CODATA, [Fundamental Physical Constants](https://physics.nist.gov/cuu/Constants/), and Wikipedia, ["Mole (unit)"](https://en.wikipedia.org/wiki/Mole_(unit)) and ["Gas constant"](https://en.wikipedia.org/wiki/Gas_constant).
+- The barometric formula: Wikipedia, ["Barometric formula"](https://en.wikipedia.org/wiki/Barometric_formula). Scale heights, surface pressures, mean molecular weights and temperatures: NASA fact sheets for [Earth](https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html), [Venus](https://nssdc.gsfc.nasa.gov/planetary/factsheet/venusfact.html) and [Mars](https://nssdc.gsfc.nasa.gov/planetary/factsheet/marsfact.html). Venus's pressure and temperature become Earth-like at about 50 to 65 km: Wikipedia, ["Atmosphere of Venus"](https://en.wikipedia.org/wiki/Atmosphere_of_Venus).
+- Mount Everest, 8848.86 m, and its summit pressure of 33.7 kPa (West 1999): Wikipedia, ["Mount Everest"](https://en.wikipedia.org/wiki/Mount_Everest).
+- Ammonia's vapour pressure at 20 °C, 857 kPa (8.5 atm), above which it condenses: Wikipedia, ["Ammonia"](https://en.wikipedia.org/wiki/Ammonia) (infobox).
+- Molecule sizes (kinetic diameters: nitrogen 364 pm, ammonia 260 pm): Wikipedia, ["Kinetic diameter"](https://en.wikipedia.org/wiki/Kinetic_diameter). Density of air at 20 °C, 1.2041 kg/m³: Wikipedia, ["Density of air"](https://en.wikipedia.org/wiki/Density_of_air).
+- Erid's air (ammonia, about 210 °C and 29 atm): /Film, ["Project Hail Mary: Why Rocky and Grace can't be in the same space"](https://slashfilm.com/2125069/project-hail-mary-why-rocky-grace-not-same-space). Rocky's xenonite rooms and tunnels inside the *Hail Mary*: Readify's reader wiki, ["Xenonite"](https://readifyai.com/en/books/Project%20Hail%20Mary/wiki/Xenonite). The *Hail Mary* at 40% of Earth's pressure: [Movie Mistakes, *Project Hail Mary* (book)](https://www.moviemistakes.com/book14945). Astrophage breeding where Venus's air is at 0.02 atm: Readify, ["Venus"](https://readifyai.com/en/books/Project%20Hail%20Mary/wiki/Venus). All reader sources, so approximate.

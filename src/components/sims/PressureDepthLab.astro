@@ -1,0 +1,117 @@
+---
+// Simulation: hydrostatic pressure P = P₀ + ρgh. Choose the fluid (fresh water, sea water, mercury, Erid's ammonia air,
+// Earth's air), the gravity (Moon to Erid, including the Hail Mary at 1.5 g), the pressure at the surface (vacuum to
+// Erid's 29 atm) and the depth. A tank shows the depth; a logarithmic gauge shows the pressure against Hail Mary, Earth,
+// Erid and Venus reference marks. Readout: P in Pa, atm, bar and psi, gauge pressure, ρg per metre, depth per atmosphere,
+// and the force on a 1 cm² fingertip and a 1 m² panel.
+---
+
+<div
+	class="sim pdl"
+	data-title="Pressure and depth lab"
+	data-description="Choose a fluid (fresh water, sea water, mercury, Erid's ammonia air at 12.5 kg/m³, or Earth's air at 1.2 kg/m³), a gravity (the Moon, Mars, Earth, the Hail Mary at 1.5 g, Adrian at 1.75 g, or Erid at 2 g), the pressure at the fluid's surface (a vacuum, the Hail Mary's 0.40 atm, Earth's 1 atm, or Erid's 29 atm) and a depth from 0 to 1000 m. A tank shows the depth and a logarithmic gauge shows the pressure P = P₀ + ρgh against marks for the Hail Mary, Earth, Erid and Venus. The readout gives the pressure in pascals, atmospheres, bars and psi, the gauge pressure ρgh, how much the pressure grows per metre, the depth that adds one atmosphere, and the force on a 1 cm² fingertip and on a 1 m² panel. For the gases, the constant-density formula is only good over short heights."
+>
+	<p class="sim-title">Simulation: pressure and depth lab</p>
+	<p class="sim-help">Pressure grows by ρg for every metre you go down. Find the depth of sea water that matches Rocky's air.</p>
+	<div class="sim-controls">
+		<label>Fluid <select class="pdl-f">
+			<option value="1030">sea water (1030 kg/m³)</option>
+			<option value="1000">fresh water (1000 kg/m³)</option>
+			<option value="13600">mercury (13 600 kg/m³)</option>
+			<option value="12.46">Erid's ammonia air (12.5 kg/m³)</option>
+			<option value="1.204">Earth's air at 20 °C (1.20 kg/m³)</option>
+		</select></label>
+		<label>Gravity <select class="pdl-g">
+			<option value="9.81">Earth (9.81 m/s²)</option>
+			<option value="1.62">Moon (1.62 m/s²)</option>
+			<option value="3.73">Mars (3.73 m/s²)</option>
+			<option value="14.71">Hail Mary at 1.5 g (14.7 m/s²)</option>
+			<option value="17.15">Adrian, our model (17.2 m/s²)</option>
+			<option value="19.62">Erid, about 2 g (19.6 m/s²)</option>
+		</select></label>
+		<label>Surface pressure <select class="pdl-p">
+			<option value="1">Earth, 1 atm</option>
+			<option value="0">vacuum</option>
+			<option value="0.4">Hail Mary, 0.40 atm</option>
+			<option value="29">Erid, 29 atm</option>
+		</select></label>
+		<label>Depth <input type="range" class="pdl-d" min="0" max="1000" step="1" value="100" /> <output class="pdl-dv"></output></label>
+	</div>
+	<svg class="dg pdl-svg" viewBox="0 0 600 240" role="img" aria-label="A tank showing the chosen depth and a pressure gauge on a logarithmic scale"></svg>
+	<div class="readout pdl-out" aria-live="polite"></div>
+</div>
+
+<script>
+	document.querySelectorAll<HTMLElement>('.sim.pdl').forEach((root) => {
+		const q = <T extends Element>(s: string) => root.querySelector<T>(s)!;
+		const svg = q<SVGSVGElement>('.pdl-svg'), out = q<HTMLElement>('.pdl-out');
+		const Fs = q<HTMLSelectElement>('.pdl-f'), Gs = q<HTMLSelectElement>('.pdl-g'), Ps = q<HTMLSelectElement>('.pdl-p'), Ds = q<HTMLInputElement>('.pdl-d');
+		const NS = 'http://www.w3.org/2000/svg';
+		const el = (tag: string, at: Record<string, string | number>, text?: string) => {
+			const e = document.createElementNS(NS, tag);
+			Object.entries(at).forEach(([k, v]) => e.setAttribute(k, String(v)));
+			if (text) e.textContent = text;
+			svg.append(e);
+			return e;
+		};
+		const ATM = 101325;
+		// tank
+		const TX = 40, TW = 140, TT = 30, TB = 220;
+		el('rect', { x: TX, y: TT, width: TW, height: TB - TT, class: 'f-sky-soft' });
+		el('polyline', { points: `${TX},${TT - 10} ${TX},${TB} ${TX + TW},${TB} ${TX + TW},${TT - 10}`, class: 's-fg w2', fill: 'none' });
+		el('text', { x: TX + TW / 2, y: TT - 14, class: 't-mid t-sm' }, 'surface: P₀');
+		const mark = el('line', { x1: TX, x2: TX + TW, class: 's-amber w2 dash' });
+		const dot = el('circle', { cx: TX + TW / 2, r: 6, class: 'f-amber' });
+		const markT = el('text', { x: TX + TW + 8, class: 't-sm f-amber' });
+		el('text', { x: TX + TW / 2, y: TB + 16, class: 't-mid t-sm f-muted' }, 'bottom of the tank: 1000 m');
+		// gauge, log scale 0.01–1000 atm
+		const GL = 300, GR = 580, GY = 120;
+		const lo = -2, hi = 3;
+		const X = (atm: number) => GL + ((Math.log10(Math.max(atm, 1e-2)) - lo) / (hi - lo)) * (GR - GL);
+		el('rect', { x: GL, y: GY - 8, width: GR - GL, height: 16, class: 'f-muted' });
+		const bar = el('rect', { x: GL, y: GY - 8, height: 16, class: 'f-amber' });
+		[0.01, 0.1, 1, 10, 100, 1000].forEach((v) => {
+			el('line', { x1: X(v), y1: GY + 10, x2: X(v), y2: GY + 16, class: 's-fg w1' });
+			el('text', { x: X(v), y: GY + 30, class: 't-mid t-sm f-muted' }, String(v));
+		});
+		el('text', { x: (GL + GR) / 2, y: GY + 48, class: 't-mid t-sm' }, 'absolute pressure (atm), logarithmic scale');
+		const refs: [number, string, number][] = [
+			[0.4, 'Hail Mary', 60], [1, 'Earth', 78], [29, 'Erid', 60], [92 / 1.01325, 'Venus', 78],
+		];
+		refs.forEach(([v, n, y]) => {
+			el('line', { x1: X(v), y1: y + 4, x2: X(v), y2: GY - 9, class: 's-violet w1 dash' });
+			el('text', { x: X(v), y, class: 't-mid t-sm f-violet' }, n);
+		});
+		const pT = el('text', { x: GL, y: 36, class: 't-sm t-b f-amber' });
+		const fmt = (x: number) => {
+			if (x === 0) return '0';
+			const e = Math.floor(Math.log10(Math.abs(x)));
+			if (e >= -2 && e < 5) return x.toPrecision(Math.max(3, e + 1));
+			const m = x / 10 ** e;
+			return `${m.toFixed(2)} × 10<sup>${e}</sup>`;
+		};
+		function draw() {
+			const rho = +Fs.value, g = +Gs.value, P0 = +Ps.value * ATM, h = +Ds.value;
+			const gauge = rho * g * h, P = P0 + gauge, atm = P / ATM;
+			q('.pdl-dv').textContent = `${h} m`;
+			const y = TT + (h / 1000) * (TB - TT);
+			mark.setAttribute('y1', String(y)); mark.setAttribute('y2', String(y));
+			dot.setAttribute('cy', String(y));
+			markT.setAttribute('y', String(Math.max(TT + 10, Math.min(TB - 4, y + 4))));
+			markT.textContent = `${h} m`;
+			bar.setAttribute('width', String(Math.max(0, X(atm) - GL)));
+			pT.textContent = `P = ${atm < 0.01 ? atm.toExponential(2) : atm.toPrecision(3)} atm`;
+			const perAtm = ATM / (rho * g);
+			const gas = rho < 100;
+			out.innerHTML =
+				`<span class="k">P = P₀ + ρgh</span> = ${fmt(P0)} Pa + ${fmt(gauge)} Pa = <b>${fmt(P)} Pa</b><br>` +
+				`<span class="k">in other units</span> = ${atm.toPrecision(3)} atm = ${(P / 1e5).toPrecision(3)} bar = ${(P / 6894.757).toPrecision(3)} psi<br>` +
+				`<span class="k">ρg</span> = ${fmt(rho * g)} Pa per metre &nbsp; <span class="k">depth that adds 1 atm</span> = <b>${perAtm >= 1000 ? (perAtm / 1000).toPrecision(3) + ' km' : perAtm.toPrecision(3) + ' m'}</b><br>` +
+				`<span class="k">force on a 1 cm² fingertip</span> = ${fmt(P * 1e-4)} N &nbsp; <span class="k">on a 1 m² panel</span> = ${fmt(P)} N` +
+				(gas && h > 0 ? '<br><span class="k">note</span>: a gas gets denser as it is squeezed, so ρgh with one density is only good over heights much less than the scale height (Chapter 12.2)' : '');
+		}
+		[Fs, Gs, Ps].forEach((s) => { s.addEventListener('change', draw); s.addEventListener('input', draw); });
+		Ds.addEventListener('input', draw);
+		draw();
+	});
+</script>
