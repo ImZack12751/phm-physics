@@ -316,7 +316,7 @@ export const glossary = {
 	// ---- 0.8 Exponentials and logarithms ----
 	'exponential-growth': {
 		term: 'Exponential growth',
-		def: 'Growth by the same factor in every equal time interval, for example doubling every T: N = N₀ × 2^(t/T). Slow at first, then explosive.',
+		def: 'Growth by the same factor in every equal time interval, for example doubling every T: N = N₀ × 2 to the power t/T. Slow at first, then explosive.',
 		chapter: 'exponentials-logarithms',
 	},
 	'exponential-decay': {
@@ -336,7 +336,7 @@ export const glossary = {
 	},
 	'eulers-number': {
 		term: 'e (Euler’s number)',
-		def: 'The constant 2.718 28…, the limit of (1 + 1/n)ⁿ as n grows. It is the natural base for continuous growth: N = N₀ e^(kt).',
+		def: 'The constant 2.718 28…, the limit of (1 + 1/n)ⁿ as n grows. It is the natural base for continuous growth: N = N₀eᵏᵗ.',
 		chapter: 'exponentials-logarithms',
 	},
 	logarithm: {
@@ -1427,7 +1427,7 @@ export const glossary = {
 	},
 	'plancks-law': {
 		term: 'Planck’s law',
-		def: 'The formula for a blackbody’s spectrum, B = (2hc²/λ⁵)/(e^(hc/λkT) − 1). Planck found it in 1900 by assuming light is emitted in lumps of hf.',
+		def: 'The formula for a blackbody’s spectrum, B = 2hc²/λ⁵ divided by (e to the power hc/λkT, minus 1). Planck found it in 1900 by assuming light is emitted in lumps of hf.',
 		chapter: 'blackbody-wien',
 	},
 	'wiens-law': {
@@ -1660,7 +1660,7 @@ export const glossary = {
 	},
 	'equal-temperament': {
 		term: 'Equal temperament',
-		def: 'The modern tuning that splits each octave into 12 equal semitones, each a frequency ratio of 2^(1/12) ≈ 1.0595: f = 440 × 2^(n/12) Hz for the note n semitones above A4.',
+		def: 'The modern tuning that splits each octave into 12 equal semitones, each a frequency ratio of the twelfth root of 2 ≈ 1.0595: f = 440 × 2 to the power n/12 Hz for the note n semitones above A4.',
 		chapter: 'frequency-pitch',
 	},
 	beats: {
@@ -2070,7 +2070,7 @@ export const glossary = {
 	},
 	'decay-constant': {
 		term: 'Decay constant (λ)',
-		def: 'The probability per unit time that a given unstable nucleus decays: dN/dt = −λN, N = N₀e^(−λt), and λ = ln 2 / half-life.',
+		def: 'The probability per unit time that a given unstable nucleus decays: dN/dt = −λN, N = N₀ times e to the power −λt, and λ = ln 2 / half-life.',
 		chapter: 'isotopes',
 	},
 	activity: {
@@ -2101,7 +2101,7 @@ export const glossary = {
 	},
 	'attenuation-coefficient': {
 		term: 'Attenuation coefficient (μ)',
-		def: 'The fraction of a beam of photons removed per unit thickness of material, so I = I₀e^(−μx). Divided by density it gives the mass attenuation coefficient μ/ρ, in cm²/g.',
+		def: 'The fraction of a beam of photons removed per unit thickness of material, so I = I₀ times e to the power −μx. Divided by density it gives the mass attenuation coefficient μ/ρ, in cm²/g.',
 		chapter: 'ionizing-radiation',
 	},
 	'half-value-layer': {
@@ -2142,7 +2142,7 @@ export const glossary = {
 	},
 	'interaction-length': {
 		term: 'Nuclear interaction length',
-		def: 'The column density a fast proton or neutron crosses, on average, before hitting a nucleus head-on: about 83 g/cm² of water or 90 g/cm² of air. A beam of them falls as e^(−x/λ).',
+		def: 'The column density a fast proton or neutron crosses, on average, before hitting a nucleus head-on: about 83 g/cm² of water or 90 g/cm² of air. A beam of them falls as e to the power −x/λ.',
 		chapter: 'cosmic-rays-shielding',
 	},
 	'air-shower': {
@@ -2194,7 +2194,7 @@ export const glossary = {
 	'super-cross-sectionality': {
 		term: 'Super cross-sectionality',
 		def: 'In the novel, the property of Astrophage’s membrane that nothing can pass through it, not even neutrinos, so the cell can store energy as trapped neutrinos. Fiction.',
-		chapter: 'neutrinos',
+		chapter: 'cosmic-rays-shielding',
 	},
 	// ---- 14.1 Light-years and stellar distances ----
 	parsec: {
@@ -2230,7 +2230,7 @@ export const glossary = {
 	// ---- 14.2 Planetary atmospheres ----
 	'boltzmann-factor': {
 		term: 'Boltzmann factor',
-		def: 'The factor e^(−E/kT) by which a state of energy E is rarer than one of zero energy at temperature T. It sets how air thins with height and how rare very fast molecules are.',
+		def: 'The factor e to the power −E/kT by which a state of energy E is rarer than one of zero energy at temperature T. It sets how air thins with height and how rare very fast molecules are.',
 		chapter: 'planetary-atmospheres',
 	},
 	exosphere: {

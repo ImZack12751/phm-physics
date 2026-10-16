@@ -36,6 +36,11 @@
 </div>
 
 <script>
+	/** x.toExponential(d) written properly: 1.96e+10 → "1.96 × 10¹⁰" (Unicode superscripts, fine in SVG and HTML). */
+	const pow10 = (x: number, d: number) => {
+		const [m, e] = x.toExponential(d).split('e');
+		return `${m} × 10${String(+e).replace(/-/g, '⁻').replace(/[0-9]/g, (c) => '⁰¹²³⁴⁵⁶⁷⁸⁹'[+c])}`;
+	};
 	document.querySelectorAll<HTMLElement>('.sim.gmx').forEach((root) => {
 		const q = <T extends Element>(s: string) => root.querySelector<T>(s)!;
 		const svg = q<SVGSVGElement>('.gmx-svg'), out = q<HTMLElement>('.gmx-out');
@@ -68,7 +73,7 @@
 		const segs = cols.map((c) => el('rect', { y: Y, height: H, class: c }));
 		const labs = names.map(() => el('text', { y: Y + H + 18, class: 't-mid t-sm' }));
 		el('rect', { x: L, y: Y, width: R - L, height: H, class: 's-fg w1', fill: 'none' });
-		const fmtP = (pa: number) => (pa >= 1e5 ? `${(pa / 1e5).toPrecision(3)} bar` : pa >= 1000 ? `${(pa / 1000).toPrecision(3)} kPa` : pa >= 1 ? `${pa.toPrecision(3)} Pa` : `${pa.toExponential(1)} Pa`);
+		const fmtP = (pa: number) => (pa === 0 ? '0 Pa' : pa >= 1e5 ? `${(pa / 1e5).toPrecision(3)} bar` : pa >= 1000 ? `${(pa / 1000).toPrecision(3)} kPa` : pa >= 1 ? `${pa.toPrecision(3)} Pa` : `${pow10(pa, 1)} Pa`);
 		function fix(changed: HTMLInputElement) {
 			const others = [Os, Nn, Cs].filter((s) => s !== changed).reduce((a, s) => a + +s.value, 0);
 			if (+changed.value + others > 100) changed.value = String(Math.max(0, 100 - others));
@@ -92,10 +97,10 @@
 			});
 			const pO = (P * f[0]) / 100, pN = (P * f[1]) / 100, pC = (P * f[2]) / 100, pX = (P * f[3]) / 100;
 			const o2 = pO < 7.1e3 ? '<b>death zone</b>: less oxygen than on Everest’s summit' : pO < 16e3 ? '<b>too little</b>: well below sea level’s 21 kPa' : pO <= 60e3 ? '<b>breathable</b>: around or above sea level’s 21 kPa' : pO < 1.4e5 ? '<b>oxygen-rich</b>: breathable for a while, but a serious fire risk' : '<b>toxic</b>: above about 140 kPa oxygen causes convulsions';
-			const tau = pN === 0 ? 'no nitrogen: natural Taumoeba thrive' : pN <= 71 ? 'at or below Venus’s breeding zone (71 Pa): the Venus-tolerant strain survives' : pN <= 162 ? 'between Venus (71 Pa) and Threeworld (162 Pa): only the Threeworld strain survives' : `${(pN / 162).toPrecision(2)} × Threeworld’s nitrogen: lethal even to the bred strains`;
+			const tau = pN === 0 ? 'no nitrogen: natural Taumoeba thrive' : pN <= 71 ? 'at or below Venus’s breeding zone (71 Pa): the Venus-tolerant strain survives' : pN <= 162 ? 'between Venus (71 Pa) and Threeworld (162 Pa): only the Threeworld strain survives' : `${pN >= 16200 ? Math.round(pN / 162).toLocaleString('en-GB') : (pN / 162).toPrecision(2)} × Threeworld’s nitrogen: lethal even to the bred strains`;
 			out.innerHTML =
 				`<span class="k">P<sub>O₂</sub></span> = ${fmtP(pO)} &nbsp; <span class="k">P<sub>N₂</sub></span> = ${fmtP(pN)} &nbsp; <span class="k">P<sub>CO₂</sub></span> = ${fmtP(pC)} &nbsp; <span class="k">other</span> = ${fmtP(pX)}<br>` +
-				`<span class="k">oxygen for a human</span>: ${(pO / 21.2e3).toPrecision(2)} × sea level, ${o2}<br>` +
+				`<span class="k">oxygen for a human</span>: ${pO >= 2.12e6 ? Math.round(pO / 21.2e3).toLocaleString('en-GB') : (pO / 21.2e3).toPrecision(2)} × sea level, ${o2}<br>` +
 				`<span class="k">nitrogen for Taumoeba</span>: ${tau}`;
 		}
 		function preset() {

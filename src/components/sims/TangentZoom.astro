@@ -29,6 +29,11 @@
 <script>
 	type Fn = { f: (x: number) => number; d: (x: number) => number; x0: number; x1: number; y0: number; y1: number; xn: string; yn: string; unit: string };
 	const T = 4.737;
+	/** 0.000123 → "1.2 × 10⁻⁴" (d decimals) */
+	const sci = (x: number, d: number) => {
+		const n = Math.floor(Math.log10(x));
+		return `${(x / 10 ** n).toFixed(d)} × 10${String(n).replace(/-/g, '⁻').replace(/[0-9]/g, (c) => '⁰¹²³⁴⁵⁶⁷⁸⁹'[+c])}`;
+	};
 	const FN: Record<string, Fn> = {
 		ship: { f: (t) => 7.35 * t * t, d: (t) => 14.7 * t, x0: 0, x1: 10, y0: 0, y1: 750, xn: 't (s)', yn: 'd (m)', unit: 'm/s' },
 		dim: { f: (t) => 2 ** ((t - 9) / T), d: (t) => (Math.LN2 / T) * 2 ** ((t - 9) / T), x0: 0, x1: 30, y0: 0, y1: 25, xn: 't (years)', yn: 'D (%)', unit: '% per year' },
@@ -74,11 +79,11 @@
 			add('circle', { cx: px(a + h), cy: py(F.f(a + h)), r: 5, class: 'f-sky' });
 			add('circle', { cx: px(a), cy: py(fa), r: 6, class: 'f-amber' });
 			q('.tz-av').textContent = a.toFixed(3);
-			q('.tz-hv').textContent = h < 0.01 ? h.toExponential(1) : h.toFixed(3);
+			q('.tz-hv').textContent = h < 0.01 ? sci(h, 1) : h.toFixed(3);
 			const rows = [1, 0.1, 0.01, 0.001].map((hh) => `h = ${String(hh).padEnd(6)} → ${((F.f(a + hh) - fa) / hh).toFixed(6)}`);
 			q('.tz-out').innerHTML =
 				`<span class="k">difference quotient [f(a+h) − f(a)] / h at a = ${a.toFixed(3)}:</span><br>${rows.join('<br>')}<br>` +
-				`<span class="k">current h = ${h < 0.01 ? h.toExponential(2) : h.toFixed(4)}</span> → <b>${sec.toFixed(6)}</b><br>` +
+				`<span class="k">current h = ${h < 0.01 ? sci(h, 2) : h.toFixed(4)}</span> → <b>${sec.toFixed(6)}</b><br>` +
 				`<span class="k">slope of the tangent (the limit)</span> = <b style="color:var(--dg-amber)">${slope.toFixed(6)} ${F.unit}</b>`;
 		}
 		[selF, selA, selH].forEach((x) => x.addEventListener('input', draw));

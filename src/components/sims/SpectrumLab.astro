@@ -29,6 +29,11 @@
 </div>
 
 <script>
+	/** x.toExponential(d) written properly: 1.96e+10 → "1.96 × 10¹⁰" (Unicode superscripts, fine in SVG and HTML). */
+	const pow10 = (x: number, d: number) => {
+		const [m, e] = x.toExponential(d).split('e');
+		return `${m} × 10${String(+e).replace(/-/g, '⁻').replace(/[0-9]/g, (c) => '⁰¹²³⁴⁵⁶⁷⁸⁹'[+c])}`;
+	};
 	const C = 299792.458; // km/s
 	const DATA: Record<string, { name: string; lines: [number, string][] }> = {
 		H: { name: 'hydrogen', lines: [[656.279, 'n = 3 → 2'], [486.135, 'n = 4 → 2'], [434.047, 'n = 5 → 2'], [410.173, 'n = 6 → 2']] },
@@ -91,7 +96,7 @@
 				.join('<br>');
 			const hy = el0 === 'H' ? `<br><span class="k">from E = −13.6 eV/n²</span>: 3 → 2 gives 1240/1.889 = 656 nm, 4 → 2 gives 1240/2.550 = 486 nm` : '';
 			out.innerHTML =
-				`<span class="k">${d.name}, ${mode === 'ab' ? 'absorption' : 'emission'}</span>; <span class="k">shift Δλ/λ = v/c</span> = ${v === 0 ? '0' : `${z > 0 ? '+' : ''}${z.toExponential(2)}`} (${v === 0 ? 'no shift' : v < 0 ? 'blueshift' : 'redshift'})<br>` +
+				`<span class="k">${d.name}, ${mode === 'ab' ? 'absorption' : 'emission'}</span>; <span class="k">shift Δλ/λ = v/c</span> = ${v === 0 ? '0' : `${z > 0 ? '+' : ''}${pow10(z, 2)}`} (${v === 0 ? 'no shift' : v < 0 ? 'blueshift' : 'redshift'})<br>` +
 				rows + hy;
 		}
 		Vs.addEventListener('input', draw);

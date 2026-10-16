@@ -1,6 +1,6 @@
 // "Solved" checkboxes on practice problems and the chapter-complete button, both saved in
 // localStorage. Completing a chapter sets off a small burst of stars and a mission-log toast.
-import { onProgress, setChapterDone, setProblemDone, isProblemDone, problemsDoneIn, loadProgress } from './progress';
+import { onProgress, setChapterDone, setProblemDone, isProblemDone, loadProgress } from './progress';
 
 const metaEl = document.getElementById('phm-chapter-meta');
 const reduce = matchMedia('(prefers-reduced-motion: reduce)');
@@ -48,10 +48,12 @@ if (metaEl) {
 		const nowDone = btn.getAttribute('aria-pressed') !== 'true';
 		setChapterDone(slug, nowDone);
 		if (nowDone) {
-			const total = document.querySelectorAll('.progress-widget').length
-				? JSON.parse(document.querySelector<HTMLElement>('.progress-widget')!.dataset.chapters || '[]').length
-				: 0;
-			const done = Object.keys(loadProgress().chapters).length;
+			// Count only chapters that still exist (old slugs may linger in localStorage).
+			const widget = document.querySelector<HTMLElement>('.progress-widget');
+			const slugs: string[] = widget ? JSON.parse(widget.dataset.chapters || '[]').map((c: { slug: string }) => c.slug) : [];
+			const total = slugs.length;
+			const finished = loadProgress().chapters;
+			const done = total ? slugs.filter((s) => finished[s]).length : Object.keys(finished).length;
 			celebrate(btn, `Chapter ${number} complete: ${title}`, `Mission log updated · ${done}${total ? ` of ${total}` : ''} chapters`);
 		}
 	});
@@ -66,6 +68,6 @@ if (metaEl) {
 			btn.setAttribute('aria-pressed', String(done));
 			btn.textContent = done ? '✓ Chapter completed (click to undo)' : 'Mark this chapter as completed';
 		}
-		if (status) status.textContent = `Practice problems solved: ${problemsDoneIn(p, slug)} of ${boxes.length}.`;
+		if (status) status.textContent = `Practice problems solved: ${boxes.filter((b) => b.checked).length} of ${boxes.length}.`;
 	});
 }

@@ -12,6 +12,9 @@ import { publishedChapters } from '../src/data/curriculum.mjs';
 const DIST = path.resolve('dist');
 const errors = [];
 const err = (file, msg) => errors.push(`${path.relative(DIST, file)}: ${msg}`);
+// Caret notation: something like m/s^2, 10^-3, x^{n}, 2^(t/T) or e^x.
+const CARET = /[A-Za-z0-9)]\^[-−0-9{(A-Za-z]/g;
+const near = (s, i) => s.slice(Math.max(0, i - 20), i + 10);
 
 function walk(dir) {
 	return readdirSync(dir).flatMap((f) => {
@@ -43,9 +46,8 @@ for (const [file, doc] of docs) {
 		clone.querySelectorAll('.katex, script, style, code, pre, textarea, .sr-only, .sl-anchor-link').forEach((n) => n.remove());
 		const text = clone.textContent;
 		if (/\$[^$\s][^$]*\\[a-z]+/.test(text) || /\$\$/.test(text)) err(file, 'looks like un-rendered LaTeX ($…$) in the text');
-		// 3. caret notation in prose, e.g. m/s^2 or 10^5
-		const caret = text.match(/[A-Za-z0-9)]\^[-−0-9{]/);
-		if (caret) err(file, `caret notation in prose near "${text.slice(Math.max(0, caret.index - 20), caret.index + 10)}"`);
+		// 3. caret notation in prose, e.g. m/s^2, 10^5 or e^(kt)
+		for (const m of text.matchAll(CARET)) err(file, `caret notation in prose near "${near(text, m.index)}"`);
 	}
 	// 2. links and anchors
 	for (const a of doc.querySelectorAll('a[href], link[href], img[src], script[src]')) {
@@ -82,8 +84,7 @@ for (const ch of publishedChapters) {
 		if (md.length < 500) err(f, 'raw markdown suspiciously short');
 		if (/katex|class="/.test(md)) err(f, 'raw markdown contains leftover HTML/KaTeX markup');
 		const prose = md.replace(/\$\$[\s\S]*?\$\$/g, '').replace(/\$[^$\n]*\$/g, '');
-		const caret = prose.match(/[A-Za-z0-9)]\^[-−0-9{]/);
-		if (caret) err(f, `caret notation outside maths near "${prose.slice(Math.max(0, caret.index - 20), caret.index + 10)}"`);
+		for (const m of prose.matchAll(CARET)) err(f, `caret notation outside maths near "${near(prose, m.index)}"`);
 	}
 }
 

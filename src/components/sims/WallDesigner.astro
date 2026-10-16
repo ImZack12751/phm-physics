@@ -86,7 +86,7 @@
 			out.innerHTML =
 				`<span class="k">${formula}</span> = <b>${fmt(stress)}</b> &nbsp; <span class="k">strength</span> = ${fmt(mat.s)}<br>` +
 				`<span class="k">safety factor</span> = ${sf >= 100 ? sf.toFixed(0) : sf.toPrecision(2)}: ${verdict}<br>` +
-				`<span class="k">wall mass</span> = ${isNaN(mat.rho) ? 'n/a' : (mat.rho * t).toPrecision(3) + ' kg per m²'} &nbsp; <span class="k">thickness needed</span>: ${fmtL(need(1))} (factor 1), ${fmtL(need(2))} (factor 2)` +
+				`<span class="k">wall mass</span> = ${isNaN(mat.rho) ? 'n/a' : (mat.rho * t >= 1000 ? Math.round(mat.rho * t).toLocaleString('en-GB') : (mat.rho * t).toPrecision(3)) + ' kg per m²'} &nbsp; <span class="k">thickness needed</span>: ${fmtL(need(1))} (factor 1), ${fmtL(need(2))} (factor 2)` +
 				(Ms.value === 'gr' ? '<br><span class="k">note</span>: perfect graphene’s strength is only reached in flawless samples micrometres across' : '');
 		}
 		[Ss, Ms, Ps].forEach((s) => { s.addEventListener('change', draw); s.addEventListener('input', draw); });

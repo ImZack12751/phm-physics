@@ -31,6 +31,11 @@
 </div>
 
 <script>
+	/** x.toExponential(d) written properly: 1.96e+10 → "1.96 × 10¹⁰" (Unicode superscripts, fine in SVG and HTML). */
+	const pow10 = (x: number, d: number) => {
+		const [m, e] = x.toExponential(d).split('e');
+		return `${m} × 10${String(+e).replace(/-/g, '⁻').replace(/[0-9]/g, (c) => '⁰¹²³⁴⁵⁶⁷⁸⁹'[+c])}`;
+	};
 	document.querySelectorAll<HTMLElement>('.sim.ssl').forEach((root) => {
 		const q = <T extends Element>(s: string) => root.querySelector<T>(s)!;
 		const svg = q<SVGSVGElement>('.ssl-svg'), out = q<HTMLElement>('.ssl-out');
@@ -109,7 +114,7 @@
 			out.innerHTML =
 				`<span class="k">v = √(γkT/m)</span> = <b>${v.toFixed(0)} m/s</b> (γ = ${g.g}, m = ${g.m} u) &nbsp; <span class="k">Newton's √(kT/m)</span> = ${vn.toFixed(0)} m/s, ${((1 - vn / v) * 100).toFixed(0)}% low<br>` +
 				`<span class="k">density ρ = Pm/kT</span> = ${rho < 0.1 ? rho.toFixed(3) : rho.toFixed(2)} kg/m³ &nbsp; <span class="k">impedance Z = ρv</span> = ${Z.toFixed(0)} Pa·s/m &nbsp; <span class="k">λ of the note</span> = ${(v / f).toFixed(2)} m (in Grace's air ${(343 / f).toFixed(2)} m)<br>` +
-				`<span class="k">wall</span>: σ = ${sig.toFixed(1)} kg/m², ωσ = ${(w * sig).toExponential(2)} Pa·s/m; fraction through = 4Z₁Z₂/((Z₁ + Z₂)² + (ωσ)²) = ${tau.toExponential(2)} = <b>${dB.toFixed(1)} dB</b>`;
+				`<span class="k">wall</span>: σ = ${sig.toFixed(1)} kg/m², ωσ = ${pow10((w * sig), 2)} Pa·s/m; fraction through = 4Z₁Z₂/((Z₁ + Z₂)² + (ωσ)²) = ${pow10(tau, 2)} = <b>${dB.toFixed(1)} dB</b>`;
 		}
 		[Ts, Ps, Ws, Fs].forEach((el) => el.addEventListener('input', draw));
 		Gs.addEventListener('change', draw);

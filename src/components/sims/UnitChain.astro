@@ -105,7 +105,7 @@
 			const lenSame = A === C, timeSame = B === D;
 			const lenCancel = lenSame ? '' : 'x c0';
 			const timeCancel = timeSame ? '' : 'x c1';
-			fr.push(frac(String(x), A, '1', B, lenCancel, timeCancel));
+			fr.push(frac(fmt(x), A, '1', B, lenCancel, timeCancel));
 			let factor = 1;
 			if (!lenSame) {
 				if (A !== 'm') { fr.push(frac(fmt(L[A][1]), 'm', '1', A, C !== 'm' ? 'x c0' : '', 'x c0')); factor *= L[A][1]; }

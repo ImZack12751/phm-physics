@@ -33,6 +33,11 @@
 </div>
 
 <script>
+	/** x.toExponential(d) written properly: 1.96e+10 → "1.96 × 10¹⁰" (Unicode superscripts, fine in SVG and HTML). */
+	const pow10 = (x: number, d: number) => {
+		const [m, e] = x.toExponential(d).split('e');
+		return `${m} × 10${String(+e).replace(/-/g, '⁻').replace(/[0-9]/g, (c) => '⁰¹²³⁴⁵⁶⁷⁸⁹'[+c])}`;
+	};
 	document.querySelectorAll<HTMLElement>('.sim.atk').forEach((root) => {
 		const q = <T extends Element>(s: string) => root.querySelector<T>(s)!;
 		const svg = q<SVGSVGElement>('.atk-svg'), out = q<HTMLElement>('.atk-out');
@@ -94,7 +99,7 @@
 				bars[i].setAttribute('class', v6 <= ve ? 'f-green' : 'f-rose');
 				(v6 <= ve ? kept : lost).push(gas.n);
 				const Tc = (gas.M * u * ve * ve) / (108 * k);
-				tc.push(`${gas.n} ${Tc >= 1e4 ? Tc.toExponential(1) : Tc.toFixed(0)} K`);
+				tc.push(`${gas.n} ${Tc >= 1e4 ? pow10(Tc, 1) : Tc.toFixed(0)} K`);
 			});
 			out.innerHTML =
 				`<span class="k">escape speed</span> ${(ve / 1000).toFixed(2)} km/s &nbsp; <span class="k">surface gravity</span> ${g.toFixed(2)} m/s² (${(g / 9.80665).toFixed(2)} g) &nbsp; <span class="k">at</span> ${T.toFixed(0)} K<br>` +

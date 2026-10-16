@@ -30,6 +30,11 @@
 </div>
 
 <script>
+	/** x.toExponential(d) written properly: 1.96e+10 → "1.96 × 10¹⁰" (Unicode superscripts, fine in SVG and HTML). */
+	const pow10 = (x: number, d: number) => {
+		const [m, e] = x.toExponential(d).split('e');
+		return `${m} × 10${String(+e).replace(/-/g, '⁻').replace(/[0-9]/g, (c) => '⁰¹²³⁴⁵⁶⁷⁸⁹'[+c])}`;
+	};
 	const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 	const HC = 1239.84198; // eV nm
 	const EV = 1.602176634e-19; // J
@@ -81,10 +86,10 @@
 			const thr = HC / s.phi;
 			const perS = (1e-3 * s.I) / (s.E * EV);
 			out.innerHTML =
-				`<span class="k">photon energy E = hf = hc/λ</span> = <b>${s.E.toFixed(s.E < 0.1 ? 4 : 2)} eV</b> = ${(s.E * EV).toExponential(3)} J<br>` +
+				`<span class="k">photon energy E = hf = hc/λ</span> = <b>${s.E.toFixed(s.E < 0.1 ? 4 : 2)} eV</b> = ${pow10((s.E * EV), 3)} J<br>` +
 				`<span class="k">work function φ</span> = ${s.phi.toFixed(2)} eV &nbsp; <span class="k">threshold wavelength hc/φ</span> = ${thr.toFixed(0)} nm (longer than this does nothing)<br>` +
 				`<span class="k">top electron energy hf − φ</span> = <b>${s.K > 0 ? `${s.K.toFixed(2)} eV` : 'none: no electrons'}</b>` +
-				` &nbsp; <span class="k">photons per second in a 1 mW beam at this brightness</span> = ${s.I > 0 ? perS.toExponential(2) : '0'}`;
+				` &nbsp; <span class="k">photons per second in a 1 mW beam at this brightness</span> = ${s.I > 0 ? pow10(perS, 2) : '0'}`;
 			if (reduce) staticPicture(s);
 		}
 		function staticPicture(s: ReturnType<typeof state>) {

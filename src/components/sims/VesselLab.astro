@@ -59,6 +59,7 @@
 		const t2 = el('text', { x: 580, y: 20, class: 't-end t-sm t-b f-sky' });
 		const t3 = el('text', { x: 300, y: 220, class: 't-mid t-sm f-muted' });
 		const fmt = (x: number) => {
+			if (x === 0) return '0';
 			const e = Math.floor(Math.log10(Math.abs(x)));
 			if (e >= -2 && e < 5) return x.toPrecision(Math.max(3, e + 1));
 			return `${(x / 10 ** e).toFixed(2)} × 10<sup>${e}</sup>`;
@@ -72,7 +73,9 @@
 			t1.textContent = shape === 'panel' ? 'high pressure (left)' : 'high pressure inside';
 			t2.textContent = shape === 'panel' ? 'low pressure (right)' : 'low pressure outside';
 			arrows.forEach((a) => a.setAttribute('visibility', 'hidden'));
-			let html = `<span class="k">ΔP</span> = ${fmt(hi)} − ${fmt(lo)} = <b>${fmt(dP)} Pa</b> (${(dP / 101325).toPrecision(3)} atm)<br>`;
+			let html = hi > lo
+				? `<span class="k">ΔP</span> = ${fmt(hi)} − ${fmt(lo)} = <b>${fmt(dP)} Pa</b> (${(dP / 101325).toPrecision(3)} atm)<br>`
+				: `<span class="k">ΔP</span> = <b>0 Pa</b> (the high side is not above the low side, so there is no load)<br>`;
 			if (shape === 'panel') {
 				const L = R, rb = (L * L / 4 + s * s) / (2 * s), rApprox = (L * L) / (8 * s);
 				const F = dP * L * L, T = (dP * rb) / 2;
@@ -118,7 +121,6 @@
 					: `<span class="k">force on each end cap, ΔP πr²</span> = <b>${fmt(Fh)} N</b> (weight of ${fmt(Fh / 9.81 / 1000)} tonnes)<br>` +
 						`<span class="k">hoop tension, ΔP r</span> = <b>${fmt(dP * R)} N/m</b> &nbsp; <span class="k">axial tension, ΔP r/2</span> = ${fmt((dP * R) / 2)} N/m`;
 			}
-			if (hi <= lo) html += '<br><span class="k">note</span>: the high side must be above the low side';
 			out.innerHTML = html;
 		}
 		[Ss, His, Los].forEach((s) => { s.addEventListener('change', draw); s.addEventListener('input', draw); });

@@ -42,6 +42,11 @@
 </div>
 
 <script>
+	/** x.toExponential(d) written properly: 1.96e+10 → "1.96 × 10¹⁰" (Unicode superscripts, fine in SVG and HTML). */
+	const pow10 = (x: number, d: number) => {
+		const [m, e] = x.toExponential(d).split('e');
+		return `${m} × 10${String(+e).replace(/-/g, '⁻').replace(/[0-9]/g, (c) => '⁰¹²³⁴⁵⁶⁷⁸⁹'[+c])}`;
+	};
 	document.querySelectorAll<HTMLElement>('.sim.pdl').forEach((root) => {
 		const q = <T extends Element>(s: string) => root.querySelector<T>(s)!;
 		const svg = q<SVGSVGElement>('.pdl-svg'), out = q<HTMLElement>('.pdl-out');
@@ -100,12 +105,12 @@
 			markT.setAttribute('y', String(Math.max(TT + 10, Math.min(TB - 4, y + 4))));
 			markT.textContent = `${h} m`;
 			bar.setAttribute('width', String(Math.max(0, X(atm) - GL)));
-			pT.textContent = `P = ${atm < 0.01 ? atm.toExponential(2) : atm.toPrecision(3)} atm`;
+			pT.textContent = `P = ${atm < 0.01 ? pow10(atm, 2) : atm.toPrecision(3)} atm`;
 			const perAtm = ATM / (rho * g);
 			const gas = rho < 100;
 			out.innerHTML =
 				`<span class="k">P = P₀ + ρgh</span> = ${fmt(P0)} Pa + ${fmt(gauge)} Pa = <b>${fmt(P)} Pa</b><br>` +
-				`<span class="k">in other units</span> = ${atm.toPrecision(3)} atm = ${(P / 1e5).toPrecision(3)} bar = ${(P / 6894.757).toPrecision(3)} psi<br>` +
+				`<span class="k">in other units</span> = ${fmt(atm)} atm = ${fmt(P / 1e5)} bar = ${fmt(P / 6894.757)} psi<br>` +
 				`<span class="k">ρg</span> = ${fmt(rho * g)} Pa per metre &nbsp; <span class="k">depth that adds 1 atm</span> = <b>${perAtm >= 1000 ? (perAtm / 1000).toPrecision(3) + ' km' : perAtm.toPrecision(3) + ' m'}</b><br>` +
 				`<span class="k">force on a 1 cm² fingertip</span> = ${fmt(P * 1e-4)} N &nbsp; <span class="k">on a 1 m² panel</span> = ${fmt(P)} N` +
 				(gas && h > 0 ? '<br><span class="k">note</span>: a gas gets denser as it is squeezed, so ρgh with one density is only good over heights much less than the scale height (Chapter 12.2)' : '');

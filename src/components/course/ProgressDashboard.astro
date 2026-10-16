@@ -92,7 +92,7 @@ const rows = publishedChapters.map((c) => ({ ...c, href: chapterUrl(c), problems
 			let chapters = 0, solved = 0, total = 0;
 			for (const r of rows) {
 				const tr = dash.querySelector(`tr[data-slug="${r.slug}"]`)!;
-				const n = problemsDoneIn(p, r.slug);
+				const n = problemsDoneIn(p, r.slug, r.problems);
 				const done = Boolean(p.chapters[r.slug]);
 				chapters += done ? 1 : 0;
 				solved += n;

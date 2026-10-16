@@ -30,7 +30,7 @@
 	const sci = (x: number, d = 3) => {
 		if (!isFinite(x)) return '∞';
 		const e = Math.floor(Math.log10(Math.abs(x)));
-		if (e >= -2 && e < 5) return x.toPrecision(d);
+		if (e >= -2 && e < 5) return x.toPrecision(Math.max(d, e + 1));
 		return `${(x / 10 ** e).toFixed(d - 1)} × 10<sup>${e}</sup>`;
 	};
 	document.querySelectorAll<HTMLElement>('.sim.re').forEach((root) => {
@@ -51,7 +51,7 @@
 		function draw() {
 			const ve = VE[+Es.value], dv = 10 ** +Vs.value * 1000, mDry = 10 ** +Ms.value * 1000;
 			q('.re-vv').textContent = dv >= 1e6 ? `${(dv / 1000).toLocaleString('en-GB', { maximumFractionDigits: 0 })} km/s` : `${(dv / 1000).toPrecision(3)} km/s`;
-			q('.re-mv').textContent = `${(mDry / 1000).toPrecision(3)} t`;
+			q('.re-mv').textContent = `${(+(mDry / 1000).toPrecision(3)).toLocaleString('en-GB')} t`;
 			const x = dv / ve, Rm = Math.exp(x), frac = 1 - 1 / Rm, prop = mDry * (Rm - 1);
 			svg.replaceChildren();
 			[1, 10, 100, 1000].forEach((r) => {
@@ -74,7 +74,7 @@
 			el('text', { x: 22, y: (T + B) / 2, class: 't-mid t-sm', transform: `rotate(-90 22 ${(T + B) / 2})` }, 'mass ratio');
 			out.innerHTML =
 				`<span class="k">Δv / v<sub>e</sub></span> = ${sci(x)} &nbsp; <span class="k">mass ratio m₀/m<sub>f</sub> = e<sup>Δv/v<sub>e</sub></sup></span> = <b>${sci(Rm)}</b> &nbsp; <span class="k">propellant share of starting mass</span> = <b>${frac > 0.99995 ? '> 99.99' : (frac * 100).toFixed(frac > 0.99 ? 2 : 1)}%</b><br>` +
-				`<span class="k">propellant for a ${(mDry / 1000).toPrecision(3)} t ship</span> = <b>${sci(prop / 1000)} t</b>` +
+				`<span class="k">propellant for a ${(+(mDry / 1000).toPrecision(3)).toLocaleString('en-GB')} t ship</span> = <b>${sci(prop / 1000)} t</b>` +
 				(dv > 0.1 * c ? ' &nbsp; <b>Warning:</b> Δv is over 0.1c, where this Newtonian formula fails (Part 10).' : '');
 		}
 		[Es, Vs, Ms].forEach((i) => i.addEventListener('input', draw));

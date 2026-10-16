@@ -44,8 +44,9 @@ export function isProblemDone(p: Progress, slug: string, n: string | number) {
 	return Boolean(p.problems[`${slug}#${n}`]);
 }
 
-export function problemsDoneIn(p: Progress, slug: string) {
-	return Object.keys(p.problems).filter((k) => k.startsWith(slug + '#')).length;
+/** Problems ticked in a chapter. Pass `count` (the chapter's number of problems) to ignore stale ticks. */
+export function problemsDoneIn(p: Progress, slug: string, count = Infinity) {
+	return Object.keys(p.problems).filter((k) => k.startsWith(slug + '#') && Number(k.slice(slug.length + 1)) <= count).length;
 }
 
 export function resetProgress() {

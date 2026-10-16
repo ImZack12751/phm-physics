@@ -74,7 +74,7 @@
 			el('text', { x: BX + BW / 2, y: Y1 + 20, class: 't-mid t-sm f-muted' }, 'heat flow (log scale)');
 			out.innerHTML =
 				`<span class="k">heat flow P = kAΔT/d</span> = <b>${fmt(P)}</b> &nbsp; <span class="k">per square metre</span> = ${fmt(P / A)}${P < 0 ? ' (heat flows the other way, out of the room)' : ''}<br>` +
-				`<span class="k">equal to</span> ${(Math.abs(P) / 2000).toPrecision(2)} room heaters of 2 kW &nbsp; <span class="k">energy in one hour</span> = ${((Math.abs(P) * 3600) / 1e6).toPrecision(3)} MJ`;
+				`<span class="k">equal to</span> ${Math.abs(P) >= 2e5 ? Math.round(Math.abs(P) / 2000).toLocaleString('en-GB') : (Math.abs(P) / 2000).toPrecision(2)} room heaters of 2 kW &nbsp; <span class="k">energy in one hour</span> = ${(Math.abs(P) * 3600) / 1e6 >= 1000 ? (+((Math.abs(P) * 3600) / 1e9).toPrecision(3)).toLocaleString('en-GB') + ' GJ' : ((Math.abs(P) * 3600) / 1e6).toPrecision(3) + ' MJ'}`;
 		}
 		[Ks, Ds, As, Ts].forEach((i) => i.addEventListener('input', draw));
 		draw();

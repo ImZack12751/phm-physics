@@ -28,6 +28,11 @@
 </div>
 
 <script>
+	/** x.toExponential(d) written properly: 1.96e+10 → "1.96 × 10¹⁰" (Unicode superscripts, fine in SVG and HTML). */
+	const pow10 = (x: number, d: number) => {
+		const [m, e] = x.toExponential(d).split('e');
+		return `${m} × 10${String(+e).replace(/-/g, '⁻').replace(/[0-9]/g, (c) => '⁰¹²³⁴⁵⁶⁷⁸⁹'[+c])}`;
+	};
 	const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 	document.querySelectorAll<HTMLElement>('.sim.snl').forEach((root) => {
 		const q = <T extends Element>(s: string) => root.querySelector<T>(s)!;
@@ -90,7 +95,7 @@
 			const delay = (2 * g.d) / g.v;
 			out.innerHTML =
 				`<span class="k">wavelength λ = v/f</span> = <b>${fmtL(g.lam)}</b> &nbsp; <span class="k">echo delay t = 2d/v</span> = <b>${fmtT(delay)}</b><br>` +
-				`<span class="k">target size / λ</span> = ${ratio < 0.01 ? ratio.toExponential(1) : ratio.toFixed(2)}: ${verdict}<br>` +
+				`<span class="k">target size / λ</span> = ${ratio < 0.01 ? pow10(ratio, 1) : ratio.toFixed(2)}: ${verdict}<br>` +
 				`<span class="k">echo level vs the same target at 1 m</span> = −40 log₁₀(${g.d.toFixed(1)}) = <b>${(-40 * Math.log10(g.d)).toFixed(1)} dB</b>` +
 				(Ms.value === '1540t' ? '<br><span class="k">tissue</span>: medical scanners use 1–18 MHz, with gel to stop the skin–air boundary reflecting 99.9%' : '');
 			update();

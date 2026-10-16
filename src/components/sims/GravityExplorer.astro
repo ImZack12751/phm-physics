@@ -79,7 +79,7 @@
 			out.innerHTML =
 				`<span class="k">${b.name}</span>: M = ${sci(b.M)} kg, R = ${(b.R / 1000).toLocaleString('en-GB', { maximumFractionDigits: 0 })} km, surface g = <b>${gs.toFixed(2)} m/s²</b><br>` +
 				`<span class="k">at r = ${x.toFixed(2)} R</span> (${((r - b.R) / 1000).toLocaleString('en-GB', { maximumFractionDigits: 0 })} km up): g = <b>${g < 0.1 ? g.toPrecision(3) : g.toFixed(2)} m/s²</b> = ${(g / 9.81).toPrecision(3)} Earth g<br>` +
-				`<span class="k">weight of an 80 kg person there</span> = ${(80 * g).toPrecision(3)} N &nbsp; <span class="k">compared with the surface, (R/r)²</span> = ${(1 / x ** 2).toFixed(3)}`;
+				`<span class="k">weight of an 80 kg person there</span> = ${80 * g >= 1000 ? (+(80 * g).toPrecision(3)).toLocaleString('en-GB') : (80 * g).toPrecision(3)} N &nbsp; <span class="k">compared with the surface, (R/r)²</span> = ${(1 / x ** 2).toFixed(3)}`;
 		}
 		[Rs, Bs].forEach((i) => i.addEventListener('input', draw));
 		draw();

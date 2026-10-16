@@ -10,6 +10,9 @@ import { parts } from './src/data/curriculum.mjs';
 import rehypeBaseLinks from './src/plugins/rehype-base-links.mjs';
 import rawMarkdown from './src/integrations/raw-markdown.mjs';
 
+/** KaTeX strict-mode handler: ignore µ in text mode, warn about anything else. */
+const katexStrict = (code, msg) => (code === 'unknownSymbol' && msg.includes('"µ"') ? 'ignore' : 'warn');
+
 // Sidebar: a "Course" group, then one group per Part that has at least one published chapter.
 const partGroups = parts
 	.map((part) => ({
@@ -29,7 +32,9 @@ export default defineConfig({
 		processor: unified({
 			remarkPlugins: [remarkMath],
 			rehypePlugins: [
-				[rehypeKatex, { strict: 'warn', throwOnError: false, output: 'htmlAndMathml' }],
+				// `\text{µm}` is the only way to get an upright micro sign (KaTeX has no \upmu), and it
+				// renders correctly from the text font, so don't warn about it. Warn about everything else.
+				[rehypeKatex, { strict: katexStrict, throwOnError: false, output: 'htmlAndMathml' }],
 				[rehypeBaseLinks, { base: BASE }],
 			],
 		}),

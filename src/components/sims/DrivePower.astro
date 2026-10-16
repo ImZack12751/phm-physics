@@ -65,7 +65,7 @@
 				el('text', { x: px(Pk), y: Y - 50, class: 't-mid t-sm f-green' }, 'into motion');
 			}
 			out.innerHTML =
-				`<span class="k">drive power P = ṁc²</span> = <b>${sci(P)} W</b> (${(P / 1.96e13).toPrecision(3)} × all human energy use) &nbsp; <span class="k">push F = ṁc</span> = ${sci(F)} N<br>` +
+				`<span class="k">drive power P = ṁc²</span> = <b>${sci(P)} W</b> (${P >= 1.96e16 || P < 1.96e11 ? sci(P / 1.96e13) : (P / 1.96e13).toPrecision(3)} × all human energy use) &nbsp; <span class="k">push F = ṁc</span> = ${sci(F)} N<br>` +
 				`<span class="k">power into the ship’s motion, Fv</span> = ${sci(Pk)} W = <b>${(beta * 100).toFixed(1)}%</b> of the drive’s power (v/c). The rest leaves as light.`;
 		}
 		[Ms, Vs].forEach((i) => i.addEventListener('input', draw));

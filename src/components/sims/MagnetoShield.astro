@@ -28,6 +28,11 @@
 </div>
 
 <script>
+	/** x.toExponential(d) written properly: 1.96e+10 → "1.96 × 10¹⁰" (Unicode superscripts, fine in SVG and HTML). */
+	const pow10 = (x: number, d: number) => {
+		const [m, e] = x.toExponential(d).split('e');
+		return `${m} × 10${String(+e).replace(/-/g, '⁻').replace(/[0-9]/g, (c) => '⁰¹²³⁴⁵⁶⁷⁸⁹'[+c])}`;
+	};
 	document.querySelectorAll<HTMLElement>('.sim.msh').forEach((root) => {
 		const q = <T extends Element>(s: string) => root.querySelector<T>(s)!;
 		const svg = q<SVGSVGElement>('.msh-svg'), out = q<HTMLElement>('.msh-out');
@@ -49,7 +54,7 @@
 		const lab = el('text', { x: CX, y: CY + 4, class: 't-mid t-sm t-b' }, ' ');
 		const labN = document.createTextNode(''); lab.textContent = ''; lab.append(labN);
 		el('text', { x: 580, y: 18, class: 't-end t-sm f-muted' }, 'planet and paths to the same scale');
-		const fmt = (x: number) => (x >= 1e4 || x < 0.01 ? x.toExponential(2) : x.toPrecision(3));
+		const fmt = (x: number) => (x >= 1e4 || x < 0.01 ? pow10(x, 2) : x >= 1000 ? Math.round(x).toLocaleString('en-GB') : x.toPrecision(3));
 		function draw() {
 			const k0 = +Ws.value; // cB₀R in GV
 			const rig = 10 ** +Rs.value; // GV

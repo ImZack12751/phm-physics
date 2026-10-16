@@ -35,6 +35,11 @@
 </div>
 
 <script>
+	/** x.toExponential(d) written properly: 1.96e+10 → "1.96 × 10¹⁰" (Unicode superscripts, fine in SVG and HTML). */
+	const pow10 = (x: number, d: number) => {
+		const [m, e] = x.toExponential(d).split('e');
+		return `${m} × 10${String(+e).replace(/-/g, '⁻').replace(/[0-9]/g, (c) => '⁰¹²³⁴⁵⁶⁷⁸⁹'[+c])}`;
+	};
 	document.querySelectorAll<HTMLElement>('.sim.plx').forEach((root) => {
 		const q = <T extends Element>(s: string) => root.querySelector<T>(s)!;
 		const svg = q<SVGSVGElement>('.plx-svg'), out = q<HTMLElement>('.plx-out');
@@ -70,7 +75,7 @@
 		el('text', { x: MID, y: 210, class: 't-mid t-sm f-muted' }, 'strip width = the full swing, 2p');
 		const tn = (e: Element) => { const n = document.createTextNode(''); e.textContent = ''; e.append(n); return n; };
 		const scaleN = tn(scaleT);
-		const fmt = (x: number, p = 3) => (Math.abs(x) >= 1e5 || Math.abs(x) < 1e-2 ? x.toExponential(p - 1) : x.toPrecision(p));
+		const fmt = (x: number, p = 3) => (Math.abs(x) >= 1e5 || Math.abs(x) < 1e-2 ? pow10(x, p - 1) : Math.abs(x) >= 10 ** p ? Math.round(x).toLocaleString('en-GB') : x.toPrecision(p));
 		function draw() {
 			const dly = 10 ** +Ds.value;
 			const mon = +Ms.value;

@@ -29,6 +29,11 @@
 </div>
 
 <script>
+	/** x.toExponential(d) written properly: 1.96e+10 → "1.96 × 10¹⁰" (Unicode superscripts, fine in SVG and HTML). */
+	const pow10 = (x: number, d: number) => {
+		const [m, e] = x.toExponential(d).split('e');
+		return `${m} × 10${String(+e).replace(/-/g, '⁻').replace(/[0-9]/g, (c) => '⁰¹²³⁴⁵⁶⁷⁸⁹'[+c])}`;
+	};
 	const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 	document.querySelectorAll<HTMLElement>('.sim.gpl').forEach((root) => {
 		const q = <T extends Element>(s: string) => root.querySelector<T>(s)!;
@@ -69,8 +74,8 @@
 			st.forEach((s) => { if (s.x > wall - 4) s.x = X0 + 4 + Math.random() * (wall - X0 - 8); });
 			pT.textContent = `P = ${(P / 1000).toFixed(1)} kPa = ${(P / ATM).toFixed(2)} atm`;
 			out.innerHTML =
-				`<span class="k">P = nRT/V</span> = ${n.toFixed(3)} × 8.314 × ${T} / ${V.toExponential(2)} = <b>${(P / 1000).toFixed(1)} kPa</b> (${(P / ATM).toFixed(2)} atm)<br>` +
-				`<span class="k">molecules N = nN<sub>A</sub></span> = ${(n * NA).toExponential(2)} &nbsp; <span class="k">density nM/V</span> = ${((n * M) / V).toFixed(2)} kg/m³<br>` +
+				`<span class="k">P = nRT/V</span> = ${n.toFixed(3)} × 8.314 × ${T} / ${pow10(V, 2)} = <b>${(P / 1000).toFixed(1)} kPa</b> (${(P / ATM).toFixed(2)} atm)<br>` +
+				`<span class="k">molecules N = nN<sub>A</sub></span> = ${pow10((n * NA), 2)} &nbsp; <span class="k">density nM/V</span> = ${((n * M) / V).toFixed(2)} kg/m³<br>` +
 				`<span class="k">v<sub>rms</sub> = √(3RT/M)</span> = <b>${vrms.toFixed(0)} m/s</b> (the dots are drawn enormously slowed down)`;
 			place();
 		}

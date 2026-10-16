@@ -82,11 +82,11 @@
 			pH.setAttribute('points', head(x + 4 + lp, SY + 12, 1));
 			gT.setAttribute('x', String(x - 8)); gT.setAttribute('y', String(SY - 22)); gT.textContent = 'gravity';
 			pT.setAttribute('x', String(x + 8)); pT.setAttribute('y', String(SY + 32)); pT.textContent = 'sunlight';
-			verdict.textContent = beta > 1 ? `β = ${beta.toPrecision(3)}: blown away from the Sun` : `β = ${beta.toPrecision(3)}: still falls towards the Sun`;
+			verdict.textContent = beta > 1 ? `β = ${sci(beta)}: blown away from the Sun` : `β = ${sci(beta)}: still falls towards the Sun`;
 			verdict.setAttribute('class', `t-mid t-sm t-b ${beta > 1 ? 'f-amber' : 'f-violet'}`);
 			out.innerHTML =
 				`<span class="k">sunlight intensity at ${r.toFixed(2)} au</span> = ${I.toFixed(0)} W/m² &nbsp; <span class="k">light pressure ${k === 2 ? '2I/c' : 'I/c'}</span> = ${sci(Pr)} Pa<br>` +
-				`<span class="k">push</span> = <b>${sci(F)} N</b> &nbsp; <span class="k">Sun’s gravity</span> = ${sci(G)} N &nbsp; <span class="k">β = push ÷ gravity</span> = <b>${beta.toPrecision(3)}</b> (the same at any distance)<br>` +
+				`<span class="k">push</span> = <b>${sci(F)} N</b> &nbsp; <span class="k">Sun’s gravity</span> = ${sci(G)} N &nbsp; <span class="k">β = push ÷ gravity</span> = <b>${sci(beta)}</b> (the same at any distance)<br>` +
 				`<span class="k">acceleration from light alone</span> = ${sci(a)} m/s², adding ${sci(a * 86400)} m/s per day &nbsp; <span class="k">mass per area</span> = ${sci(m / A)} kg/m²`;
 		}
 		[As, Ms, Rs].forEach((i) => i.addEventListener('input', draw));

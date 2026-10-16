@@ -9,7 +9,7 @@
 <div
 	class="sim bsh"
 	data-title="Interstellar beam and shield"
-	data-description="See what the thin interstellar gas does to a ship moving near light speed. Set the speed (from 0.01c to 0.999c, or pick the Hail Mary's 0.909c coast with the novel's fuel or 0.9952c at the flip of a 1.5 g flip-and-burn), the gas density (0.05, 0.3 or 1 atom per cubic centimetre) and a water shield over the nose (0 to 20 m). The readout gives the Lorentz factor, each proton's energy (γ − 1)m_p c², the flux γnv, the dose rate to unshielded tissue at the nose (a lower limit, using 1.98 MeV per g/cm²), the time to a lethal 8 Gy, the power per square metre and the temperature the nose would reach radiating it away, and the fraction of primary protons that pass the shield, e^(−Σ/83.3 g/cm²). Bars compare the dose rates with a lethal dose in one minute and with cosmic rays in deep space. Secondary particles from the shield are ignored."
+	data-description="See what the thin interstellar gas does to a ship moving near light speed. Set the speed (from 0.01c to 0.999c, or pick the Hail Mary's 0.909c coast with the novel's fuel or 0.9952c at the flip of a 1.5 g flip-and-burn), the gas density (0.05, 0.3 or 1 atom per cubic centimetre) and a water shield over the nose (0 to 20 m). The readout gives the Lorentz factor, each proton's energy (γ − 1)m_p c², the flux γnv, the dose rate to unshielded tissue at the nose (a lower limit, using 1.98 MeV per g/cm²), the time to a lethal 8 Gy, the power per square metre and the temperature the nose would reach radiating it away, and the fraction of primary protons that pass the shield, e to the power −Σ/(83.3 g/cm²). Bars compare the dose rates with a lethal dose in one minute and with cosmic rays in deep space. Secondary particles from the shield are ignored."
 >
 	<p class="sim-title">Simulation: the interstellar beam</p>
 	<p class="sim-help">At low speed the gas is harmless. Near light speed it becomes a beam of GeV protons hitting the nose.</p>
@@ -34,6 +34,11 @@
 </div>
 
 <script>
+	/** x.toExponential(d) written properly: 1.96e+10 → "1.96 × 10¹⁰" (Unicode superscripts, fine in SVG and HTML). */
+	const pow10 = (x: number, d: number) => {
+		const [m, e] = x.toExponential(d).split('e');
+		return `${m} × 10${String(+e).replace(/-/g, '⁻').replace(/[0-9]/g, (c) => '⁰¹²³⁴⁵⁶⁷⁸⁹'[+c])}`;
+	};
 	document.querySelectorAll<HTMLElement>('.sim.bsh').forEach((root) => {
 		const q = <T extends Element>(s: string) => root.querySelector<T>(s)!;
 		const svg = q<SVGSVGElement>('.bsh-svg'), out = q<HTMLElement>('.bsh-out');
@@ -62,7 +67,7 @@
 		el('text', { x: L - 8, y: 90, class: 't-end t-sm' }, 'behind shield');
 		const b1 = el('rect', { x: L, y: 32, height: 24, class: 'f-amber' });
 		const b2 = el('rect', { x: L, y: 74, height: 24, class: 'f-sky' });
-		const fmt = (x: number, p = 3) => (x === 0 ? '0' : Math.abs(x) >= 1e4 || Math.abs(x) < 1e-2 ? x.toExponential(p - 1) : x.toPrecision(p));
+		const fmt = (x: number, p = 3) => (x === 0 ? '0' : Math.abs(x) >= 1e4 || Math.abs(x) < 1e-2 ? pow10(x, p - 1) : Math.abs(x) >= 10 ** p ? Math.round(x).toLocaleString('en-GB') : x.toPrecision(p));
 		function draw() {
 			const b = +Bs.value, n = +Ns.value * 1e6, xw = +Xs.value;
 			q('.bsh-bv').textContent = `${b.toFixed(3)}c`;
@@ -81,7 +86,7 @@
 			out.innerHTML =
 				`<span class="k">γ</span> = ${g.toPrecision(4)} &nbsp; <span class="k">each proton</span> ${K >= 1000 ? (K / 1000).toPrecision(3) + ' GeV' : K.toPrecision(3) + ' MeV'} &nbsp; <span class="k">flux γnv</span> = ${fmt(F * 1e-4)} per cm² per s<br>` +
 				`<span class="k">unshielded dose</span> ≥ ${fmt(D)} Gy/s (lethal 8 Gy in ${tStr}) &nbsp; <span class="k">heating</span> ${fmt(P)} W/m² = ${fmt(P / 1361, 2)} × sunlight at Earth, nose radiating at ${T.toFixed(0)} K<br>` +
-				`<span class="k">shield</span>: ${xw.toFixed(1)} m of water = ${sigma.toFixed(0)} g/cm² = ${(sigma / LINT).toFixed(1)} interaction lengths; primaries passing ${surv < 1e-3 ? surv.toExponential(1) : surv.toPrecision(2)}, dose behind it ≳ ${fmt(D2)} Gy/s (secondaries ignored)`;
+				`<span class="k">shield</span>: ${xw.toFixed(1)} m of water = ${sigma.toFixed(0)} g/cm² = ${(sigma / LINT).toFixed(1)} interaction lengths; primaries passing ${surv < 1e-3 ? pow10(surv, 1) : surv.toPrecision(2)}, dose behind it ≳ ${fmt(D2)} Gy/s (secondaries ignored)`;
 		}
 		Pre.addEventListener('change', () => { if (Pre.value) { Bs.value = Pre.value; } draw(); });
 		Pre.addEventListener('input', () => { if (Pre.value) { Bs.value = Pre.value; } draw(); });

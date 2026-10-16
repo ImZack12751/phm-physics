@@ -22,6 +22,13 @@ if (!matchMedia('(prefers-reduced-motion: reduce)').matches && 'IntersectionObse
 		});
 		// Reveal everything before printing, and anything a search or anchor jump lands on.
 		addEventListener('beforeprint', () => items.forEach((el) => el.classList.add('in')));
-		addEventListener('hashchange', () => document.querySelector(location.hash)?.closest(sel)?.classList.add('in'));
+		// (getElementById, because a hash need not be a valid CSS selector.)
+		addEventListener('hashchange', () => {
+			let id = location.hash.slice(1);
+			try {
+				id = decodeURIComponent(id);
+			} catch {}
+			document.getElementById(id)?.closest(sel)?.classList.add('in');
+		});
 	}
 }

@@ -10,7 +10,7 @@
 <div
 	class="sim rfl"
 	data-title="Rutherford scattering lab"
-	data-description="Fire alpha particles at an atomic nucleus. Choose the target (gold Z = 79, silver Z = 47, aluminium Z = 13, or Thomson's 'plum pudding' gold atom with its positive charge spread over the whole atom) and the alpha particles' kinetic energy (1 to 10 MeV). Thirty-one trajectories with evenly spaced aiming distances are drawn on a scale of femtometres; those turned through more than 90 degrees are red, more than 10 degrees blue. The readout gives the head-on turning distance d = 2Zke²/K, the nucleus's radius 1.2 fm × A^(1/3), the aiming distance for a 90° bounce (d/2), and the fraction of an atom's cross-section (radius taken as 0.14 nm) that bounces alphas back. In the plum-pudding model no alpha is deflected by more than a few hundredths of a degree."
+	data-description="Fire alpha particles at an atomic nucleus. Choose the target (gold Z = 79, silver Z = 47, aluminium Z = 13, or Thomson's 'plum pudding' gold atom with its positive charge spread over the whole atom) and the alpha particles' kinetic energy (1 to 10 MeV). Thirty-one trajectories with evenly spaced aiming distances are drawn on a scale of femtometres; those turned through more than 90 degrees are red, more than 10 degrees blue. The readout gives the head-on turning distance d = 2Zke²/K, the nucleus's radius 1.2 fm × ∛A, the aiming distance for a 90° bounce (d/2), and the fraction of an atom's cross-section (radius taken as 0.14 nm) that bounces alphas back. In the plum-pudding model no alpha is deflected by more than a few hundredths of a degree."
 >
 	<p class="sim-title">Simulation: Rutherford scattering</p>
 	<p class="sim-help">Each line is one alpha particle, coming in from the left. Only those aimed almost straight at the nucleus come back.</p>
@@ -28,6 +28,11 @@
 </div>
 
 <script>
+	/** x.toExponential(d) written properly: 1.96e+10 → "1.96 × 10¹⁰" (Unicode superscripts, fine in SVG and HTML). */
+	const pow10 = (x: number, d: number) => {
+		const [m, e] = x.toExponential(d).split('e');
+		return `${m} × 10${String(+e).replace(/-/g, '⁻').replace(/[0-9]/g, (c) => '⁰¹²³⁴⁵⁶⁷⁸⁹'[+c])}`;
+	};
 	document.querySelectorAll<HTMLElement>('.sim.rfl').forEach((root) => {
 		const q = <T extends Element>(s: string) => root.querySelector<T>(s)!;
 		const svg = q<SVGSVGElement>('.rfl-svg'), out = q<HTMLElement>('.rfl-out');
@@ -102,7 +107,7 @@
 				? `<span class="k">plum pudding</span>: charge +79e spread over the whole atom (radius 0.14 nm). Inside it the push is tiny, so every path is straight to within ${fmt(Math.max(maxDeg, (d / RATOM) * 57.3), 2)}°.<br>` +
 					`No alpha could ever bounce back, yet Geiger and Marsden saw about 1 in 8000 do so: the charge must be concentrated in a nucleus.`
 				: `<span class="k">head-on turning distance</span> d = 2Zke²/K = ${fmt(d)} fm &nbsp; <span class="k">${t.name} nucleus radius</span> ≈ ${fmt(Rn, 2)} fm ${d > Rn + 1.9 ? '(the alpha never touches it)' : '(the alpha reaches the nucleus: the strong force joins in, and the pure Coulomb picture fails)'}<br>` +
-					`<span class="k">aim within</span> d/2 = ${fmt(b90)} fm of the centre to be turned back more than 90° &nbsp; <span class="k">share of one atom’s area</span> ≈ ${share.toExponential(1)}<br>` +
+					`<span class="k">aim within</span> d/2 = ${fmt(b90)} fm of the centre to be turned back more than 90° &nbsp; <span class="k">share of one atom’s area</span> ≈ ${pow10(share, 1)}<br>` +
 					`<span class="k">drawn</span>: ${back} of ${N} turned back (red), ${side} deflected more than 10° (blue). The paths shown are all aimed within ${BMAX} fm, a tiny patch at the very centre of the atom.`;
 		}
 		Ts.addEventListener('change', draw);

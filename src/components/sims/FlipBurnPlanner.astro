@@ -29,6 +29,11 @@
 	const D: Record<string, number> = { moon: 3.844e8, au: 1.495978707e11, jup: 5.2 * 1.495978707e11, tau: 11.912 * C * YEAR };
 	const fmtTime = (s: number) =>
 		s < 2 * 86400 ? `${(s / 3600).toFixed(1)} hours` : s < 2 * YEAR ? `${(s / 86400).toFixed(1)} days` : `${(s / YEAR).toFixed(2)} years`;
+	/** 1.288e6 → "1.288 × 10<sup>6</sup>" (d decimals) */
+	const sci = (x: number, d: number) => {
+		const n = Math.floor(Math.log10(x));
+		return `${(x / 10 ** n).toFixed(d)} × 10<sup>${n}</sup>`;
+	};
 	document.querySelectorAll<HTMLElement>('.sim.fb').forEach((root) => {
 		const svg = root.querySelector<SVGSVGElement>('.fb-svg')!;
 		const S = root.querySelector<HTMLSelectElement>('.fb-d')!, A = root.querySelector<HTMLInputElement>('.fb-a')!;
@@ -65,7 +70,7 @@
 			const frac = vpk / C;
 			out.innerHTML =
 				`<span class="k">time to the flip</span> = √(d ÷ a) = <b>${fmtTime(tHalf)}</b> &nbsp; <span class="k">whole trip</span> = <b>${fmtTime(T)}</b><br>` +
-				`<span class="k">peak speed</span> = a × t = <b>${vpk >= 1e5 ? (vpk / 1000).toExponential(3) : (vpk / 1000).toFixed(2)} km/s</b> = ${frac >= 0.01 ? (frac * 100).toFixed(1) + '%' : (frac * 100).toExponential(2) + '%'} of light speed<br>` +
+				`<span class="k">peak speed</span> = a × t = <b>${vpk >= 1e5 ? sci(vpk / 1000, 3) : (vpk / 1000).toFixed(2)} km/s</b> = ${frac >= 0.01 ? (frac * 100).toFixed(1) + '%' : frac >= 1e-4 ? (frac * 100).toFixed(3) + '%' : sci(frac * 100, 2) + '%'} of light speed<br>` +
 				(frac > 1
 					? '<b>Impossible:</b> Newton\'s equations predict a speed above light speed. Part 10 (special relativity) gives the real answer.'
 					: frac > 0.1

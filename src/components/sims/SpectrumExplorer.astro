@@ -65,8 +65,10 @@
 	];
 	const fmt = (x: number, unit: string) => {
 		const pre: [number, string][] = [[1e12, 'T'], [1e9, 'G'], [1e6, 'M'], [1e3, 'k'], [1, ''], [1e-3, 'm'], [1e-6, 'µ'], [1e-9, 'n'], [1e-12, 'p']];
+		// Beyond the largest and smallest prefixes, fall back to powers of ten.
+		if (x >= 999.95e12 || x < 0.9995e-12) return `${sci(x)} ${unit}`;
 		for (const [v, p] of pre) if (x >= v * 0.9995) return `${(x / v).toPrecision(4)} ${p}${unit}`;
-		return `${x.toExponential(3)} ${unit}`;
+		return `${sci(x)} ${unit}`;
 	};
 	const sci = (x: number) => {
 		const e = Math.floor(Math.log10(x)), m = x / 10 ** e;

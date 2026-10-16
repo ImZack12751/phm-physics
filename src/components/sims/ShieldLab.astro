@@ -10,7 +10,7 @@
 <div
 	class="sim shl"
 	data-title="Shielding lab"
-	data-description="Fire 60 particles at a slab of water or lead. Choose the radiation (5 MeV alpha particles, 0.5 MeV beta particles, or gamma rays of 0.1, 0.5, 1 or 2 MeV) and the slab thickness on a logarithmic scale from 1 micrometre to 1 metre. Gamma photons are removed at random depths, so the fraction getting through falls exponentially, I/I₀ = e^(−μx), using NIST mass attenuation coefficients. Alpha and beta particles have a fairly definite range (approximate values, about 40 µm and 1.5 mm of water) and all stop if the slab is thicker. The readout gives the fraction transmitted, the attenuation coefficient, the half-value layer and the slab's mass per area in g/cm²."
+	data-description="Fire 60 particles at a slab of water or lead. Choose the radiation (5 MeV alpha particles, 0.5 MeV beta particles, or gamma rays of 0.1, 0.5, 1 or 2 MeV) and the slab thickness on a logarithmic scale from 1 micrometre to 1 metre. Gamma photons are removed at random depths, so the fraction getting through falls exponentially, I/I₀ = e to the power −μx, using NIST mass attenuation coefficients. Alpha and beta particles have a fairly definite range (approximate values, about 40 µm and 1.5 mm of water) and all stop if the slab is thicker. The readout gives the fraction transmitted, the attenuation coefficient, the half-value layer and the slab's mass per area in g/cm²."
 >
 	<p class="sim-title">Simulation: shielding lab</p>
 	<p class="sim-help">Charged particles slow down and stop. Photons travel until, by chance, they are absorbed or scattered.</p>
@@ -35,6 +35,11 @@
 </div>
 
 <script>
+	/** x.toExponential(d) written properly: 1.96e+10 → "1.96 × 10¹⁰" (Unicode superscripts, fine in SVG and HTML). */
+	const pow10 = (x: number, d: number) => {
+		const [m, e] = x.toExponential(d).split('e');
+		return `${m} × 10${String(+e).replace(/-/g, '⁻').replace(/[0-9]/g, (c) => '⁰¹²³⁴⁵⁶⁷⁸⁹'[+c])}`;
+	};
 	document.querySelectorAll<HTMLElement>('.sim.shl').forEach((root) => {
 		const q = <T extends Element>(s: string) => root.querySelector<T>(s)!;
 		const svg = q<SVGSVGElement>('.shl-svg'), out = q<HTMLElement>('.shl-out');
@@ -64,7 +69,7 @@
 		}
 		el('text', { x: 10, y: 16, class: 't-sm f-muted' }, 'in →');
 		const passLab = el('text', { x: 590, y: 16, class: 't-end t-sm' });
-		const fmtLen = (cm: number) => (cm >= 100 ? `${(cm / 100).toPrecision(3)} m` : cm >= 1 ? `${cm.toPrecision(3)} cm` : cm >= 0.1 ? `${(cm * 10).toPrecision(3)} mm` : `${(cm * 1e4).toPrecision(3)} µm`);
+		const fmtLen = (cm: number) => (cm >= 1e5 ? `${(+(cm / 1e5).toPrecision(3)).toLocaleString('en-GB')} km` : cm >= 100 ? `${(cm / 100).toPrecision(3)} m` : cm >= 1 ? `${cm.toPrecision(3)} cm` : cm >= 0.1 ? `${(cm * 10).toPrecision(3)} mm` : `${(cm * 1e4).toPrecision(3)} µm`);
 		function draw() {
 			const r = Rs.value, m = Ms.value, x = 10 ** +Xs.value; // cm
 			q('.shl-xv').textContent = fmtLen(x);
@@ -101,10 +106,10 @@
 					dots[i].setAttribute('cx', String(xe)); dots[i].setAttribute('cy', String(y));
 					dots[i].setAttribute('r', passes ? '0' : '2.5');
 				});
-				extra = `<span class="k">μ</span> = ${muOverRho[m][r]} cm²/g × ${rho[m]} g/cm³ = ${mu.toPrecision(3)} per cm &nbsp; <span class="k">half-value layer</span> ${fmtLen(Math.LN2 / mu)} &nbsp; <span class="k">expected through</span> e<sup>−μx</sup> = ${exact < 1e-4 ? exact.toExponential(1) : exact.toPrecision(3)}`;
+				extra = `<span class="k">μ</span> = ${muOverRho[m][r]} cm²/g × ${rho[m]} g/cm³ = ${mu.toPrecision(3)} per cm &nbsp; <span class="k">half-value layer</span> ${fmtLen(Math.LN2 / mu)} &nbsp; <span class="k">expected through</span> e<sup>−μx</sup> = ${exact < 1e-4 ? pow10(exact, 1) : exact.toPrecision(3)}`;
 			}
 			passLab.textContent = `${through} of ${N} got through`;
-			out.innerHTML = `<span class="k">slab</span>: ${fmtLen(x)} × ${rho[m]} g/cm³ = ${sigma < 0.01 ? sigma.toExponential(1) : sigma.toPrecision(3)} g/cm² &nbsp; <span class="k">this run</span>: ${through} of ${N} through<br>${extra}`;
+			out.innerHTML = `<span class="k">slab</span>: ${fmtLen(x)} × ${rho[m]} g/cm³ = ${sigma < 0.01 ? pow10(sigma, 1) : sigma >= 1000 ? Math.round(sigma).toLocaleString('en-GB') : sigma.toPrecision(3)} g/cm² &nbsp; <span class="k">this run</span>: ${through} of ${N} through<br>${extra}`;
 		}
 		[Rs, Ms].forEach((s) => { s.addEventListener('change', draw); s.addEventListener('input', draw); });
 		Xs.addEventListener('input', draw);

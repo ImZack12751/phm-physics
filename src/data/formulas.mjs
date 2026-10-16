@@ -1400,7 +1400,7 @@ export const formulas = [
 		id: 'intervals',
 		name: 'Consonant intervals',
 		tex: '\\text{octave } 2:1 \\qquad \\text{fifth } 3:2 \\qquad \\text{fourth } 4:3 \\qquad \\text{major third } 5:4 \\qquad \\text{major chord } 4:5:6',
-		where: 'Equal temperament approximates them: a fifth is 2^(7/12) = 1.498, a major third 2^(4/12) = 1.260.',
+		where: 'Equal temperament approximates them: a fifth is 2 to the power 7/12 = 1.498, a major third 2 to the power 4/12 = 1.260.',
 		chapter: 'harmonics-chords',
 	},
 	// ---- 11.5 Echolocation ----

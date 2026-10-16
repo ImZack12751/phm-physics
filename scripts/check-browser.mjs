@@ -1,7 +1,8 @@
 // Browser checks against the running preview server (npm run preview, in another terminal):
 //   npm run check:browser
 // For every page: no console or page errors, no horizontal scrolling on a phone-sized screen.
-// For every simulation: it renders, and changing its first control changes what it shows.
+// For every simulation: it renders, changing its first control changes what it shows, and no
+// setting of any control makes it show NaN, Infinity, undefined, 1.2e+5-style numbers or carets.
 // For chapters: Ask Claude buttons build a correct prompt, copy it and open CLAUDE_LINK;
 // the text-selection button appears; glossary tooltips open.
 import puppeteer from 'puppeteer-core';
@@ -86,6 +87,51 @@ for (const p of pages) {
 		}, i);
 		if (!result.hasContent) fail(p, `simulation "${result.title}" rendered nothing`);
 		if (!result.changed) fail(p, `simulation "${result.title}" did not react to its first control`);
+	}
+
+	// Simulations, every control: push each slider to both ends, try every menu option and
+	// number-box extreme, press every button and checkbox. The readouts and drawing must never
+	// show NaN, Infinity or undefined, raw JavaScript exponents (1.2e+5) or caret notation.
+	for (let i = 0; i < sims.length; i++) {
+		const bad = await page.evaluate(async (i) => {
+			const sim = document.querySelectorAll('.sim')[i];
+			const title = sim.dataset.title || `sim ${i}`;
+			const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+			const BAD = /.{0,30}(NaN|Infinity|undefined|\d[eE][+-]\d|[A-Za-z0-9)]\^[-0-9{(]).{0,15}/g;
+			const found = new Map();
+			const look = (what) => {
+				for (const m of sim.innerText.matchAll(BAD)) if (!found.has(m[1])) found.set(m[1], `${title} (${what}): "${m[0].trim()}"`);
+				for (const el of sim.querySelectorAll('svg *'))
+					for (const a of el.attributes)
+						if (/NaN|Infinity|undefined/.test(a.value) && !found.has('attr')) found.set('attr', `${title} (${what}): ${el.tagName} ${a.name}="${a.value.slice(0, 40)}"`);
+			};
+			const fire = async (c) => {
+				c.dispatchEvent(new Event('input', { bubbles: true }));
+				c.dispatchEvent(new Event('change', { bubbles: true }));
+				await wait(30);
+			};
+			look('as loaded');
+			// Controls can be rebuilt by other controls, so skip any that have left the page.
+			for (const c of [...sim.querySelectorAll('input, select, button')]) {
+				if (!c.isConnected || c.disabled) continue;
+				const name = c.getAttribute('aria-label') || c.closest('label')?.textContent.trim().slice(0, 24) || c.textContent.trim().slice(0, 24) || c.className;
+				if (c.tagName === 'BUTTON') {
+					c.click(); await wait(60); look(`button ${name}`); c.click(); await wait(30);
+				} else if (c.tagName === 'SELECT') {
+					const orig = c.selectedIndex;
+					for (let k = 0; k < c.options.length; k++) { c.selectedIndex = k; await fire(c); look(`${name} = ${c.options[k].text}`); }
+					c.selectedIndex = orig; await fire(c);
+				} else if (c.type === 'checkbox' || c.type === 'radio') {
+					c.click(); await wait(30); look(`${name} ticked`); if (c.type === 'checkbox') c.click();
+				} else if (c.type === 'range' || c.type === 'number') {
+					const orig = c.value;
+					for (const v of [c.min, c.max].filter((v) => v !== '')) { c.value = v; await fire(c); look(`${name} = ${v}`); }
+					c.value = orig; await fire(c);
+				}
+			}
+			return [...found.values()];
+		}, i);
+		for (const b of bad) fail(p, `simulation shows ${b}`);
 	}
 
 	// Chapter-only features
@@ -177,4 +223,4 @@ if (problems.length) {
 	console.log(problems.map((x) => '✗ ' + x).join('\n'));
 	process.exit(1);
 }
-console.log(`✓ ${pages.length} pages: no errors, all simulations respond, Ask Claude / selection / tooltips work, no sideways scrolling on mobile.`);
+console.log(`✓ ${pages.length} pages: no errors, all simulations respond and stay readable at every setting, Ask Claude / selection / tooltips work, no sideways scrolling on mobile.`);

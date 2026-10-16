@@ -8,7 +8,7 @@
 <div
 	class="sim dcl"
 	data-title="Radioactive decay lab"
-	data-description="Watch a sample of radioactive nuclei decay one by one. Choose how many nuclei there are (100, 400 or 1600) and which isotope sets the time scale (carbon-14, 5700 years; iodine-131, 8.02 days; tritium, 12.32 years; uranium-238, 4.46 billion years). Press play or step forward by half a half-life. In each moment every surviving nucleus has the same small chance of decaying, regardless of its age. The grid shows each nucleus (gold: not yet decayed; dark: decayed); the graph plots the fraction left against time, in half-lives and in years or days, together with the smooth law N = N₀(½)^(t/t½). The readout gives the time, the number left, the expected number and the activity."
+	data-description="Watch a sample of radioactive nuclei decay one by one. Choose how many nuclei there are (100, 400 or 1600) and which isotope sets the time scale (carbon-14, 5700 years; iodine-131, 8.02 days; tritium, 12.32 years; uranium-238, 4.46 billion years). Press play or step forward by half a half-life. In each moment every surviving nucleus has the same small chance of decaying, regardless of its age. The grid shows each nucleus (gold: not yet decayed; dark: decayed); the graph plots the fraction left against time, in half-lives and in years or days, together with the smooth law N = N₀ × (½) to the power t/t½. The readout gives the time, the number left, the expected number and the activity."
 >
 	<p class="sim-title">Simulation: radioactive decay</p>
 	<p class="sim-help">Every nucleus has the same chance of decaying in each instant. Nobody can say which will go next, but the total falls by half every half-life.</p>
@@ -33,6 +33,11 @@
 </div>
 
 <script>
+	/** x.toExponential(d) written properly: 1.96e+10 → "1.96 × 10¹⁰" (Unicode superscripts, fine in SVG and HTML). */
+	const pow10 = (x: number, d: number) => {
+		const [m, e] = x.toExponential(d).split('e');
+		return `${m} × 10${String(+e).replace(/-/g, '⁻').replace(/[0-9]/g, (c) => '⁰¹²³⁴⁵⁶⁷⁸⁹'[+c])}`;
+	};
 	document.querySelectorAll<HTMLElement>('.sim.dcl').forEach((root) => {
 		const q = <T extends Element>(s: string) => root.querySelector<T>(s)!;
 		const svg = q<SVGSVGElement>('.dcl-svg');
@@ -94,8 +99,8 @@
 			const { h, u, n } = iso(), N0 = side * side;
 			const tReal = t * h, lam = Math.LN2 / h;
 			const unit = u === 'days' ? 'days' : 'years';
-			setText(t1, `t = ${t.toFixed(2)} half-lives = ${tReal >= 1e6 ? (tReal / 1e9).toPrecision(3) + ' billion years' : tReal.toPrecision(3) + ' ' + unit} of ${n}`);
-			setText(t2, `nuclei left: ${left} of ${N0} (law expects ${(N0 * 0.5 ** t).toFixed(0)}); activity λN = ${(lam * left).toPrecision(3)} decays per ${u === 'days' ? 'day' : 'year'}`);
+			setText(t1, `t = ${t.toFixed(2)} half-lives = ${tReal >= 1e6 ? (tReal / 1e9).toPrecision(3) + ' billion years' : (+tReal.toPrecision(3)).toLocaleString('en-GB') + ' ' + unit} of ${n}`);
+			setText(t2, `nuclei left: ${left} of ${N0} (law expects ${(N0 * 0.5 ** t).toFixed(0)}); activity λN = ${lam * left === 0 ? '0' : lam * left < 0.01 ? pow10(lam * left, 2) : (+(lam * left).toPrecision(3)).toLocaleString('en-GB')} decays per ${u === 'days' ? 'day' : 'year'}`);
 		}
 		function advance(dt: number) {
 			if (t >= TMAX) return;
