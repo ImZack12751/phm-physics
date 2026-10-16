@@ -1,0 +1,419 @@
+---
+title: Magnetic fields
+description: Magnets, field lines and the tesla; electric current and the ampere; the force qvB on a moving charge and why it bends paths into circles and spirals; gyroradius and cyclotron frequency; rigidity for fast cosmic rays; fields from currents and planetary dynamos; Earth's dipole and the Størmer cutoff that shields the equator; the magnetosphere from pressure balance; Erid's field 25 times Earth's; and the field a ship would need to deflect the interstellar beam.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import ChargeInField from '../../../components/diagrams/part-14/ChargeInField.astro';
+import DipoleShield from '../../../components/diagrams/part-14/DipoleShield.astro';
+import Magnetosphere from '../../../components/diagrams/part-14/Magnetosphere.astro';
+import MagnetoShield from '../../../components/sims/MagnetoShield.astro';
+
+## The scene
+
+When Grace finally understands why Rocky's crewmates died, a deeper question follows: how could a species clever enough to cross between stars never have discovered radiation? The answer lies in their home. Erid's crushing atmosphere is one shield (Chapter 13.4). The other is invisible. Erid spins fast, has a large molten iron core, and, in the novel, a magnetic field at least 25 times as strong as Earth's. Together they keep every scrap of radiation from space off the ground. Eridians evolved, built a civilization and launched a starship without ever meeting it.
+
+Earth has a magnetic shield too, weaker but real. This chapter explains how a magnetic field can push a speeding particle sideways without slowing it, and how a planet's field turns a stream of cosmic rays away.
+
+## Prerequisites
+
+<Prereqs notes={{ 'photon-propulsion': 'the magnetic force qvB, first met in Feynman’s argument', 'centripetal-acceleration': 'a = v²/r for motion in a circle', work: 'a force at right angles to the motion does no work', 'lorentz-factor': 'relativistic momentum p = γmv', 'cosmic-rays-shielding': 'cosmic rays and the interstellar beam', pressure: 'pressure as force per area and the weight of the sky' }} />
+
+## The concept
+
+### Magnets and field lines
+
+A compass needle is a small magnet that turns to line up with Earth's magnetism. Every magnet has two ends, or poles, called north and south. Unlike poles attract, like poles repel, and there is never one without the other: cut a bar magnet in half and you get two smaller magnets, each with both poles.
+
+As with electric forces (Chapter 7.2), physicists describe this with a field. The <Term id="magnetic-field">magnetic field</Term> $\mathbf{B}$ is a vector at every point in space: its direction is the way a compass needle would point there, and its strength is measured in <Term id="tesla">teslas</Term> (T). Drawn as field lines, it runs out of a magnet's north pole and back into its south pole, crowding together where the field is strong.
+
+| Source | Field |
+|---|---|
+| Earth's field at the equator | 31 µT ($3.1 \times 10^{-5}$ T) |
+| Earth's field at 50° latitude | 58 µT |
+| Refrigerator magnet | 1 to 10 mT |
+| Sunspot | 0.15 T |
+| Hospital MRI scanner | 1.5 to 7 T |
+| Ordinary neutron star | about $10^{5}$ T and up |
+
+### The force on a moving charge
+
+A magnetic field does nothing to a charge at rest. But a charge $q$ moving at velocity $v$ through a field $B$ feels a force
+
+$$
+F = qvB\sin\theta,
+$$
+
+where $\theta$ is the angle between $\mathbf{v}$ and $\mathbf{B}$. Chapter 7.4 used this force to show why light pushes on what it hits. It has three strange features:
+
+1. It is zero if the charge moves along the field ($\theta = 0$), and largest when it moves across it.
+2. It points at right angles to *both* the velocity and the field. For a positive charge, point the fingers of your right hand along $\mathbf{v}$, curl them towards $\mathbf{B}$, and your thumb gives the direction of the force. A negative charge is pushed the opposite way.
+3. Because it is always at right angles to the motion, it does no work (Chapter 5.1): it can change the direction of a charge's motion but never its speed or kinetic energy.
+
+The formula also defines the tesla: a field of 1 T pushes with 1 N on a charge of 1 C moving across it at 1 m/s.
+
+### Circles and spirals
+
+A force of fixed size that always points at right angles to the motion is exactly what makes uniform circular motion (Chapter 3.2). So a charged particle moving across a uniform field goes round in a circle, whose radius is fixed by $qvB = mv^{2}/r$:
+
+$$
+r = \frac{mv}{qB}.
+$$
+
+This is the <Term id="gyroradius">gyroradius</Term>. Fast, heavy particles make big circles; strong fields make small ones. The time for one lap, $2\pi r/v = 2\pi m/(qB)$, doesn't depend on the speed at all: a faster particle goes round a bigger circle in the same time. Its frequency $f = qB/(2\pi m)$ is the <Term id="cyclotron-frequency">cyclotron frequency</Term>, after the cyclotron, a particle accelerator that gives particles a push once per lap.
+
+If the particle also moves along the field, that part of its motion is untouched. The result is a spiral, a helix wound around a field line. Charged particles in space are tied to field lines like beads on a wire.
+
+<Figure caption="A magnetic field bends a moving charge. Left: with the field into the page, a positive charge moving right is pushed up, towards the centre of a circle of radius r = mv/qB; its speed never changes. Right: motion along the field is unaffected, so in general the charge spirals along a field line." alt="Two panels. Left: a grid of crosses labelled field B into the page. A dashed circle with a radius line labelled r equals m v over q B. At the bottom of the circle, a positive charge with a green arrow pointing right labelled v and a red arrow pointing up towards the circle's centre labelled F equals q v B. Text below: force at right angles to v, speed stays the same, path bends into a circle. Right: violet horizontal lines with an arrow, labelled field B to the right, and a blue wavy line winding along them, labelled velocity along B is untouched, the charge spirals along the field line.">
+	<ChargeInField />
+</Figure>
+
+### Fast particles and rigidity
+
+Cosmic rays move at nearly the speed of light. The circle argument still works with momentum instead of $mv$: the magnetic force changes only the direction of the momentum, so (Formulas) the gyroradius becomes
+
+$$
+r = \frac{p}{qB},
+$$
+
+with $p = \gamma mv$ (Chapter 10.3). What matters for bending is momentum per charge. Physicists package it as the <Term id="rigidity">rigidity</Term> $\mathcal{R} = pc/q$, which has units of volts, and quote it in gigavolts (GV). A proton with $pc = 1$ GeV has a rigidity of 1 GV, and in a field $B$ its gyroradius is $r = \mathcal{R}/(cB)$. In Earth's 31 µT that is 108 km per GV: a 10 GeV cosmic-ray proton (rigidity 10.9 GV) would circle with a radius of about 1200 km, a fifth of Earth's radius.
+
+### Where magnetic fields come from
+
+In 1820 Hans Christian Ørsted noticed that a wire carrying an electric current made a nearby compass needle swing. Moving charges make magnetic fields; that is their only source. An <Term id="electric-current">electric current</Term> $I$ is the charge flowing past a point per second, measured in <Term id="ampere">amperes</Term>: 1 A is 1 coulomb per second, about $6.2 \times 10^{18}$ electrons a second. (This is the SI base unit promised in Chapter 0.2. Since 2019 it is defined by fixing the electron's charge, $e = 1.602\,176\,634 \times 10^{-19}$ C.) Around a long straight wire the field lines are circles, and the field at distance $r$ is measured to be
+
+$$
+B = \frac{\mu_{0}I}{2\pi r},
+$$
+
+where $\mu_{0} = 1.2566 \times 10^{-6}$ N/A² is the <Term id="magnetic-constant">magnetic constant</Term>. A 100 A current gives 2 mT at 1 cm: a hundred times Earth's field. Wind the wire into a coil and you have an electromagnet. Permanent magnets work because their electrons behave like tiny current loops, all lined up.
+
+Planets make their fields the same way, with currents. In Earth's outer core, molten iron and nickel, stirred by heat escaping from the centre and twisted by Earth's spin, carries electric currents that sustain the field: a <Term id="dynamo">dynamo</Term>. Mars once had one too, but it died about four billion years ago, leaving only patches of magnetised rock. Erid, as the novel describes it, has everything a strong dynamo needs: a big molten iron core and a day only 5.1 hours long.
+
+### Earth's dipole
+
+Seen from outside, Earth's field looks roughly like that of a bar magnet near its centre, a <Term id="magnetic-dipole">dipole</Term>. Far from a dipole the field weakens as $1/r^{3}$, faster than gravity's $1/r^{2}$; in the plane of the equator,
+
+$$
+B = B_{0}\left(\frac{R}{r}\right)^{3},
+$$
+
+with $B_{0} = 31$ µT for Earth. Two Earth radii out, the field is already eight times weaker.
+
+### Turning cosmic rays away
+
+How strong a shield is Earth's field? A rough guess: a cosmic ray is turned back if its circle in the field is smaller than the planet, $\mathcal{R}/(cB_{0}) \lesssim R$, so the field stops rigidities below about $cB_{0}R$. For Earth, $cB_{0}R = 59$ GV. The field weakens with distance, so the real limit is lower. The Norwegian mathematician Carl Størmer worked out the exact paths in a dipole field: for a particle arriving straight down, the least rigidity that can reach the ground, the <Term id="cutoff-rigidity">cutoff rigidity</Term>, is
+
+$$
+\mathcal{R}_{\text{c}} = \frac{cB_{0}R}{4}\cos^{4}\lambda
+$$
+
+at magnetic latitude $\lambda$. At Earth's magnetic equator that is 14.8 GV: protons need at least 13.9 GeV of kinetic energy to get through. At 45° the cutoff falls to 3.7 GV, at 60° to 0.9 GV, and at the poles to zero, because there the field lines point straight down and a particle spiralling along them meets no sideways push. This is why cosmic-ray doses are higher at high latitudes and on polar flights. It is also why the auroras glow near the poles: charged particles from the Sun spiral down the field lines into the upper air and make it shine.
+
+<Figure caption="Earth's dipole field and its shield. Near the equator, field lines run across the path of incoming particles, and a cosmic ray needs at least 14.8 GV to reach the ground straight down. Towards the poles the cutoff falls as cos⁴λ, and at the poles particles can follow the field lines in, which is where auroras glow." alt="A side view of Earth with its dipole field: pairs of looping violet field lines leave the southern hemisphere and return to the northern hemisphere on both sides, the larger loops reaching about four Earth radii. Green arcs at the top and bottom of Earth are labelled aurora, field lines dive into the air near the poles. Three red arrows come in from the upper left to the surface at the equator, at 45 degrees and at 60 degrees latitude, labelled equator 14.8 gigavolts, 45 degrees 3.7 gigavolts, and 60 degrees 0.9 gigavolts. Text at the bottom: vertical cutoff rigidity, the least a cosmic ray needs to reach the ground, 14.8 cos to the fourth lambda gigavolts.">
+	<DipoleShield />
+</Figure>
+
+Erid's field, in the novel, is at least 25 times Earth's, on a planet twice Earth's size. The cutoff grows as $B_{0}R$, so Erid's is at least 50 times Earth's: about 740 GV at its equator (Example 4). Only the rarest, most energetic cosmic rays could get through, and then they would meet 15 000 g/cm² of air (Chapter 13.4).
+
+### The magnetosphere
+
+The Sun blows out a thin wind of protons and electrons, 3 to 10 particles per cubic centimetre at Earth's distance, moving at 250 to 750 km/s. This <Term id="solar-wind">solar wind</Term> carries its own magnetic field, and it can't easily cross Earth's field lines. Where does it stop?
+
+A magnetic field pushes outward like a gas, with a <Term id="magnetic-pressure">magnetic pressure</Term> $B^{2}/(2\mu_{0})$ (in pascals for $B$ in teslas). It comes from the energy stored in the field, $B^{2}/(2\mu_{0})$ joules per cubic metre, just as a gas's pressure comes from its energy per volume (Chapter 11.3). The wind brings momentum: each second, a column of wind $v$ long hits each square metre and is stopped or turned aside, delivering a pressure of about $\rho v^{2}$ (Chapter 5.5). The boundary, the magnetopause, sits where the two pressures balance. With the field compressed to about twice its dipole value at the boundary, this gives about 10 Earth radii on the side facing the Sun (Formulas). The region inside, the <Term id="magnetosphere">magnetosphere</Term>, is stretched into a long tail on the night side.
+
+<Figure caption="Earth's magnetosphere, not to scale. The solar wind is turned aside at the magnetopause, about 10 Earth radii towards the Sun, where its pressure balances the field's magnetic pressure; on the far side the field is drawn into a long tail. Inside, the Van Allen belts hold particles trapped on field lines." alt="Schematic. On the left, part of the Sun, with yellow arrows labelled solar wind, 250 to 750 kilometres per second, flowing right. A thick blue curve, the magnetopause, wraps around Earth with its nose about ten Earth radii to the Sun side and opens out into a tail on the right. Dashed violet lines inside follow the same shape. Around Earth, two pairs of shaded crescents represent the Van Allen belts, labelled trapped particles. A bar under the nose is labelled about 10 Earth radii. Text at the bottom: where the wind's push rho v squared equals the field's magnetic pressure, the wind is turned aside.">
+	<Magnetosphere />
+</Figure>
+
+Inside the magnetosphere, particles caught on field lines spiral back and forth between the hemispheres, forming the <Term id="van-allen-belts">Van Allen belts</Term>, described by James Van Allen in 1958 from the readings of the first US satellites. They span roughly 640 to 58 000 km above Earth; spacecraft pass through them quickly.
+
+A planet without a magnetosphere is exposed. On Mars the solar wind meets the upper atmosphere directly and, over billions of years, has stripped much of it away (Chapter 14.2).
+
+### Could a ship carry a magnetic shield?
+
+Chapter 13.4 found that a ship coasting at 0.909c meets the interstellar gas as a beam of 1.31 GeV protons, deadly within seconds. Could a magnet deflect them instead of metres of water? Each proton has $pc = \gamma\beta m_{\text{p}}c^{2} = 2.05$ GeV. To bend it through a circle of radius 2 m, roughly a ship's width, needs $B = \mathcal{R}/(cr) = 3.4$ T, a strong MRI magnet (Example 5). At 0.995c it is 16 T. Superconducting magnets can make such fields, and studies of "active shielding" take the idea seriously, but the field must fill a large volume around the crew, and its stored energy, $B^{2}/(2\mu_{0}) = 4.6$ MJ per cubic metre at 3.4 T, has to be contained by a heavy structure. The novel's *Hail Mary* uses its Astrophage hull instead.
+
+## Formulas
+
+### Magnetic force and the tesla
+
+$$
+\boxed{F = qvB\sin\theta} \qquad 1\ \text{T} = 1\ \frac{\text{N}}{\text{C}\cdot\text{m/s}} = 1\ \text{N/(A·m)}
+$$
+
+Direction: at right angles to $\mathbf{v}$ and $\mathbf{B}$ (right-hand rule for positive $q$). Since $\mathbf{F}$ is perpendicular to $\mathbf{v}$, the power $Fv\cos 90° = 0$: no work, constant speed.
+
+### Circular motion in a uniform field
+
+The force supplies the centripetal force (Chapter 3.2), with $\theta = 90°$:
+
+$$
+qvB = \frac{mv^{2}}{r} \qquad\Rightarrow\qquad \boxed{r = \frac{mv}{qB}} \qquad T = \frac{2\pi r}{v} = \frac{2\pi m}{qB} \qquad \boxed{f = \frac{qB}{2\pi m}}
+$$
+
+### Relativistic gyroradius and rigidity
+
+Newton's second law in the form $\mathbf{F} = d\mathbf{p}/dt$ (Chapter 5.5) holds at all speeds. The magnetic force is at right angles to $\mathbf{p}$, so it turns $\mathbf{p}$ without changing its size, just as a centripetal force turns $\mathbf{v}$. A vector of fixed size $p$ turning at angular speed $\omega$ changes at the rate $p\omega$ (Chapter 3.2), and $\omega = v/r$:
+
+$$
+\left|\frac{d\mathbf{p}}{dt}\right| = p\,\frac{v}{r} = qvB \qquad\Rightarrow\qquad \boxed{r = \frac{p}{qB} = \frac{\mathcal{R}}{cB}} \qquad \boxed{\mathcal{R} = \frac{pc}{q}}
+$$
+
+For a proton ($q = e$), the rigidity in volts equals $pc$ in electronvolts. With $E = K + mc^{2}$ and $E^{2} = (pc)^{2} + (mc^{2})^{2}$ (Chapter 10.3), $pc = \sqrt{(K + mc^{2})^{2} - (mc^{2})^{2}}$.
+
+### Fields from currents and from a dipole
+
+$$
+\boxed{I = \frac{dQ}{dt}} \qquad \boxed{B_{\text{wire}} = \frac{\mu_{0}I}{2\pi r}} \qquad \boxed{B = B_{0}\left(\frac{R}{r}\right)^{3}\ \text{(dipole, equator)}} \qquad \mu_{0} = 1.2566 \times 10^{-6}\ \text{N/A}^{2}
+$$
+
+The wire formula and the dipole's $1/r^{3}$ are measured laws that full electromagnetism derives. A dipole's strength is described by its magnetic moment $m_{\text{d}} = 4\pi B_{0}R^{3}/\mu_{0}$, in A·m².
+
+### Cutoff rigidity
+
+The rough estimate, gyroradius equal to the planet's radius in the surface field, gives $\mathcal{R} \approx cB_{0}R$. Størmer's exact solution for particles arriving vertically, which the simulation below reproduces in the equatorial plane, is a quarter of that, falling towards the poles:
+
+$$
+\boxed{\mathcal{R}_{\text{c}} = \frac{cB_{0}R}{4}\cos^{4}\lambda}
+$$
+
+### Pressure balance at the magnetopause
+
+The wind's dynamic pressure is $\rho v^{2}$: a slab of wind $v\,\Delta t$ thick and area $A$ has mass $\rho Av\,\Delta t$ and momentum $\rho Av^{2}\Delta t$; stopping it in time $\Delta t$ takes force $\rho Av^{2}$. The field just inside the boundary is about twice the dipole value, $2B$, giving magnetic pressure $(2B)^{2}/(2\mu_{0})$. Setting them equal with $B = B_{0}(R/r)^{3}$:
+
+$$
+\rho v^{2} = \frac{4B_{0}^{2}}{2\mu_{0}}\left(\frac{R}{r}\right)^{6} \qquad\Rightarrow\qquad \boxed{\frac{r}{R} = \left(\frac{2B_{0}^{2}}{\mu_{0}\rho v^{2}}\right)^{1/6}}
+$$
+
+The sixth root makes the answer insensitive to the wind: doubling its pressure moves the boundary in by only 11%.
+
+## Worked examples
+
+<Example n={1} title="Circling in Earth's field">
+Find the gyroradius and cyclotron frequency of an electron moving at $1.0 \times 10^{6}$ m/s across Earth's 31 µT field, and the gyroradius of a solar-wind proton at 400 km/s.
+
+$$
+r_{e} = \frac{m_{e}v}{eB} = \frac{9.109 \times 10^{-31}\ \text{kg} \times 1.0 \times 10^{6}\ \text{m/s}}{1.602 \times 10^{-19}\ \text{C} \times 3.1 \times 10^{-5}\ \text{T}} = 0.18\ \text{m}
+$$
+
+$$
+f = \frac{eB}{2\pi m_{e}} = \frac{1.602 \times 10^{-19} \times 3.1 \times 10^{-5}}{2\pi \times 9.109 \times 10^{-31}}\ \text{Hz} = 8.7 \times 10^{5}\ \text{Hz}
+$$
+
+$$
+r_{\text{p}} = \frac{1.673 \times 10^{-27}\ \text{kg} \times 4.0 \times 10^{5}\ \text{m/s}}{1.602 \times 10^{-19}\ \text{C} \times 3.1 \times 10^{-5}\ \text{T}} = 135\ \text{m}
+$$
+
+Tiny circles compared with the planet: low-energy particles are firmly tied to the field lines.
+</Example>
+
+<Example n={2} title="A cosmic-ray proton">
+Find the rigidity and the gyroradius in a 31 µT field of protons with kinetic energies of 1 GeV and 10 GeV ($m_{\text{p}}c^{2} = 938.3$ MeV).
+
+$$
+pc = \sqrt{(1000 + 938.3)^{2} - 938.3^{2}}\ \text{MeV} = 1696\ \text{MeV} \qquad \mathcal{R} = 1.70\ \text{GV}
+$$
+
+$$
+r = \frac{\mathcal{R}}{cB} = \frac{1.696 \times 10^{9}\ \text{V}}{2.998 \times 10^{8}\ \text{m/s} \times 3.1 \times 10^{-5}\ \text{T}} = 1.82 \times 10^{5}\ \text{m} = 182\ \text{km}
+$$
+
+$$
+pc = \sqrt{(10\,000 + 938.3)^{2} - 938.3^{2}}\ \text{MeV} = 10\,898\ \text{MeV} \qquad r = 182\ \text{km} \times \frac{10\,898}{1696} = 1170\ \text{km}
+$$
+
+(V/(m/s · T) is metres: 1 T = 1 V·s/m².) Comparable to Earth's radius: the field can turn such particles, but only over thousands of kilometres.
+</Example>
+
+<Example n={3} title="Earth's cutoff">
+With $B_{0} = 31$ µT and $R = 6371$ km, find $cB_{0}R$, the vertical cutoff at the magnetic equator, at 45° and at 60°, and the matching proton kinetic energies.
+
+$$
+cB_{0}R = 2.998 \times 10^{8}\ \text{m/s} \times 3.1 \times 10^{-5}\ \text{T} \times 6.371 \times 10^{6}\ \text{m} = 5.92 \times 10^{10}\ \text{V} = 59.2\ \text{GV}
+$$
+
+$$
+\mathcal{R}_{\text{c}}(0°) = \frac{59.2}{4}\ \text{GV} = 14.8\ \text{GV} \qquad \mathcal{R}_{\text{c}}(45°) = 14.8 \times 0.25 = 3.7\ \text{GV} \qquad \mathcal{R}_{\text{c}}(60°) = 14.8 \times 0.0625 = 0.93\ \text{GV}
+$$
+
+Kinetic energies $K = \sqrt{(pc)^{2} + (m_{\text{p}}c^{2})^{2}} - m_{\text{p}}c^{2}$:
+
+$$
+K(14.8\ \text{GV}) = \sqrt{14\,802^{2} + 938.3^{2}} - 938.3\ \text{MeV} = 13.9\ \text{GeV} \qquad K(3.7) = 2.88\ \text{GeV} \qquad K(0.93) = 0.38\ \text{GeV}
+$$
+</Example>
+
+<Example n={4} title="Erid's shield" book>
+In the novel, Erid's field is at least 25 times Earth's and its radius about twice Earth's. Find its equatorial cutoff. Then estimate where its magnetopause would be, assuming 40 Eridani A's wind at Erid's orbit (0.2 au) pushes 25 times as hard as the Sun's does at Earth, as it would if the wind thinned out as $1/d^{2}$ with the same speed.
+
+$$
+\mathcal{R}_{\text{c}} = \frac{c(25B_{0})(2R)}{4} = 50 \times 14.8\ \text{GV} = 740\ \text{GV}
+$$
+
+A proton would need about 740 GeV. Magnetopause: $(r/R)^{6} \propto B_{0}^{2}/(\rho v^{2})$, so with 25 times the field and 25 times the wind pressure,
+
+$$
+\frac{r_{\text{Erid}}}{R_{\text{Erid}}} = \frac{r_{\text{Earth}}}{R_{\text{Earth}}} \times \left(\frac{25^{2}}{25}\right)^{1/6} = 9.9 \times 25^{1/6} = 9.9 \times 1.71 = 17
+$$
+
+Erid's magnetic bubble would reach about 17 Erid radii, 34 Earth radii, towards its star.
+</Example>
+
+<Example n={5} title="A magnetic bumper for the Hail Mary" book>
+At 0.909c ($\gamma = 2.400$), what field would bend interstellar protons into a circle of radius 2.0 m? Repeat for 0.9952c ($\gamma = 10.22$). What is the field's energy per cubic metre in the first case?
+
+$$
+pc = \gamma\beta\,m_{\text{p}}c^{2} = 2.400 \times 0.909 \times 938.3\ \text{MeV} = 2047\ \text{MeV} \qquad B = \frac{\mathcal{R}}{cr} = \frac{2.047 \times 10^{9}\ \text{V}}{2.998 \times 10^{8}\ \text{m/s} \times 2.0\ \text{m}} = 3.4\ \text{T}
+$$
+
+$$
+pc = 10.22 \times 0.9952 \times 938.3\ \text{MeV} = 9544\ \text{MeV} \qquad B = \frac{9.544 \times 10^{9}}{2.998 \times 10^{8} \times 2.0}\ \text{T} = 15.9\ \text{T}
+$$
+
+$$
+\frac{B^{2}}{2\mu_{0}} = \frac{(3.4\ \text{T})^{2}}{2 \times 1.2566 \times 10^{-6}\ \text{N/A}^{2}} = 4.6 \times 10^{6}\ \text{J/m}^{3}
+$$
+
+Fields like an MRI scanner's at 0.909c, beyond the strongest MRI magnets at 0.995c, and megajoules stored in every cubic metre.
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** The magnetic force $qvB$, gyration and cyclotron frequency, rigidity, Ørsted's discovery, Earth's dynamo and dipole field, Størmer's cutoff for a pure dipole (about 15 GV at the equator; ESA's space-environment standard fits observed cutoffs with a slightly larger constant, because the real field isn't a perfect dipole), the magnetopause at 6 to 15 Earth radii from pressure balance, the Van Allen belts and the loss of Mars's dynamo are all well established.
+
+**Weir's inventions.** Erid's magnetic field "at least twenty-five times" Earth's, produced by its iron core, fast 5.1-hour spin and closeness to its star, is the novel's, from reader sources; so is the idea that it and the thick air keep all radiation off Erid's surface.
+
+**How realistic are the numbers?** A strong dynamo on a big, fast-spinning world with a large iron core is plausible, though how strong a field such a planet would really have is uncertain. Closeness to the star doesn't make a planet's own field stronger; if anything, a stronger stellar wind pushes it in. With 25 times Earth's field the cutoff of about 740 GV is high enough that, with the 15 000 g/cm² atmosphere, Erid's surface would indeed be almost free of cosmic radiation. Active magnetic shields for ships are a real research idea, but the 3 to 16 tesla fields needed near light speed, filling a large volume, would be a formidable engineering problem.
+</RealVsBook>
+
+## Interactive simulation
+
+<MagnetoShield />
+
+Things to try: on Earth, start at 100 GV, where the field barely bends the paths, and lower the rigidity. The paths curve more and more, all to the same side, and below about 11 GV none of the sixteen reaches the ground. (This beam arrives side-on; the cutoff for particles coming straight down is the 14.8 GV in the readout, and it is different again for other directions, which is why positive cosmic rays get in more easily from the west.) Switch to Erid and find the rigidity at which the first proton gets through: several hundred GV. Try Mars, where every proton aimed at the planet hits it.
+
+## Practice set
+
+<Problem n={1} level="easy">
+Find the magnetic force on a proton moving at 400 km/s at right angles to a 31 µT field. Compare it with the proton's weight on Earth.
+
+<Solution>
+$F = 1.602 \times 10^{-19} \times 4.0 \times 10^{5} \times 3.1 \times 10^{-5} = 2.0 \times 10^{-18}$ N. Weight $1.673 \times 10^{-27} \times 9.81 = 1.6 \times 10^{-26}$ N, $1.2 \times 10^{8}$ times smaller.
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy">
+What field does a 100 A current make 1.0 cm from a long straight wire? How does it compare with Earth's 31 µT?
+
+<Solution>
+$B = 1.2566 \times 10^{-6} \times 100/(2\pi \times 0.010) = 2.0 \times 10^{-3}$ T $= 2.0$ mT, 65 times Earth's field.
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy">
+Find the cyclotron frequency of a proton in a 1.5 T magnet. Does it depend on the proton's speed?
+
+<Solution>
+$f = eB/(2\pi m_{\text{p}}) = 1.602 \times 10^{-19} \times 1.5/(2\pi \times 1.673 \times 10^{-27}) = 2.29 \times 10^{7}$ Hz $= 22.9$ MHz. No, not at speeds well below c; that is what makes the cyclotron work.
+</Solution>
+</Problem>
+
+<Problem n={4} level="easy">
+How strong is Earth's dipole field at the Moon's distance, 60.3 Earth radii, if the $1/r^{3}$ law held that far? Why doesn't it in practice?
+
+<Solution>
+$31\ \mu\text{T}/60.3^{3} = 1.4 \times 10^{-10}$ T $= 0.14$ nT. In practice the solar wind confines Earth's field inside the magnetopause at about 10 Earth radii (on the Sun side), and the Moon spends most of its orbit outside it, in the wind's own field.
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium">
+Explain why a magnetic field can never speed up or slow down a charged particle, using the definition of work.
+
+<Solution>
+Work is $W = Fd\cos\theta$, with $\theta$ the angle between force and displacement. The magnetic force is always at 90° to the velocity, so to every small displacement; $\cos 90° = 0$, so it does no work, and by the work–energy theorem the kinetic energy, and hence the speed, can't change.
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium">
+An aurora is made by electrons of about 10 keV spiralling down field lines where $B = 58$ µT. Find their speed (they are only mildly relativistic, so use $K = \tfrac{1}{2}mv^{2}$) and gyroradius if they move across the field.
+
+<Solution>
+$v = \sqrt{2 \times 10^{4} \times 1.602 \times 10^{-19}/9.109 \times 10^{-31}} = 5.9 \times 10^{7}$ m/s (0.2c). $r = 9.109 \times 10^{-31} \times 5.93 \times 10^{7}/(1.602 \times 10^{-19} \times 5.8 \times 10^{-5}) = 5.8$ m.
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium">
+Find Earth's vertical cutoff rigidity at 30° magnetic latitude, and the kinetic energy a proton needs to get through there.
+
+<Solution>
+$\cos^{4}30° = 0.5625$; $\mathcal{R}_{\text{c}} = 14.8 \times 0.5625 = 8.33$ GV. $K = \sqrt{8326^{2} + 938.3^{2}} - 938.3 = 7440$ MeV $= 7.4$ GeV.
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium">
+Using $r/R = (2B_{0}^{2}/(\mu_{0}\rho v^{2}))^{1/6}$ with $B_{0} = 31$ µT, find Earth's magnetopause distance for a quiet wind (3 protons per cm³ at 300 km/s) and a stormy one (10 per cm³ at 750 km/s). Compare with the observed range of 6 to 15 Earth radii.
+
+<Solution>
+Quiet: $\rho v^{2} = 3 \times 10^{6} \times 1.673 \times 10^{-27} \times (3.0 \times 10^{5})^{2} = 4.5 \times 10^{-10}$ Pa; $2B_{0}^{2}/\mu_{0} = 1.53 \times 10^{-3}$ Pa; ratio $3.4 \times 10^{6}$; sixth root 12.3. Stormy: $\rho v^{2} = 9.4 \times 10^{-9}$ Pa; ratio $1.6 \times 10^{5}$; 7.4. Both inside the observed range.
+</Solution>
+</Problem>
+
+<Problem n={9} level="medium">
+Find Earth's magnetic dipole moment $m_{\text{d}} = 4\pi B_{0}R^{3}/\mu_{0}$ from $B_{0} = 31$ µT.
+
+<Solution>
+$4\pi \times 3.1 \times 10^{-5} \times (6.371 \times 10^{6})^{3}/(1.2566 \times 10^{-6}) = 8.0 \times 10^{22}$ A·m².
+</Solution>
+</Problem>
+
+<Problem n={10} level="challenging" book>
+Erid's surface field is (at least) 25 times Earth's 31 µT. Find the magnetic pressure there and compare it with Earth's. Compare both with the air pressure on each world (1 atm and 29 atm).
+
+<Solution>
+Earth: $(3.1 \times 10^{-5})^{2}/(2 \times 1.2566 \times 10^{-6}) = 3.8 \times 10^{-4}$ Pa. Erid: $25^{2} = 625$ times more, $0.24$ Pa. Air: $1.0 \times 10^{5}$ Pa and $2.9 \times 10^{6}$ Pa. At the surface the field's pressure is utterly negligible; it only matters far up, where the air has almost vanished.
+</Solution>
+</Problem>
+
+<Problem n={11} level="challenging">
+Earth's magnetic pressure at the surface is $3.8 \times 10^{-4}$ Pa. Using the barometric formula with a scale height of 8.5 km, at what height would the air pressure fall that low? (The real answer is different because the upper air is hotter, but the idea holds: above some height the field, not the air, is in charge.)
+
+<Solution>
+$h = H\ln(P_{0}/P) = 8.5\ \text{km} \times \ln(1.01 \times 10^{5}/3.8 \times 10^{-4}) = 8.5 \times 19.4 = 165$ km.
+</Solution>
+</Problem>
+
+<Problem n={12} level="challenging" book>
+A 3.4 T field fills a sphere of radius 3.0 m around the *Hail Mary*'s crew. How much energy is stored in it? How much mass is that, by $E = mc^{2}$?
+
+<Solution>
+Volume $\tfrac{4}{3}\pi \times 3.0^{3} = 113$ m³. $E = 4.6 \times 10^{6} \times 113 = 5.2 \times 10^{8}$ J. $m = E/c^{2} = 5.2 \times 10^{8}/8.99 \times 10^{16} = 5.8 \times 10^{-9}$ kg: about 6 micrograms. Storing it is easy; holding it in place is the hard part, since the field's pressure, $4.6 \times 10^{6}$ Pa or 45 atmospheres, pushes on the coils.
+</Solution>
+</Problem>
+
+## Summary
+
+- A magnetic field $\mathbf{B}$, measured in teslas, pushes on moving charges with $F = qvB\sin\theta$, at right angles to both $\mathbf{v}$ and $\mathbf{B}$. It does no work, so it changes direction, never speed.
+- Across a uniform field a charge circles with gyroradius $r = mv/qB$ (relativistically $p/qB$) at the cyclotron frequency $qB/2\pi m$; along the field it moves freely, so it spirals around field lines.
+- Bending depends on rigidity, $\mathcal{R} = pc/q$, in volts: $r = \mathcal{R}/cB$.
+- Currents make magnetic fields: $B = \mu_{0}I/2\pi r$ near a wire, with the ampere = 1 C/s. Planets' fields come from dynamos in molten iron cores. A dipole's field falls as $1/r^{3}$.
+- Earth's field turns away cosmic rays below a cutoff rigidity $\mathcal{R}_{\text{c}} = (cB_{0}R/4)\cos^{4}\lambda$: 14.8 GV at the equator, none at the poles, where auroras glow.
+- The solar wind is held off at the magnetopause, about 10 Earth radii out, where $\rho v^{2}$ balances the magnetic pressure $B^{2}/2\mu_{0}$.
+- Erid's field, 25 times Earth's on a world twice the size, would raise the cutoff to about 740 GV. A magnetic shield for a ship at 0.909c would need about 3.4 T.
+
+**Formulas from this chapter**
+
+$$
+F = qvB\sin\theta \qquad r = \frac{mv}{qB} = \frac{p}{qB} = \frac{\mathcal{R}}{cB} \qquad f = \frac{qB}{2\pi m} \qquad B_{\text{wire}} = \frac{\mu_{0}I}{2\pi r} \qquad \mathcal{R}_{\text{c}} = \frac{cB_{0}R}{4}\cos^{4}\lambda \qquad \frac{r_{\text{mp}}}{R} = \left(\frac{2B_{0}^{2}}{\mu_{0}\rho v^{2}}\right)^{1/6}
+$$
+
+## Sources
+
+- The magnetic force $qvB\sin\theta$, the right-hand rule, circular motion $r = mv/qB$, the cyclotron and the field of a long wire $\mu_{0}I/2\pi r$: OpenStax, [*University Physics Volume 2*, chapters 11–12](https://openstax.org/books/university-physics-volume-2/pages/11-introduction). The magnetic constant $\mu_{0} = 1.256\,637\,061\,27 \times 10^{-6}$ N/A² and the exact elementary charge: NIST, [CODATA](https://physics.nist.gov/cgi-bin/cuu/Value?mu0).
+- Field strengths (Earth 31 µT at the equator and 58 µT at 50°, refrigerator magnets 1–10 mT, sunspots 0.15 T, MRI 1.5–7 T, neutron stars from $10^{5}$ T): Wikipedia, ["Orders of magnitude (magnetic field)"](https://en.wikipedia.org/wiki/Orders_of_magnitude_(magnetic_field)).
+- Ørsted's 1820 discovery: Wikipedia, ["Hans Christian Ørsted"](https://en.wikipedia.org/wiki/Hans_Christian_%C3%98rsted). Earth's geodynamo in the molten iron and nickel of the outer core: Wikipedia, ["Earth's magnetic field"](https://en.wikipedia.org/wiki/Earth%27s_magnetic_field). Mars's dynamo ceasing about four billion years ago: Wikipedia, ["Mars"](https://en.wikipedia.org/wiki/Mars).
+- Størmer theory, the vertical cutoff falling as cos⁴λ, easier entry from the west, and a constant of about 16 GV used to fit observed cutoffs: ESA space-environment standard ECSS-E-ST-10-04C, [§B.8 "Geomagnetic shielding (Størmer theory)"](https://www.spenvis.oma.be/ecss/e_st_10_04c/ecss_13_08_00.htm). The factor 1/4 for a pure dipole (cB₀R/4 = 14.8 GV with B₀ = 31 µT) is confirmed numerically by this course's verification script, which traces vertical arrivals in the equatorial plane.
+- The magnetopause: pressure balance $\rho v^{2} \approx 4B^{2}/2\mu_{0}$ (the factor 4 from the field doubling at the boundary) and typical distances of 6–15 Earth radii: Wikipedia, ["Magnetopause"](https://en.wikipedia.org/wiki/Magnetopause). Solar wind near Earth, 250–750 km/s and 3–10 particles per cm³: Wikipedia, ["Solar wind"](https://en.wikipedia.org/wiki/Solar_wind). Van Allen belts, about 640 to 58 000 km, discovered in 1958: Wikipedia, ["Van Allen radiation belt"](https://en.wikipedia.org/wiki/Van_Allen_radiation_belt).
+- The interstellar beam at 0.909c and 0.9952c: [Chapter 13.4](/part-13/cosmic-rays-shielding/). Erid's 29 atm: [Chapter 12.1](/part-12/pressure/).
+- The novel: Erid's magnetic field at least twenty-five times Earth's, its large iron core, 5.1-hour day, closeness to its star, twice Earth's diameter, and the Eridians' ignorance of radiation: Readify reader wiki, ["Erid"](https://readifyai.com/en/books/Project%20Hail%20Mary/wiki/Erid) and ["40 Eridani"](https://readifyai.com/en/books/Project%20Hail%20Mary/wiki/40%20Eridani). Reader sources, so approximate.

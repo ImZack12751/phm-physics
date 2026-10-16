@@ -2196,4 +2196,168 @@ export const glossary = {
 		def: 'In the novel, the property of Astrophage’s membrane that nothing can pass through it, not even neutrinos, so the cell can store energy as trapped neutrinos. Fiction.',
 		chapter: 'neutrinos',
 	},
+	// ---- 14.1 Light-years and stellar distances ----
+	parsec: {
+		term: 'Parsec (pc)',
+		def: 'The distance at which 1 au makes an angle of one arcsecond: 648 000/π au = 3.0857 × 10¹⁶ m = 3.2616 light-years. A star with parallax p arcseconds is 1/p parsecs away.',
+		chapter: 'light-years',
+	},
+	'celestial-coordinates': {
+		term: 'Right ascension and declination',
+		def: 'The two angles that give a star’s direction on the sky, like longitude and latitude on Earth: right ascension (α) measured eastward around the sky’s equator, declination (δ) north or south of it.',
+		chapter: 'light-years',
+	},
+	'apparent-magnitude': {
+		term: 'Apparent magnitude (m)',
+		def: 'How bright a star looks from Earth, on a logarithmic scale where 5 magnitudes is a factor of 100 and bigger numbers mean fainter. Sirius is −1.46, Tau Ceti +3.50, the naked-eye limit about +6.5.',
+		chapter: 'light-years',
+	},
+	'absolute-magnitude': {
+		term: 'Absolute magnitude (M)',
+		def: 'The magnitude a star would have seen from a standard distance of 10 parsecs, a fair measure of how luminous it really is. The Sun’s is +4.83 in visible light; Tau Ceti’s +5.69.',
+		chapter: 'light-years',
+	},
+	'distance-modulus': {
+		term: 'Distance modulus',
+		def: 'The difference m − M between a star’s apparent and absolute magnitudes, equal to 5 log₁₀(d / 10 pc). Measuring it gives the distance.',
+		chapter: 'light-years',
+	},
+	'proper-motion': {
+		term: 'Proper motion (μ)',
+		def: 'A star’s slow drift across the sky caused by its sideways motion through space, in arcseconds per year. Tau Ceti’s is 1.9″ per year; sideways speed = μ × distance.',
+		chapter: 'light-years',
+	},
+	// ---- 14.2 Planetary atmospheres ----
+	'boltzmann-factor': {
+		term: 'Boltzmann factor',
+		def: 'The factor e^(−E/kT) by which a state of energy E is rarer than one of zero energy at temperature T. It sets how air thins with height and how rare very fast molecules are.',
+		chapter: 'planetary-atmospheres',
+	},
+	exosphere: {
+		term: 'Exosphere',
+		def: 'The outermost layer of an atmosphere, so thin that a fast molecule moving upward can leave without hitting another. On Earth it starts about 500 km up, in air heated to about 1000 K.',
+		chapter: 'planetary-atmospheres',
+	},
+	'jeans-escape': {
+		term: 'Jeans escape',
+		def: 'The slow leak of gas from the top of an atmosphere as the fastest molecules exceed the escape speed. Light gases such as hydrogen and helium leak fastest.',
+		chapter: 'planetary-atmospheres',
+	},
+	'critical-temperature-escape': {
+		term: 'Critical temperature (for escape)',
+		def: 'The upper-atmosphere temperature above which a world loses a gas, by the rule of thumb v_esc ≥ 6 v_rms: T_c = m v_esc² / 108k. For hydrogen on Earth it is about 280 K.',
+		chapter: 'planetary-atmospheres',
+	},
+	'lapse-rate': {
+		term: 'Lapse rate (Γ)',
+		def: 'How fast air temperature falls with height. Dry rising air cools at g/c_p ≈ 9.8 K per km on Earth; the standard atmosphere uses 6.5 K per km because condensing water releases heat.',
+		chapter: 'planetary-atmospheres',
+	},
+	tropopause: {
+		term: 'Tropopause',
+		def: 'The top of the lowest layer of the atmosphere, where temperature stops falling with height: about 11–12 km up on Earth, at about 217 K in the standard atmosphere.',
+		chapter: 'planetary-atmospheres',
+	},
+	// ---- 14.3 Magnetic fields ----
+	'magnetic-field': {
+		term: 'Magnetic field (B)',
+		def: 'The field made by moving charges and magnets. Its direction is where a compass needle points; it pushes on a charge q moving at v with force qvB sin θ, at right angles to both. Measured in teslas.',
+		chapter: 'magnetic-fields',
+	},
+	tesla: {
+		term: 'Tesla (T)',
+		def: 'The SI unit of magnetic field: 1 T pushes with 1 N on 1 C moving across it at 1 m/s. Earth’s field is about 31–58 µT; an MRI scanner 1.5–7 T.',
+		chapter: 'magnetic-fields',
+	},
+	gyroradius: {
+		term: 'Gyroradius',
+		def: 'The radius of the circle a charged particle moves in across a magnetic field: r = mv/qB, or p/qB at any speed.',
+		chapter: 'magnetic-fields',
+	},
+	'cyclotron-frequency': {
+		term: 'Cyclotron frequency',
+		def: 'How many times per second a charged particle circles in a magnetic field, f = qB/2πm, the same whatever its speed (well below c).',
+		chapter: 'magnetic-fields',
+	},
+	rigidity: {
+		term: 'Rigidity (ℛ)',
+		def: 'Momentum per charge, ℛ = pc/q, measured in volts (usually gigavolts). Particles with the same rigidity bend the same way in a magnetic field: r = ℛ/cB.',
+		chapter: 'magnetic-fields',
+	},
+	'electric-current': {
+		term: 'Electric current (I)',
+		def: 'The amount of electric charge flowing past a point per second, measured in amperes. Moving charges, and so currents, make magnetic fields.',
+		chapter: 'magnetic-fields',
+	},
+	ampere: {
+		term: 'Ampere (A)',
+		def: 'The SI base unit of electric current: one coulomb per second, about 6.2 × 10¹⁸ electrons a second. Defined since 2019 by fixing the electron’s charge.',
+		chapter: 'magnetic-fields',
+	},
+	'magnetic-constant': {
+		term: 'Magnetic constant (μ₀)',
+		def: 'The constant 1.2566 × 10⁻⁶ N/A² that sets how strong a magnetic field a current makes, as in B = μ₀I/2πr near a long wire.',
+		chapter: 'magnetic-fields',
+	},
+	dynamo: {
+		term: 'Dynamo (planetary)',
+		def: 'Currents in a planet’s molten, conducting core, kept going by convection and the planet’s spin, that sustain its magnetic field. Earth has one; Mars’s stopped about four billion years ago.',
+		chapter: 'magnetic-fields',
+	},
+	'magnetic-dipole': {
+		term: 'Magnetic dipole',
+		def: 'A field shaped like a bar magnet’s, leaving one pole and returning to the other; far away it weakens as 1/r³. Earth’s field is roughly a dipole.',
+		chapter: 'magnetic-fields',
+	},
+	'cutoff-rigidity': {
+		term: 'Cutoff rigidity',
+		def: 'The least rigidity a cosmic ray needs to get through a planet’s magnetic field to a given place. For a dipole and vertical arrival it is (cB₀R/4) cos⁴λ: about 15 GV at Earth’s magnetic equator, zero at the poles.',
+		chapter: 'magnetic-fields',
+	},
+	'solar-wind': {
+		term: 'Solar wind',
+		def: 'The thin stream of protons and electrons blowing out from the Sun: at Earth, 3–10 particles per cm³ at 250–750 km/s.',
+		chapter: 'magnetic-fields',
+	},
+	'magnetic-pressure': {
+		term: 'Magnetic pressure',
+		def: 'The outward push of a magnetic field, B²/2μ₀ pascals, equal to the energy stored in the field per cubic metre.',
+		chapter: 'magnetic-fields',
+	},
+	magnetosphere: {
+		term: 'Magnetosphere',
+		def: 'The region around a planet controlled by its magnetic field, bounded by the magnetopause (about 10 Earth radii towards the Sun) where the solar wind’s pressure balances the field’s.',
+		chapter: 'magnetic-fields',
+	},
+	'van-allen-belts': {
+		term: 'Van Allen belts',
+		def: 'Zones around Earth, roughly 640 to 58 000 km up, where charged particles are trapped on magnetic field lines, spiralling back and forth between the hemispheres.',
+		chapter: 'magnetic-fields',
+	},
+	// ---- 14.4 Sidebar: base-6 numbers ----
+	'place-value': {
+		term: 'Place value',
+		def: 'Writing numbers so that each digit’s worth depends on its position: in base b each place is worth b times the place to its right.',
+		chapter: 'base-six',
+	},
+	'number-base': {
+		term: 'Base (of a number system)',
+		def: 'How many digits a place-value system uses and how much each place is worth: base ten uses 0–9 and powers of 10; base six (senary), the Eridians’ base, uses 0–5 and powers of 6.',
+		chapter: 'base-six',
+	},
+	binary: {
+		term: 'Binary',
+		def: 'Base two: digits 0 and 1 only, each place worth twice the one to its right. Computers store numbers in binary; each binary digit is one bit.',
+		chapter: 'base-six',
+	},
+	sexagesimal: {
+		term: 'Sexagesimal',
+		def: 'Base sixty, from ancient Sumer and Babylon. It survives in 60 seconds per minute, 60 minutes per hour, and 60 arcminutes per degree.',
+		chapter: 'base-six',
+	},
+	'eridian-second': {
+		term: 'Eridian second',
+		def: 'In the novel, the Eridians’ unit of time, 2.366 s, which Grace measures by timing Rocky’s base-six clock. An Eridian day is 6⁵ = 7776 Eridian seconds, 5.11 hours.',
+		chapter: 'base-six',
+	},
 };

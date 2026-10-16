@@ -1,0 +1,48 @@
+---
+// Maxwell speed distributions at 1000 K (Earth's upper atmosphere) for N₂ and H₂, each scaled to the same peak height
+// would hide the physics, so both are normalised to unit area and drawn on one vertical scale. Earth's escape speed
+// 11.19 km/s and six times each gas's rms speed are marked.
+const k = 1.380649e-23, u = 1.66053906892e-27, T = 1000;
+const f = (v: number, M: number) => {
+	const m = M * u, a = m / (2 * k * T);
+	return 4 * Math.PI * (a / Math.PI) ** 1.5 * v * v * Math.exp(-a * v * v);
+};
+const vrms = (M: number) => Math.sqrt((3 * k * T) / (M * u));
+const L = 60, R = 570, B = 220, Top = 30, vmax = 14000;
+const X = (v: number) => L + (v / vmax) * (R - L);
+const peakN2 = f(Math.sqrt((2 * k * T) / (28.01 * u)), 28.01);
+const Y = (y: number) => B - (y / peakN2) * (B - Top - 10);
+const path = (M: number) => {
+	let d = '';
+	for (let i = 0; i <= 200; i++) {
+		const v = (i / 200) * vmax;
+		d += `${i ? 'L' : 'M'} ${X(v).toFixed(1)} ${Y(f(v, M)).toFixed(1)} `;
+	}
+	return d;
+};
+const vesc = 11186;
+const six = { N2: 6 * vrms(28.01), H2: 6 * vrms(2.016) };
+---
+
+<svg class="dg" viewBox="0 0 600 280" xmlns="http://www.w3.org/2000/svg">
+	{[0, 2, 4, 6, 8, 10, 12, 14].map((v) => (
+		<>
+			<line x1={X(v * 1000)} y1={B} x2={X(v * 1000)} y2={B + 5} class="s-fg w1" />
+			<text x={X(v * 1000)} y={B + 20} class="t-mid t-sm f-muted">{v}</text>
+		</>
+	))}
+	<line x1={L} y1={B} x2={R} y2={B} class="s-fg w1" />
+	<text x={(L + R) / 2} y={B + 42} class="t-mid t-sm">molecular speed (km/s) at 1000 K</text>
+	<text x={L - 10} y={Top + 6} class="t-end t-sm f-muted">more</text>
+	<text x={L - 10} y={B} class="t-end t-sm f-muted">0</text>
+	<path d={path(28.01)} class="s-sky w2" fill="none" />
+	<path d={path(2.016)} class="s-rose w2" fill="none" />
+	<text x={X(1500)} y={Top + 14} class="t-sm f-sky t-b halo">N₂ (nitrogen)</text>
+	<text x={X(2900)} y={Y(f(2880, 2.016)) - 12} class="t-mid t-sm f-rose t-b halo">H₂ (hydrogen)</text>
+	<line x1={X(vesc)} y1={Top + 30} x2={X(vesc)} y2={B} class="s-amber w2 dash" />
+	<text x={X(vesc) + 6} y={Top + 44} class="t-sm f-amber halo">Earth's escape speed</text>
+	<text x={X(vesc) + 6} y={Top + 60} class="t-sm f-amber halo">11.2 km/s</text>
+	<line x1={X(six.N2)} y1={B - 70} x2={X(six.N2)} y2={B} class="s-sky w1 dash" />
+	<text x={X(six.N2)} y={B - 76} class="t-mid t-sm f-sky halo">6 × rms, N₂</text>
+	<text x={R} y={B - 30} class="t-end t-sm f-rose halo">6 × rms for H₂: 21 km/s, off the chart</text>
+</svg>

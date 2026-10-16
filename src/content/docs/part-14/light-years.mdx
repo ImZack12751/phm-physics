@@ -1,0 +1,422 @@
+---
+title: Light-years and stellar distances
+description: The light-year and light travel time, parallax and the parsec as promised in Part 0, how precisely Gaia measures Tau Ceti's distance, star positions in three dimensions and the 10-light-year gap between Tau Ceti and 40 Eridani, the magnitude scale and the distance modulus, proper motion, and how long the Beetles take to carry Grace's news home.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import ParsecTriangle from '../../../components/diagrams/part-14/ParsecTriangle.astro';
+import LightTimeLadder from '../../../components/diagrams/part-14/LightTimeLadder.astro';
+import NeighbourTriangle from '../../../components/diagrams/part-14/NeighbourTriangle.astro';
+import ParallaxLab from '../../../components/sims/ParallaxLab.astro';
+
+## The scene
+
+Early in their friendship, Rocky shows Grace a model of the stars around them: little spheres held in place, with Tau Ceti in the middle and a thin filament running from it to one other star. Grace has to work out which star that is. He can do it only because he knows the three-dimensional layout of our stellar neighbourhood: how far each nearby star is, and in which direction. The answer is 40 Eridani, about 16 light-years from Earth, and Rocky's people get their name from it.
+
+Distance is also the hard limit on everything Grace does. Whatever he discovers at Tau Ceti, Earth can't hear about it for about twelve years, because nothing, not even a radio message, crosses the gap faster than light. That is why the *Hail Mary* carries four small probes, the Beetles, to fly his results home.
+
+This chapter is about how we know how far away the stars are, and what those distances mean.
+
+## Prerequisites
+
+<Prereqs notes={{ trigonometry: 'radians, arcseconds and the parallax formula d = 1 au/p', vectors: 'components and Pythagoras in more than one direction', 'em-spectrum': 'the speed of light c', 'exponentials-logarithms': 'logarithms for the magnitude scale', 'solar-constant': 'starlight fading as 1/d²', 'ship-time-earth-time': 'how long a fast trip takes on the ship and on Earth' }} />
+
+## The concept
+
+### A distance measured in time
+
+A <Term id="light-year">light-year</Term> is the distance light travels in one year. Since the speed of light is exact, $c = 299\,792\,458$ m/s (Chapter 7.2), and astronomers use the Julian year of exactly 365.25 days, the light-year is a fixed length:
+
+$$
+1\ \text{ly} = 299\,792\,458\ \text{m/s} \times 365.25 \times 86\,400\ \text{s} = 9.4607 \times 10^{15}\ \text{m},
+$$
+
+about 63 000 times the distance from Earth to the Sun.
+
+The name carries a second meaning. If a star is 11.9 light-years away, its light has been travelling for 11.9 years when it reaches us: we see Tau Ceti as it was 11.9 years ago. Looking further means looking further back in time. The same delay applies to any message: a radio signal from Tau Ceti also takes 11.9 years. The Moon is 1.3 light-seconds away and the Sun 8.3 light-minutes, so even inside the Solar System, conversations with spacecraft come with long pauses.
+
+<Figure caption="How long light takes to reach us, on a logarithmic scale. Each step to the right is a factor of ten. The nearest stars are years away; Grace's news from Tau Ceti needs at least 11.9 years to reach Earth." alt="A horizontal bar chart of light travel times on a logarithmic time axis with marks at 1 second, 1 minute, 1 hour, 1 day and 1 year. Bars: the Moon, 1.3 seconds; the Sun, 8.3 minutes; Jupiter from the Sun, 43 minutes; Proxima Centauri, 4.2 years; Tau Ceti, 11.9 years; 40 Eridani, home of Erid, 16.3 years.">
+	<LightTimeLadder />
+</Figure>
+
+How big is that? Shrink the Sun to a marble 1 cm across. Earth is then a grain of sand 1.1 m away, and Tau Ceti another marble 810 km away. Almost all of space is empty.
+
+### Parallax and the parsec
+
+Chapter 0.6 showed how to measure a star's distance: watch it from two ends of Earth's orbit. As Earth moves around the Sun, a nearby star seems to shift back and forth against much more distant stars. Half of that swing is the <Term id="parallax">parallax</Term> angle $p$: the angle the radius of Earth's orbit, 1 au, makes as seen from the star. For such tiny angles $\tan p \approx p$ (in radians), so
+
+$$
+d = \frac{1\ \text{au}}{p}.
+$$
+
+<Figure caption="Parallax. Over six months Earth moves from one side of its orbit to the other, and a nearby star appears to move against the far-off background. The parallax p is the angle 1 au makes as seen from the star. A star with a parallax of one arcsecond is one parsec away." alt="A schematic, not to scale. At the bottom, the Sun sits inside Earth's orbit, drawn as a flattened ellipse, with Earth in January on the left and Earth in July on the right; a label marks 1 au from the Sun to the July position. A nearby star sits above the Sun. A sight line from each Earth position passes through the star and continues to a row of very distant stars along the top, where the star appears at two different places: seen in January on the right and seen in July on the left. A small arc at the star marks the angle p between the star-to-Sun line and the star-to-July-Earth line. Text on the right says d equals 1 au divided by p, and p equals one arcsecond means d equals one parsec.">
+	<ParsecTriangle />
+</Figure>
+
+The angles are minute. Astronomers measure them in arcseconds (a 3600th of a degree) and milliarcseconds (mas). This suggests a unit of distance: the distance at which 1 au makes an angle of exactly one arcsecond. That is the <Term id="parsec">parsec</Term> (parallax-second, pc). Since $1'' = \pi/648\,000$ rad,
+
+$$
+1\ \text{pc} = \frac{648\,000}{\pi}\ \text{au} = 3.0857 \times 10^{16}\ \text{m} = 3.2616\ \text{ly},
+$$
+
+and the parallax formula becomes beautifully simple:
+
+$$
+d\ (\text{in pc}) = \frac{1}{p\ (\text{in arcseconds})}.
+$$
+
+No star is close enough to have a parallax as big as 1″. The nearest, Proxima Centauri, has 0.768″, so it is 1.30 pc (4.25 ly) away. Friedrich Bessel made the first successful measurement in 1838, for the star 61 Cygni; he got about 10.4 light-years, close to today's 11.4.
+
+### How precise is Tau Ceti's distance?
+
+Today the European Space Agency's Gaia spacecraft measures parallaxes for bright stars to a few tens of microarcseconds. For Tau Ceti it found $p = 273.810 \pm 0.170$ mas. Because $d = 1/p$, a small fractional error in $p$ becomes the same fractional error in $d$:
+
+$$
+\frac{\Delta d}{d} = \frac{\Delta p}{p} = \frac{0.170}{273.81} = 0.062\%.
+$$
+
+So Tau Ceti is $11.912 \pm 0.007$ light-years away: we know its distance to within about 2.7 days of light travel. For more distant stars the parallax shrinks while the error stays about the same, so the fractional error grows. Beyond a few thousand light-years, even Gaia's parallaxes become rough.
+
+### Stars in three dimensions
+
+A star's direction on the sky is given by two angles, like longitude and latitude on Earth. Its <Term id="celestial-coordinates">right ascension</Term> $\alpha$ is measured eastward around the sky's equator, and its declination $\delta$ north or south of it. With the distance $d$, that fixes a point in space. Put the Sun at the origin, the $z$-axis towards the north celestial pole and the $x$-axis towards $\alpha = 0$:
+
+$$
+x = d\cos\delta\cos\alpha \qquad y = d\cos\delta\sin\alpha \qquad z = d\sin\delta.
+$$
+
+Two stars that look far apart in our sky can be close to each other, and two that look close can be far apart, because one may be much further away than the other. To find the distance between two stars, convert both to $x, y, z$ and use Pythagoras in three directions. For Tau Ceti and 40 Eridani that gives 10.1 light-years (Example 3): the Eridians had a shorter trip to Tau Ceti than Grace did.
+
+<Figure caption="The Sun, Tau Ceti and 40 Eridani, drawn to scale in the flat plane that contains all three. From Earth, Tau Ceti and 40 Eridani are 37.9° apart in the sky. From Tau Ceti, the Sun and 40 Eridani are almost at right angles: Grace and Rocky came from directions 95.6° apart." alt="A triangle drawn to scale. The Sun is at the lower left, 40 Eridani at the lower right, 16.34 light-years away along the bottom side, and Tau Ceti at the top, 11.91 light-years from the Sun. The side from Tau Ceti to 40 Eridani, dashed, is 10.08 light-years. Angles are marked: 37.9 degrees at the Sun, 95.6 degrees at Tau Ceti and 46.5 degrees at 40 Eridani.">
+	<NeighbourTriangle />
+</Figure>
+
+### How bright is a star?
+
+Distance and brightness are linked. Light from a star spreads over a sphere, so its intensity at Earth falls as $1/d^{2}$ (Chapter 8.3). Astronomers describe brightness with the ancient <Term id="apparent-magnitude">magnitude</Term> scale. The Greeks called the brightest stars "first magnitude" and the faintest visible ones "sixth". In 1856 Norman Pogson made this precise: five magnitudes is exactly a factor of 100 in brightness, so one magnitude is a factor of $100^{1/5} = 2.512$, and *bigger* magnitudes mean *fainter* stars. For two stars with intensities $F_{1}$ and $F_{2}$ at Earth,
+
+$$
+m_{1} - m_{2} = -2.5\log_{10}\frac{F_{1}}{F_{2}}.
+$$
+
+The scale is logarithmic (Chapter 0.8), like decibels for sound. Sirius is $-1.46$, Tau Ceti $+3.50$, and the faintest stars you can see on a dark night about $+6.5$. The Sun, at $-26.8$, is off the end of the scale.
+
+Apparent magnitude mixes up how luminous a star is with how far away it is. To compare stars fairly, astronomers imagine moving each one to a standard distance of 10 parsecs. Its magnitude there is its <Term id="absolute-magnitude">absolute magnitude</Term> $M$. The Sun's (in visible light) is $+4.83$; Tau Ceti's is $+5.69$, so Tau Ceti is genuinely the dimmer star.
+
+### Stars move
+
+The star map isn't fixed. Each star moves through space, and the sideways part of that motion makes it creep across the sky: its <Term id="proper-motion">proper motion</Term>. Tau Ceti moves 1.9 arcseconds a year, about one degree in 1900 years; in a few hundred thousand years our neighbourhood will look quite different. Its radial velocity, towards or away from us, comes from the Doppler shift of its spectral lines (Chapter 7.5): Tau Ceti approaches at 16.7 km/s. Combining the two gives its full speed relative to the Sun (Problem 8).
+
+## Formulas
+
+### The light-year and light travel time
+
+$$
+\boxed{1\ \text{ly} = c \times 1\ \text{yr} = 9.4607 \times 10^{15}\ \text{m} = 63\,241\ \text{au}} \qquad\qquad \boxed{t = \frac{d}{c}}
+$$
+
+A distance in light-years is the light travel time in years.
+
+### The parsec
+
+From the parallax formula $d = 1\ \text{au}/p$ with $p$ in radians, and $1'' = \dfrac{1}{3600} \times \dfrac{\pi}{180}$ rad $= \dfrac{\pi}{648\,000}$ rad:
+
+$$
+d = \frac{1\ \text{au}}{p''\,\pi/648\,000} = \frac{1}{p''} \times \frac{648\,000}{\pi}\ \text{au} \qquad\Rightarrow\qquad \boxed{d_{\text{pc}} = \frac{1}{p''}} \qquad 1\ \text{pc} = 3.0857 \times 10^{16}\ \text{m} = 3.2616\ \text{ly}
+$$
+
+**Uncertainty.** For $d = k/p$, a change $\Delta p$ changes $d$ by $\Delta d \approx (k/p^{2})\Delta p$ (the derivative of $1/p$ is $-1/p^{2}$, Chapter C.3), so
+
+$$
+\boxed{\frac{\Delta d}{d} = \frac{\Delta p}{p}}
+$$
+
+### Positions and distances between stars
+
+Picture the star at distance $d$ from the Sun. Its height above the sky's equatorial plane is $z = d\sin\delta$, and its distance from the $z$-axis, measured in that plane, is $d\cos\delta$ (a right triangle, Chapter 0.6). That second length splits into $x$ and $y$ components at angle $\alpha$ (Chapter 0.7):
+
+$$
+\boxed{x = d\cos\delta\cos\alpha \qquad y = d\cos\delta\sin\alpha \qquad z = d\sin\delta}
+$$
+
+Applying Pythagoras twice, first in the $xy$-plane and then with $z$, the distance between two stars is
+
+$$
+\boxed{D = \sqrt{(x_{2} - x_{1})^{2} + (y_{2} - y_{1})^{2} + (z_{2} - z_{1})^{2}}}
+$$
+
+**The law of cosines.** If you know the angle $\theta$ between two stars in the sky, there is a shortcut. Put the Sun at the origin of a flat drawing of the three points, star 1 on the $x$-axis at distance $a$, and star 2 at angle $\theta$ and distance $b$, so star 2 is at $(b\cos\theta, b\sin\theta)$. Then
+
+$$
+D^{2} = (a - b\cos\theta)^{2} + (b\sin\theta)^{2} = a^{2} - 2ab\cos\theta + b^{2}(\cos^{2}\theta + \sin^{2}\theta),
+$$
+
+$$
+\boxed{D^{2} = a^{2} + b^{2} - 2ab\cos\theta}
+$$
+
+using $\sin^{2}\theta + \cos^{2}\theta = 1$. For $\theta = 90°$ it is just Pythagoras.
+
+### Magnitudes and the distance modulus
+
+Pogson's definition, five magnitudes = a factor of 100:
+
+$$
+\boxed{m_{1} - m_{2} = -2.5\log_{10}\frac{F_{1}}{F_{2}}} \qquad \frac{F_{1}}{F_{2}} = 10^{-0.4(m_{1} - m_{2})}
+$$
+
+(the minus sign makes brighter stars smaller numbers; check: $F_{1}/F_{2} = 100$ gives $m_{1} - m_{2} = -2.5 \times 2 = -5$). Now compare the same star at its real distance $d$ (magnitude $m$) and at 10 pc (magnitude $M$). Intensity goes as $1/d^{2}$, so $F_{d}/F_{10} = (10\ \text{pc}/d)^{2}$ and
+
+$$
+m - M = -2.5\log_{10}\left(\frac{10\ \text{pc}}{d}\right)^{2} = -5\log_{10}\frac{10\ \text{pc}}{d} \qquad\Rightarrow\qquad \boxed{m - M = 5\log_{10}\frac{d}{10\ \text{pc}}}
+$$
+
+The quantity $m - M$ is the <Term id="distance-modulus">distance modulus</Term>.
+
+### Proper motion
+
+A star at distance $d$ that moves sideways at speed $v_{\text{t}}$ sweeps across the sky at an angular rate (in radians per unit time, from arc length $s = r\theta$, Chapter 0.6)
+
+$$
+\boxed{\mu = \frac{v_{\text{t}}}{d}} \qquad\Rightarrow\qquad v_{\text{t}} = \mu d, \qquad v = \sqrt{v_{\text{t}}^{2} + v_{\text{r}}^{2}}
+$$
+
+where $v_{\text{r}}$ is the radial velocity from the Doppler shift.
+
+## Worked examples
+
+<Example n={1} title="How long is a light-year?">
+Find a light-year in metres and in astronomical units, and the light travel time from the Moon ($3.844 \times 10^{8}$ m) and the Sun ($1\ \text{au} = 1.496 \times 10^{11}$ m).
+
+$$
+1\ \text{ly} = 2.998 \times 10^{8}\ \text{m/s} \times 3.156 \times 10^{7}\ \text{s} = 9.461 \times 10^{15}\ \text{m}
+$$
+
+$$
+\frac{9.4607 \times 10^{15}\ \text{m}}{1.495\,979 \times 10^{11}\ \text{m/au}} = 63\,241\ \text{au}
+$$
+
+$$
+t_{\text{Moon}} = \frac{3.844 \times 10^{8}\ \text{m}}{2.998 \times 10^{8}\ \text{m/s}} = 1.28\ \text{s} \qquad t_{\text{Sun}} = \frac{1.496 \times 10^{11}\ \text{m}}{2.998 \times 10^{8}\ \text{m/s}} = 499\ \text{s} = 8.32\ \text{min}
+$$
+</Example>
+
+<Example n={2} title="Tau Ceti in parsecs" book>
+Gaia measured Tau Ceti's parallax as $273.810 \pm 0.170$ mas. Find its distance in parsecs and light-years, with its uncertainty.
+
+$$
+d = \frac{1}{0.273\,810''} = 3.6522\ \text{pc} \qquad d = 3.6522\ \text{pc} \times 3.2616\ \text{ly/pc} = 11.912\ \text{ly}
+$$
+
+$$
+\frac{\Delta d}{d} = \frac{0.170}{273.81} = 6.21 \times 10^{-4} = 0.062\% \qquad \Delta d = 6.21 \times 10^{-4} \times 11.912\ \text{ly} = 0.0074\ \text{ly}
+$$
+
+$11.912 \pm 0.007$ ly. Chapter 0.6 got the same distance by converting the angle to radians; the parsec does it in one line.
+</Example>
+
+<Example n={3} title="From Tau Ceti to 40 Eridani" book>
+Tau Ceti: $\alpha = 26.017°$, $\delta = -15.937°$, $d = 11.912$ ly. 40 Eridani: $\alpha = 63.818°$, $\delta = -7.653°$, $d = 16.340$ ly (parallax 199.608 mas). How far apart are they?
+
+**Tau Ceti.** $\cos\delta = \cos(-15.937°) = 0.9616$, $\sin\delta = -0.2746$:
+
+$$
+x = 11.912 \times 0.9616 \times \cos 26.017° = 10.29\ \text{ly} \quad y = 11.912 \times 0.9616 \times \sin 26.017° = 5.02\ \text{ly} \quad z = 11.912 \times (-0.2746) = -3.27\ \text{ly}
+$$
+
+**40 Eridani.** $\cos\delta = 0.9911$, $\sin\delta = -0.1332$:
+
+$$
+x = 16.340 \times 0.9911 \times \cos 63.818° = 7.15\ \text{ly} \quad y = 16.340 \times 0.9911 \times \sin 63.818° = 14.53\ \text{ly} \quad z = 16.340 \times (-0.1332) = -2.18\ \text{ly}
+$$
+
+**Distance.**
+
+$$
+D = \sqrt{(7.15 - 10.29)^{2} + (14.53 - 5.02)^{2} + (-2.18 + 3.27)^{2}}\ \text{ly} = \sqrt{9.9 + 90.4 + 1.2}\ \text{ly} = 10.08\ \text{ly}
+$$
+
+A light signal between the two systems takes about ten years; Rocky's crew flew a shorter route than Grace's 11.9 ly.
+</Example>
+
+<Example n={4} title="Our Sun in Adrian's sky" book>
+The Sun's absolute magnitude is $+4.83$. What is its apparent magnitude seen from Tau Ceti, 3.652 pc away? Is it visible to the naked eye there, and how does it compare with Tau Ceti seen from Earth ($m = 3.50$)?
+
+$$
+m = M + 5\log_{10}\frac{d}{10\ \text{pc}} = 4.83 + 5\log_{10}(0.3652) = 4.83 + 5 \times (-0.4375) = 4.83 - 2.19 = 2.64
+$$
+
+Brighter than the naked-eye limit of about 6.5, so the Sun is an easy star to see from Adrian. Compared with Tau Ceti from Earth:
+
+$$
+\frac{F_{\odot}}{F_{\tau}} = 10^{-0.4(2.64 - 3.50)} = 10^{0.344} = 2.2
+$$
+
+Our Sun, seen from Tau Ceti, is 2.2 times brighter than Tau Ceti seen from Earth: the same distance, but the Sun is the more luminous star.
+</Example>
+
+<Example n={5} title="Sending the news home" book>
+In the novel, each Beetle accelerates at 500 g to 0.93c and then coasts the 11.9 light-years to Earth. How long after launch does a Beetle arrive, by Earth's clocks and by its own? How much later is that than a radio message sent at the same moment?
+
+**Speeding up.** At constant proper acceleration (Chapter 10.6), reaching $\beta = 0.93$ takes ship time $\tau = c\,\varphi/a$ with rapidity $\varphi = \tanh^{-1}0.93 = 1.658$:
+
+$$
+\tau = \frac{2.998 \times 10^{8}\ \text{m/s} \times 1.658}{500 \times 9.807\ \text{m/s}^{2}} = 1.01 \times 10^{5}\ \text{s} = 1.17\ \text{days},
+$$
+
+negligible on a 12-year trip, so treat the whole flight as a coast at 0.93c.
+
+$$
+t_{\text{Earth}} = \frac{11.912\ \text{ly}}{0.93c} = 12.81\ \text{yr} \qquad \gamma = \frac{1}{\sqrt{1 - 0.93^{2}}} = 2.72 \qquad \tau = \frac{12.81\ \text{yr}}{2.72} = 4.71\ \text{yr}
+$$
+
+The radio message takes 11.91 years, so the Beetle arrives $12.81 - 11.91 = 0.90$ years later. On board, its clock ticks off 4.7 years.
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** The light-year, parallax, the parsec and the magnitude scale are standard astronomy. Tau Ceti's distance of $11.912 \pm 0.007$ light-years and 40 Eridani's 16.34 come from Gaia parallaxes; the directions and the proper motions are catalogue values. Bessel's 1838 measurement of 61 Cygni was the first stellar parallax.
+
+**Weir's inventions.** Rocky's star model with its filament from Tau Ceti to 40 Eridani, the Eridians' home in the 40 Eridani system, and the Beetles (500 g up to 0.93c, carrying Grace's results to Earth) belong to the novel (from reader sources).
+
+**How realistic are the numbers?** The stars are where the novel puts them: Tau Ceti is about 12 light-years from us, 40 Eridani about 16, and they are about 10 light-years from each other, so the Eridians really had the shorter trip. A reader summary says the Beetles experience only about twenty months on the way; at 0.93c relativity gives 4.7 years of Beetle time, so either the speed or that time in the summary is off (20 months would need a top speed near 0.99c). Either way the Beetles reach Earth less than a year after light could, which is the best anyone can do.
+</RealVsBook>
+
+## Interactive simulation
+
+<ParallaxLab />
+
+Things to try: pick Tau Ceti and drag the month slider through a year; the star swings back and forth by 2 × 274 mas. Move the star to 1000 ly and see the swing shrink to a few milliarcseconds. With the 1 mas setting, find the distance at which the distance error reaches 10%; then switch to Gaia's precision and find it again.
+
+## Practice set
+
+<Problem n={1} level="easy">
+Proxima Centauri is 4.2465 ly away. Express this in kilometres and in astronomical units.
+
+<Solution>
+$4.2465 \times 9.4607 \times 10^{12}\ \text{km} = 4.017 \times 10^{13}$ km; $4.2465 \times 63\,241 = 2.686 \times 10^{5}$ au.
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy" book>
+Gaia measured 40 Eridani's parallax as 199.608 mas. How far away is it in parsecs and light-years?
+
+<Solution>
+$d = 1/0.199\,608 = 5.010$ pc $= 5.010 \times 3.2616 = 16.34$ ly.
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy" book>
+Grace sees Tau Ceti through a window. How old is the light he sees from Tau Ceti? From the Sun, while he is at Tau Ceti? From 40 Eridani, while he is at Tau Ceti?
+
+<Solution>
+Tau Ceti's light reaches him in a few seconds or minutes (he is in its planetary system). The Sun's light is 11.9 years old. 40 Eridani's light is 10.1 years old (Example 3).
+</Solution>
+</Problem>
+
+<Problem n={4} level="easy">
+How many times fainter is Tau Ceti ($m = 3.50$) than Sirius ($m = -1.46$)?
+
+<Solution>
+$\Delta m = 3.50 - (-1.46) = 4.96$; $10^{0.4 \times 4.96} = 10^{1.984} = 96$ times fainter.
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium">
+In 1838 Bessel measured 61 Cygni's parallax as 0.314″. Gaia's value is 0.286″. Find both distances in light-years and the percentage error in Bessel's parallax.
+
+<Solution>
+$1/0.314 = 3.18$ pc $= 10.4$ ly; $1/0.286 = 3.50$ pc $= 11.4$ ly. Error $(0.314 - 0.286)/0.286 = 9.8\%$, a remarkable result for 1838, when the angle was about the width of a 2 cm coin seen from 13 km away.
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium">
+An instrument measures parallaxes to $\pm 1$ mas. Out to what distance can it find distances to 10%? Repeat for $\pm 0.02$ mas.
+
+<Solution>
+10% needs $p \ge 10\,\Delta p$. $p = 10$ mas $= 0.010''$: $d = 100$ pc $= 326$ ly. $p = 0.2$ mas: $d = 5000$ pc $= 16\,300$ ly.
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium" book>
+In the scale model with a 1 cm Sun (real diameter $1.391 \times 10^{9}$ m), how far away are Earth, Tau Ceti and 40 Eridani?
+
+<Solution>
+Scale factor $1.391 \times 10^{9}/0.01 = 1.391 \times 10^{11}$. Earth: $1.496 \times 10^{11}/1.391 \times 10^{11} = 1.08$ m. Tau Ceti: $11.912 \times 9.4607 \times 10^{15}/1.391 \times 10^{11} = 8.10 \times 10^{5}$ m $= 810$ km. 40 Eridani: $16.34/11.912 \times 810 = 1111$ km.
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium" book>
+Tau Ceti's proper motion is 1.907 arcseconds per year and its radial velocity $-16.68$ km/s. Find its sideways speed and its total speed relative to the Sun. How many years does it take to move one degree across the sky?
+
+<Solution>
+$\mu = 1.907/3600 \times \pi/180 = 9.245 \times 10^{-6}$ rad/yr. $d = 11.912 \times 9.4607 \times 10^{15} = 1.127 \times 10^{17}$ m. $v_{\text{t}} = \mu d = 1.042 \times 10^{12}\ \text{m/yr} \div 3.156 \times 10^{7}\ \text{s/yr} = 3.30 \times 10^{4}$ m/s $= 33.0$ km/s. Total $\sqrt{33.0^{2} + 16.68^{2}} = 37.0$ km/s. One degree: $3600/1.907 = 1890$ years.
+</Solution>
+</Problem>
+
+<Problem n={9} level="medium" book>
+How bright would our Sun ($M = 4.83$) look from 40 Eridani, 5.010 pc away? Could Rocky's people have seen it, if they had eyes?
+
+<Solution>
+$m = 4.83 + 5\log_{10}(0.5010) = 4.83 - 1.50 = 3.33$: a clear naked-eye star, brighter than the 6.5 limit. (Erid's dark skies and the Eridians' lack of eyes are another matter.)
+</Solution>
+</Problem>
+
+<Problem n={10} level="challenging" book>
+Using the three distances Sun–Tau Ceti 11.912 ly, Sun–40 Eridani 16.340 ly and Tau Ceti–40 Eridani 10.076 ly, find the angle at Tau Ceti between the directions to the Sun and to 40 Eridani. What does it mean for Grace and Rocky?
+
+<Solution>
+Law of cosines with the angle at Tau Ceti opposite the 16.340 side: $\cos A = (11.912^{2} + 10.076^{2} - 16.340^{2})/(2 \times 11.912 \times 10.076) = (141.9 + 101.5 - 267.0)/240.1 = -0.098$, so $A = 95.6°$. In Adrian's sky, Grace's Sun and Rocky's 40 Eridani are almost at right angles to each other.
+</Solution>
+</Problem>
+
+<Problem n={11} level="challenging">
+The angle $\theta$ between two directions $(\alpha_{1}, \delta_{1})$ and $(\alpha_{2}, \delta_{2})$ satisfies $\cos\theta = \sin\delta_{1}\sin\delta_{2} + \cos\delta_{1}\cos\delta_{2}\cos(\alpha_{2} - \alpha_{1})$. Show this by applying the law of cosines to two stars at the same distance $d = 1$, and use it to find the angle between Tau Ceti and 40 Eridani in our sky.
+
+<Solution>
+With $d = 1$ the 3D distance squared is $(\cos\delta_{2}\cos\alpha_{2} - \cos\delta_{1}\cos\alpha_{1})^{2} + (\cos\delta_{2}\sin\alpha_{2} - \cos\delta_{1}\sin\alpha_{1})^{2} + (\sin\delta_{2} - \sin\delta_{1})^{2}$. Expanding and using $\sin^{2} + \cos^{2} = 1$ twice gives $2 - 2[\cos\delta_{1}\cos\delta_{2}(\cos\alpha_{1}\cos\alpha_{2} + \sin\alpha_{1}\sin\alpha_{2}) + \sin\delta_{1}\sin\delta_{2}]$, and $\cos\alpha_{1}\cos\alpha_{2} + \sin\alpha_{1}\sin\alpha_{2} = \cos(\alpha_{2} - \alpha_{1})$. The law of cosines with $a = b = 1$ says the same distance squared is $2 - 2\cos\theta$, which proves the formula. Numbers: $\sin(-15.937°)\sin(-7.653°) = 0.0366$; $0.9616 \times 0.9911 \times \cos 37.801° = 0.7530$; $\cos\theta = 0.7896$, $\theta = 37.9°$.
+</Solution>
+</Problem>
+
+<Problem n={12} level="challenging" book>
+Tau Ceti's apparent magnitude is 3.50. Using the distance modulus, find its absolute magnitude, and from the difference with the Sun's 4.83 estimate its luminosity in visible light as a fraction of the Sun's. Compare with Chapter 8.4.
+
+<Solution>
+$M = 3.50 - 5\log_{10}(3.6522/10) = 3.50 + 2.19 = 5.69$. $L/L_{\odot} = 10^{-0.4(5.69 - 4.83)} = 10^{-0.344} = 0.45$. Chapter 8.4 found 0.454 to 0.52 for the total luminosity; Tau Ceti is cooler than the Sun, so its share of visible light is slightly smaller, but the agreement is good.
+</Solution>
+</Problem>
+
+<Problem n={13} level="challenging" book>
+How fast would a probe have to coast from Tau Ceti to Earth to arrive just one month (1/12 year) after a radio message sent at the same moment? What would its Lorentz factor be?
+
+<Solution>
+$t = 11.912/\beta = 11.912 + 0.0833$ years, so $\beta = 11.912/11.995 = 0.99305$. $\gamma = 1/\sqrt{1 - 0.99305^{2}} = 8.5$. Getting there would take a far bigger fuel ratio than the Beetles carry.
+</Solution>
+</Problem>
+
+## Summary
+
+- A light-year, $9.4607 \times 10^{15}$ m, is the distance light travels in a Julian year. Distances in light-years are also light travel times: we see Tau Ceti as it was 11.9 years ago, and no message can come from there faster.
+- Parallax gives distance: $d = 1\ \text{au}/p$. With $p$ in arcseconds, $d$ in parsecs is just $1/p$; one parsec is 3.2616 ly. The fractional distance error equals the fractional parallax error, so Tau Ceti is $11.912 \pm 0.007$ ly away.
+- Right ascension, declination and distance place a star in 3D. Distances between stars follow from Pythagoras, or from the law of cosines $D^{2} = a^{2} + b^{2} - 2ab\cos\theta$. Tau Ceti and 40 Eridani are 10.1 ly apart.
+- Magnitudes are logarithmic: 5 magnitudes is a factor of 100, and bigger means fainter. The absolute magnitude is the magnitude at 10 pc, and $m - M = 5\log_{10}(d/10\ \text{pc})$. Our Sun would shine at magnitude 2.6 in Adrian's sky.
+- Stars move: proper motion $\mu = v_{\text{t}}/d$ across the sky, radial velocity from the Doppler shift.
+- The Beetles, at 0.93c, reach Earth 12.8 years after launch, 0.9 years behind light.
+
+**Formulas from this chapter**
+
+$$
+1\ \text{ly} = 9.4607 \times 10^{15}\ \text{m} \qquad d_{\text{pc}} = \frac{1}{p''} \qquad \frac{\Delta d}{d} = \frac{\Delta p}{p} \qquad D^{2} = a^{2} + b^{2} - 2ab\cos\theta \qquad m - M = 5\log_{10}\frac{d}{10\ \text{pc}} \qquad v_{\text{t}} = \mu d
+$$
+
+## Sources
+
+- The light-year as $c$ times the Julian year: IAU, as used in [Chapter 0.1](/part-0/scientific-notation/); the speed of light: [NIST CODATA](https://physics.nist.gov/cgi-bin/cuu/Value?c). The astronomical unit, 149 597 870 700 m: IAU 2012 Resolution B2. Moon's distance: NASA, [Moon fact sheet](https://nssdc.gsfc.nasa.gov/planetary/factsheet/moonfact.html); Jupiter's orbit, 778.479 million km: NASA, [Jupiter fact sheet](https://nssdc.gsfc.nasa.gov/planetary/factsheet/jupiterfact.html).
+- The parsec as exactly 648 000/π au, 3.0857 × 10¹⁶ m, 3.2616 ly: Wikipedia, ["Parsec"](https://en.wikipedia.org/wiki/Parsec) (IAU 2015 Resolution B2).
+- Tau Ceti: Gaia DR3 parallax 273.8097 mas, position (RA 01h 44m 04.083s, Dec −15° 56′ 14.93″), apparent magnitude 3.50, absolute magnitude 5.69, radial velocity −16.68 km/s and proper motion 1.907″ per year (about 1900 years per degree): Wikipedia, ["Tau Ceti"](https://en.wikipedia.org/wiki/Tau_Ceti). The parallax uncertainty ±0.1701 mas: SIMBAD, as in [Chapter 0.1](/part-0/scientific-notation/).
+- 40 Eridani A: Gaia DR3 parallax 199.6080 mas, position (RA 04h 15m 16.32s, Dec −07° 39′ 10.33″): Wikipedia, ["40 Eridani"](https://en.wikipedia.org/wiki/40_Eridani). Proxima Centauri, 768 mas and 4.2465 ly: Wikipedia, ["Proxima Centauri"](https://en.wikipedia.org/wiki/Proxima_Centauri).
+- Bessel's 1838 parallax of 61 Cygni (about 10.4 ly; actual about 11.4 ly, parallax 285 mas): Wikipedia, ["61 Cygni"](https://en.wikipedia.org/wiki/61_Cygni) and ["Stellar parallax"](https://en.wikipedia.org/wiki/Stellar_parallax). Bessel's 0.314″ is the commonly quoted value and reproduces his 10.4 ly.
+- Gaia's parallax accuracy of a few tens of microarcseconds for bright stars: Wikipedia, ["Gaia (spacecraft)"](https://en.wikipedia.org/wiki/Gaia_(spacecraft)).
+- Magnitudes: Pogson's 1856 definition (factor 100 in five magnitudes), Sirius −1.46, the naked-eye limit about +6.5, the Sun −26.8: Wikipedia, ["Apparent magnitude"](https://en.wikipedia.org/wiki/Apparent_magnitude). The Sun's absolute visual magnitude +4.83: Wikipedia, ["Absolute magnitude"](https://en.wikipedia.org/wiki/Absolute_magnitude).
+- The novel: Rocky's star model with a filament from Tau Ceti to 40 Eridani, and the system 16 light-years from Earth: Readify reader wiki, ["40 Eridani"](https://readifyai.com/en/books/Project%20Hail%20Mary/wiki/40%20Eridani). The Beetles (500 g, 0.93c, 120 kg of Astrophage each, about twenty months of their own time): Readify reader wiki, ["Beetles"](https://readifyai.com/en/books/Project%20Hail%20Mary/wiki/Beetles). Reader sources, so approximate.

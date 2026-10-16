@@ -1,0 +1,89 @@
+---
+// Simulation: a planet's magnetic shield, in its equatorial plane, where a dipole field points straight out of the
+// plane and falls as B = B₀(R/r)³. A row of 16 cosmic-ray protons comes in from the left with the chosen rigidity
+// (GV, log slider). Each path bends with curvature 1/r_g = cB/(rigidity); in units of the planet radius,
+// dθ/ds = −κ/r³ with κ = cB₀R/(rigidity), integrated in small steps (positive charge, field out of the page).
+// Worlds: Earth (cB₀R = 59.2 GV), Erid as the novel describes it (25× Earth's field, 2× its radius: 50× = 2960 GV),
+// and Mars (no global field). Readout: proton kinetic energy, gyroradius in the surface field, hits, and the Størmer
+// vertical cutoff cB₀R/4. Static: recomputes on input.
+---
+
+<div
+	class="sim msh"
+	data-title="Magnetic shield"
+	data-description="Watch a planet's magnetic field turn away cosmic rays. The view is the planet's equatorial plane, where its dipole field points straight out of the page and weakens as one over distance cubed. Sixteen protons arrive side by side from the left with the rigidity you choose (momentum per charge, from 0.1 to 10 000 gigavolts). Choose Earth, Erid as the novel describes it (a field 25 times Earth's on a planet twice Earth's size) or Mars, which has no global field. Paths that reach the surface are drawn red; deflected ones blue. The readout gives each proton's kinetic energy, its gyroradius in the surface field, how many of the sixteen hit, and the Størmer cutoff for particles arriving straight down at the equator, a quarter of c times the surface field times the planet's radius."
+>
+	<p class="sim-title">Simulation: the magnetic shield</p>
+	<p class="sim-help">Lower the rigidity until the field turns every proton away. Then switch to Erid.</p>
+	<div class="sim-controls">
+		<label>World <select class="msh-w">
+			<option value="59.21" selected>Earth</option>
+			<option value="2960.5">Erid (novel: 25× field, 2× radius)</option>
+			<option value="0">Mars (no global field)</option>
+		</select></label>
+		<label>Rigidity <input type="range" class="msh-r" min="-1" max="4" step="0.01" value="1.3" /> <output class="msh-rv"></output></label>
+	</div>
+	<svg class="dg msh-svg" viewBox="0 0 600 300" role="img" aria-label="Paths of sixteen protons approaching a planet from the left in its equatorial plane, bent by its magnetic field"></svg>
+	<div class="readout msh-out" aria-live="polite"></div>
+</div>
+
+<script>
+	document.querySelectorAll<HTMLElement>('.sim.msh').forEach((root) => {
+		const q = <T extends Element>(s: string) => root.querySelector<T>(s)!;
+		const svg = q<SVGSVGElement>('.msh-svg'), out = q<HTMLElement>('.msh-out');
+		const Ws = q<HTMLSelectElement>('.msh-w'), Rs = q<HTMLInputElement>('.msh-r');
+		const NS = 'http://www.w3.org/2000/svg';
+		const el = (tag: string, at: Record<string, string | number>, text?: string) => {
+			const e = document.createElementNS(NS, tag);
+			Object.entries(at).forEach(([k, v]) => e.setAttribute(k, String(v)));
+			if (text) e.textContent = text;
+			svg.append(e);
+			return e;
+		};
+		const CX = 330, CY = 150, S = 26, MP = 938.272; // px per planet radius; proton rest energy, MeV
+		el('text', { x: 20, y: 18, class: 't-sm f-muted' }, 'field out of the page (equatorial plane)');
+		for (let x = 40; x < 600; x += 60) for (let y = 40; y < 290; y += 50) el('circle', { cx: x, cy: y, r: 1.6, class: 'f-muted' });
+		const N = 16, y0s = Array.from({ length: N }, (_, i) => -4.5 + (9 * i) / (N - 1));
+		const paths = y0s.map(() => el('polyline', { fill: 'none', class: 's-sky w2' }));
+		el('circle', { cx: CX, cy: CY, r: S, class: 'f-amber' });
+		const lab = el('text', { x: CX, y: CY + 4, class: 't-mid t-sm t-b' }, ' ');
+		const labN = document.createTextNode(''); lab.textContent = ''; lab.append(labN);
+		el('text', { x: 580, y: 18, class: 't-end t-sm f-muted' }, 'planet and paths to the same scale');
+		const fmt = (x: number) => (x >= 1e4 || x < 0.01 ? x.toExponential(2) : x.toPrecision(3));
+		function draw() {
+			const k0 = +Ws.value; // cB₀R in GV
+			const rig = 10 ** +Rs.value; // GV
+			q('.msh-rv').textContent = `${fmt(rig)} GV`;
+			const name = Ws.options[Ws.selectedIndex].text.split(' ')[0];
+			if (labN.nodeValue !== name) labN.nodeValue = name;
+			const kappa = k0 / rig;
+			let hits = 0;
+			y0s.forEach((y0, i) => {
+				let x = -12, y = y0, th = 0;
+				const pts: string[] = [];
+				let hit = false;
+				for (let n = 0; n < 9000; n++) {
+					const r = Math.hypot(x, y);
+					const ds = Math.min(0.05, Math.max(0.004, 0.02 * r ** 3 / Math.max(kappa, 1e-9)));
+					if (n % 2 === 0) pts.push(`${(CX + x * S).toFixed(1)},${(CY - y * S).toFixed(1)}`);
+					if (r < 1) { hit = true; break; }
+					if (x > 10.5 || Math.abs(y) > 5.6 || x < -12.5) break;
+					th -= (kappa / r ** 3) * ds;
+					x += Math.cos(th) * ds; y += Math.sin(th) * ds;
+				}
+				pts.push(`${(CX + x * S).toFixed(1)},${(CY - y * S).toFixed(1)}`);
+				paths[i].setAttribute('points', pts.join(' '));
+				paths[i].setAttribute('class', hit ? 's-rose w2' : 's-sky w2');
+				if (hit) hits++;
+			});
+			const K = Math.sqrt((rig * 1000) ** 2 + MP * MP) - MP; // MeV
+			const rg = k0 > 0 ? rig / k0 : Infinity;
+			out.innerHTML =
+				`<span class="k">rigidity</span> ${fmt(rig)} GV &nbsp; <span class="k">a proton has</span> K = ${K >= 1000 ? fmt(K / 1000) + ' GeV' : fmt(K) + ' MeV'} &nbsp; <span class="k">gyroradius in the surface field</span> ${isFinite(rg) ? fmt(rg) + ' planet radii' : 'infinite (no field)'}<br>` +
+				`<span class="k">reach the surface</span>: ${hits} of ${N} &nbsp; <span class="k">vertical cutoff at the equator</span> cB₀R/4 = ${k0 > 0 ? fmt(k0 / 4) + ' GV' : '0 (no shield)'}`;
+		}
+		Ws.addEventListener('change', draw); Ws.addEventListener('input', draw);
+		Rs.addEventListener('input', draw);
+		draw();
+	});
+</script>

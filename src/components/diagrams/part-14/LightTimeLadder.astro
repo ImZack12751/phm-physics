@@ -1,0 +1,43 @@
+---
+// Light travel times on a log scale (seconds): Moon 1.28 s, Sun 499 s, Jupiter (from the Sun) 2597 s,
+// Proxima 4.2465 ly, Tau Ceti 11.912 ly, 40 Eridani 16.34 ly. Time unit marks below the axis.
+const yr = 365.25 * 86400, c = 299792458;
+const L = 190, R = 575, T = 26, H = 30;
+const lo = -0.5, hi = 9.2;
+const X = (s: number) => L + ((Math.log10(s) - lo) / (hi - lo)) * (R - L);
+const bars = [
+	{ n: 'Moon', s: 3.844e8 / c, t: '1.3 s', c: 'muted' },
+	{ n: 'Sun', s: 149597870700 / c, t: '8.3 min', c: 'amber' },
+	{ n: 'Jupiter (from the Sun)', s: 778.479e9 / c, t: '43 min', c: 'amber' },
+	{ n: 'Proxima Centauri', s: 4.2465 * yr, t: '4.2 yr', c: 'sky' },
+	{ n: 'Tau Ceti', s: 11.912 * yr, t: '11.9 yr', c: 'rose' },
+	{ n: '40 Eridani (Erid)', s: 16.34 * yr, t: '16.3 yr', c: 'violet' },
+];
+const B = T + bars.length * H;
+const marks = [
+	{ s: 1, t: '1 s' },
+	{ s: 60, t: '1 min' },
+	{ s: 3600, t: '1 h' },
+	{ s: 86400, t: '1 day' },
+	{ s: yr, t: '1 yr' },
+];
+---
+
+<svg class="dg" viewBox="0 0 600 260" xmlns="http://www.w3.org/2000/svg">
+	{marks.map((m) => (
+		<>
+			<line x1={X(m.s)} y1={T - 4} x2={X(m.s)} y2={B} class="s-grid w1" />
+			<text x={X(m.s)} y={B + 16} class="t-mid t-sm f-muted">{m.t}</text>
+		</>
+	))}
+	{bars.map((b, i) => (
+		<>
+			<text x={L - 8} y={T + i * H + 19} class="t-end t-sm">{b.n}</text>
+			<rect x={L} y={T + i * H + 6} width={X(b.s) - L} height={H - 12} class={`f-${b.c}`} />
+			{X(b.s) > 500
+				? <text x={X(b.s) - 6} y={T + i * H + 20} class="t-end t-sm t-b halo">{b.t}</text>
+				: <text x={X(b.s) + 6} y={T + i * H + 20} class="t-sm halo">{b.t}</text>}
+		</>
+	))}
+	<text x={(L + R) / 2} y={B + 40} class="t-mid t-sm">time for light to arrive from Earth (logarithmic)</text>
+</svg>

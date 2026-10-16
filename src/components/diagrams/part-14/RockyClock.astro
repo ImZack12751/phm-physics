@@ -1,0 +1,34 @@
+---
+// Rocky's five-window clock drawn with our digits (the novel uses Eridian symbols). It shows 22031 in base six:
+// place values 6⁴ = 1296, 6³ = 216, 6² = 36, 6, 1 under each window; the sum 3043 Eridian seconds ≈ 2 hours.
+const digits = [2, 2, 0, 3, 1];
+const place = ['6⁴ = 1296', '6³ = 216', '6² = 36', '6¹ = 6', '6⁰ = 1'];
+const vals = [1296, 216, 36, 6, 1];
+const W = 78, G = 22, X0 = (600 - (5 * W + 4 * G)) / 2, Y0 = 50;
+const head = (x1: number, y1: number, x2: number, y2: number, s = 8) => {
+	const a = Math.atan2(y2 - y1, x2 - x1), c = Math.cos(a), n = Math.sin(a);
+	return `${x2},${y2} ${x2 - s * c + (s / 2) * n},${y2 - s * n - (s / 2) * c} ${x2 - s * c - (s / 2) * n},${y2 - s * n + (s / 2) * c}`;
+};
+---
+
+<svg class="dg" viewBox="0 0 600 290" xmlns="http://www.w3.org/2000/svg">
+	<rect x={X0 - 18} y={Y0 - 22} width={5 * W + 4 * G + 36} height={W + 44} rx="30" class="f-muted" opacity="0.35" />
+	{digits.map((d, i) => {
+		const x = X0 + i * (W + G);
+		return (
+			<>
+				<rect x={x} y={Y0} width={W} height={W} rx="6" class="f-bg" />
+				<rect x={x} y={Y0} width={W} height={W} rx="6" class="s-amber w2" fill="none" />
+				<text x={x + W / 2} y={Y0 + W / 2 + 14} class="t-mid t-lg t-b">{d}</text>
+				<text x={x + W / 2} y={Y0 + W + 42} class="t-mid t-sm">{place[i]}</text>
+				<text x={x + W / 2} y={Y0 + W + 60} class="t-mid t-sm f-sky">{d} × {vals[i]}</text>
+				<text x={x + W / 2} y={Y0 + W + 78} class="t-mid t-sm f-sky t-b">= {d * vals[i]}</text>
+			</>
+		);
+	})}
+	<text x="300" y="20" class="t-mid t-sm t-b">a five-window base-six counter, read left to right</text>
+	<path d={`M ${X0 + 4 * (W + G) + W / 2} ${Y0 + W + 92} Q ${X0 + 3.5 * (W + G) + W / 2} ${Y0 + W + 112} ${X0 + 3 * (W + G) + W / 2 + 8} ${Y0 + W + 96}`} class="s-rose w2" fill="none" />
+	<polygon points={head(X0 + 3 * (W + G) + W / 2 + 20, Y0 + W + 104, X0 + 3 * (W + G) + W / 2 + 6, Y0 + W + 95)} class="f-rose" />
+	<text x={X0 + 4 * (W + G) + W + 4} y={Y0 + W + 112} class="t-end t-sm f-rose">after 5 comes 0, and one carries left</text>
+	<text x="300" y="276" class="t-mid t-sm">22031₆ = 2592 + 432 + 0 + 18 + 1 = 3043 Eridian seconds ≈ 7200 s = 2 hours</text>
+</svg>

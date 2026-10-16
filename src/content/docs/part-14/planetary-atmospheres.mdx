@@ -1,0 +1,402 @@
+---
+title: Planetary atmospheres
+description: Why some worlds keep their air and others lose it. Escape speed against molecular speed, the spread of speeds and its fast tail, the six-times rule and a critical temperature for each gas, why Earth has almost no hydrogen or helium, how Titan and the novel's Threeworld can hold air, Adrian's carbon dioxide and methane, Venus's lost ocean, and why temperature falls with height (the lapse rate, derived).
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import SpeedSpread from '../../../components/diagrams/part-14/SpeedSpread.astro';
+import RetentionChart from '../../../components/diagrams/part-14/RetentionChart.astro';
+import LapseProfile from '../../../components/diagrams/part-14/LapseProfile.astro';
+import AtmosphereKeeper from '../../../components/sims/AtmosphereKeeper.astro';
+
+## The scene
+
+Rocky has spent decades alone at Tau Ceti, and he has used the time to survey its planets: their sizes, their orbits and what their air is made of. One of them, which Grace names Adrian, is a pale green super-Earth hidden under a thick atmosphere of carbon dioxide with a surprising amount of methane. Methane shouldn't last long in starlight, so something must keep making it. That clue leads Grace and Rocky to life on Adrian, and to Taumoeba.
+
+Rocky's home system has its own Astrophage breeding ground, a small world Grace calls Threeworld, about the size of our Moon with a fifth of Earth's gravity. Our Moon has no air at all, yet Threeworld somehow holds on to a thin atmosphere of carbon dioxide with some nitrogen. To design a Taumoeba that can live there, Grace needs to know what that air is like where Astrophage breed.
+
+Why do some worlds have thick atmospheres and others none? And why does the air get colder as you climb? This chapter answers both.
+
+## Prerequisites
+
+<Prereqs notes={{ 'escape-velocity': 'the speed needed to leave a planet for good', 'temperature-heat': 'molecular speeds, v_rms = √(3kT/m), and the first law', 'gas-laws': 'PV = NkT, molar mass and the barometric formula', 'speed-of-sound': 'adiabatic changes and degrees of freedom, U = (f/2)PV', 'partial-pressure': 'the compositions of Venus, Earth and Mars', 'greenhouse-effect': 'why methane and carbon dioxide matter' }} />
+
+## The concept
+
+### A gallery of atmospheres
+
+| World | Surface pressure | Main gases | Surface gravity | Temperature |
+|---|---|---|---|---|
+| Venus | 92 bar | CO₂ 96.5%, N₂ 3.5% | 8.87 m/s² | 737 K |
+| Earth | 1.01 bar | N₂ 78%, O₂ 21% | 9.82 m/s² | 288 K |
+| Mars | 0.006 bar | CO₂ 95%, N₂ 2.6% | 3.73 m/s² | 214 K |
+| Titan (Saturn's moon) | 1.47 bar | N₂ 98%, CH₄ 1.4% | 1.35 m/s² | 94 K |
+| Moon, Mercury | essentially none | – | 1.62, 3.70 m/s² | up to 390 K, 700 K |
+| Adrian (novel) | thick | CO₂ 91%, CH₄ 7%, Ar 1% | about 1.4 to 1.5 g | – |
+| Erid (novel) | 29 atm | NH₃ | 20.48 m/s² | 483 K |
+| Threeworld (novel) | thin | CO₂ 84%, N₂ 8%, SO₂ 4% | 0.2 g | 191 K where Astrophage breed |
+
+Chapter 12.2 showed how the pressure of an atmosphere falls with height, $P = P_{0}e^{-h/H}$, with scale height $H = kT/mg$. But it took for granted that the air was there. Whether a world has air at all is a contest between two speeds.
+
+### Escape speed against molecular speed
+
+Chapter 4.4 found the speed needed to leave a planet for good, $v_{\text{esc}} = \sqrt{2GM/R}$: 11.2 km/s for Earth, 2.38 km/s for the Moon. It doesn't depend on what is escaping. A rocket or a molecule needs the same speed.
+
+Chapter 6.1 found how fast molecules move: their <Term id="rms-speed">root-mean-square speed</Term> is $v_{\text{rms}} = \sqrt{3kT/m}$. For nitrogen at room temperature that is about 0.5 km/s, far below Earth's escape speed. So why would any gas ever escape?
+
+### The fast few
+
+Molecules don't all move at the rms speed. They keep colliding, trading energy, and at any moment some are slow and a few are very fast. James Clerk Maxwell worked out the spread in 1860. The chance of a molecule having a large energy $E$ falls off as $e^{-E/kT}$, the same <Term id="boltzmann-factor">Boltzmann factor</Term> that appeared in the barometric formula of Chapter 12.2, where $E = mgh$. For speeds, $E = \tfrac{1}{2}mv^{2}$, so the fast tail dies away like $e^{-mv^{2}/2kT}$: extremely fast, but never quite to zero.
+
+<Figure caption="The spread of molecular speeds at 1000 K, about the temperature of Earth's upper atmosphere. Nitrogen molecules are slow and tightly bunched; hydrogen molecules, 14 times lighter, are faster and much more spread out, and a real fraction of them beat Earth's escape speed." alt="A graph of how many molecules have each speed, from 0 to 14 kilometres per second, at 1000 kelvin. The nitrogen curve is a tall narrow hump peaking near 0.8 kilometres per second and falling to almost nothing by 3. The hydrogen curve is a low broad hump peaking near 2.9 kilometres per second and stretching past 10. A dashed vertical line at 11.2 kilometres per second marks Earth's escape speed. A short dashed line at 5.7 kilometres per second marks six times the rms speed of nitrogen. A note says six times the rms speed of hydrogen, 21 kilometres per second, is off the chart.">
+	<SpeedSpread />
+</Figure>
+
+High in an atmosphere, in a region called the <Term id="exosphere">exosphere</Term>, the air is so thin that a molecule moving upward fast enough can leave without hitting anything. The fast few slip away, collisions below create new fast ones, and over millions of years the leak adds up. This slow thermal leak is called <Term id="jeans-escape">Jeans escape</Term>, after James Jeans.
+
+### The six-times rule
+
+How much faster than average must the escape speed be for a gas to stay put for billions of years? Calculations of the leak give a useful rule of thumb: a planet keeps a gas if
+
+$$
+v_{\text{esc}} \ge 6\,v_{\text{rms}}.
+$$
+
+Six may not sound like much, but energy goes as speed squared. A molecule at $6v_{\text{rms}}$ has $36$ times the average kinetic energy, $36 \times \tfrac{3}{2}kT = 54kT$, and the Boltzmann factor $e^{-54}$ is about $4 \times 10^{-24}$. Halve the ratio to three and the factor becomes $e^{-13.5}$, about $10^{-6}$: some $4 \times 10^{17}$ times leakier. The rule is rough, but the cliff is so steep that the exact number hardly matters.
+
+Squaring the rule gives each gas a <Term id="critical-temperature-escape">critical temperature</Term>, above which the world loses it:
+
+$$
+T_{\text{c}} = \frac{m\,v_{\text{esc}}^{2}}{108\,k}.
+$$
+
+Light molecules have low critical temperatures and go first. Heavy ones stay.
+
+<Figure caption="Which worlds keep which gases. Each line shows six times a gas's rms speed as the temperature rises; each dot is a world's escape speed at a typical temperature of its upper air. A world keeps every gas whose line passes below its dot. Earth keeps nitrogen and carbon dioxide but not hydrogen or helium; the Moon keeps nothing; Titan and Threeworld keep heavy gases only because they are cold; Jupiter keeps everything." alt="A log-log chart. Horizontal axis: temperature of the upper atmosphere from 50 to 3000 kelvin. Vertical axis: speed from 0.5 to 80 kilometres per second. Four rising straight lines show six times the rms speed of hydrogen (highest), helium, nitrogen and carbon dioxide (lowest). Dots mark worlds: Jupiter near 60 kilometres per second at 110 kelvin, above all lines; Erid at 23 kilometres per second, 483 kelvin; Adrian at 17 kilometres per second, 288 kelvin; Earth at 11.2 kilometres per second, 1000 kelvin, below the hydrogen and helium lines but above nitrogen; Mars at 5 kilometres per second, 214 kelvin; Mercury at 4.25 kilometres per second, 700 kelvin, just below the nitrogen line; Titan at 2.6 kilometres per second, 94 kelvin, above the nitrogen line; Threeworld at 2.6 kilometres per second, 191 kelvin, just above the nitrogen line; the Moon at 2.4 kilometres per second, 390 kelvin, below the nitrogen and carbon dioxide lines.">
+	<RetentionChart />
+</Figure>
+
+### The temperature that matters is high up
+
+Which temperature goes into the rule? Not the surface's, but the temperature where molecules actually escape, at the top. On Earth that is surprisingly hot. Above about 85 km the thin air absorbs the Sun's ultraviolet and X-rays directly and heats up to about 1000 K, and to 2000 °C or more when the Sun is active, even though there is so little of it that it would feel cold.
+
+At 1000 K, six times hydrogen's rms speed is 21 km/s and helium's 15 km/s, both above Earth's 11.2 km/s (Example 2). That is why our air holds only 0.55 parts per million of hydrogen and 5.24 of helium, even though helium is made all the time by radioactive decay in rocks (Chapter 13.2): the heavier but rarer neon is more than three times as common. Jupiter, with an escape speed of 60 km/s, has kept its hydrogen and helium from the birth of the Solar System; they are 90% and 10% of its air.
+
+The Moon is the opposite case. With an escape speed of 2.38 km/s and a dayside at 390 K, it can't even keep carbon dioxide (Example 1). Saturn's moon Titan has almost the same escape speed, but at 94 K its molecules are so slow that it keeps a nitrogen atmosphere thicker than Earth's. Cold makes the difference.
+
+That is how Threeworld can do it (Example 3). With the Moon's size and a fifth of Earth's gravity, its escape speed is 2.6 km/s. As long as its upper air stays colder than about 330 K it can keep carbon dioxide, and below about 210 K even nitrogen, which is why it is a borderline case. Our Moon is hotter and, in any case, never had much gas to hold. Other processes also strip atmospheres, especially from small worlds without a magnetic field: the Sun's wind of fast charged particles can blow the upper air away (Chapter 14.3). That is a leading explanation for how Mars lost most of its air.
+
+### Escape sorts atoms by mass
+
+Escape is selective even within one element. Deuterium, hydrogen's heavy isotope (Chapter 13.2), has twice the mass, so it moves $\sqrt{2}$ times slower and leaks much more slowly. A planet that loses lots of hydrogen is left enriched in deuterium. In Venus's air the ratio of deuterium to hydrogen is about a hundred times Earth's. The likely story: Venus once had much more water, sunlight split it, and the hydrogen escaped, leaving the deuterium behind. Venus lost an ocean through its roof.
+
+### Why the air gets colder as you climb
+
+Climb a mountain and it gets colder, about 6.5 °C per kilometre on average. The reason is the same physics that makes a bicycle pump's air warm when compressed (Chapter 11.3), run backwards. A parcel of air that rises meets lower pressure, so it expands. Expanding, it pushes the surrounding air away and does work. With no time to exchange heat with its surroundings, that energy comes out of its own internal energy, so it cools. This is an <Term id="adiabatic-process">adiabatic</Term> change.
+
+The temperature drop per kilometre is the <Term id="lapse-rate">lapse rate</Term>. For dry air it comes out (in the Formulas) as
+
+$$
+\Gamma = \frac{g}{c_{p}} = 9.8\ \text{K/km},
+$$
+
+where $c_{p}$ is the heat needed to warm a kilogram of the gas by one kelvin at constant pressure. Real air usually cools more slowly, about 6.5 K/km, because as it cools its water vapour condenses into clouds and releases latent heat (Chapter 6.2). The cooling stops at the <Term id="tropopause">tropopause</Term>, about 11 km up, where sunlight absorbed by ozone starts to warm the air again.
+
+<Figure caption="Temperature against height in Earth's lower atmosphere. Dry rising air cools at 9.8 K per kilometre; the standard atmosphere, averaged over real moist air, cools at 6.5 K per kilometre up to the tropopause at 11 km. A rising parcel expands into the lower pressure above and cools because it does work." alt="A graph with temperature from 180 to 300 kelvin on the horizontal axis and height from 0 to 14 kilometres on the vertical axis. A dashed line falls from 288 kelvin at the ground at 9.8 kelvin per kilometre, labelled dry air. A thicker line falls more gently at 6.5 kelvin per kilometre to 216.65 kelvin at 11 kilometres, the tropopause, and then stays vertical. On the left, a small circle labelled warm at the bottom and a larger circle labelled cooler higher up, joined by an upward arrow, with the text: a rising parcel expands and does work, so it cools; lower pressure up here.">
+	<LapseProfile />
+</Figure>
+
+On Erid the same physics gives about 10.5 K per kilometre (Example 5): stronger gravity, but ammonia also needs more heat per kilogram. On Adrian, under carbon dioxide, dry air would cool by about 18 K per kilometre. That is why Grace needs the temperature at the right height: where Astrophage breed, at about 0.02 atm, the air is far colder than on the ground.
+
+## Formulas
+
+### The six-times rule and the critical temperature
+
+Square both sides of $v_{\text{esc}} \ge 6v_{\text{rms}}$ and use $v_{\text{rms}}^{2} = 3kT/m$:
+
+$$
+v_{\text{esc}}^{2} \ge 36 \times \frac{3kT}{m} = \frac{108\,kT}{m} \qquad\Rightarrow\qquad \boxed{T \le T_{\text{c}} = \frac{m\,v_{\text{esc}}^{2}}{108\,k}}
+$$
+
+With $v_{\text{esc}}^{2} = 2GM/R$ this is also $T_{\text{c}} = GMm/(54\,kR)$: the gravitational energy needed to climb out, $GMm/R$, must be at least 54 times $kT$. For a gas of molar mass $M_{\text{mol}}$, $m = M_{\text{mol}}/N_{\text{A}}$ and $k = R/N_{\text{A}}$, so $T_{\text{c}} = M_{\text{mol}}v_{\text{esc}}^{2}/(108\,R)$.
+
+### The lapse rate
+
+Follow a parcel of $N$ molecules, total mass $m_{\text{p}}$, as it rises a small height $dz$ without exchanging heat.
+
+**Energy.** Its internal energy is $U = \tfrac{f}{2}NkT$, where $f$ is the number of degrees of freedom (Chapter 11.3). With no heat in or out, the first law (Chapter 6.1) says the change in $U$ equals minus the work the parcel does as it expands by $dV$:
+
+$$
+\tfrac{f}{2}Nk\,dT = -P\,dV.
+$$
+
+**Gas law.** $PV = NkT$ holds before and after. For small changes, $(P + dP)(V + dV) - PV = P\,dV + V\,dP$ (dropping the tiny product $dP\,dV$), so
+
+$$
+P\,dV + V\,dP = Nk\,dT \qquad\Rightarrow\qquad P\,dV = Nk\,dT - V\,dP.
+$$
+
+**Combine.**
+
+$$
+\tfrac{f}{2}Nk\,dT = -Nk\,dT + V\,dP \qquad\Rightarrow\qquad \left(\tfrac{f}{2} + 1\right)Nk\,dT = V\,dP.
+$$
+
+**Hydrostatics.** The parcel moves to where the pressure is lower by $dP = -\rho g\,dz$ (Chapter 12.1), and $\rho V = m_{\text{p}}$:
+
+$$
+\left(\tfrac{f}{2} + 1\right)Nk\,dT = -m_{\text{p}}g\,dz \qquad\Rightarrow\qquad \frac{dT}{dz} = -\frac{g}{c_{p}} \quad\text{with}\quad c_{p} = \left(\tfrac{f}{2} + 1\right)\frac{Nk}{m_{\text{p}}} = \left(\tfrac{f}{2} + 1\right)\frac{R}{M}.
+$$
+
+$$
+\boxed{\Gamma = -\frac{dT}{dz} = \frac{g}{c_{p}}} \qquad \boxed{c_{p} = \left(\tfrac{f}{2} + 1\right)\frac{R}{M} = \frac{\gamma}{\gamma - 1}\,\frac{R}{M}}
+$$
+
+$c_{p}$ is the <Term id="specific-heat">specific heat</Term> at constant pressure: warming gas at constant pressure takes $\tfrac{f}{2}Nk\,\Delta T$ for the internal energy plus $P\Delta V = Nk\,\Delta T$ for the work of expanding. The second form uses $\gamma = 1 + 2/f$ (Chapter 11.3), handy when $\gamma$ is measured.
+
+## Worked examples
+
+<Example n={1} title="Why the Moon has no air">
+The Moon's escape speed is 2.38 km/s and its dayside reaches 390 K. Can it keep nitrogen (28.01 g/mol)? Carbon dioxide (44.01 g/mol)? Find nitrogen's critical temperature.
+
+$$
+v_{\text{rms}} = \sqrt{\frac{3kT}{m}} = \sqrt{\frac{3 \times 1.381 \times 10^{-23}\ \text{J/K} \times 390\ \text{K}}{28.01 \times 1.661 \times 10^{-27}\ \text{kg}}} = 589\ \text{m/s} \qquad 6v_{\text{rms}} = 3.53\ \text{km/s}
+$$
+
+That beats 2.38 km/s, so nitrogen leaks away. For CO₂, $v_{\text{rms}}$ is smaller by $\sqrt{28.01/44.01}$: $470$ m/s, and $6v_{\text{rms}} = 2.82$ km/s, still too fast.
+
+$$
+T_{\text{c}} = \frac{28.01 \times 1.661 \times 10^{-27}\ \text{kg} \times (2380\ \text{m/s})^{2}}{108 \times 1.381 \times 10^{-23}\ \text{J/K}} = 177\ \text{K}
+$$
+
+The Moon could keep nitrogen only if it were colder than 177 K, about −96 °C, all the time.
+</Example>
+
+<Example n={2} title="Earth's missing hydrogen and helium">
+Earth's escape speed is 11.19 km/s and its upper atmosphere is at about 1000 K. Test H₂ (2.016 g/mol), He (4.003) and N₂ (28.01), and find the critical temperatures of H₂ and He.
+
+$$
+v_{\text{rms}}(\text{H}_2) = \sqrt{\frac{3 \times 1.381 \times 10^{-23} \times 1000}{2.016 \times 1.661 \times 10^{-27}}}\ \text{m/s} = 3.52\ \text{km/s} \qquad 6v_{\text{rms}} = 21.1\ \text{km/s}
+$$
+
+$$
+v_{\text{rms}}(\text{He}) = 3.52\ \text{km/s} \times \sqrt{\frac{2.016}{4.003}} = 2.50\ \text{km/s} \qquad 6v_{\text{rms}} = 15.0\ \text{km/s}
+$$
+
+$$
+v_{\text{rms}}(\text{N}_2) = 3.52\ \text{km/s} \times \sqrt{\frac{2.016}{28.01}} = 0.943\ \text{km/s} \qquad 6v_{\text{rms}} = 5.66\ \text{km/s}
+$$
+
+Hydrogen and helium exceed 11.19 km/s and leak away; nitrogen is safe.
+
+$$
+T_{\text{c}}(\text{H}_2) = \frac{2.016 \times 1.661 \times 10^{-27} \times (11\,190)^{2}}{108 \times 1.381 \times 10^{-23}}\ \text{K} = 281\ \text{K} \qquad T_{\text{c}}(\text{He}) = 281\ \text{K} \times \frac{4.003}{2.016} = 558\ \text{K}
+$$
+
+Earth's upper air is far hotter than either.
+</Example>
+
+<Example n={3} title="How Threeworld keeps its air" book>
+Threeworld is about the size of our Moon ($R = 1737$ km) with surface gravity $0.2g = 1.96$ m/s². Where Astrophage breed its air is at −82 °C (191 K). Find its escape speed, and test CO₂ and N₂ at 191 K. What are their critical temperatures?
+
+Escape speed from $g = GM/R^{2}$: $v_{\text{esc}} = \sqrt{2GM/R} = \sqrt{2gR}$:
+
+$$
+v_{\text{esc}} = \sqrt{2 \times 1.96\ \text{m/s}^{2} \times 1.737 \times 10^{6}\ \text{m}} = 2.61\ \text{km/s}
+$$
+
+$$
+6v_{\text{rms}}(\text{CO}_2) = 6\sqrt{\frac{3 \times 1.381 \times 10^{-23} \times 191}{44.01 \times 1.661 \times 10^{-27}}}\ \text{m/s} = 6 \times 329\ \text{m/s} = 1.97\ \text{km/s}
+$$
+
+$$
+6v_{\text{rms}}(\text{N}_2) = 1.97\ \text{km/s} \times \sqrt{\frac{44.01}{28.01}} = 2.47\ \text{km/s}
+$$
+
+Both are below 2.61 km/s, nitrogen only just.
+
+$$
+T_{\text{c}}(\text{CO}_2) = \frac{44.01 \times 1.661 \times 10^{-27} \times (2610)^{2}}{108 \times 1.381 \times 10^{-23}}\ \text{K} = 334\ \text{K} \qquad T_{\text{c}}(\text{N}_2) = 334\ \text{K} \times \frac{28.01}{44.01} = 213\ \text{K}
+$$
+
+If Threeworld's upper air stays cold, it can keep its carbon dioxide, and nitrogen just barely. A hot upper atmosphere like Earth's would strip it.
+</Example>
+
+<Example n={4} title="Adrian's air" book>
+Rocky measures Adrian as 3.93 Earth masses ($2.347 \times 10^{25}$ kg) with a radius of 10 318 km. Find its surface gravity and escape speed, and the critical temperatures of H₂, He and CH₄ (16.04 g/mol).
+
+$$
+g = \frac{GM}{R^{2}} = \frac{6.674 \times 10^{-11} \times 2.347 \times 10^{25}}{(1.0318 \times 10^{7})^{2}}\ \text{m/s}^{2} = 14.71\ \text{m/s}^{2} = 1.50\,g
+$$
+
+$$
+v_{\text{esc}} = \sqrt{2gR} = \sqrt{2 \times 14.71 \times 1.0318 \times 10^{7}}\ \text{m/s} = 17.42\ \text{km/s}
+$$
+
+$$
+T_{\text{c}}(\text{H}_2) = \frac{2.016 \times 1.661 \times 10^{-27} \times (17\,420)^{2}}{108 \times 1.381 \times 10^{-23}}\ \text{K} = 682\ \text{K} \quad T_{\text{c}}(\text{He}) = 1354\ \text{K} \quad T_{\text{c}}(\text{CH}_4) = 5420\ \text{K}
+$$
+
+Adrian could lose hydrogen from a hot upper atmosphere, but it holds methane with enormous margin. So methane's puzzle isn't escape: ultraviolet light breaks methane apart chemically, and something must keep replacing it. That something is life.
+</Example>
+
+<Example n={5} title="Lapse rates on Earth and Erid" book>
+Find the dry lapse rate for Earth's air ($f = 5$, $M = 0.02897$ kg/mol, $g = 9.807$ m/s²) and for Erid's ammonia ($f = 6$ for a molecule that can turn about all three axes, $M = 0.01703$ kg/mol, $g = 20.48$ m/s²).
+
+$$
+c_{p}(\text{air}) = \tfrac{7}{2} \times \frac{8.314\ \text{J/(mol K)}}{0.02897\ \text{kg/mol}} = 1005\ \text{J/(kg K)} \qquad \Gamma = \frac{9.807\ \text{m/s}^{2}}{1005\ \text{J/(kg K)}} = 9.76 \times 10^{-3}\ \text{K/m} = 9.76\ \text{K/km}
+$$
+
+$$
+c_{p}(\text{NH}_3) = 4 \times \frac{8.314}{0.01703}\ \text{J/(kg K)} = 1953\ \text{J/(kg K)} \qquad \Gamma = \frac{20.48}{1953}\ \text{K/m} = 10.5\ \text{K/km}
+$$
+
+Measured: 9.8 K/km for dry air ✓. Erid's gravity is twice ours, but ammonia molecules are light and have more ways to store energy, so each kilogram needs twice as much heat per kelvin: the two almost cancel.
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** Jeans escape, the speed spread of a gas, the dependence of escape on mass and temperature, the hot thermosphere, the lapse rate and its derivation are standard physics. The six-times rule is a rule of thumb from textbooks, not an exact law. The compositions of Venus, Earth, Mars, Titan and Jupiter, Earth's traces of helium and hydrogen, and Venus's enriched deuterium are measured.
+
+**Weir's inventions.** Adrian (3.93 Earth masses, 10 318 km, 1.4 g, 91% CO₂, 7% methane, 1% argon), Erid (29 atm of ammonia at 210 °C and 20.48 m/s²) and Threeworld (Moon-sized, 0.2 g, 84% CO₂, 8% N₂, 4% SO₂, −82 °C at the 0.02 atm level) are the novel's, from reader sources.
+
+**How realistic are the numbers?** The atmospheres pass the escape test: Adrian and Erid can keep everything but perhaps hydrogen, and Threeworld can keep cold carbon dioxide, with nitrogen just inside the limit, so "somehow" is fair. Adrian's mass and radius give 1.50 g rather than the novel's 1.4 g, a small mismatch (earlier chapters of this course assumed a smaller radius, 9557 km, before we had the novel's figure). Erid's 8.5 Earth masses and twice Earth's radius give 20.9 m/s², close to its 20.48. A reader summary puts Threeworld's surface pressure below 1% of Earth's, but also places Astrophage breeding at the 0.02 atm level; both can't be right, since 0.02 atm would then be underground. Methane at 7% really does demand a source, and life is a good one: on Earth most methane comes from microbes.
+</RealVsBook>
+
+## Interactive simulation
+
+<AtmosphereKeeper />
+
+Things to try: start with Earth at 1000 K and find the temperature at which helium would stay. Switch to the Moon, then to Titan, and compare: almost the same escape speed, very different temperatures. Heat Threeworld until it loses its nitrogen, then its carbon dioxide. Check that Jupiter keeps hydrogen even at 3000 K.
+
+## Practice set
+
+<Problem n={1} level="easy">
+Find the rms speed of nitrogen molecules (28.01 g/mol) at 288 K, and how many times smaller it is than Earth's escape speed of 11.19 km/s.
+
+<Solution>
+$v_{\text{rms}} = \sqrt{3 \times 1.381 \times 10^{-23} \times 288/(28.01 \times 1.661 \times 10^{-27})} = 506$ m/s; $11\,190/506 = 22$ times smaller.
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy">
+Mars's escape speed is 5.03 km/s. Find the critical temperatures for oxygen (32.00 g/mol) and carbon dioxide (44.01 g/mol).
+
+<Solution>
+$T_{\text{c}} = M_{\text{mol}}v_{\text{esc}}^{2}/(108R)$: O₂: $0.032 \times 5030^{2}/(108 \times 8.314) = 901$ K; CO₂: $901 \times 44.01/32.00 = 1239$ K.
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy">
+Find the scale height $H = RT/(Mg)$ of Titan's nitrogen atmosphere at 94 K with $g = 1.352$ m/s², and compare with Earth's 8.5 km.
+
+<Solution>
+$H = 8.314 \times 94/(0.02801 \times 1.352) = 2.06 \times 10^{4}$ m $= 20.6$ km, more than twice Earth's: weak gravity lets the cold air pile up high.
+</Solution>
+</Problem>
+
+<Problem n={4} level="easy">
+Deuterium atoms have twice the mass of ordinary hydrogen atoms. At the same temperature, how do their rms speeds compare? Why does a planet that loses hydrogen become rich in deuterium?
+
+<Solution>
+$v_{\text{rms}} \propto 1/\sqrt{m}$, so deuterium is $\sqrt{2} = 1.41$ times slower. Its fast tail, beyond the escape speed, is far smaller, so ordinary hydrogen escapes much faster and the deuterium left behind grows as a fraction.
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium">
+Use the Boltzmann factor as a guide: compare $e^{-E/kT}$ for molecules with 9 times the average kinetic energy (3 times the rms speed) and with 36 times (6 times the rms speed). How many times rarer are the second?
+
+<Solution>
+Average kinetic energy $\tfrac{3}{2}kT$. Nine times: $E = 13.5kT$, $e^{-13.5} = 1.4 \times 10^{-6}$. Thirty-six times: $E = 54kT$, $e^{-54} = 3.5 \times 10^{-24}$. Ratio $e^{40.5} = 3.9 \times 10^{17}$.
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium" book>
+Erid has 8.5 Earth masses and twice Earth's radius. Find its escape speed (Earth's is 11.19 km/s) and the critical temperatures of ammonia (17.03 g/mol) and hydrogen (2.016 g/mol).
+
+<Solution>
+$v_{\text{esc}} \propto \sqrt{M/R}$: $11.19 \times \sqrt{8.5/2} = 23.1$ km/s. $T_{\text{c}}(\text{NH}_3) = 0.01703 \times 23\,070^{2}/(108 \times 8.314) = 1.01 \times 10^{4}$ K. $T_{\text{c}}(\text{H}_2) = 1.01 \times 10^{4} \times 2.016/17.03 = 1190$ K. Erid holds its ammonia with an enormous margin.
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium">
+Mercury's escape speed is 4.25 km/s and its sunward side reaches about 700 K. Test N₂ and CO₂ with the six-times rule. Mercury has almost no atmosphere: what else might remove one?
+
+<Solution>
+$6v_{\text{rms}}$ at 700 K: N₂ $6 \times \sqrt{3 \times 1.381 \times 10^{-23} \times 700/(28.01 \times 1.661 \times 10^{-27})} = 4.74$ km/s (lost); CO₂ $4.74 \times \sqrt{28.01/44.01} = 3.78$ km/s (kept by this rule). Thermal escape alone doesn't explain Mercury. So close to the Sun, the solar wind and intense ultraviolet strip and break up gas, and small hot worlds may never have had much to start with.
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium">
+Find the dry lapse rate on Mars, for carbon dioxide with $\gamma = 1.30$, $M = 0.04401$ kg/mol and $g = 3.73$ m/s².
+
+<Solution>
+$c_{p} = \gamma/(\gamma - 1) \times R/M = 4.333 \times 8.314/0.04401 = 819$ J/(kg K); $\Gamma = 3.73/819 = 4.6 \times 10^{-3}$ K/m $= 4.6$ K/km.
+</Solution>
+</Problem>
+
+<Problem n={9} level="medium" book>
+Find the dry lapse rate for Adrian's carbon-dioxide air ($c_{p} = 819$ J/(kg K)) with $g = 14.71$ m/s². If the ground were at 300 K, how cold would dry rising air be 5 km up?
+
+<Solution>
+$\Gamma = 14.71/819 = 18.0$ K/km. After 5 km: $300 - 5 \times 18.0 = 210$ K, about −63 °C.
+</Solution>
+</Problem>
+
+<Problem n={10} level="challenging">
+Show that the six-times rule is the same as requiring the energy to escape, $GMm/R$, to be at least $54kT$. Then find the critical temperature for H₂ on Jupiter ($v_{\text{esc}} = 59.5$ km/s), and explain why Jupiter is 90% hydrogen.
+
+<Solution>
+$v_{\text{esc}}^{2} = 2GM/R$ and $v_{\text{rms}}^{2} = 3kT/m$; $v_{\text{esc}}^{2} \ge 36v_{\text{rms}}^{2}$ gives $2GM/R \ge 108kT/m$, i.e. $GMm/R \ge 54kT$. $T_{\text{c}} = 0.002016 \times 59\,500^{2}/(108 \times 8.314) = 7950$ K. Jupiter's upper air is nowhere near that hot, so it has kept the hydrogen and helium it formed from.
+</Solution>
+</Problem>
+
+<Problem n={11} level="challenging" book>
+Threeworld's escape speed is 2.61 km/s. If its upper atmosphere were heated to 300 K, would it keep N₂? CO₂? What does this say about how cold Threeworld's upper air must be?
+
+<Solution>
+At 300 K: $6v_{\text{rms}}(\text{N}_2) = 6 \times \sqrt{3 \times 1.381 \times 10^{-23} \times 300/(28.01 \times 1.661 \times 10^{-27})} = 3.10$ km/s, above 2.61: lost. CO₂: $3.10 \times \sqrt{28.01/44.01} = 2.47$ km/s: kept, but only below 334 K. Threeworld keeps nitrogen only if its upper air stays below about 213 K: much colder than Earth's sunlit thermosphere. Its star, 40 Eridani A, is dimmer than the Sun, which helps.
+</Solution>
+</Problem>
+
+<Problem n={12} level="challenging">
+The standard atmosphere starts at 288.15 K and cools at 6.5 K/km to 11 km. Find the temperature there. What would it be with the dry rate of 9.76 K/km? Why is the real atmosphere warmer up high?
+
+<Solution>
+$288.15 - 6.5 \times 11 = 216.65$ K (−56.5 °C), the standard tropopause. Dry: $288.15 - 9.76 \times 11 = 180.8$ K. Rising moist air releases latent heat as its water vapour condenses, which slows the cooling.
+</Solution>
+</Problem>
+
+<Problem n={13} level="challenging" book>
+Erid's surface is at 483 K. Using a lapse rate of 10.5 K/km, at what height would the air reach 373 K, where water boils at 1 atm? Why might that matter less on Erid than on Earth?
+
+<Solution>
+$(483 - 373)/10.5 = 10.5$ km. On Erid the pressure is 29 atm at the ground, and water's boiling point rises with pressure, so liquid water can exist at the surface even at 483 K, as the novel says. Temperatures alone don't tell you what is liquid; pressures matter too.
+</Solution>
+</Problem>
+
+## Summary
+
+- A world keeps a gas if its escape speed beats the fast tail of the gas's molecular speeds. The tail falls like the Boltzmann factor $e^{-E/kT}$.
+- Rule of thumb: keep the gas if $v_{\text{esc}} \ge 6v_{\text{rms}}$, i.e. if the escape energy is at least $54kT$. Each gas then has a critical temperature $T_{\text{c}} = mv_{\text{esc}}^{2}/108k$; light gases go first.
+- The temperature that matters is in the hot, thin upper atmosphere: about 1000 K on Earth, which is why we have kept nitrogen and oxygen but lost hydrogen and helium. Jupiter keeps everything; the Moon keeps nothing; cold Titan keeps nitrogen.
+- Adrian, Erid and the novel's Threeworld pass the test; Threeworld only because its upper air is cold. Adrian's methane needs a source, not a lid: life.
+- Escape sorts isotopes: Venus's deuterium-rich air records a lost ocean. The solar wind strips air from worlds without magnetic shields.
+- Rising air expands and cools at the lapse rate $\Gamma = g/c_{p}$, with $c_{p} = (f/2 + 1)R/M$: 9.8 K/km for dry air on Earth, 6.5 K/km on average with condensing water, about 10.5 K/km in Erid's ammonia.
+
+**Formulas from this chapter**
+
+$$
+v_{\text{esc}} \ge 6v_{\text{rms}} \qquad T_{\text{c}} = \frac{m\,v_{\text{esc}}^{2}}{108\,k} = \frac{GMm}{54\,kR} \qquad \Gamma = -\frac{dT}{dz} = \frac{g}{c_{p}} \qquad c_{p} = \left(\tfrac{f}{2} + 1\right)\frac{R}{M} = \frac{\gamma}{\gamma - 1}\,\frac{R}{M}
+$$
+
+## Sources
+
+- Planetary data (mass, radius, escape speed, gravity, temperatures, pressures, compositions): NASA fact sheets for [Earth](https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html) (including helium 5.24 ppm, hydrogen 0.55 ppm, neon 18.18 ppm), [Venus](https://nssdc.gsfc.nasa.gov/planetary/factsheet/venusfact.html), [Mars](https://nssdc.gsfc.nasa.gov/planetary/factsheet/marsfact.html), [the Moon](https://nssdc.gsfc.nasa.gov/planetary/factsheet/moonfact.html) (equatorial temperatures 95–390 K), [Mercury](https://nssdc.gsfc.nasa.gov/planetary/factsheet/mercuryfact.html) (sunward side 590–725 K) and [Jupiter](https://nssdc.gsfc.nasa.gov/planetary/factsheet/jupiterfact.html) (escape 59.5 km/s, H₂ 89.8%, He 10.2%).
+- Titan: mass $1.345 \times 10^{23}$ kg, radius 2574.8 km, gravity 1.352 m/s², escape speed 2.641 km/s, surface 146.7 kPa and 93.7 K, stratosphere 98.4% N₂ and 1.4% CH₄: Wikipedia, ["Titan (moon)"](https://en.wikipedia.org/wiki/Titan_(moon)).
+- The six-times rule ($v_{\text{rms}} > v_{\text{esc}}/6$ is enough for a gas to evaporate; Earth's upper atmosphere at about 1000 K): D. Boal, Simon Fraser University, [PHYS 390 lecture 9, "Planetary atmospheres"](https://www.sfu.ca/~boal/390lecs/390lec9.pdf), following Carroll and Ostlie's *An Introduction to Modern Astrophysics*. The same lecture gives Venus's deuterium-to-hydrogen ratio, 0.016 against Earth's 0.000 16.
+- Jeans escape and the factors that control it: Wikipedia, ["Atmospheric escape"](https://en.wikipedia.org/wiki/Atmospheric_escape). Thermosphere temperatures up to 2000 °C and the tropopause at about 12 km: Wikipedia, ["Thermosphere"](https://en.wikipedia.org/wiki/Thermosphere). Mars's dynamo ceasing about four billion years ago: Wikipedia, ["Mars"](https://en.wikipedia.org/wiki/Mars).
+- Lapse rates: dry adiabatic 9.8 °C/km and the ICAO standard 6.5 °C/km: Wikipedia, ["Lapse rate"](https://en.wikipedia.org/wiki/Lapse_rate).
+- Molar masses, $k$, $R$ and $N_{\text{A}}$: as in [Chapter 12.2](/part-12/gas-laws/); degrees of freedom and $\gamma$ for CO₂: [Chapter 11.3](/part-11/speed-of-sound/).
+- The novel: Adrian (3.93 Earth masses, 10 318 km, 1.4 g, 91% CO₂, 7% CH₄, 1% Ar, methane from life): Readify reader wiki, ["Adrian"](https://readifyai.com/en/books/Project%20Hail%20Mary/wiki/Adrian). Threeworld (Moon-sized, 0.2 g, 84% CO₂, 8% N₂, 4% SO₂, below 1% of Earth's pressure, −82 °C at 0.02 atm): ["Threeworld"](https://readifyai.com/en/books/Project%20Hail%20Mary/wiki/Threeworld). Erid (8.5 Earth masses, twice Earth's diameter, 20.48 m/s², 29 atm of ammonia, 210 °C): ["Erid"](https://readifyai.com/en/books/Project%20Hail%20Mary/wiki/Erid). Reader sources, so approximate.

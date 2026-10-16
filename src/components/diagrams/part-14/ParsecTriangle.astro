@@ -1,0 +1,56 @@
+---
+// Parallax geometry (hugely exaggerated). Earth's orbit around the Sun at the bottom; Earth in January and July; a
+// nearby star above the Sun. The half-angle p at the star faces a baseline of 1 au. Far stars form a fixed backdrop
+// along the top, with the star's two apparent positions marked against it.
+const head = (x1: number, y1: number, x2: number, y2: number, s = 8) => {
+	const a = Math.atan2(y2 - y1, x2 - x1), c = Math.cos(a), n = Math.sin(a);
+	return `${x2},${y2} ${x2 - s * c + (s / 2) * n},${y2 - s * n - (s / 2) * c} ${x2 - s * c - (s / 2) * n},${y2 - s * n + (s / 2) * c}`;
+};
+const SX = 300, SY = 250; // Sun
+const OR = 90; // orbit radius (1 au), drawn as an ellipse seen at a slant
+const EJ = { x: SX - OR, y: SY }, EU = { x: SX + OR, y: SY };
+const ST = { x: SX, y: 120 }; // nearby star
+// sight lines from each Earth through the star, extended to the backdrop at y = 40
+const ext = (e: { x: number; y: number }) => {
+	const t = (40 - e.y) / (ST.y - e.y);
+	return { x: e.x + t * (ST.x - e.x), y: 40 };
+};
+const AJ = ext(EJ), AU = ext(EU);
+const far = [40, 95, 150, 455, 510, 565, 210, 390];
+// angle arc at the star between the star–Sun line and the star–July-Earth line
+const pAng = Math.atan2(EU.x - ST.x, EU.y - ST.y); // from vertical
+const arcR = 34;
+const arcEnd = { x: ST.x + arcR * Math.sin(pAng), y: ST.y + arcR * Math.cos(pAng) };
+---
+
+<svg class="dg" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+	<line x1="20" y1="40" x2="580" y2="40" class="s-grid w1 dash" />
+	{far.map((x) => <circle cx={x} cy="34" r="3" class="f-muted" />)}
+	<text x="20" y="22" class="t-sm f-muted">very distant stars: they barely move</text>
+	<line x1={EJ.x} y1={EJ.y} x2={AJ.x} y2={AJ.y} class="s-sky w1 dash" />
+	<line x1={EU.x} y1={EU.y} x2={AU.x} y2={AU.y} class="s-rose w1 dash" />
+	<circle cx={AJ.x} cy="40" r="5" class="f-sky" />
+	<circle cx={AU.x} cy="40" r="5" class="f-rose" />
+	<text x={AJ.x + 10} y="62" class="t-sm f-sky halo">seen in January</text>
+	<text x={AU.x - 10} y="62" class="t-end t-sm f-rose halo">seen in July</text>
+	<ellipse cx={SX} cy={SY} rx={OR} ry="22" class="s-muted w1" fill="none" />
+	<line x1={SX} y1={SY} x2={ST.x} y2={ST.y} class="s-amber w1" />
+	<line x1={EJ.x} y1={EJ.y} x2={ST.x} y2={ST.y} class="s-sky w2" />
+	<line x1={EU.x} y1={EU.y} x2={ST.x} y2={ST.y} class="s-rose w2" />
+	<path d={`M ${ST.x} ${ST.y + arcR} A ${arcR} ${arcR} 0 0 0 ${arcEnd.x} ${arcEnd.y}`} class="s-fg w2" fill="none" />
+	<text x={ST.x + 14} y={ST.y + 52} class="t-sm t-b halo">p</text>
+	<circle cx={ST.x} cy={ST.y} r="7" class="f-amber" />
+	<text x={ST.x + 14} y={ST.y - 6} class="t-sm t-b halo">nearby star</text>
+	<circle cx={SX} cy={SY} r="9" class="f-amber" />
+	<text x={SX - 14} y={SY + 5} class="t-end t-sm halo">Sun</text>
+	<line x1={SX + 4} y1={SY + 40} x2={EU.x - 2} y2={SY + 40} class="s-fg w1" />
+	<polygon points={head(SX + 30, SY + 40, EU.x - 2, SY + 40, 7)} class="f-fg" />
+	<text x={(SX + EU.x) / 2} y={SY + 34} class="t-mid t-sm halo">1 au</text>
+	<circle cx={EJ.x} cy={EJ.y} r="6" class="f-sky" />
+	<circle cx={EU.x} cy={EU.y} r="6" class="f-rose" />
+	<text x={EJ.x - 12} y={EJ.y + 5} class="t-end t-sm f-sky">Earth, January</text>
+	<text x={EU.x + 12} y={EU.y + 5} class="t-sm f-rose">Earth, July</text>
+	<text x="590" y="150" class="t-end t-sm">d = 1 au ÷ p</text>
+	<text x="590" y="168" class="t-end t-sm">p = 1″ ⇒ d = 1 parsec</text>
+	<text x="590" y="186" class="t-end t-sm f-muted">(angles hugely exaggerated)</text>
+</svg>

@@ -1,0 +1,133 @@
+---
+// Simulation: number bases. Type a number (whole or decimal) and pick a base from 2 to 16 (default 6). The digits are
+// drawn in boxes with their place values; the fractional part is found exactly by long division with BigInt and its
+// repeating block is shown in brackets. "Earth seconds" mode first divides by 2.366 (one Eridian second, the novel's
+// figure) and rounds to whole Eridian seconds. A "+1" button counts up like Rocky's clock. Static: redraws on input.
+---
+
+<div
+	class="sim bcv"
+	data-title="Base converter"
+	data-description="Write any number in another base. Type a whole number or a decimal and choose a base from 2 to 16; base six, the Eridians' base, is the default. Each digit appears in a box with its place value underneath (powers of the base), and the readout gives the number in the new base, how many digits it needs, and whether its fractional part ends or repeats, with the repeating block shown in brackets. In Earth-seconds mode the number is treated as a time in seconds and converted to whole Eridian seconds (2.366 seconds each, the novel's figure) before being written in the chosen base. The plus-one button counts up like Rocky's clock, carrying when a digit rolls over."
+>
+	<p class="sim-title">Simulation: base converter</p>
+	<p class="sim-help">Try 7200 seconds in Earth-seconds mode: Grace's two-hour nap, as Rocky would read it.</p>
+	<div class="sim-controls">
+		<label>Number <input type="number" class="bcv-n" min="0" max="1000000000000" step="any" value="3043" /></label>
+		<label>Base <select class="bcv-b">
+			<option value="2">2 (binary)</option>
+			<option value="3">3</option>
+			<option value="4">4</option>
+			<option value="5">5</option>
+			<option value="6" selected>6 (Eridian)</option>
+			<option value="8">8</option>
+			<option value="10">10</option>
+			<option value="12">12</option>
+			<option value="16">16 (hexadecimal)</option>
+		</select></label>
+		<label>Meaning <select class="bcv-m">
+			<option value="n" selected>plain number</option>
+			<option value="s">Earth seconds → Eridian seconds</option>
+		</select></label>
+		<button type="button" class="bcv-up">+1</button>
+	</div>
+	<svg class="dg bcv-svg" viewBox="0 0 600 170" role="img" aria-label="The number's digits in the chosen base, each in a box with its place value underneath"></svg>
+	<div class="readout bcv-out" aria-live="polite"></div>
+</div>
+
+<script>
+	document.querySelectorAll<HTMLElement>('.sim.bcv').forEach((root) => {
+		const q = <T extends Element>(s: string) => root.querySelector<T>(s)!;
+		const svg = q<SVGSVGElement>('.bcv-svg'), out = q<HTMLElement>('.bcv-out');
+		const Ns = q<HTMLInputElement>('.bcv-n'), Bs = q<HTMLSelectElement>('.bcv-b'), Ms = q<HTMLSelectElement>('.bcv-m'), Up = q<HTMLButtonElement>('.bcv-up');
+		const NS = 'http://www.w3.org/2000/svg';
+		const DIG = '0123456789ABCDEF';
+		const SUP = '⁰¹²³⁴⁵⁶⁷⁸⁹';
+		const sup = (n: number) => (n < 0 ? '⁻' : '') + String(Math.abs(n)).split('').map((d) => SUP[+d]).join('');
+		const ERID = 2.366;
+		const el = (tag: string, at: Record<string, string | number>, text?: string) => {
+			const e = document.createElementNS(NS, tag);
+			Object.entries(at).forEach(([k, v]) => e.setAttribute(k, String(v)));
+			if (text !== undefined) e.textContent = text;
+			svg.append(e);
+			return e;
+		};
+		// exact digits of a decimal string in base b: integer part and fractional part with its repeating block
+		function convert(str: string, b: number) {
+			const m = /^(\d*)(?:\.(\d*))?$/.exec(str.trim()) || ['', '0', ''];
+			const ip = BigInt(m[1] || '0'), fs = m[2] || '';
+			const B = BigInt(b);
+			let intDigits = '';
+			let n = ip;
+			if (n === 0n) intDigits = '0';
+			while (n > 0n) { intDigits = DIG[Number(n % B)] + intDigits; n /= B; }
+			// fraction = num/den
+			const den = 10n ** BigInt(fs.length);
+			let num = fs ? BigInt(fs) : 0n;
+			const seen = new Map<string, number>();
+			let frac = '';
+			let rep = -1;
+			while (num > 0n && frac.length < 24) {
+				const key = num.toString();
+				if (seen.has(key)) { rep = seen.get(key)!; break; }
+				seen.set(key, frac.length);
+				num *= B;
+				frac += DIG[Number(num / den)];
+				num %= den;
+			}
+			const ends = num === 0n;
+			return { intDigits, frac, rep, ends };
+		}
+		function draw() {
+			const b = +Bs.value;
+			let raw = Ns.value.trim();
+			if (!/^\d*(\.\d*)?$/.test(raw) || raw === '' || raw === '.') raw = '0';
+			let note = '';
+			if (Ms.value === 's') {
+				const e = Math.round(+raw / ERID);
+				note = `${(+raw).toLocaleString('en-GB')} Earth seconds ÷ 2.366 = ${e.toLocaleString('en-GB')} Eridian seconds (${(e / 7776).toFixed(3)} Eridian days of 6⁵ = 7776). `;
+				raw = String(e);
+			}
+			const { intDigits, frac, rep, ends } = convert(raw, b);
+			while (svg.firstChild) svg.firstChild.remove();
+			const shownFrac = frac.slice(0, 6);
+			const cells = [...intDigits.split('').map((d, i) => ({ d, p: intDigits.length - 1 - i })), ...shownFrac.split('').map((d, i) => ({ d, p: -(i + 1) }))];
+			const nShow = Math.min(cells.length, 12);
+			const start = Math.max(0, intDigits.length - 12 + (shownFrac.length ? 0 : 0));
+			const vis = cells.slice(start, start + nShow);
+			const W = Math.min(44, 560 / Math.max(vis.length, 1) - 4), G = 4;
+			const x0 = (600 - (vis.length * (W + G) - G)) / 2;
+			vis.forEach((c, i) => {
+				const x = x0 + i * (W + G);
+				el('rect', { x, y: 30, width: W, height: 52, rx: 5, class: c.p >= 0 ? 'f-amber-soft' : 'f-sky-soft' });
+				el('text', { x: x + W / 2, y: 64, class: 't-mid t-lg t-b' }, c.d);
+				el('text', { x: x + W / 2, y: 102, class: 't-mid t-sm f-muted' }, `${b}${sup(c.p)}`);
+				if (c.p === 0 && shownFrac.length) el('circle', { cx: x + W + G / 2, cy: 80, r: 2.5, class: 'f-fg' });
+			});
+			if (start > 0) el('text', { x: 20, y: 62, class: 't-sm f-muted' }, '…');
+			el('text', { x: 300, y: 130, class: 't-mid t-sm' }, `place values: powers of ${b}, highest on the left${shownFrac.length ? '; after the point, negative powers' : ''}`);
+			el('text', { x: 300, y: 152, class: 't-mid t-sm f-muted' }, intDigits.length > 12 ? `(showing the last 12 of ${intDigits.length} digits)` : ' ');
+			let fracStr = '';
+			if (frac) {
+				if (rep >= 0) fracStr = '.' + frac.slice(0, rep) + '(' + frac.slice(rep) + ')';
+				else fracStr = '.' + frac + (ends ? '' : '…');
+			}
+			const digitsNeeded = intDigits === '0' ? 1 : intDigits.length;
+			out.innerHTML =
+				(note ? `<span class="k">clock</span> ${note}<br>` : '') +
+				`<span class="k">in base ${b}</span>: <b>${intDigits}${fracStr}</b>${b !== 10 ? `<sub>${b}</sub>` : ''} &nbsp; <span class="k">whole part</span> ${digitsNeeded} digit${digitsNeeded > 1 ? 's' : ''}` +
+				(frac ? ` &nbsp; <span class="k">fraction</span> ${rep >= 0 ? 'repeats forever (repeating block in brackets)' : ends ? 'ends' : 'continues (first 24 digits)'}` : '');
+		}
+		Ns.addEventListener('input', draw); Ns.addEventListener('change', draw);
+		Bs.addEventListener('change', draw); Bs.addEventListener('input', draw);
+		Ms.addEventListener('change', draw); Ms.addEventListener('input', draw);
+		Up.addEventListener('click', () => {
+			const v = Ns.value.trim();
+			if (Ms.value === 's') Ns.value = String(Math.round((+v + ERID) * 1000) / 1000); // one Eridian second more
+			else if (/^\d+$/.test(v)) Ns.value = (BigInt(v) + 1n).toString();
+			else Ns.value = String(Math.floor(+v || 0) + 1);
+			draw();
+		});
+		draw();
+	});
+</script>

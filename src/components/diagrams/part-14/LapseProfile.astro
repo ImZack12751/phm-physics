@@ -1,0 +1,45 @@
+---
+// Temperature against height in Earth's lower atmosphere, from 288 K at sea level to 14 km. Dry adiabatic rate
+// 9.8 K/km (dashed) and the standard atmosphere's 6.5 K/km to the tropopause at 11 km (216.65 K), constant above.
+// A rising parcel of air is drawn on the left with arrows showing it expanding and cooling.
+const L = 230, R = 570, Top = 24, B = 236;
+const tlo = 170, thi = 300, hmax = 14;
+const X = (T: number) => L + ((T - tlo) / (thi - tlo)) * (R - L);
+const Y = (h: number) => B - (h / hmax) * (B - Top);
+const dry = (h: number) => 288.15 - 9.76 * h;
+---
+
+<svg class="dg" viewBox="0 0 600 280" xmlns="http://www.w3.org/2000/svg">
+	{[180, 200, 220, 240, 260, 280, 300].map((T) => (
+		<>
+			<line x1={X(T)} y1={Top} x2={X(T)} y2={B} class="s-grid w1" />
+			<text x={X(T)} y={B + 16} class="t-mid t-sm f-muted">{T}</text>
+		</>
+	))}
+	{[0, 2, 4, 6, 8, 10, 12, 14].map((h) => (
+		<>
+			<line x1={L} y1={Y(h)} x2={R} y2={Y(h)} class="s-grid w1" />
+			<text x={L - 6} y={Y(h) + 4} class="t-end t-sm f-muted">{h}</text>
+		</>
+	))}
+	<text x={(L + R) / 2} y={B + 36} class="t-mid t-sm">temperature (K)</text>
+	<text x={L - 30} y={(Top + B) / 2} class="t-mid t-sm" transform={`rotate(-90 ${L - 30} ${(Top + B) / 2})`}>height (km)</text>
+	<line x1={X(dry(0))} y1={Y(0)} x2={X(dry(11.5))} y2={Y(11.5)} class="s-amber w2 dash" />
+	<text x={X(dry(9.4)) - 8} y={Y(9.4)} class="t-end t-sm f-amber halo">dry air: 9.8 K/km</text>
+	<polyline points={`${X(288.15)},${Y(0)} ${X(216.65)},${Y(11)} ${X(216.65)},${Y(14)}`} class="s-sky w3" fill="none" />
+	<text x={X(262)} y={Y(6)} class="t-sm f-sky halo">standard: 6.5 K/km</text>
+	<line x1={L} y1={Y(11)} x2={R} y2={Y(11)} class="s-muted w1 dash" />
+	<text x={R - 4} y={Y(11) - 6} class="t-end t-sm f-muted halo">tropopause, 11 km, 216.65 K</text>
+	<text x={X(288.15) + 8} y={Y(0) - 6} class="t-sm halo">288 K</text>
+	<circle cx="90" cy="190" r="22" class="f-sky-soft" />
+	<circle cx="90" cy="190" r="22" class="s-sky w2" fill="none" />
+	<text x="90" y="194" class="t-mid t-sm">warm</text>
+	<circle cx="90" cy="80" r="34" class="f-sky-soft" />
+	<circle cx="90" cy="80" r="34" class="s-sky w2" fill="none" />
+	<text x="90" y="84" class="t-mid t-sm">cooler</text>
+	<line x1="90" y1="164" x2="90" y2="122" class="s-fg w2" />
+	<polygon points="90,116 85,126 95,126" class="f-fg" />
+	<text x="90" y="240" class="t-mid t-sm">a rising parcel expands</text>
+	<text x="90" y="256" class="t-mid t-sm">and does work, so it cools</text>
+	<text x="90" y="28" class="t-mid t-sm f-muted">lower pressure up here</text>
+</svg>

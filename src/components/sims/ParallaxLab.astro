@@ -1,0 +1,106 @@
+---
+// Simulation: parallax. Choose a star's distance (1 to 10 000 ly, log slider, or presets: Proxima, Tau Ceti, 40 Eridani,
+// 61 Cygni) and the time of year. Left: top view of Earth's orbit with the sight line to the star (angles exaggerated).
+// Right: the star's apparent position against the far background, scaled so its full swing (2p) always fills the strip;
+// a scale label gives the real width in milliarcseconds. Readout: p, d in pc / ly / au / m, the light travel time, and
+// the distance uncertainty Δd/d = Δp/p for an instrument with the chosen parallax precision (1, 0.1 or 0.02 mas).
+// Static: redraws on input.
+---
+
+<div
+	class="sim plx"
+	data-title="Parallax lab"
+	data-description="Measure a star's distance by parallax. Set the star's distance from 1 to 10 000 light-years (or pick Proxima Centauri, Tau Ceti, 40 Eridani or 61 Cygni) and move Earth through the year with the month slider. The top view shows Earth's orbit and the sight line to the star; the strip on the right shows where the star appears against very distant background stars, magnified so that its full back-and-forth swing of twice the parallax angle fills the strip. The readout gives the parallax angle p in milliarcseconds, the distance d = 1/p in parsecs, light-years, astronomical units and metres, how long its light takes to reach us, and the percentage uncertainty in the distance for an instrument that measures parallax to 1, 0.1 or 0.02 milliarcseconds."
+>
+	<p class="sim-title">Simulation: parallax lab</p>
+	<p class="sim-help">Move Earth round its orbit and watch the nearby star shift against the far background. The further the star, the smaller the shift.</p>
+	<div class="sim-controls">
+		<label>Star <select class="plx-pre">
+			<option value="">custom</option>
+			<option value="4.2465">Proxima Centauri, 4.25 ly</option>
+			<option value="11.404">61 Cygni, 11.4 ly</option>
+			<option value="11.912" selected>Tau Ceti, 11.91 ly</option>
+			<option value="16.34">40 Eridani, 16.34 ly</option>
+		</select></label>
+		<label>Distance <input type="range" class="plx-d" min="0" max="4" step="0.001" value="1.076" /> <output class="plx-dv"></output></label>
+		<label>Month <input type="range" class="plx-m" min="0" max="12" step="0.1" value="3" /> <output class="plx-mv"></output></label>
+		<label>Precision <select class="plx-acc">
+			<option value="1">1 mas</option>
+			<option value="0.1">0.1 mas</option>
+			<option value="0.02" selected>0.02 mas (Gaia, bright stars)</option>
+		</select></label>
+	</div>
+	<svg class="dg plx-svg" viewBox="0 0 600 250" role="img" aria-label="Top view of Earth's orbit and the sight line to a nearby star, beside a strip showing the star's apparent position against distant stars"></svg>
+	<div class="readout plx-out" aria-live="polite"></div>
+</div>
+
+<script>
+	document.querySelectorAll<HTMLElement>('.sim.plx').forEach((root) => {
+		const q = <T extends Element>(s: string) => root.querySelector<T>(s)!;
+		const svg = q<SVGSVGElement>('.plx-svg'), out = q<HTMLElement>('.plx-out');
+		const Pre = q<HTMLSelectElement>('.plx-pre'), Ds = q<HTMLInputElement>('.plx-d'), Ms = q<HTMLInputElement>('.plx-m'), Acc = q<HTMLSelectElement>('.plx-acc');
+		const NS = 'http://www.w3.org/2000/svg';
+		const el = (tag: string, at: Record<string, string | number>, text?: string) => {
+			const e = document.createElementNS(NS, tag);
+			Object.entries(at).forEach(([k, v]) => e.setAttribute(k, String(v)));
+			if (text) e.textContent = text;
+			svg.append(e);
+			return e;
+		};
+		const PC_LY = 3.2615638, LY_AU = 63241.077, LY_M = 9.4607304725808e15;
+		const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'Jan'];
+		// Top view
+		const SX = 150, SY = 190, OR = 60, STY = 40;
+		el('text', { x: 150, y: 16, class: 't-mid t-sm f-muted' }, 'top view (angles exaggerated)');
+		el('ellipse', { cx: SX, cy: SY, rx: OR, ry: OR * 0.55, class: 's-muted w1', fill: 'none' });
+		el('circle', { cx: SX, cy: SY, r: 8, class: 'f-amber' });
+		el('text', { x: SX + 12, y: SY + 4, class: 't-sm' }, 'Sun');
+		el('circle', { cx: SX, cy: STY, r: 6, class: 'f-amber' });
+		el('text', { x: SX + 12, y: STY + 4, class: 't-sm' }, 'star');
+		const sight = el('line', { class: 's-sky w2' });
+		const earth = el('circle', { r: 6, class: 'f-sky' });
+		// Sky strip
+		const L = 330, R = 580, MID = (L + R) / 2;
+		el('text', { x: MID, y: 16, class: 't-mid t-sm f-muted' }, 'the star against far-off stars');
+		el('rect', { x: L, y: 40, width: R - L, height: 130, class: 's-muted w1', fill: 'none' });
+		[350, 395, 470, 540, 562, 420, 505].forEach((x, i) => el('circle', { cx: x, cy: 55 + ((i * 37) % 105), r: 2.5, class: 'f-muted' }));
+		el('line', { x1: L + 20, y1: 150, x2: R - 20, y2: 150, class: 's-grid w1 dash' });
+		const star = el('circle', { cy: 105, r: 7, class: 'f-amber' });
+		const scaleT = el('text', { x: MID, y: 192, class: 't-mid t-sm' }, ' ');
+		el('text', { x: MID, y: 210, class: 't-mid t-sm f-muted' }, 'strip width = the full swing, 2p');
+		const tn = (e: Element) => { const n = document.createTextNode(''); e.textContent = ''; e.append(n); return n; };
+		const scaleN = tn(scaleT);
+		const fmt = (x: number, p = 3) => (Math.abs(x) >= 1e5 || Math.abs(x) < 1e-2 ? x.toExponential(p - 1) : x.toPrecision(p));
+		function draw() {
+			const dly = 10 ** +Ds.value;
+			const mon = +Ms.value;
+			q('.plx-dv').textContent = `${dly < 100 ? dly.toPrecision(3) : dly.toFixed(0)} ly`;
+			q('.plx-mv').textContent = months[Math.round(mon)];
+			const phi = (mon / 12) * 2 * Math.PI; // 0 = January, Earth on the left
+			const ex = SX - OR * Math.cos(phi), ey = SY + OR * 0.55 * Math.sin(phi);
+			earth.setAttribute('cx', String(ex)); earth.setAttribute('cy', String(ey));
+			sight.setAttribute('x1', String(ex)); sight.setAttribute('y1', String(ey));
+			const t = (STY - 20 - ey) / (STY - ey);
+			sight.setAttribute('x2', String(ex + t * (SX - ex))); sight.setAttribute('y2', String(STY - 20));
+			const dpc = dly / PC_LY, p = 1000 / dpc; // mas
+			// apparent offset: Earth left (x = −1 au) makes the star appear right of the Sun line
+			const off = Math.cos(phi); // in units of p
+			star.setAttribute('cx', String(MID + off * ((R - L) / 2 - 24)));
+			const s = `width ≈ ${fmt(2 * p)} mas = ${fmt((2 * p) / 1000)}″`;
+			if (scaleN.nodeValue !== s) scaleN.nodeValue = s;
+			const acc = +Acc.value, rel = acc / p;
+			const tStr = dly < 2 ? `${(dly * 365.25).toFixed(0)} days` : `${dly < 100 ? dly.toPrecision(3) : dly.toFixed(0)} years`;
+			out.innerHTML =
+				`<span class="k">parallax p</span> = ${fmt(p)} mas = ${fmt(p / 1000)} arcseconds &nbsp; <span class="k">d = 1/p</span> = ${fmt(dpc)} pc = ${fmt(dly)} ly = ${fmt(dly * LY_AU)} au = ${fmt(dly * LY_M)} m<br>` +
+				`<span class="k">its light left</span> ${tStr} ago &nbsp; <span class="k">with ±${acc} mas</span>: Δd/d = Δp/p = ${rel < 0.001 ? (rel * 100).toFixed(3) : (rel * 100).toPrecision(2)}% ` +
+				(rel > 1 ? '(not measurable: the error is bigger than the angle)' : rel > 0.1 ? '(rough)' : '(good)');
+		}
+		Pre.addEventListener('change', () => { if (Pre.value) Ds.value = String(Math.log10(+Pre.value)); draw(); });
+		Pre.addEventListener('input', () => { if (Pre.value) Ds.value = String(Math.log10(+Pre.value)); draw(); });
+		Ds.addEventListener('input', () => { Pre.value = ''; draw(); });
+		Ms.addEventListener('input', draw);
+		Acc.addEventListener('change', draw); Acc.addEventListener('input', draw);
+		Ds.value = String(Math.log10(+Pre.value));
+		draw();
+	});
+</script>

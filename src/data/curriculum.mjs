@@ -190,10 +190,10 @@ export const parts = [
 		id: 'part-14', icon: 'ly', dir: 'part-14', code: '14', label: 'Part 14 · Astronomy and scale',
 		blurb: 'Light-years, other worlds, magnetic fields, and counting in base 6.',
 		chapters: [
-			{ slug: 'light-years', title: 'Light-years and stellar distances', prereqs: [], status: 'planned' },
-			{ slug: 'planetary-atmospheres', title: 'Planetary atmospheres', prereqs: [], status: 'planned' },
-			{ slug: 'magnetic-fields', title: 'Magnetic fields', prereqs: [], status: 'planned' },
-			{ slug: 'base-six', title: 'Sidebar: base-6 numbers', prereqs: [], status: 'planned' },
+			{ slug: 'light-years', title: 'Light-years and stellar distances', prereqs: ['trigonometry', 'vectors', 'em-spectrum', 'exponentials-logarithms', 'solar-constant', 'ship-time-earth-time'], status: 'review' },
+			{ slug: 'planetary-atmospheres', title: 'Planetary atmospheres', prereqs: ['escape-velocity', 'temperature-heat', 'gas-laws', 'speed-of-sound', 'partial-pressure', 'greenhouse-effect'], status: 'review' },
+			{ slug: 'magnetic-fields', title: 'Magnetic fields', prereqs: ['photon-propulsion', 'centripetal-acceleration', 'work', 'lorentz-factor', 'cosmic-rays-shielding', 'pressure'], status: 'review' },
+			{ slug: 'base-six', title: 'Sidebar: base-6 numbers', prereqs: ['scientific-notation', 'exponentials-logarithms', 'si-units', 'unit-handling', 'measuring-g', 'light-years'], status: 'review' },
 		],
 	},
 ];

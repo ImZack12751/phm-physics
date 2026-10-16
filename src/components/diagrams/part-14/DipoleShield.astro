@@ -1,0 +1,51 @@
+---
+// Side view of Earth's dipole field: field lines r = L R cos²λ for L = 1.6, 2.2, 3, 4 on both sides. Arrows mark where
+// cosmic rays can get in: the vertical cutoff rigidity 14.8 cos⁴λ GV is 14.8 GV at the equator, 3.7 at 45°, 0.9 at 60°.
+const CX = 300, CY = 140, RE = 46;
+const line = (L: number, side: number) => {
+	const lm = Math.acos(Math.sqrt(1 / L));
+	let d = '';
+	for (let i = 0; i <= 80; i++) {
+		const lam = -lm + (2 * lm * i) / 80, r = L * RE * Math.cos(lam) ** 2;
+		d += `${i ? 'L' : 'M'} ${(CX + side * r * Math.cos(lam)).toFixed(1)} ${(CY - r * Math.sin(lam)).toFixed(1)} `;
+	}
+	return d;
+};
+const at = (lamDeg: number, rr: number) => {
+	const l = (lamDeg * Math.PI) / 180;
+	return { x: CX - rr * Math.cos(l), y: CY - rr * Math.sin(l) };
+};
+const marks = [
+	{ lam: 0, t: 'equator: 14.8 GV', dx: -10 },
+	{ lam: 45, t: '45°: 3.7 GV', dx: -10 },
+	{ lam: 60, t: '60°: 0.9 GV', dx: -10 },
+];
+---
+
+<svg class="dg" viewBox="0 0 600 290" xmlns="http://www.w3.org/2000/svg">
+	{[1.6, 2.2, 3, 4].map((L) => (
+		<>
+			<path d={line(L, 1)} class="s-violet w1" fill="none" />
+			<path d={line(L, -1)} class="s-violet w1" fill="none" />
+		</>
+	))}
+	<circle cx={CX} cy={CY} r={RE} class="f-sky-soft" />
+	<circle cx={CX} cy={CY} r={RE} class="s-sky w2" fill="none" />
+	<text x={CX} y={CY + 4} class="t-mid t-sm t-b">Earth</text>
+	<path d={`M ${CX - 22} ${CY - RE + 3} Q ${CX} ${CY - RE - 10} ${CX + 22} ${CY - RE + 3}`} class="s-green w3" fill="none" />
+	<path d={`M ${CX - 22} ${CY + RE - 3} Q ${CX} ${CY + RE + 10} ${CX + 22} ${CY + RE - 3}`} class="s-green w3" fill="none" />
+	<text x={CX + 60} y={CY - RE - 22} class="t-sm f-green halo">aurora: field lines dive</text>
+	<text x={CX + 60} y={CY - RE - 7} class="t-sm f-green halo">into the air near the poles</text>
+	{marks.map((m) => {
+		const a = at(m.lam, RE + 4), b = at(m.lam, RE + 70);
+		return (
+			<>
+				<line x1={b.x} y1={b.y} x2={a.x} y2={a.y} class="s-rose w2" />
+				<circle cx={a.x} cy={a.y} r="3" class="f-rose" />
+				<text x={b.x + m.dx} y={b.y + 4} class="t-end t-sm f-rose halo">{m.t}</text>
+			</>
+		);
+	})}
+	<text x="20" y="270" class="t-sm">vertical cutoff rigidity, the least a cosmic ray needs to reach the ground: 14.8 cos⁴λ GV</text>
+	<text x={CX + RE * 4 - 6} y={CY + 4} class="t-end t-sm f-violet halo">field lines</text>
+</svg>

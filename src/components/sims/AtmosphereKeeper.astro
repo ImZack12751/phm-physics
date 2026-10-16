@@ -1,0 +1,110 @@
+---
+// Simulation: which gases can a world keep? Pick a world (sets mass and radius, plus a starting temperature) and set the
+// temperature of its upper atmosphere (log slider 30–3000 K). Escape speed v_esc = √(2GM/R). For each of eight gases,
+// a bar shows 6 × v_rms = 6√(3kT/m) on a log speed axis, with v_esc as a vertical line: bars short of the line are
+// kept for billions of years (the six-times rule). Readout lists v_esc, g, and each gas's critical temperature
+// T_c = m v_esc²/(108k). Static: redraws on input.
+---
+
+<div
+	class="sim atk"
+	data-title="Atmosphere keeper"
+	data-description="Find out which gases a planet or moon can hold on to. Choose a world (the Moon, Mercury, Mars, Earth, Venus, Titan, Jupiter, or the novel's Adrian, Erid and Threeworld) and set the temperature of its upper atmosphere from 30 to 3000 kelvin. For hydrogen, helium, methane, ammonia, water, nitrogen, oxygen and carbon dioxide, a bar shows six times the gas's root-mean-square molecular speed, and a vertical line marks the world's escape speed. A gas whose bar stops short of the line is kept for billions of years; one that crosses it leaks away. The readout gives the escape speed, the surface gravity and the critical temperature above which each gas is lost."
+>
+	<p class="sim-title">Simulation: atmosphere keeper</p>
+	<p class="sim-help">A world keeps a gas if its escape speed is at least six times the gas's rms speed. Heat the upper air and watch the light gases go.</p>
+	<div class="sim-controls">
+		<label>World <select class="atk-w">
+			<option value="moon">Moon</option>
+			<option value="mercury">Mercury</option>
+			<option value="mars">Mars</option>
+			<option value="earth" selected>Earth</option>
+			<option value="venus">Venus</option>
+			<option value="titan">Titan</option>
+			<option value="jupiter">Jupiter</option>
+			<option value="adrian">Adrian (novel)</option>
+			<option value="erid">Erid (novel)</option>
+			<option value="three">Threeworld (novel)</option>
+		</select></label>
+		<label>Upper-air temperature <input type="range" class="atk-t" min="1.477" max="3.477" step="0.001" value="3" /> <output class="atk-tv"></output></label>
+	</div>
+	<svg class="dg atk-svg" viewBox="0 0 600 300" role="img" aria-label="Bars of six times the rms speed of eight gases against a vertical line at the world's escape speed, on a logarithmic speed axis"></svg>
+	<div class="readout atk-out" aria-live="polite"></div>
+</div>
+
+<script>
+	document.querySelectorAll<HTMLElement>('.sim.atk').forEach((root) => {
+		const q = <T extends Element>(s: string) => root.querySelector<T>(s)!;
+		const svg = q<SVGSVGElement>('.atk-svg'), out = q<HTMLElement>('.atk-out');
+		const Ws = q<HTMLSelectElement>('.atk-w'), Ts = q<HTMLInputElement>('.atk-t');
+		const NS = 'http://www.w3.org/2000/svg';
+		const el = (tag: string, at: Record<string, string | number>, text?: string) => {
+			const e = document.createElementNS(NS, tag);
+			Object.entries(at).forEach(([k, v]) => e.setAttribute(k, String(v)));
+			if (text) e.textContent = text;
+			svg.append(e);
+			return e;
+		};
+		const G = 6.6743e-11, k = 1.380649e-23, u = 1.66053906892e-27, ME = 5.9722e24, RE = 6.371e6;
+		// mass (kg), radius (m), starting temperature (K); Threeworld from g = 0.2 g and a Moon-sized radius
+		const worlds: Record<string, { M: number; R: number; T: number }> = {
+			moon: { M: 7.346e22, R: 1.7374e6, T: 390 },
+			mercury: { M: 3.301e23, R: 2.4397e6, T: 700 },
+			mars: { M: 6.4169e23, R: 3.3895e6, T: 214 },
+			earth: { M: ME, R: RE, T: 1000 },
+			venus: { M: 4.8673e24, R: 6.0518e6, T: 737 },
+			titan: { M: 1.34518e23, R: 2.574765e6, T: 94 },
+			jupiter: { M: 1.89813e27, R: 6.9911e7, T: 110 },
+			adrian: { M: 3.93 * ME, R: 1.0318e7, T: 288 },
+			erid: { M: 8.5 * ME, R: 2 * RE, T: 483 },
+			three: { M: (0.2 * 9.80665 * 1.7374e6 ** 2) / G, R: 1.7374e6, T: 191 },
+		};
+		const gases = [
+			{ n: 'H₂', M: 2.016 }, { n: 'He', M: 4.003 }, { n: 'CH₄', M: 16.04 }, { n: 'NH₃', M: 17.03 },
+			{ n: 'H₂O', M: 18.02 }, { n: 'N₂', M: 28.01 }, { n: 'O₂', M: 32.0 }, { n: 'CO₂', M: 44.01 },
+		];
+		const L = 70, R = 580, Top = 20, H = 28, lo = Math.log10(0.1), hi = Math.log10(100);
+		const X = (v: number) => L + ((Math.log10(Math.max(v, 0.1)) - lo) / (hi - lo)) * (R - L);
+		[0.1, 0.3, 1, 3, 10, 30, 100].forEach((v) => {
+			el('line', { x1: X(v), y1: Top - 4, x2: X(v), y2: Top + gases.length * H, class: 's-grid w1' });
+			el('text', { x: X(v), y: Top + gases.length * H + 16, class: 't-mid t-sm f-muted' }, String(v));
+		});
+		el('text', { x: (L + R) / 2, y: Top + gases.length * H + 36, class: 't-mid t-sm' }, 'speed (km/s), logarithmic: bars are 6 × rms speed');
+		const bars = gases.map((g, i) => {
+			el('text', { x: L - 8, y: Top + i * H + 19, class: 't-end t-sm' }, g.n);
+			return el('rect', { x: L, y: Top + i * H + 6, height: H - 12, class: 'f-green' });
+		});
+		const vl = el('line', { y1: Top - 8, y2: Top + gases.length * H + 4, class: 's-amber w3 dash' });
+		const vt = el('text', { y: Top + gases.length * H + 52, class: 't-mid t-sm f-amber t-b' }, ' ');
+		const vtn = document.createTextNode(''); vt.textContent = ''; vt.append(vtn);
+		function draw() {
+			const w = worlds[Ws.value];
+			const T = 10 ** +Ts.value;
+			q('.atk-tv').textContent = `${T.toFixed(0)} K`;
+			const ve = Math.sqrt((2 * G * w.M) / w.R), g = (G * w.M) / (w.R * w.R);
+			const xv = Math.min(Math.max(X(ve / 1000), L + 40), R - 40);
+			vl.setAttribute('x1', String(X(ve / 1000))); vl.setAttribute('x2', String(X(ve / 1000)));
+			vt.setAttribute('x', String(xv));
+			const s = `escape speed ${(ve / 1000).toFixed(2)} km/s`;
+			if (vtn.nodeValue !== s) vtn.nodeValue = s;
+			const kept: string[] = [], lost: string[] = [], tc: string[] = [];
+			gases.forEach((gas, i) => {
+				const v6 = 6 * Math.sqrt((3 * k * T) / (gas.M * u));
+				bars[i].setAttribute('width', String(Math.max(0, X(v6 / 1000) - L)));
+				bars[i].setAttribute('class', v6 <= ve ? 'f-green' : 'f-rose');
+				(v6 <= ve ? kept : lost).push(gas.n);
+				const Tc = (gas.M * u * ve * ve) / (108 * k);
+				tc.push(`${gas.n} ${Tc >= 1e4 ? Tc.toExponential(1) : Tc.toFixed(0)} K`);
+			});
+			out.innerHTML =
+				`<span class="k">escape speed</span> ${(ve / 1000).toFixed(2)} km/s &nbsp; <span class="k">surface gravity</span> ${g.toFixed(2)} m/s² (${(g / 9.80665).toFixed(2)} g) &nbsp; <span class="k">at</span> ${T.toFixed(0)} K<br>` +
+				`<span class="k">kept</span>: ${kept.join(', ') || 'nothing'} &nbsp; <span class="k">lost</span>: ${lost.join(', ') || 'nothing'}<br>` +
+				`<span class="k">lost above</span>: ${tc.join(' · ')}`;
+		}
+		Ws.addEventListener('change', () => { Ts.value = String(Math.log10(worlds[Ws.value].T)); draw(); });
+		Ws.addEventListener('input', () => { Ts.value = String(Math.log10(worlds[Ws.value].T)); draw(); });
+		Ts.addEventListener('input', draw);
+		Ts.value = String(Math.log10(worlds[Ws.value].T));
+		draw();
+	});
+</script>

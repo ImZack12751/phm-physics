@@ -1,0 +1,59 @@
+---
+// Gas retention chart (log–log): temperature of the upper atmosphere on x (50–3000 K), speed on y (0.5–80 km/s).
+// Lines: 6 × v_rms for H₂, He, N₂ and CO₂ (slope ½). Points: each world's escape speed at a representative temperature.
+// A world keeps a gas if its point lies above that gas's line.
+const k = 1.380649e-23, u = 1.66053906892e-27;
+const L = 70, R = 500, Top = 20, B = 240;
+const tlo = Math.log10(50), thi = Math.log10(3000), vlo = Math.log10(0.5), vhi = Math.log10(80);
+const X = (T: number) => L + ((Math.log10(T) - tlo) / (thi - tlo)) * (R - L);
+const Y = (v: number) => B - ((Math.log10(v) - vlo) / (vhi - vlo)) * (B - Top);
+const six = (M: number, T: number) => (6 * Math.sqrt((3 * k * T) / (M * u))) / 1000;
+const gases = [
+	{ n: 'H₂', M: 2.016, c: 'rose', dy: 4 },
+	{ n: 'He', M: 4.003, c: 'violet', dy: 4 },
+	{ n: 'N₂', M: 28.01, c: 'sky', dy: -2 },
+	{ n: 'CO₂', M: 44.01, c: 'green', dy: 12 },
+];
+const worlds = [
+	{ n: 'Jupiter', T: 110, v: 60.2, dx: -8, dy: 4, a: 't-end' },
+	{ n: 'Erid', T: 483, v: 23.1, dx: 8, dy: 4, a: '' },
+	{ n: 'Adrian', T: 288, v: 17.4, dx: -8, dy: 4, a: 't-end' },
+	{ n: 'Earth', T: 1000, v: 11.19, dx: 8, dy: 4, a: '' },
+	{ n: 'Mars', T: 214, v: 5.03, dx: -8, dy: 4, a: 't-end' },
+	{ n: 'Mercury', T: 700, v: 4.25, dx: 8, dy: 4, a: '' },
+	{ n: 'Titan', T: 94, v: 2.64, dx: 0, dy: -10, a: 't-mid' },
+	{ n: 'Threeworld', T: 191, v: 2.61, dx: 0, dy: 18, a: 't-mid' },
+	{ n: 'Moon', T: 390, v: 2.38, dx: 8, dy: 4, a: '' },
+];
+---
+
+<svg class="dg" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+	{[50, 100, 200, 500, 1000, 2000, 3000].map((T) => (
+		<>
+			<line x1={X(T)} y1={Top} x2={X(T)} y2={B} class="s-grid w1" />
+			<text x={X(T)} y={B + 16} class="t-mid t-sm f-muted">{T}</text>
+		</>
+	))}
+	{[0.5, 1, 2, 5, 10, 20, 50].map((v) => (
+		<>
+			<line x1={L} y1={Y(v)} x2={R} y2={Y(v)} class="s-grid w1" />
+			<text x={L - 6} y={Y(v) + 4} class="t-end t-sm f-muted">{v}</text>
+		</>
+	))}
+	<text x={(L + R) / 2} y={B + 36} class="t-mid t-sm">temperature of the upper atmosphere (K)</text>
+	<text x="16" y={(Top + B) / 2} class="t-mid t-sm" transform={`rotate(-90 16 ${(Top + B) / 2})`}>speed (km/s)</text>
+	{gases.map((g) => (
+		<>
+			<line x1={X(50)} y1={Y(six(g.M, 50))} x2={X(3000)} y2={Y(six(g.M, 3000))} class={`s-${g.c} w2`} />
+			<text x={R + 8} y={Y(six(g.M, 3000)) + g.dy} class={`t-sm t-b f-${g.c}`}>6 × rms {g.n}</text>
+		</>
+	))}
+	{worlds.map((w) => (
+		<>
+			<circle cx={X(w.T)} cy={Y(w.v)} r="5" class="f-amber" />
+			<text x={X(w.T) + w.dx} y={Y(w.v) + w.dy} class={`t-sm halo ${w.a}`}>{w.n}</text>
+		</>
+	))}
+	<text x={R + 8} y={Top + 10} class="t-sm f-muted">above a line:</text>
+	<text x={R + 8} y={Top + 26} class="t-sm f-muted">gas kept</text>
+</svg>

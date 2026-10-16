@@ -1,0 +1,37 @@
+---
+// The Sun, Tau Ceti and 40 Eridani drawn to scale in the plane that contains all three. Sides 11.91, 16.34 and
+// 10.08 ly; angle 37.9° at the Sun (their separation in our sky), 95.6° at Tau Ceti, 46.5° at 40 Eridani.
+const s = 25; // px per light-year
+const S = { x: 70, y: 232 };
+const theta = (37.855 * Math.PI) / 180;
+const E = { x: S.x + 16.34 * s, y: S.y };
+const T = { x: S.x + 11.912 * s * Math.cos(theta), y: S.y - 11.912 * s * Math.sin(theta) };
+const mid = (a: { x: number; y: number }, b: { x: number; y: number }) => ({ x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 });
+const mST = mid(S, T), mSE = mid(S, E), mTE = mid(T, E);
+const arc = (C: { x: number; y: number }, r: number, a0: number, a1: number) =>
+	`M ${C.x + r * Math.cos(a0)} ${C.y - r * Math.sin(a0)} A ${r} ${r} 0 0 0 ${C.x + r * Math.cos(a1)} ${C.y - r * Math.sin(a1)}`;
+const angET = Math.atan2(-(E.y - T.y), E.x - T.x); // direction T→E
+const angTS = Math.atan2(-(S.y - T.y), S.x - T.x); // direction T→S
+---
+
+<svg class="dg" viewBox="0 0 600 290" xmlns="http://www.w3.org/2000/svg">
+	<line x1={S.x} y1={S.y} x2={T.x} y2={T.y} class="s-rose w2" />
+	<line x1={S.x} y1={S.y} x2={E.x} y2={E.y} class="s-violet w2" />
+	<line x1={T.x} y1={T.y} x2={E.x} y2={E.y} class="s-sky w2 dash" />
+	<path d={arc(S, 46, 0, theta)} class="s-fg w1" fill="none" />
+	<text x={S.x + 54} y={S.y - 12} class="t-sm halo">37.9°</text>
+	<path d={arc(T, 30, angTS, angET)} class="s-fg w1" fill="none" />
+	<text x={T.x} y={T.y + 48} class="t-mid t-sm halo">95.6°</text>
+	<path d={arc(E, 46, Math.PI - (46.51 * Math.PI) / 180, Math.PI)} class="s-fg w1" fill="none" />
+	<text x={E.x - 56} y={E.y - 10} class="t-end t-sm halo">46.5°</text>
+	<circle cx={S.x} cy={S.y} r="8" class="f-amber" />
+	<text x={S.x} y={S.y + 26} class="t-mid t-sm t-b">Sun</text>
+	<circle cx={T.x} cy={T.y} r="7" class="f-amber" />
+	<text x={T.x} y={T.y - 14} class="t-mid t-sm t-b">Tau Ceti</text>
+	<circle cx={E.x} cy={E.y} r="7" class="f-amber" />
+	<text x={E.x} y={E.y + 26} class="t-mid t-sm t-b">40 Eridani</text>
+	<text x={mST.x - 12} y={mST.y} class="t-end t-sm f-rose halo">11.91 ly</text>
+	<text x={mSE.x} y={mSE.y + 20} class="t-mid t-sm f-violet halo">16.34 ly</text>
+	<text x={mTE.x + 12} y={mTE.y} class="t-sm f-sky halo">10.08 ly</text>
+	<text x="590" y="276" class="t-end t-sm f-muted">drawn to scale: 1 cm here ≈ 1 ly</text>
+</svg>

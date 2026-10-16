@@ -1,0 +1,335 @@
+---
+title: "Sidebar: base-6 numbers"
+description: How the Eridians count. Place value in any base, Rocky's base-six clock, converting between bases by powers and by repeated division, adding and multiplying in base six, which fractions end in which base, how many digits a number needs, the Eridian second (2.366 s) and day (6⁵ Eridian seconds), and the base-60 that still runs our clocks and angles.
+---
+
+import { Term, Prereqs, Figure, Example, Problem, Solution, RealVsBook } from '../../../components/course';
+import RockyClock from '../../../components/diagrams/part-14/RockyClock.astro';
+import DivisionLadder from '../../../components/diagrams/part-14/DivisionLadder.astro';
+import FractionLines from '../../../components/diagrams/part-14/FractionLines.astro';
+import BaseConverter from '../../../components/sims/BaseConverter.astro';
+
+## The scene
+
+Grace and Rocky have no shared language, so they start with the one thing every scientist has: measurement. Grace shows Rocky a clock and marks a two-hour nap. Rocky goes back into his ship and returns with a clock of his own: a cylinder with five little windows in a row, each showing a raised symbol on a rotor. The rightmost symbol changes every couple of seconds; after six different symbols it comes back to the first, and the window to its left moves on by one. It is a counter, like a car's odometer, but it rolls over after six, not ten.
+
+Grace realises at once what he is looking at. The Eridians count in base six. (Each of an Eridian's five hands has three fingers; Grace guesses they count on two hands and stand on the other three.) By timing the clock with his stopwatch, he works out the length of an Eridian second. With a shared unit of time, the two of them can start talking about physics.
+
+This sidebar is about what "base six" means, and how to move numbers between bases.
+
+## Prerequisites
+
+<Prereqs notes={{ 'scientific-notation': 'powers of ten and place value', 'exponentials-logarithms': 'powers of any base and logarithms', 'si-units': 'units built from powers of ten', 'unit-handling': 'converting between units', 'measuring-g': 'timing many cycles to shrink the uncertainty', 'light-years': 'arcseconds and the light-year' }} />
+
+## The concept
+
+### Place value
+
+Our numbers are written in <Term id="place-value">place value</Term>. In 2026 the 6 means six ones, the 2 next to it two tens, the 0 no hundreds and the leftmost 2 two thousands:
+
+$$
+2026 = 2 \times 10^{3} + 0 \times 10^{2} + 2 \times 10^{1} + 6 \times 10^{0}.
+$$
+
+Each place is worth ten times the one to its right, and we need ten digit symbols, 0 to 9. Ten is the <Term id="number-base">base</Term>. Nothing about arithmetic requires ten; we probably use it because we have ten fingers.
+
+In base six, each place is worth six times the one to its right, and there are only six digits, 0 to 5. The places are worth $6^{0} = 1$, $6^{1} = 6$, $6^{2} = 36$, $6^{3} = 216$, $6^{4} = 1296$, and so on. To show which base a number is written in, we add a small subscript: $135_{6}$ means
+
+$$
+135_{6} = 1 \times 36 + 3 \times 6 + 5 \times 1 = 59.
+$$
+
+Numbers without a subscript are in base ten.
+
+### Counting like Rocky's clock
+
+Counting in base six works like an odometer with six symbols per wheel: 0, 1, 2, 3, 4, 5, then $10_{6}$ (one six and no ones), $11_{6}$, …, $15_{6}$, $20_{6}$, …, $55_{6}$, $100_{6}$. Each time a wheel passes 5 it returns to 0 and carries one to the next wheel. Rocky's clock with five windows can show anything from $00000_{6}$ to $55555_{6} = 6^{5} - 1 = 7775$.
+
+<Figure caption="Rocky's clock as a base-six counter, drawn with our digits instead of Eridian symbols. Each window is worth six times the one to its right. This reading, 22031 in base six, is 3043 Eridian seconds: Grace's two-hour nap." alt="Five square windows in a row inside a rounded case, showing the digits 2, 2, 0, 3 and 1. Under each window is its place value: 6 to the 4th equals 1296, 6 cubed equals 216, 6 squared equals 36, 6 to the 1st equals 6, and 6 to the 0 equals 1, and below that the products: 2 times 1296 equals 2592, 2 times 216 equals 432, 0 times 36 equals 0, 3 times 6 equals 18, 1 times 1 equals 1. A curved arrow from the rightmost window to the next one is labelled after 5 comes 0, and one carries left. Text at the bottom: 22031 base six equals 2592 plus 432 plus 0 plus 18 plus 1 equals 3043 Eridian seconds, about 7200 seconds, which is 2 hours.">
+	<RockyClock />
+</Figure>
+
+### Changing bases
+
+**From base six to base ten**, multiply each digit by its place value and add, as above. A quicker way to do the same sum, working from the left, is to keep multiplying by six and adding the next digit: for $22031_{6}$, $2 \to 2 \times 6 + 2 = 14 \to 14 \times 6 + 0 = 84 \to 84 \times 6 + 3 = 507 \to 507 \times 6 + 1 = 3043$.
+
+**From base ten to base six**, run that process backwards. Divide by six: the remainder is the last digit (the ones), because everything else is a whole number of sixes. Divide the quotient by six again: the remainder is the sixes digit. Keep going until the quotient is zero, then read the remainders from the bottom up.
+
+<Figure caption="Converting 3043 to base six by repeated division. Each remainder is the next digit, from the right; reading them upwards gives 22031." alt="A table of five rows. 3043 divided by 6 equals 507, remainder 1. 507 divided by 6 equals 84, remainder 3. 84 divided by 6 equals 14, remainder 0. 14 divided by 6 equals 2, remainder 2. 2 divided by 6 equals 0, remainder 2. The remainders are circled and an arrow points upwards beside them, labelled read upwards. Text at the bottom: stop when the quotient reaches 0: 3043 equals 22031 in base six.">
+	<DivisionLadder />
+</Figure>
+
+### Arithmetic in base six
+
+The rules of arithmetic don't care about the base; only the carrying changes. Adding $45_{6} + 23_{6}$: in the ones column $5 + 3 = 8 = 1 \times 6 + 2$, so write 2 and carry 1; in the sixes column $4 + 2 + 1 = 7 = 1 \times 6 + 1$, write 1 and carry 1. The answer is $112_{6}$. (Check: $29 + 15 = 44 = 36 + 6 + 2$ ✓.) An Eridian schoolchild has a much smaller times table to learn: everything up to $5 \times 5 = 25 = 41_{6}$.
+
+### Fractions: which ones end?
+
+Digits after the point work the same way, with negative powers: $0.1_{6}$ is one sixth, $0.01_{6}$ one thirty-sixth. To convert a fraction, multiply by six and take off the whole part as the next digit, again and again. For $\tfrac{1}{4}$: $\tfrac{1}{4} \times 6 = 1.5$, digit 1, remainder 0.5; $0.5 \times 6 = 3$, digit 3, nothing left. So $\tfrac{1}{4} = 0.13_{6}$.
+
+A fraction in lowest terms ends in base $b$ only if every prime factor of its denominator also divides $b$. Ten is $2 \times 5$, so in base ten halves, quarters, fifths and tenths end, but thirds go on forever: $\tfrac{1}{3} = 0.333\ldots$ Six is $2 \times 3$, so in base six halves, thirds, quarters and ninths end, $\tfrac{1}{3} = 0.2_{6}$, but fifths repeat forever: $\tfrac{1}{5} = 0.1111\ldots_{6}$. Every base trades some neat fractions for others.
+
+<Figure caption="The same fractions on a base-ten line marked in tenths and a base-six line marked in sixths. One third lands exactly on a mark in base six but never in base ten; one fifth is the other way round." alt="Two number lines from 0 to 1. The top one, base ten, has 11 tick marks at tenths; the bottom one, base six, has 7 tick marks at sixths. Dashed lines join the two lines at one half, one third, one quarter and one fifth. Top labels: one half equals 0.5, one third equals 0.333 repeating, one quarter equals 0.25, one fifth equals 0.2. Bottom labels: one half equals 0.3 base six, one third equals 0.2 base six, one quarter equals 0.13 base six, one fifth equals 0.111 repeating base six. A note says a fraction ends if its denominator's prime factors divide the base: 10 equals 2 times 5, 6 equals 2 times 3.">
+	<FractionLines />
+</Figure>
+
+### How many digits?
+
+A smaller base needs more digits. A whole number $N$ has $d$ digits in base $b$ when $b^{d-1} \le N < b^{d}$; taking logarithms (Chapter 0.8), $d = \lfloor\log_{b}N\rfloor + 1$, where $\lfloor\ \rfloor$ means "round down". Because $\log_{6}N = \log_{10}N/\log_{10}6$, a big number needs about $1/\log_{10}6 = 1.285$ times as many digits in base six as in base ten. A million is $33\,233\,344_{6}$: eight digits instead of seven.
+
+Computers use the smallest base of all, base two or <Term id="binary">binary</Term>, because a circuit that is either on or off stores one binary digit (a bit). Each base-six digit carries $\log_{2}6 = 2.585$ bits.
+
+### Bases we already use
+
+We use another base every day. The Sumerians, in the third millennium BC, counted in base sixty, <Term id="sexagesimal">sexagesimal</Term>, and passed it to the Babylonians and on to us. It survives in 60 seconds per minute and 60 minutes per hour, and in angles: 60 arcminutes per degree and 60 arcseconds per arcminute, the arcseconds of the parallax angles in Chapter 14.1. Sixty, like six, divides neatly by 2 and 3, and by 4, 5 and 6 as well.
+
+### Units in powers of six
+
+The SI builds its units in powers of ten (Chapter 0.2): a kilometre is $10^{3}$ metres. The Eridians, as Grace discovers, do the same in powers of six. Their day is $100\,000_{6} = 6^{5} = 7776$ <Term id="eridian-second">Eridian seconds</Term>, exactly the length of time a five-window clock takes to come back round to $00000_{6}$.
+
+## Formulas
+
+### A number in base b
+
+A number with digits $d_{k}$ (each from 0 to $b - 1$) is
+
+$$
+\boxed{N = \sum_{k} d_{k}\,b^{k} = \cdots + d_{2}b^{2} + d_{1}b + d_{0} + d_{-1}b^{-1} + \cdots}
+$$
+
+(sigma notation, Chapter C.4). The same sum, regrouped, is the quick left-to-right method: $(((d_{4}b + d_{3})b + d_{2})b + d_{1})b + d_{0}$.
+
+### Converting a whole number by division
+
+Dividing $N$ by $b$ gives $N = b\left(d_{k}b^{k-1} + \cdots + d_{1}\right) + d_{0}$. The bracket is a whole number and $0 \le d_{0} < b$, so
+
+$$
+\boxed{d_{0} = N \bmod b} \qquad \text{quotient} = \frac{N - d_{0}}{b}
+$$
+
+where "mod" means the remainder. Repeat on the quotient to get $d_{1}$, then $d_{2}$, and so on.
+
+### Converting a fraction by multiplication
+
+For $0 \le x < 1$, $bx = d_{-1} + (d_{-2}b^{-1} + \cdots)$, and the bracket is less than 1, so
+
+$$
+\boxed{d_{-1} = \text{whole part of } bx}
+$$
+
+then repeat on what is left. The fraction $p/q$ (in lowest terms) ends exactly when every prime factor of $q$ divides $b$; otherwise its digits repeat forever.
+
+### Number of digits
+
+$$
+\boxed{d = \lfloor\log_{b}N\rfloor + 1} \qquad \log_{b}N = \frac{\ln N}{\ln b} \qquad \frac{d_{6}}{d_{10}} \to \frac{\ln 10}{\ln 6} = 1.285
+$$
+
+### Scientific notation in base b
+
+Just as $N = a \times 10^{n}$ with $1 \le a < 10$, in any base $N = a \times b^{n}$ with $1 \le a < b$ and $n = \lfloor\log_{b}N\rfloor$.
+
+## Worked examples
+
+<Example n={1} title="Reading Rocky's clock" book>
+The clock reads $22031_{6}$. How many Eridian seconds is that? Check with the quick method.
+
+$$
+22031_{6} = 2 \times 1296 + 2 \times 216 + 0 \times 36 + 3 \times 6 + 1 = 2592 + 432 + 0 + 18 + 1 = 3043
+$$
+
+Quick method: $2 \to 2 \times 6 + 2 = 14 \to 14 \times 6 + 0 = 84 \to 84 \times 6 + 3 = 507 \to 507 \times 6 + 1 = 3043$ ✓.
+</Example>
+
+<Example n={2} title="Measuring the Eridian second" book>
+Grace times the clock until its third window from the right has gone all the way round once. That takes 511.0 seconds by his stopwatch. How many ticks of the rightmost window is that, and how long is one Eridian second? If his starting and stopping errors add up to about 0.2 s, how precise is the result?
+
+The third window moves on once every $6 \times 6 = 36$ ticks and has six positions, so one full lap is
+
+$$
+6 \times 36 = 6^{3} = 216\ \text{ticks} \qquad 1\ \text{Eridian second} = \frac{511.0\ \text{s}}{216} = 2.366\ \text{s}
+$$
+
+$$
+\frac{\Delta t}{t} = \frac{0.2\ \text{s}}{511.0\ \text{s}} = 0.04\% \qquad \Delta = 0.0004 \times 2.366\ \text{s} = 0.001\ \text{s}
+$$
+
+Timing one tick alone, with the same 0.2 s error, would have been about 8% uncertain. Timing many cycles is the trick from measuring a pendulum's period (Chapter 1.4).
+</Example>
+
+<Example n={3} title="Grace's nap in Eridian" book>
+Grace wants to tell Rocky he'll sleep for two hours. What should the clock read when he's back?
+
+$$
+\frac{2 \times 3600\ \text{s}}{2.366\ \text{s}} = \frac{7200\ \text{s}}{2.366\ \text{s}} = 3043\ \text{Eridian seconds}
+$$
+
+Repeated division: $3043 \div 6 = 507$ r 1; $507 \div 6 = 84$ r 3; $84 \div 6 = 14$ r 0; $14 \div 6 = 2$ r 2; $2 \div 6 = 0$ r 2. Reading upwards: $22031_{6}$, the reading in Example 1.
+</Example>
+
+<Example n={4} title="An Eridian day, and Rocky's sleep" book>
+The Eridian day is $100\,000_{6}$ Eridian seconds. How long is that in hours? Compare it with Erid's 5.1-hour rotation. Rocky says his sleep lasts from $40\,000_{6}$ to $220\,000_{6}$ Eridian seconds; convert these to hours.
+
+$$
+100\,000_{6} = 6^{5} = 7776 \qquad 7776 \times 2.366\ \text{s} = 18\,398\ \text{s} = 5.11\ \text{h}
+$$
+
+It matches Erid's day: the Eridian day really is the time Erid takes to spin once.
+
+$$
+40\,000_{6} = 4 \times 6^{4} = 5184 \qquad 5184 \times 2.366\ \text{s} = 12\,265\ \text{s} = 3.41\ \text{h}
+$$
+
+$$
+220\,000_{6} = 2 \times 6^{5} + 2 \times 6^{4} = 15\,552 + 2592 = 18\,144 \qquad 18\,144 \times 2.366\ \text{s} = 42\,929\ \text{s} = 11.9\ \text{h}
+$$
+
+Round numbers in base six become awkward ones in Earth seconds: 12 265 and 42 929.
+</Example>
+
+<Example n={5} title="Thirds, quarters and tenths">
+Write $\tfrac{1}{3}$, $\tfrac{1}{4}$ and $\tfrac{1}{10}$ in base six.
+
+$\tfrac{1}{3} \times 6 = 2$: digit 2, nothing left, so $\tfrac{1}{3} = 0.2_{6}$.
+
+$\tfrac{1}{4} \times 6 = 1.5$: digit 1, left 0.5; $0.5 \times 6 = 3$: digit 3. So $\tfrac{1}{4} = 0.13_{6}$. (Check: $\tfrac{1}{6} + \tfrac{3}{36} = \tfrac{9}{36} = \tfrac{1}{4}$ ✓.)
+
+$\tfrac{1}{10} \times 6 = 0.6$: digit 0; $0.6 \times 6 = 3.6$: digit 3, left 0.6; and the same again forever. So $\tfrac{1}{10} = 0.0333\ldots_{6}$: our tidy tenth is a repeating fraction for an Eridian, because 10 has the prime factor 5, which doesn't divide 6.
+</Example>
+
+## Real physics vs. book physics
+
+<RealVsBook>
+**Established science.** Place-value numbers work in any base, and the methods here are standard mathematics. Base sixty came from Sumer and Babylon and still runs our clocks and angles; computers work in binary. Base six (senary) is rare among human languages, but the Ndom language of New Guinea is reported to count in sixes.
+
+**Weir's inventions.** The Eridians' base six, explained by their three-fingered hands, Rocky's five-window clock with its six symbols read left to right, the Eridian second of 2.366 s timed by Grace over 511.0 s, the 7776-second Eridian day, and Rocky's sleep from $40\,000_{6}$ to $220\,000_{6}$ Eridian seconds are the novel's, from reader sources. (A reader summary quotes the sleep times as 12 265 and 42 929; those are the same times in Earth seconds.)
+
+**How realistic are the numbers?** Weir's numbers fit together. Timing a full lap of the third window, 216 ticks, is exactly what a careful experimenter would do, and $511.0/216 = 2.366$. An Eridian day of $6^{5}$ Eridian seconds comes to 5.11 hours, matching the 5.1-hour rotation the novel gives Erid. A five-window clock counts exactly one Eridian day before it rolls over, just as a decimal clock with five digits would count to 99 999.
+</RealVsBook>
+
+## Interactive simulation
+
+<BaseConverter />
+
+Things to try: type 7775 and press +1 to watch every window roll over at once, like an odometer. Switch to binary and hexadecimal to see the same number grow and shrink. Type 0.1 and see that it repeats in base six; then 0.25 and 0.5. In Earth-seconds mode, type 7200 (Grace's nap) and 18398 (one Eridian day).
+
+## Practice set
+
+<Problem n={1} level="easy">
+Convert $135_{6}$ and $555_{6}$ to base ten.
+
+<Solution>
+$135_{6} = 36 + 18 + 5 = 59$. $555_{6} = 5 \times 36 + 5 \times 6 + 5 = 215 = 6^{3} - 1$.
+</Solution>
+</Problem>
+
+<Problem n={2} level="easy">
+Write 100 in base six.
+
+<Solution>
+$100 \div 6 = 16$ r 4; $16 \div 6 = 2$ r 4; $2 \div 6 = 0$ r 2. So $100 = 244_{6}$. (Check: $72 + 24 + 4 = 100$ ✓.)
+</Solution>
+</Problem>
+
+<Problem n={3} level="easy">
+Count in base six from $13_{6}$ to $22_{6}$.
+
+<Solution>
+$13_{6}, 14_{6}, 15_{6}, 20_{6}, 21_{6}, 22_{6}$ (that is, 9 to 14).
+</Solution>
+</Problem>
+
+<Problem n={4} level="easy">
+Work out $45_{6} + 23_{6}$ and $5_{6} \times 5_{6}$ in base six, and check in base ten.
+
+<Solution>
+$45_{6} + 23_{6} = 112_{6}$ ($29 + 15 = 44$). $5 \times 5 = 25 = 4 \times 6 + 1 = 41_{6}$.
+</Solution>
+</Problem>
+
+<Problem n={5} level="medium">
+Write $\tfrac{1}{2}$, $\tfrac{1}{9}$ and $\tfrac{5}{6}$ in base six.
+
+<Solution>
+$\tfrac{1}{2} \times 6 = 3$: $0.3_{6}$. $\tfrac{1}{9} \times 6 = \tfrac{2}{3}$: digit 0; $\tfrac{2}{3} \times 6 = 4$: $0.04_{6}$. $\tfrac{5}{6} = 0.5_{6}$.
+</Solution>
+</Problem>
+
+<Problem n={6} level="medium">
+Show that $\tfrac{1}{5} = 0.1111\ldots_{6}$ and explain why it can't end.
+
+<Solution>
+$\tfrac{1}{5} \times 6 = 1.2$: digit 1, left $\tfrac{1}{5}$ again, so the digit 1 repeats forever. It can't end because 5 doesn't divide any power of 6: an ending base-six fraction is a whole number over $6^{n}$, and $\tfrac{1}{5}$ can't be written that way.
+</Solution>
+</Problem>
+
+<Problem n={7} level="medium" book>
+How long is $1000_{6}$ Eridian seconds, in Earth seconds and minutes? Where have you seen this number before?
+
+<Solution>
+$1000_{6} = 216$; $216 \times 2.366 = 511.1$ s $= 8.52$ min. It is the full lap of the third window that Grace timed (511.0 s).
+</Solution>
+</Problem>
+
+<Problem n={8} level="medium">
+How many digits does one million need in base six? Find the first digit.
+
+<Solution>
+$\log_{6}10^{6} = 6\ln 10/\ln 6 = 7.71$, so $d = 8$ digits. $6^{7} = 279\,936$, and $10^{6}/279\,936 = 3.57$, so the first digit is 3 ($10^{6} = 33\,233\,344_{6}$).
+</Solution>
+</Problem>
+
+<Problem n={9} level="medium" book>
+Erid's year is just over 42 Earth days. Roughly how many Eridian days (5.11 h) is that? Write it in base six.
+
+<Solution>
+$42 \times 24/5.11 = 197$ Eridian days. $197 \div 6 = 32$ r 5; $32 \div 6 = 5$ r 2; $5 \div 6 = 0$ r 5: $525_{6}$.
+</Solution>
+</Problem>
+
+<Problem n={10} level="challenging">
+How many digits does the speed of light, 299 792 458 m/s, have in base six? What is its first digit?
+
+<Solution>
+$\log_{6}(2.998 \times 10^{8}) = \ln(2.998 \times 10^{8})/\ln 6 = 19.52/1.792 = 10.89$, so 11 digits. $6^{10} = 60\,466\,176$ and $2.998 \times 10^{8}/6.047 \times 10^{7} = 4.96$: first digit 4. (In full, $45\,425\,332\,014_{6}$.)
+</Solution>
+</Problem>
+
+<Problem n={11} level="challenging" book>
+In Eridian light-seconds (the distance light travels in 2.366 s), how far is Tau Ceti (11.912 ly)? Write the answer in base-six scientific notation, $a \times 6^{n}$ with $1 \le a < 6$, giving $a$ to three base-six digits and $n$ in base six.
+
+<Solution>
+$11.912 \times 3.156 \times 10^{7}\ \text{s}/2.366\ \text{s} = 1.589 \times 10^{8}$. $\log_{6} = 10.54$, so $n = 10 = 14_{6}$, and $a = 1.589 \times 10^{8}/6^{10} = 2.628$. In base six: whole part 2; $0.628 \times 6 = 3.77$ → 3; $0.77 \times 6 = 4.6$ → 4; $0.6 \times 6 = 3.6$ → 3. So about $2.343_{6} \times 6^{14_{6}}$ Eridian light-seconds.
+</Solution>
+</Problem>
+
+<Problem n={12} level="challenging">
+Rocky's five-window clock can show how many different readings? How many bits of information is that? How many binary digits does its largest reading, 7775, need?
+
+<Solution>
+$6^{5} = 7776$ readings; $\log_{2}7776 = 5 \times 2.585 = 12.9$ bits. $2^{12} = 4096 \le 7775 < 8192 = 2^{13}$, so 13 binary digits ($1111001011111_{2}$).
+</Solution>
+</Problem>
+
+## Summary
+
+- In base $b$ each place is worth $b$ times the place to its right, and the digits run from 0 to $b - 1$. The Eridians count in base six: digits 0 to 5, places worth 1, 6, 36, 216, 1296, …
+- Base $b$ to base ten: multiply digits by place values and add (or multiply-and-add from the left). Base ten to base $b$: divide repeatedly by $b$ and read the remainders upwards. Fractions: multiply repeatedly by $b$.
+- Arithmetic is the same in every base; only the carrying changes.
+- A fraction ends in base $b$ only if its denominator's prime factors divide $b$: thirds end in base six, fifths and tenths repeat.
+- A number needs $\lfloor\log_{b}N\rfloor + 1$ digits in base $b$; base six takes about 1.285 times as many as base ten.
+- Base sixty survives in our seconds, minutes and arcseconds; computers use base two.
+- The Eridian second is 2.366 s (Grace timed $6^{3} = 216$ ticks in 511.0 s), and the Eridian day, $6^{5} = 7776$ Eridian seconds, is 5.11 hours, one turn of Erid.
+
+**Formulas from this chapter**
+
+$$
+N = \sum_{k} d_{k}\,b^{k} \qquad d_{0} = N \bmod b \qquad d_{-1} = \text{whole part of } bx \qquad d = \lfloor\log_{b}N\rfloor + 1
+$$
+
+## Sources
+
+- Place value, number bases and base conversion: standard mathematics; Wikipedia, ["Senary"](https://en.wikipedia.org/wiki/Senary) (base six, its fractions such as 1/5 = 0.1111… in base six, senary numerals in the Ndom language, and the Eridians' use of it in fiction).
+- Base sixty from the Sumerians in the third millennium BC, through the Babylonians, to our time and angles: Wikipedia, ["Sexagesimal"](https://en.wikipedia.org/wiki/Sexagesimal).
+- The novel: Rocky's clock (a cylinder with five windows of rotating symbols, read left to right, rolling over after six), base six from three fingers per hand counted on two hands, Grace's 511.0-second timing of a full lap of the third window and the Eridian second of 2.366 s: Readify reader wiki, ["Rocky's clock"](https://readifyai.com/en/books/Project%20Hail%20Mary/wiki/Rocky's%20clock). The Eridian day of 7776 Eridian seconds and Rocky's sleep times: ["Eridian second"](https://readifyai.com/en/books/Project%20Hail%20Mary/wiki/Eridian%20second). Five hands with three fingers each: ["Eridians"](https://readifyai.com/en/books/Project%20Hail%20Mary/wiki/Eridians). Erid's 5.1-hour day and 42-day year: ["Erid"](https://readifyai.com/en/books/Project%20Hail%20Mary/wiki/Erid). Reader sources, so approximate.
+- Timing many cycles to reduce the uncertainty, and reaction-time errors of about 0.2 s: [Chapter 1.4](/part-1/measuring-g/).

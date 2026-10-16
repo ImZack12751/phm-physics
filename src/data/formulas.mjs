@@ -1659,4 +1659,71 @@ export const formulas = [
 		where: 'Two neutrinos for each helium-4 made, Q = 26.7 MeV; L: the Sun’s luminosity; d = 1 au.',
 		chapter: 'neutrinos',
 	},
+	// ---- 14.1 Light-years and stellar distances ----
+	{
+		id: 'parsec',
+		name: 'Light-year, parsec and parallax distance',
+		tex: '1\\ \\text{ly} = 9.4607 \\times 10^{15}\\ \\text{m} \\qquad d_{\\text{pc}} = \\dfrac{1}{p\'\'} \\qquad 1\\ \\text{pc} = 3.2616\\ \\text{ly} \\qquad \\dfrac{\\Delta d}{d} = \\dfrac{\\Delta p}{p}',
+		where: 'p: parallax in arcseconds; d: distance in parsecs. A distance in light-years is also the light travel time in years.',
+		chapter: 'light-years',
+	},
+	{
+		id: 'star-positions',
+		name: 'Star positions and distances between stars',
+		tex: 'x = d\\cos\\delta\\cos\\alpha \\quad y = d\\cos\\delta\\sin\\alpha \\quad z = d\\sin\\delta \\qquad D^{2} = a^{2} + b^{2} - 2ab\\cos\\theta',
+		where: 'α: right ascension; δ: declination; d: distance from the Sun. a, b: two stars’ distances; θ: their angle apart in our sky; D: distance between them.',
+		chapter: 'light-years',
+	},
+	{
+		id: 'magnitudes',
+		name: 'Magnitudes, distance modulus and proper motion',
+		tex: 'm_{1} - m_{2} = -2.5\\log_{10}\\dfrac{F_{1}}{F_{2}} \\qquad m - M = 5\\log_{10}\\dfrac{d}{10\\ \\text{pc}} \\qquad v_{\\text{t}} = \\mu d',
+		where: 'F: intensity received; m: apparent and M: absolute magnitude; μ: proper motion in radians per unit time; v_t: sideways speed.',
+		chapter: 'light-years',
+	},
+	// ---- 14.2 Planetary atmospheres ----
+	{
+		id: 'gas-retention',
+		name: 'Keeping an atmosphere',
+		tex: 'v_{\\text{esc}} \\ge 6\\,v_{\\text{rms}} \\qquad T_{\\text{c}} = \\dfrac{m\\,v_{\\text{esc}}^{2}}{108\\,k} = \\dfrac{GMm}{54\\,kR}',
+		where: 'A rule of thumb: a world keeps a gas for billions of years if its upper atmosphere is colder than T_c. m: mass of one molecule.',
+		chapter: 'planetary-atmospheres',
+	},
+	{
+		id: 'lapse-rate',
+		name: 'Dry adiabatic lapse rate',
+		tex: '\\Gamma = -\\dfrac{dT}{dz} = \\dfrac{g}{c_{p}} \\qquad c_{p} = \\left(\\tfrac{f}{2} + 1\\right)\\dfrac{R}{M} = \\dfrac{\\gamma}{\\gamma - 1}\\,\\dfrac{R}{M}',
+		where: 'c_p: specific heat at constant pressure; f: degrees of freedom; M: molar mass. Earth’s dry air: 9.8 K/km.',
+		chapter: 'planetary-atmospheres',
+	},
+	// ---- 14.3 Magnetic fields ----
+	{
+		id: 'magnetic-force',
+		name: 'Magnetic force and circular motion',
+		tex: 'F = qvB\\sin\\theta \\qquad r = \\dfrac{mv}{qB} = \\dfrac{p}{qB} = \\dfrac{\\mathcal{R}}{cB} \\qquad f = \\dfrac{qB}{2\\pi m} \\qquad \\mathcal{R} = \\dfrac{pc}{q}',
+		where: 'θ: angle between v and B; r: gyroradius; f: cyclotron frequency; ℛ: rigidity in volts.',
+		chapter: 'magnetic-fields',
+	},
+	{
+		id: 'magnetic-sources',
+		name: 'Fields from currents and dipoles',
+		tex: 'I = \\dfrac{dQ}{dt} \\qquad B_{\\text{wire}} = \\dfrac{\\mu_{0}I}{2\\pi r} \\qquad B = B_{0}\\left(\\dfrac{R}{r}\\right)^{3} \\qquad \\mu_{0} = 1.2566 \\times 10^{-6}\\ \\text{N/A}^{2}',
+		where: 'I: current in amperes (C/s); B₀: a planet’s field at its equator, radius R; the dipole form holds in the equatorial plane.',
+		chapter: 'magnetic-fields',
+	},
+	{
+		id: 'magnetic-shield',
+		name: 'Cutoff rigidity and the magnetopause',
+		tex: '\\mathcal{R}_{\\text{c}} = \\dfrac{cB_{0}R}{4}\\cos^{4}\\lambda \\qquad P_{B} = \\dfrac{B^{2}}{2\\mu_{0}} \\qquad \\dfrac{r_{\\text{mp}}}{R} = \\left(\\dfrac{2B_{0}^{2}}{\\mu_{0}\\rho v^{2}}\\right)^{1/6}',
+		where: 'λ: magnetic latitude (vertical arrival); P_B: magnetic pressure; ρ, v: the solar wind’s density and speed. Earth: 14.8 GV at the equator, magnetopause about 10 R.',
+		chapter: 'magnetic-fields',
+	},
+	// ---- 14.4 Sidebar: base-6 numbers ----
+	{
+		id: 'number-bases',
+		name: 'Numbers in base b',
+		tex: 'N = \\sum_{k} d_{k}\\,b^{k} \\qquad d_{0} = N \\bmod b \\qquad d_{-1} = \\text{whole part of } bx \\qquad d = \\lfloor\\log_{b}N\\rfloor + 1',
+		where: 'd_k: digits, from 0 to b − 1; repeated division gives the digits of a whole number, repeated multiplication those of a fraction x; d: number of digits.',
+		chapter: 'base-six',
+	},
 ];

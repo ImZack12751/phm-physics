@@ -442,3 +442,58 @@ export const PARTICLES = {
 	// BOOK
 	eridians: 23, slurryMm: 1, komorovJ: 1.5e6, komorovNg: 17,
 };
+
+// Part 14 (astronomy and scale). Checked October 2026.
+// Wikipedia "Parsec" (648 000/π au, IAU 2015 B2). Gaia DR3 via Wikipedia: Tau Ceti 273.8097 mas, RA 01 44 04.083,
+// Dec −15 56 14.93, V 3.50, M_V 5.69, proper motion 1.907″/yr; 40 Eridani A 199.6080 mas, RA 04 15 16.31962,
+// Dec −07 39 10.3308; Proxima 768.0665 mas (4.2465 ly); 61 Cygni 285.99 mas (11.4 ly), Bessel 1838 about 10.4 ly.
+// Wikipedia "Apparent magnitude" (Pogson 1856, Sirius −1.46, limit +6.5, Sun −26.832); "Absolute magnitude" (Sun M_V 4.83).
+// BOOK (Readify reader wiki): Beetles 500 g to 0.93c, ~20 months of their own time; 40 Eridani ~16 ly.
+export const SKY = {
+	pcAu: 648000 / Math.PI,
+	tauCeti: { p: 273.8097, dp: 0.1701, ra: [1, 44, 4.083], dec: [-15, 56, 14.93], m: 3.5, M: 5.69, pm: 1.907, rv: -16.68 },
+	eri40: { p: 199.608, ra: [4, 15, 16.31962], dec: [-7, 39, 10.3308] },
+	proxima: { p: 768.0665, ly: 4.2465 },
+	cyg61: { p: 285.99, bessel: 0.314 },
+	sirius: -1.46, sunM: 4.83, eyeLimit: 6.5,
+	jupiterA: 778.479e9, // m (NASA fact sheet)
+	sunDiameter: 1.3914e9, // m (2 × 695 700 km)
+	// BOOK
+	beetle: { beta: 0.93, accelG: 500 },
+};
+
+// 14.2 Planetary atmospheres. NASA fact sheets: Moon escape 2.38 km/s, 95–390 K; Mercury 0.33010e24 kg, 2439.7 km,
+// escape 4.3 km/s, sunward 590–725 K; Jupiter escape 59.5 km/s, H₂ 89.8%, He 10.2%; Earth He 5.24 ppm, H₂ 0.55 ppm,
+// Ne 18.18 ppm. Titan (Wikipedia): 1.345180e23 kg, 2574.765 km, 1.352 m/s², escape 2.641 km/s, 146.7 kPa, 93.7 K.
+// Six-times rule and Earth's ~1000 K upper atmosphere, Venus D/H 0.016 vs 0.00016: Boal (SFU) lecture 9.
+// Lapse rates 9.8 and 6.5 °C/km (Wikipedia "Lapse rate", ICAO). BOOK (Readify): Adrian 3.93 M⊕, 10 318 km, 1.4 g,
+// CO₂ 91% CH₄ 7% Ar 1%; Erid 8.5 M⊕, 2 R⊕, 20.48 m/s², 29 atm NH₃, 210 °C; Threeworld Moon-sized, 0.2 g, −82 °C at 0.02 atm.
+export const ATMOS = {
+	u: 1.66053906892e-27, // kg
+	moon: { ve: 2.38e3, T: 390 }, mercury: { M: 0.3301e24, R: 2.4397e6, ve: 4.3e3, T: 700 },
+	jupiter: { ve: 59.5e3 }, titan: { M: 1.34518e23, R: 2.574765e6, g: 1.352, ve: 2.641e3, T: 94 },
+	earthExo: 1000, earthHe: 5.24, earthH2: 0.55, earthNe: 18.18, // K, ppm
+	venusDH: 0.016, earthDH: 0.00016,
+	lapseDry: 9.8, lapseStd: 6.5, tropopause: 11, // K/km, km
+	// BOOK
+	adrian: { mEarths: 3.93, R: 10.318e6 }, erid: { mEarths: 8.5, rEarths: 2, g: 20.48, T: 483.15 },
+	three: { gG: 0.2, R: 1.7374e6, T: 191.15 },
+	gasM: { H2: 2.016, He: 4.003, CH4: 16.04, NH3: 17.03, N2: 28.01, O2: 32.0, CO2: 44.01 }, // g/mol
+};
+
+// 14.3 Magnetic fields. NIST CODATA 2022: μ₀ = 1.256 637 061 27 × 10⁻⁶ N/A². Wikipedia "Orders of magnitude (magnetic
+// field)": Earth 31 µT at the equator, 58 µT at 50°; fridge magnets 1–10 mT; sunspot 0.15 T; MRI 1.5–7 T; neutron stars
+// from 10⁵ T. Wikipedia "Magnetopause": ρv² ≈ 4B²/2μ₀, 6–15 R⊕. "Solar wind": 250–750 km/s, 3–10 /cm³ at 1 au.
+// "Van Allen radiation belt": ~640–58 000 km, 1958. ECSS-E-ST-10-04C §B.8: Størmer cutoff ∝ cos⁴λ, fitted constant ~16 GV.
+// BOOK (Readify): Erid's field at least 25× Earth's; twice Earth's diameter; 5.1 h day.
+export const MAGNET = {
+	mu0: 1.25663706127e-6, B0: 31e-6, B50: 58e-6,
+	sw: { nLow: 3, nHigh: 10, vLow: 300e3, vHigh: 750e3, n: 6, v: 400e3 }, // /cm³, m/s
+	mpRange: [6, 15],
+	eridField: 25, eridRadius: 2,
+};
+
+// 14.4 Base six. BOOK (Readify "Rocky's clock", "Eridian second", "Erid"): five windows, base six; Grace timed a full lap
+// of the third window, 511.0 s, giving 2.366 s; Eridian day 7776 Eridian seconds; Rocky's sleep 12 265 to 42 928 (the
+// Earth-second values of 40000₆ and 220000₆ Eridian seconds); Erid's day 5.1 h, year just over 42 days.
+export const ERIDIAN = { lapS: 511.0, second: 2.366, eridDayH: 5.1, eridYearD: 42, reaction: 0.2 };
